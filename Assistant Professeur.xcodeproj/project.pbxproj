@@ -14,6 +14,7 @@
 		79B6631729244C3F007B1FBD /* Assistant_ProfesseurTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B6631629244C3F007B1FBD /* Assistant_ProfesseurTests.swift */; };
 		79B6632129244C3F007B1FBD /* Assistant_ProfesseurUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B6632029244C3F007B1FBD /* Assistant_ProfesseurUITests.swift */; };
 		79B6632329244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B6632229244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift */; };
+		79B6633129244FC9007B1FBD /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 79B6632F29244FC9007B1FBD /* Model.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		79B6631C29244C3F007B1FBD /* Assistant ProfesseurUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Assistant ProfesseurUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		79B6632029244C3F007B1FBD /* Assistant_ProfesseurUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assistant_ProfesseurUITests.swift; sourceTree = "<group>"; };
 		79B6632229244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assistant_ProfesseurUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		79B6633029244FC9007B1FBD /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				79B6630829244C3F007B1FBD /* Assets.xcassets */,
 				79B6630A29244C3F007B1FBD /* Assistant_Professeur.entitlements */,
 				79B6630B29244C3F007B1FBD /* Preview Content */,
+				79B6632F29244FC9007B1FBD /* Model.xcdatamodeld */,
 			);
 			path = "Assistant Professeur";
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 			files = (
 				79B6630729244C3F007B1FBD /* ContentView.swift in Sources */,
 				79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */,
+				79B6633129244FC9007B1FBD /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +616,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		79B6632F29244FC9007B1FBD /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				79B6633029244FC9007B1FBD /* Model.xcdatamodel */,
+			);
+			currentVersion = 79B6633029244FC9007B1FBD /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 79B662F929244C3F007B1FBD /* Project object */;
 }

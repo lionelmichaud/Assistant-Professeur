@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22A400" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ClasseEntity" representedClassName="ClasseEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="annotation" attributeType="String" defaultValueString=""/>
+        <attribute name="appreciation" attributeType="String" defaultValueString=""/>
+        <attribute name="heures" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="isFlagged" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="niveau" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="numero" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="segpa" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="room" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoomEntity" inverseName="classes" inverseEntity="RoomEntity"/>
+        <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="classes" inverseEntity="SchoolEntity"/>
+    </entity>
+    <entity name="DocumentEntity" representedClassName="DocumentEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="docName" attributeType="String"/>
+        <attribute name="fileExtension" optional="YES" attributeType="String"/>
+        <attribute name="filenameExcludingExtension" attributeType="String"/>
+        <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="documents" inverseEntity="SchoolEntity"/>
+    </entity>
+    <entity name="EventEntity" representedClassName="EventEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String" defaultValueString=""/>
+        <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="events" inverseEntity="SchoolEntity"/>
+    </entity>
+    <entity name="RoomEntity" representedClassName="RoomEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="capacity" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String" defaultValueString=""/>
+        <relationship name="classes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="room" inverseEntity="ClasseEntity"/>
+        <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="rooms" inverseEntity="SchoolEntity"/>
+    </entity>
+    <entity name="SchoolEntity" representedClassName="SchoolEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="annotation" attributeType="String" defaultValueString=""/>
+        <attribute name="niveau" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="nom" attributeType="String" defaultValueString=""/>
+        <relationship name="classes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="school" inverseEntity="ClasseEntity"/>
+        <relationship name="documents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DocumentEntity" inverseName="school" inverseEntity="DocumentEntity"/>
+        <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EventEntity" inverseName="school" inverseEntity="EventEntity"/>
+        <relationship name="rooms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RoomEntity" inverseName="school" inverseEntity="RoomEntity"/>
+    </entity>
+</model>
