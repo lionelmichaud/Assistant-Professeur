@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SettingsEleve: View {
-    @EnvironmentObject var eleveStore: EleveStore
     @Preference(\.eleveAppreciationEnabled)
     var eleveAppreciationEnabled
     @Preference(\.eleveAnnotationEnabled)
@@ -60,10 +59,10 @@ struct SettingsEleve: View {
                     }
 
                     Button("Remettre tous les bonus à zéro", role: .destructive) {
-                        for idx in eleveStore.items.indices {
-                            eleveStore.items[idx].bonus = 0
-                        }
-                        eleveStore.saveAsJSON()
+//                        for idx in eleveStore.items.indices {
+//                            eleveStore.items[idx].bonus = 0
+//                        }
+//                        eleveStore.saveAsJSON()
                     }
                 }
             }

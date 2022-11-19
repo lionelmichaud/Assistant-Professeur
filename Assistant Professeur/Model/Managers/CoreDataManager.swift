@@ -17,7 +17,7 @@ class CoreDataManager {
     
     private init() {
         
-        persistentContainer = NSPersistentContainer(name: "MovieAppModel")
+        persistentContainer = NSPersistentContainer(name: "AppModel")
         persistentContainer.loadPersistentStores { (description, error) in
             if let error = error {
                 fatalError("Failed to initialize Core Data \(error)")

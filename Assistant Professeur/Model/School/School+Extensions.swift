@@ -6,3 +6,16 @@
 //
 
 import Foundation
+import CoreData
+
+extension SchoolEntity: BaseModel {
+
+    var niveau: NiveauSchool {
+        get {
+            NiveauSchool(rawValue: level!) ?? .college
+        }
+        set {
+            level = newValue.rawValue
+        }
+    }
+}

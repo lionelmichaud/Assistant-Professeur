@@ -9,10 +9,9 @@ import SwiftUI
 import HelpersView
 
 struct SchoolCreator: View {
-    let addNewItem: (School) -> Void
 
-    @State
-    private var newSchool: School = School()
+    @StateObject
+    private var schoolVM = SchoolObservableModel()
 
     @FocusState
     private var isNameFocused: Bool
@@ -23,16 +22,16 @@ struct SchoolCreator: View {
         // Nom de l'établissement
         Form {
             HStack {
-                Image(systemName: newSchool.niveau == .lycee ? "building.2" : "building")
+                Image(systemName: schoolVM.niveau == .lycee ? "building.2" : "building")
                     .imageScale(.large)
-                    .foregroundColor(newSchool.niveau == .lycee ? .mint : .orange)
-                TextField("Nouvel établissement", text: $newSchool.nom)
+                    .foregroundColor(schoolVM.niveau == .lycee ? .mint : .orange)
+                TextField("Nouvel établissement", text: $schoolVM.nom)
                     .font(.title2)
                     .textFieldStyle(.roundedBorder)
                     .focused($isNameFocused)
             }
             // Type d'établissement
-            CasePicker(pickedCase: $newSchool.niveau,
+            CasePicker(pickedCase: $schoolVM.niveau,
                        label: "Type d'établissement")
             .pickerStyle(.segmented)
             .listRowSeparator(.hidden)
@@ -47,7 +46,7 @@ struct SchoolCreator: View {
                 Button("Ok") {
                     // Ajouter le nouvel établissement
                     withAnimation {
-                        addNewItem(newSchool)
+                        schoolVM.save()
                     }
                     dismiss()
                 }
@@ -61,9 +60,9 @@ struct SchoolCreator: View {
 
 struct SchoolCreator_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             EmptyView()
-            SchoolCreator { _ in }
+            SchoolCreator()
         }
     }
 }

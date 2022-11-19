@@ -18,11 +18,10 @@ final class NavigationModel: ObservableObject, Codable {
 //    @Published var selectedColleId   : Colle.ID?
 //    @Published var selectedEleveId   : Eleve.ID?
 //    @Published var selectedClasseId  : Classe.ID?
-//    @Published var selectedSchoolId  : School.ID?
+    @Published var selectedSchoolId  : SchoolViewModel.ID?
     @Published var filterObservation : Bool
     @Published var filterColle       : Bool
     @Published var filterFlag        : Bool
-//    @Published var recipePath: [Recipe]
 
     private lazy var decoder = JSONDecoder()
     private lazy var encoder = JSONEncoder()
@@ -33,11 +32,10 @@ final class NavigationModel: ObservableObject, Codable {
 //         selectedColleId   : Colle.ID?        = nil,
 //         selectedEleveId   : Eleve.ID?        = nil,
 //         selectedClasseId  : Classe.ID?       = nil,
-//         selectedSchoolId  : School.ID?       = nil,
+         selectedSchoolId  : SchoolViewModel.ID?       = nil,
          filterObservation : Bool             = false,
          filterColle       : Bool             = false,
          filterFlag        : Bool             = false
-//         recipePath       : [Recipe]                      = []
     ) {
         self.columnVisibility  = columnVisibility
         self.selectedTab       = selectedTab
@@ -45,17 +43,11 @@ final class NavigationModel: ObservableObject, Codable {
 //        self.selectedColleId   = selectedColleId
 //        self.selectedEleveId   = selectedEleveId
 //        self.selectedClasseId  = selectedClasseId
-//        self.selectedSchoolId  = selectedSchoolId
+        self.selectedSchoolId  = selectedSchoolId
         self.filterObservation = filterObservation
         self.filterColle       = filterColle
         self.filterFlag        = filterFlag
-//        self.recipePath     = recipePath
     }
-
-//    var selectedRecipe: Recipe? {
-//        get { recipePath.first }
-//        set { recipePath = [newValue].compactMap { $0 } }
-//    }
 
     var jsonData: Data? {
         get { try? encoder.encode(self) }
@@ -69,11 +61,10 @@ final class NavigationModel: ObservableObject, Codable {
 //            selectedColleId   = model.selectedColleId
 //            selectedEleveId   = model.selectedEleveId
 //            selectedClasseId  = model.selectedClasseId
-//            selectedSchoolId  = model.selectedSchoolId
+            selectedSchoolId  = model.selectedSchoolId
             filterObservation = model.filterObservation
             filterColle       = model.filterColle
             filterFlag        = model.filterFlag
-//            recipePath     = model.recipePath
         }
     }
 
@@ -101,7 +92,7 @@ final class NavigationModel: ObservableObject, Codable {
 //            Classe.ID.self, forKey: .selectedClasseId)
 //
 //        self.selectedSchoolId = try container.decodeIfPresent(
-//            School.ID.self, forKey: .selectedSchoolId)
+//            SchoolViewModel.ID.self, forKey: .selectedSchoolId)
 
         self.filterObservation = try container.decode(
             Bool.self, forKey: .filterObservation)
@@ -112,10 +103,6 @@ final class NavigationModel: ObservableObject, Codable {
         self.filterFlag = try container.decode(
             Bool.self, forKey: .filterFlag)
 
-//        let recipePathIds = try container.decode(
-//            [Recipe.ID].self, forKey: .recipePathIds)
-//        self.recipePath = recipePathIds.compactMap { DataModel.shared[$0] }
-        
         self.columnVisibility = try container.decode(
             NavigationSplitViewVisibility.self, forKey: .columnVisibility)
     }
@@ -131,21 +118,19 @@ final class NavigationModel: ObservableObject, Codable {
         try container.encode(filterObservation, forKey: .filterObservation)
         try container.encode(filterColle, forKey: .filterColle)
         try container.encode(filterFlag, forKey: .filterFlag)
-        //        try container.encode(recipePath.map(\.id), forKey: .recipePathIds)
         try container.encode(columnVisibility, forKey: .columnVisibility)
     }
 
     enum CodingKeys: String, CodingKey {
+        case columnVisibility
         case selectedTab
-        case selectedObservId
-        case selectedColleId
-        case selectedEleveId
-        case selectedClasseId
+//        case selectedObservId
+//        case selectedColleId
+//        case selectedEleveId
+//        case selectedClasseId
         case selectedSchoolId
         case filterObservation
         case filterColle
         case filterFlag
-//        case recipePathIds
-        case columnVisibility
     }
 }

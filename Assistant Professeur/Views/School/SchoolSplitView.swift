@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SchoolSplitView: View {
     @EnvironmentObject private var navigationModel : NavigationModel
-    @EnvironmentObject private var schoolStore     : SchoolStore
 
     var body: some View {
         NavigationSplitView(
@@ -17,32 +16,33 @@ struct SchoolSplitView: View {
         ) {
             SchoolSidebarView()
         } detail: {
-            SchoolEditor()
+            Text("School Detail View")
+            //SchoolEditor()
         }
     }
 }
 
-struct SchoolSplitView_Previews: PreviewProvider {
-    static var previews: some View {
-        TestEnvir.createFakes()
-        return Group {
-            SchoolSplitView()
-                .environmentObject(NavigationModel())
-                .environmentObject(TestEnvir.schoolStore)
-                .environmentObject(TestEnvir.classeStore)
-                .environmentObject(TestEnvir.eleveStore)
-                .environmentObject(TestEnvir.colleStore)
-                .environmentObject(TestEnvir.observStore)
-                .previewDevice("iPad mini (6th generation)")
-
-            SchoolSplitView()
-                .environmentObject(NavigationModel())
-                .environmentObject(TestEnvir.schoolStore)
-                .environmentObject(TestEnvir.classeStore)
-                .environmentObject(TestEnvir.eleveStore)
-                .environmentObject(TestEnvir.colleStore)
-                .environmentObject(TestEnvir.observStore)
-                .previewDevice("iPhone 13")
-        }
-    }
-}
+//struct SchoolSplitView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TestEnvir.createFakes()
+//        return Group {
+//            SchoolSplitView()
+//                .environmentObject(NavigationModel())
+//                .environmentObject(TestEnvir.schoolStore)
+//                .environmentObject(TestEnvir.classeStore)
+//                .environmentObject(TestEnvir.eleveStore)
+//                .environmentObject(TestEnvir.colleStore)
+//                .environmentObject(TestEnvir.observStore)
+//                .previewDevice("iPad mini (6th generation)")
+//
+//            SchoolSplitView()
+//                .environmentObject(NavigationModel())
+//                .environmentObject(TestEnvir.schoolStore)
+//                .environmentObject(TestEnvir.classeStore)
+//                .environmentObject(TestEnvir.eleveStore)
+//                .environmentObject(TestEnvir.colleStore)
+//                .environmentObject(TestEnvir.observStore)
+//                .previewDevice("iPhone 13")
+//        }
+//    }
+//}

@@ -8,6 +8,7 @@
 import Foundation
 import os
 import Files
+import FileAndFolder
 import AppFoundation
 
 private let customLog = Logger(subsystem : "com.michaud.lionel.Cahier-du-Professeur",
@@ -192,116 +193,6 @@ public struct PersistenceManager {
             throw FileError.failedToCheckCompatibility
         }
     }
-
-    // swiftlint:disable cyclomatic_complexity
-    /// Réparer les éventuelles incohérence dans la base de données.
-    /// - Returns: Retourne true si aucune réparation n'est nécessaire ou si des réparations nécessaires ont pues être exécutées.
-    static func repairDataBase(schoolStore : SchoolStore,
-                               classeStore : ClasseStore,
-                               eleveStore  : EleveStore,
-                               colleStore  : ColleStore,
-                               observStore : ObservationStore) -> Bool {
-        var success = true
-
-        for classe in classeStore.items {
-            // Ecole d'appartenance
-            if let schoolId = classe.schoolId {
-                if var school = schoolStore.item(withID: schoolId) {
-                    /// Consistency School <=> Classes
-                    if !school.contains(classeId: classe.id) {
-                        school.addClasse(withID: classe.id)
-                        schoolStore.update(with: school)
-                        print("rebuildDataBase: Ajout de la classe de \(classe.displayString) à l'école \(school.displayString) dans la BDD")
-                    }
-                    /// Consistency  Classe => School.Room
-                    if let roomId = classe.roomId,
-                       !school.contains(roomId: roomId) {
-                        customLog.log(level: .fault, "rebuildDataBase: Classe avec une salle de classe non existante dans l'établissement")
-                        success = false
-                    }
-                } else {
-                    customLog.log(level: .fault, "rebuildDataBase: Classe sans école d'appartenance dans la BDD")
-                    success = false
-                }
-            } else {
-                customLog.log(level: .fault, "rebuildDataBase: Classe sans identifiant d'école dans la BDD")
-                success = false
-            }
-        }
-
-        /// Consistency Classe <=> Elèves
-        for idx in eleveStore.items.indices {
-            var eleve = eleveStore.items[idx]
-
-            if eleve.name.givenName != nil {
-                eleve.name.givenName!.trim()
-                eleveStore.update(with: eleve)
-            }
-            if eleve.name.familyName != nil {
-                eleve.name.familyName!.trim()
-                eleveStore.update(with: eleve)
-            }
-            // Classe d'appartenance
-            if let classeId = eleve.classeId {
-                if var classe = classeStore.item(withID: classeId) {
-                    if !classe.contains(eleveId: eleve.id) {
-                        classe.addEleve(withID: eleve.id)
-                        classeStore.update(with: classe)
-                        print("rebuildDataBase: Ajout de l'élève de \(eleve.displayName) à la classe \(classe.displayString) dans la BDD")
-                    }
-                } else {
-                    customLog.log(level: .fault, "rebuildDataBase: Elève sans classe d'appartenance dans la BDD")
-                    success = false
-                }
-            } else {
-                customLog.log(level: .fault, "rebuildDataBase: Elève sans identifiant de classe dans la BDD")
-                success = false
-            }
-        }
-
-        /// Consistency Elève <=> Observations
-        for observ in observStore.items {
-            // Elève d'appartenance
-            if let eleveId = observ.eleveId {
-                if var eleve = eleveStore.item(withID: eleveId) {
-                    if !eleve.contains(observID: observ.id) {
-                        eleve.addObservation(withID: observ.id)
-                        eleveStore.update(with: eleve)
-                        print("rebuildDataBase: Ajout d'une observation à l'élève \(eleve.displayName) dans la BDD")
-                    }
-                } else {
-                    customLog.log(level: .fault, "rebuildDataBase: Observation sans élève d'appartenance dans la BDD")
-                    success = false
-                }
-            } else {
-                customLog.log(level: .fault, "rebuildDataBase: Observation sans identifiant d'élève associé dans la BDD")
-                success = false
-            }
-        }
-
-        /// Consistency Elève <=> Colles
-        for colle in colleStore.items {
-            // Elève d'appartenance
-            if let eleveId = colle.eleveId {
-                if var eleve = eleveStore.item(withID: eleveId) {
-                    if !eleve.contains(colleID: colle.id) {
-                        eleve.addColle(withID: colle.id)
-                        eleveStore.update(with: eleve)
-                        print("rebuildDataBase: Ajout d'une colle à l'élève \(eleve.displayName) dans la BDD")
-                    }
-                } else {
-                    customLog.log(level: .fault, "rebuildDataBase: Colle sans élève d'appartenance dans la BDD")
-                    success = false
-                }
-            } else {
-                customLog.log(level: .fault, "rebuildDataBase: Colle sans identifiant d'élève associé dans la BDD")
-                success = false
-            }
-        }
-
-        return success
-    }
-    // swiftlint:enable cyclomatic_complexity
 
     /// Suprimer el fichier désigné par `url`.
     /// - Parameter url: URL du fichier à supprimer

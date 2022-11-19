@@ -6,17 +6,16 @@
 //
 
 import SwiftUI
-import Files
-import FileAndFolder
+//import Files
+//import FileAndFolder
 import HelpersView
 
 struct SchoolSidebarView: View {
-    @EnvironmentObject private var navigationModel : NavigationModel
-    @EnvironmentObject private var schoolStore : SchoolStore
-    @EnvironmentObject private var classeStore : ClasseStore
-    @EnvironmentObject private var eleveStore  : EleveStore
-    @EnvironmentObject private var colleStore  : ColleStore
-    @EnvironmentObject private var observStore : ObservationStore
+    @EnvironmentObject
+    private var navigationModel : NavigationModel
+
+    @StateObject
+    private var schoolListVM = SchoolSidebarViewModel()
 
     @State
     private var isAddingNewEtab = false
@@ -43,22 +42,22 @@ struct SchoolSidebarView: View {
 
     // MARK: - Computed Properties
 
-    private var jsonURLsToShare: [URL] {
-        ImportExportManager.documentsURLsToShare(fileNames: [".json"])
-    }
-
-    private var shareMenuItem: some View {
-        Group {
-            if jsonURLsToShare.isNotEmpty {
-                ShareLink("Exporter vos données",
-                          items: jsonURLsToShare,
-                          subject: Text("Cahier du professeur"),
-                          message: Text("Base de données"))
-            } else {
-                EmptyView()
-            }
-        }
-    }
+//    private var jsonURLsToShare: [URL] {
+//        ImportExportManager.documentsURLsToShare(fileNames: [".json"])
+//    }
+//
+//    private var shareMenuItem: some View {
+//        Group {
+//            if jsonURLsToShare.isNotEmpty {
+//                ShareLink("Exporter vos données",
+//                          items: jsonURLsToShare,
+//                          subject: Text("Cahier du professeur"),
+//                          message: Text("Base de données"))
+//            } else {
+//                EmptyView()
+//            }
+//        }
+//    }
 
     var body: some View {
         if progress > 0.0 {
@@ -67,47 +66,48 @@ struct SchoolSidebarView: View {
         if isProgressing {
             ProgressView()
         }
-        List(selection: $navigationModel.selectedSchoolId) {
-            if schoolStore.items.isEmpty {
+        List() { // }(selection: $navigationModel.selectedSchoolId) {
+            if schoolListVM.isEmpty {
                 Text("Aucun établissement actuellement")
             }
             /// pour chaque Type d'établissement
             ForEach(NiveauSchool.allCases) { niveau in
-                if !schoolStore.sortedSchools(niveau: niveau).isEmpty {
+                if !schoolListVM.isEmptyFor(niveau) {
                     Section {
                         /// pour chaque Etablissement
-                        ForEach(schoolStore.sortedSchools(niveau: niveau)) { $school in
-                            SchoolBrowserRow(school: school)
-                                .swipeActions {
-                                    // supprimer l'établissement
-                                    Button(role: .destructive) {
-                                        withAnimation {
-                                            schoolStore.deleteSchool(school,
-                                                                     classeStore : classeStore,
-                                                                     eleveStore  : eleveStore,
-                                                                     observStore : observStore,
-                                                                     colleStore  : colleStore)
-                                        }
-                                    } label: {
-                                        Label("Supprimer", systemImage: "trash")
-                                    }
-
-                                    // modifier le type de l'établissement
-                                    if school.nbOfClasses == 0 {
-                                        Button {
-                                            withAnimation {
-                                                if school.niveau == .college {
-                                                    school.niveau = .lycee
-                                                } else {
-                                                    school.niveau = .college
-                                                }
-                                            }
-                                        } label: {
-                                            Label(school.niveau == .college ? "Lycée" : "Collège",
-                                                  systemImage: school.niveau == .college ?  "building.2" : "building")
-                                        }.tint(school.niveau == .college ? .mint : .orange)
-                                    }
-                                }
+                        ForEach(schoolListVM.schoolsVM[niveau]!) { schoolVM in
+                            Text(schoolVM.displayString)
+//                            SchoolBrowserRow(school: school)
+//                                .swipeActions {
+//                                    // supprimer l'établissement
+//                                    Button(role: .destructive) {
+//                                        withAnimation {
+//                                            schoolStore.deleteSchool(school,
+//                                                                     classeStore : classeStore,
+//                                                                     eleveStore  : eleveStore,
+//                                                                     observStore : observStore,
+//                                                                     colleStore  : colleStore)
+//                                        }
+//                                    } label: {
+//                                        Label("Supprimer", systemImage: "trash")
+//                                    }
+//
+//                                    // modifier le type de l'établissement
+//                                    if school.nbOfClasses == 0 {
+//                                        Button {
+//                                            withAnimation {
+//                                                if school.niveau == .college {
+//                                                    school.niveau = .lycee
+//                                                } else {
+//                                                    school.niveau = .college
+//                                                }
+//                                            }
+//                                        } label: {
+//                                            Label(school.niveau == .college ? "Lycée" : "Collège",
+//                                                  systemImage: school.niveau == .college ?  "building.2" : "building")
+//                                        }.tint(school.niveau == .college ? .mint : .orange)
+//                                    }
+//                                }
                         }
                     } header: {
                         Text(niveau.displayString)
@@ -117,19 +117,22 @@ struct SchoolSidebarView: View {
                     }
                 }
             }
-
-            #if targetEnvironment(simulator)
-            Button {
-                TestEnvir.populateWithFakes(
-                    schoolStore : schoolStore,
-                    classeStore : classeStore,
-                    eleveStore  : eleveStore,
-                    observStore : observStore,
-                    colleStore  : colleStore)
-            } label: {
-                Text("Test").foregroundColor(.primary)
-            }
-            #endif
+//
+//            #if targetEnvironment(simulator)
+//            Button {
+//                TestEnvir.populateWithFakes(
+//                    schoolStore : schoolStore,
+//                    classeStore : classeStore,
+//                    eleveStore  : eleveStore,
+//                    observStore : observStore,
+//                    colleStore  : colleStore)
+//            } label: {
+//                Text("Test").foregroundColor(.primary)
+//            }
+//            #endif
+        }
+        .onAppear {
+            schoolListVM.getAllItems()
         }
         .navigationTitle("Établissements")
         //.navigationViewStyle(.columns)
@@ -142,6 +145,7 @@ struct SchoolSidebarView: View {
             .presentationDetents([.large])
         }
 
+        /// Modal Sheet de gestion des Préférences
         .sheet(isPresented: $isEditingPreferences) {
             NavigationStack {
                 SettingsView()
@@ -149,27 +153,27 @@ struct SchoolSidebarView: View {
             .presentationDetents([.large])
         }
 
-        .sheet(isPresented: $isAddingNewEtab) {
+        /// Modal Sheet de création dun nouvel établissement
+        .sheet(isPresented: $isAddingNewEtab,
+               onDismiss: schoolListVM.getAllItems) {
             NavigationStack {
-                SchoolCreator { school in
-                    schoolStore.add(school)
-                }
+                SchoolCreator()
             }
             .presentationDetents([.medium])
         }
         /// Importer des fichiers JPEG
-        .fileImporter(isPresented             : $isImportingJpegFile,
-                      allowedContentTypes     : [.jpeg],
-                      allowsMultipleSelection : true) { result in
-            importUserSelectedFiles(result: result)
-        }
-                      .alert(item: $alertItem, content: newAlert)
+               .fileImporter(isPresented             : $isImportingJpegFile,
+                             allowedContentTypes     : [.jpeg],
+                             allowsMultipleSelection : true) { result in
+                   importUserSelectedFiles(result: result)
+               }
+                             .alert(item: $alertItem, content: newAlert)
     }
 
     // MARK: - Methods
 
     @ToolbarContentBuilder
-    func myToolBarContent() -> some ToolbarContent {
+    private func myToolBarContent() -> some ToolbarContent {
         /// Ajouter un établissement
         ToolbarItemGroup(placement: .status) {
             Button {
@@ -201,7 +205,7 @@ struct SchoolSidebarView: View {
                 }
 
                 /// Exporter les fichiers JSON utilisateurs
-                shareMenuItem
+                //shareMenuItem
 
                 /// Importer des fichiers JPEG pour le trombinoscope
                 Button {
@@ -237,7 +241,7 @@ struct SchoolSidebarView: View {
             /// Confirmation importation de tous les fichiers depuis l'App
             .confirmationDialog("Importation des fichiers de l'App",
                                 isPresented: $isShowingImportConfirmDialog,
-                                titleVisibility : .visible) {
+                                titleVisibility: .visible) {
                 Button("Importer", role: .destructive) {
                     withAnimation {
                         self.import()
@@ -250,8 +254,8 @@ struct SchoolSidebarView: View {
 
             /// Confirmation importation des fichiers JPEG pour le trombinoscope
             .confirmationDialog("Importer des photos d'élèves",
-                                isPresented     : $isShowingImportTrombineDialog,
-                                titleVisibility : .visible) {
+                                isPresented: $isShowingImportTrombineDialog,
+                                titleVisibility: .visible) {
                 Button("Importer") {
                     withAnimation {
                         isImportingJpegFile = true
@@ -266,7 +270,7 @@ struct SchoolSidebarView: View {
             /// Confirmation de Suppression de toutes vos données
             .confirmationDialog("Suppression de toutes vos données",
                                 isPresented: $isShowingDeleteConfirmDialog,
-                                titleVisibility : .visible) {
+                                titleVisibility: .visible) {
                 Button("Supprimer", role: .destructive) {
                     withAnimation {
                         self.clearAllUserData()
@@ -279,10 +283,10 @@ struct SchoolSidebarView: View {
             /// Confirmation de la réparation de la base de données
             .confirmationDialog("Réparation de la base de données",
                                 isPresented: $isShowingRepairDBDialog,
-                                titleVisibility : .visible) {
+                                titleVisibility: .visible) {
                 Button("Réparer", role: .destructive) {
                     withAnimation {
-                        self.repairDataBase()
+//                        self.repairDataBase()
                     }
                 }
             } message: {
@@ -296,7 +300,7 @@ struct SchoolSidebarView: View {
     private func `import`() {
         // Copier les fichiers contenus dans le Bundle de l'application vers le répertoire Document de l'utilisateur
         do {
-            try PersistenceManager().forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
+//            try PersistenceManager().forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
         } catch {
             /// trigger second alert
             DispatchQueue.main.async {
@@ -307,11 +311,11 @@ struct SchoolSidebarView: View {
         }
         do {
             // Initialiser les objets du model à partir des fichiers JSON
-            try schoolStore.loadFromJSON(fromFolder: nil)
-            try classeStore.loadFromJSON(fromFolder: nil)
-            try eleveStore.loadFromJSON(fromFolder: nil)
-            try colleStore.loadFromJSON(fromFolder: nil)
-            try observStore.loadFromJSON(fromFolder: nil)
+//            try schoolStore.loadFromJSON(fromFolder: nil)
+//            try classeStore.loadFromJSON(fromFolder: nil)
+//            try eleveStore.loadFromJSON(fromFolder: nil)
+//            try colleStore.loadFromJSON(fromFolder: nil)
+//            try observStore.loadFromJSON(fromFolder: nil)
         } catch {
             /// trigger second alert
             DispatchQueue.main.async {
@@ -320,31 +324,31 @@ struct SchoolSidebarView: View {
                                            dismissButton : .default(Text("OK")))
             }
         }
-        eleveStore.sort()
+        //eleveStore.sort()
     }
 
     /// Suppression de toutes les données utilisateur
     private func clearAllUserData() {
         //        DispatchQueue.global(qos: .background).async {
-        let nbSteps = 6.0
-        progress = 0.0
-
-        schoolStore.clear()
-        //        DispatchQueue.main.async {
-        progress += 1.0/nbSteps
-        //        }
-        //        sleep(1)
-        classeStore.clear()
-        progress += 1.0/nbSteps
-        eleveStore.clear()
-        progress += 1.0/nbSteps
-        colleStore.clear()
-        progress += 1.0/nbSteps
-        observStore.clear()
-        progress += 1.0/nbSteps
-        Trombinoscope.deleteAllTrombines()
-        progress += 1.0/nbSteps
-        progress = 0.0
+//        let nbSteps = 6.0
+//        progress = 0.0
+//
+//        schoolStore.clear()
+//        //        DispatchQueue.main.async {
+//        progress += 1.0/nbSteps
+//        //        }
+//        //        sleep(1)
+//        classeStore.clear()
+//        progress += 1.0/nbSteps
+//        eleveStore.clear()
+//        progress += 1.0/nbSteps
+//        colleStore.clear()
+//        progress += 1.0/nbSteps
+//        observStore.clear()
+//        progress += 1.0/nbSteps
+//        Trombinoscope.deleteAllTrombines()
+//        progress += 1.0/nbSteps
+//        progress = 0.0
         //        }
     }
 
@@ -360,8 +364,8 @@ struct SchoolSidebarView: View {
 
             case .success(let filesUrl):
                 do {
-                    try ImportExportManager.importURLsToDocumentsFolder(filesUrl             : filesUrl,
-                                                                        importIfAlreadyExist : true)
+//                    try ImportExportManager.importURLsToDocumentsFolder(filesUrl             : filesUrl,
+//                                                                        importIfAlreadyExist : true)
 
                 } catch {
                     self.alertItem = AlertItem(title         : Text("Échec"),
@@ -371,47 +375,47 @@ struct SchoolSidebarView: View {
         }
     }
 
-    private func repairDataBase() {
-        isProgressing.toggle()
-        let success = PersistenceManager.repairDataBase(schoolStore: schoolStore,
-                                                        classeStore: classeStore,
-                                                        eleveStore : eleveStore,
-                                                        colleStore : colleStore,
-                                                        observStore: observStore)
-        isProgressing.toggle()
-        if !success {
-            self.alertItem = AlertItem(title: Text("Erreur"),
-                                       message: Text("La base de donnée n'a pas pu être complètement réparée !"),
-                                       dismissButton: .default(Text("OK")))
-        } else {
-            self.alertItem = AlertItem(title: Text(""),
-                                       message: Text("La base de donnée est réparée"),
-                                       dismissButton: .default(Text("OK")))
-        }
-    }
+//    private func repairDataBase() {
+//        isProgressing.toggle()
+//        let success = PersistenceManager.repairDataBase(schoolStore: schoolStore,
+//                                                        classeStore: classeStore,
+//                                                        eleveStore : eleveStore,
+//                                                        colleStore : colleStore,
+//                                                        observStore: observStore)
+//        isProgressing.toggle()
+//        if !success {
+//            self.alertItem = AlertItem(title: Text("Erreur"),
+//                                       message: Text("La base de donnée n'a pas pu être complètement réparée !"),
+//                                       dismissButton: .default(Text("OK")))
+//        } else {
+//            self.alertItem = AlertItem(title: Text(""),
+//                                       message: Text("La base de donnée est réparée"),
+//                                       dismissButton: .default(Text("OK")))
+//        }
+//    }
 }
 
-struct SchoolSidebarView_Previews: PreviewProvider {
-    static var previews: some View {
-        TestEnvir.createFakes()
-        return Group {
-            SchoolSidebarView()
-                .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
-                .environmentObject(TestEnvir.schoolStore)
-                .environmentObject(TestEnvir.classeStore)
-                .environmentObject(TestEnvir.eleveStore)
-                .environmentObject(TestEnvir.colleStore)
-                .environmentObject(TestEnvir.observStore)
-                .previewDevice("iPad mini (6th generation)")
-
-            SchoolSidebarView()
-                .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
-                .environmentObject(TestEnvir.schoolStore)
-                .environmentObject(TestEnvir.classeStore)
-                .environmentObject(TestEnvir.eleveStore)
-                .environmentObject(TestEnvir.colleStore)
-                .environmentObject(TestEnvir.observStore)
-                .previewDevice("iPhone 13")
-        }
-    }
-}
+//struct SchoolSidebarView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TestEnvir.createFakes()
+//        return Group {
+//            SchoolSidebarView()
+//                .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
+//                .environmentObject(TestEnvir.schoolStore)
+//                .environmentObject(TestEnvir.classeStore)
+//                .environmentObject(TestEnvir.eleveStore)
+//                .environmentObject(TestEnvir.colleStore)
+//                .environmentObject(TestEnvir.observStore)
+//                .previewDevice("iPad mini (6th generation)")
+//
+//            SchoolSidebarView()
+//                .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
+//                .environmentObject(TestEnvir.schoolStore)
+//                .environmentObject(TestEnvir.classeStore)
+//                .environmentObject(TestEnvir.eleveStore)
+//                .environmentObject(TestEnvir.colleStore)
+//                .environmentObject(TestEnvir.observStore)
+//                .previewDevice("iPhone 13")
+//        }
+//    }
+//}
