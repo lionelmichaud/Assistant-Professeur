@@ -36,10 +36,11 @@ class SchoolSidebarViewModel: NSObject, ObservableObject {
         schoolsVM[niveau]?.isEmpty ?? true
     }
 
-    /// Charger tous les établissements à partir du persistentContainer de Core Data
+    /// Charger tous les objets `SchoolEntity` à partir du persistentContainer de Core Data
     func getAllItems() {
         let allItems: [SchoolEntity] = SchoolEntity.all()
-
+        
+        //DispatchQueue.main.async {
         NiveauSchool.allCases.forEach { level in
             var schoolsVM = [SchoolViewModel]()
 
@@ -50,9 +51,16 @@ class SchoolSidebarViewModel: NSObject, ObservableObject {
                 }
             }
 
-            DispatchQueue.main.async {
-                self.schoolsVM[level] = schoolsVM
-            }
+            self.schoolsVM[level] = schoolsVM
+        }
+        //}
+    }
+
+    /// Supprimer du store l'objet `SchoolEntity` contenu dans `schoolVM`
+    func delete(schoolVM: SchoolViewModel) {
+        let school: SchoolEntity? = SchoolEntity.byId(id: schoolVM.id)
+        if let school {
+            try? school.delete()
         }
     }
 }

@@ -31,6 +31,16 @@
 		79BF1DA229280ED7005D6CF3 /* School+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA129280ED7005D6CF3 /* School+Extensions.swift */; };
 		79BF1DA42928E37B005D6CF3 /* SchoolCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA32928E37B005D6CF3 /* SchoolCreator.swift */; };
 		79BF1DA52928E37B005D6CF3 /* SchoolCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA32928E37B005D6CF3 /* SchoolCreator.swift */; };
+		79BF1DA829290F5A005D6CF3 /* Classe+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA729290F5A005D6CF3 /* Classe+Extensions.swift */; };
+		79BF1DA929290F5A005D6CF3 /* Classe+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA729290F5A005D6CF3 /* Classe+Extensions.swift */; };
+		79BF1DAD29290FBC005D6CF3 /* Observation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DAC29290FBC005D6CF3 /* Observation+Extensions.swift */; };
+		79BF1DAE29290FBC005D6CF3 /* Observation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DAC29290FBC005D6CF3 /* Observation+Extensions.swift */; };
+		79BF1DB32929104F005D6CF3 /* Document+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DB22929104F005D6CF3 /* Document+Extensions.swift */; };
+		79BF1DB42929104F005D6CF3 /* Document+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DB22929104F005D6CF3 /* Document+Extensions.swift */; };
+		79BF1DB62929105D005D6CF3 /* Event+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DB52929105D005D6CF3 /* Event+Extensions.swift */; };
+		79BF1DB72929105D005D6CF3 /* Event+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DB52929105D005D6CF3 /* Event+Extensions.swift */; };
+		79BF1DB929291069005D6CF3 /* Room+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DB829291069005D6CF3 /* Room+Extensions.swift */; };
+		79BF1DBA29291069005D6CF3 /* Room+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DB829291069005D6CF3 /* Room+Extensions.swift */; };
 		79D573472927EEDE00B0B7B8 /* SchoolViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D573462927EEDE00B0B7B8 /* SchoolViewModel.swift */; };
 		79D573492927F16B00B0B7B8 /* NiveauSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D573482927F16B00B0B7B8 /* NiveauSchool.swift */; };
 		79D5734A2927F16B00B0B7B8 /* NiveauSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D573482927F16B00B0B7B8 /* NiveauSchool.swift */; };
@@ -119,6 +129,11 @@
 		79B6633029244FC9007B1FBD /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		79BF1DA129280ED7005D6CF3 /* School+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "School+Extensions.swift"; sourceTree = "<group>"; };
 		79BF1DA32928E37B005D6CF3 /* SchoolCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolCreator.swift; sourceTree = "<group>"; };
+		79BF1DA729290F5A005D6CF3 /* Classe+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Classe+Extensions.swift"; sourceTree = "<group>"; };
+		79BF1DAC29290FBC005D6CF3 /* Observation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observation+Extensions.swift"; sourceTree = "<group>"; };
+		79BF1DB22929104F005D6CF3 /* Document+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Document+Extensions.swift"; sourceTree = "<group>"; };
+		79BF1DB52929105D005D6CF3 /* Event+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+Extensions.swift"; sourceTree = "<group>"; };
+		79BF1DB829291069005D6CF3 /* Room+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Room+Extensions.swift"; sourceTree = "<group>"; };
 		79D573462927EEDE00B0B7B8 /* SchoolViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolViewModel.swift; sourceTree = "<group>"; };
 		79D573482927F16B00B0B7B8 /* NiveauSchool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NiveauSchool.swift; sourceTree = "<group>"; };
 		79D5734B2927F93400B0B7B8 /* SchoolSidebarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSidebarViewModel.swift; sourceTree = "<group>"; };
@@ -196,6 +211,9 @@
 				79DEDB1D292598BE00F508EF /* Persistence */,
 				79388A4329256819002AABB8 /* Managers */,
 				79BF1DA029280E8B005D6CF3 /* School */,
+				79BF1DA629290F32005D6CF3 /* Classe */,
+				79BF1DAA29290F83005D6CF3 /* Observation */,
+				79BF1DAB29290F8C005D6CF3 /* Colle */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -291,8 +309,58 @@
 			children = (
 				79D573482927F16B00B0B7B8 /* NiveauSchool.swift */,
 				79BF1DA129280ED7005D6CF3 /* School+Extensions.swift */,
+				79BF1DAF29291005005D6CF3 /* Document */,
+				79BF1DB02929101A005D6CF3 /* Event */,
+				79BF1DB129291027005D6CF3 /* Room */,
 			);
 			path = School;
+			sourceTree = "<group>";
+		};
+		79BF1DA629290F32005D6CF3 /* Classe */ = {
+			isa = PBXGroup;
+			children = (
+				79BF1DA729290F5A005D6CF3 /* Classe+Extensions.swift */,
+			);
+			path = Classe;
+			sourceTree = "<group>";
+		};
+		79BF1DAA29290F83005D6CF3 /* Observation */ = {
+			isa = PBXGroup;
+			children = (
+				79BF1DAC29290FBC005D6CF3 /* Observation+Extensions.swift */,
+			);
+			path = Observation;
+			sourceTree = "<group>";
+		};
+		79BF1DAB29290F8C005D6CF3 /* Colle */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Colle;
+			sourceTree = "<group>";
+		};
+		79BF1DAF29291005005D6CF3 /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				79BF1DB22929104F005D6CF3 /* Document+Extensions.swift */,
+			);
+			path = Document;
+			sourceTree = "<group>";
+		};
+		79BF1DB02929101A005D6CF3 /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				79BF1DB52929105D005D6CF3 /* Event+Extensions.swift */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
+		79BF1DB129291027005D6CF3 /* Room */ = {
+			isa = PBXGroup;
+			children = (
+				79BF1DB829291069005D6CF3 /* Room+Extensions.swift */,
+			);
+			path = Room;
 			sourceTree = "<group>";
 		};
 		79DEDAE32925855B00F508EF /* School */ = {
@@ -513,16 +581,21 @@
 				79D573492927F16B00B0B7B8 /* NiveauSchool.swift in Sources */,
 				79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */,
 				79DEDB222925991100F508EF /* Persistence.swift in Sources */,
+				79BF1DA829290F5A005D6CF3 /* Classe+Extensions.swift in Sources */,
 				79388A4529256819002AABB8 /* CoreDataManager.swift in Sources */,
+				79BF1DB62929105D005D6CF3 /* Event+Extensions.swift in Sources */,
 				79DEDB0F292593C200F508EF /* SettingsView.swift in Sources */,
 				79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */,
 				79DEDAEC2925864A00F508EF /* ClasseSplitView.swift in Sources */,
+				79BF1DAD29290FBC005D6CF3 /* Observation+Extensions.swift in Sources */,
 				79388A4F29257025002AABB8 /* AppState.swift in Sources */,
 				79DEDAFE292589F400F508EF /* EleveSidebarView.swift in Sources */,
 				79BF1DA42928E37B005D6CF3 /* SchoolCreator.swift in Sources */,
+				79BF1DB929291069005D6CF3 /* Room+Extensions.swift in Sources */,
 				79388A4929256E13002AABB8 /* MainScene.swift in Sources */,
 				79D5734C2927F93400B0B7B8 /* SchoolSidebarViewModel.swift in Sources */,
 				79DEDB0129258D4000F508EF /* ClasseSidebarView.swift in Sources */,
+				79BF1DB32929104F005D6CF3 /* Document+Extensions.swift in Sources */,
 				79DEDAF2292586B500F508EF /* ObservSplitView.swift in Sources */,
 				79DEDAFB2925897600F508EF /* ObservSidebarView.swift in Sources */,
 				79BF1DA229280ED7005D6CF3 /* School+Extensions.swift in Sources */,
@@ -561,8 +634,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79BF1DB42929104F005D6CF3 /* Document+Extensions.swift in Sources */,
 				79DEDB16292593C200F508EF /* SettingsGeneral.swift in Sources */,
 				79388A4729256819002AABB8 /* CoreDataManager.swift in Sources */,
+				79BF1DA929290F5A005D6CF3 /* Classe+Extensions.swift in Sources */,
+				79BF1DB72929105D005D6CF3 /* Event+Extensions.swift in Sources */,
 				79DEDAFC2925897600F508EF /* ObservSidebarView.swift in Sources */,
 				79DEDAF0292586A500F508EF /* EleveSplitView.swift in Sources */,
 				79DEDB10292593C200F508EF /* SettingsView.swift in Sources */,
@@ -574,8 +650,10 @@
 				79388A4B29256E13002AABB8 /* MainScene.swift in Sources */,
 				79DEDAF92925870500F508EF /* ColleSidebarView.swift in Sources */,
 				79DEDB18292593C200F508EF /* SettingsSchool.swift in Sources */,
+				79BF1DAE29290FBC005D6CF3 /* Observation+Extensions.swift in Sources */,
 				79DEDB12292593C200F508EF /* SettingsEleve.swift in Sources */,
 				79B6632129244C3F007B1FBD /* Assistant_ProfesseurUITests.swift in Sources */,
+				79BF1DBA29291069005D6CF3 /* Room+Extensions.swift in Sources */,
 				79DEDAF3292586B500F508EF /* ObservSplitView.swift in Sources */,
 				79BF1DA52928E37B005D6CF3 /* SchoolCreator.swift in Sources */,
 				79B6632329244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift in Sources */,

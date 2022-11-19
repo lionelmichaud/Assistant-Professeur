@@ -63,6 +63,6 @@ class SchoolObservableModel: ObservableObject {
         school.niveau     = niveau
         school.annotation = annotation
 
-        try? school.save()
+        try? SchoolEntity.save()
     }
 }

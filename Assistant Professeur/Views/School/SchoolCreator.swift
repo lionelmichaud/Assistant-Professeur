@@ -28,6 +28,7 @@ struct SchoolCreator: View {
                 TextField("Nouvel établissement", text: $schoolVM.nom)
                     .font(.title2)
                     .textFieldStyle(.roundedBorder)
+                    .submitLabel(.done)
                     .focused($isNameFocused)
             }
             // Type d'établissement
@@ -35,6 +36,9 @@ struct SchoolCreator: View {
                        label: "Type d'établissement")
             .pickerStyle(.segmented)
             .listRowSeparator(.hidden)
+        }
+        .onAppear {
+            isNameFocused = true
         }
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {

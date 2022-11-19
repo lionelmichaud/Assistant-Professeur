@@ -42,94 +42,92 @@ struct SchoolSidebarView: View {
 
     // MARK: - Computed Properties
 
-//    private var jsonURLsToShare: [URL] {
-//        ImportExportManager.documentsURLsToShare(fileNames: [".json"])
-//    }
-//
-//    private var shareMenuItem: some View {
-//        Group {
-//            if jsonURLsToShare.isNotEmpty {
-//                ShareLink("Exporter vos données",
-//                          items: jsonURLsToShare,
-//                          subject: Text("Cahier du professeur"),
-//                          message: Text("Base de données"))
-//            } else {
-//                EmptyView()
-//            }
-//        }
-//    }
+    //    private var jsonURLsToShare: [URL] {
+    //        ImportExportManager.documentsURLsToShare(fileNames: [".json"])
+    //    }
+    //
+    //    private var shareMenuItem: some View {
+    //        Group {
+    //            if jsonURLsToShare.isNotEmpty {
+    //                ShareLink("Exporter vos données",
+    //                          items: jsonURLsToShare,
+    //                          subject: Text("Cahier du professeur"),
+    //                          message: Text("Base de données"))
+    //            } else {
+    //                EmptyView()
+    //            }
+    //        }
+    //    }
 
     var body: some View {
-        if progress > 0.0 {
-            ProgressView(value: progress)
-        }
-        if isProgressing {
-            ProgressView()
-        }
-        List() { // }(selection: $navigationModel.selectedSchoolId) {
-            if schoolListVM.isEmpty {
-                Text("Aucun établissement actuellement")
+        VStack {
+            if isProgressing {
+                //ProgressView(value: progress)
+                ProgressView()
             }
-            /// pour chaque Type d'établissement
-            ForEach(NiveauSchool.allCases) { niveau in
-                if !schoolListVM.isEmptyFor(niveau) {
-                    Section {
-                        /// pour chaque Etablissement
-                        ForEach(schoolListVM.schoolsVM[niveau]!) { schoolVM in
-                            Text(schoolVM.displayString)
-//                            SchoolBrowserRow(school: school)
-//                                .swipeActions {
-//                                    // supprimer l'établissement
-//                                    Button(role: .destructive) {
-//                                        withAnimation {
-//                                            schoolStore.deleteSchool(school,
-//                                                                     classeStore : classeStore,
-//                                                                     eleveStore  : eleveStore,
-//                                                                     observStore : observStore,
-//                                                                     colleStore  : colleStore)
-//                                        }
-//                                    } label: {
-//                                        Label("Supprimer", systemImage: "trash")
-//                                    }
-//
-//                                    // modifier le type de l'établissement
-//                                    if school.nbOfClasses == 0 {
-//                                        Button {
-//                                            withAnimation {
-//                                                if school.niveau == .college {
-//                                                    school.niveau = .lycee
-//                                                } else {
-//                                                    school.niveau = .college
-//                                                }
-//                                            }
-//                                        } label: {
-//                                            Label(school.niveau == .college ? "Lycée" : "Collège",
-//                                                  systemImage: school.niveau == .college ?  "building.2" : "building")
-//                                        }.tint(school.niveau == .college ? .mint : .orange)
-//                                    }
-//                                }
+            List(selection: $navigationModel.selectedSchoolId) {
+                if schoolListVM.isEmpty {
+                    Text("Aucun établissement actuellement")
+                }
+                /// pour chaque Type d'établissement
+                ForEach(NiveauSchool.allCases) { niveau in
+                    if !schoolListVM.isEmptyFor(niveau) {
+                        Section {
+                            /// pour chaque Etablissement
+                            ForEach(schoolListVM.schoolsVM[niveau]!) { schoolVM in
+                                Text(schoolVM.displayString)
+                                //SchoolBrowserRow(school: school)
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                        // supprimer l'établissement
+                                        Button(role: .destructive) {
+                                            withAnimation {
+                                                delete(schoolVM: schoolVM)
+                                            }
+                                        } label: {
+                                            Label("Supprimer", systemImage: "trash")
+                                        }
+                                    }
+
+                                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                                        // modifier le type de l'établissement
+                                        //                                    if school.nbOfClasses == 0 {
+                                        //                                        Button {
+                                        //                                            withAnimation {
+                                        //                                                if school.niveau == .college {
+                                        //                                                    school.niveau = .lycee
+                                        //                                                } else {
+                                        //                                                    school.niveau = .college
+                                        //                                                }
+                                        //                                            }
+                                        //                                        } label: {
+                                        //                                            Label(school.niveau == .college ? "Lycée" : "Collège",
+                                        //                                                  systemImage: school.niveau == .college ?  "building.2" : "building")
+                                        //                                        }.tint(school.niveau == .college ? .mint : .orange)
+                                        //                                    }
+                                    }
+                            }
+                        } header: {
+                            Text(niveau.displayString)
+                                .font(.callout)
+                                .foregroundColor(.secondary)
+                                .fontWeight(.bold)
                         }
-                    } header: {
-                        Text(niveau.displayString)
-                            .font(.callout)
-                            .foregroundColor(.secondary)
-                            .fontWeight(.bold)
                     }
                 }
+                //
+                //            #if targetEnvironment(simulator)
+                //            Button {
+                //                TestEnvir.populateWithFakes(
+                //                    schoolStore : schoolStore,
+                //                    classeStore : classeStore,
+                //                    eleveStore  : eleveStore,
+                //                    observStore : observStore,
+                //                    colleStore  : colleStore)
+                //            } label: {
+                //                Text("Test").foregroundColor(.primary)
+                //            }
+                //            #endif
             }
-//
-//            #if targetEnvironment(simulator)
-//            Button {
-//                TestEnvir.populateWithFakes(
-//                    schoolStore : schoolStore,
-//                    classeStore : classeStore,
-//                    eleveStore  : eleveStore,
-//                    observStore : observStore,
-//                    colleStore  : colleStore)
-//            } label: {
-//                Text("Test").foregroundColor(.primary)
-//            }
-//            #endif
         }
         .onAppear {
             schoolListVM.getAllItems()
@@ -286,7 +284,7 @@ struct SchoolSidebarView: View {
                                 titleVisibility: .visible) {
                 Button("Réparer", role: .destructive) {
                     withAnimation {
-//                        self.repairDataBase()
+                        //                        self.repairDataBase()
                     }
                 }
             } message: {
@@ -296,11 +294,16 @@ struct SchoolSidebarView: View {
         }
     }
 
+    private func delete(schoolVM: SchoolViewModel) {
+        schoolListVM.delete(schoolVM: schoolVM)
+        schoolListVM.getAllItems()
+    }
+
     /// Importer tous les fichiers JSON, JPEG et PNG depuis le Bundle Application
     private func `import`() {
         // Copier les fichiers contenus dans le Bundle de l'application vers le répertoire Document de l'utilisateur
         do {
-//            try PersistenceManager().forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
+            //            try PersistenceManager().forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
         } catch {
             /// trigger second alert
             DispatchQueue.main.async {
@@ -311,11 +314,11 @@ struct SchoolSidebarView: View {
         }
         do {
             // Initialiser les objets du model à partir des fichiers JSON
-//            try schoolStore.loadFromJSON(fromFolder: nil)
-//            try classeStore.loadFromJSON(fromFolder: nil)
-//            try eleveStore.loadFromJSON(fromFolder: nil)
-//            try colleStore.loadFromJSON(fromFolder: nil)
-//            try observStore.loadFromJSON(fromFolder: nil)
+            //            try schoolStore.loadFromJSON(fromFolder: nil)
+            //            try classeStore.loadFromJSON(fromFolder: nil)
+            //            try eleveStore.loadFromJSON(fromFolder: nil)
+            //            try colleStore.loadFromJSON(fromFolder: nil)
+            //            try observStore.loadFromJSON(fromFolder: nil)
         } catch {
             /// trigger second alert
             DispatchQueue.main.async {
@@ -329,27 +332,42 @@ struct SchoolSidebarView: View {
 
     /// Suppression de toutes les données utilisateur
     private func clearAllUserData() {
-        //        DispatchQueue.global(qos: .background).async {
-//        let nbSteps = 6.0
-//        progress = 0.0
-//
-//        schoolStore.clear()
-//        //        DispatchQueue.main.async {
-//        progress += 1.0/nbSteps
-//        //        }
-//        //        sleep(1)
-//        classeStore.clear()
-//        progress += 1.0/nbSteps
-//        eleveStore.clear()
-//        progress += 1.0/nbSteps
-//        colleStore.clear()
-//        progress += 1.0/nbSteps
-//        observStore.clear()
-//        progress += 1.0/nbSteps
-//        Trombinoscope.deleteAllTrombines()
-//        progress += 1.0/nbSteps
-//        progress = 0.0
-        //        }
+        let alert = AlertItem(title         : Text("Échec"),
+                              message       : Text("L'effacement de la base de donnée a échoué"),
+                              dismissButton : .default(Text("OK")))
+        let nbSteps = 2.0
+        progress = 0.0
+        isProgressing = true
+
+        // Suppression des Etablissements
+        DispatchQueue.main.async(qos: .background) {
+            do {
+                try DocumentEntity.deleteAll()
+                try EventEntity.deleteAll()
+                try RoomEntity.deleteAll()
+                try SchoolEntity.deleteAll()
+            } catch {
+                self.alertItem = alert
+            }
+            self.schoolListVM.getAllItems()
+            self.progress += 1.0/nbSteps
+        }
+
+        // Suppression des Classes
+        DispatchQueue.main.async(qos: .background) {
+            do {
+                try ClasseEntity.deleteAll()
+            } catch {
+                self.alertItem = alert
+            }
+            self.progress += 1.0/nbSteps
+            self.isProgressing = false
+        }
+
+        //        eleveStore.clear()
+        //        colleStore.clear()
+        //        observStore.clear()
+        //        Trombinoscope.deleteAllTrombines()
     }
 
     /// Copier les fichiers  sélectionnés dans le dossier Document de l'application.
@@ -364,8 +382,8 @@ struct SchoolSidebarView: View {
 
             case .success(let filesUrl):
                 do {
-//                    try ImportExportManager.importURLsToDocumentsFolder(filesUrl             : filesUrl,
-//                                                                        importIfAlreadyExist : true)
+                    //                    try ImportExportManager.importURLsToDocumentsFolder(filesUrl             : filesUrl,
+                    //                                                                        importIfAlreadyExist : true)
 
                 } catch {
                     self.alertItem = AlertItem(title         : Text("Échec"),
@@ -375,24 +393,24 @@ struct SchoolSidebarView: View {
         }
     }
 
-//    private func repairDataBase() {
-//        isProgressing.toggle()
-//        let success = PersistenceManager.repairDataBase(schoolStore: schoolStore,
-//                                                        classeStore: classeStore,
-//                                                        eleveStore : eleveStore,
-//                                                        colleStore : colleStore,
-//                                                        observStore: observStore)
-//        isProgressing.toggle()
-//        if !success {
-//            self.alertItem = AlertItem(title: Text("Erreur"),
-//                                       message: Text("La base de donnée n'a pas pu être complètement réparée !"),
-//                                       dismissButton: .default(Text("OK")))
-//        } else {
-//            self.alertItem = AlertItem(title: Text(""),
-//                                       message: Text("La base de donnée est réparée"),
-//                                       dismissButton: .default(Text("OK")))
-//        }
-//    }
+    //    private func repairDataBase() {
+    //        isProgressing.toggle()
+    //        let success = PersistenceManager.repairDataBase(schoolStore: schoolStore,
+    //                                                        classeStore: classeStore,
+    //                                                        eleveStore : eleveStore,
+    //                                                        colleStore : colleStore,
+    //                                                        observStore: observStore)
+    //        isProgressing.toggle()
+    //        if !success {
+    //            self.alertItem = AlertItem(title: Text("Erreur"),
+    //                                       message: Text("La base de donnée n'a pas pu être complètement réparée !"),
+    //                                       dismissButton: .default(Text("OK")))
+    //        } else {
+    //            self.alertItem = AlertItem(title: Text(""),
+    //                                       message: Text("La base de donnée est réparée"),
+    //                                       dismissButton: .default(Text("OK")))
+    //        }
+    //    }
 }
 
 //struct SchoolSidebarView_Previews: PreviewProvider {

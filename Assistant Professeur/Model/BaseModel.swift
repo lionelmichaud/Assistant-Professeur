@@ -9,34 +9,36 @@ import Foundation
 import CoreData
 
 protocol BaseModel: NSManagedObject {
-    func save() throws
     func delete() throws
-    static func byId<T: NSManagedObject>(id: NSManagedObjectID) -> T?
-    static func all<T: NSManagedObject>() -> [T]
+    static func save() throws
+    static func deleteAll() throws
+    static func byId(id: NSManagedObjectID) -> Self?
+    static func all() -> [Self]
 }
 
 extension BaseModel {
 
+    // MARK: - Type Properties
+
     static var viewContext: NSManagedObjectContext {
-        return CoreDataManager.shared.viewContext
+        CoreDataManager.shared.viewContext
     }
 
-    func save() throws {
-        do {
-            try Self.viewContext.save()
-        } catch {
-            throw error
+    // MARK: - Type Methods
+
+    /// Remove all the object of type `Self` from its persistent store
+    static func deleteAll() throws {
+        Self.all().forEach { item in
+            Self.viewContext.delete(item)
         }
+        try Self.save()
     }
 
-    func delete() throws {
-        Self.viewContext.delete(self)
-        try save()
-    }
+    /// Returns an array of all objects of type `Self` in the persistent store
+    /// - Returns: Array of all items in the persistent store
+    static func all() -> [Self] {
 
-    static func all<T>() -> [T] where T: NSManagedObject {
-
-        let fetchRequest: NSFetchRequest<T> = NSFetchRequest(entityName: String(describing: T.self))
+        let fetchRequest: NSFetchRequest<Self> = NSFetchRequest(entityName: String(describing: Self.self))
 
         do {
             return try viewContext.fetch(fetchRequest)
@@ -45,13 +47,34 @@ extension BaseModel {
         }
     }
 
-    static func byId<T>(id: NSManagedObjectID) -> T? where T: NSManagedObject {
+    static func byId(id: NSManagedObjectID) -> Self? {
         do {
-            return try viewContext.existingObject(with: id) as? T
+            return try viewContext.existingObject(with: id) as? Self
         } catch {
             print(error)
             return nil
         }
+    }
+
+    /// Attempts to commit unsaved changes to registered objects to the context’s parent persistent store.
+    ///
+    /// Seulement si des changements ont été opérés.
+    static func save() throws {
+        if Self.viewContext.hasChanges {
+            do {
+                try Self.viewContext.save()
+            } catch {
+                throw error
+            }
+        }
+    }
+
+    // MARK: - Methods
+
+    /// Remove the object `self` from its persistent store
+    func delete() throws {
+        Self.viewContext.delete(self)
+        try Self.save()
     }
 
 }
