@@ -30,8 +30,8 @@
     </entity>
     <entity name="SchoolEntity" representedClassName="SchoolEntity" syncable="YES" codeGenerationType="class">
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
-        <attribute name="niveau" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="nom" attributeType="String" defaultValueString=""/>
+        <attribute name="level" attributeType="String" defaultValueString=""/>
+        <attribute name="name" attributeType="String" defaultValueString=""/>
         <relationship name="classes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="school" inverseEntity="ClasseEntity"/>
         <relationship name="documents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DocumentEntity" inverseName="school" inverseEntity="DocumentEntity"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EventEntity" inverseName="school" inverseEntity="EventEntity"/>
