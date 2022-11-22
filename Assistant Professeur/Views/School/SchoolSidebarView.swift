@@ -42,23 +42,6 @@ struct SchoolSidebarView: View {
 
     // MARK: - Computed Properties
 
-    //    private var jsonURLsToShare: [URL] {
-    //        ImportExportManager.documentsURLsToShare(fileNames: [".json"])
-    //    }
-    //
-    //    private var shareMenuItem: some View {
-    //        Group {
-    //            if jsonURLsToShare.isNotEmpty {
-    //                ShareLink("Exporter vos données",
-    //                          items: jsonURLsToShare,
-    //                          subject: Text("Cahier du professeur"),
-    //                          message: Text("Base de données"))
-    //            } else {
-    //                EmptyView()
-    //            }
-    //        }
-    //    }
-
     var body: some View {
         VStack {
             if isProgressing {
@@ -90,20 +73,26 @@ struct SchoolSidebarView: View {
 
                                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
                                         // modifier le type de l'établissement
-                                        //                                    if school.nbOfClasses == 0 {
-                                        //                                        Button {
-                                        //                                            withAnimation {
-                                        //                                                if school.niveau == .college {
-                                        //                                                    school.niveau = .lycee
-                                        //                                                } else {
-                                        //                                                    school.niveau = .college
-                                        //                                                }
-                                        //                                            }
-                                        //                                        } label: {
-                                        //                                            Label(school.niveau == .college ? "Lycée" : "Collège",
-                                        //                                                  systemImage: school.niveau == .college ?  "building.2" : "building")
-                                        //                                        }.tint(school.niveau == .college ? .mint : .orange)
-                                        //                                    }
+                                        if schoolListVM.schoolsVM[niveau]!.count == 0 {
+//                                            Button {
+//
+//                                            } label: {
+//                                                Text("test")
+//                                            }
+//                                            Button {
+//                                                withAnimation {
+//                                                    if schoolVM.niveau == .college {
+//                                                        schoolVM.niveau = .lycee
+//                                                    } else {
+//                                                        schoolVM.niveau = .college
+//                                                    }
+//
+//                                                }
+//                                            } label: {
+//                                                Label(schoolVM.niveau == .college ? "Lycée" : "Collège",
+//                                                      systemImage: schoolVM.niveau == .college ?  "building.2" : "building")
+//                                            }.tint(schoolVM.niveau == .college ? .mint : .orange)
+                                        }
                                     }
                             }
                         } header: {
@@ -114,19 +103,14 @@ struct SchoolSidebarView: View {
                         }
                     }
                 }
-                //
-                //            #if targetEnvironment(simulator)
-                //            Button {
-                //                TestEnvir.populateWithFakes(
-                //                    schoolStore : schoolStore,
-                //                    classeStore : classeStore,
-                //                    eleveStore  : eleveStore,
-                //                    observStore : observStore,
-                //                    colleStore  : colleStore)
-                //            } label: {
-                //                Text("Test").foregroundColor(.primary)
-                //            }
-                //            #endif
+
+                #if targetEnvironment(simulator)
+                Button {
+                    populate()
+                } label: {
+                    Text("Peupler la BDD").foregroundColor(.primary)
+                }
+                #endif
             }
         }
         .onAppear {
@@ -167,9 +151,11 @@ struct SchoolSidebarView: View {
                }
                              .alert(item: $alertItem, content: newAlert)
     }
+}
 
-    // MARK: - Methods
+// MARK: Toolbar Content
 
+extension SchoolSidebarView {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         /// Ajouter un établissement
@@ -293,41 +279,34 @@ struct SchoolSidebarView: View {
             }
         }
     }
+}
 
+// MARK: Core Data
+
+extension SchoolSidebarView {
+
+    //    private var jsonURLsToShare: [URL] {
+    //        ImportExportManager.documentsURLsToShare(fileNames: [".json"])
+    //    }
+    //
+    //    private var shareMenuItem: some View {
+    //        Group {
+    //            if jsonURLsToShare.isNotEmpty {
+    //                ShareLink("Exporter vos données",
+    //                          items: jsonURLsToShare,
+    //                          subject: Text("Cahier du professeur"),
+    //                          message: Text("Base de données"))
+    //            } else {
+    //                EmptyView()
+    //            }
+    //        }
+    //    }
+
+
+    /// Delete swiped item
     private func delete(schoolVM: SchoolViewModel) {
         schoolListVM.delete(schoolVM: schoolVM)
         schoolListVM.getAllItems()
-    }
-
-    /// Importer tous les fichiers JSON, JPEG et PNG depuis le Bundle Application
-    private func `import`() {
-        // Copier les fichiers contenus dans le Bundle de l'application vers le répertoire Document de l'utilisateur
-        do {
-            //            try PersistenceManager().forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
-        } catch {
-            /// trigger second alert
-            DispatchQueue.main.async {
-                self.alertItem = AlertItem(title: Text("Erreur"),
-                                           message: Text("L'importation des fichiers a échouée!"),
-                                           dismissButton: .default(Text("OK")))
-            }
-        }
-        do {
-            // Initialiser les objets du model à partir des fichiers JSON
-            //            try schoolStore.loadFromJSON(fromFolder: nil)
-            //            try classeStore.loadFromJSON(fromFolder: nil)
-            //            try eleveStore.loadFromJSON(fromFolder: nil)
-            //            try colleStore.loadFromJSON(fromFolder: nil)
-            //            try observStore.loadFromJSON(fromFolder: nil)
-        } catch {
-            /// trigger second alert
-            DispatchQueue.main.async {
-                self.alertItem = AlertItem(title         : Text("Erreur"),
-                                           message       : Text("La lecture des fichiers importés a échouée!"),
-                                           dismissButton : .default(Text("OK")))
-            }
-        }
-        //eleveStore.sort()
     }
 
     /// Suppression de toutes les données utilisateur
@@ -370,6 +349,37 @@ struct SchoolSidebarView: View {
         //        Trombinoscope.deleteAllTrombines()
     }
 
+    /// Importer tous les fichiers JSON, JPEG et PNG depuis le Bundle Application
+    private func `import`() {
+        // Copier les fichiers contenus dans le Bundle de l'application vers le répertoire Document de l'utilisateur
+        do {
+            //            try PersistenceManager().forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
+        } catch {
+            /// trigger second alert
+            DispatchQueue.main.async {
+                self.alertItem = AlertItem(title: Text("Erreur"),
+                                           message: Text("L'importation des fichiers a échouée!"),
+                                           dismissButton: .default(Text("OK")))
+            }
+        }
+        do {
+            // Initialiser les objets du model à partir des fichiers JSON
+            //            try schoolStore.loadFromJSON(fromFolder: nil)
+            //            try classeStore.loadFromJSON(fromFolder: nil)
+            //            try eleveStore.loadFromJSON(fromFolder: nil)
+            //            try colleStore.loadFromJSON(fromFolder: nil)
+            //            try observStore.loadFromJSON(fromFolder: nil)
+        } catch {
+            /// trigger second alert
+            DispatchQueue.main.async {
+                self.alertItem = AlertItem(title         : Text("Erreur"),
+                                           message       : Text("La lecture des fichiers importés a échouée!"),
+                                           dismissButton : .default(Text("OK")))
+            }
+        }
+        //eleveStore.sort()
+    }
+
     /// Copier les fichiers  sélectionnés dans le dossier Document de l'application.
     /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
     private func importUserSelectedFiles(result: Result<[URL], Error>) {
@@ -393,6 +403,16 @@ struct SchoolSidebarView: View {
         }
     }
 
+    private func populate() {
+        //                TestEnvir.populateWithFakes(
+        //                    schoolStore : schoolStore,
+        //                    classeStore : classeStore,
+        //                    eleveStore  : eleveStore,
+        //                    observStore : observStore,
+        //                    colleStore  : colleStore)
+
+    }
+
     //    private func repairDataBase() {
     //        isProgressing.toggle()
     //        let success = PersistenceManager.repairDataBase(schoolStore: schoolStore,
@@ -411,6 +431,7 @@ struct SchoolSidebarView: View {
     //                                       dismissButton: .default(Text("OK")))
     //        }
     //    }
+
 }
 
 //struct SchoolSidebarView_Previews: PreviewProvider {

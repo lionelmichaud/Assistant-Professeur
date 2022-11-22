@@ -18,6 +18,7 @@ struct MainScene: Scene {
 
     /// object that you want to use throughout your views and that will be specific to each scene
     //@StateObject private var uiState = UIState()
+    let coreDataManager = CoreDataManager.shared
 
     var body: some Scene {
         WindowGroup {
@@ -26,8 +27,11 @@ struct MainScene: Scene {
                 #if os(macOS)
                 .frame(minWidth: 800, minHeight: 600)
                 #endif
+                .environment(\.managedObjectContext, coreDataManager.viewContext)
         }
         .onChange(of: scenePhase) { scenePhase in
+            try? coreDataManager.save()
+
             switch scenePhase {
                 case .active:
                     // An app or custom scene in this phase contains at least one active scene instance.

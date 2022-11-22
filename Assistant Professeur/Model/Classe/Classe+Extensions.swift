@@ -8,6 +8,6 @@
 import Foundation
 import CoreData
 
-extension ClasseEntity: BaseModel {
+extension ClasseEntity: ModelEntityP {
 
 }

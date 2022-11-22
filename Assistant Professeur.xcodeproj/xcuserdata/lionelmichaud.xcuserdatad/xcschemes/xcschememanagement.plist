@@ -7,7 +7,25 @@
 		<key>Assistant Professeur.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>79B6630029244C3F007B1FBD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>79B6631129244C3F007B1FBD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>79B6631B29244C3F007B1FBD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

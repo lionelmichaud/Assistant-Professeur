@@ -37,8 +37,10 @@ class SchoolSidebarViewModel: NSObject, ObservableObject {
     }
 
     /// Charger tous les objets `SchoolEntity` à partir du persistentContainer de Core Data
+    ///
+    /// Les objets sont triés par Type puis par Nom croissants
     func getAllItems() {
-        let allItems: [SchoolEntity] = SchoolEntity.all()
+        let allItems: [SchoolEntity] = SchoolEntity.all().sorted(by: <)
         
         //DispatchQueue.main.async {
         NiveauSchool.allCases.forEach { level in

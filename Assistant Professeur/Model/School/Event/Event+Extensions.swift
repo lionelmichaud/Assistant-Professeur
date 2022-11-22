@@ -8,6 +8,6 @@
 import Foundation
 import CoreData
 
-extension EventEntity: BaseModel {
+extension EventEntity: ModelEntityP {
 
 }

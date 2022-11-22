@@ -6,17 +6,33 @@
 //
 
 import Foundation
+import os
 import CoreData
 
-protocol BaseModel: NSManagedObject {
+private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
+                               category  : "BaseModel")
+
+protocol ModelEntityP: NSManagedObject {
+
+    /// Remove the object `self` from its persistent store
     func delete() throws
-    static func save() throws
+
+    /// Remove all the object of type `Self` from its persistent store
     static func deleteAll() throws
-    static func byId(id: NSManagedObjectID) -> Self?
+
+    /// Checks whether the context has changes and commits them if needed.
+    ///
+    /// Seulement si des changements ont été opérés.
+    static func save() throws
+
+    /// Returns an array of all objects of type `Self` in the persistent store
+    /// - Returns: Array of all items in the persistent store
     static func all() -> [Self]
+
+    static func byId(id: NSManagedObjectID) -> Self?
 }
 
-extension BaseModel {
+extension ModelEntityP {
 
     // MARK: - Type Properties
 
@@ -56,7 +72,7 @@ extension BaseModel {
         }
     }
 
-    /// Attempts to commit unsaved changes to registered objects to the context’s parent persistent store.
+    /// Checks whether the context has changes and commits them if needed.
     ///
     /// Seulement si des changements ont été opérés.
     static func save() throws {
@@ -64,6 +80,7 @@ extension BaseModel {
             do {
                 try Self.viewContext.save()
             } catch {
+                customLog.log(level: .fault, "Echec de l'enregistrement des modifications de la BDD \(error.localizedDescription)")
                 throw error
             }
         }
