@@ -11,10 +11,16 @@ import HelpersView
 struct SchoolCreator: View {
 
     @StateObject
-    private var schoolVM = SchoolObservableModel()
+    private var schoolVM = SchoolViewModel()
 
     @FocusState
     private var isNameFocused: Bool
+
+    @State
+    private var alertTitle = ""
+
+    @State
+    private var alertIsPresented = false
 
     @Environment(\.dismiss) private var dismiss
 
@@ -25,7 +31,7 @@ struct SchoolCreator: View {
                 Image(systemName: schoolVM.niveau == .lycee ? "building.2" : "building")
                     .imageScale(.large)
                     .foregroundColor(schoolVM.niveau == .lycee ? .mint : .orange)
-                TextField("Nouvel établissement", text: $schoolVM.nom)
+                TextField("Nom", text: $schoolVM.name)
                     .font(.title2)
                     .textFieldStyle(.roundedBorder)
                     .submitLabel(.done)
@@ -37,6 +43,11 @@ struct SchoolCreator: View {
             .pickerStyle(.segmented)
             .listRowSeparator(.hidden)
         }
+        .alert(
+            alertTitle,
+            isPresented: $alertIsPresented,
+            actions: {}
+        )
         .onAppear {
             isNameFocused = true
         }
@@ -48,11 +59,16 @@ struct SchoolCreator: View {
             }
             ToolbarItem {
                 Button("Ok") {
-                    // Ajouter le nouvel établissement
-                    withAnimation {
-                        schoolVM.save()
+                    if schoolVM.name.isEmpty {
+                        alertTitle = "Il faut nommer l'établissement"
+                        alertIsPresented.toggle()
+                    } else {
+                        // Ajouter le nouvel établissement
+                        withAnimation {
+                            schoolVM.save()
+                        }
+                        dismiss()
                     }
-                    dismiss()
                 }
             }
         }

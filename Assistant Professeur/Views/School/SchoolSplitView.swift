@@ -16,8 +16,7 @@ struct SchoolSplitView: View {
         ) {
             SchoolSidebarView()
         } detail: {
-            Text("School Detail View")
-            //SchoolEditor()
+            SchoolEditor()
         }
     }
 }

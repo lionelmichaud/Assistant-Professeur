@@ -8,61 +8,55 @@
 import Foundation
 import CoreData
 
-struct SchoolViewModel: Identifiable {
+class SchoolViewModel: ObservableObject {
 
-    private var school: SchoolEntity
+    // MARK: - Properties
 
-    init(school: SchoolEntity) {
-        self.school = school
+    @Published var name       : String       = ""
+    @Published var niveau     : NiveauSchool = .college
+    @Published var annotation : String       = ""
+
+    // MARK: - Initializers
+
+    init(
+        name       : String       = "",
+        niveau     : NiveauSchool = .college,
+        annotation : String       = "")
+    {
+        self.name       = name
+        self.niveau     = niveau
+        self.annotation = annotation
     }
 
-    var id: NSManagedObjectID {
-        school.objectID
+    init(from school: SchoolEntity) {
+        self.name       = school.viewName
+        self.niveau     = school.niveau
+        self.annotation = school.viewAnnotation
     }
 
-    var nom: String {
-        get {
-            school.name ?? ""
-        }
-        set {
-            school.name = newValue
-        }
-    }
+    // MARK: - Methods
 
-    var niveau: NiveauSchool {
-        get {
-            school.niveau
-        }
-        set {
-            school.niveau = newValue
-        }
+    func update(from school: SchoolEntity) {
+        self.name       = school.viewName
+        self.niveau     = school.niveau
+        self.annotation = school.viewAnnotation
     }
-
-    var annotation: String {
-        get {
-            school.annotation ?? ""
-        }
-        set {
-            school.annotation = newValue
-        }
-    }
-
-    var displayString: String {
-        "\(niveau.displayString) \(nom)"
-    }
-}
-
-class SchoolObservableModel: ObservableObject {
-    var nom        : String       = ""
-    var niveau     : NiveauSchool = .college
-    var annotation : String       = ""
 
     func save() {
         let school = SchoolEntity(context: SchoolEntity.viewContext)
-        school.name       = nom
-        school.niveau     = niveau
-        school.annotation = annotation
+        school.viewName       = name
+        school.niveau         = niveau
+        school.viewAnnotation = annotation
 
-        try? SchoolEntity.save()
+        try? SchoolEntity.saveIfContextHasChanged()
+    }
+}
+
+extension SchoolViewModel: Equatable {
+    static func == (lhs: SchoolViewModel,
+                    rhs: SchoolViewModel) -> Bool {
+        lhs.name == rhs.name &&
+        lhs.niveau == rhs.niveau &&
+        lhs.annotation == rhs.annotation
     }
 }

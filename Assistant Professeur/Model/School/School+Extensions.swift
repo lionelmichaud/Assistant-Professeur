@@ -8,9 +8,9 @@
 import Foundation
 import CoreData
 
-extension SchoolEntity: ModelEntityP {
+extension SchoolEntity {
 
-    // MARK: - Type Prooperties
+    // MARK: - Type Methods
 
     static func < (lhs: SchoolEntity, rhs: SchoolEntity) -> Bool {
         if lhs.niveau.rawValue != rhs.niveau.rawValue {
@@ -24,10 +24,90 @@ extension SchoolEntity: ModelEntityP {
 
     var niveau: NiveauSchool {
         get {
-            NiveauSchool(rawValue: level!) ?? .college
+            NiveauSchool(rawValue: self.level!) ?? .college
         }
         set {
-            level = newValue.rawValue
+            self.level = newValue.rawValue
         }
+    }
+
+    @objc
+    var viewName: String {
+        get {
+            self.name ?? ""
+        }
+        set {
+            self.name = newValue
+        }
+    }
+
+    var viewAnnotation: String {
+        get {
+            self.annotation ?? ""
+        }
+        set {
+            self.annotation = newValue
+        }
+    }
+
+    @objc
+    var niveauString: String {
+        niveau.displayString
+    }
+
+    var displayString: String {
+        "\(niveau.displayString) \(viewName)"
+    }
+
+    var classesLabel: String {
+        if nbOfClasses == 0 {
+            return "Aucune Classe"
+        } else if nbOfClasses == 1 {
+            return "1 Classe"
+        } else {
+            return "\(nbOfClasses) Classes"
+        }
+    }
+}
+
+// MARK: - Extension Core Data
+
+extension SchoolEntity: ModelEntityP {
+
+    // MARK: - Type Computed properties
+
+    static var byLevelNameNSSortDescriptor: [NSSortDescriptor] = [
+        NSSortDescriptor(
+            keyPath: \SchoolEntity.level,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \SchoolEntity.name,
+            ascending: true)
+    ]
+
+    static var requestAllSortedByLevelName: NSFetchRequest<SchoolEntity> {
+        let request = NSFetchRequest<SchoolEntity>(entityName: "SchoolEntity")
+        request.sortDescriptors = SchoolEntity.byLevelNameNSSortDescriptor
+        return request
+    }
+
+    // MARK: - Properties
+
+    var nbOfClasses: Int {
+        Int(self.classesCount)
+    }
+
+    // MARK: - Methods
+
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        //Set defaults here
+//        self.fileName = ""
+//        self.fileDate = Date()
+    }
+
+    func toggleNiveau() {
+        niveau.toggle()
+        try? CoreDataController.shared.saveIfContextHasChanged()
     }
 }

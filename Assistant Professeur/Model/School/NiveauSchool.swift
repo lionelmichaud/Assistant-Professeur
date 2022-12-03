@@ -12,6 +12,8 @@ enum NiveauSchool: String, PickableEnumP, Codable, Identifiable, Equatable {
     case college
     case lycee
 
+    // MARK: - Computed Properties
+
     var id: String { self.rawValue }
 
     var pickerString: String {
@@ -20,6 +22,16 @@ enum NiveauSchool: String, PickableEnumP, Codable, Identifiable, Equatable {
                 return "Collège"
             case .lycee:
                 return "Lycée"
+        }
+    }
+
+    // MARK: - Methods
+    
+    mutating func toggle() {
+        if self == .college {
+            self = .lycee
+        } else {
+            self = .college
         }
     }
 }

@@ -18,19 +18,22 @@ struct MainScene: Scene {
 
     /// object that you want to use throughout your views and that will be specific to each scene
     //@StateObject private var uiState = UIState()
-    let coreDataManager = CoreDataManager.shared
+    let coreDataConroller: CoreDataController
 
     var body: some Scene {
         WindowGroup {
             /// defines the views hierachy of the scene
             ContentView()
+                .environment(\.managedObjectContext, coreDataConroller.viewContext)
                 #if os(macOS)
                 .frame(minWidth: 800, minHeight: 600)
                 #endif
-                .environment(\.managedObjectContext, coreDataManager.viewContext)
         }
         .onChange(of: scenePhase) { scenePhase in
-            try? coreDataManager.save()
+            // The final step is optional, but recommended:
+            // when your app moves to the background,
+            // you should call the save() method we wrote a moment ago so that Core Data saves your changes permanently.
+            try? coreDataConroller.saveIfContextHasChanged()
 
             switch scenePhase {
                 case .active:

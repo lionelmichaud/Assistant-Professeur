@@ -7,7 +7,9 @@ A navigation model used to persist and restore the navigation state.
 
 import SwiftUI
 import Combine
+import CoreData
 
+@MainActor
 final class NavigationModel: ObservableObject, Codable {
     enum Tab: Int, Hashable, Codable {
         case userSettings, school, classe, eleve, colle, observation
@@ -18,7 +20,7 @@ final class NavigationModel: ObservableObject, Codable {
 //    @Published var selectedColleId   : Colle.ID?
 //    @Published var selectedEleveId   : Eleve.ID?
 //    @Published var selectedClasseId  : Classe.ID?
-    @Published var selectedSchoolId  : SchoolViewModel.ID?
+    @Published var selectedSchoolId  : NSManagedObjectID?
     @Published var filterObservation : Bool
     @Published var filterColle       : Bool
     @Published var filterFlag        : Bool
@@ -32,10 +34,10 @@ final class NavigationModel: ObservableObject, Codable {
 //         selectedColleId   : Colle.ID?        = nil,
 //         selectedEleveId   : Eleve.ID?        = nil,
 //         selectedClasseId  : Classe.ID?       = nil,
-         selectedSchoolId  : SchoolViewModel.ID?       = nil,
-         filterObservation : Bool             = false,
-         filterColle       : Bool             = false,
-         filterFlag        : Bool             = false
+         selectedSchoolId  : NSManagedObjectID?  = nil,
+         filterObservation : Bool              = false,
+         filterColle       : Bool              = false,
+         filterFlag        : Bool              = false
     ) {
         self.columnVisibility  = columnVisibility
         self.selectedTab       = selectedTab
@@ -92,7 +94,7 @@ final class NavigationModel: ObservableObject, Codable {
 //            Classe.ID.self, forKey: .selectedClasseId)
 //
 //        self.selectedSchoolId = try container.decodeIfPresent(
-//            SchoolViewModel.ID.self, forKey: .selectedSchoolId)
+//            SchoolEntity.ID.self, forKey: .selectedSchoolId)
 
         self.filterObservation = try container.decode(
             Bool.self, forKey: .filterObservation)

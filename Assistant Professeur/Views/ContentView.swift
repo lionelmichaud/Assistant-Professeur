@@ -12,6 +12,7 @@ struct ContentView: View {
     
     @SceneStorage("navigation")
     private var navigationData: Data?
+    
     @StateObject
     private var navigationModel = NavigationModel()
 

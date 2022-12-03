@@ -30,6 +30,7 @@
     </entity>
     <entity name="SchoolEntity" representedClassName="SchoolEntity" syncable="YES" codeGenerationType="class">
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
+        <attribute name="classesCount" attributeType="Integer 32" derived="YES" derivationExpression="classes.@count" usesScalarValueType="YES"/>
         <attribute name="documentsCount" attributeType="Integer 32" derived="YES" derivationExpression="documents.@count" usesScalarValueType="YES"/>
         <attribute name="eventsCount" attributeType="Integer 32" derived="YES" derivationExpression="events.@count" usesScalarValueType="YES"/>
         <attribute name="level" attributeType="String" defaultValueString=""/>

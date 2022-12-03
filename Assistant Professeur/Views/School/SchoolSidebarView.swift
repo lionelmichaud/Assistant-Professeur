@@ -11,28 +11,53 @@ import SwiftUI
 import HelpersView
 
 struct SchoolSidebarView: View {
+    @Environment(\.managedObjectContext)
+    private var managedObjectContext
+
     @EnvironmentObject
     private var navigationModel : NavigationModel
 
-    @StateObject
-    private var schoolListVM = SchoolSidebarViewModel()
+    @SectionedFetchRequest<String, SchoolEntity>(
+        fetchRequest: SchoolEntity.requestAllSortedByLevelName,
+        sectionIdentifier: \.niveauString,
+        animation: .default)
+    private var schoolsSections: SectionedFetchResults<String, SchoolEntity>
+    //    @SectionedFetchRequest<String, SchoolEntity>(
+    //        sectionIdentifier: \.niveauString,
+    //        sortDescriptors: [
+    //            SortDescriptor(\.level, order: .forward),
+    //            SortDescriptor(\.name, order: .forward)
+    //        ],
+    //        animation: .default)
+    //    private var schoolsSections: SectionedFetchResults<String, SchoolEntity>
 
     @State
     private var isAddingNewEtab = false
+
     @State
     private var isEditingPreferences = false
+
     @State
-    private var alertItem: AlertItem?
+    private var isShowingAbout = false
+
     @State
-    private var isShowingImportConfirmDialog = false
+    private var alertTitle = ""
+
+    @State
+    private var alertMessage = ""
+
+    @State
+    private var alertIsPresented = false
+
     @State
     private var isShowingDeleteConfirmDialog = false
+
+    @State
+    private var isShowingImportConfirmDialog = false
     @State
     private var isShowingImportTrombineDialog = false
     @State
     private var isShowingRepairDBDialog = false
-    @State
-    private var isShowingAbout = false
     @State
     private var isImportingJpegFile = false
     @State
@@ -49,58 +74,47 @@ struct SchoolSidebarView: View {
                 ProgressView()
             }
             List(selection: $navigationModel.selectedSchoolId) {
-                if schoolListVM.isEmpty {
+                if schoolsSections.isEmpty {
                     Text("Aucun établissement actuellement")
                 }
                 /// pour chaque Type d'établissement
-                ForEach(NiveauSchool.allCases) { niveau in
-                    if !schoolListVM.isEmptyFor(niveau) {
+                ForEach(schoolsSections) { section in
+                    if section.isNotEmpty {
                         Section {
                             /// pour chaque Etablissement
-                            ForEach(schoolListVM.schoolsVM[niveau]!) { schoolVM in
-                                Text(schoolVM.displayString)
-                                //SchoolBrowserRow(school: school)
+                            ForEach(section, id: \.objectID) { school in
+                                SchoolBrowserRow(school: school)
                                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                         // supprimer l'établissement
                                         Button(role: .destructive) {
-                                            withAnimation {
-                                                delete(schoolVM: schoolVM)
-                                            }
+                                            try? school.delete()
+                                            navigationModel.selectedSchoolId = nil
                                         } label: {
                                             Label("Supprimer", systemImage: "trash")
                                         }
                                     }
-
                                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
                                         // modifier le type de l'établissement
-                                        if schoolListVM.schoolsVM[niveau]!.count == 0 {
-//                                            Button {
-//
-//                                            } label: {
-//                                                Text("test")
-//                                            }
-//                                            Button {
-//                                                withAnimation {
-//                                                    if schoolVM.niveau == .college {
-//                                                        schoolVM.niveau = .lycee
-//                                                    } else {
-//                                                        schoolVM.niveau = .college
-//                                                    }
-//
-//                                                }
-//                                            } label: {
-//                                                Label(schoolVM.niveau == .college ? "Lycée" : "Collège",
-//                                                      systemImage: schoolVM.niveau == .college ?  "building.2" : "building")
-//                                            }.tint(schoolVM.niveau == .college ? .mint : .orange)
+                                        if school.classesCount == 0 {
+                                            Button {
+                                                if school.classesCount == 0 {
+                                                    school.toggleNiveau()
+                                                }
+                                            } label: {
+                                                Label(school.niveau == .college ? "Lycée" : "Collège",
+                                                      systemImage: school.niveau == .college ?  "building.2" : "building")
+                                            }.tint(school.niveau == .college ? .mint : .orange)
                                         }
                                     }
                             }
+
                         } header: {
-                            Text(niveau.displayString)
+                            Text(section.id)
                                 .font(.callout)
                                 .foregroundColor(.secondary)
                                 .fontWeight(.bold)
                         }
+
                     }
                 }
 
@@ -113,12 +127,13 @@ struct SchoolSidebarView: View {
                 #endif
             }
         }
-        .onAppear {
-            schoolListVM.getAllItems()
-        }
         .navigationTitle("Établissements")
         //.navigationViewStyle(.columns)
         .toolbar(content: myToolBarContent)
+        .alert(alertTitle,
+               isPresented: $alertIsPresented,
+               actions: { },
+               message: { Text(alertMessage) })
 
         .sheet(isPresented: $isShowingAbout) {
             NavigationStack {
@@ -135,21 +150,20 @@ struct SchoolSidebarView: View {
             .presentationDetents([.large])
         }
 
-        /// Modal Sheet de création dun nouvel établissement
+        /// Modal Sheet de création d'un nouvel établissement
         .sheet(isPresented: $isAddingNewEtab,
-               onDismiss: schoolListVM.getAllItems) {
+               onDismiss: { }) {
             NavigationStack {
                 SchoolCreator()
             }
             .presentationDetents([.medium])
         }
         /// Importer des fichiers JPEG
-               .fileImporter(isPresented             : $isImportingJpegFile,
-                             allowedContentTypes     : [.jpeg],
-                             allowsMultipleSelection : true) { result in
-                   importUserSelectedFiles(result: result)
-               }
-                             .alert(item: $alertItem, content: newAlert)
+        .fileImporter(isPresented: $isImportingJpegFile,
+                     allowedContentTypes: [.jpeg],
+                     allowsMultipleSelection: true) { result in
+           importUserSelectedFiles(result: result)
+        }
     }
 }
 
@@ -205,13 +219,6 @@ extension SchoolSidebarView {
                     Label("Importer les données de l'App", systemImage: "square.and.arrow.down")
                 }
 
-                /// Reconstruire la BDD
-                Button(role: .destructive) {
-                    isShowingRepairDBDialog.toggle()
-                } label: {
-                    Label("Réparer la base de donnée", systemImage: "wrench.adjustable")
-                }
-
                 /// Effacer toutes les données utilisateur
                 Button(role: .destructive) {
                     isShowingDeleteConfirmDialog.toggle()
@@ -263,20 +270,6 @@ extension SchoolSidebarView {
             } message: {
                 Text("Cette action ne peut pas être annulée.")
             }
-
-            /// Confirmation de la réparation de la base de données
-            .confirmationDialog("Réparation de la base de données",
-                                isPresented: $isShowingRepairDBDialog,
-                                titleVisibility: .visible) {
-                Button("Réparer", role: .destructive) {
-                    withAnimation {
-                        //                        self.repairDataBase()
-                    }
-                }
-            } message: {
-                Text("Cette opération peut prendre plusieurs minutes.\n") +
-                Text("Cette action ne peut pas être annulée.")
-            }
         }
     }
 }
@@ -302,18 +295,10 @@ extension SchoolSidebarView {
     //        }
     //    }
 
-
-    /// Delete swiped item
-    private func delete(schoolVM: SchoolViewModel) {
-        schoolListVM.delete(schoolVM: schoolVM)
-        schoolListVM.getAllItems()
-    }
-
     /// Suppression de toutes les données utilisateur
     private func clearAllUserData() {
-        let alert = AlertItem(title         : Text("Échec"),
-                              message       : Text("L'effacement de la base de donnée a échoué"),
-                              dismissButton : .default(Text("OK")))
+        alertTitle   = "Échec"
+        alertMessage = "L'effacement de la base de donnée a échoué"
         let nbSteps = 2.0
         progress = 0.0
         isProgressing = true
@@ -326,9 +311,9 @@ extension SchoolSidebarView {
                 try RoomEntity.deleteAll()
                 try SchoolEntity.deleteAll()
             } catch {
-                self.alertItem = alert
+                alertIsPresented.toggle()
             }
-            self.schoolListVM.getAllItems()
+            //self.schoolListVM.getAllItems()
             self.progress += 1.0/nbSteps
         }
 
@@ -337,7 +322,7 @@ extension SchoolSidebarView {
             do {
                 try ClasseEntity.deleteAll()
             } catch {
-                self.alertItem = alert
+                alertIsPresented.toggle()
             }
             self.progress += 1.0/nbSteps
             self.isProgressing = false
@@ -355,11 +340,11 @@ extension SchoolSidebarView {
         do {
             //            try PersistenceManager().forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
         } catch {
+            alertTitle   = "Échec"
+            alertMessage = "L'importation des fichiers a échouée!"
             /// trigger second alert
             DispatchQueue.main.async {
-                self.alertItem = AlertItem(title: Text("Erreur"),
-                                           message: Text("L'importation des fichiers a échouée!"),
-                                           dismissButton: .default(Text("OK")))
+                alertIsPresented.toggle()
             }
         }
         do {
@@ -370,11 +355,11 @@ extension SchoolSidebarView {
             //            try colleStore.loadFromJSON(fromFolder: nil)
             //            try observStore.loadFromJSON(fromFolder: nil)
         } catch {
+            alertTitle   = "Échec"
+            alertMessage = "La lecture des fichiers importés a échouée!"
             /// trigger second alert
             DispatchQueue.main.async {
-                self.alertItem = AlertItem(title         : Text("Erreur"),
-                                           message       : Text("La lecture des fichiers importés a échouée!"),
-                                           dismissButton : .default(Text("OK")))
+                alertIsPresented.toggle()
             }
         }
         //eleveStore.sort()
@@ -385,9 +370,9 @@ extension SchoolSidebarView {
     private func importUserSelectedFiles(result: Result<[URL], Error>) {
         switch result {
             case .failure(let error):
-                self.alertItem = AlertItem(title         : Text("Échec"),
-                                           message       : Text("L'importation des fichiers a échoué"),
-                                           dismissButton : .default(Text("OK")))
+                alertTitle   = "Échec"
+                alertMessage = "L'importation des fichiers a échoué!"
+                alertIsPresented.toggle()
                 print("Error selecting file: \(error.localizedDescription)")
 
             case .success(let filesUrl):
@@ -396,9 +381,9 @@ extension SchoolSidebarView {
                     //                                                                        importIfAlreadyExist : true)
 
                 } catch {
-                    self.alertItem = AlertItem(title         : Text("Échec"),
-                                               message       : Text("L'importation des fichiers a échoué"),
-                                               dismissButton : .default(Text("OK")))
+                    alertTitle   = "Échec"
+                    alertMessage = "L'importation des fichiers a échoué!"
+                    alertIsPresented.toggle()
                 }
         }
     }
@@ -412,26 +397,6 @@ extension SchoolSidebarView {
         //                    colleStore  : colleStore)
 
     }
-
-    //    private func repairDataBase() {
-    //        isProgressing.toggle()
-    //        let success = PersistenceManager.repairDataBase(schoolStore: schoolStore,
-    //                                                        classeStore: classeStore,
-    //                                                        eleveStore : eleveStore,
-    //                                                        colleStore : colleStore,
-    //                                                        observStore: observStore)
-    //        isProgressing.toggle()
-    //        if !success {
-    //            self.alertItem = AlertItem(title: Text("Erreur"),
-    //                                       message: Text("La base de donnée n'a pas pu être complètement réparée !"),
-    //                                       dismissButton: .default(Text("OK")))
-    //        } else {
-    //            self.alertItem = AlertItem(title: Text(""),
-    //                                       message: Text("La base de donnée est réparée"),
-    //                                       dismissButton: .default(Text("OK")))
-    //        }
-    //    }
-
 }
 
 //struct SchoolSidebarView_Previews: PreviewProvider {

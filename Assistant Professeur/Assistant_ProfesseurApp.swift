@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct Assistant_ProfesseurApp: App {
+
+    /// the managed object context for your Core Data container
+    let coreDataConroller = CoreDataController.shared
+
     var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
+        MainScene(coreDataConroller: coreDataConroller)
     }
 }
