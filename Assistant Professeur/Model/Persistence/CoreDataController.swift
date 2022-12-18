@@ -43,7 +43,8 @@ class CoreDataController {
                 fatalError("Failed to initialize Core Data \(error.localizedDescription)")
             }
         }
-        
+
+        // TODO: - DEBUG
         let directories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         print(directories[0])
     }
@@ -71,9 +72,9 @@ class CoreDataController {
     ///     // delete the item from CoreDataController context
     ///     CoreDataController.shared.delete(item)
     ///
-    func delete(_ obj: NSManagedObject){
+    func delete(_ obj: NSManagedObject) throws {
         viewContext.delete(obj)
-        try? saveIfContextHasChanged()
+        try saveIfContextHasChanged()
     }
 
     func rollback(){

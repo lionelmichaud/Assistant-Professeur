@@ -14,6 +14,8 @@ private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Profess
 
 protocol ModelEntityP: NSManagedObject {
 
+    // MARK: - Type Methods
+
     /// Returns an array of all objects of type `Self` in the persistent store
     /// - Returns: Array of all items in the persistent store
     static func all() -> [Self]
@@ -21,10 +23,7 @@ protocol ModelEntityP: NSManagedObject {
     static func byId(id: NSManagedObjectID) -> Self?
 
     /// Creates a sample Object in the Context
-    static func addSample() -> Self
-
-        /// Remove the object `self` from its persistent store
-    func delete() throws
+    static func create() -> Self
 
     /// Remove all the object of type `Self` from its persistent store
     static func deleteAll() throws
@@ -34,23 +33,19 @@ protocol ModelEntityP: NSManagedObject {
     /// Seulement si des changements ont été opérés.
     static func saveIfContextHasChanged() throws
 
+    // MARK: - Methods
+
+    /// Remove the object `self` from its persistent store
+    func delete() throws
 }
 
 extension ModelEntityP {
-
-    // MARK: - Type Properties
 
     static var viewContext: NSManagedObjectContext {
         CoreDataController.shared.viewContext
     }
 
     // MARK: - Type Methods
-
-    /// Creates a sample Object in the Context
-    static func addSample() -> Self {
-        let sample: Self = Self(context: viewContext)
-        return sample
-    }
 
     /// Returns an array of all objects of type `Self` in the persistent store
     /// - Returns: Array of all items in the persistent store
@@ -74,6 +69,12 @@ extension ModelEntityP {
         }
     }
 
+    /// Creates a sample Object in the Context
+    static func create() -> Self {
+        let newItem: Self = Self(context: viewContext)
+        return newItem
+    }
+
     /// Remove all the object of type `Self` from its persistent store
     static func deleteAll() throws {
         Self.all().forEach { item in
@@ -91,6 +92,7 @@ extension ModelEntityP {
                 try Self.viewContext.save()
             } catch {
                 customLog.log(level: .fault, "Echec de l'enregistrement des modifications de la BDD \(error.localizedDescription)")
+                print(error)
                 throw error
             }
         }
@@ -102,6 +104,10 @@ extension ModelEntityP {
     func delete() throws {
         Self.viewContext.delete(self)
         try Self.saveIfContextHasChanged()
+    }
+
+    func refresh() {
+        Self.viewContext.refresh(self, mergeChanges: false)
     }
 
 }

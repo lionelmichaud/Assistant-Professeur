@@ -32,8 +32,8 @@
 		79B6632329244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B6632229244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift */; };
 		79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 79B6632F29244FC9007B1FBD /* AppModel.xcdatamodeld */; };
 		79BF1DA229280ED7005D6CF3 /* School+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA129280ED7005D6CF3 /* School+Extensions.swift */; };
-		79BF1DA42928E37B005D6CF3 /* SchoolCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA32928E37B005D6CF3 /* SchoolCreator.swift */; };
-		79BF1DA52928E37B005D6CF3 /* SchoolCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA32928E37B005D6CF3 /* SchoolCreator.swift */; };
+		79BF1DA42928E37B005D6CF3 /* SchoolCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA32928E37B005D6CF3 /* SchoolCreatorModal.swift */; };
+		79BF1DA52928E37B005D6CF3 /* SchoolCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA32928E37B005D6CF3 /* SchoolCreatorModal.swift */; };
 		79BF1DA829290F5A005D6CF3 /* Classe+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA729290F5A005D6CF3 /* Classe+Extensions.swift */; };
 		79BF1DA929290F5A005D6CF3 /* Classe+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA729290F5A005D6CF3 /* Classe+Extensions.swift */; };
 		79BF1DAD29290FBC005D6CF3 /* Observation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DAC29290FBC005D6CF3 /* Observation+Extensions.swift */; };
@@ -133,7 +133,7 @@
 		79B6632229244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assistant_ProfesseurUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		79B6633029244FC9007B1FBD /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		79BF1DA129280ED7005D6CF3 /* School+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "School+Extensions.swift"; sourceTree = "<group>"; };
-		79BF1DA32928E37B005D6CF3 /* SchoolCreator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolCreator.swift; sourceTree = "<group>"; };
+		79BF1DA32928E37B005D6CF3 /* SchoolCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolCreatorModal.swift; sourceTree = "<group>"; };
 		79BF1DA729290F5A005D6CF3 /* Classe+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Classe+Extensions.swift"; sourceTree = "<group>"; };
 		79BF1DAC29290FBC005D6CF3 /* Observation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Observation+Extensions.swift"; sourceTree = "<group>"; };
 		79BF1DB22929104F005D6CF3 /* Document+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Document+Extensions.swift"; sourceTree = "<group>"; };
@@ -382,7 +382,7 @@
 				79DEDAE8292585E300F508EF /* SchoolSplitView.swift */,
 				79DEDB032925902800F508EF /* SchoolSidebarView.swift */,
 				79595C6E2934298300C81021 /* SchoolBrowserRow.swift */,
-				79BF1DA32928E37B005D6CF3 /* SchoolCreator.swift */,
+				79BF1DA32928E37B005D6CF3 /* SchoolCreatorModal.swift */,
 				79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */,
 				79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */,
 			);
@@ -607,7 +607,7 @@
 				79BF1DAD29290FBC005D6CF3 /* Observation+Extensions.swift in Sources */,
 				79388A4F29257025002AABB8 /* AppState.swift in Sources */,
 				79DEDAFE292589F400F508EF /* EleveSidebarView.swift in Sources */,
-				79BF1DA42928E37B005D6CF3 /* SchoolCreator.swift in Sources */,
+				79BF1DA42928E37B005D6CF3 /* SchoolCreatorModal.swift in Sources */,
 				79BF1DB929291069005D6CF3 /* Room+Extensions.swift in Sources */,
 				79388A4929256E13002AABB8 /* MainScene.swift in Sources */,
 				79DEDB0129258D4000F508EF /* ClasseSidebarView.swift in Sources */,
@@ -671,7 +671,7 @@
 				79B6632129244C3F007B1FBD /* Assistant_ProfesseurUITests.swift in Sources */,
 				79BF1DBA29291069005D6CF3 /* Room+Extensions.swift in Sources */,
 				79DEDAF3292586B500F508EF /* ObservSplitView.swift in Sources */,
-				79BF1DA52928E37B005D6CF3 /* SchoolCreator.swift in Sources */,
+				79BF1DA52928E37B005D6CF3 /* SchoolCreatorModal.swift in Sources */,
 				79B6632329244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift in Sources */,
 				79DEDB14292593C200F508EF /* SettingsClasse.swift in Sources */,
 				79DEDAF6292586C800F508EF /* ColleSplitView.swift in Sources */,

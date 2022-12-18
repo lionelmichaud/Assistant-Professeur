@@ -154,7 +154,7 @@ struct SchoolSidebarView: View {
         .sheet(isPresented: $isAddingNewEtab,
                onDismiss: { }) {
             NavigationStack {
-                SchoolCreator()
+                SchoolCreatorModal()
             }
             .presentationDetents([.medium])
         }

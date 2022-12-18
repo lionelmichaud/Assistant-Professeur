@@ -41,6 +41,7 @@ extension SchoolEntity {
         }
     }
 
+    @objc
     var viewAnnotation: String {
         get {
             self.annotation ?? ""
@@ -55,10 +56,12 @@ extension SchoolEntity {
         niveau.displayString
     }
 
+    @objc
     var displayString: String {
         "\(niveau.displayString) \(viewName)"
     }
 
+    @objc
     var classesLabel: String {
         if nbOfClasses == 0 {
             return "Aucune Classe"

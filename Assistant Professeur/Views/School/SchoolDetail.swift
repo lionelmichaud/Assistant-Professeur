@@ -82,6 +82,7 @@ struct SchoolDetail: View {
 
     func save() {
         try? SchoolEntity.saveIfContextHasChanged()
+        //school.refresh()
     }
 }
 

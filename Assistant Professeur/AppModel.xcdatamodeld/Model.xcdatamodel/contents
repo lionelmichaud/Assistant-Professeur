@@ -30,12 +30,12 @@
     </entity>
     <entity name="SchoolEntity" representedClassName="SchoolEntity" syncable="YES" codeGenerationType="class">
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
-        <attribute name="classesCount" attributeType="Integer 32" derived="YES" derivationExpression="classes.@count" usesScalarValueType="YES"/>
-        <attribute name="documentsCount" attributeType="Integer 32" derived="YES" derivationExpression="documents.@count" usesScalarValueType="YES"/>
-        <attribute name="eventsCount" attributeType="Integer 32" derived="YES" derivationExpression="events.@count" usesScalarValueType="YES"/>
+        <attribute name="classesCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="classes.@count" usesScalarValueType="YES"/>
+        <attribute name="documentsCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="documents.@count" usesScalarValueType="YES"/>
+        <attribute name="eventsCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="events.@count" usesScalarValueType="YES"/>
         <attribute name="level" attributeType="String" defaultValueString=""/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
-        <attribute name="roomsCount" attributeType="Integer 32" derived="YES" derivationExpression="rooms.@count" usesScalarValueType="YES"/>
+        <attribute name="roomsCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="rooms.@count" usesScalarValueType="YES"/>
         <relationship name="classes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="school" inverseEntity="ClasseEntity"/>
         <relationship name="documents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DocumentEntity" inverseName="school" inverseEntity="DocumentEntity"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EventEntity" inverseName="school" inverseEntity="EventEntity"/>

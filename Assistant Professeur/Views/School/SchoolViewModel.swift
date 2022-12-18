@@ -28,10 +28,9 @@ class SchoolViewModel: ObservableObject {
         self.annotation = annotation
     }
 
-    init(from school: SchoolEntity) {
-        self.name       = school.viewName
-        self.niveau     = school.niveau
-        self.annotation = school.viewAnnotation
+    convenience init(from school: SchoolEntity) {
+        self.init()
+        self.update(from: school)
     }
 
     // MARK: - Methods
@@ -43,7 +42,7 @@ class SchoolViewModel: ObservableObject {
     }
 
     func save() {
-        let school = SchoolEntity(context: SchoolEntity.viewContext)
+        let school = SchoolEntity.create()
         school.viewName       = name
         school.niveau         = niveau
         school.viewAnnotation = annotation

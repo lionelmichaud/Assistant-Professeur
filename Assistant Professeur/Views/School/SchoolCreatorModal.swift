@@ -8,7 +8,7 @@
 import SwiftUI
 import HelpersView
 
-struct SchoolCreator: View {
+struct SchoolCreatorModal: View {
 
     @StateObject
     private var schoolVM = SchoolViewModel()
@@ -57,7 +57,7 @@ struct SchoolCreator: View {
                     dismiss()
                 }
             }
-            ToolbarItem {
+            ToolbarItem(placement: .confirmationAction) {
                 Button("Ok") {
                     if schoolVM.name.isEmpty {
                         alertTitle = "Il faut nommer l'établissement"
@@ -82,7 +82,7 @@ struct SchoolCreator_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
             EmptyView()
-            SchoolCreator()
+            SchoolCreatorModal()
         }
     }
 }

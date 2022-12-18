@@ -9,7 +9,7 @@ import SwiftUI
 import HelpersView
 
 struct SchoolBrowserRow: View {
-    let school: SchoolEntity
+    @ObservedObject var school: SchoolEntity
 
     var heures: Double {
         0
