@@ -24,7 +24,11 @@ extension SchoolEntity {
 
     var niveau: NiveauSchool {
         get {
-            NiveauSchool(rawValue: self.level!) ?? .college
+            if let level {
+                return NiveauSchool(rawValue: level) ?? .college
+            } else {
+                return .college
+            }
         }
         set {
             self.level = newValue.rawValue
@@ -111,6 +115,6 @@ extension SchoolEntity: ModelEntityP {
 
     func toggleNiveau() {
         niveau.toggle()
-        try? CoreDataController.shared.saveIfContextHasChanged()
+        try? SchoolEntity.saveIfContextHasChanged()
     }
 }

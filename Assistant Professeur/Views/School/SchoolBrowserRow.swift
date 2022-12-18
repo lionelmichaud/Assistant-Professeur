@@ -17,6 +17,8 @@ struct SchoolBrowserRow: View {
     }
 
     var body: some View {
+//        print(school.name)
+//        print(school.level)
         HStack {
             Image(systemName: school.niveau == .lycee ? "building.2" : "building")
                 .sfSymbolStyling()
@@ -35,7 +37,6 @@ struct SchoolBrowserRow: View {
                 .foregroundStyle(.secondary)
             }
         }
-       // .badge(school.nbOfClasses)
     }
 }
 

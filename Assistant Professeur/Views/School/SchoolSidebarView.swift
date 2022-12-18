@@ -18,21 +18,13 @@ struct SchoolSidebarView: View {
     private var navigationModel : NavigationModel
 
     @SectionedFetchRequest<String, SchoolEntity>(
-        fetchRequest: SchoolEntity.requestAllSortedByLevelName,
-        sectionIdentifier: \.niveauString,
-        animation: .default)
+        fetchRequest      : SchoolEntity.requestAllSortedByLevelName,
+        sectionIdentifier : \.niveauString,
+        animation         : .default)
     private var schoolsSections: SectionedFetchResults<String, SchoolEntity>
-    //    @SectionedFetchRequest<String, SchoolEntity>(
-    //        sectionIdentifier: \.niveauString,
-    //        sortDescriptors: [
-    //            SortDescriptor(\.level, order: .forward),
-    //            SortDescriptor(\.name, order: .forward)
-    //        ],
-    //        animation: .default)
-    //    private var schoolsSections: SectionedFetchResults<String, SchoolEntity>
 
     @State
-    private var isAddingNewEtab = false
+    private var isAddingNewSchool = false
 
     @State
     private var isEditingPreferences = false
@@ -84,11 +76,16 @@ struct SchoolSidebarView: View {
                             /// pour chaque Etablissement
                             ForEach(section, id: \.objectID) { school in
                                 SchoolBrowserRow(school: school)
+                                    .badge(school.nbOfClasses)
                                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                         // supprimer l'établissement
                                         Button(role: .destructive) {
-                                            try? school.delete()
-                                            navigationModel.selectedSchoolId = nil
+                                            withAnimation {
+                                                try? school.delete()
+                                                if navigationModel.selectedSchoolId == school.objectID {
+                                                    navigationModel.selectedSchoolId = nil
+                                                }
+                                            }
                                         } label: {
                                             Label("Supprimer", systemImage: "trash")
                                         }
@@ -97,8 +94,10 @@ struct SchoolSidebarView: View {
                                         // modifier le type de l'établissement
                                         if school.classesCount == 0 {
                                             Button {
-                                                if school.classesCount == 0 {
-                                                    school.toggleNiveau()
+                                                withAnimation {
+                                                    if school.classesCount == 0 {
+                                                        school.toggleNiveau()
+                                                    }
                                                 }
                                             } label: {
                                                 Label(school.niveau == .college ? "Lycée" : "Collège",
@@ -151,7 +150,7 @@ struct SchoolSidebarView: View {
         }
 
         /// Modal Sheet de création d'un nouvel établissement
-        .sheet(isPresented: $isAddingNewEtab,
+        .sheet(isPresented: $isAddingNewSchool,
                onDismiss: { }) {
             NavigationStack {
                 SchoolCreatorModal()
@@ -175,7 +174,7 @@ extension SchoolSidebarView {
         /// Ajouter un établissement
         ToolbarItemGroup(placement: .status) {
             Button {
-                isAddingNewEtab = true
+                isAddingNewSchool = true
             } label: {
                 HStack {
                     Image(systemName: "plus.circle.fill")
