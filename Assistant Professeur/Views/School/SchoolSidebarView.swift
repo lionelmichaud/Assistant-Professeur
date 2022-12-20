@@ -19,7 +19,7 @@ struct SchoolSidebarView: View {
 
     @SectionedFetchRequest<String, SchoolEntity>(
         fetchRequest      : SchoolEntity.requestAllSortedByLevelName,
-        sectionIdentifier : \.niveauString,
+        sectionIdentifier : \.levelString,
         animation         : .default)
     private var schoolsSections: SectionedFetchResults<String, SchoolEntity>
 
@@ -77,6 +77,7 @@ struct SchoolSidebarView: View {
                             ForEach(section, id: \.objectID) { school in
                                 SchoolBrowserRow(school: school)
                                     .badge(school.nbOfClasses)
+
                                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                         // supprimer l'établissement
                                         Button(role: .destructive) {
@@ -90,6 +91,7 @@ struct SchoolSidebarView: View {
                                             Label("Supprimer", systemImage: "trash")
                                         }
                                     }
+
                                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
                                         // modifier le type de l'établissement
                                         if school.classesCount == 0 {
@@ -100,13 +102,13 @@ struct SchoolSidebarView: View {
                                                     }
                                                 }
                                             } label: {
-                                                Label(school.niveau == .college ? "Lycée" : "Collège",
-                                                      systemImage: school.niveau == .college ?  "building.2" : "building")
-                                            }.tint(school.niveau == .college ? .mint : .orange)
+                                                Label(school.levelEnum == .college ? "Lycée" : "Collège",
+                                                      systemImage: school.levelEnum == .college ?  "building.2" : "building")
+                                            }
+                                            .tint(school.levelEnum == .college ? .mint : .orange)
                                         }
                                     }
                             }
-
                         } header: {
                             Text(section.id)
                                 .font(.callout)

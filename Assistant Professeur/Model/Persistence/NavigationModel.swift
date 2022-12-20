@@ -19,7 +19,7 @@ final class NavigationModel: ObservableObject, Codable {
 //    @Published var selectedObservId  : Observation.ID?
 //    @Published var selectedColleId   : Colle.ID?
 //    @Published var selectedEleveId   : Eleve.ID?
-//    @Published var selectedClasseId  : Classe.ID?
+    @Published var selectedClasseId  : NSManagedObjectID?
     @Published var selectedSchoolId  : NSManagedObjectID?
     @Published var filterObservation : Bool
     @Published var filterColle       : Bool
@@ -33,8 +33,8 @@ final class NavigationModel: ObservableObject, Codable {
 //         selectedObservId  : Observation.ID?  = nil,
 //         selectedColleId   : Colle.ID?        = nil,
 //         selectedEleveId   : Eleve.ID?        = nil,
-//         selectedClasseId  : Classe.ID?       = nil,
-         selectedSchoolId  : NSManagedObjectID?  = nil,
+         selectedClasseId  : NSManagedObjectID? = nil,
+         selectedSchoolId  : NSManagedObjectID? = nil,
          filterObservation : Bool              = false,
          filterColle       : Bool              = false,
          filterFlag        : Bool              = false
@@ -62,7 +62,7 @@ final class NavigationModel: ObservableObject, Codable {
 //            selectedObservId  = model.selectedObservId
 //            selectedColleId   = model.selectedColleId
 //            selectedEleveId   = model.selectedEleveId
-//            selectedClasseId  = model.selectedClasseId
+            selectedClasseId  = model.selectedClasseId
             selectedSchoolId  = model.selectedSchoolId
             filterObservation = model.filterObservation
             filterColle       = model.filterColle
@@ -129,7 +129,7 @@ final class NavigationModel: ObservableObject, Codable {
 //        case selectedObservId
 //        case selectedColleId
 //        case selectedEleveId
-//        case selectedClasseId
+        case selectedClasseId
         case selectedSchoolId
         case filterObservation
         case filterColle

@@ -8,7 +8,7 @@
 import Foundation
 import AppFoundation
 
-enum NiveauSchool: String, PickableEnumP, Codable, Identifiable, Equatable {
+enum LevelSchool: String, PickableEnumP, Codable, Identifiable, Equatable {
     case college
     case lycee
 

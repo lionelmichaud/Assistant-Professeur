@@ -20,9 +20,9 @@ struct SchoolBrowserRow: View {
 //        print(school.name)
 //        print(school.level)
         HStack {
-            Image(systemName: school.niveau == .lycee ? "building.2" : "building")
+            Image(systemName: school.levelEnum == .lycee ? "building.2" : "building")
                 .sfSymbolStyling()
-                .foregroundColor(school.niveau == .lycee ? .mint : .orange)
+                .foregroundColor(school.levelEnum == .lycee ? .mint : .orange)
 
             VStack(alignment: .leading, spacing: 5) {
                 Text(school.displayString)

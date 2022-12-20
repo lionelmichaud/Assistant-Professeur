@@ -12,17 +12,17 @@ class SchoolViewModel: ObservableObject {
 
     // MARK: - Properties
 
-    @Published var name       : String       = ""
-    @Published var niveau     : NiveauSchool = .college
-    @Published var annotation : String       = ""
+    @Published var name       : String      = ""
+    @Published var niveau     : LevelSchool = .college
+    @Published var annotation : String      = ""
 
     // MARK: - Initializers
 
     init(
-        name       : String       = "",
-        niveau     : NiveauSchool = .college,
-        annotation : String       = "")
-    {
+        name       : String      = "",
+        niveau     : LevelSchool = .college,
+        annotation : String      = ""
+    ) {
         self.name       = name
         self.niveau     = niveau
         self.annotation = annotation
@@ -37,14 +37,14 @@ class SchoolViewModel: ObservableObject {
 
     func update(from school: SchoolEntity) {
         self.name       = school.viewName
-        self.niveau     = school.niveau
+        self.niveau     = school.levelEnum
         self.annotation = school.viewAnnotation
     }
 
     func save() {
         let school = SchoolEntity.create()
         school.viewName       = name
-        school.niveau         = niveau
+        school.levelEnum      = niveau
         school.viewAnnotation = annotation
 
         try? SchoolEntity.saveIfContextHasChanged()

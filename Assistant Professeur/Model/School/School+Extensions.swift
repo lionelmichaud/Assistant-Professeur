@@ -13,8 +13,8 @@ extension SchoolEntity {
     // MARK: - Type Methods
 
     static func < (lhs: SchoolEntity, rhs: SchoolEntity) -> Bool {
-        if lhs.niveau.rawValue != rhs.niveau.rawValue {
-            return lhs.niveau.rawValue < rhs.niveau.rawValue
+        if lhs.levelEnum.rawValue != rhs.levelEnum.rawValue {
+            return lhs.levelEnum.rawValue < rhs.levelEnum.rawValue
         } else {
             return (lhs.name ?? "") < (rhs.name ?? "")
         }
@@ -22,10 +22,10 @@ extension SchoolEntity {
 
     // MARK: - Computed properties
 
-    var niveau: NiveauSchool {
+    var levelEnum: LevelSchool {
         get {
             if let level {
-                return NiveauSchool(rawValue: level) ?? .college
+                return LevelSchool(rawValue: level) ?? .college
             } else {
                 return .college
             }
@@ -56,13 +56,13 @@ extension SchoolEntity {
     }
 
     @objc
-    var niveauString: String {
-        niveau.displayString
+    var levelString: String {
+        levelEnum.displayString
     }
 
     @objc
     var displayString: String {
-        "\(niveau.displayString) \(viewName)"
+        "\(levelEnum.displayString) \(viewName)"
     }
 
     @objc
@@ -81,7 +81,7 @@ extension SchoolEntity {
 
 extension SchoolEntity: ModelEntityP {
 
-    // MARK: - Type Computed properties
+    // MARK: - Type Computed Properties
 
     static var byLevelNameNSSortDescriptor: [NSSortDescriptor] = [
         NSSortDescriptor(
@@ -113,8 +113,31 @@ extension SchoolEntity: ModelEntityP {
 //        self.fileDate = Date()
     }
 
+    /// Change le niveau de l'établissement
     func toggleNiveau() {
-        niveau.toggle()
+        levelEnum.toggle()
         try? SchoolEntity.saveIfContextHasChanged()
+    }
+}
+
+// MARK: - Extension Debug
+
+extension SchoolEntity {
+    public override var description: String {
+        """
+
+        ETABLISSEMENT: \(displayString)
+           ID     : \(id)
+           Niveau : \(levelString)
+           Nom    : \(viewName)
+           Note   : \(viewAnnotation)
+           Nombre de classes: \(nbOfClasses)
+        """
+//           ClassesID: \(String(describing: classesID).withPrefixedSplittedLines("     "))
+//           Evénements: \(String(describing: events).withPrefixedSplittedLines("     "))
+//           Documents: \(String(describing: documents).withPrefixedSplittedLines("     "))
+//           Salles: \(String(describing: rooms).withPrefixedSplittedLines("     "))
+//           Ressources: \(String(describing: ressources).withPrefixedSplittedLines("     "))
+//        """
     }
 }

@@ -22,7 +22,8 @@ struct SchoolCreatorModal: View {
     @State
     private var alertIsPresented = false
 
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
 
     var body: some View {
         // Nom de l'établissement
@@ -48,9 +49,6 @@ struct SchoolCreatorModal: View {
             isPresented: $alertIsPresented,
             actions: {}
         )
-        .onAppear {
-            isNameFocused = true
-        }
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Annuler") {
@@ -62,6 +60,7 @@ struct SchoolCreatorModal: View {
                     if schoolVM.name.isEmpty {
                         alertTitle = "Il faut nommer l'établissement"
                         alertIsPresented.toggle()
+
                     } else {
                         // Ajouter le nouvel établissement
                         withAnimation {
@@ -75,6 +74,9 @@ struct SchoolCreatorModal: View {
         #if os(iOS)
         .navigationTitle("Nouvel Etablissement")
         #endif
+        .onAppear {
+            isNameFocused = true
+        }
     }
 }
 
