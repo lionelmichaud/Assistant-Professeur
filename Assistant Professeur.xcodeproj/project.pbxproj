@@ -19,6 +19,10 @@
 		79388A5129257025002AABB8 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4E29257025002AABB8 /* AppState.swift */; };
 		79388A5329257045002AABB8 /* NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A5229257045002AABB8 /* NavigationModel.swift */; };
 		79388A5429257045002AABB8 /* NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A5229257045002AABB8 /* NavigationModel.swift */; };
+		793C29CF2953BE4E00E7F65B /* Ressource+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793C29CE2953BE4E00E7F65B /* Ressource+Extensions.swift */; };
+		793C29D42953C08100E7F65B /* RessourceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793C29D12953C08100E7F65B /* RessourceList.swift */; };
+		793C29D52953C08100E7F65B /* RessourceEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793C29D22953C08100E7F65B /* RessourceEditor.swift */; };
+		793C29D62953C08100E7F65B /* SchoolRessourceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793C29D32953C08100E7F65B /* SchoolRessourceRow.swift */; };
 		7951063E294FD9520015AC5C /* ClassList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951063D294FD9520015AC5C /* ClassList.swift */; };
 		79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79595C6E2934298300C81021 /* SchoolBrowserRow.swift */; };
 		798458EA2939529D00B74538 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798458E92939529D00B74538 /* AnnotationView.swift */; };
@@ -123,6 +127,10 @@
 		79388A4829256E13002AABB8 /* MainScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		79388A4E29257025002AABB8 /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		79388A5229257045002AABB8 /* NavigationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationModel.swift; sourceTree = "<group>"; };
+		793C29CE2953BE4E00E7F65B /* Ressource+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ressource+Extensions.swift"; sourceTree = "<group>"; };
+		793C29D12953C08100E7F65B /* RessourceList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RessourceList.swift; sourceTree = "<group>"; };
+		793C29D22953C08100E7F65B /* RessourceEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RessourceEditor.swift; sourceTree = "<group>"; };
+		793C29D32953C08100E7F65B /* SchoolRessourceRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolRessourceRow.swift; sourceTree = "<group>"; };
 		7951063D294FD9520015AC5C /* ClassList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassList.swift; sourceTree = "<group>"; };
 		79595C6E2934298300C81021 /* SchoolBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolBrowserRow.swift; sourceTree = "<group>"; };
 		7966DCF8292573A1001D6C7F /* AppFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppFoundation; path = ../Packages/AppFoundation; sourceTree = "<group>"; };
@@ -253,6 +261,24 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		793C29CD2953BE1E00E7F65B /* Ressource */ = {
+			isa = PBXGroup;
+			children = (
+				793C29CE2953BE4E00E7F65B /* Ressource+Extensions.swift */,
+			);
+			path = Ressource;
+			sourceTree = "<group>";
+		};
+		793C29D02953C08100E7F65B /* Ressource */ = {
+			isa = PBXGroup;
+			children = (
+				793C29D12953C08100E7F65B /* RessourceList.swift */,
+				793C29D22953C08100E7F65B /* RessourceEditor.swift */,
+				793C29D32953C08100E7F65B /* SchoolRessourceRow.swift */,
+			);
+			path = Ressource;
+			sourceTree = "<group>";
+		};
 		7966DCF7292573A1001D6C7F /* Packages */ = {
 			isa = PBXGroup;
 			children = (
@@ -341,6 +367,7 @@
 				79BF1DAF29291005005D6CF3 /* Document */,
 				79BF1DB02929101A005D6CF3 /* Event */,
 				79BF1DB129291027005D6CF3 /* Room */,
+				793C29CD2953BE1E00E7F65B /* Ressource */,
 			);
 			path = School;
 			sourceTree = "<group>";
@@ -396,6 +423,7 @@
 		79DEDAE32925855B00F508EF /* School */ = {
 			isa = PBXGroup;
 			children = (
+				793C29D02953C08100E7F65B /* Ressource */,
 				79E524BA295376E900DA99A7 /* Event */,
 				79D573462927EEDE00B0B7B8 /* SchoolViewModel.swift */,
 				79DEDAE8292585E300F508EF /* SchoolSplitView.swift */,
@@ -624,11 +652,13 @@
 				79DEDAE9292585E300F508EF /* SchoolSplitView.swift in Sources */,
 				79DEDB13292593C200F508EF /* SettingsClasse.swift in Sources */,
 				79B6630729244C3F007B1FBD /* ContentView.swift in Sources */,
+				793C29D52953C08100E7F65B /* RessourceEditor.swift in Sources */,
 				79D573472927EEDE00B0B7B8 /* SchoolViewModel.swift in Sources */,
 				79DEDB11292593C200F508EF /* SettingsEleve.swift in Sources */,
 				79DEDAEF292586A500F508EF /* EleveSplitView.swift in Sources */,
 				79D573492927F16B00B0B7B8 /* LevelSchool.swift in Sources */,
 				79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */,
+				793C29CF2953BE4E00E7F65B /* Ressource+Extensions.swift in Sources */,
 				79FFF42929511E040037A327 /* ClassCreatorModal.swift in Sources */,
 				79FFF42F29522BA80037A327 /* ClasseViewModel.swift in Sources */,
 				79DEDB222925991100F508EF /* Persistence.swift in Sources */,
@@ -660,6 +690,7 @@
 				79DEDB272925996E00F508EF /* Interoperability.swift in Sources */,
 				79DEDAF5292586C800F508EF /* ColleSplitView.swift in Sources */,
 				79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */,
+				793C29D62953C08100E7F65B /* SchoolRessourceRow.swift in Sources */,
 				79DEDB2B2925996E00F508EF /* Preferences.swift in Sources */,
 				79DEDB042925902800F508EF /* SchoolSidebarView.swift in Sources */,
 				7921F54C2925825800173F39 /* ModelEntityP.swift in Sources */,
@@ -667,6 +698,7 @@
 				79DEDB292925996E00F508EF /* UIPreferences.swift in Sources */,
 				79388A5329257045002AABB8 /* NavigationModel.swift in Sources */,
 				798458EA2939529D00B74538 /* AnnotationView.swift in Sources */,
+				793C29D42953C08100E7F65B /* RessourceList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

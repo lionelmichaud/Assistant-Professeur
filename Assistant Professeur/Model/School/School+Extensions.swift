@@ -121,6 +121,11 @@ extension SchoolEntity: ModelEntityP {
         Int(self.roomsCount)
     }
 
+    /// Nombre de types de ressources différentes utilisées dans l'établissement
+    var nbOfRessourceTypes: Int {
+        Int(self.ressourcesCount)
+    }
+
     var heures: Double {
         allClasses.sum(for: \.heures)
     }
@@ -128,6 +133,11 @@ extension SchoolEntity: ModelEntityP {
     /// Liste des classes de l'établissement non triées
     var allClasses: [ClasseEntity] {
         (self.classes?.allObjects as! [ClasseEntity])
+    }
+
+    /// Liste des ressources de l'établissement non triées
+    var allRessources: [RessourceEntity] {
+        (self.ressources?.allObjects as! [RessourceEntity])
     }
 
     /// Liste des classes de l'établissement triées par niveau puis par numéro

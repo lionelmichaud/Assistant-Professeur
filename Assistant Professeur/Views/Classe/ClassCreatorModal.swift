@@ -29,7 +29,7 @@ struct ClassCreatorModal: View {
     @Environment(\.dismiss)
     private var dismiss
 
-    var niveau: some View {
+    var niveauView: some View {
         HStack {
             // niveau de cette classe
             Image(systemName: "person.3.sequence.fill")
@@ -42,7 +42,7 @@ struct ClassCreatorModal: View {
         }
     }
 
-    var numero: some View {
+    var numeroView: some View {
         Picker("Numéro", selection: $classeVM.numero) {
             ForEach(1...10, id: \.self) { num in
                 Text(String(num))
@@ -51,7 +51,7 @@ struct ClassCreatorModal: View {
         .pickerStyle(.menu)
     }
 
-    var segpa: some View {
+    var segpaView: some View {
         Toggle(isOn: $classeVM.segpa.animation()) {
             Text("SEGPA")
                 .font(.caption)
@@ -66,27 +66,27 @@ struct ClassCreatorModal: View {
                 // priorité 1
                 HStack {
                     // niveau de cette classe
-                    niveau
+                    niveauView
                     Spacer(minLength: 50)
 
                     // numéro de cette classe
-                    numero
+                    numeroView
                     Spacer(minLength: 50)
                         //.frame(maxWidth: 140)
 
                     // SEGPA ou pas
-                    segpa
+                    segpaView
                 }
                 // priorité 2
                 VStack {
                     // niveau de cette classe
-                    niveau
+                    niveauView
 
                     // numéro de cette classe
-                    numero
+                    numeroView
 
                     // SEGPA ou pas
-                    segpa
+                    segpaView
                 }
             }
             AmountEditView(

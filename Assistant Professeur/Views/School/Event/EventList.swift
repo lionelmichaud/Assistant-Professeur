@@ -25,10 +25,7 @@ struct EventList: View {
                     try? EventEntity.saveIfContextHasChanged()
                 }
             } label: {
-                HStack {
-                    Image(systemName: "plus.circle.fill")
-                    Text("Ajouter un événement")
-                }
+                Label("Ajouter un événement", systemImage: "plus.circle.fill")
             }
             .buttonStyle(.borderless)
 
