@@ -29,7 +29,7 @@ struct SchoolDetail: View {
     // MARK: - Computed Properties
 
     /// Vue du nom de l'établissement
-    private var name: some View {
+    private var nameView: some View {
         HStack {
             Image(systemName: school.levelEnum == .lycee ? "building.2" : "building")
                 .imageScale(.large)
@@ -46,7 +46,7 @@ struct SchoolDetail: View {
         VStack {
             // nom de l'établissement
             GroupBox {
-                name
+                nameView
             }
             .padding(.horizontal, 60)
 
@@ -60,7 +60,7 @@ struct SchoolDetail: View {
                 ClassList(school: school)
 
                 // édition de la liste des événements
-                //                    EventList(school: $school)
+                EventList(school: school)
 
                 // édition de la liste des documents utiles
                 //                    DocumentList(school: $school)

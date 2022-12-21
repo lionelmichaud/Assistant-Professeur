@@ -106,6 +106,30 @@ extension SchoolEntity: ModelEntityP {
         Int(self.classesCount)
     }
 
+    /// Nombre d'événements dans l'établissement
+    var nbOfEvents: Int {
+        Int(self.eventsCount)
+    }
+
+    /// Nombre de documents importants dans l'établissement
+    var nbOfDocuments: Int {
+        Int(self.documentsCount)
+    }
+
+    /// Nombre de salles de classes utilisées dans l'établissement
+    var nbOfRooms: Int {
+        Int(self.roomsCount)
+    }
+
+    var heures: Double {
+        allClasses.sum(for: \.heures)
+    }
+
+    /// Liste des classes de l'établissement non triées
+    var allClasses: [ClasseEntity] {
+        (self.classes?.allObjects as! [ClasseEntity])
+    }
+
     /// Liste des classes de l'établissement triées par niveau puis par numéro
     var classesSortedByLevelNumber: [ClasseEntity] {
         let sortComparators =
@@ -118,8 +142,14 @@ extension SchoolEntity: ModelEntityP {
             .sorted(using: sortComparators)
     }
 
-    var heures: Double {
-        classesSortedByLevelNumber.sum(for: \.heures)
+    /// Liste des événements importants de l'établissement triées par date
+    var eventsSortedByDate: [EventEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(\EventEntity.date, order: .reverse),
+        ]
+        return (self.events?.allObjects as! [EventEntity])
+            .sorted(using: sortComparators)
     }
 
     // MARK: - Methods

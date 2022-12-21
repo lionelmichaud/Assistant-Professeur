@@ -125,12 +125,12 @@ extension ClasseEntity: ModelEntityP {
 
     // MARK: - Type Computed Methods
 
-    static func requestAllSortedByLevelNumber(inSchool: SchoolEntity) -> NSFetchRequest<ClasseEntity> {
-        let request = NSFetchRequest<ClasseEntity>(entityName: "ClasseEntity")
-        request.sortDescriptors = ClasseEntity.byLevelNumberNSSortDescriptor
-        request.predicate = NSPredicate(format: "school = %@", inSchool.objectID)
-        return request
-    }
+//    static func requestAllSortedByLevelNumber(inSchool: SchoolEntity) -> NSFetchRequest<ClasseEntity> {
+//        let request = NSFetchRequest<ClasseEntity>(entityName: "ClasseEntity")
+//        request.sortDescriptors = ClasseEntity.byLevelNumberNSSortDescriptor
+//        request.predicate = NSPredicate(format: "school = %@", inSchool.objectID)
+//        return request
+//    }
 
     /// Change le niveau de l'établissement
     func toggleFlag() {

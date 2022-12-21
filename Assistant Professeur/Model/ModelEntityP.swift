@@ -95,7 +95,7 @@ extension ModelEntityP {
             do {
                 try Self.viewContext.save()
             } catch {
-                customLog.log(level: .fault, "Echec de l'enregistrement des modifications de la BDD \(error.localizedDescription)")
+                customLog.log(level: .fault, "Echec de l'enregistrement des modifications de la BDD: \(error.localizedDescription)")
                 print(error)
                 throw error
             }
