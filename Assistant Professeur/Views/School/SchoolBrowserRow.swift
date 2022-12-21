@@ -9,12 +9,8 @@ import SwiftUI
 import HelpersView
 
 struct SchoolBrowserRow: View {
-    @ObservedObject var school: SchoolEntity
-
-    var heures: Double {
-        0
-        //SchoolManager().heures(dans: school, classeStore: classeStore)
-    }
+    @ObservedObject
+    var school: SchoolEntity
 
     var body: some View {
 //        print(school.name)
@@ -31,12 +27,14 @@ struct SchoolBrowserRow: View {
                 HStack {
                     Text(school.classesLabel)
                     Spacer()
-                    Text(heures == 0 ? "Aucune heure" : "\(heures.formatted(.number.precision(.fractionLength(1)))) heures")
+                    Text(school.heures == 0 ?
+                         "Aucune heure" : "\(school.heures.formatted(.number.precision(.fractionLength(1)))) heures")
                 }
-                .font(.caption)
+                .font(.callout)
                 .foregroundStyle(.secondary)
             }
         }
+        .padding(.trailing, 10)
     }
 }
 

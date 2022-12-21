@@ -25,13 +25,13 @@ struct ContentView: View {
             SchoolSplitView()
                 .tabItem { Label("Etablissement", systemImage: "building.2").symbolVariant(.none) }
                 .tag(NavigationModel.Tab.school)
-                //.badge(schoolStore.nbOfItems)
+                .badge(SchoolEntity.cardinal())
 
             /// composition de la famille
             ClasseSplitView()
                 .tabItem { Label("Classes", systemImage: "person.3.sequence").symbolVariant(.none) }
                 .tag(NavigationModel.Tab.classe)
-//                .badge(classeStore.nbOfItems)
+                .badge(ClasseEntity.cardinal())
 
             /// dépenses de la famille
             EleveSplitView()

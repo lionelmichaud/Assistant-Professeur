@@ -9,7 +9,8 @@ import SwiftUI
 import HelpersView
 
 struct ClassBrowserRow: View {
-    let classe: ClasseEntity
+    @ObservedObject
+    var classe: ClasseEntity
 
     private var regularRow: some View {
         HStack {

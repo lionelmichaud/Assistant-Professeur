@@ -48,7 +48,6 @@ extension ModelEntityP {
     // MARK: - Type Methods
 
     /// Returns an array of all objects of type `Self` in the persistent store
-    /// - Returns: Array of all items in the persistent store
     static func all() -> [Self] {
 
         let fetchRequest: NSFetchRequest<Self> = NSFetchRequest(entityName: String(describing: Self.self))
@@ -58,6 +57,11 @@ extension ModelEntityP {
         } catch {
             return []
         }
+    }
+
+    /// Returns the number of elements of type `Self` in the persistent store
+    static func cardinal() -> Int {
+        Self.all().count
     }
 
     static func byId(id: NSManagedObjectID) -> Self? {

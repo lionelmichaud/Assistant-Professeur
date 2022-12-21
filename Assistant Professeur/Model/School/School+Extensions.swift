@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 
+/// Un établissement scolaire
 extension SchoolEntity {
 
     // MARK: - Type Methods
@@ -98,18 +99,54 @@ extension SchoolEntity: ModelEntityP {
         return request
     }
 
-    // MARK: - Properties
+    // MARK: - Computed Properties
 
+    /// Nombre de classes dans l'établissement
     var nbOfClasses: Int {
         Int(self.classesCount)
     }
 
+    /// Liste des classes de l'établissement triées par niveau puis par numéro
+    var classesSortedByLevelNumber: [ClasseEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(\ClasseEntity.level, order: .reverse),
+            SortDescriptor(\ClasseEntity.numero, order: .forward),
+            SortDescriptor(\ClasseEntity.segpa, order: .forward)
+        ]
+        return (self.classes?.allObjects as! [ClasseEntity])
+            .sorted(using: sortComparators)
+    }
+
+    var heures: Double {
+        classesSortedByLevelNumber.sum(for: \.heures)
+    }
+
     // MARK: - Methods
+
+    /// Recherche si la classe existe déjà dans l'établissement
+    /// - Parameters:
+    ///   - classeLevel: niveau de la classe
+    ///   - classeNumero: numéro dela classe
+    ///   - classeIsSegpa: classe de SEGPA ou non
+    /// - Returns: Vrai si la classe existe déjà dans l'établissement
+    func exists(
+        classeLevel   : LevelClasse,
+        classeNumero  : Int,
+        classeIsSegpa : Bool
+    ) -> Bool {
+        (self.classes?.allObjects as! [ClasseEntity])
+            .contains {
+                $0.levelEnum == classeLevel &&
+                $0.numero == classeNumero &&
+                $0.segpa == classeIsSegpa
+            }
+    }
 
     public override func awakeFromInsert() {
         super.awakeFromInsert()
         //Set defaults here
-//        self.fileName = ""
+        //        self.fileName = ""
 //        self.fileDate = Date()
     }
 

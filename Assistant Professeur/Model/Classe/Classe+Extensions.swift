@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 
+/// Une classe d'élèves
 extension ClasseEntity {
 
     // MARK: - Type Methods
@@ -131,18 +132,10 @@ extension ClasseEntity: ModelEntityP {
         return request
     }
 
-    /// Recherche si la classe existe déjà dans l'établissement
-    /// - Parameters:
-    ///   - classeLevel: niveau de la classe
-    ///   - classeNumero: numéro dela classe
-    ///   - inSchool: établissement
-    /// - Returns: Vrai si la classe existe déjà dans l'établissement
-    static func exists(
-        classeLevel  : LevelClasse,
-        classeNumero : Int,
-        inSchool     : NSManagedObjectID
-    ) -> Bool {
-        false
+    /// Change le niveau de l'établissement
+    func toggleFlag() {
+        isFlagged.toggle()
+        try? ClasseEntity.saveIfContextHasChanged()
     }
 }
 

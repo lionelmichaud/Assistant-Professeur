@@ -110,7 +110,7 @@ struct SchoolSidebarView: View {
                                     }
                             }
                         } header: {
-                            Text(section.id)
+                            Text(section.id + "s")
                                 .font(.callout)
                                 .foregroundColor(.secondary)
                                 .fontWeight(.bold)

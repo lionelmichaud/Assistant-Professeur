@@ -19,11 +19,6 @@ struct ClassList: View {
 
     // MARK: - Computed Properties
 
-    private var heures: Double {
-        0
-        //SchoolManager().heures(dans: school, classeStore: classeStore)
-    }
-
     var body: some View {
         Section {
             // ajouter une classe
@@ -35,7 +30,7 @@ struct ClassList: View {
             .buttonStyle(.borderless)
 
             // édition de la liste des classes
-            ForEach(school.classes?.allObjects as! [ClasseEntity]) { classe in
+            ForEach(school.classesSortedByLevelNumber) { classe in
                 ClassBrowserRow(classe: classe)
 
                     .onTapGesture {
@@ -63,7 +58,7 @@ struct ClassList: View {
                         // flager une classe
                         Button {
                             withAnimation {
-                                classe.isFlagged.toggle()
+                                classe.toggleFlag()
                             }
                         } label: {
                             if classe.isFlagged {
@@ -79,7 +74,7 @@ struct ClassList: View {
             HStack {
                 Text("Classes (\(school.nbOfClasses))")
                 Spacer()
-                Text("\(heures.formatted(.number.precision(.fractionLength(1)))) h")
+                Text("\(school.heures.formatted(.number.precision(.fractionLength(1)))) h")
             }
             .font(.callout)
             .foregroundColor(.secondary)

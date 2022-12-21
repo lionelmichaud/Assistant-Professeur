@@ -113,10 +113,10 @@ struct ClassCreatorModal: View {
             ToolbarItem {
                 Button("Ok") {
                     /// Ajouter une nouvelle classe
-                    if ClasseEntity.exists(
+                    if inSchool.exists(
                         classeLevel: classeVM.levelEnum,
                         classeNumero: classeVM.numero,
-                        inSchool: inSchool.objectID
+                        classeIsSegpa: classeVM.segpa
                     ) {
                         // doublon
                         alertTitle   = "Ajout impossible"
