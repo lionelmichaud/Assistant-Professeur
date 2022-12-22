@@ -43,9 +43,9 @@ class SchoolViewModel: ObservableObject {
 
     func save() {
         let school = SchoolEntity.create()
-        school.viewName       = name
-        school.levelEnum      = niveau
-        school.viewAnnotation = annotation
+        school.name       = name
+        school.annotation = annotation
+        school.setLevel(niveau)
 
         try? SchoolEntity.saveIfContextHasChanged()
     }

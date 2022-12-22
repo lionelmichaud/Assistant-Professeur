@@ -96,6 +96,11 @@
 		79DEDB2C2925996E00F508EF /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB262925996E00F508EF /* Preferences.swift */; };
 		79E524BD295376EA00DA99A7 /* EventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BB295376E900DA99A7 /* EventList.swift */; };
 		79E524BE295376EA00DA99A7 /* EventEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BC295376E900DA99A7 /* EventEditor.swift */; };
+		79F41E592954903D00EAAC52 /* ClasseEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E572954903D00EAAC52 /* ClasseEditor.swift */; };
+		79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E582954903D00EAAC52 /* ClasseDetail.swift */; };
+		79F41E5C2954983100EAAC52 /* ClasseNameGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E5B2954983100EAAC52 /* ClasseNameGroupBox.swift */; };
+		79F41E5E2954987F00EAAC52 /* ClasseAcronym.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E5D2954987F00EAAC52 /* ClasseAcronym.swift */; };
+		79F41E6129549AE400EAAC52 /* AppreciationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E6029549AE400EAAC52 /* AppreciationView.swift */; };
 		79FFF42729511DF20037A327 /* ClassBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42629511DF20037A327 /* ClassBrowserRow.swift */; };
 		79FFF42929511E040037A327 /* ClassCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42829511E040037A327 /* ClassCreatorModal.swift */; };
 		79FFF42B295120100037A327 /* LevelClasse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42A295120100037A327 /* LevelClasse.swift */; };
@@ -181,6 +186,11 @@
 		79DEDB262925996E00F508EF /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		79E524BB295376E900DA99A7 /* EventList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventList.swift; sourceTree = "<group>"; };
 		79E524BC295376E900DA99A7 /* EventEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEditor.swift; sourceTree = "<group>"; };
+		79F41E572954903D00EAAC52 /* ClasseEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseEditor.swift; sourceTree = "<group>"; };
+		79F41E582954903D00EAAC52 /* ClasseDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseDetail.swift; sourceTree = "<group>"; };
+		79F41E5B2954983100EAAC52 /* ClasseNameGroupBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseNameGroupBox.swift; sourceTree = "<group>"; };
+		79F41E5D2954987F00EAAC52 /* ClasseAcronym.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseAcronym.swift; sourceTree = "<group>"; };
+		79F41E6029549AE400EAAC52 /* AppreciationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppreciationView.swift; sourceTree = "<group>"; };
 		79FFF42629511DF20037A327 /* ClassBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassBrowserRow.swift; sourceTree = "<group>"; };
 		79FFF42829511E040037A327 /* ClassCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassCreatorModal.swift; sourceTree = "<group>"; };
 		79FFF42A295120100037A327 /* LevelClasse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelClasse.swift; sourceTree = "<group>"; };
@@ -252,6 +262,7 @@
 				79B6630629244C3F007B1FBD /* ContentView.swift */,
 				79DEDB06292593C200F508EF /* PreferencesViews */,
 				798458E82939529D00B74538 /* Annotation */,
+				79F41E5F29549AE400EAAC52 /* Appreciation */,
 				79DEDAE32925855B00F508EF /* School */,
 				79DEDAE42925857C00F508EF /* Classe */,
 				79DEDAE52925858900F508EF /* Eleve */,
@@ -445,6 +456,10 @@
 				79DEDB0029258D4000F508EF /* ClasseSidebarView.swift */,
 				79FFF42629511DF20037A327 /* ClassBrowserRow.swift */,
 				79FFF42829511E040037A327 /* ClassCreatorModal.swift */,
+				79F41E572954903D00EAAC52 /* ClasseEditor.swift */,
+				79F41E582954903D00EAAC52 /* ClasseDetail.swift */,
+				79F41E5B2954983100EAAC52 /* ClasseNameGroupBox.swift */,
+				79F41E5D2954987F00EAAC52 /* ClasseAcronym.swift */,
 			);
 			path = Classe;
 			sourceTree = "<group>";
@@ -509,6 +524,14 @@
 				79E524BC295376E900DA99A7 /* EventEditor.swift */,
 			);
 			path = Event;
+			sourceTree = "<group>";
+		};
+		79F41E5F29549AE400EAAC52 /* Appreciation */ = {
+			isa = PBXGroup;
+			children = (
+				79F41E6029549AE400EAAC52 /* AppreciationView.swift */,
+			);
+			path = Appreciation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -651,12 +674,15 @@
 				7951063E294FD9520015AC5C /* ClassList.swift in Sources */,
 				79DEDAE9292585E300F508EF /* SchoolSplitView.swift in Sources */,
 				79DEDB13292593C200F508EF /* SettingsClasse.swift in Sources */,
+				79F41E5C2954983100EAAC52 /* ClasseNameGroupBox.swift in Sources */,
+				79F41E5E2954987F00EAAC52 /* ClasseAcronym.swift in Sources */,
 				79B6630729244C3F007B1FBD /* ContentView.swift in Sources */,
 				793C29D52953C08100E7F65B /* RessourceEditor.swift in Sources */,
 				79D573472927EEDE00B0B7B8 /* SchoolViewModel.swift in Sources */,
 				79DEDB11292593C200F508EF /* SettingsEleve.swift in Sources */,
 				79DEDAEF292586A500F508EF /* EleveSplitView.swift in Sources */,
 				79D573492927F16B00B0B7B8 /* LevelSchool.swift in Sources */,
+				79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */,
 				79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */,
 				793C29CF2953BE4E00E7F65B /* Ressource+Extensions.swift in Sources */,
 				79FFF42929511E040037A327 /* ClassCreatorModal.swift in Sources */,
@@ -678,7 +704,9 @@
 				79BF1DB929291069005D6CF3 /* Room+Extensions.swift in Sources */,
 				79388A4929256E13002AABB8 /* MainScene.swift in Sources */,
 				79DEDB0129258D4000F508EF /* ClasseSidebarView.swift in Sources */,
+				79F41E6129549AE400EAAC52 /* AppreciationView.swift in Sources */,
 				79BF1DB32929104F005D6CF3 /* Document+Extensions.swift in Sources */,
+				79F41E592954903D00EAAC52 /* ClasseEditor.swift in Sources */,
 				79FFF42D295122F60037A327 /* ColorOptions.swift in Sources */,
 				79DEDAF2292586B500F508EF /* ObservSplitView.swift in Sources */,
 				79FFF42B295120100037A327 /* LevelClasse.swift in Sources */,

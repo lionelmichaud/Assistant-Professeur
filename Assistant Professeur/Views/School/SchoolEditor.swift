@@ -24,12 +24,12 @@ struct SchoolEditor: View {
         return SchoolEntity.byId(id: selectedSchoolId)
     }
 
-    private var selectedItemExists: Bool {
+    private var selectedSchoolExists: Bool {
         selectedSchool != nil
     }
 
     var body: some View {
-        if selectedItemExists {
+        if selectedSchoolExists {
             //Text(SchoolEntity.byId(id: selectedSchoolId!)!.displayString)
             SchoolDetail(school: selectedSchool!)
         } else {

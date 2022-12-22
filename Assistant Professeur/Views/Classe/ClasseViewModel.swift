@@ -58,8 +58,8 @@ class ClasseViewModel: ObservableObject {
 
     func save(_ inSchool: SchoolEntity) {
         let classe = ClasseEntity.create()
+        classe.setLevel(levelEnum)
         classe.school       = inSchool
-        classe.levelEnum    = levelEnum
         classe.numero       = Int32(numero)
         classe.segpa        = segpa
         classe.heures       = heures

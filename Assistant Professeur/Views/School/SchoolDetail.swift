@@ -20,9 +20,6 @@ struct SchoolDetail: View {
     @EnvironmentObject
     private var navigationModel : NavigationModel
 
-    @State
-    private var alertItem: AlertItem?
-
     @Preference(\.schoolAnnotationEnabled)
     private var schoolAnnotation
 
@@ -80,7 +77,7 @@ struct SchoolDetail: View {
         .onDisappear(perform: save)
     }
 
-    func save() {
+    private func save() {
         try? SchoolEntity.saveIfContextHasChanged()
         //school.refresh()
     }

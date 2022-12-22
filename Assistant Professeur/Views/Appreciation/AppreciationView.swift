@@ -1,5 +1,5 @@
 //
-//  AnnotationView.swift
+//  AppreciationView.swift
 //  Cahier du Professeur (iOS)
 //
 //  Created by Lionel MICHAUD on 17/06/2022.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct AnnotationView: View {
-    @Binding var annotation: String
-    
+struct AppreciationView: View {
+    @Binding var appreciation: String
+
     @Environment(\.horizontalSizeClass)
     private var hClass
 
@@ -19,35 +19,35 @@ struct AnnotationView: View {
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
             TextField(
-                "Annotation",
-                text : $annotation,
-                axis : .vertical
+                "Appréciation",
+                text: $appreciation,
+                axis: .vertical
             )
             .lineLimit(5)
             .font(hClass == .compact ? .callout : .body)
             .textFieldStyle(.roundedBorder)
-            .onChange(of: annotation) { newValue in
+            .onChange(of: appreciation) { newValue in
                 isExpanded = newValue.isNotEmpty
             }
         } label: {
             HStack {
-                Text("Annotation")
+                Text("Appréciation")
                     .font(.headline)
                     .fontWeight(.bold)
                 Spacer()
-                Text(annotation.truncate(to: 20, addEllipsis: true))
+                Text(appreciation.truncate(to: 20, addEllipsis: true))
                     .foregroundColor(.secondary)
             }
         }
         .listRowSeparator(.hidden)
         .onAppear {
-            isExpanded = annotation.isNotEmpty
+            isExpanded = appreciation.isNotEmpty
         }
     }
 }
 
-struct AnnotationView_Previews: PreviewProvider {
+struct AppreciationView_Previews: PreviewProvider {
     static var previews: some View {
-        AnnotationView(annotation: .constant("Ceci est une annotation"))
+        AppreciationView(appreciation: .constant("Ceci est une appréciation"))
     }
 }

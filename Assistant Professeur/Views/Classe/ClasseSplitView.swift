@@ -20,9 +20,9 @@ struct ClasseSplitView: View {
         ) {
             ClasseSidebarView()
         } detail: {
-            Text("Classe Detail View")
-//            NavigationStack(path: $path) {
-//                ClasseEditor()
+            //Text("Classe Detail View")
+            NavigationStack(path: $path) {
+                ClasseEditor()
 //                    .navigationDestination(for: ClasseNavigationRoute.self) { route in
 //                        switch route {
 //                            case .room(let classe):
@@ -47,7 +47,7 @@ struct ClasseSplitView: View {
 //                                           examId: examId)
 //                        }
 //                    }
-//            }
+            }
         }
     }
 }

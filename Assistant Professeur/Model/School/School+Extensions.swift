@@ -11,18 +11,10 @@ import CoreData
 /// Un établissement scolaire
 extension SchoolEntity {
 
-    // MARK: - Type Methods
-
-    static func < (lhs: SchoolEntity, rhs: SchoolEntity) -> Bool {
-        if lhs.levelEnum.rawValue != rhs.levelEnum.rawValue {
-            return lhs.levelEnum.rawValue < rhs.levelEnum.rawValue
-        } else {
-            return (lhs.name ?? "") < (rhs.name ?? "")
-        }
-    }
-
     // MARK: - Computed properties
 
+    /// Wrapper of `level`
+    /// - Important: *Saves the context to the store after modification is done*
     var levelEnum: LevelSchool {
         get {
             if let level {
@@ -33,9 +25,24 @@ extension SchoolEntity {
         }
         set {
             self.level = newValue.rawValue
+            try? SchoolEntity.saveIfContextHasChanged()
         }
     }
 
+    /// Modifie l'attribut `level`
+    func setLevel(_ newLevel: LevelSchool) {
+        self.level = newLevel.rawValue
+    }
+
+    /// Toggle le niveau de l'établissement: Collège <=> Lycée
+    /// - Important: *Saves the context to the store after modification is done*
+    func toggleLevel() {
+        levelEnum.toggle()
+        try? SchoolEntity.saveIfContextHasChanged()
+    }
+
+    /// Wrapper of `name`
+    /// - Important: *Saves the context to the store after modification is done*
     @objc
     var viewName: String {
         get {
@@ -43,9 +50,12 @@ extension SchoolEntity {
         }
         set {
             self.name = newValue
+            try? SchoolEntity.saveIfContextHasChanged()
         }
     }
 
+    /// Wrapper of `annotation`
+    /// - Important: *Saves the context to the store after modification is done*
     @objc
     var viewAnnotation: String {
         get {
@@ -53,6 +63,7 @@ extension SchoolEntity {
         }
         set {
             self.annotation = newValue
+            try? SchoolEntity.saveIfContextHasChanged()
         }
     }
 
@@ -188,12 +199,6 @@ extension SchoolEntity: ModelEntityP {
         //Set defaults here
         //        self.fileName = ""
 //        self.fileDate = Date()
-    }
-
-    /// Change le niveau de l'établissement
-    func toggleNiveau() {
-        levelEnum.toggle()
-        try? SchoolEntity.saveIfContextHasChanged()
     }
 }
 

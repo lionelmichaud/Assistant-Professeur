@@ -11,18 +11,10 @@ import CoreData
 /// Une classe d'élèves
 extension ClasseEntity {
 
-    // MARK: - Type Methods
-
-    static func < (lhs: ClasseEntity, rhs: ClasseEntity) -> Bool {
-        if lhs.levelEnum.rawValue != rhs.levelEnum.rawValue {
-            return lhs.levelEnum.rawValue > rhs.levelEnum.rawValue
-        } else {
-            return lhs.numero < rhs.numero
-        }
-    }
-
     // MARK: - Computed properties
 
+    /// Wrapper of `level`
+    /// - Important: *Saves the context to the store after modification is done*
     var levelEnum: LevelClasse {
         get {
             if let level {
@@ -33,9 +25,57 @@ extension ClasseEntity {
         }
         set {
             self.level = newValue.rawValue
+            try? ClasseEntity.saveIfContextHasChanged()
         }
     }
 
+    /// Modifie l'attribut `level`
+    func setLevel(_ newLevel: LevelClasse) {
+        self.level = newLevel.rawValue
+    }
+
+    /// Toggle l'attribut `isFlagged` de la classe
+    /// - Important: *Saves the context to the store after modification is done*
+    func toggleFlag() {
+        isFlagged.toggle()
+        try? ClasseEntity.saveIfContextHasChanged()
+    }
+
+    /// Wrapper of `segpa`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewSegpa: Bool {
+        get {
+            self.segpa
+        }
+        set {
+            self.segpa = newValue
+            try? ClasseEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Toggle l'attribut `segpa` de la classe
+    /// - Important: *Saves the context to the store after modification is done*
+    func toggleSegpa() {
+        segpa.toggle()
+        try? ClasseEntity.saveIfContextHasChanged()
+    }
+
+    /// Wrapper of `heures`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewHeures: Double {
+        get {
+            self.heures
+        }
+        set {
+            self.heures = newValue
+            try? ClasseEntity.saveIfContextHasChanged()
+        }
+    }
+
+   /// Wrapper of `annotation`
+    /// - Important: *Saves the context to the store after modification is done*
     @objc
     var viewAnnotation: String {
         get {
@@ -43,9 +83,12 @@ extension ClasseEntity {
         }
         set {
             self.annotation = newValue
+            try? ClasseEntity.saveIfContextHasChanged()
         }
     }
 
+    /// Wrapper of `appreciation`
+    /// - Important: *Saves the context to the store after modification is done*
     @objc
     var viewAppreciation: String {
         get {
@@ -53,6 +96,20 @@ extension ClasseEntity {
         }
         set {
             self.appreciation = newValue
+            try? ClasseEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `numero`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewNumero: Int {
+        get {
+            Int(self.numero)
+        }
+        set {
+            self.numero = Int32(newValue)
+            try? ClasseEntity.saveIfContextHasChanged()
         }
     }
 
@@ -140,12 +197,6 @@ extension ClasseEntity: ModelEntityP {
 //        request.predicate = NSPredicate(format: "school = %@", inSchool.objectID)
 //        return request
 //    }
-
-    /// Change le flag de la classe et sauvegarde le contexte dans le store
-    func toggleFlag() {
-        isFlagged.toggle()
-        try? ClasseEntity.saveIfContextHasChanged()
-    }
 }
 
 // MARK: - Extension Debug

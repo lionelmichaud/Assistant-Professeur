@@ -95,7 +95,7 @@ struct SchoolSidebarView: View {
                                             Button {
                                                 withAnimation {
                                                     if school.classesCount == 0 {
-                                                        school.toggleNiveau()
+                                                        school.toggleLevel()
                                                     }
                                                 }
                                             } label: {
