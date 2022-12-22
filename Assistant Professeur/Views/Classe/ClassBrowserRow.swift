@@ -73,7 +73,7 @@ struct ClassBrowserRow: View {
                     Spacer()
                     Text("\(classe.heures.formatted(.number.precision(.fractionLength(1)))) heures")
                 }
-                .font(.caption)
+                .font(.footnote)
                 .foregroundStyle(.secondary)
             }
         }

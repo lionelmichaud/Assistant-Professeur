@@ -108,18 +108,27 @@ extension ClasseEntity: ModelEntityP {
 
     // MARK: - Type Computed Properties
 
-    static var byLevelNumberNSSortDescriptor: [NSSortDescriptor] = [
+    static var bySchoolnameLevelNumberNSSortDescriptor: [NSSortDescriptor] = [
         NSSortDescriptor(
-            keyPath: \ClasseEntity.level,
+            keyPath: \ClasseEntity.school?.level,
             ascending: true),
         NSSortDescriptor(
+            keyPath: \ClasseEntity.school?.name,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \ClasseEntity.level,
+            ascending: false),
+        NSSortDescriptor(
             keyPath: \ClasseEntity.numero,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \ClasseEntity.segpa,
             ascending: true)
     ]
 
-    static var requestAllSortedByLevelNumber: NSFetchRequest<ClasseEntity> {
+    static var requestAllSortedBySchoolnameLevelNumber: NSFetchRequest<ClasseEntity> {
         let request = NSFetchRequest<ClasseEntity>(entityName: "ClasseEntity")
-        request.sortDescriptors = ClasseEntity.byLevelNumberNSSortDescriptor
+        request.sortDescriptors = ClasseEntity.bySchoolnameLevelNumberNSSortDescriptor
         return request
     }
 
@@ -132,7 +141,7 @@ extension ClasseEntity: ModelEntityP {
 //        return request
 //    }
 
-    /// Change le niveau de l'établissement
+    /// Change le flag de la classe et sauvegarde le contexte dans le store
     func toggleFlag() {
         isFlagged.toggle()
         try? ClasseEntity.saveIfContextHasChanged()

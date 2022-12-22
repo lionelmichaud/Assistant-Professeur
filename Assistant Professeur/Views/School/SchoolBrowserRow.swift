@@ -30,7 +30,7 @@ struct SchoolBrowserRow: View {
                     Text(school.heures == 0 ?
                          "Aucune heure" : "\(school.heures.formatted(.number.precision(.fractionLength(1)))) heures")
                 }
-                .font(.callout)
+                .font(.footnote)
                 .foregroundStyle(.secondary)
             }
         }

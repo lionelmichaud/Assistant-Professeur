@@ -11,9 +11,6 @@ import SwiftUI
 import HelpersView
 
 struct SchoolSidebarView: View {
-    @Environment(\.managedObjectContext)
-    private var managedObjectContext
-
     @EnvironmentObject
     private var navigationModel : NavigationModel
 
@@ -79,7 +76,7 @@ struct SchoolSidebarView: View {
                                     .badge(school.nbOfClasses)
 
                                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                        // supprimer l'établissement
+                                        // supprimer l'établissement et tous ses descendants
                                         Button(role: .destructive) {
                                             withAnimation {
                                                 try? school.delete()
