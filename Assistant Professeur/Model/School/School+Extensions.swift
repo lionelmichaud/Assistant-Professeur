@@ -105,7 +105,7 @@ extension SchoolEntity: ModelEntityP {
     ]
 
     static var requestAllSortedByLevelName: NSFetchRequest<SchoolEntity> {
-        let request = NSFetchRequest<SchoolEntity>(entityName: "SchoolEntity")
+        let request = SchoolEntity.fetchRequest()
         request.sortDescriptors = SchoolEntity.byLevelNameNSSortDescriptor
         return request
     }

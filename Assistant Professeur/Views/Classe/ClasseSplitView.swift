@@ -23,30 +23,34 @@ struct ClasseSplitView: View {
             //Text("Classe Detail View")
             NavigationStack(path: $path) {
                 ClasseEditor()
-//                    .navigationDestination(for: ClasseNavigationRoute.self) { route in
-//                        switch route {
-//                            case .room(let classe):
+                    .navigationDestination(for: ClasseNavigationRoute.self) { route in
+                        switch route {
+                            case .room(let classe):
+                                EmptyView()
 //                                RoomElevePlacement(classe: classe)
-//
-//                            case .liste(let classe):
-//                                switch horizontalSizeClass {
-//                                    case .compact:
-//                                        ElevesListView(classe: classe)
-//                                    default:
-//                                        ElevesTableView(classe: classe)
-//                                }
-//
-//                            case .trombinoscope(let classe):
+
+                            case .liste(let classe):
+                                switch horizontalSizeClass {
+                                    case .compact:
+                                        ElevesListView(classe: classe)
+                                    default:
+                                        ElevesTableView(classe: classe)
+                                }
+
+                            case .trombinoscope(let classe):
+                                EmptyView()
 //                                TrombinoscopeView(classe : classe)
-//
-//                            case .groups(let classe):
+
+                            case .groups(let classe):
+                                EmptyView()
 //                                GroupsView(classe: classe)
-//
-//                            case .exam(let classe, let examId):
+
+                            case .exam(let classe, let examId):
+                                EmptyView()
 //                                ExamEditor(classe: classe,
 //                                           examId: examId)
-//                        }
-//                    }
+                        }
+                    }
             }
         }
     }

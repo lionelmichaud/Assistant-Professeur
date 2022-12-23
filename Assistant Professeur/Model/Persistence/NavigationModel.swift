@@ -18,7 +18,7 @@ final class NavigationModel: ObservableObject, Codable {
     @Published var selectedTab       : Tab
 //    @Published var selectedObservId  : Observation.ID?
 //    @Published var selectedColleId   : Colle.ID?
-//    @Published var selectedEleveId   : Eleve.ID?
+    @Published var selectedEleveId   : NSManagedObjectID?
     @Published var selectedClasseId  : NSManagedObjectID?
     @Published var selectedSchoolId  : NSManagedObjectID?
     @Published var filterObservation : Bool
@@ -32,7 +32,7 @@ final class NavigationModel: ObservableObject, Codable {
          selectedTab       : Tab              = .school,
 //         selectedObservId  : Observation.ID?  = nil,
 //         selectedColleId   : Colle.ID?        = nil,
-//         selectedEleveId   : Eleve.ID?        = nil,
+         selectedEleveId   : NSManagedObjectID? = nil,
          selectedClasseId  : NSManagedObjectID? = nil,
          selectedSchoolId  : NSManagedObjectID? = nil,
          filterObservation : Bool              = false,
@@ -43,8 +43,8 @@ final class NavigationModel: ObservableObject, Codable {
         self.selectedTab       = selectedTab
 //        self.selectedObservId  = selectedObservId
 //        self.selectedColleId   = selectedColleId
-//        self.selectedEleveId   = selectedEleveId
-//        self.selectedClasseId  = selectedClasseId
+        self.selectedEleveId   = selectedEleveId
+        self.selectedClasseId  = selectedClasseId
         self.selectedSchoolId  = selectedSchoolId
         self.filterObservation = filterObservation
         self.filterColle       = filterColle
@@ -61,7 +61,7 @@ final class NavigationModel: ObservableObject, Codable {
             selectedTab       = model.selectedTab
 //            selectedObservId  = model.selectedObservId
 //            selectedColleId   = model.selectedColleId
-//            selectedEleveId   = model.selectedEleveId
+            selectedEleveId   = model.selectedEleveId
             selectedClasseId  = model.selectedClasseId
             selectedSchoolId  = model.selectedSchoolId
             filterObservation = model.filterObservation
@@ -128,7 +128,7 @@ final class NavigationModel: ObservableObject, Codable {
         case selectedTab
 //        case selectedObservId
 //        case selectedColleId
-//        case selectedEleveId
+        case selectedEleveId
         case selectedClasseId
         case selectedSchoolId
         case filterObservation

@@ -123,9 +123,9 @@ extension ClasseEntity {
 //        roomId != nil
     }
 
+    /// Nombre d'élèves dans la Classe
     var nbOfEleves: Int {
-        0
-//        elevesID.count
+        Int(elevesCount)
     }
 
     var nbOfExams: Int {
@@ -163,6 +163,14 @@ extension ClasseEntity {
 
 extension ClasseEntity: ModelEntityP {
 
+    // MARK: - Type Properties
+
+    @Preference(\.nameSortOrder)
+    static private var nameSortOrder
+
+    @Preference(\.nameDisplayOrder)
+    static private var nameDisplayOrder
+
     // MARK: - Type Computed Properties
 
     static var bySchoolnameLevelNumberNSSortDescriptor: [NSSortDescriptor] = [
@@ -183,20 +191,41 @@ extension ClasseEntity: ModelEntityP {
             ascending: true)
     ]
 
+    /// Liste de toutes les classes triées.
+    ///
+    /// Ordre de tri:
+    ///   1. Type d'école
+    ///   2. Nom de l'école
+    ///   3. Niveau de la Classe
+    ///   4. Numéro de la Classe
+    ///   5. SGPA ou non
     static var requestAllSortedBySchoolnameLevelNumber: NSFetchRequest<ClasseEntity> {
-        let request = NSFetchRequest<ClasseEntity>(entityName: "ClasseEntity")
+        let request = ClasseEntity.fetchRequest()
         request.sortDescriptors = ClasseEntity.bySchoolnameLevelNumberNSSortDescriptor
         return request
     }
 
-    // MARK: - Type Computed Methods
+    // MARK: - Computed Properties
 
-//    static func requestAllSortedByLevelNumber(inSchool: SchoolEntity) -> NSFetchRequest<ClasseEntity> {
-//        let request = NSFetchRequest<ClasseEntity>(entityName: "ClasseEntity")
-//        request.sortDescriptors = ClasseEntity.byLevelNumberNSSortDescriptor
-//        request.predicate = NSPredicate(format: "school = %@", inSchool.objectID)
-//        return request
-//    }
+    /// Liste des élèves de la classe triés par nom.
+    ///
+    /// Ordre de tri selon la préférence `.nameSortOrder`:
+    ///   1. Nom / Prénom
+    ///   2. Prénon / Nom
+    var elevesSortedByName: [EleveEntity] {
+        let sortComparators = ClasseEntity.nameSortOrder == .nomPrenom ?
+        [
+            SortDescriptor(\EleveEntity.familyName, order: .forward),
+            SortDescriptor(\EleveEntity.givenName, order: .forward)
+        ] :
+        [
+            SortDescriptor(\EleveEntity.givenName, order: .forward),
+            SortDescriptor(\EleveEntity.familyName, order: .forward)
+        ]
+
+        return (self.eleves?.allObjects as! [EleveEntity])
+            .sorted(using: sortComparators)
+    }
 }
 
 // MARK: - Extension Debug

@@ -37,7 +37,7 @@ struct ContentView: View {
             EleveSplitView()
                 .tabItem { Label("Elèves", systemImage: "graduationcap").symbolVariant(.none) }
                 .tag(NavigationModel.Tab.eleve)
-//                .badge(eleveStore.nbOfItems)
+                .badge(EleveEntity.cardinal())
 
             /// scenario paramètrique de simulation
             ObservSplitView()

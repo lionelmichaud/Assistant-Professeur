@@ -9,55 +9,55 @@ import SwiftUI
 import AppFoundation
 import HelpersView
 
-//enum ClasseNavigationRoute: Hashable {
-//    case room(Binding<Classe>)
-//    case liste(Binding<Classe>)
-//    case trombinoscope(Binding<Classe>)
-//    case groups(Binding<Classe>)
-//    case exam(Binding<Classe>, UUID)
-//
-//    static func == (lhs: ClasseNavigationRoute, rhs: ClasseNavigationRoute) -> Bool {
-//        switch (lhs, rhs) {
-//            case (.room(let classel), .room(let classer)):
-//                return (classel.wrappedValue.id == classer.wrappedValue.id)
-//
-//            case (.liste(let classel), .liste(let classer)):
-//                return classel.wrappedValue.id == classer.wrappedValue.id
-//
-//            case (.trombinoscope(let classel), .trombinoscope(let classer)):
-//                return classel.wrappedValue.id == classer.wrappedValue.id
-//
-//            case (.groups(let classel), .groups(let classer)):
-//                return classel.wrappedValue.id == classer.wrappedValue.id
-//
-//            case (.exam(let classel, let idl), .exam(let classer, let idr)):
-//                return (classel.wrappedValue.id == classer.wrappedValue.id) &&
-//                (idl == idr)
-//
-//            default : return false
-//        }
-//    }
-//
-//    func hash(into hasher: inout Hasher) {
-//        switch self {
-//            case .room(let classe):
-//                hasher.combine("room")
-//                hasher.combine(classe.wrappedValue.id)
-//            case .liste(let classe):
-//                hasher.combine("liste")
-//                hasher.combine(classe.wrappedValue.id)
-//            case .trombinoscope(let classe):
-//                hasher.combine("trombinoscope")
-//                hasher.combine(classe.wrappedValue.id)
-//            case .groups(let classe):
-//                hasher.combine("groups")
-//                hasher.combine(classe.wrappedValue.id)
-//            case .exam(let classe, let id):
-//                hasher.combine(classe.wrappedValue.id)
-//                hasher.combine(id)
-//        }
-//    }
-//}
+enum ClasseNavigationRoute: Hashable {
+    case room(ClasseEntity)
+    case liste(ClasseEntity)
+    case trombinoscope(ClasseEntity)
+    case groups(ClasseEntity)
+    case exam(ClasseEntity, UUID)
+
+    static func == (lhs: ClasseNavigationRoute, rhs: ClasseNavigationRoute) -> Bool {
+        switch (lhs, rhs) {
+            case (.room(let classel), .room(let classer)):
+                return (classel.id == classer.id)
+
+            case (.liste(let classel), .liste(let classer)):
+                return classel.id == classer.id
+
+            case (.trombinoscope(let classel), .trombinoscope(let classer)):
+                return classel.id == classer.id
+
+            case (.groups(let classel), .groups(let classer)):
+                return classel.id == classer.id
+
+            case (.exam(let classel, let idl), .exam(let classer, let idr)):
+                return (classel.id == classer.id) &&
+                (idl == idr)
+
+            default : return false
+        }
+    }
+
+    func hash(into hasher: inout Hasher) {
+        switch self {
+            case .room(let classe):
+                hasher.combine("room")
+                hasher.combine(classe.id)
+            case .liste(let classe):
+                hasher.combine("liste")
+                hasher.combine(classe.id)
+            case .trombinoscope(let classe):
+                hasher.combine("trombinoscope")
+                hasher.combine(classe.id)
+            case .groups(let classe):
+                hasher.combine("groups")
+                hasher.combine(classe.id)
+            case .exam(let classe, let id):
+                hasher.combine(classe.id)
+                hasher.combine(id)
+        }
+    }
+}
 
 struct ClasseDetail: View {
     @ObservedObject
@@ -120,11 +120,10 @@ struct ClasseDetail: View {
     }
 
     private var elevesListView: some View {
-        Text("elevesListView placeholder")
-//        NavigationLink(value: ClasseNavigationRoute.liste($classe)) {
-//            Text("Liste")
-//                .fontWeight(.bold)
-//        }
+        NavigationLink(value: ClasseNavigationRoute.liste(classe)) {
+            Text("Liste")
+                .fontWeight(.bold)
+        }
     }
 
     private var trombinoscopeView: some View {
