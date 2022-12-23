@@ -37,13 +37,13 @@ struct ClassCreatorModal: View {
                 .foregroundColor(classeVM.levelEnum.color)
 
             CasePicker(pickedCase: $classeVM.levelEnum,
-                       label: "Niveau")
+                       label: "")
             .pickerStyle(.menu)
         }
     }
 
     var numeroView: some View {
-        Picker("Numéro", selection: $classeVM.numero) {
+        Picker("", selection: $classeVM.numero) {
             ForEach(1...10, id: \.self) { num in
                 Text(String(num))
             }
@@ -54,10 +54,9 @@ struct ClassCreatorModal: View {
     var segpaView: some View {
         Toggle(isOn: $classeVM.segpa.animation()) {
             Text("SEGPA")
-                .font(.caption)
         }
         .toggleStyle(.button)
-        .controlSize(.large)
+        .controlSize(.small)
     }
 
     var body: some View {
@@ -67,36 +66,76 @@ struct ClassCreatorModal: View {
                 HStack {
                     // niveau de cette classe
                     niveauView
-                    Spacer(minLength: 50)
+                        .frame(width: 200)
+                    //Spacer(minLength: 50)
 
                     // numéro de cette classe
                     numeroView
-                    Spacer(minLength: 50)
-                        //.frame(maxWidth: 140)
+                        .frame(width: 80)
 
                     // SEGPA ou pas
                     segpaView
+                        .layoutPriority(1)
+                    Spacer()
                 }
+                
                 // priorité 2
                 VStack {
-                    // niveau de cette classe
-                    niveauView
+                    HStack {
+                        // niveau de cette classe
+                        niveauView
+                            .frame(width: 200)
 
-                    // numéro de cette classe
-                    numeroView
-
+                        // numéro de cette classe
+                        numeroView
+                    }
                     // SEGPA ou pas
                     segpaView
                 }
             }
-            AmountEditView(
-                label: "Nombre d'heures de cours par semaine",
-                amount: $classeVM.heures,
-                validity: .poz,
-                currency: false
-            )
-            .submitLabel(.done)
-            .focused($isHoursFocused)
+            ViewThatFits(in: .horizontal) {
+                // priorité 1
+                HStack {
+                    // Discipline enseignée
+                    CasePicker(pickedCase: $classeVM.disciplineEnum,
+                               label: "Discipline")
+                    .pickerStyle(.menu)
+                    .frame(width: 300)
+
+                    Spacer()
+
+                    AmountEditView(
+                        label: "Nombre d'heures de cours par semaine",
+                        amount: $classeVM.heures,
+                        validity: .poz,
+                        currency: false
+                    )
+                    .submitLabel(.done)
+                    .focused($isHoursFocused)
+                    .frame(width: 300)
+                }
+
+                // priorité 2
+                VStack {
+                    // Discipline enseignée
+                    CasePicker(pickedCase: $classeVM.disciplineEnum,
+                               label: "Discipline")
+                    .pickerStyle(.menu)
+                    .frame(width: 300)
+
+                    Spacer()
+
+                    AmountEditView(
+                        label: "Nombre d'heures de cours par semaine",
+                        amount: $classeVM.heures,
+                        validity: .poz,
+                        currency: false
+                    )
+                    .submitLabel(.done)
+                    .focused($isHoursFocused)
+                    .frame(width: 300)
+                }
+            }
         }
         .alert(
             alertTitle,

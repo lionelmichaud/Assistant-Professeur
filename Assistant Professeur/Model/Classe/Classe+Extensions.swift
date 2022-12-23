@@ -13,6 +13,23 @@ extension ClasseEntity {
 
     // MARK: - Computed properties
 
+    /// Wrapper of `discipline`
+    /// - Important: *Saves the context to the store after modification is done*
+    var disciplineEnum: Discipline {
+        get {
+            Discipline(rawValue: discipline) ?? .technologie
+        }
+        set {
+            self.discipline = newValue.rawValue
+            try? ClasseEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Modifie l'attribut `discipline`
+    func setDiscipline(_ newDiscipline: Discipline) {
+        self.discipline = newDiscipline.rawValue
+    }
+
     /// Wrapper of `level`
     /// - Important: *Saves the context to the store after modification is done*
     var levelEnum: LevelClasse {

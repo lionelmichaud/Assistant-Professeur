@@ -12,45 +12,84 @@ struct ClasseNameGroupBox: View {
     @ObservedObject
     var classe: ClasseEntity
 
+    private var classeView: some View {
+        HStack {
+            ClasseAcronym(classe: classe)
+
+            /// Flag de la classe
+            Button {
+                withAnimation {
+                    classe.toggleFlag()
+                }
+            } label: {
+                if classe.isFlagged {
+                    Image(systemName: "flag.fill")
+                        .foregroundColor(.orange)
+                } else {
+                    Image(systemName: "flag")
+                        .foregroundColor(.orange)
+                }
+            }
+
+            /// SEGPA ou pas
+            Toggle(isOn: $classe.viewSegpa.animation()) {
+                Text("SEGPA")
+            }
+            .toggleStyle(.button)
+            .controlSize(.small)
+        }
+    }
+
+    private var regularDisciplineView: some View {
+        HStack {
+            // Discipline enseignée
+            CasePicker(pickedCase: $classe.disciplineEnum,
+                       label: "Discipline")
+            .pickerStyle(.menu)
+
+            // Nombre d'heures d'enseignement pour cette classe
+            AmountEditView(label: "Heures",
+                           amount: $classe.viewHeures,
+                           validity: .poz,
+                           currency: false)
+            .frame(maxWidth: 150)
+        }
+    }
+
+    private var compactDisciplineView: some View {
+        VStack {
+            // Discipline enseignée
+            CasePicker(pickedCase: $classe.disciplineEnum,
+                       label: "Discipline")
+            .pickerStyle(.menu)
+
+            /// Nombre d'heures d'enseignement pour cette classe
+            AmountEditView(label: "Heures",
+                           amount: $classe.viewHeures,
+                           validity: .poz,
+                           currency: false)
+            .frame(maxWidth: 150)
+        }
+    }
+
     var body: some View {
         GroupBox {
-            HStack {
-                ClasseAcronym(classe: classe)
+            ViewThatFits {
+                HStack {
+                    classeView
 
-                /// Flag de la classe
-                Button {
-                    withAnimation {
-                        classe.toggleFlag()
-                    }
-                } label: {
-                    if classe.isFlagged {
-                        Image(systemName: "flag.fill")
-                            .foregroundColor(.orange)
-                    } else {
-                        Image(systemName: "flag")
-                            .foregroundColor(.orange)
-                    }
+                    /// Nombre d'heures d'enseignement pour cette classe
+                    regularDisciplineView
                 }
+                VStack {
+                    classeView
 
-                /// SEGPA ou pas
-                Toggle(isOn: $classe.viewSegpa.animation()) {
-                    Text("SEGPA")
-                        .font(.caption)
+                    /// Nombre d'heures d'enseignement pour cette classe
+                    compactDisciplineView
                 }
-                .toggleStyle(.button)
-                .controlSize(.regular)
-
-                //Spacer()
-
-                /// Nombre d'heures d'enseignement pour cette classe
-                AmountEditView(label: "Heures",
-                               amount: $classe.viewHeures,
-                               validity: .poz,
-                               currency: false)
-                .frame(maxWidth: 150)
             }
+            .padding(.horizontal)
         }
-        .padding(.horizontal)
     }
 }
 
