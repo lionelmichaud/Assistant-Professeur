@@ -77,7 +77,7 @@ struct ElevesTableView: View {
 
    var body: some View {
         VStack {
-            Table(classe.elevesSortedByName,
+            Table(classe.filteredElevesSortedByName(searchString: searchString),
                   selection: $selection,
                   sortOrder: $sortOrder) {
                 // nom
@@ -136,7 +136,8 @@ struct ElevesTableView: View {
                 } label: {
                     Label("Fiche élève", systemImage: "info.circle")
                 }
-                .disabled(selection.count != 1)
+                .disabled(selection.count != 1 || EleveEntity
+                    .byObjectIdentifier(objectID: selection.first!) == nil)
             }
 
             ToolbarItem(placement: .primaryAction) {
@@ -170,36 +171,43 @@ struct ElevesTableView: View {
 
             ToolbarItemGroup(placement: .secondaryAction) {
                 /// flager les élèves
-//                if selection.count > 1 ||
-//                    (selection.count == 1 && (!(eleveStore.item(withID: selection.first!)?.isFlagged ?? false))) {
-//                    Button {
-//                        withAnimation {
-//                            selection.forEach { eleveId in
-//                                if let eleve = eleveStore.itemBinding(withID: eleveId) {
-//                                    eleve.wrappedValue.isFlagged = true
-//                                }
-//                            }
-//                        }
-//                    } label: {
-//                        Label("Marquer", systemImage: "flag.fill")
-//                    }
-//                }
+                if selection.count > 1 || (
+                    selection.count == 1 && (
+                        !(EleveEntity.byObjectIdentifier(objectID: selection.first!)?.isFlagged ?? false)
+                    )
+                ) {
+                    Button {
+                        withAnimation {
+                            EleveEntity.byObjectIdentifier(objectIDs: selection)
+                                .forEach { eleve in
+                                    eleve.isFlagged = true
+                                    try? EleveEntity.saveIfContextHasChanged()
+                                }
+                        }
+                    } label: {
+                        Label("Marquer", systemImage: "flag.fill")
+                    }
+                }
 
                 /// supprimer le flage des élèves
-//                if selection.count > 1 ||
-//                    (selection.count == 1 && ((eleveStore.item(withID: selection.first!)?.isFlagged ?? false))) {
-//                    Button {
-//                        withAnimation {
-//                            selection.forEach { eleveId in
-//                                if let eleve = eleveStore.itemBinding(withID: eleveId) {
-//                                    eleve.wrappedValue.isFlagged = false
-//                                }
-//                            }
-//                        }
-//                    } label: {
-//                        Label("Supprimer marque", systemImage: "flag.slash")
-//                    }
-//                }
+                if selection.count > 1 || (
+                    selection.count == 1 && (
+                        (EleveEntity.byObjectIdentifier(objectID: selection.first!)?.isFlagged ?? false)
+                    )
+                ) {
+                    Button {
+                        withAnimation {
+                            EleveEntity.byObjectIdentifier(objectIDs: selection)
+                                .forEach { eleve in
+                                    eleve.isFlagged = false
+                                    try? EleveEntity.saveIfContextHasChanged()
+                                }
+                        }
+                    } label: {
+                        Label("Supprimer marque", systemImage: "flag.slash")
+                    }
+                }
+                
                 /// ajouter une observation
                 Button {
                     isAddingNewObserv = true
@@ -223,8 +231,7 @@ struct ElevesTableView: View {
         #endif
         .sheet(isPresented: $isAddingNewEleve) {
             NavigationStack {
-                EmptyView()
-//                EleveCreator(classe: $classe)
+                EleveCreatorModal(inClasse: classe)
             }
             .presentationDetents([.medium])
         }

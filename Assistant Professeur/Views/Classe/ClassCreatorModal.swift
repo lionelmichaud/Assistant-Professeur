@@ -11,6 +11,9 @@ import HelpersView
 struct ClassCreatorModal: View {
     let inSchool: SchoolEntity
 
+    @Environment(\.dismiss)
+    private var dismiss
+
     @StateObject
     private var classeVM = ClasseViewModel()
 
@@ -25,9 +28,6 @@ struct ClassCreatorModal: View {
 
     @State
     private var alertIsPresented = false
-
-    @Environment(\.dismiss)
-    private var dismiss
 
     var niveauView: some View {
         HStack {
@@ -59,6 +59,26 @@ struct ClassCreatorModal: View {
         .controlSize(.small)
     }
 
+    var disciplineView: some View {
+        CasePicker(pickedCase: $classeVM.disciplineEnum,
+                   label: "Discipline")
+        .pickerStyle(.menu)
+        .frame(width: 300)
+    }
+
+    var hoursView: some View {
+        AmountEditView(
+            label: "Nombre d'heures de cours par semaine",
+            amount: $classeVM.heures,
+            validity: .poz,
+            currency: false
+        )
+        .submitLabel(.done)
+        .focused($isHoursFocused)
+        .frame(width: 300)
+
+    }
+
     var body: some View {
         Form {
             ViewThatFits(in: .horizontal) {
@@ -78,7 +98,7 @@ struct ClassCreatorModal: View {
                         .layoutPriority(1)
                     Spacer()
                 }
-                
+
                 // priorité 2
                 VStack {
                     HStack {
@@ -93,47 +113,20 @@ struct ClassCreatorModal: View {
                     segpaView
                 }
             }
+
             ViewThatFits(in: .horizontal) {
                 // priorité 1
                 HStack {
-                    // Discipline enseignée
-                    CasePicker(pickedCase: $classeVM.disciplineEnum,
-                               label: "Discipline")
-                    .pickerStyle(.menu)
-                    .frame(width: 300)
-
+                    disciplineView
                     Spacer()
-
-                    AmountEditView(
-                        label: "Nombre d'heures de cours par semaine",
-                        amount: $classeVM.heures,
-                        validity: .poz,
-                        currency: false
-                    )
-                    .submitLabel(.done)
-                    .focused($isHoursFocused)
-                    .frame(width: 300)
+                    hoursView
                 }
 
                 // priorité 2
                 VStack {
-                    // Discipline enseignée
-                    CasePicker(pickedCase: $classeVM.disciplineEnum,
-                               label: "Discipline")
-                    .pickerStyle(.menu)
-                    .frame(width: 300)
-
+                    disciplineView
                     Spacer()
-
-                    AmountEditView(
-                        label: "Nombre d'heures de cours par semaine",
-                        amount: $classeVM.heures,
-                        validity: .poz,
-                        currency: false
-                    )
-                    .submitLabel(.done)
-                    .focused($isHoursFocused)
-                    .frame(width: 300)
+                    hoursView
                 }
             }
         }
@@ -149,8 +142,8 @@ struct ClassCreatorModal: View {
                     dismiss()
                 }
             }
-            ToolbarItem {
-                Button("Ok") {
+            ToolbarItem(placement: .confirmationAction) {
+                Button("Ajouter") {
                     /// Ajouter une nouvelle classe
                     if inSchool.exists(
                         classeLevel: classeVM.levelEnum,

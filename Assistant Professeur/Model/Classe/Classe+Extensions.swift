@@ -230,6 +230,16 @@ extension ClasseEntity: ModelEntityP {
     ///   1. Nom / Prénom
     ///   2. Prénon / Nom
     var elevesSortedByName: [EleveEntity] {
+        filteredElevesSortedByName(searchString: "")
+    }
+
+    /// Recherche des élèves de la classe dont les nom ou prénom contiennent `searchString`.
+    /// Les élèves trouvés sont triés par nom.
+    ///
+    /// Ordre de tri selon la préférence `.nameSortOrder`:
+    ///   1. Nom / Prénom
+    ///   2. Prénon / Nom
+    func filteredElevesSortedByName(searchString: String) -> [EleveEntity] {
         let sortComparators = ClasseEntity.nameSortOrder == .nomPrenom ?
         [
             SortDescriptor(\EleveEntity.familyName, order: .forward),
@@ -241,6 +251,23 @@ extension ClasseEntity: ModelEntityP {
         ]
 
         return (self.eleves?.allObjects as! [EleveEntity])
+            .filter { eleve in
+                if searchString.isNotEmpty {
+                    if searchString.containsOnlyDigits {
+                        // filtrage sur numéro de groupe
+                        let groupNum = Int(searchString)!
+                        return false
+//                        return eleve.group == groupNum
+
+                    } else {
+                        let string = searchString.lowercased()
+                        return eleve.familyName!.lowercased().contains(string) ||
+                        eleve.givenName!.lowercased().contains(string)
+                    }
+                } else {
+                    return true
+                }
+            }
             .sorted(using: sortComparators)
     }
 }

@@ -34,11 +34,6 @@ extension EleveEntity {
         }
     }
 
-    /// Modifie l'attribut `sex`
-    func setSex(_ newSex: Sexe) {
-        self.sex = (newSex == .male)
-    }
-
     /// Wrapper of `familyName`
     /// - Important: *Saves the context to the store after modification is done*
     @objc
@@ -63,13 +58,6 @@ extension EleveEntity {
             self.givenName = newValue
             try? EleveEntity.saveIfContextHasChanged()
         }
-    }
-
-    /// Toggle l'attribut `isFlagged` de la classe
-    /// - Important: *Saves the context to the store after modification is done*
-    func toggleFlag() {
-        isFlagged.toggle()
-        try? EleveEntity.saveIfContextHasChanged()
     }
 
     /// Wrapper of `annotation`
@@ -129,7 +117,36 @@ extension EleveEntity {
         }
     }
 
+    var additionalTime: Bool {
+        false // troubleDys?.additionalTime ?? false
+    }
+
+    var additionalTimeInt: Int {
+        0 // additionalTime ? 0 : 1
+    }
+
+    var groupInt: Int {
+        0 // group == nil ? 0 : group!
+    }
+
     // MARK: - Methods
+
+    func isSameAs(_ eleve: EleveEntity) -> Bool {
+        self.familyName == eleve.familyName &&
+        self.givenName == eleve.givenName
+    }
+
+    /// Modifie l'attribut `sex`
+    func setSex(_ newSex: Sexe) {
+        self.sex = (newSex == .male)
+    }
+
+    /// Toggle l'attribut `isFlagged` de la classe
+    /// - Important: *Saves the context to the store after modification is done*
+    func toggleFlag() {
+        isFlagged.toggle()
+        try? EleveEntity.saveIfContextHasChanged()
+    }
 
     func displayName(_ order: NameOrdering = .prenomNom) -> String {
         switch order {
@@ -148,18 +165,6 @@ extension EleveEntity {
                 return "\(familyName ?? "")\n\(givenName ?? "")"
         }
     }
-
-    var additionalTime: Bool {
-        false // troubleDys?.additionalTime ?? false
-    }
-
-    var additionalTimeInt: Int {
-        0 // additionalTime ? 0 : 1
-    }
-
-    var groupInt: Int {
-        0 // group == nil ? 0 : group!
-    }
 }
 
 // MARK: - Extension Core Data
@@ -168,7 +173,16 @@ extension EleveEntity: ModelEntityP {
 
     // MARK: - Type Computed Properties
 
-    static func byObjectIdentifier(objectID: EleveEntity.ID) -> EleveEntity? {
+    static func byName(familyName: String,
+                       givenName: String) -> EleveEntity? {
+        all()
+            .first {
+                $0.familyName == familyName &&
+                $0.givenName == givenName
+            }
+    }
+
+   static func byObjectIdentifier(objectID: EleveEntity.ID) -> EleveEntity? {
         all()
             .first { $0.id == objectID }
     }

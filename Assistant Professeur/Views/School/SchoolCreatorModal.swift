@@ -32,12 +32,14 @@ struct SchoolCreatorModal: View {
                 Image(systemName: schoolVM.niveau == .lycee ? "building.2" : "building")
                     .imageScale(.large)
                     .foregroundColor(schoolVM.niveau == .lycee ? .mint : .orange)
+
                 TextField("Nom", text: $schoolVM.name)
                     .font(.title2)
                     .textFieldStyle(.roundedBorder)
                     .submitLabel(.done)
                     .focused($isNameFocused)
             }
+
             // Type d'établissement
             CasePicker(pickedCase: $schoolVM.niveau,
                        label: "Type d'établissement")
@@ -46,8 +48,8 @@ struct SchoolCreatorModal: View {
         }
         .alert(
             alertTitle,
-            isPresented: $alertIsPresented,
-            actions: {}
+            isPresented : $alertIsPresented,
+            actions     : {}
         )
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
@@ -56,7 +58,7 @@ struct SchoolCreatorModal: View {
                 }
             }
             ToolbarItem(placement: .confirmationAction) {
-                Button("Ok") {
+                Button("Ajouter") {
                     if schoolVM.name.isEmpty {
                         alertTitle = "Il faut nommer l'établissement"
                         alertIsPresented.toggle()

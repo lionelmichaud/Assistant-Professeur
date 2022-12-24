@@ -26,8 +26,8 @@ struct EleveLabel: View {
                 .symbolRenderingMode(.monochrome)
                 .foregroundColor(eleve.sexEnum.color)
 //            if eleve.troubleDys == nil {
-//                Text(eleve.displayName(nameDisplayOrder))
-//                    .fontWeight(fontWeight)
+                Text(eleve.displayName(nameDisplayOrder))
+                    .fontWeight(fontWeight)
 //            } else {
 //                Text(eleve.displayName(nameDisplayOrder))
 //                    .fontWeight(fontWeight)

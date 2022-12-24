@@ -35,7 +35,7 @@ struct ElevesListView: View {
             .buttonStyle(.borderless)
 
             /// liste des élèves
-            ForEach(classe.elevesSortedByName) { eleve in
+            ForEach(classe.filteredElevesSortedByName(searchString: searchString)) { eleve in
                 ClasseEleveRow(eleve: eleve)
 
                     .onTapGesture {
@@ -84,7 +84,7 @@ struct ElevesListView: View {
         #endif
         .sheet(isPresented: $isAddingNewEleve) {
             NavigationStack {
-                //EleveCreator(classe: $classe)
+                EleveCreatorModal(inClasse: classe)
             }
             .presentationDetents([.medium])
         }
