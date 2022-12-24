@@ -26,8 +26,8 @@ struct ElevesTableView: View {
      KeyPathComparator(\EleveEntity.groupInt),
      KeyPathComparator(\EleveEntity.bonus),
      KeyPathComparator(\EleveEntity.additionalTimeInt)
-//     KeyPathComparator(\Eleve.nbOfObservs),
-//     KeyPathComparator(\Eleve.nbOfColles)
+     //     KeyPathComparator(\Eleve.nbOfObservs),
+     //     KeyPathComparator(\Eleve.nbOfColles)
     ]
 
     @State
@@ -42,12 +42,12 @@ struct ElevesTableView: View {
     // MARK: - Computed Properties
 
     @ViewBuilder
-    private func tappableName(_ eleve: EleveEntity) -> some View {
+    private func nameView(_ eleve: EleveEntity) -> some View {
         EleveLabel(eleve: eleve)
     }
 
     @ViewBuilder
-    private func bonus(_ eleve: EleveEntity) -> some View {
+    private func bonusView(_ eleve: EleveEntity) -> some View {
         if eleve.viewBonus.isNotZero {
             Text("\(eleve.viewBonus.isPositive ? "+" : "")\(eleve.viewBonus.formatted(.number.precision(.fractionLength(0))))")
                 .foregroundColor(eleve.viewBonus.isPositive ? .green : .red)
@@ -58,70 +58,75 @@ struct ElevesTableView: View {
     }
 
     @ViewBuilder
-    private func tpsSup(_ eleve: EleveEntity) -> some View {
-//        if let troubleDys = eleve.troubleDys {
-//            Text(troubleDys.additionalTime ? "1/3 tps en +" : "")
-//        } else {
-            EmptyView()
-//        }
+    private func tpsSupView(_ eleve: EleveEntity) -> some View {
+        //        if let troubleDys = eleve.troubleDys {
+        //            Text(troubleDys.additionalTime ? "1/3 tps en +" : "")
+        //        } else {
+        EmptyView()
+        //        }
     }
 
     @ViewBuilder
-    private func groupe(_ eleve: EleveEntity) -> some View {
-//        if let group = eleve.group {
-//            Text("\(group)")
-//        } else {
-            EmptyView()
-//        }
+    private func groupeView(_ eleve: EleveEntity) -> some View {
+        //        if let group = eleve.group {
+        //            Text("\(group)")
+        //        } else {
+        EmptyView()
+        //        }
     }
 
-   var body: some View {
+    var body: some View {
         VStack {
-            Table(classe.filteredElevesSortedByName(searchString: searchString),
-                  selection: $selection,
-                  sortOrder: $sortOrder) {
+            Table(
+                classe.filteredSortedEleves(searchString: searchString, sortOrder: sortOrder),
+                selection: $selection,
+                sortOrder: $sortOrder
+            ) {
                 // nom
                 TableColumn("Nom", value: \EleveEntity.sortName) { eleve in
-                    tappableName(eleve)
+                    nameView(eleve)
                 }
 
                 // groupe
                 TableColumn("Groupe", value: \EleveEntity.groupInt) { eleve in
-                    groupe(eleve)
+                    groupeView(eleve)
                 }
                 .width(80)
 
                 // temps additionel
                 TableColumn("PAP", value: \EleveEntity.additionalTimeInt) { eleve in
-                    tpsSup(eleve)
+                    tpsSupView(eleve)
                 }
                 .width(100)
 
                 // bonus / malus
                 TableColumn("Bonus", value: \EleveEntity.bonus) { eleve in
-                    bonus(eleve)
+                    bonusView(eleve)
                 }
                 .width(70)
 
                 // colles
-//                TableColumn("Colles", value: \EleveEntity.nbOfColles) { eleve in
-//                    EleveColleLabel(eleve: eleve, scale: .medium)
-//                }
-//                .width(70)
+                //                TableColumn("Colles", value: \EleveEntity.nbOfColles) { eleve in
+                //                    EleveColleLabel(eleve: eleve, scale: .medium)
+                //                }
+                //                .width(70)
 
                 // observations
-//                TableColumn("Obs.", value: \EleveEntity.nbOfObservs) { eleve in
-//                    EleveObservLabel(eleve: eleve, scale: .medium)
-//                }
-//                .width(70)
+                //                TableColumn("Obs.", value: \EleveEntity.nbOfObservs) { eleve in
+                //                    EleveObservLabel(eleve: eleve, scale: .medium)
+                //                }
+                //                .width(70)
             }
             .searchable(text      : $searchString,
                         placement : .navigationBarDrawer(displayMode : .automatic),
                         prompt    : "Nom, Prénom ou n° de groupe")
+            .onChange(of: sortOrder) { newValue in
+                print("Sort order changed")
+            }
             .autocorrectionDisabled()
-            #if os(macOS)
+#if os(macOS)
             .tableStyle(.bordered(alternatesRowBackgrounds: true))
-            #endif
+#endif
         }
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
@@ -207,7 +212,7 @@ struct ElevesTableView: View {
                         Label("Supprimer marque", systemImage: "flag.slash")
                     }
                 }
-                
+
                 /// ajouter une observation
                 Button {
                     isAddingNewObserv = true
@@ -225,10 +230,10 @@ struct ElevesTableView: View {
                 .disabled(selection.count != 1)
             }
         }
-        #if os(iOS)
+#if os(iOS)
         .navigationTitle("Élèves de " + classe.displayString + " (\(classe.nbOfEleves))")
         .navigationBarTitleDisplayMode(.inline)
-        #endif
+#endif
         .sheet(isPresented: $isAddingNewEleve) {
             NavigationStack {
                 EleveCreatorModal(inClasse: classe)
@@ -238,18 +243,18 @@ struct ElevesTableView: View {
         .sheet(isPresented: $isAddingNewObserv) {
             NavigationStack {
                 EmptyView()
-//                if let eleve = eleveStore.itemBinding(withID: selection.first!) {
-//                    ObservCreator(eleve: eleve)
-//                }
+                //                if let eleve = eleveStore.itemBinding(withID: selection.first!) {
+                //                    ObservCreator(eleve: eleve)
+                //                }
             }
             .presentationDetents([.medium])
         }
         .sheet(isPresented: $isAddingNewColle) {
             NavigationStack {
                 EmptyView()
-//                if let eleve = eleveStore.itemBinding(withID: selection.first!) {
-//                    ColleCreator(eleve: eleve)
-//                }
+                //                if let eleve = eleveStore.itemBinding(withID: selection.first!) {
+                //                    ColleCreator(eleve: eleve)
+                //                }
             }
             .presentationDetents([.medium])
         }

@@ -257,7 +257,7 @@ extension ClasseEntity: ModelEntityP {
                         // filtrage sur numéro de groupe
                         let groupNum = Int(searchString)!
                         return false
-//                        return eleve.group == groupNum
+                        //                        return eleve.group == groupNum
 
                     } else {
                         let string = searchString.lowercased()
@@ -270,8 +270,37 @@ extension ClasseEntity: ModelEntityP {
             }
             .sorted(using: sortComparators)
     }
+
+    /// Recherche des élèves de la classe dont les nom ou prénom contiennent `searchString`.
+    ///
+    /// Les élèves trouvés sont triés en utilisant `sortOrder`.
+    func filteredSortedEleves(searchString : String,
+                              sortOrder    : [KeyPathComparator<EleveEntity>]) -> [EleveEntity] {
+
+        (self.eleves?.allObjects as! [EleveEntity])
+            .filter { eleve in
+                if searchString.isNotEmpty {
+                    if searchString.containsOnlyDigits {
+                        // filtrage sur numéro de groupe
+                        let groupNum = Int(searchString)!
+                        return false
+                        //                        return eleve.group == groupNum
+
+                    } else {
+                        let string = searchString.lowercased()
+                        return eleve.familyName!.lowercased().contains(string) ||
+                        eleve.givenName!.lowercased().contains(string)
+                    }
+                } else {
+                    return true
+                }
+            }
+            .sorted(using: sortOrder)
+    }
 }
 
+
+//sortOrder: [KeyPathComparator<EleveEntity>]
 // MARK: - Extension Debug
 
 extension ClasseEntity {
