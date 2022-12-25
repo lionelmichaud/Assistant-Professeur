@@ -26,8 +26,10 @@
         <attribute name="bonus" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="familyName" attributeType="String" defaultValueString=""/>
         <attribute name="givenName" attributeType="String" defaultValueString=""/>
+        <attribute name="hasAddTime" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isFlagged" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="sex" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="trouble" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="classe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="eleves" inverseEntity="ClasseEntity"/>
     </entity>
     <entity name="EventEntity" representedClassName="EventEntity" syncable="YES" codeGenerationType="class">

@@ -59,11 +59,11 @@ struct ElevesTableView: View {
 
     @ViewBuilder
     private func tpsSupView(_ eleve: EleveEntity) -> some View {
-        //        if let troubleDys = eleve.troubleDys {
-        //            Text(troubleDys.additionalTime ? "1/3 tps en +" : "")
-        //        } else {
-        EmptyView()
-        //        }
+        if eleve.hasAddTime {
+            Text("1/3 tps en +")
+        } else {
+            EmptyView()
+        }
     }
 
     @ViewBuilder

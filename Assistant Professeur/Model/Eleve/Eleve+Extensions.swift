@@ -22,6 +22,23 @@ extension EleveEntity {
 
     // MARK: - Computed properties
 
+    /// Wrapper of `trouble`
+    /// - Important: *Saves the context to the store after modification is done*
+    var troubleEnum: TroubleDys {
+        get {
+            TroubleDys(rawValue: trouble) ?? .undefined
+        }
+        set {
+            self.trouble = newValue.rawValue
+            try? EleveEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// True si l'élève souffre d'un trouble dysfonctionnel reconnu par un PAP
+    var hasTrouble: Bool {
+        troubleEnum != .none
+    }
+
     /// Wrapper of `sex`
     /// - Important: *Saves the context to the store after modification is done*
     var sexEnum: Sexe {
@@ -141,6 +158,11 @@ extension EleveEntity {
         self.sex = (newSex == .male)
     }
 
+    /// Modifie l'attribut `trouble`
+    func setTrouble(_ newTrouble: TroubleDys) {
+        self.trouble = newTrouble.rawValue
+    }
+
     /// Toggle l'attribut `isFlagged` de la classe
     /// - Important: *Saves the context to the store after modification is done*
     func toggleFlag() {
@@ -202,15 +224,15 @@ extension EleveEntity {
         """
 
         ELEVE: \(displayName)
-           ID      : \(id)
-           Sexe    : \(sexEnum.pickerString)
-           Nom     : \(displayName)
-           Flagged : \(isFlagged.frenchString)
+           ID          : \(id)
+           ClasseID    : \(String(describing: classe?.id))
+           Sexe        : \(sexEnum.pickerString)
+           Nom         : \(displayName)
+           Flagged     : \(isFlagged.frenchString)
            Appréciation: \(viewAppreciation)
            Annotation  : \(viewAnnotation)
-           Bonus : \(viewBonus)
+           Bonus       : \(viewBonus)
         """
-//           ClasseID: \(String(describing: classeId))
 //           Groupe: \(String(describing: group))
 //           Observations: \(String(describing: observsID).withPrefixedSplittedLines("     "))
 //           Colles: \(String(describing: collesID).withPrefixedSplittedLines("     "))

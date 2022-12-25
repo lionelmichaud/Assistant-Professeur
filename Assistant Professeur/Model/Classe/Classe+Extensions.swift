@@ -299,8 +299,6 @@ extension ClasseEntity: ModelEntityP {
     }
 }
 
-
-//sortOrder: [KeyPathComparator<EleveEntity>]
 // MARK: - Extension Debug
 
 extension ClasseEntity {
@@ -309,6 +307,7 @@ extension ClasseEntity {
 
         CLASSE: \(displayString)
            ID      : \(id)
+           SchoolID: \(String(describing: school?.id))
            Niveau  : \(levelString)
            Numéro  : \(numero)
            SEGPA   : \(segpa.frenchString)
@@ -317,7 +316,6 @@ extension ClasseEntity {
            Appréciation: \(viewAppreciation)
            Annotation  : \(viewAnnotation)
         """
-//           SchoolID: \(String(describing: schoolId))
 //           RoomID  : \(String(describing: roomId))
 //           Eleves  : \(String(describing: elevesID).withPrefixedSplittedLines("     "))
 //           Examens : \(String(describing: exams).withPrefixedSplittedLines("     "))

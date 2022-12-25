@@ -8,7 +8,8 @@
 import Foundation
 import AppFoundation
 
-enum TroubleDys: String, PickableEnumP, Codable {
+enum TroubleDys: Int16, PickableEnumP, Codable {
+    case none = 0
     case begaiement
     case deficience
     case deficienceAd
@@ -39,7 +40,7 @@ enum TroubleDys: String, PickableEnumP, Codable {
             case .deficience:
                 return "Déficience physique"
             case .deficienceAd:
-                return "Déficience physique (ad)"
+                return "Déficience physique (tps +)"
             case .dyscalculie:
                 return "Dyscalculie"
             case .dyschromatopsie:
@@ -67,9 +68,11 @@ enum TroubleDys: String, PickableEnumP, Codable {
             case .autre:
                 return "Autre"
             case .autreAd:
-                return "Autre (ad)"
+                return "Autre (tps +)"
             case .undefined:
                 return "Indéfini"
+            case .none:
+                return "Aucun"
         }
     }
 
@@ -81,7 +84,7 @@ enum TroubleDys: String, PickableEnumP, Codable {
                     .dysphasie, .autreAd:
                 return true
 
-            case .dysorthophonie, .dyschromatopsie,
+            case .none, .dysorthophonie, .dyschromatopsie,
                     .begaiement, .deficience, .undefined,
                     .autre:
                 return false
