@@ -14,6 +14,15 @@
         <relationship name="room" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoomEntity" inverseName="classes" inverseEntity="RoomEntity"/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="classes" inverseEntity="SchoolEntity"/>
     </entity>
+    <entity name="ColleEntity" representedClassName="ColleEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="descriptionMotif" attributeType="String" defaultValueString=""/>
+        <attribute name="duree" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="isConsignee" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isVerified" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="motif" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="eleve" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="colles" inverseEntity="EleveEntity"/>
+    </entity>
     <entity name="DocumentEntity" representedClassName="DocumentEntity" syncable="YES" codeGenerationType="class">
         <attribute name="docName" attributeType="String"/>
         <attribute name="fileExtension" optional="YES" attributeType="String"/>
@@ -24,18 +33,30 @@
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
         <attribute name="appreciation" attributeType="String" defaultValueString=""/>
         <attribute name="bonus" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="collesCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="colles.@count" usesScalarValueType="YES"/>
         <attribute name="familyName" attributeType="String" defaultValueString=""/>
         <attribute name="givenName" attributeType="String" defaultValueString=""/>
         <attribute name="hasAddTime" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isFlagged" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="observsCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="observs.@count" usesScalarValueType="YES"/>
         <attribute name="sex" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="trouble" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="classe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="eleves" inverseEntity="ClasseEntity"/>
+        <relationship name="colles" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ColleEntity" inverseName="eleve" inverseEntity="ColleEntity"/>
+        <relationship name="observs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ObservEntity" inverseName="eleve" inverseEntity="ObservEntity"/>
     </entity>
     <entity name="EventEntity" representedClassName="EventEntity" syncable="YES" codeGenerationType="class">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="events" inverseEntity="SchoolEntity"/>
+    </entity>
+    <entity name="ObservEntity" representedClassName="ObservEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="descriptionMotif" attributeType="String" defaultValueString=""/>
+        <attribute name="isConsignee" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isVerified" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="motif" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="eleve" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="observs" inverseEntity="EleveEntity"/>
     </entity>
     <entity name="RessourceEntity" representedClassName="RessourceEntity" syncable="YES" codeGenerationType="class">
         <attribute name="name" attributeType="String" defaultValueString=""/>

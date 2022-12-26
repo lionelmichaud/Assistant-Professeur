@@ -134,12 +134,18 @@ extension EleveEntity {
         }
     }
 
-    var additionalTime: Bool {
-        false // troubleDys?.additionalTime ?? false
+    var additionalTimeInt: Int {
+        hasAddTime ? 0 : 1
     }
 
-    var additionalTimeInt: Int {
-        0 // additionalTime ? 0 : 1
+    /// Nombre d'observations de l'élève
+    var nbOfObservs: Int {
+        Int(observsCount)
+    }
+
+    /// Nombre de colles de l'élève
+    var nbOfColles: Int {
+        Int(collesCount)
     }
 
     var groupInt: Int {
@@ -187,6 +193,80 @@ extension EleveEntity {
                 return "\(familyName ?? "")\n\(givenName ?? "")"
         }
     }
+
+    func satisfiesTo(searchString: String) -> Bool {
+        if searchString.isNotEmpty {
+            if searchString.containsOnlyDigits {
+                // filtrage sur numéro de groupe
+                let groupNum = Int(searchString)!
+                return false
+                //                        return eleve.group == groupNum
+
+            } else {
+                let string = searchString.lowercased()
+                return familyName!.lowercased().contains(string) ||
+                givenName!.lowercased().contains(string)
+            }
+        } else {
+            return true
+        }
+    }
+
+    func nbOfObservations(
+        isConsignee  : Bool? = nil,
+        isVerified   : Bool? = nil
+    ) -> Int {
+        switch (isConsignee, isVerified) {
+            case (nil, nil):
+                return nbOfObservs
+
+            case (.some(let c), nil):
+                return self.allObservs
+                    .reduce(into: 0) { partialResult, observ in
+                        partialResult += (observ.isConsignee == c ? 1 : 0)
+                    }
+
+            case (nil, .some(let v)):
+                return self.allObservs
+                    .reduce(into: 0) { partialResult, observ in
+                        partialResult += (observ.isVerified == v ? 1 : 0)
+                    }
+
+            case (.some(let c), .some(let v)):
+                return self.allObservs
+                    .reduce(into: 0) { partialResult, observ in
+                        partialResult += ((observ.isConsignee == c || observ.isVerified == v) ? 1 : 0)
+                    }
+        }
+    }
+
+    func nbOfColles(
+        isConsignee : Bool?  = nil,
+        isVerified  : Bool?  = nil
+    ) -> Int {
+        switch (isConsignee, isVerified) {
+            case (nil, nil):
+                return nbOfColles
+
+            case (.some(let c), nil):
+                return self.allColles
+                    .reduce(into: 0) { partialResult, colle in
+                        partialResult += (colle.isConsignee == c ? 1 : 0)
+                    }
+
+            case (nil, .some(let v)):
+                return self.allColles
+                    .reduce(into: 0) { partialResult, colle in
+                        partialResult += (colle.isVerified == v ? 1 : 0)
+                    }
+
+            case (.some(let c), .some(let v)):
+                return self.allColles
+                    .reduce(into: 0) { partialResult, colle in
+                        partialResult += ((colle.isConsignee == c || colle.isVerified == v) ? 1 : 0)
+                    }
+        }
+    }
 }
 
 // MARK: - Extension Core Data
@@ -194,6 +274,26 @@ extension EleveEntity {
 extension EleveEntity: ModelEntityP {
 
     // MARK: - Type Computed Properties
+
+    static var byClasseNameNSSortDescriptor: [NSSortDescriptor] = [
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.school?.level,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.school?.name,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.level,
+            ascending: false),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.numero,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.sortName,
+            ascending: true)
+    ]
+
+    // MARK: - Type Methods
 
     static func byName(familyName: String,
                        givenName: String) -> EleveEntity? {
@@ -204,7 +304,7 @@ extension EleveEntity: ModelEntityP {
             }
     }
 
-   static func byObjectIdentifier(objectID: EleveEntity.ID) -> EleveEntity? {
+    static func byObjectIdentifier(objectID: EleveEntity.ID) -> EleveEntity? {
         all()
             .first { $0.id == objectID }
     }
@@ -214,6 +314,35 @@ extension EleveEntity: ModelEntityP {
             .filter { entity in
                 objectIDs.contains { $0 == entity.id }
             }
+    }
+
+    /// Liste de tous les élèves appartenant au même établissement.
+    ///
+    /// Ordre de tri:
+    ///   1. Niveau de la Classe
+    ///   2. Numéro de la Classe
+    ///   3. SGPA ou non
+    ///   3. Nom / Prénom
+    ///   4. Prénom / Nom
+    static func requestFilteredSortedByName(
+        dansSchoolId: NSManagedObjectID,
+        searchString: String
+    ) -> NSFetchRequest<EleveEntity> {
+        let request = EleveEntity.fetchRequest()
+        request.sortDescriptors = EleveEntity.byClasseNameNSSortDescriptor
+        return request
+    }
+
+    // MARK: - Computed Properties
+
+    /// Liste des élèves de la classe non triées
+    var allColles: [ColleEntity] {
+        (self.colles?.allObjects as! [ColleEntity])
+    }
+
+    /// Liste des élèves de la classe non triées
+    var allObservs: [ObservEntity] {
+        (self.observs?.allObjects as! [ObservEntity])
     }
 }
 

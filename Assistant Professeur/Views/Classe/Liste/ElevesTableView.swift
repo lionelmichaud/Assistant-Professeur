@@ -25,9 +25,9 @@ struct ElevesTableView: View {
     [KeyPathComparator(\EleveEntity.sortName),
      KeyPathComparator(\EleveEntity.groupInt),
      KeyPathComparator(\EleveEntity.bonus),
-     KeyPathComparator(\EleveEntity.additionalTimeInt)
-     //     KeyPathComparator(\Eleve.nbOfObservs),
-     //     KeyPathComparator(\Eleve.nbOfColles)
+     KeyPathComparator(\EleveEntity.additionalTimeInt),
+     KeyPathComparator(\EleveEntity.nbOfObservs),
+     KeyPathComparator(\EleveEntity.nbOfColles)
     ]
 
     @State
@@ -106,16 +106,16 @@ struct ElevesTableView: View {
                 .width(70)
 
                 // colles
-                //                TableColumn("Colles", value: \EleveEntity.nbOfColles) { eleve in
-                //                    EleveColleLabel(eleve: eleve, scale: .medium)
-                //                }
-                //                .width(70)
+                TableColumn("Colles", value: \EleveEntity.nbOfColles) { eleve in
+                    EleveColleLabel(eleve: eleve, scale: .medium)
+                }
+                .width(70)
 
                 // observations
-                //                TableColumn("Obs.", value: \EleveEntity.nbOfObservs) { eleve in
-                //                    EleveObservLabel(eleve: eleve, scale: .medium)
-                //                }
-                //                .width(70)
+                TableColumn("Obs.", value: \EleveEntity.nbOfObservs) { eleve in
+                    EleveObservLabel(eleve: eleve, scale: .medium)
+                }
+                .width(70)
             }
             .searchable(text      : $searchString,
                         placement : .navigationBarDrawer(displayMode : .automatic),
@@ -124,9 +124,9 @@ struct ElevesTableView: View {
                 print("Sort order changed")
             }
             .autocorrectionDisabled()
-#if os(macOS)
+            #if os(macOS)
             .tableStyle(.bordered(alternatesRowBackgrounds: true))
-#endif
+            #endif
         }
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
@@ -230,10 +230,10 @@ struct ElevesTableView: View {
                 .disabled(selection.count != 1)
             }
         }
-#if os(iOS)
+        #if os(iOS)
         .navigationTitle("Élèves de " + classe.displayString + " (\(classe.nbOfEleves))")
         .navigationBarTitleDisplayMode(.inline)
-#endif
+        #endif
         .sheet(isPresented: $isAddingNewEleve) {
             NavigationStack {
                 EleveCreatorModal(inClasse: classe)

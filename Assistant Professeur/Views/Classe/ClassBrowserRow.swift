@@ -41,8 +41,8 @@ struct ClassBrowserRow: View {
                 .foregroundStyle(.secondary)
             Spacer()
 
-//            ClasseColleLabel(classe: classe, scale: .medium)
-//            ClasseObservLabel(classe: classe, scale: .medium)
+            ClasseColleLabel(classe: classe, scale: .medium)
+            ClasseObservLabel(classe: classe, scale: .medium)
         }
     }
 
@@ -64,8 +64,8 @@ struct ClassBrowserRow: View {
 
                     Spacer()
 
-//                    ClasseColleLabel(classe: classe, scale: .medium)
-//                    ClasseObservLabel(classe: classe, scale: .medium)
+                    ClasseColleLabel(classe: classe, scale: .medium)
+                    ClasseObservLabel(classe: classe, scale: .medium)
                 }
 
                 HStack {

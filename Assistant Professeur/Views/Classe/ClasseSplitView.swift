@@ -11,8 +11,11 @@ struct ClasseSplitView: View {
     @Environment(\.horizontalSizeClass)
     var horizontalSizeClass
 
-    @EnvironmentObject private var navigationModel : NavigationModel
-    @State private var path = NavigationPath()
+    @EnvironmentObject
+    private var navigationModel : NavigationModel
+
+    @State
+    private var path = NavigationPath()
 
     var body: some View {
         NavigationSplitView(

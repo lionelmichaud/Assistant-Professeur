@@ -43,13 +43,13 @@ struct ContentView: View {
             ObservSplitView()
                 .tabItem { Label("Observations", systemImage: "rectangle.and.text.magnifyingglass").symbolVariant(.none) }
                 .tag(NavigationModel.Tab.observation)
-//                .badge(observStore.nbOfItemsToCheck)
+                .badge(ObservEntity.cardinal())
 
             /// actifs & passifs du patrimoine de la famille
             ColleSplitView()
                 .tabItem { Label("Colles", systemImage: "lock").symbolVariant(.none) }
                 .tag(NavigationModel.Tab.colle)
-//                .badge(colleStore.nbOfItemsToCheck)
+                .badge(ColleEntity.cardinal())
         }
         .environmentObject(navigationModel)
         .alert(item: $alertItem, content: newAlert)

@@ -30,6 +30,7 @@
 		7940135629565B48007AD790 /* EleveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7940135529565B48007AD790 /* EleveViewModel.swift */; };
 		7951063E294FD9520015AC5C /* ClassList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951063D294FD9520015AC5C /* ClassList.swift */; };
 		79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79595C6E2934298300C81021 /* SchoolBrowserRow.swift */; };
+		795CB1952958F668006EF060 /* Motif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795CB1942958F668006EF060 /* Motif.swift */; };
 		798458EA2939529D00B74538 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798458E92939529D00B74538 /* AnnotationView.swift */; };
 		79AEA0A929356DBA0053DDDD /* SchoolEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */; };
 		79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */; };
@@ -101,6 +102,11 @@
 		79DEDB2C2925996E00F508EF /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB262925996E00F508EF /* Preferences.swift */; };
 		79E524BD295376EA00DA99A7 /* EventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BB295376E900DA99A7 /* EventList.swift */; };
 		79E524BE295376EA00DA99A7 /* EventEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BC295376E900DA99A7 /* EventEditor.swift */; };
+		79ECF1F42959F09F008F0282 /* colle+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F32959F09F008F0282 /* colle+extensions.swift */; };
+		79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */; };
+		79ECF1F82959F6CA008F0282 /* EleveColleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F62959F6CA008F0282 /* EleveColleLabel.swift */; };
+		79ECF1FB2959F915008F0282 /* ClasseColleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F92959F915008F0282 /* ClasseColleLabel.swift */; };
+		79ECF1FC2959F915008F0282 /* ClasseObservLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1FA2959F915008F0282 /* ClasseObservLabel.swift */; };
 		79F41E592954903D00EAAC52 /* ClasseEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E572954903D00EAAC52 /* ClasseEditor.swift */; };
 		79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E582954903D00EAAC52 /* ClasseDetail.swift */; };
 		79F41E5C2954983100EAAC52 /* ClasseNameGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E5B2954983100EAAC52 /* ClasseNameGroupBox.swift */; };
@@ -156,6 +162,7 @@
 		7940135529565B48007AD790 /* EleveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveViewModel.swift; sourceTree = "<group>"; };
 		7951063D294FD9520015AC5C /* ClassList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassList.swift; sourceTree = "<group>"; };
 		79595C6E2934298300C81021 /* SchoolBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolBrowserRow.swift; sourceTree = "<group>"; };
+		795CB1942958F668006EF060 /* Motif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Motif.swift; sourceTree = "<group>"; };
 		7966DCF8292573A1001D6C7F /* AppFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppFoundation; path = ../Packages/AppFoundation; sourceTree = "<group>"; };
 		798458E92939529D00B74538 /* AnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 		79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolEditor.swift; sourceTree = "<group>"; };
@@ -204,6 +211,11 @@
 		79DEDB262925996E00F508EF /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		79E524BB295376E900DA99A7 /* EventList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventList.swift; sourceTree = "<group>"; };
 		79E524BC295376E900DA99A7 /* EventEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEditor.swift; sourceTree = "<group>"; };
+		79ECF1F32959F09F008F0282 /* colle+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "colle+extensions.swift"; sourceTree = "<group>"; };
+		79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveObservLabel.swift; sourceTree = "<group>"; };
+		79ECF1F62959F6CA008F0282 /* EleveColleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveColleLabel.swift; sourceTree = "<group>"; };
+		79ECF1F92959F915008F0282 /* ClasseColleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseColleLabel.swift; sourceTree = "<group>"; };
+		79ECF1FA2959F915008F0282 /* ClasseObservLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseObservLabel.swift; sourceTree = "<group>"; };
 		79F41E572954903D00EAAC52 /* ClasseEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseEditor.swift; sourceTree = "<group>"; };
 		79F41E582954903D00EAAC52 /* ClasseDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseDetail.swift; sourceTree = "<group>"; };
 		79F41E5B2954983100EAAC52 /* ClasseNameGroupBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseNameGroupBox.swift; sourceTree = "<group>"; };
@@ -277,8 +289,6 @@
 				79BF1DA029280E8B005D6CF3 /* School */,
 				79BF1DA629290F32005D6CF3 /* Classe */,
 				79F41E622954B05F00EAAC52 /* Eleve */,
-				79BF1DAA29290F83005D6CF3 /* Observation */,
-				79BF1DAB29290F8C005D6CF3 /* Colle */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -431,6 +441,7 @@
 		79BF1DAB29290F8C005D6CF3 /* Colle */ = {
 			isa = PBXGroup;
 			children = (
+				79ECF1F32959F09F008F0282 /* colle+extensions.swift */,
 			);
 			path = Colle;
 			sourceTree = "<group>";
@@ -489,6 +500,8 @@
 				79F41E582954903D00EAAC52 /* ClasseDetail.swift */,
 				79F41E5B2954983100EAAC52 /* ClasseNameGroupBox.swift */,
 				79F41E5D2954987F00EAAC52 /* ClasseAcronym.swift */,
+				79ECF1F92959F915008F0282 /* ClasseColleLabel.swift */,
+				79ECF1FA2959F915008F0282 /* ClasseObservLabel.swift */,
 			);
 			path = Classe;
 			sourceTree = "<group>";
@@ -496,6 +509,7 @@
 		79DEDAE52925858900F508EF /* Eleve */ = {
 			isa = PBXGroup;
 			children = (
+				7940135529565B48007AD790 /* EleveViewModel.swift */,
 				79DEDAEE292586A500F508EF /* EleveSplitView.swift */,
 				79DEDAFD292589F400F508EF /* EleveSidebarView.swift */,
 				79F41E722954D30F00EAAC52 /* EleveBrowserRow.swift */,
@@ -503,7 +517,8 @@
 				79401353295659B6007AD790 /* EleveNameGroupBox.swift */,
 				7920A5232957345A0092A7DD /* EleveLabelWithTrombineFlag.swift */,
 				79F41E702954D2F900EAAC52 /* EleveLabel.swift */,
-				7940135529565B48007AD790 /* EleveViewModel.swift */,
+				79ECF1F62959F6CA008F0282 /* EleveColleLabel.swift */,
+				79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */,
 			);
 			path = Eleve;
 			sourceTree = "<group>";
@@ -572,9 +587,12 @@
 		79F41E622954B05F00EAAC52 /* Eleve */ = {
 			isa = PBXGroup;
 			children = (
+				79BF1DAA29290F83005D6CF3 /* Observation */,
+				79BF1DAB29290F8C005D6CF3 /* Colle */,
 				79F41E632954B08900EAAC52 /* Eleve+Extensions.swift */,
 				79F41E652954B1DB00EAAC52 /* Sexe.swift */,
 				79F41E672954B1E500EAAC52 /* TroubleDys.swift */,
+				795CB1942958F668006EF060 /* Motif.swift */,
 			);
 			path = Eleve;
 			sourceTree = "<group>";
@@ -735,6 +753,8 @@
 				79F41E5C2954983100EAAC52 /* ClasseNameGroupBox.swift in Sources */,
 				79F41E5E2954987F00EAAC52 /* ClasseAcronym.swift in Sources */,
 				79B6630729244C3F007B1FBD /* ContentView.swift in Sources */,
+				79ECF1FB2959F915008F0282 /* ClasseColleLabel.swift in Sources */,
+				79ECF1FC2959F915008F0282 /* ClasseObservLabel.swift in Sources */,
 				793C29D52953C08100E7F65B /* RessourceEditor.swift in Sources */,
 				79D573472927EEDE00B0B7B8 /* SchoolViewModel.swift in Sources */,
 				79DEDB11292593C200F508EF /* SettingsEleve.swift in Sources */,
@@ -742,6 +762,7 @@
 				79401350295624EF007AD790 /* Dsicipline.swift in Sources */,
 				79DEDAEF292586A500F508EF /* EleveSplitView.swift in Sources */,
 				79D573492927F16B00B0B7B8 /* LevelSchool.swift in Sources */,
+				79ECF1F82959F6CA008F0282 /* EleveColleLabel.swift in Sources */,
 				79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */,
 				79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */,
 				793C29CF2953BE4E00E7F65B /* Ressource+Extensions.swift in Sources */,
@@ -753,6 +774,7 @@
 				79BF1DA829290F5A005D6CF3 /* Classe+Extensions.swift in Sources */,
 				79F41E6F2954C83A00EAAC52 /* ElevesTableView.swift in Sources */,
 				79388A4529256819002AABB8 /* CoreDataController.swift in Sources */,
+				795CB1952958F668006EF060 /* Motif.swift in Sources */,
 				79F41E662954B1DC00EAAC52 /* Sexe.swift in Sources */,
 				79E524BE295376EA00DA99A7 /* EventEditor.swift in Sources */,
 				79BF1DB62929105D005D6CF3 /* Event+Extensions.swift in Sources */,
@@ -760,12 +782,14 @@
 				79401354295659B6007AD790 /* EleveNameGroupBox.swift in Sources */,
 				79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */,
 				79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */,
+				79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */,
 				79DEDAEC2925864A00F508EF /* ClasseSplitView.swift in Sources */,
 				79BF1DAD29290FBC005D6CF3 /* Observation+Extensions.swift in Sources */,
 				79388A4F29257025002AABB8 /* AppState.swift in Sources */,
 				79DEDAFE292589F400F508EF /* EleveSidebarView.swift in Sources */,
 				79F41E6D2954C83A00EAAC52 /* ClasseEleveRow.swift in Sources */,
 				79E524BD295376EA00DA99A7 /* EventList.swift in Sources */,
+				79ECF1F42959F09F008F0282 /* colle+extensions.swift in Sources */,
 				79BF1DA42928E37B005D6CF3 /* SchoolCreatorModal.swift in Sources */,
 				79BF1DB929291069005D6CF3 /* Room+Extensions.swift in Sources */,
 				79388A4929256E13002AABB8 /* MainScene.swift in Sources */,

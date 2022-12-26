@@ -25,11 +25,6 @@ extension ClasseEntity {
         }
     }
 
-    /// Modifie l'attribut `discipline`
-    func setDiscipline(_ newDiscipline: Discipline) {
-        self.discipline = newDiscipline.rawValue
-    }
-
     /// Wrapper of `level`
     /// - Important: *Saves the context to the store after modification is done*
     var levelEnum: LevelClasse {
@@ -46,18 +41,6 @@ extension ClasseEntity {
         }
     }
 
-    /// Modifie l'attribut `level`
-    func setLevel(_ newLevel: LevelClasse) {
-        self.level = newLevel.rawValue
-    }
-
-    /// Toggle l'attribut `isFlagged` de la classe
-    /// - Important: *Saves the context to the store after modification is done*
-    func toggleFlag() {
-        isFlagged.toggle()
-        try? ClasseEntity.saveIfContextHasChanged()
-    }
-
     /// Wrapper of `segpa`
     /// - Important: *Saves the context to the store after modification is done*
     @objc
@@ -69,13 +52,6 @@ extension ClasseEntity {
             self.segpa = newValue
             try? ClasseEntity.saveIfContextHasChanged()
         }
-    }
-
-    /// Toggle l'attribut `segpa` de la classe
-    /// - Important: *Saves the context to the store after modification is done*
-    func toggleSegpa() {
-        segpa.toggle()
-        try? ClasseEntity.saveIfContextHasChanged()
     }
 
     /// Wrapper of `heures`
@@ -174,6 +150,93 @@ extension ClasseEntity {
         "\(levelEnum.displayString)\(numero)\(segpa ? "S" : "")"
     }
 
+    // MARK: - Methods
+
+    /// Modifie l'attribut `discipline`
+    func setDiscipline(_ newDiscipline: Discipline) {
+        self.discipline = newDiscipline.rawValue
+    }
+
+    /// Modifie l'attribut `level`
+    func setLevel(_ newLevel: LevelClasse) {
+        self.level = newLevel.rawValue
+    }
+
+    /// Toggle l'attribut `isFlagged` de la classe
+    /// - Important: *Saves the context to the store after modification is done*
+    func toggleFlag() {
+        isFlagged.toggle()
+        try? ClasseEntity.saveIfContextHasChanged()
+    }
+
+    /// Toggle l'attribut `segpa` de la classe
+    /// - Important: *Saves the context to the store after modification is done*
+    func toggleSegpa() {
+        segpa.toggle()
+        try? ClasseEntity.saveIfContextHasChanged()
+    }
+
+
+    func nbOfObservations(isConsignee  : Bool? = nil,
+                          isVerified   : Bool? = nil) -> Int {
+        let eleves = allEleves
+        var total = 0
+        switch (isConsignee, isVerified) {
+            case (nil, nil):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfObservations()
+                }
+
+            case (.some(let c), nil):
+                var total = 0
+                eleves.forEach { eleve in
+                    total += eleve.nbOfObservations(isConsignee: c)
+                }
+
+            case (nil, .some(let v)):
+                var total = 0
+                eleves.forEach { eleve in
+                    total += eleve.nbOfObservations(isVerified: v)
+                }
+
+            case (.some(let c), .some(let v)):
+                var total = 0
+                eleves.forEach { eleve in
+                    total += eleve.nbOfObservations(isConsignee: c,
+                                                    isVerified: v)
+                }
+        }
+        return total
+    }
+
+    func nbOfColles(isConsignee : Bool?  = nil,
+                    isVerified  : Bool?  = nil) -> Int {
+        let eleves = allEleves
+        var total = 0
+        switch (isConsignee, isVerified) {
+            case (nil, nil):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfColles()
+                }
+
+            case (.some(let c), nil):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfColles(isConsignee: c)
+                }
+
+            case (nil, .some(let v)):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfColles(isVerified: v)
+                }
+
+            case (.some(let c), .some(let v)):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfColles(isConsignee: c,
+                                               isVerified: v)
+                }
+        }
+        return total
+    }
 }
 
 // MARK: - Extension Core Data
@@ -184,9 +247,6 @@ extension ClasseEntity: ModelEntityP {
 
     @Preference(\.nameSortOrder)
     static private var nameSortOrder
-
-    @Preference(\.nameDisplayOrder)
-    static private var nameDisplayOrder
 
     // MARK: - Type Computed Properties
 
@@ -224,6 +284,11 @@ extension ClasseEntity: ModelEntityP {
 
     // MARK: - Computed Properties
 
+    /// Liste des élèves de la classe non triées
+    var allEleves: [EleveEntity] {
+        (self.eleves?.allObjects as! [EleveEntity])
+    }
+
     /// Liste des élèves de la classe triés par nom.
     ///
     /// Ordre de tri selon la préférence `.nameSortOrder`:
@@ -239,7 +304,12 @@ extension ClasseEntity: ModelEntityP {
     /// Ordre de tri selon la préférence `.nameSortOrder`:
     ///   1. Nom / Prénom
     ///   2. Prénon / Nom
-    func filteredElevesSortedByName(searchString: String) -> [EleveEntity] {
+    func filteredElevesSortedByName(
+        searchString      : String,
+        filterObservation : Bool = false,
+        filterColle       : Bool = false,
+        filterFlag        : Bool = false
+    ) -> [EleveEntity] {
         let sortComparators = ClasseEntity.nameSortOrder == .nomPrenom ?
         [
             SortDescriptor(\EleveEntity.familyName, order: .forward),
@@ -252,21 +322,20 @@ extension ClasseEntity: ModelEntityP {
 
         return (self.eleves?.allObjects as! [EleveEntity])
             .filter { eleve in
-                if searchString.isNotEmpty {
-                    if searchString.containsOnlyDigits {
-                        // filtrage sur numéro de groupe
-                        let groupNum = Int(searchString)!
-                        return false
-                        //                        return eleve.group == groupNum
+                lazy var nbObservWithActionToDo : Int = {
+                    eleve.nbOfObservations(isConsignee : false,
+                                           isVerified  : false)
+                }()
 
-                    } else {
-                        let string = searchString.lowercased()
-                        return eleve.familyName!.lowercased().contains(string) ||
-                        eleve.givenName!.lowercased().contains(string)
-                    }
-                } else {
-                    return true
-                }
+                lazy var nbColleWithActionToDo : Int = {
+                    eleve.nbOfColles(isConsignee : false)
+                }()
+
+                return eleve.satisfiesTo(searchString: searchString) &&
+                ((!filterObservation && !filterColle && !filterFlag) ||
+                 (filterObservation && (nbObservWithActionToDo > 0)) ||
+                 (filterColle && nbColleWithActionToDo > 0) ||
+                 (filterFlag && eleve.isFlagged))
             }
             .sorted(using: sortComparators)
     }
@@ -279,21 +348,7 @@ extension ClasseEntity: ModelEntityP {
 
         (self.eleves?.allObjects as! [EleveEntity])
             .filter { eleve in
-                if searchString.isNotEmpty {
-                    if searchString.containsOnlyDigits {
-                        // filtrage sur numéro de groupe
-                        let groupNum = Int(searchString)!
-                        return false
-                        //                        return eleve.group == groupNum
-
-                    } else {
-                        let string = searchString.lowercased()
-                        return eleve.familyName!.lowercased().contains(string) ||
-                        eleve.givenName!.lowercased().contains(string)
-                    }
-                } else {
-                    return true
-                }
+                eleve.satisfiesTo(searchString: searchString)
             }
             .sorted(using: sortOrder)
     }

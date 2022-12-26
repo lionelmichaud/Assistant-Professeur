@@ -63,7 +63,7 @@ struct SchoolSidebarView: View {
                 ProgressView()
             }
             List(selection: $navigationModel.selectedSchoolId) {
-                if schoolsSections.isEmpty {
+                if SchoolEntity.all().isEmpty {
                     Text("Aucun établissement actuellement")
                 }
                 /// pour chaque Type d'établissement

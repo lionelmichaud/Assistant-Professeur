@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct EleveSplitView: View {
-    @EnvironmentObject private var navigationModel : NavigationModel
+    @EnvironmentObject
+    private var navigationModel : NavigationModel
 
     var body: some View {
         NavigationSplitView(

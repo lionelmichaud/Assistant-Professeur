@@ -18,9 +18,8 @@ struct ClasseSidebarView: View {
     private var classesSections: SectionedFetchResults<String, ClasseEntity>
 
     var body: some View {
-        Text("EleveSidebarView")
         List(selection: $navigationModel.selectedClasseId) {
-            if classesSections.isEmpty {
+            if ClasseEntity.all().isEmpty {
                 Text("Aucune classe actuellement")
             } else {
                 /// pour chaque Etablissement
