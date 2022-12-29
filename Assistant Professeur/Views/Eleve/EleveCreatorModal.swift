@@ -11,6 +11,9 @@ import HelpersView
 struct EleveCreatorModal: View {
     let inClasse: ClasseEntity
 
+    @Environment(\.dismiss)
+    private var dismiss
+
     /// Focused filed manager
     enum FocusableField: Hashable {
         case givenName
@@ -28,9 +31,6 @@ struct EleveCreatorModal: View {
             }
         }
     }
-
-    @Environment(\.dismiss)
-    private var dismiss
 
     @StateObject
     private var eleveVM = EleveViewModel()
@@ -127,7 +127,7 @@ struct EleveCreatorModal: View {
             }
         }
         #if os(iOS)
-        .navigationTitle("Ajouter un élève")
+        .navigationTitle("Nouvel élève")
         #endif
         .onAppear {
             focus = .givenName

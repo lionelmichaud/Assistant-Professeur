@@ -269,15 +269,15 @@ struct ClasseDetail: View {
         #endif
         .onDisappear(perform: save)
         .sheet(isPresented: $isAddingNewExam) {
-            Text("placeholder")
-//            NavigationStack {
+            NavigationStack {
+                Text("placeholder")
 //                ExamCreator(elevesId: classe.elevesID) { newExam in
 //                    /// Ajouter une nouvelle évaluation
 //                    withAnimation {
 //                        classe.exams.insert(newExam, at: 0)
 //                    }
 //                }
-//            }
+            }
             .presentationDetents([.medium])
         }
     }

@@ -102,11 +102,12 @@ struct EleveSidebarSchoolSubview : View {
                     ForEach(
                         classe
                             .filteredElevesSortedByName(
-                                searchString      :searchString,
+                                searchString      : searchString,
                                 filterObservation : navigationModel.filterObservation,
                                 filterColle       : navigationModel.filterColle,
                                 filterFlag        : navigationModel.filterFlag
-                            )
+                            ),
+                        id: \.objectID
                     ) { eleve in
                         EleveBrowserRow(eleve: eleve)
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -151,19 +152,6 @@ struct EleveSidebarSchoolSubview : View {
             }
         }
     }
-
-    // MARK: - Methods
-
-    //    func filteredSortedEleves(dans classe: Classe) -> <[EleveEntity]> {
-    //        EleveManager().filteredEleves(dans              : classe,
-    //                                      eleveStore        : eleveStore,
-    //                                      observStore       : observStore,
-    //                                      colleStore        : colleStore,
-    //                                      filterObservation : navigationModel.filterObservation,
-    //                                      filterColle       : navigationModel.filterColle,
-    //                                      filterFlag        : navigationModel.filterFlag,
-    //                                      searchString      : searchString)
-    //    }
 }
 
 //struct EleveBrowserView_Previews: PreviewProvider {

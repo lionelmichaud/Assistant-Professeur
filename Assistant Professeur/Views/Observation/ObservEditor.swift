@@ -1,40 +1,39 @@
 //
-//  SchoolEditor.swift
-//  Cahier du Professeur (iOS)
+//  ObservEditor.swift
+//  Cahier du Professeur
 //
-//  Created by Lionel MICHAUD on 15/04/2022.
+//  Created by Lionel MICHAUD on 06/10/2022.
 //
 
 import SwiftUI
-import HelpersView
 import CoreData
 
-struct SchoolEditor: View {
+struct ObservEditor: View {
     @EnvironmentObject
     private var navigationModel : NavigationModel
 
-    // MARK: - Computed Properties
+    // MARK: - Computed properties
 
-    private var selectedSchoolId: NSManagedObjectID? {
-        navigationModel.selectedSchoolId
+    private var selectedObservId: NSManagedObjectID? {
+        navigationModel.selectedObservId
     }
 
-    private var selectedSchool: SchoolEntity? {
-        guard let selectedSchoolId else { return nil }
-        return SchoolEntity.byId(id: selectedSchoolId)
+    private var selectedObserv: ObservEntity? {
+        guard let selectedObservId else { return nil }
+        return ObservEntity.byId(id: selectedObservId)
     }
 
-    private var selectedSchoolExists: Bool {
-        selectedSchool != nil
+    private var selectedObservExists: Bool {
+        selectedObserv != nil
     }
 
     var body: some View {
-        if selectedSchoolExists {
-            SchoolDetail(school: selectedSchool!)
+        if selectedObservExists {
+            ObservDetail(observ: selectedObserv!)
         } else {
             VStack(alignment: .center) {
-                Text("Aucun établissement sélectionné.")
-                Text("Sélectionner un établissement.")
+                Text("Aucune observation sélectionnée.")
+                Text("Sélectionner une observation.")
             }
             .foregroundStyle(.secondary)
             .font(.title)
@@ -42,13 +41,13 @@ struct SchoolEditor: View {
     }
 }
 
-//struct SchoolEditor_Previews: PreviewProvider {
+//struct ObservEditor_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
 //            NavigationStack {
-//                SchoolEditor()
-//                    .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
+//                ObservEditor()
+//                    .environmentObject(NavigationModel(selectedObservId: TestEnvir.observStore.items.first!.id))
 //                    .environmentObject(TestEnvir.schoolStore)
 //                    .environmentObject(TestEnvir.classeStore)
 //                    .environmentObject(TestEnvir.eleveStore)
@@ -58,8 +57,8 @@ struct SchoolEditor: View {
 //            .previewDevice("iPad mini (6th generation)")
 //
 //            NavigationStack {
-//                SchoolEditor()
-//                    .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
+//                ObservEditor()
+//                    .environmentObject(NavigationModel(selectedObservId: TestEnvir.observStore.items.first!.id))
 //                    .environmentObject(TestEnvir.schoolStore)
 //                    .environmentObject(TestEnvir.classeStore)
 //                    .environmentObject(TestEnvir.eleveStore)

@@ -17,8 +17,7 @@ struct EleveSplitView: View {
         ) {
             EleveSidebarView()
         } detail: {
-            Text("Eleve Detail View")
-            //EleveEditor()
+            EleveEditor()
         }
     }
 }

@@ -322,8 +322,8 @@ extension EleveEntity: ModelEntityP {
     ///   1. Niveau de la Classe
     ///   2. Numéro de la Classe
     ///   3. SGPA ou non
-    ///   3. Nom / Prénom
-    ///   4. Prénom / Nom
+    ///   4. Nom / Prénom
+    ///   5. Prénom / Nom
     static func requestFilteredSortedByName(
         dansSchoolId: NSManagedObjectID,
         searchString: String
@@ -344,6 +344,40 @@ extension EleveEntity: ModelEntityP {
     var allObservs: [ObservEntity] {
         (self.observs?.allObjects as! [ObservEntity])
     }
+
+    // MARK: - Methods
+
+    func sortedObservations(isConsignee : Bool? = nil,
+                            isVerified  : Bool? = nil) -> [ObservEntity] {
+        let sortComparators = [
+            SortDescriptor(\ObservEntity.isConsignee, order: .forward),
+            SortDescriptor(\ObservEntity.isVerified, order: .forward),
+            SortDescriptor(\ObservEntity.date, order: .forward)
+        ]
+
+        return allObservs
+            .filter { observ in
+                observ.satisfies(isConsignee: isConsignee,
+                                 isVerified: isVerified)
+            }
+            .sorted(using: sortComparators)
+    }
+
+    func sortedColles(isConsignee : Bool? = nil,
+                      isVerified  : Bool? = nil) -> [ColleEntity] {
+        let sortComparators = [
+            SortDescriptor(\ColleEntity.isConsignee, order: .forward),
+            SortDescriptor(\ColleEntity.date, order: .forward)
+        ]
+
+        return allColles
+            .filter { colle in
+                colle.satisfies(isConsignee: isConsignee,
+                                 isVerified: isVerified)
+            }
+            .sorted(using: sortComparators)
+    }
+
 }
 
 // MARK: - Extension Debug

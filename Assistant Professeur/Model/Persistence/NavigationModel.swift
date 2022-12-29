@@ -16,8 +16,8 @@ final class NavigationModel: ObservableObject, Codable {
     }
     @Published var columnVisibility  : NavigationSplitViewVisibility
     @Published var selectedTab       : Tab
-//    @Published var selectedObservId  : Observation.ID?
-//    @Published var selectedColleId   : Colle.ID?
+    @Published var selectedObservId  : NSManagedObjectID?
+    @Published var selectedColleId   : NSManagedObjectID?
     @Published var selectedEleveId   : NSManagedObjectID?
     @Published var selectedClasseId  : NSManagedObjectID?
     @Published var selectedSchoolId  : NSManagedObjectID?
@@ -29,20 +29,20 @@ final class NavigationModel: ObservableObject, Codable {
     private lazy var encoder = JSONEncoder()
 
     init(columnVisibility  : NavigationSplitViewVisibility = .doubleColumn,
-         selectedTab       : Tab              = .school,
-//         selectedObservId  : Observation.ID?  = nil,
-//         selectedColleId   : Colle.ID?        = nil,
+         selectedTab       : Tab                = .school,
+         selectedObservId  : NSManagedObjectID? = nil,
+         selectedColleId   : NSManagedObjectID? = nil,
          selectedEleveId   : NSManagedObjectID? = nil,
          selectedClasseId  : NSManagedObjectID? = nil,
          selectedSchoolId  : NSManagedObjectID? = nil,
-         filterObservation : Bool              = false,
-         filterColle       : Bool              = false,
-         filterFlag        : Bool              = false
+         filterObservation : Bool               = false,
+         filterColle       : Bool               = false,
+         filterFlag        : Bool               = false
     ) {
         self.columnVisibility  = columnVisibility
         self.selectedTab       = selectedTab
-//        self.selectedObservId  = selectedObservId
-//        self.selectedColleId   = selectedColleId
+        self.selectedObservId  = selectedObservId
+        self.selectedColleId   = selectedColleId
         self.selectedEleveId   = selectedEleveId
         self.selectedClasseId  = selectedClasseId
         self.selectedSchoolId  = selectedSchoolId
@@ -59,8 +59,8 @@ final class NavigationModel: ObservableObject, Codable {
             else { return }
             columnVisibility  = model.columnVisibility
             selectedTab       = model.selectedTab
-//            selectedObservId  = model.selectedObservId
-//            selectedColleId   = model.selectedColleId
+            selectedObservId  = model.selectedObservId
+            selectedColleId   = model.selectedColleId
             selectedEleveId   = model.selectedEleveId
             selectedClasseId  = model.selectedClasseId
             selectedSchoolId  = model.selectedSchoolId
@@ -88,7 +88,7 @@ final class NavigationModel: ObservableObject, Codable {
 //            Colle.ID.self, forKey: .selectedColleId)
 //
 //        self.selectedEleveId = try container.decodeIfPresent(
-//            Eleve.ID.self, forKey: .selectedEleveId)
+//            NSManagedObjectID.self, forKey: .selectedEleveId)
 //
 //        self.selectedClasseId = try container.decodeIfPresent(
 //            Classe.ID.self, forKey: .selectedClasseId)
@@ -126,8 +126,8 @@ final class NavigationModel: ObservableObject, Codable {
     enum CodingKeys: String, CodingKey {
         case columnVisibility
         case selectedTab
-//        case selectedObservId
-//        case selectedColleId
+        case selectedObservId
+        case selectedColleId
         case selectedEleveId
         case selectedClasseId
         case selectedSchoolId

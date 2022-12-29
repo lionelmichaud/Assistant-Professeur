@@ -1,40 +1,40 @@
 //
-//  SchoolEditor.swift
-//  Cahier du Professeur (iOS)
+//  EleveEditor.swift
+//  Cahier du Professeur
 //
-//  Created by Lionel MICHAUD on 15/04/2022.
+//  Created by Lionel MICHAUD on 22/04/2022.
 //
 
 import SwiftUI
 import HelpersView
 import CoreData
 
-struct SchoolEditor: View {
+struct EleveEditor: View {
     @EnvironmentObject
     private var navigationModel : NavigationModel
 
     // MARK: - Computed Properties
 
-    private var selectedSchoolId: NSManagedObjectID? {
-        navigationModel.selectedSchoolId
+    private var selectedEleveId: NSManagedObjectID? {
+        navigationModel.selectedEleveId
     }
 
-    private var selectedSchool: SchoolEntity? {
-        guard let selectedSchoolId else { return nil }
-        return SchoolEntity.byId(id: selectedSchoolId)
+    private var selectedEleve: EleveEntity? {
+        guard let selectedEleveId else { return nil }
+        return EleveEntity.byId(id: selectedEleveId)
     }
 
-    private var selectedSchoolExists: Bool {
-        selectedSchool != nil
+    private var selectedEleveExists: Bool {
+        selectedEleve != nil
     }
 
     var body: some View {
-        if selectedSchoolExists {
-            SchoolDetail(school: selectedSchool!)
+        if selectedEleveExists {
+            EleveDetail(eleve: selectedEleve!)
         } else {
             VStack(alignment: .center) {
-                Text("Aucun établissement sélectionné.")
-                Text("Sélectionner un établissement.")
+                Text("Aucun élève sélectionné.")
+                Text("Sélectionner un élève.")
             }
             .foregroundStyle(.secondary)
             .font(.title)
@@ -42,13 +42,13 @@ struct SchoolEditor: View {
     }
 }
 
-//struct SchoolEditor_Previews: PreviewProvider {
+//struct EleveEditor_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
 //            NavigationStack {
-//                SchoolEditor()
-//                    .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
+//                EleveEditor()
+//                    .environmentObject(NavigationModel(selectedEleveId: TestEnvir.eleveStore.items.first!.id))
 //                    .environmentObject(TestEnvir.schoolStore)
 //                    .environmentObject(TestEnvir.classeStore)
 //                    .environmentObject(TestEnvir.eleveStore)
@@ -58,8 +58,8 @@ struct SchoolEditor: View {
 //            .previewDevice("iPad mini (6th generation)")
 //
 //            NavigationStack {
-//                SchoolEditor()
-//                    .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
+//                EleveEditor()
+//                    .environmentObject(NavigationModel(selectedEleveId: TestEnvir.eleveStore.items.first!.id))
 //                    .environmentObject(TestEnvir.schoolStore)
 //                    .environmentObject(TestEnvir.classeStore)
 //                    .environmentObject(TestEnvir.eleveStore)

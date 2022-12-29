@@ -20,8 +20,8 @@ struct EleveBrowserRow: View {
 
             Spacer()
             
-//            EleveColleLabel(eleve: eleve, scale: .small)
-//            EleveObservLabel(eleve: eleve, scale: .small)
+            EleveColleLabel(eleve: eleve, scale: .small)
+            EleveObservLabel(eleve: eleve, scale: .small)
         }
     }
 }
