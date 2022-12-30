@@ -23,7 +23,7 @@ enum MotifEnum: Int16, PickableEnumP, Codable {
             case .defautDeCarnet:
                 return "Défaut de carnet"
             case .attitudeIndaptee:
-                return "Attitude indaptée"
+                return "Attitude inadaptée"
             case .bavardage:
                 return "Bavardage"
             case .devoirNonrendu:

@@ -52,7 +52,6 @@ struct ClasseSidebarSchoolSubview : View {
         /// pour chaque Classe
         ForEach(schoolSection, id: \.objectID) { classe in
             ClassBrowserRow(classe: classe)
-                .badge(classe.nbOfEleves)
 
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     // supprimer la classe et tous ses descendants

@@ -17,7 +17,7 @@
     <entity name="ColleEntity" representedClassName="ColleEntity" syncable="YES" codeGenerationType="class">
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="descriptionMotif" attributeType="String" defaultValueString=""/>
-        <attribute name="duree" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="duree" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="isConsignee" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isVerified" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="motif" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>

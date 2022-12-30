@@ -10,9 +10,6 @@ import HelpersView
 
 struct ColleBrowserRow: View {
     @ObservedObject
-    var eleve : EleveEntity
-
-    @ObservedObject
     var colle : ColleEntity
 
     var body: some View {
@@ -26,16 +23,27 @@ struct ColleBrowserRow: View {
 
                 Spacer()
 
-//                ColleNotifIcon(colle: colle)
+                ColleNotifIcon(colle: colle)
             }
 
-            EleveLabel(eleve: eleve)
-                .font(.callout)
-                .foregroundColor(.secondary)
+            if let eleve = colle.eleve {
+                EleveLabel(eleve: eleve)
+                    .font(.callout)
+                    .foregroundColor(.secondary)
+            } else {
+                Text("<Elève indéfini>")
+            }
 
-//            MotifLabel(motif: colle.motif)
+            HStack {
+                Image(systemName: "clock")
+                LabeledContent("Durée (heure)",
+                               value: colle.viewDuree,
+                               format: .number)
+            }
+
+            MotifLabel(motif: colle.motifEnum,
+                       description: colle.viewDescriptionMotif)
                 .font(.callout)
-            //.foregroundColor(.secondary)
         }
     }
 }

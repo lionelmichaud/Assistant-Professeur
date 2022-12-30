@@ -15,16 +15,32 @@ struct EleveColleRow: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
+    var motifDisplayString: String {
+        if colle.motifEnum == .autre {
+            return colle.viewDescriptionMotif.truncate(to: 20, addEllipsis: true)
+        } else {
+            return colle.motifEnum.displayString
+        }
+    }
+
     var body: some View {
         HStack {
             Image(systemName: "lock")
                 .foregroundColor(colle.color)
-            VStack(alignment: .leading) {
-                Text(colle.date.stringShortDate)
-                Text(colle.motifEnum.displayString)
-                    .foregroundColor(.secondary)
+            if hClass == .compact {
+                VStack(alignment: .leading) {
+                    Text(colle.viewDate.stringShortDate)
+                    Text(motifDisplayString)
+                        .foregroundColor(.secondary)
+                }
+                .font(.callout)
+            } else {
+                VStack(alignment: .leading) {
+                    Text(colle.viewDate.stringLongDateTime)
+                    Text(motifDisplayString)
+                        .foregroundColor(.secondary)
+                }
             }
-            .font(hClass == .compact ? .callout : .body)
 
             Spacer()
 

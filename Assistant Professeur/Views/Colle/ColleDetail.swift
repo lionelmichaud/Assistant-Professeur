@@ -1,5 +1,5 @@
 //
-//  ObservDetail.swift
+//  ColleDetail.swift
 //  Cahier du Professeur
 //
 //  Created by Lionel MICHAUD on 23/04/2022.
@@ -8,19 +8,19 @@
 import SwiftUI
 import HelpersView
 
-struct ObservDetail: View {
+struct ColleDetail: View {
     @ObservedObject
-    var observ: ObservEntity
+    var colle: ColleEntity
 
     // MARK: - Computed properties
 
     var isConsigneeLabel: some View {
         Label(
             title: {
-                Text("Notifiée aux parents")
+                Text("Notifiée à la vie scolaire")
             }, icon: {
-                Image(systemName: observ.isConsignee ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(observ.isConsignee ? .green : .gray)
+                Image(systemName: colle.isConsignee ? "checkmark.circle.fill" : "circle")
+                    .foregroundColor(colle.isConsignee ? .green : .gray)
             }
         )
     }
@@ -28,16 +28,16 @@ struct ObservDetail: View {
     var isVerifiedLabel: some View {
         Label(
             title: {
-                Text("Signature des parents vérifiée")
+                Text("Exécutée par l'élève")
             }, icon: {
-                Image(systemName: observ.isVerified ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(observ.isVerified ? .green : .gray)
+                Image(systemName: colle.isVerified ? "checkmark.circle.fill" : "circle")
+                    .foregroundColor(colle.isVerified ? .green : .gray)
             }
         )
-    }
+   }
 
     var eleve: EleveEntity? {
-        observ.eleve
+        colle.eleve
     }
 
     var body: some View {
@@ -46,31 +46,40 @@ struct ObservDetail: View {
             if let eleve {
                 GroupBox {
                     Text(eleve.displayName)
-//                    EleveLabelWithTrombineFlag(eleve      : observ.eleve,
+//                    EleveLabelWithTrombineFlag(eleve      : .constant(eleve),
 //                                               isEditable : false)
                 }
             }
 
-            // observations
+            // colles
             List {
                 HStack {
-                    Image(systemName: "magnifyingglass")
+                    Image(systemName: "lock")
                         .sfSymbolStyling()
-                        .foregroundColor(observ.color)
+                        .foregroundColor(colle.color)
                     // date
-                    DatePicker("Date", selection: $observ.viewDate)
+                    DatePicker("Date", selection: $colle.viewDate)
                         .labelsHidden()
                         .listRowSeparator(.hidden)
                         .environment(\.locale, Locale.init(identifier: "fr_FR"))
                 }
 
                 // motif
-                MotifEditor(motif: $observ.motifEnum,
-                            description: $observ.viewDescriptionMotif)
+                MotifEditor(motif: $colle.motifEnum,
+                            description: $colle.viewDescriptionMotif)
+
+                // Durée
+                HStack {
+                    Stepper("Durée",
+                            value : $colle.viewDuree,
+                            in    : 1 ... 4,
+                            step  : 1)
+                    Text("\(colle.viewDuree) heures")
+                }
 
                 // checkbox isConsignee
                 Button {
-                    observ.toggleIsConsignee()
+                    colle.toggleIsConsignee()
                 } label: {
                     isConsigneeLabel
                 }
@@ -78,7 +87,7 @@ struct ObservDetail: View {
 
                 // checkbox isVerified
                 Button {
-                    observ.toggleIsVerified()
+                    colle.toggleIsVerified()
                 } label: {
                     isVerifiedLabel
                 }
@@ -86,19 +95,19 @@ struct ObservDetail: View {
             }
         }
         #if os(iOS)
-        .navigationTitle("Observation")
+        .navigationTitle("Colle")
         .navigationBarTitleDisplayMode(.inline)
         #endif
     }
 }
 
-//struct ObservDetail_Previews: PreviewProvider {
+//struct ColleDetail_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
 //            NavigationStack {
-//                ObservDetail(observ: .constant(TestEnvir.observStore.items.first!))
-//                    .environmentObject(NavigationModel(selectedObservId: TestEnvir.observStore.items.first!.id))
+//                ColleDetail(colle: .constant(TestEnvir.colleStore.items.first!))
+//                    .environmentObject(NavigationModel())
 //                    .environmentObject(TestEnvir.schoolStore)
 //                    .environmentObject(TestEnvir.classeStore)
 //                    .environmentObject(TestEnvir.eleveStore)
@@ -108,8 +117,8 @@ struct ObservDetail: View {
 //            .previewDevice("iPad mini (6th generation)")
 //
 //            NavigationStack {
-//                ObservDetail(observ: .constant(TestEnvir.observStore.items.first!))
-//                    .environmentObject(NavigationModel(selectedObservId: TestEnvir.observStore.items.first!.id))
+//                ColleDetail(colle: .constant(TestEnvir.colleStore.items.first!))
+//                    .environmentObject(NavigationModel(selectedColleId: TestEnvir.eleveStore.items.first!.id))
 //                    .environmentObject(TestEnvir.schoolStore)
 //                    .environmentObject(TestEnvir.classeStore)
 //                    .environmentObject(TestEnvir.eleveStore)

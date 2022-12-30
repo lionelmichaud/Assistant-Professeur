@@ -177,66 +177,6 @@ extension ClasseEntity {
     }
 
 
-    func nbOfObservations(isConsignee  : Bool? = nil,
-                          isVerified   : Bool? = nil) -> Int {
-        let eleves = allEleves
-        var total = 0
-        switch (isConsignee, isVerified) {
-            case (nil, nil):
-                eleves.forEach { eleve in
-                    total += eleve.nbOfObservations()
-                }
-
-            case (.some(let c), nil):
-                var total = 0
-                eleves.forEach { eleve in
-                    total += eleve.nbOfObservations(isConsignee: c)
-                }
-
-            case (nil, .some(let v)):
-                var total = 0
-                eleves.forEach { eleve in
-                    total += eleve.nbOfObservations(isVerified: v)
-                }
-
-            case (.some(let c), .some(let v)):
-                var total = 0
-                eleves.forEach { eleve in
-                    total += eleve.nbOfObservations(isConsignee: c,
-                                                    isVerified: v)
-                }
-        }
-        return total
-    }
-
-    func nbOfColles(isConsignee : Bool?  = nil,
-                    isVerified  : Bool?  = nil) -> Int {
-        let eleves = allEleves
-        var total = 0
-        switch (isConsignee, isVerified) {
-            case (nil, nil):
-                eleves.forEach { eleve in
-                    total += eleve.nbOfColles()
-                }
-
-            case (.some(let c), nil):
-                eleves.forEach { eleve in
-                    total += eleve.nbOfColles(isConsignee: c)
-                }
-
-            case (nil, .some(let v)):
-                eleves.forEach { eleve in
-                    total += eleve.nbOfColles(isVerified: v)
-                }
-
-            case (.some(let c), .some(let v)):
-                eleves.forEach { eleve in
-                    total += eleve.nbOfColles(isConsignee: c,
-                                               isVerified: v)
-                }
-        }
-        return total
-    }
 }
 
 // MARK: - Extension Core Data
@@ -298,12 +238,21 @@ extension ClasseEntity: ModelEntityP {
         filteredElevesSortedByName(searchString: "")
     }
 
-    /// Recherche des élèves de la classe dont les nom ou prénom contiennent `searchString`.
+    /// Retourne la liste des élèves de la classe satisfaisant *au moins à l'un des critères* définis en paramètre.
     /// Les élèves trouvés sont triés par nom.
     ///
     /// Ordre de tri selon la préférence `.nameSortOrder`:
     ///   1. Nom / Prénom
     ///   2. Prénon / Nom
+    ///
+    /// Si un critère vaut `false` alors on ne filtre pas sur ce critère.
+    ///
+    /// - Parameters:
+    ///   - searchString: caractères à rechercher dnas les noms/prénom ou nombre à rechercher dans le n° de groupe
+    ///   - filterObservation: si `true` alors ne conserver que les élèves avec des observation **non-consignées** OU **non-vérifiées**
+    ///   - filterColle: si `true` alors ne conserver que que les élèves avec des colles **non-consignées**
+    ///   - filterFlag: si `true` alors ne conserver que que les élèves **flagés**
+    /// - Returns: Liste des élèves de la classe satisfaisant *au moins à l'un des critères* définis en paramètre
     func filteredElevesSortedByName(
         searchString      : String,
         filterObservation : Bool = false,
@@ -320,7 +269,7 @@ extension ClasseEntity: ModelEntityP {
             SortDescriptor(\EleveEntity.familyName, order: .forward)
         ]
 
-        return (self.eleves?.allObjects as! [EleveEntity])
+        return allEleves
             .filter { eleve in
                 lazy var nbObservWithActionToDo : Int = {
                     eleve.nbOfObservations(isConsignee : false,
@@ -343,14 +292,134 @@ extension ClasseEntity: ModelEntityP {
     /// Recherche des élèves de la classe dont les nom ou prénom contiennent `searchString`.
     ///
     /// Les élèves trouvés sont triés en utilisant `sortOrder`.
-    func filteredSortedEleves(searchString : String,
-                              sortOrder    : [KeyPathComparator<EleveEntity>]) -> [EleveEntity] {
+    func filteredSortedEleves(
+        searchString : String,
+        sortOrder    : [KeyPathComparator<EleveEntity>]
+    ) -> [EleveEntity] {
+        guard searchString.isNotEmpty else { return allEleves.sorted(using: sortOrder) }
 
-        (self.eleves?.allObjects as! [EleveEntity])
+        return allEleves
             .filter { eleve in
                 eleve.satisfiesTo(searchString: searchString)
             }
             .sorted(using: sortOrder)
+    }
+
+    /// Retourne le nombre de `ObservEntity` associées aux élèves de la classe
+    /// qui satisfont aux critères: `isConsignee` et `isVerified`
+    /// - Parameters:
+    ///   - isConsignee: si `nil` on ne filtre pas, sinon on filtre sur la valeur booléenne
+    ///   - isVerified: si `nil` on ne filtre pas, sinon on filtre sur la valeur booléenne
+    /// - Returns: Nombre des `ObservEntity` associées aux élèves de la classe
+    func nbOfObservations(
+        isConsignee  : Bool? = nil,
+        isVerified   : Bool? = nil
+    ) -> Int {
+        let eleves = allEleves
+        var total = 0
+
+        switch (isConsignee, isVerified) {
+            case (nil, nil):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfObservs
+                }
+
+            case let(.some(c), nil):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfObservations(isConsignee: c)
+                }
+
+            case let(nil, .some(v)):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfObservations(isVerified: v)
+                }
+
+            case let(.some(c), .some(v)):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfObservations(isConsignee: c,
+                                                    isVerified: v)
+                }
+        }
+        return total
+    }
+
+    /// Retourne la liste des `ObservEntity` associées aux élèves de la classe
+    /// qui satisfont aux critères: `isConsignee` et `isVerified`
+    /// - Parameters:
+    ///   - isConsignee: si `nil` on ne filtre pas, sinon on filtre sur la valeur booléenne
+    ///   - isVerified: si `nil` on ne filtre pas, sinon on filtre sur la valeur booléenne
+    /// - Returns: Liste des `ObservEntity` associées aux élèves de la classe
+    func filteredSortedObservations(
+        isConsignee : Bool? = nil,
+        isVerified  : Bool? = nil
+    ) -> [ObservEntity] {
+        var observs = [ObservEntity]()
+
+        self.elevesSortedByName
+            .forEach { eleve in
+                observs += eleve.sortedObservations(isConsignee: isConsignee,
+                                                    isVerified: isVerified)
+            }
+
+        return observs
+    }
+
+    /// Retourne le nombre de `ColleEntity` associées aux élèves de la classe
+    /// qui satisfont aux critères: `isConsignee` et `isVerified`
+    /// - Parameters:
+    ///   - isConsignee: si `nil` on ne filtre pas, sinon on filtre sur la valeur booléenne
+    ///   - isVerified: si `nil` on ne filtre pas, sinon on filtre sur la valeur booléenne
+    /// - Returns: Nombre des `ColleEntity` associées aux élèves de la classe
+    func nbOfColles(
+        isConsignee : Bool?  = nil,
+        isVerified  : Bool?  = nil
+    ) -> Int {
+        let eleves = allEleves
+        var total = 0
+        switch (isConsignee, isVerified) {
+            case (nil, nil):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfColles
+                }
+
+            case let(.some(c), nil):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfColles(isConsignee: c)
+                }
+
+            case let(nil, .some(v)):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfColles(isVerified: v)
+                }
+
+            case let(.some(c), .some(v)):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfColles(isConsignee: c,
+                                              isVerified: v)
+                }
+        }
+        return total
+    }
+
+    /// Retourne la liste des `ColleEntity` associées aux élèves de la classe
+    /// qui satisfont aux critères: `isConsignee` et `isVerified`
+    /// - Parameters:
+    ///   - isConsignee: si `nil` on ne filtre pas, sinon on filtre sur la valeur booléenne
+    ///   - isVerified: si `nil` on ne filtre pas, sinon on filtre sur la valeur booléenne
+    /// - Returns: Liste des `ColleEntity` associées aux élèves de la classe
+    func filteredSortedColles(
+        isConsignee : Bool? = nil,
+        isVerified  : Bool? = nil
+    ) -> [ColleEntity] {
+        var observs = [ColleEntity]()
+
+        self.elevesSortedByName
+            .forEach { eleve in
+                observs += eleve.sortedColles(isConsignee: isConsignee,
+                                              isVerified: isVerified)
+            }
+
+        return observs
     }
 }
 
@@ -362,14 +431,15 @@ extension ClasseEntity {
 
         CLASSE: \(displayString)
            ID      : \(id)
-           SchoolID: \(String(describing: school?.id))
+           School  : \(String(describing: school?.displayString))
            Niveau  : \(levelString)
            Numéro  : \(numero)
            SEGPA   : \(segpa.frenchString)
            Heures  : \(heures)
            Flagged : \(isFlagged.frenchString)
-           Appréciation: \(viewAppreciation)
-           Annotation  : \(viewAnnotation)
+           Appréciation: '\(viewAppreciation)'
+           Annotation  : '\(viewAnnotation)'
+           Nb élèves   : \(elevesCount)
         """
 //           RoomID  : \(String(describing: roomId))
 //           Eleves  : \(String(describing: elevesID).withPrefixedSplittedLines("     "))

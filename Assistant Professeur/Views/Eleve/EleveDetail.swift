@@ -117,13 +117,12 @@ struct EleveDetail: View {
             Button {
                 isAddingNewColle = true
             } label: {
-                Image(systemName: "plus.circle.fill")
-                    .imageScale(.medium)
+                Label("Ajouter une colle", systemImage: "plus.circle.fill")
             }
             .buttonStyle(.borderless)
 
             // édition de la liste des colles
-            ForEach(eleve.sortedColles(isConsignee : filterColle ? false : nil)) { colle in
+            ForEach(eleve.sortedColles(isConsignee: filterColle ? false : nil)) { colle in
                 EleveColleRow(colle: colle)
 
                     .onTapGesture {
@@ -137,8 +136,8 @@ struct EleveDetail: View {
                         Button(role: .destructive) {
                             withAnimation {
                                 try? colle.delete()
-                                if navigationModel.selectedObservId == colle.objectID {
-                                    navigationModel.selectedObservId = nil
+                                if navigationModel.selectedColleId == colle.objectID {
+                                    navigationModel.selectedColleId = nil
                                 }
                             }
                         } label: {
@@ -149,10 +148,10 @@ struct EleveDetail: View {
         } header: {
             Text("Colles (\(eleve.nbOfColles))")
                 .font(.headline)
+                .font(.callout)
+                .foregroundColor(.secondary)
+                .fontWeight(.bold)
         }
-        .font(.callout)
-        .foregroundColor(.secondary)
-        .fontWeight(.bold)
     }
 
     var body: some View {

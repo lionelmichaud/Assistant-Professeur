@@ -66,7 +66,6 @@ struct ContentView: View {
                                                message       : Text(AppState.shared.initError!.rawValue),
                                                dismissButton : .default(Text("OK")))
             }
-            //eleveStore.sort()
 
             if let navigationData {
                 navigationModel.jsonData = navigationData

@@ -209,11 +209,11 @@ extension SchoolEntity {
         """
 
         ETABLISSEMENT: \(displayString)
-           ID     : \(id)
-           Niveau : \(levelString)
-           Nom    : \(viewName)
-           Note   : \(viewAnnotation)
-           Nombre de classes: \(nbOfClasses)
+           ID         : \(id)
+           Niveau     : \(levelString)
+           Nom        : \(viewName)
+           Note       : \(viewAnnotation)
+           Nb classes : \(nbOfClasses)
         """
 //           ClassesID: \(String(describing: classesID).withPrefixedSplittedLines("     "))
 //           Evénements: \(String(describing: events).withPrefixedSplittedLines("     "))

@@ -20,6 +20,11 @@ extension ColleEntity {
             MotifEnum(rawValue: motif) ?? .bavardage
         }
         set {
+            if newValue != motifEnum {
+                if newValue == .autre {
+                    descriptionMotif = "description"
+                }
+            }
             self.motif = newValue.rawValue
             try? ObservEntity.saveIfContextHasChanged()
         }
@@ -30,7 +35,7 @@ extension ColleEntity {
     @objc
     var viewDescriptionMotif: String {
         get {
-            self.descriptionMotif ?? ""
+            self.descriptionMotif ?? "description"
         }
         set {
             self.descriptionMotif = newValue
@@ -54,6 +59,20 @@ extension ColleEntity {
     var color: Color {
         satisfies(isConsignee: false) ? .red : .green
     }
+
+    /// Wrapper of `duree`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewDuree: Int {
+        get {
+            Int(self.duree)
+        }
+        set {
+            self.duree = Int16(newValue)
+            try? ColleEntity.saveIfContextHasChanged()
+        }
+    }
+
 
     // MARK: - Methods
 
@@ -120,7 +139,7 @@ extension ColleEntity {
 
         COLLE:
            ID            : \(id)
-           EleveID       : \(String(describing: eleve?.id))
+           Eleve         : \(String(describing: eleve?.displayName))
            Date          : \(date.stringShortDate)
            Motif         : \(motifEnum.displayString)
            Motif descrip : '\(viewDescriptionMotif)'

@@ -212,61 +212,6 @@ extension EleveEntity {
         }
     }
 
-    func nbOfObservations(
-        isConsignee  : Bool? = nil,
-        isVerified   : Bool? = nil
-    ) -> Int {
-        switch (isConsignee, isVerified) {
-            case (nil, nil):
-                return nbOfObservs
-
-            case (.some(let c), nil):
-                return self.allObservs
-                    .reduce(into: 0) { partialResult, observ in
-                        partialResult += (observ.isConsignee == c ? 1 : 0)
-                    }
-
-            case (nil, .some(let v)):
-                return self.allObservs
-                    .reduce(into: 0) { partialResult, observ in
-                        partialResult += (observ.isVerified == v ? 1 : 0)
-                    }
-
-            case (.some(let c), .some(let v)):
-                return self.allObservs
-                    .reduce(into: 0) { partialResult, observ in
-                        partialResult += ((observ.isConsignee == c || observ.isVerified == v) ? 1 : 0)
-                    }
-        }
-    }
-
-    func nbOfColles(
-        isConsignee : Bool?  = nil,
-        isVerified  : Bool?  = nil
-    ) -> Int {
-        switch (isConsignee, isVerified) {
-            case (nil, nil):
-                return nbOfColles
-
-            case (.some(let c), nil):
-                return self.allColles
-                    .reduce(into: 0) { partialResult, colle in
-                        partialResult += (colle.isConsignee == c ? 1 : 0)
-                    }
-
-            case (nil, .some(let v)):
-                return self.allColles
-                    .reduce(into: 0) { partialResult, colle in
-                        partialResult += (colle.isVerified == v ? 1 : 0)
-                    }
-
-            case (.some(let c), .some(let v)):
-                return self.allColles
-                    .reduce(into: 0) { partialResult, colle in
-                        partialResult += ((colle.isConsignee == c || colle.isVerified == v) ? 1 : 0)
-                    }
-        }
-    }
 }
 
 // MARK: - Extension Core Data
@@ -363,6 +308,34 @@ extension EleveEntity: ModelEntityP {
             .sorted(using: sortComparators)
     }
 
+    func nbOfObservations(
+        isConsignee  : Bool? = nil,
+        isVerified   : Bool? = nil
+    ) -> Int {
+        switch (isConsignee, isVerified) {
+            case (nil, nil):
+                return nbOfObservs
+
+            case let(.some(c), nil):
+                return self.allObservs
+                    .reduce(into: 0) { partialResult, observ in
+                        partialResult += (observ.isConsignee == c ? 1 : 0)
+                    }
+
+            case let(nil, .some(v)):
+                return self.allObservs
+                    .reduce(into: 0) { partialResult, observ in
+                        partialResult += (observ.isVerified == v ? 1 : 0)
+                    }
+
+            case let(.some(c), .some(v)):
+                return self.allObservs
+                    .reduce(into: 0) { partialResult, observ in
+                        partialResult += ((observ.isConsignee == c || observ.isVerified == v) ? 1 : 0)
+                    }
+        }
+    }
+
     func sortedColles(isConsignee : Bool? = nil,
                       isVerified  : Bool? = nil) -> [ColleEntity] {
         let sortComparators = [
@@ -373,11 +346,38 @@ extension EleveEntity: ModelEntityP {
         return allColles
             .filter { colle in
                 colle.satisfies(isConsignee: isConsignee,
-                                 isVerified: isVerified)
+                                isVerified: isVerified)
             }
             .sorted(using: sortComparators)
     }
 
+    func nbOfColles(
+        isConsignee : Bool?  = nil,
+        isVerified  : Bool?  = nil
+    ) -> Int {
+        switch (isConsignee, isVerified) {
+            case (nil, nil):
+                return nbOfColles
+
+            case (.some(let c), nil):
+                return self.allColles
+                    .reduce(into: 0) { partialResult, colle in
+                        partialResult += (colle.isConsignee == c ? 1 : 0)
+                    }
+
+            case (nil, .some(let v)):
+                return self.allColles
+                    .reduce(into: 0) { partialResult, colle in
+                        partialResult += (colle.isVerified == v ? 1 : 0)
+                    }
+
+            case (.some(let c), .some(let v)):
+                return self.allColles
+                    .reduce(into: 0) { partialResult, colle in
+                        partialResult += ((colle.isConsignee == c || colle.isVerified == v) ? 1 : 0)
+                    }
+        }
+    }
 }
 
 // MARK: - Extension Debug
@@ -388,13 +388,15 @@ extension EleveEntity {
 
         ELEVE: \(displayName)
            ID          : \(id)
-           ClasseID    : \(String(describing: classe?.id))
+           Classe      : \(String(describing: classe?.displayString))
            Sexe        : \(sexEnum.pickerString)
            Nom         : \(displayName)
            Flagged     : \(isFlagged.frenchString)
            Appréciation: \(viewAppreciation)
            Annotation  : \(viewAnnotation)
            Bonus       : \(viewBonus)
+           Nb observs  : \(nbOfObservs)
+           Nb colles   : \(nbOfColles)
         """
 //           Groupe: \(String(describing: group))
 //           Observations: \(String(describing: observsID).withPrefixedSplittedLines("     "))

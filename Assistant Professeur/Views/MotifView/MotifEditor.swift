@@ -16,31 +16,19 @@ struct MotifEditor: View {
     var description: String
 
     var body: some View {
-//        HStack(alignment: .center) {
-//            Text("Motif")
-//                .foregroundColor(.secondary)
-//
-//            Divider()
-//
             VStack(alignment: .leading) {
                 CasePicker(pickedCase: $motif.animation(),
                            label: "Motif")
                 .pickerStyle(.menu)
-                .onChange(of: motif) { newValue in
-                    if newValue != .autre {
-                        description = ""
-                    } else {
-                        description = "description"
-                    }
-                }
 
                 if motif == .autre {
                     TextEditor(text: $description)
+                        .lineLimit(1...)
                         .multilineTextAlignment(.leading)
                         .background(RoundedRectangle(cornerRadius: 8).stroke(.secondary))
+                        .frame(minHeight: 20)
                 }
             }
-//        }
     }
 }
 

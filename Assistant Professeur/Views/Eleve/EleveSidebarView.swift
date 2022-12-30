@@ -100,13 +100,12 @@ struct EleveSidebarSchoolSubview : View {
                 DisclosureGroup {
                     /// pour chaque Elève
                     ForEach(
-                        classe
-                            .filteredElevesSortedByName(
-                                searchString      : searchString,
-                                filterObservation : navigationModel.filterObservation,
-                                filterColle       : navigationModel.filterColle,
-                                filterFlag        : navigationModel.filterFlag
-                            ),
+                        classe.filteredElevesSortedByName(
+                            searchString      : searchString,
+                            filterObservation : navigationModel.filterObservation,
+                            filterColle       : navigationModel.filterColle,
+                            filterFlag        : navigationModel.filterFlag
+                        ),
                         id: \.objectID
                     ) { eleve in
                         EleveBrowserRow(eleve: eleve)
