@@ -19,17 +19,17 @@ struct EleveNameGroupBox: View {
 
     // MARK: - Computed Properties
 
-    private var sex: some View {
+    private var sexEditView: some View {
         HStack {
-            Image(systemName: "graduationcap")
-                .sfSymbolStyling()
-                .foregroundColor(eleve.sexEnum.color)
+//            Image(systemName: "graduationcap")
+//                .sfSymbolStyling()
+//                .foregroundColor(eleve.sexEnum.color)
             // Sexe de cet eleve
             CasePicker(pickedCase: $eleve.sexEnum, label: "Sexe")
                 .pickerStyle(.menu)
         }
     }
-    private var prenom: some View {
+    private var prenomEditView: some View {
         TextField("Prénom", text: $eleve.viewGivenName)
             .onSubmit {
                 eleve.viewGivenName.trim()
@@ -37,7 +37,7 @@ struct EleveNameGroupBox: View {
             .textFieldStyle(.roundedBorder)
             .autocorrectionDisabled()
     }
-    private var nom: some View {
+    private var nomEditView: some View {
         TextField("Nom", text: $eleve.viewFamilyName)
             .onSubmit {
                 eleve.viewFamilyName.trim()
@@ -49,33 +49,34 @@ struct EleveNameGroupBox: View {
     var body: some View {
         GroupBox {
             if isEditing {
+                // mode édition des sex, prénom, nom
                 ViewThatFits(in: .horizontal) {
                     // priorité 1
                     HStack {
-                        sex
+                        sexEditView
                         if nameDisplayOrder == .nomPrenom {
-                            nom
-                            prenom
+                            nomEditView
+                            prenomEditView
                         } else {
-                            prenom
-                            nom
+                            prenomEditView
+                            nomEditView
                         }
                     }
                     // priorité 2
                     VStack {
-                        sex
+                        sexEditView
                         if nameDisplayOrder == .nomPrenom {
-                            nom
-                            prenom
+                            nomEditView
+                            prenomEditView
                         } else {
-                            prenom
-                            nom
+                            prenomEditView
+                            nomEditView
                         }
                     }
                 }
+
             } else {
-                EmptyView()
-                //EleveLabelWithTrombineFlag(eleve: eleve)
+                EleveLabelWithTrombineFlag(eleve: eleve)
             }
         }
     }

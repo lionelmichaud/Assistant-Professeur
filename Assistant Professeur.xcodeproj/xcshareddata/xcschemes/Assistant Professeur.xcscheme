@@ -56,6 +56,7 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      enableThreadSanitizer = "YES"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -78,6 +79,13 @@
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
+      <AdditionalOptions>
+         <AdditionalOption
+            key = "NSZombieEnabled"
+            value = "YES"
+            isEnabled = "YES">
+         </AdditionalOption>
+      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

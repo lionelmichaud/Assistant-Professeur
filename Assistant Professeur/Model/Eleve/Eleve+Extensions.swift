@@ -29,6 +29,7 @@ extension EleveEntity {
             TroubleDys(rawValue: trouble) ?? .undefined
         }
         set {
+            hasAddTime = newValue.additionalTime
             self.trouble = newValue.rawValue
             try? EleveEntity.saveIfContextHasChanged()
         }
@@ -37,6 +38,18 @@ extension EleveEntity {
     /// True si l'élève souffre d'un trouble dysfonctionnel reconnu par un PAP
     var hasTrouble: Bool {
         troubleEnum != .none
+    }
+
+    /// Wrapper of `hasAddTime`
+    /// - Important: *Saves the context to the store after modification is done*
+    var viewHasAddTime: Bool {
+        get {
+            hasAddTime
+        }
+        set {
+            self.hasAddTime = newValue
+            try? EleveEntity.saveIfContextHasChanged()
+        }
     }
 
     /// Wrapper of `sex`
