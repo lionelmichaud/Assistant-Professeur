@@ -596,6 +596,7 @@
 		79DEDAE7292585BD00F508EF /* Colle */ = {
 			isa = PBXGroup;
 			children = (
+				793D627E295F33D300477932 /* ColleViewModel.swift */,
 				79DEDAF4292586C800F508EF /* ColleSplitView.swift */,
 				79DEDAF72925870500F508EF /* ColleSidebarView.swift */,
 				79ECF203295A1607008F0282 /* ColleBrowserRow.swift */,
@@ -604,7 +605,6 @@
 				794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */,
 				793D6278295F29DD00477932 /* ColleEditor.swift */,
 				793D627A295F2A1400477932 /* ColleDetail.swift */,
-				793D627E295F33D300477932 /* ColleViewModel.swift */,
 			);
 			path = Colle;
 			sourceTree = "<group>";

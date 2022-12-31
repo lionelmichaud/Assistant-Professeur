@@ -36,18 +36,13 @@ struct ObservDetail: View {
         )
     }
 
-    var eleve: EleveEntity? {
-        observ.eleve
-    }
-
     var body: some View {
         VStack {
             // élève
-            if let eleve {
+            if let eleve = observ.eleve {
                 GroupBox {
-                    Text(eleve.displayName)
-//                    EleveLabelWithTrombineFlag(eleve      : observ.eleve,
-//                                               isEditable : false)
+                    EleveLabelWithTrombineFlag(eleve      : eleve,
+                                               isEditable : false)
                 }
             }
 

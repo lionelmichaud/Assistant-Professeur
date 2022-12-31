@@ -51,8 +51,54 @@ struct EleveLabelWithTrombineFlag: View {
         )
     }
 
-    var body: some View {
+    private var troubleEditView: some View {
+        let layout = hClass == .compact ?
+        AnyLayout(VStackLayout()) : AnyLayout(HStackLayout())
+        return layout {
+            HStack {
+                Image(systemName: "figure.and.child.holdinghands")
+                    .imageScale(imageSize)
+                    .foregroundStyle(.tint)
+                CasePicker(pickedCase: $eleve.troubleEnum,
+                           label: "Trouble")
+                .pickerStyle(.menu)
+            }
+            .padding(.trailing)
+
+            HStack {
+                Image(systemName: "hourglass.badge.plus")
+                    .imageScale(imageSize)
+                    .foregroundStyle(.green, .tint)
+                Toggle(isOn: $eleve.viewHasAddTime.animation()) {
+                    Text("1/3 de temps aditionnel")
+                }
+                .toggleStyle(.button)
+                .controlSize(.small)
+            }
+        }
+    }
+
+    private var troubleDisplayView: some View {
         VStack {
+            HStack {
+                Image(systemName: "figure.and.child.holdinghands")
+                    .imageScale(imageSize)
+                    .foregroundStyle(.tint)
+                Text(eleve.troubleEnum.displayString)
+            }
+            if eleve.viewHasAddTime {
+                HStack {
+                    Image(systemName: "hourglass.badge.plus")
+                        .imageScale(imageSize)
+                        .foregroundStyle(.green, .tint)
+                    Text("1/3 de temps aditionnel")
+                }
+            }
+        }
+    }
+
+    var body: some View {
+        return VStack {
             HStack {
                 /// Classe
                 if let classe {
@@ -109,44 +155,29 @@ struct EleveLabelWithTrombineFlag: View {
 
             /// Trouble dys
             if eleve.hasTrouble {
-                HStack {
-                    if isEditable {
-                        CasePicker(pickedCase: $eleve.troubleEnum,
-                                   label: "Trouble")
-                        .pickerStyle(.menu)
-
-                        Toggle(isOn: $eleve.viewHasAddTime.animation()) {
-                            Text("1/3 de temps aditionnel")
-                        }
-                        .toggleStyle(.button)
-                        .controlSize(.small)
-
-                    } else {
-                        Text(eleve.troubleEnum.displayString + ":")
-                            .padding(.top)
-                        if eleve.viewHasAddTime {
-                            Text("1/3 de temps aditionnel")
-                                .padding(.top)
-                         }
-                    }
+                if isEditable {
+                    troubleEditView
+                    
+                } else {
+                    troubleDisplayView
                 }
             }
 
             /// Groupe
-//            if let group = eleve.group {
-//                Text("Groupe " + group.formatted(.number))
-//            }
+            //            if let group = eleve.group {
+            //                Text("Groupe " + group.formatted(.number))
+            //            }
 
             /// Trombine
-//            if showTrombine, let trombine = Trombinoscope.eleveTrombineUrl(eleve: eleve) {
-//                // TODO: - Gérer ici la mise à jour de la photo par drag and drop
-//                LoadableImage(imageUrl: trombine,
-//                              placeholderImage: .constant(Image(systemName: "person.fill.questionmark")))
-//                .frame(height: 320)
-//            }
+            //            if showTrombine, let trombine = Trombinoscope.eleveTrombineUrl(eleve: eleve) {
+            //                // TODO: - Gérer ici la mise à jour de la photo par drag and drop
+            //                LoadableImage(imageUrl: trombine,
+            //                              placeholderImage: .constant(Image(systemName: "person.fill.questionmark")))
+            //                .frame(height: 320)
+            //            }
         }
         .onAppear {
-//            hasPAP = eleve.troubleDys != nil
+            //            hasPAP = eleve.troubleDys != nil
         }
     }
 }

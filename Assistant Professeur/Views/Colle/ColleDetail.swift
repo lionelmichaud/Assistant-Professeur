@@ -36,18 +36,13 @@ struct ColleDetail: View {
         )
    }
 
-    var eleve: EleveEntity? {
-        colle.eleve
-    }
-
     var body: some View {
         VStack {
             // élève
-            if let eleve {
+            if let eleve = colle.eleve {
                 GroupBox {
-                    Text(eleve.displayName)
-//                    EleveLabelWithTrombineFlag(eleve      : .constant(eleve),
-//                                               isEditable : false)
+                    EleveLabelWithTrombineFlag(eleve      : eleve,
+                                               isEditable : false)
                 }
             }
 
