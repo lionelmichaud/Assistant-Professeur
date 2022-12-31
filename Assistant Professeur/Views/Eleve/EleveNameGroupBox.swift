@@ -17,13 +17,28 @@ struct EleveNameGroupBox: View {
     @Preference(\.nameDisplayOrder)
     private var nameDisplayOrder
 
+    /// Focused filed manager
+    enum FocusableField: Hashable {
+        case givenName
+        case familyName
+
+        mutating func moveToNext() {
+            switch self {
+                case .givenName:
+                    self = .familyName
+                case .familyName:
+                    self = .givenName
+            }
+        }
+    }
+
+    @FocusState
+    private var focus: FocusableField?
+
     // MARK: - Computed Properties
 
     private var sexEditView: some View {
         HStack {
-//            Image(systemName: "graduationcap")
-//                .sfSymbolStyling()
-//                .foregroundColor(eleve.sexEnum.color)
             // Sexe de cet eleve
             CasePicker(pickedCase: $eleve.sexEnum, label: "Sexe")
                 .pickerStyle(.menu)
@@ -32,18 +47,24 @@ struct EleveNameGroupBox: View {
     private var prenomEditView: some View {
         TextField("Prénom", text: $eleve.viewGivenName)
             .onSubmit {
-                eleve.viewGivenName.trim()
+                //eleve.viewGivenName.trim()
+                focus?.moveToNext()
             }
             .textFieldStyle(.roundedBorder)
             .autocorrectionDisabled()
+            .submitLabel(.next)
+            .focused($focus, equals: .givenName)
     }
     private var nomEditView: some View {
         TextField("Nom", text: $eleve.viewFamilyName)
             .onSubmit {
-                eleve.viewFamilyName.trim()
+                //eleve.viewFamilyName = eleve.viewFamilyName.trimmed.uppercased()
+                focus?.moveToNext()
             }
             .textFieldStyle(.roundedBorder)
             .autocorrectionDisabled()
+            .submitLabel(.next)
+            .focused($focus, equals: .familyName)
     }
 
     var body: some View {
@@ -78,6 +99,9 @@ struct EleveNameGroupBox: View {
             } else {
                 EleveLabelWithTrombineFlag(eleve: eleve)
             }
+        }
+        .onAppear {
+            focus = nameDisplayOrder == .nomPrenom ? .familyName : .givenName
         }
     }
 }

@@ -108,10 +108,8 @@ struct EleveLabelWithTrombineFlag: View {
                 }
                 /// Trombine
                 Button {
-                    if eleveTrombineEnabled {
-                        withAnimation {
-                            showTrombine.toggle()
-                        }
+                    withAnimation {
+                        showTrombine.toggle()
                     }
                 } label: {
                     Image(systemName: "graduationcap")
@@ -119,6 +117,7 @@ struct EleveLabelWithTrombineFlag: View {
                         .symbolRenderingMode(.monochrome)
                         .foregroundColor(eleve.sexEnum.color)
                 }
+                .disabled(!eleveTrombineEnabled)
 
                 /// Nom
                 if hClass == .compact {

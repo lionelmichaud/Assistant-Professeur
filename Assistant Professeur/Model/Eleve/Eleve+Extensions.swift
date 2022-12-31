@@ -72,7 +72,7 @@ extension EleveEntity {
             self.familyName ?? ""
         }
         set {
-            self.familyName = newValue
+            self.familyName = newValue.trimmed.uppercased()
             try? EleveEntity.saveIfContextHasChanged()
         }
     }
@@ -85,7 +85,7 @@ extension EleveEntity {
             self.givenName ?? ""
         }
         set {
-            self.givenName = newValue
+            self.givenName = newValue.trimmed
             try? EleveEntity.saveIfContextHasChanged()
         }
     }

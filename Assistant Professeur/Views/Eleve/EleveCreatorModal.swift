@@ -32,11 +32,11 @@ struct EleveCreatorModal: View {
         }
     }
 
-    @StateObject
-    private var eleveVM = EleveViewModel()
-
     @FocusState
     private var focus: FocusableField?
+
+    @StateObject
+    private var eleveVM = EleveViewModel()
 
     @State
     private var alertTitle = ""
