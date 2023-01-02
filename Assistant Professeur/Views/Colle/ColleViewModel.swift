@@ -51,6 +51,9 @@ class ColleViewModel: ObservViewModel {
 
     override func save(pourEleve: EleveEntity) {
         let colle = ColleEntity.create()
+        
+        // élève d'appartenance.
+        // mandatory
         colle.eleve = pourEleve // lien vers l'élève
 
         colle.setMotif(motifEnum)

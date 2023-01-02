@@ -104,6 +104,11 @@ extension SchoolEntity: ModelEntityP {
             ascending: true)
     ]
 
+    /// Requête pour tous les établissements triées.
+    ///
+    /// Ordre de tri:
+    ///   1. Type d'école
+    ///   2. Nom de l'école
     static var requestAllSortedByLevelName: NSFetchRequest<SchoolEntity> {
         let request = SchoolEntity.fetchRequest()
         request.sortDescriptors = SchoolEntity.byLevelNameNSSortDescriptor
@@ -143,12 +148,20 @@ extension SchoolEntity: ModelEntityP {
 
     /// Liste des classes de l'établissement non triées
     var allClasses: [ClasseEntity] {
-        (self.classes?.allObjects as! [ClasseEntity])
+        if let classes {
+            return (classes.allObjects as! [ClasseEntity])
+        } else {
+            return [ ]
+        }
     }
 
     /// Liste des ressources de l'établissement non triées
     var allRessources: [RessourceEntity] {
-        (self.ressources?.allObjects as! [RessourceEntity])
+        if let ressources {
+            return (ressources.allObjects as! [RessourceEntity])
+        } else {
+            return [ ]
+        }
     }
 
     /// Liste des classes de l'établissement triées par niveau puis par numéro

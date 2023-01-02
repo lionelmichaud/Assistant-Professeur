@@ -163,9 +163,9 @@ struct EleveLabelWithTrombineFlag: View {
             }
 
             /// Groupe
-            //            if let group = eleve.group {
-            //                Text("Groupe " + group.formatted(.number))
-            //            }
+            if let group = eleve.group {
+                Text("\(group.displayString)")
+            }
 
             /// Trombine
             //            if showTrombine, let trombine = Trombinoscope.eleveTrombineUrl(eleve: eleve) {

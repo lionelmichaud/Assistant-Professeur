@@ -45,8 +45,7 @@ struct ClasseSplitView: View {
 //                                TrombinoscopeView(classe : classe)
 
                             case .groups(let classe):
-                                EmptyView()
-//                                GroupsView(classe: classe)
+                                GroupsView(classe: classe)
 
                             case .exam(let classe, let examId):
                                 EmptyView()

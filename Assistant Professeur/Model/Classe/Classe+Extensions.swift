@@ -6,7 +6,11 @@
 //
 
 import Foundation
+import os
 import CoreData
+
+private let customLog = Logger(subsystem: "com.michaud.lionel.Assistant-Professeur",
+                               category: "ClasseEntity")
 
 /// Une classe d'élèves
 extension ClasseEntity {
@@ -121,6 +125,12 @@ extension ClasseEntity {
         Int(elevesCount)
     }
 
+    /// Nombre de groupes dans la Classe
+    /// - Important: incluant le groupe 0 des élèves affectés à aucun groupe
+    var nbOfGroups: Int {
+        Int(groupCount)
+    }
+
     var nbOfExams: Int {
         0
 //        exams.count
@@ -175,8 +185,6 @@ extension ClasseEntity {
         segpa.toggle()
         try? ClasseEntity.saveIfContextHasChanged()
     }
-
-
 }
 
 // MARK: - Extension Core Data
@@ -190,13 +198,16 @@ extension ClasseEntity: ModelEntityP {
 
     // MARK: - Type Computed Properties
 
-    static var bySchoolnameLevelNumberNSSortDescriptor: [NSSortDescriptor] = [
+    static var bySchoolThenClasseLevelNumberNSSortDescriptor: [NSSortDescriptor] =
+    [
+        // school
         NSSortDescriptor(
             keyPath: \ClasseEntity.school?.level,
             ascending: true),
         NSSortDescriptor(
             keyPath: \ClasseEntity.school?.name,
             ascending: true),
+        // classe
         NSSortDescriptor(
             keyPath: \ClasseEntity.level,
             ascending: false),
@@ -208,25 +219,68 @@ extension ClasseEntity: ModelEntityP {
             ascending: true)
     ]
 
-    /// Liste de toutes les classes triées.
+    /// Requête pour toutes les classes triées.
     ///
     /// Ordre de tri:
     ///   1. Type d'école
     ///   2. Nom de l'école
     ///   3. Niveau de la Classe
     ///   4. Numéro de la Classe
-    ///   5. SGPA ou non
-    static var requestAllSortedBySchoolnameLevelNumber: NSFetchRequest<ClasseEntity> {
+    ///   5. Classe SGPA ou non
+    static var requestAllSortedbySchoolThenClasseLevelNumber: NSFetchRequest<ClasseEntity> {
         let request = ClasseEntity.fetchRequest()
-        request.sortDescriptors = ClasseEntity.bySchoolnameLevelNumberNSSortDescriptor
+        request.sortDescriptors = ClasseEntity.bySchoolThenClasseLevelNumberNSSortDescriptor
         return request
     }
 
-    // MARK: - Computed Properties
+    // MARK: - Computed Properties Groups
+
+    /// Liste des élèves de la classe non triées
+    var allGroups: [GroupEntity] {
+        if let groups {
+            return (groups.allObjects as! [GroupEntity])
+        } else {
+            return [ ]
+        }
+    }
+
+    /// Retourne la liste des groupes de la classe.
+    /// Les groupes trouvés sont triés par numéro.
+    ///
+    /// Ordre de tri :
+    ///   1. Numéro de groupe
+    var allGroupsSortedByNumber: [GroupEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(\GroupEntity.number, order: .forward),
+        ]
+
+        return allGroups
+            .sorted(using: sortComparators)
+    }
+
+    var groupOfUngroupedEleves: GroupEntity {
+        let foundGroup = self.allGroups.filter { group in
+            group.number == 0
+        }
+        if foundGroup.isNotEmpty {
+            return foundGroup.first!
+        } else {
+            customLog.log(level: .fault,
+                          "groupOfUngroupedEleves: le groupe 0 n'existe pas")
+            fatalError()
+        }
+    }
+
+    // MARK: - Computed Properties Elèves
 
     /// Liste des élèves de la classe non triées
     var allEleves: [EleveEntity] {
-        (self.eleves?.allObjects as! [EleveEntity])
+        if let eleves {
+            return (eleves.allObjects as! [EleveEntity])
+        } else {
+            return [ ]
+        }
     }
 
     /// Liste des élèves de la classe triés par nom.
@@ -237,6 +291,31 @@ extension ClasseEntity: ModelEntityP {
     var elevesSortedByName: [EleveEntity] {
         filteredElevesSortedByName(searchString: "")
     }
+
+    // MARK: - Methods
+
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        //Set defaults here
+        // self.group = ""
+        //        self.fileDate = Date()
+    }
+
+    // MARK: - Méthodes Groupes
+
+    func groupe(number: Int) -> GroupEntity {
+        let groupes = allGroups
+            .filter { groupe in
+                groupe.number == Int16(number)
+            }
+        guard groupes.count == 1 else {
+            customLog.log(level: .fault, "Aucun ou plusieur groupes d'élèves avec le même numéro n°\(number) dans la classe \(self.displayString)")
+            fatalError()
+        }
+        return groupes.first!
+    }
+
+    // MARK: - Méthodes Elèves
 
     /// Retourne la liste des élèves de la classe satisfaisant *au moins à l'un des critères* définis en paramètre.
     /// Les élèves trouvés sont triés par nom.
@@ -289,7 +368,7 @@ extension ClasseEntity: ModelEntityP {
             .sorted(using: sortComparators)
     }
 
-    /// Recherche des élèves de la classe dont les nom ou prénom contiennent `searchString`.
+    /// Retourne la liste des élèves de la classe dont les nom ou prénom contiennent `searchString`.
     ///
     /// Les élèves trouvés sont triés en utilisant `sortOrder`.
     func filteredSortedEleves(
@@ -304,6 +383,8 @@ extension ClasseEntity: ModelEntityP {
             }
             .sorted(using: sortOrder)
     }
+
+    // MARK: - Méthodes Observation
 
     /// Retourne le nombre de `ObservEntity` associées aux élèves de la classe
     /// qui satisfont aux critères: `isConsignee` et `isVerified`
@@ -363,6 +444,8 @@ extension ClasseEntity: ModelEntityP {
 
         return observs
     }
+
+    // MARK: - Méthodes Colles
 
     /// Retourne le nombre de `ColleEntity` associées aux élèves de la classe
     /// qui satisfont aux critères: `isConsignee` et `isVerified`

@@ -129,6 +129,7 @@ extension EleveEntity {
         }
     }
 
+    @objc
     var displayName : String {
         switch EleveEntity.nameDisplayOrder {
             case .prenomNom:
@@ -138,6 +139,7 @@ extension EleveEntity {
         }
     }
 
+    @objc
     var sortName : String {
         switch EleveEntity.nameSortOrder {
             case .prenomNom:
@@ -162,7 +164,7 @@ extension EleveEntity {
     }
 
     var groupInt: Int {
-        0 // group == nil ? 0 : group!
+        Int(group?.number ?? 0)
     }
 
     // MARK: - Methods
@@ -212,10 +214,10 @@ extension EleveEntity {
             if searchString.containsOnlyDigits {
                 // filtrage sur numéro de groupe
                 let groupNum = Int(searchString)!
-                return false
-                //                        return eleve.group == groupNum
+                return group?.viewNumber == groupNum
 
             } else {
+                // filtrage sur nom et prénom
                 let string = searchString.lowercased()
                 return familyName!.lowercased().contains(string) ||
                 givenName!.lowercased().contains(string)
@@ -233,13 +235,16 @@ extension EleveEntity: ModelEntityP {
 
     // MARK: - Type Computed Properties
 
-    static var byClasseNameNSSortDescriptor: [NSSortDescriptor] = [
+    static var bySchoolNameClasseEleveFamilyNameNSSortDescriptor: [NSSortDescriptor] =
+    [
+        // school
         NSSortDescriptor(
             keyPath: \EleveEntity.classe?.school?.level,
             ascending: true),
         NSSortDescriptor(
             keyPath: \EleveEntity.classe?.school?.name,
             ascending: true),
+        // classe
         NSSortDescriptor(
             keyPath: \EleveEntity.classe?.level,
             ascending: false),
@@ -247,9 +252,131 @@ extension EleveEntity: ModelEntityP {
             keyPath: \EleveEntity.classe?.numero,
             ascending: true),
         NSSortDescriptor(
-            keyPath: \EleveEntity.sortName,
+            keyPath: \EleveEntity.classe?.segpa,
+            ascending: true),
+        // name
+        NSSortDescriptor(
+            keyPath: \EleveEntity.familyName,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.givenName,
             ascending: true)
     ]
+
+    static var bySchoolNameClasseEleveGivenNameNSSortDescriptor: [NSSortDescriptor] =
+    [
+        // school
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.school?.level,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.school?.name,
+            ascending: true),
+        // classe
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.level,
+            ascending: false),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.numero,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.segpa,
+            ascending: true),
+        // name
+        NSSortDescriptor(
+            keyPath: \EleveEntity.givenName,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.familyName,
+            ascending: true)
+    ]
+
+    static var bySchoolNameClasseGroupeEleveFamilyNameNSSortDescriptor: [NSSortDescriptor] =
+    [
+        // school
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.school?.level,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.school?.name,
+            ascending: true),
+        // classe
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.level,
+            ascending: false),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.numero,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.segpa,
+            ascending: true),
+        // groupe
+        NSSortDescriptor(
+            keyPath: \EleveEntity.group?.number,
+            ascending: true),
+        // name
+        NSSortDescriptor(
+            keyPath: \EleveEntity.familyName,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.givenName,
+            ascending: true)
+
+    ]
+
+    static var bySchoolNameClasseGroupeEleveGivenNameNSSortDescriptor: [NSSortDescriptor] =
+    [
+        // school
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.school?.level,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.school?.name,
+            ascending: true),
+        // classe
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.level,
+            ascending: false),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.numero,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.classe?.segpa,
+            ascending: true),
+        // groupe
+        NSSortDescriptor(
+            keyPath: \EleveEntity.group?.number,
+            ascending: true),
+        // name
+        NSSortDescriptor(
+            keyPath: \EleveEntity.givenName,
+            ascending: true),
+        NSSortDescriptor(
+            keyPath: \EleveEntity.familyName,
+            ascending: true)
+    ]
+
+    /// Requête pour tous les élèves triées.
+    ///
+    /// Ordre de tri:
+    ///   1. Type d'école
+    ///   2. Nom de l'école
+    ///   3. Niveau de la Classe
+    ///   4. Numéro de la Classe
+    ///   5. Classe SGPA ou non
+    ///   6. Numéro de groupe
+    ///   7. Nom de l'élève
+    static var requestAllSortedBySchoolNameClasseGroupeEleveName: NSFetchRequest<EleveEntity> {
+        let request = EleveEntity.fetchRequest()
+        if nameSortOrder == .nomPrenom {
+            request.sortDescriptors =
+            EleveEntity.bySchoolNameClasseGroupeEleveFamilyNameNSSortDescriptor
+        } else {
+            request.sortDescriptors =
+            EleveEntity.bySchoolNameClasseGroupeEleveGivenNameNSSortDescriptor
+        }
+        return request
+    }
 
     // MARK: - Type Methods
 
@@ -287,7 +414,13 @@ extension EleveEntity: ModelEntityP {
         searchString: String
     ) -> NSFetchRequest<EleveEntity> {
         let request = EleveEntity.fetchRequest()
-        request.sortDescriptors = EleveEntity.byClasseNameNSSortDescriptor
+        if nameSortOrder == .nomPrenom {
+            request.sortDescriptors =
+            EleveEntity.bySchoolNameClasseEleveFamilyNameNSSortDescriptor
+        } else {
+            request.sortDescriptors =
+            EleveEntity.bySchoolNameClasseEleveGivenNameNSSortDescriptor
+        }
         return request
     }
 
@@ -295,15 +428,30 @@ extension EleveEntity: ModelEntityP {
 
     /// Liste des élèves de la classe non triées
     var allColles: [ColleEntity] {
-        (self.colles?.allObjects as! [ColleEntity])
+        if let colles {
+            return (colles.allObjects as! [ColleEntity])
+        } else {
+            return [ ]
+        }
     }
 
     /// Liste des élèves de la classe non triées
     var allObservs: [ObservEntity] {
-        (self.observs?.allObjects as! [ObservEntity])
+        if let observs {
+            return (observs.allObjects as! [ObservEntity])
+        } else {
+            return [ ]
+        }
     }
 
     // MARK: - Methods
+
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        //Set defaults here
+        // self.group = ""
+        //        self.fileDate = Date()
+    }
 
     func sortedObservations(isConsignee : Bool? = nil,
                             isVerified  : Bool? = nil) -> [ObservEntity] {
@@ -402,6 +550,7 @@ extension EleveEntity {
         ELEVE: \(displayName)
            ID          : \(id)
            Classe      : \(String(describing: classe?.displayString))
+           Groupe      : \(String(describing: group?.displayString))
            Sexe        : \(sexEnum.pickerString)
            Nom         : \(displayName)
            Flagged     : \(isFlagged.frenchString)

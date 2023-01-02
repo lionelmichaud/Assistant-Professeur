@@ -12,7 +12,7 @@ struct ClasseSidebarView: View {
     private var navigationModel : NavigationModel
 
     @SectionedFetchRequest<String, ClasseEntity>(
-        fetchRequest      : ClasseEntity.requestAllSortedBySchoolnameLevelNumber,
+        fetchRequest      : ClasseEntity.requestAllSortedbySchoolThenClasseLevelNumber,
         sectionIdentifier : \.school!.displayString,
         animation         : .default)
     private var classesSections: SectionedFetchResults<String, ClasseEntity>

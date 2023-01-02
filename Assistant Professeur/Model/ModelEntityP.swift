@@ -10,7 +10,7 @@ import os
 import CoreData
 
 private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
-                               category  : "BaseModel")
+                               category  : "ModelEntityP")
 
 protocol ModelEntityP: NSManagedObject {
 
@@ -68,7 +68,7 @@ extension ModelEntityP {
         do {
             return try viewContext.existingObject(with: id) as? Self
         } catch {
-            print(error)
+            customLog.log(level: .error, "Objet \(Self.self) non trouvé: \(error.localizedDescription)")
             return nil
         }
     }
@@ -96,7 +96,6 @@ extension ModelEntityP {
                 try Self.viewContext.save()
             } catch {
                 customLog.log(level: .fault, "Echec de l'enregistrement des modifications de la BDD: \(error.localizedDescription)")
-                print(error)
                 throw error
             }
         }

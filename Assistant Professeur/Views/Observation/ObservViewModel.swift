@@ -50,6 +50,9 @@ class ObservViewModel: ObservableObject {
 
     func save(pourEleve: EleveEntity) {
         let observ = ObservEntity.create()
+        
+        // élève d'appartenance.
+        // mandatory
         observ.eleve = pourEleve // lien vers l'élève
 
         observ.setMotif(motifEnum)

@@ -135,11 +135,10 @@ struct ClasseDetail: View {
     }
 
     private var groupsView: some View {
-        Text("groupsView placeholder")
-//        NavigationLink(value: ClasseNavigationRoute.groups($classe)) {
-//            Text("Groupes")
-//                .fontWeight(.bold)
-//        }
+        NavigationLink(value: ClasseNavigationRoute.groups(classe)) {
+            Text("Groupes")
+                .fontWeight(.bold)
+        }
     }
 
     private var examsListView: some View {

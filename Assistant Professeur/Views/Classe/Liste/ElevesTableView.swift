@@ -68,11 +68,11 @@ struct ElevesTableView: View {
 
     @ViewBuilder
     private func groupeView(_ eleve: EleveEntity) -> some View {
-        //        if let group = eleve.group {
-        //            Text("\(group)")
-        //        } else {
-        EmptyView()
-        //        }
+        if let group = eleve.group {
+            Text(group.number == 0 ? "" : "\(group.displayString)")
+        } else {
+            EmptyView()
+        }
     }
 
     var body: some View {

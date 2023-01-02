@@ -58,7 +58,14 @@ class EleveViewModel: ObservableObject {
 
     func save(_ inClasse: ClasseEntity) {
         let eleve = EleveEntity.create()
-        eleve.classe = inClasse // lien vers la classe
+
+        // classe d'appartenance.
+        // mandatory
+        eleve.classe = inClasse
+
+        // groupe d'appartenance.
+        // mandatory
+        eleve.group = inClasse.groupOfUngroupedEleves
 
         eleve.setSex(sexEnum)
         eleve.familyName   = familyName

@@ -167,7 +167,7 @@ struct ClassCreatorModal: View {
                     } else {
                         // Ajouter la nouvelle classe
                         withAnimation {
-                            classeVM.save(inSchool)
+                            classeVM.createAndSaveEntity(inSchool)
                         }
                         dismiss()
                     }

@@ -10,7 +10,7 @@ import os
 import HelpersView
 import Files
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Cahier-du-Professeur",
+private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
                                category  : "SchoolDetail")
 
 struct SchoolDetail: View {
