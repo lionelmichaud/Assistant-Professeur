@@ -333,9 +333,9 @@
 		792381152960B023009E51B7 /* Group */ = {
 			isa = PBXGroup;
 			children = (
+				792381182960B04F009E51B7 /* GroupsView.swift */,
 				792381172960B04F009E51B7 /* GroupListView.swift */,
 				792381162960B04F009E51B7 /* GroupPicturesView.swift */,
-				792381182960B04F009E51B7 /* GroupsView.swift */,
 			);
 			path = Group;
 			sourceTree = "<group>";

@@ -9,9 +9,8 @@ import SwiftUI
 
 struct GroupListView : View {
     /// Liste des élèves d'un groupe donné
-    var groupSection : SectionedFetchResults<Int16, EleveEntity>.Element
-    var classe       : ClasseEntity
-    //let isEditing    : Bool
+    @ObservedObject
+    var groupe : GroupEntity
 
     @EnvironmentObject
     private var navigationModel : NavigationModel
@@ -22,12 +21,16 @@ struct GroupListView : View {
     @State
     private var isMovingEleve = false
 
+    private var classe: ClasseEntity {
+        groupe.classe!
+    }
+
     private var groupIsEditable: Bool {
-        groupSection.id != 0
+        groupe.number != 0
     }
 
     private var groupeIsEmpty: Bool {
-        classe.groupe(number: Int(groupSection.id)).isEmpty
+        classe.groupe(number: groupe.viewNumber).isEmpty
     }
 
     private var allElevesAssigned: Bool {
@@ -53,7 +56,7 @@ struct GroupListView : View {
                         Button {
                             GroupManager.assign(
                                 eleve: eleve,
-                                toGroupNumber: Int(groupSection.id)
+                                toGroupNumber: groupe.viewNumber
                             )
                         } label: {
                             Label(eleve.displayName,
@@ -68,13 +71,14 @@ struct GroupListView : View {
             }
 
             /// pour chaque Elève
-            ForEach(groupSection, id: \.objectID) { eleve in
+            ForEach(groupe.elevesSortedByName, id: \.objectID) { eleve in
                 EleveLabel(eleve: eleve)
                     .onTapGesture {
                         /// Programatic Navigation
                         navigationModel.selectedTab     = .eleve
                         navigationModel.selectedEleveId = eleve.objectID
                     }
+
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                         if groupIsEditable {
                             /// retirer l'élève du groupe
@@ -99,6 +103,7 @@ struct GroupListView : View {
                             }
                         }
                     }
+                
                     .sheet(isPresented: $isMovingEleve) {
                         NavigationStack {
                             MoveEleveDialog(eleve: eleve)

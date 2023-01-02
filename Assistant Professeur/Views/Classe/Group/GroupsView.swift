@@ -44,7 +44,6 @@ struct GroupsView: View {
                                 nbEleveParGroupe: 2,
                                 dans: classe
                             )
-                            updateGroups()
 
                         }
                     }
@@ -54,7 +53,6 @@ struct GroupsView: View {
                                 nbEleveParGroupe: 3,
                                 dans: classe
                             )
-                            updateGroups()
                         }
                     }
                     Button("4 élèves") {
@@ -63,7 +61,6 @@ struct GroupsView: View {
                                 nbEleveParGroupe:4,
                                 dans: classe
                             )
-                            updateGroups()
                         }
                     }
                     Button("5 élèves") {
@@ -72,7 +69,6 @@ struct GroupsView: View {
                                 nbEleveParGroupe: 5,
                                 dans: classe
                             )
-                            updateGroups()
                         }
                     }
                 } label: {
@@ -86,7 +82,6 @@ struct GroupsView: View {
                                 nbEleveParGroupe: 2,
                                 dans: classe
                             )
-                            updateGroups()
                         }
                     }
                     Button("3 élèves") {
@@ -95,7 +90,6 @@ struct GroupsView: View {
                                 nbEleveParGroupe: 3,
                                 dans: classe
                             )
-                            updateGroups()
                         }
                     }
                     Button("4 élèves") {
@@ -104,7 +98,6 @@ struct GroupsView: View {
                                 nbEleveParGroupe: 4,
                                 dans: classe
                             )
-                            updateGroups()
                         }
                     }
                     Button("5 élèves") {
@@ -113,7 +106,6 @@ struct GroupsView: View {
                                 nbEleveParGroupe: 5,
                                 dans: classe
                             )
-                            updateGroups()
                         }
                     }
                 } label: {
@@ -138,16 +130,7 @@ struct GroupsView: View {
         }
     }
 
-    // TODO: - Remplacer SectionedFetchRequest par autre chose
-    /// Liste des élèves groupés par groupe
-    @SectionedFetchRequest<Int16, EleveEntity>(
-        fetchRequest      : EleveEntity.requestAllSortedBySchoolNameClasseGroupeEleveName,
-        sectionIdentifier : \.group!.number,
-        animation         : .default)
-    private var elevesSections: SectionedFetchResults<Int16, EleveEntity>
-
     var body: some View {
-        updateGroups()
         return Group {
             if classe.nbOfEleves == 0 {
                 VStack(alignment: .center, spacing: 10) {
@@ -157,22 +140,21 @@ struct GroupsView: View {
             } else {
                 List {
                     /// pour chaque Groupe
-                    ForEach(elevesSections) { section in
+                    ForEach(classe.allGroupsSortedByNumber) { groupe in
                         DisclosureGroup(isExpanded: $expanded) {
                             switch presentation {
                                 case .list:
-                                    GroupListView(groupSection : section,
-                                                  classe       : classe)
+                                    GroupListView(groupe: groupe)
                                 case .picture:
                                     EmptyView()
                                     //GroupPicturesView(group: group)
                             }
                         } label: {
-                            if section.id == 0 {
+                            if groupe.number == 0 {
                                 Text("Sans groupe")
                                     .foregroundColor(.red)
                             } else {
-                                Text("Group \(section.id)")
+                                Text(groupe.displayString)
                                     .foregroundColor(.secondary)
                             }
                         }
@@ -195,6 +177,7 @@ struct GroupsView: View {
                 }
                 .pickerStyle(.segmented)
             }
+
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 toolbarMenu
                 /// Confirmation de suppresssion de tous les groupes
@@ -205,11 +188,9 @@ struct GroupsView: View {
                             Button("Supprimer", role: .destructive) {
                                 withAnimation {
                                     GroupManager.disolveGroups(dans: classe)
-                                    updateGroups()
                                 }
                             }
                             Button("Annuler", role: .cancel) {
-                                updateGroups()
                                 isShowingDeleteGroupsDialog = false
                             }
                         } message: {
@@ -217,13 +198,6 @@ struct GroupsView: View {
                         }.keyboardShortcut(.defaultAction)
             }
         }
-        .onAppear {
-            updateGroups()
-        }
-    }
-
-    private func updateGroups() {
-        elevesSections.nsPredicate = NSPredicate(format: "classe = %@", classe)
     }
 }
 
