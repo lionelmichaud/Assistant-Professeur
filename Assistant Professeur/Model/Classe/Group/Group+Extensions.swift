@@ -27,10 +27,10 @@ extension GroupEntity {
     }
 
     var isEmpty: Bool {
-        eleves == nil
+        eleves == nil || elevesCount == 0
     }
 
-    var nnOfEleves: Int {
+    var nbOfEleves: Int {
         Int(elevesCount)
     }
 

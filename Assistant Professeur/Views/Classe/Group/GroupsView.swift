@@ -139,24 +139,39 @@ struct GroupsView: View {
 
             } else {
                 List {
-                    /// pour chaque Groupe
+                    /// Ajout d'un nouveau groupe
+                    Button {
+                        GroupManager.addGroup(dans: classe)
+                    } label: {
+                        Label("Ajouter un groupe", systemImage: "plus.circle.fill")
+                    }
+                    .buttonStyle(.borderless)
+
+                    /// Pour chaque Groupe
                     ForEach(classe.allGroupsSortedByNumber) { groupe in
-                        DisclosureGroup(isExpanded: $expanded) {
-                            switch presentation {
-                                case .list:
-                                    GroupListView(groupe: groupe)
-                                case .picture:
-                                    EmptyView()
-                                    //GroupPicturesView(group: group)
+                        if show(groupe: groupe) {
+                            DisclosureGroup(isExpanded: $expanded) {
+                                switch presentation {
+                                    case .list:
+                                        GroupListView(
+                                            groupe: groupe,
+                                            searchString: searchString
+                                        )
+                                    case .picture:
+                                        EmptyView()
+                                        //GroupPicturesView(group: group)
+                                }
+                            } label: {
+                                if groupe.number == 0 {
+                                    Text("Sans groupe")
+                                        .foregroundColor(.red)
+                                } else {
+                                    Text(groupe.displayString)
+                                        .foregroundColor(.secondary)
+                                }
                             }
-                        } label: {
-                            if groupe.number == 0 {
-                                Text("Sans groupe")
-                                    .foregroundColor(.red)
-                            } else {
-                                Text(groupe.displayString)
-                                    .foregroundColor(.secondary)
-                            }
+                        } else {
+                            EmptyView()
                         }
                     }
                 }
@@ -198,6 +213,12 @@ struct GroupsView: View {
                         }.keyboardShortcut(.defaultAction)
             }
         }
+    }
+
+    private func show(groupe: GroupEntity) -> Bool {
+        true
+        // FIXME: - ne fonctionne pas
+        //groupe.number != 0 || (groupe.number == 0 && !groupe.isEmpty)
     }
 }
 

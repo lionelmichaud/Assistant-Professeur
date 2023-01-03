@@ -12,59 +12,6 @@ private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Profess
                                category  : "GroupManager")
 
 struct GroupManager {
-    /// Retourne le groupe de la `classe` contenant l'élève de nom `eleveName`
-    /// - Returns: Groupe contenant l'élève de nom `eleveName` ou tableau vide si l'élève n'est pas trouvé
-//    static func groups(dans classe         : Classe,
-//                       including eleveName : String,
-//                       eleveStore          : EleveStore) -> [GroupOfEleves] {
-//        if eleveName.isEmpty {
-//            return groups(dans       : classe,
-//                          eleveStore : eleveStore)
-//
-//        } else {
-//            let string = eleveName.lowercased()
-//            var groupNum: Int?
-//
-//            // dans quel groupe se trouve l'élève ?
-//            classe.elevesID.forEach { eleveID in
-//                if let eleve = eleveStore.item(withID: eleveID) {
-//                    if eleve.name.familyName!.lowercased().contains(string) ||
-//                        eleve.name.givenName!.lowercased().contains(string) {
-//                        groupNum = eleve.group
-//                    }
-//                }
-//            }
-//            guard let groupNum else {
-//                return [ ]
-//            }
-//
-//            // ajouter tous les élèves du même groupe au groupe
-//            var group = GroupOfEleves(number: groupNum)
-//            classe.elevesID.forEach { eleveID in
-//                if let eleve = eleveStore.item(withID: eleveID) {
-//                    if eleve.group == groupNum {
-//                        group.elevesID.append(eleveID)
-//                    }
-//                }
-//            }
-//            return [group]
-//        }
-//    }
-
-    /// Plus grand numéro de groupe dans la classe
-//    static func largestGroupNumber(dans classe : Classe,
-//                                   eleveStore  : EleveStore) -> Int {
-//        var nb: Int = 0
-//        classe.elevesID.forEach { eleveID in
-//            let eleve = eleveStore.item(withID: eleveID)
-//            if let group = eleve?.group {
-//                if group > nb {
-//                    nb = group
-//                }
-//            }
-//        }
-//        return nb
-//    }
 
     /// Affecte un `eleve`au groupe n°`toGroupNumber`de sa classe
     /// - Parameters:
@@ -144,6 +91,14 @@ struct GroupManager {
     static func formRandomGroups(nbEleveParGroupe : Int,
                                  dans classe      : ClasseEntity) {
 
+    }
+
+    static func addGroup(dans classe: ClasseEntity) {
+        let largestGroupNumber = classe.allGroups.max(\.number)
+
+        let groupe = GroupEntity.create()
+        groupe.classe = classe
+        groupe.number = largestGroupNumber + 1
     }
 
     /// Ajouter `nbOfGroups`aux groupe 0 dans la `classe`.

@@ -10,18 +10,21 @@ import AppFoundation
 
 /// Discipline d'enseignement
 enum Discipline: Int16, PickableEnumP, Codable {
-    case technologie
-    case mathematiques
-    case physique
-    case histoireGeo
-    case francais
-    case anglais
-    case espagnol
     case allemand
-    case latin
-    case musique
+    case anglais
     case artPla
+    case espagnol
+    case francais
+    case histoireGeo
+    case latin
+    case mathematiques
+    case musique
+    case nsi
+    case physique
     case snt
+    case svt
+    case technologie
+    case autre
 
     var pickerString: String {
         switch self {
@@ -30,7 +33,7 @@ enum Discipline: Int16, PickableEnumP, Codable {
             case .mathematiques:
                 return "Mathématiques"
             case .physique:
-                return "Physique"
+                return "Physique-Chimie"
             case .snt:
                 return "SNT"
             case .histoireGeo:
@@ -48,7 +51,13 @@ enum Discipline: Int16, PickableEnumP, Codable {
             case .musique:
                 return "Musique"
             case .artPla:
-                return "Art Plastique"
+                return "Arts Plastiques"
+            case .svt:
+                return "SVT"
+            case .nsi:
+                return "NSI"
+            case .autre:
+                return "Autre"
         }
     }
 }

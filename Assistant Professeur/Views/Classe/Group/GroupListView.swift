@@ -12,6 +12,8 @@ struct GroupListView : View {
     @ObservedObject
     var groupe : GroupEntity
 
+    let searchString : String
+
     @EnvironmentObject
     private var navigationModel : NavigationModel
 
@@ -41,7 +43,7 @@ struct GroupListView : View {
         (groupIsEditable && !allElevesAssigned)
     }
 
-    private var unSortedEleve: [EleveEntity] {
+    private var unGroupedEleve: [EleveEntity] {
         classe.groupOfUngroupedEleves.elevesSortedByName
     }
 
@@ -52,7 +54,7 @@ struct GroupListView : View {
             if showAddEleveMenu {
                 /// ajouter au groupe un élève parmis ceux qui ne sont  affectés à aucun groupe
                 Menu {
-                    ForEach(unSortedEleve) { eleve in
+                    ForEach(unGroupedEleve) { eleve in
                         Button {
                             GroupManager.assign(
                                 eleve: eleve,
@@ -67,11 +69,10 @@ struct GroupListView : View {
                     Label("Ajouter un élève",
                           systemImage: "plus.circle.fill")
                 }
-                //.buttonStyle(.borderless)
             }
 
-            /// pour chaque Elève
-            ForEach(groupe.elevesSortedByName, id: \.objectID) { eleve in
+            /// pour chaque Elève du groupe
+            ForEach(groupe.filteredElevesSortedByName(searchString: searchString), id: \.objectID) { eleve in
                 EleveLabel(eleve: eleve)
                     .onTapGesture {
                         /// Programatic Navigation
@@ -100,10 +101,14 @@ struct GroupListView : View {
                                 isMovingEleve = true
                             } label: {
                                 Text("Déplacer")
+                                    .popover(isPresented: $isMovingEleve) {
+                                        Text("test")
+                                        //MoveEleveDialog(eleve: eleve)
+                                    }
                             }
                         }
                     }
-                
+
                     .sheet(isPresented: $isMovingEleve) {
                         NavigationStack {
                             MoveEleveDialog(eleve: eleve)
@@ -120,7 +125,7 @@ struct MoveEleveDialog: View {
     @ObservedObject
     var eleve: EleveEntity
 
-    var nbGroupInClasse: Int {
+    private var nbGroupInClasse: Int {
         eleve.classe!.nbOfGroups - 1
     }
 
