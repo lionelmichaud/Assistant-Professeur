@@ -49,7 +49,7 @@ class ColleViewModel: ObservViewModel {
         self.duree            = colle.viewDuree
     }
 
-    override func save(pourEleve: EleveEntity) {
+    override func createAndSaveEntity(pourEleve: EleveEntity) {
         let colle = ColleEntity.create()
         
         // élève d'appartenance.

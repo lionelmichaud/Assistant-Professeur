@@ -14,25 +14,25 @@ enum ClasseNavigationRoute: Hashable {
     case liste(ClasseEntity)
     case trombinoscope(ClasseEntity)
     case groups(ClasseEntity)
-    case exam(ClasseEntity, UUID)
+    case exam(ClasseEntity, ExamEntity)
 
     static func == (lhs: ClasseNavigationRoute, rhs: ClasseNavigationRoute) -> Bool {
         switch (lhs, rhs) {
-            case (.room(let classel), .room(let classer)):
+            case let(.room(classel), .room(classer)):
                 return (classel.id == classer.id)
 
-            case (.liste(let classel), .liste(let classer)):
+            case let(.liste(classel), .liste(classer)):
                 return classel.id == classer.id
 
-            case (.trombinoscope(let classel), .trombinoscope(let classer)):
+            case let(.trombinoscope(classel), .trombinoscope(classer)):
                 return classel.id == classer.id
 
-            case (.groups(let classel), .groups(let classer)):
+            case let(.groups(classel), .groups(classer)):
                 return classel.id == classer.id
 
-            case (.exam(let classel, let idl), .exam(let classer, let idr)):
+            case let(.exam(classel, examl), .exam(classer, examr)):
                 return (classel.id == classer.id) &&
-                (idl == idr)
+                (examl == examr)
 
             default : return false
         }
@@ -52,9 +52,9 @@ enum ClasseNavigationRoute: Hashable {
             case .groups(let classe):
                 hasher.combine("groups")
                 hasher.combine(classe.id)
-            case .exam(let classe, let id):
+            case .exam(let classe, let exam):
                 hasher.combine(classe.id)
-                hasher.combine(id)
+                hasher.combine(exam.id)
         }
     }
 }
@@ -62,6 +62,9 @@ enum ClasseNavigationRoute: Hashable {
 struct ClasseDetail: View {
     @ObservedObject
     var classe: ClasseEntity
+
+    @Environment(\.managedObjectContext)
+    private var managedObjectContext
 
     @Preference(\.interoperability)
     private var interoperability
@@ -142,35 +145,34 @@ struct ClasseDetail: View {
     }
 
     private var examsListView: some View {
-        Text("examsListView placeholder")
-//        Group {
-//            // ajouter une évaluation
-//            Button {
-//                isAddingNewExam = true
-//            } label: {
-//                Label("Ajouter une évaluation", systemImage: "plus.circle.fill")
-//            }
-//            .buttonStyle(.borderless)
-//
-//            // édition de la liste des examen
-//            ForEach($classe.exams) { $exam in
-//                NavigationLink(value: ClasseNavigationRoute.exam($classe, exam.id)) {
-//                    ClasseExamRow(exam: exam)
-//                }
-//                .swipeActions {
-//                    // supprimer une évaluation
-//                    Button(role: .destructive) {
-//                        withAnimation {
-//                            classe.exams.removeAll {
-//                                $0.id == exam.id
-//                            }
-//                        }
-//                    } label: {
-//                        Label("Supprimer", systemImage: "trash")
-//                    }
-//                }
-//            }
-//        }
+        return Group {
+            // ajouter une évaluation
+            Button {
+                isAddingNewExam = true
+            } label: {
+                Label("Ajouter une évaluation", systemImage: "plus.circle.fill")
+            }
+            .buttonStyle(.borderless)
+
+            // édition de la liste des examen
+            ForEach(classe.allExams) { exam in
+                NavigationLink(value: ClasseNavigationRoute.exam(classe, exam))
+                {
+                    ClasseExamRow(exam: exam)
+                }
+            }
+            .onDelete(perform: deleteItems)
+        }
+
+        func deleteItems(offsets: IndexSet) {
+            withAnimation {
+                offsets
+                    .map { classe.allExams[$0] }
+                    .forEach(managedObjectContext.delete)
+
+                try? ExamEntity.saveIfContextHasChanged()
+            }
+        }
     }
 
     var body: some View {
@@ -269,13 +271,7 @@ struct ClasseDetail: View {
         .onDisappear(perform: save)
         .sheet(isPresented: $isAddingNewExam) {
             NavigationStack {
-                Text("placeholder")
-//                ExamCreator(elevesId: classe.elevesID) { newExam in
-//                    /// Ajouter une nouvelle évaluation
-//                    withAnimation {
-//                        classe.exams.insert(newExam, at: 0)
-//                    }
-//                }
+                ExamCreatorModal(classe: classe)
             }
             .presentationDetents([.medium])
         }

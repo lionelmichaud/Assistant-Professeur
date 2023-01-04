@@ -29,7 +29,7 @@ struct GroupsView: View {
     @State
     private var presentation: ViewMode = .list
 
-    private var unSortedEleve: [EleveEntity] {
+    private var unGroupedEleve: [EleveEntity] {
         classe.groupOfUngroupedEleves.elevesSortedByName
     }
 

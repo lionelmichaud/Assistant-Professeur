@@ -84,7 +84,7 @@ struct ObservCreatorModal: View {
                 Button("Ajouter") {
                     // Ajouter une nouvelle observation à l'élève
                     withAnimation {
-                        observVM.save(pourEleve: eleve)
+                        observVM.createAndSaveEntity(pourEleve: eleve)
                     }
                     dismiss()
                 }

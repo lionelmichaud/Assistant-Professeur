@@ -64,7 +64,6 @@ class ClasseViewModel: ObservableObject {
     /// sauvegarder le veiwContext.
     ///
     /// Crée un Groupe 0 pour les élèves de la classe n'appartenant à aucun groupe
-    /// - Parameter inSchool: <#inSchool description#>
     func createAndSaveEntity(_ inSchool: SchoolEntity) {
         let classe = ClasseEntity.create()
         // établissement d'appartenance.

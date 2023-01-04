@@ -155,6 +155,15 @@ extension SchoolEntity: ModelEntityP {
         }
     }
 
+    /// Liste des événements de l'établissement non triées
+    var allEvents: [EventEntity] {
+        if let events {
+            return (events.allObjects as! [EventEntity])
+        } else {
+            return [ ]
+        }
+    }
+
     /// Liste des ressources de l'établissement non triées
     var allRessources: [RessourceEntity] {
         if let ressources {
@@ -172,8 +181,7 @@ extension SchoolEntity: ModelEntityP {
             SortDescriptor(\ClasseEntity.numero, order: .forward),
             SortDescriptor(\ClasseEntity.segpa, order: .forward)
         ]
-        return (self.classes?.allObjects as! [ClasseEntity])
-            .sorted(using: sortComparators)
+        return allClasses.sorted(using: sortComparators)
     }
 
     /// Liste des événements importants de l'établissement triées par date
@@ -182,8 +190,7 @@ extension SchoolEntity: ModelEntityP {
         [
             SortDescriptor(\EventEntity.date, order: .reverse),
         ]
-        return (self.events?.allObjects as! [EventEntity])
-            .sorted(using: sortComparators)
+        return allEvents.sorted(using: sortComparators)
     }
 
     // MARK: - Methods

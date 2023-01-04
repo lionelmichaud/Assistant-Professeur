@@ -131,9 +131,9 @@ extension ClasseEntity {
         Int(groupCount)
     }
 
+    /// Nombre d'évaluations de la Classe
     var nbOfExams: Int {
-        0
-//        exams.count
+        Int(examsCount)
     }
 
     var elevesListLabel: String {
@@ -239,6 +239,15 @@ extension ClasseEntity: ModelEntityP {
     var allGroups: [GroupEntity] {
         if let groups {
             return (groups.allObjects as! [GroupEntity])
+        } else {
+            return [ ]
+        }
+    }
+
+    /// Liste des évaluations de lla classe non triées
+    var allExams: [ExamEntity] {
+        if let exams {
+            return (exams.allObjects as! [ExamEntity])
         } else {
             return [ ]
         }

@@ -73,7 +73,6 @@ extension ColleEntity {
         }
     }
 
-
     // MARK: - Methods
 
     /// Modifie l'attribut `motif`

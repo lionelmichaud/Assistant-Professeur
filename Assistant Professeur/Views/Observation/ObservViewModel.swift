@@ -48,7 +48,7 @@ class ObservViewModel: ObservableObject {
         self.isVerified       = observ.isVerified
     }
 
-    func save(pourEleve: EleveEntity) {
+    func createAndSaveEntity(pourEleve: EleveEntity) {
         let observ = ObservEntity.create()
         
         // élève d'appartenance.

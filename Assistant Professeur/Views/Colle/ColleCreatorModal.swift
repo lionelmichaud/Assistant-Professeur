@@ -93,7 +93,7 @@ struct ColleCreatorModal: View {
                 Button("Ajouter") {
                     // Ajouter une nouvelle observation à l'élève
                     withAnimation {
-                        colleVM.save(pourEleve: eleve)
+                        colleVM.createAndSaveEntity(pourEleve: eleve)
                     }
                     dismiss()
                 }

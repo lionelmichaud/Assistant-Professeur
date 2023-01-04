@@ -28,11 +28,11 @@ struct ClasseSplitView: View {
                 ClasseEditor()
                     .navigationDestination(for: ClasseNavigationRoute.self) { route in
                         switch route {
-                            case .room(let classe):
+                            case let.room(classe):
                                 EmptyView()
 //                                RoomElevePlacement(classe: classe)
 
-                            case .liste(let classe):
+                            case let.liste(classe):
                                 switch horizontalSizeClass {
                                     case .compact:
                                         ElevesListView(classe: classe)
@@ -40,17 +40,15 @@ struct ClasseSplitView: View {
                                         ElevesTableView(classe: classe)
                                 }
 
-                            case .trombinoscope(let classe):
+                            case let.trombinoscope(classe):
                                 EmptyView()
 //                                TrombinoscopeView(classe : classe)
 
-                            case .groups(let classe):
+                            case let.groups(classe):
                                 GroupsView(classe: classe)
 
-                            case .exam(let classe, let examId):
-                                EmptyView()
-//                                ExamEditor(classe: classe,
-//                                           examId: examId)
+                            case let.exam(classe, exam):
+                                ExamEditor(classe: classe, exam: exam)
                         }
                     }
             }
