@@ -39,7 +39,7 @@ struct ExamDetail : View {
 
         // barême
         Stepper(value : $exam.maxMark,
-                in    : 1 ... 20,
+                in    : 1 ... 100,
                 step  : 1) {
             HStack {
                 Text("Barême")

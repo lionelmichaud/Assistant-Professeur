@@ -24,10 +24,10 @@ struct ExamEditor: View {
                 if searchString.isEmpty {
                     ExamDetail(exam: exam)
                 }
+
                 // notes
-//                MarkListView(classe       : classe,
-//                             exam         : $exam,
-//                             searchString : searchString)
+                MarkListView(exam         : exam,
+                             searchString : searchString)
             }
             .searchable(text      : $searchString,
                         placement : .navigationBarDrawer(displayMode : .automatic),

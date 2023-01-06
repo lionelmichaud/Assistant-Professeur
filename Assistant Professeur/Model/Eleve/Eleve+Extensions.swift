@@ -401,7 +401,7 @@ extension EleveEntity: ModelEntityP {
             }
     }
 
-    /// Liste de tous les élèves appartenant au même établissement.
+    /// Requête pour tous les élèves appartenant au même établissement.
     ///
     /// Ordre de tri:
     ///   1. Niveau de la Classe
@@ -409,7 +409,7 @@ extension EleveEntity: ModelEntityP {
     ///   3. SGPA ou non
     ///   4. Nom / Prénom
     ///   5. Prénom / Nom
-    static func requestFilteredSortedByName(
+    static func requestAllFilteredSortedByName(
         dansSchoolId: NSManagedObjectID,
         searchString: String
     ) -> NSFetchRequest<EleveEntity> {
@@ -559,10 +559,8 @@ extension EleveEntity {
            Bonus       : \(viewBonus)
            Nb observs  : \(nbOfObservs)
            Nb colles   : \(nbOfColles)
+           Observations: \(String(describing: observs).withPrefixedSplittedLines("     "))
+           Colles: \(String(describing: colles).withPrefixedSplittedLines("     "))
         """
-//           Groupe: \(String(describing: group))
-//           Observations: \(String(describing: observsID).withPrefixedSplittedLines("     "))
-//           Colles: \(String(describing: collesID).withPrefixedSplittedLines("     "))
-//        """
     }
 }

@@ -56,6 +56,10 @@
 		7951063E294FD9520015AC5C /* ClassList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951063D294FD9520015AC5C /* ClassList.swift */; };
 		79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79595C6E2934298300C81021 /* SchoolBrowserRow.swift */; };
 		795CB1952958F668006EF060 /* Motif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795CB1942958F668006EF060 /* Motif.swift */; };
+		795EED0529673B88009AA6F4 /* Mark+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0429673B88009AA6F4 /* Mark+Extensions.swift */; };
+		795EED07296741A1009AA6F4 /* ExamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED06296741A1009AA6F4 /* ExamManager.swift */; };
+		795EED0B29677C76009AA6F4 /* MarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0929677C76009AA6F4 /* MarkView.swift */; };
+		795EED0C29677C76009AA6F4 /* MarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0A29677C76009AA6F4 /* MarkListView.swift */; };
 		798458EA2939529D00B74538 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798458E92939529D00B74538 /* AnnotationView.swift */; };
 		79AEA0A929356DBA0053DDDD /* SchoolEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */; };
 		79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */; };
@@ -219,6 +223,10 @@
 		7951063D294FD9520015AC5C /* ClassList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassList.swift; sourceTree = "<group>"; };
 		79595C6E2934298300C81021 /* SchoolBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolBrowserRow.swift; sourceTree = "<group>"; };
 		795CB1942958F668006EF060 /* Motif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Motif.swift; sourceTree = "<group>"; };
+		795EED0429673B88009AA6F4 /* Mark+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mark+Extensions.swift"; sourceTree = "<group>"; };
+		795EED06296741A1009AA6F4 /* ExamManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamManager.swift; sourceTree = "<group>"; };
+		795EED0929677C76009AA6F4 /* MarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkView.swift; sourceTree = "<group>"; };
+		795EED0A29677C76009AA6F4 /* MarkListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkListView.swift; sourceTree = "<group>"; };
 		7966DCF8292573A1001D6C7F /* AppFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppFoundation; path = ../Packages/AppFoundation; sourceTree = "<group>"; };
 		798458E92939529D00B74538 /* AnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 		79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolEditor.swift; sourceTree = "<group>"; };
@@ -394,6 +402,7 @@
 		79398D2A2965FA950013564D /* Exam */ = {
 			isa = PBXGroup;
 			children = (
+				795EED0829677C76009AA6F4 /* Mark */,
 				79398D342966224A0013564D /* ExamViewModel.swift */,
 				79398D2F296616250013564D /* ExamCreatorModal.swift */,
 				79398D32296616850013564D /* ExamEditor.swift */,
@@ -407,6 +416,8 @@
 			isa = PBXGroup;
 			children = (
 				79398D2C2965FABE0013564D /* Exam+Extensions.swift */,
+				795EED0429673B88009AA6F4 /* Mark+Extensions.swift */,
+				795EED06296741A1009AA6F4 /* ExamManager.swift */,
 			);
 			path = Exam;
 			sourceTree = "<group>";
@@ -437,6 +448,15 @@
 				793D626E295DCBBC00477932 /* MotifEditor.swift */,
 			);
 			path = MotifView;
+			sourceTree = "<group>";
+		};
+		795EED0829677C76009AA6F4 /* Mark */ = {
+			isa = PBXGroup;
+			children = (
+				795EED0929677C76009AA6F4 /* MarkView.swift */,
+				795EED0A29677C76009AA6F4 /* MarkListView.swift */,
+			);
+			path = Mark;
 			sourceTree = "<group>";
 		};
 		7966DCF7292573A1001D6C7F /* Packages */ = {
@@ -890,6 +910,7 @@
 				79F41E732954D30F00EAAC52 /* EleveBrowserRow.swift in Sources */,
 				79398D30296616250013564D /* ClasseExamRow.swift in Sources */,
 				79DEDB13292593C200F508EF /* SettingsClasse.swift in Sources */,
+				795EED0C29677C76009AA6F4 /* MarkListView.swift in Sources */,
 				79F41E5C2954983100EAAC52 /* ClasseNameGroupBox.swift in Sources */,
 				79F41E5E2954987F00EAAC52 /* ClasseAcronym.swift in Sources */,
 				79398D31296616250013564D /* ExamCreatorModal.swift in Sources */,
@@ -904,7 +925,9 @@
 				7923811A2960B04F009E51B7 /* GroupListView.swift in Sources */,
 				79DEDB11292593C200F508EF /* SettingsEleve.swift in Sources */,
 				79F41E642954B08A00EAAC52 /* Eleve+Extensions.swift in Sources */,
+				795EED0B29677C76009AA6F4 /* MarkView.swift in Sources */,
 				794F6E14295CEC0C00042B95 /* ObservViewModel.swift in Sources */,
+				795EED0529673B88009AA6F4 /* Mark+Extensions.swift in Sources */,
 				79401350295624EF007AD790 /* Dsicipline.swift in Sources */,
 				79DEDAEF292586A500F508EF /* EleveSplitView.swift in Sources */,
 				79D573492927F16B00B0B7B8 /* LevelSchool.swift in Sources */,
@@ -912,6 +935,7 @@
 				792381142960A888009E51B7 /* Group+Extensions.swift in Sources */,
 				793D6271295DCBBC00477932 /* MotifEditor.swift in Sources */,
 				79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */,
+				795EED07296741A1009AA6F4 /* ExamManager.swift in Sources */,
 				793D6270295DCBBC00477932 /* MotifView.swift in Sources */,
 				79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */,
 				793D6276295DD9E600477932 /* ObservNotifIcon.swift in Sources */,
