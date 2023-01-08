@@ -115,14 +115,6 @@ struct SchoolSidebarView: View {
 
                     }
                 }
-
-                #if targetEnvironment(simulator)
-                Button {
-                    populate()
-                } label: {
-                    Text("Peupler la BDD").foregroundColor(.primary)
-                }
-                #endif
             }
         }
         .navigationTitle("Établissements")
@@ -224,6 +216,14 @@ extension SchoolSidebarView {
                 } label: {
                     Label("supprimer toutes vos données", systemImage: "trash")
                 }
+
+                #if targetEnvironment(simulator)
+                Button {
+                    populate()
+                } label: {
+                    Text("Dev - Peupler la BDD").foregroundColor(.primary)
+                }
+                #endif
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
@@ -298,17 +298,18 @@ extension SchoolSidebarView {
     private func clearAllUserData() {
         alertTitle   = "Échec"
         alertMessage = "L'effacement de la base de donnée a échoué"
-        let nbSteps = 2.0
+        let nbSteps = 4.0
         progress = 0.0
         isProgressing = true
 
         // Suppression des Etablissements
         DispatchQueue.main.async(qos: .background) {
             do {
+                try SchoolEntity.deleteAll()
                 try DocumentEntity.deleteAll()
                 try EventEntity.deleteAll()
+                try RessourceEntity.deleteAll()
                 try RoomEntity.deleteAll()
-                try SchoolEntity.deleteAll()
             } catch {
                 alertIsPresented.toggle()
             }
@@ -320,6 +321,7 @@ extension SchoolSidebarView {
         DispatchQueue.main.async(qos: .background) {
             do {
                 try ClasseEntity.deleteAll()
+                try GroupEntity.deleteAll()
             } catch {
                 alertIsPresented.toggle()
             }
@@ -327,10 +329,30 @@ extension SchoolSidebarView {
             self.isProgressing = false
         }
 
-        //        eleveStore.clear()
-        //        colleStore.clear()
-        //        observStore.clear()
-        //        Trombinoscope.deleteAllTrombines()
+        // Suppression des Evaluations
+        DispatchQueue.main.async(qos: .background) {
+            do {
+                try ExamEntity.deleteAll()
+                try MarkEntity.deleteAll()
+            } catch {
+                alertIsPresented.toggle()
+            }
+            self.progress += 1.0/nbSteps
+            self.isProgressing = false
+        }
+
+        // Suppression des Eleves
+        DispatchQueue.main.async(qos: .background) {
+            do {
+                try EleveEntity.deleteAll()
+                try ObservEntity.deleteAll()
+                try ColleEntity.deleteAll()
+            } catch {
+                alertIsPresented.toggle()
+            }
+            self.progress += 1.0/nbSteps
+            self.isProgressing = false
+        }
     }
 
     /// Importer tous les fichiers JSON, JPEG et PNG depuis le Bundle Application

@@ -194,6 +194,7 @@
 		79135E122969E17000F95694 /* Doc Prof Caousou.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Doc Prof Caousou.pdf"; sourceTree = "<group>"; };
 		79135E182969E18200F95694 /* Plan TECHNO-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Plan TECHNO-2.png"; sourceTree = "<group>"; };
 		79135E192969E18200F95694 /* Plan Salle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Plan Salle.png"; sourceTree = "<group>"; };
+		79135E1C296B0D7800F95694 /* Assistant-Professeur-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Assistant-Professeur-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7920A5232957345A0092A7DD /* EleveLabelWithTrombineFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveLabelWithTrombineFlag.swift; sourceTree = "<group>"; };
 		7921F54B2925825800173F39 /* ModelEntityP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelEntityP.swift; sourceTree = "<group>"; };
 		7921F54D292583FA00173F39 /* HelpersView */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = HelpersView; path = ../Packages/HelpersView; sourceTree = "<group>"; };
@@ -546,6 +547,7 @@
 		79B6630329244C3F007B1FBD /* Assistant Professeur */ = {
 			isa = PBXGroup;
 			children = (
+				79135E1C296B0D7800F95694 /* Assistant-Professeur-Info.plist */,
 				79135E0B2969E14C00F95694 /* AppData */,
 				79B6630429244C3F007B1FBD /* Assistant_ProfesseurApp.swift */,
 				79388A4829256E13002AABB8 /* MainScene.swift */,
@@ -1246,6 +1248,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Assistant Professeur/Assistant_Professeur.entitlements";
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -1254,6 +1258,9 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Assistant-Professeur-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Assistant Professeur";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -1285,6 +1292,8 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Assistant Professeur/Assistant_Professeur.entitlements";
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
@@ -1293,6 +1302,9 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Assistant-Professeur-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Assistant Professeur";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

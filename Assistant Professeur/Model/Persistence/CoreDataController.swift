@@ -24,7 +24,7 @@ class CoreDataController {
     // MARK: - Type Poperties
 
     /// Storage for Core Data
-    private let container: NSPersistentContainer
+    private let container: NSPersistentCloudKitContainer
 
     // MARK: - Computed Properties
 
@@ -37,15 +37,45 @@ class CoreDataController {
 
     /// An initializer to load Core Data
     private init() {
-        container = NSPersistentContainer(name: "AppModel")
-        container.loadPersistentStores { (description, error) in
+        container = NSPersistentCloudKitContainer(name: "AppModel")
+
+        // set History Tracking
+        container
+            .persistentStoreDescriptions
+            .first!
+            .setOption(true as NSNumber,
+                                  forKey: NSPersistentHistoryTrackingKey)
+
+        // set merge policy
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        container.viewContext.automaticallyMergesChangesFromParent = true
+
+        container
+            .loadPersistentStores { (description, error) in
             if let error {
-                fatalError("Failed to initialize Core Data \(error.localizedDescription)")
+                customLog.log(level: .fault,
+                              "Failed to load the persistence store form Core Data: \(error.localizedDescription)")
             }
         }
 
+        // Only initialize the schema when building the app with the
+        // Debug build configuration.
+        #if DEBUG
+        do {
+            // Use the container to initialize the development schema.
+            try container.initializeCloudKitSchema(
+                options: [.printSchema]
+            )
+        } catch {
+            // Handle any errors.
+            customLog.log(level: .fault,
+                          "Failed to initialize the development schema in ClodKit: \(error.localizedDescription)")
+        }
+        #endif
+
         // TODO: - DEBUG
-        let directories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let directories = NSSearchPathForDirectoriesInDomains(.documentDirectory,
+            .userDomainMask, true)
         print(directories[0])
     }
     
