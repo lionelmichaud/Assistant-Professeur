@@ -11,7 +11,7 @@ import Files
 import FileAndFolder
 import AppFoundation
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Cahier-du-Professeur",
+private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
                                category  : "PersistenceManager")
 
 public enum FileError: String, Error {
@@ -79,7 +79,7 @@ public struct PersistenceManager {
         return urls
     }
 
-    /// Importer les fichiers dont le nom contient `fileExt`
+    /// Importer les fichiers dont le nom contient une des extensions de `fileExtensions`
     /// depuis le `Bundle Main` de l'Application
     /// vers le répertoire `Documents` même si'ils y sont déjà présents.
     public func forcedImportAllFilesFromApp(fileExtensions: [String]) throws {
@@ -109,7 +109,8 @@ public struct PersistenceManager {
         }
     }
 
-    /// Dupliquer tous les fichiers `JSON` présents dans le répertoire `originFolder` vers le répertoire `targetFolder`
+    /// Dupliquer tous les fichiers dont l'extension est `fileExt`
+    /// présents dans le répertoire `originFolder` vers le répertoire `targetFolder`
     ///
     /// Si `forceUpdate` = false : ne copie le fichier que s'il n'existe pas déjà dans `targetFolder`
     ///
@@ -117,6 +118,7 @@ public struct PersistenceManager {
     ///   - originFolder: répertoire source
     ///   - targetFolder: répertoire destination
     ///   - forceUpdate: si false alors ne copie pas les fichiers s'ils sont déjà présents dans le répertoire `targetFolder`
+    ///   - fileExt: Extensions recherchée
     /// - Throws:`FileError.failedToDuplicateFiles`
     fileprivate func duplicateAllFiles(from originFolder : Folder,
                                        to targetFolder   : Folder,
@@ -162,7 +164,9 @@ public struct PersistenceManager {
                     AppVersion.self,
                     from                 : AppVersion.fileName,
                     dateDecodingStrategy : .iso8601,
-                    keyDecodingStrategy  : .useDefaultKeys).version.major
+                    keyDecodingStrategy  : .useDefaultKeys
+                )
+                .version.major
                 return (appMajorVersion == targetMajorVersion)
 
             } catch {

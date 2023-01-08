@@ -156,6 +156,7 @@ struct SchoolSidebarView: View {
             }
             .presentationDetents([.medium])
         }
+
         /// Importer des fichiers JPEG
         .fileImporter(isPresented: $isImportingJpegFile,
                      allowedContentTypes: [.jpeg],

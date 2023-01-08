@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		79135E0D2969E15B00F95694 /* AppVersion.json in Resources */ = {isa = PBXBuildFile; fileRef = 79135E0C2969E15B00F95694 /* AppVersion.json */; };
+		79135E132969E17000F95694 /* TROMBINOSCOPE personnel 2022-2023.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 79135E0F2969E17000F95694 /* TROMBINOSCOPE personnel 2022-2023.pdf */; };
+		79135E142969E17000F95694 /* COORDINATEURS MATIERES 2022.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 79135E102969E17000F95694 /* COORDINATEURS MATIERES 2022.pdf */; };
+		79135E152969E17000F95694 /* TROMBINSCOPE PROFS 2022.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 79135E112969E17000F95694 /* TROMBINSCOPE PROFS 2022.pdf */; };
+		79135E162969E17000F95694 /* Doc Prof Caousou.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 79135E122969E17000F95694 /* Doc Prof Caousou.pdf */; };
+		79135E1A2969E18200F95694 /* Plan TECHNO-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 79135E182969E18200F95694 /* Plan TECHNO-2.png */; };
+		79135E1B2969E18200F95694 /* Plan Salle.png in Resources */ = {isa = PBXBuildFile; fileRef = 79135E192969E18200F95694 /* Plan Salle.png */; };
 		7920A5242957345A0092A7DD /* EleveLabelWithTrombineFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A5232957345A0092A7DD /* EleveLabelWithTrombineFlag.swift */; };
 		7921F54A292575B400173F39 /* AppFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 7921F549292575B400173F39 /* AppFoundation */; };
 		7921F54C2925825800173F39 /* ModelEntityP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7921F54B2925825800173F39 /* ModelEntityP.swift */; };
@@ -180,6 +187,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		79135E0C2969E15B00F95694 /* AppVersion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AppVersion.json; sourceTree = "<group>"; };
+		79135E0F2969E17000F95694 /* TROMBINOSCOPE personnel 2022-2023.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "TROMBINOSCOPE personnel 2022-2023.pdf"; sourceTree = "<group>"; };
+		79135E102969E17000F95694 /* COORDINATEURS MATIERES 2022.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "COORDINATEURS MATIERES 2022.pdf"; sourceTree = "<group>"; };
+		79135E112969E17000F95694 /* TROMBINSCOPE PROFS 2022.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "TROMBINSCOPE PROFS 2022.pdf"; sourceTree = "<group>"; };
+		79135E122969E17000F95694 /* Doc Prof Caousou.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Doc Prof Caousou.pdf"; sourceTree = "<group>"; };
+		79135E182969E18200F95694 /* Plan TECHNO-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Plan TECHNO-2.png"; sourceTree = "<group>"; };
+		79135E192969E18200F95694 /* Plan Salle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Plan Salle.png"; sourceTree = "<group>"; };
 		7920A5232957345A0092A7DD /* EleveLabelWithTrombineFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveLabelWithTrombineFlag.swift; sourceTree = "<group>"; };
 		7921F54B2925825800173F39 /* ModelEntityP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelEntityP.swift; sourceTree = "<group>"; };
 		7921F54D292583FA00173F39 /* HelpersView */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = HelpersView; path = ../Packages/HelpersView; sourceTree = "<group>"; };
@@ -334,6 +348,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		79135E0A2969E13D00F95694 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				79135E0C2969E15B00F95694 /* AppVersion.json */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
+		79135E0B2969E14C00F95694 /* AppData */ = {
+			isa = PBXGroup;
+			children = (
+				79135E0A2969E13D00F95694 /* JSON */,
+				79135E172969E18200F95694 /* Plans */,
+				79135E0E2969E17000F95694 /* Docs */,
+			);
+			path = AppData;
+			sourceTree = "<group>";
+		};
+		79135E0E2969E17000F95694 /* Docs */ = {
+			isa = PBXGroup;
+			children = (
+				79135E0F2969E17000F95694 /* TROMBINOSCOPE personnel 2022-2023.pdf */,
+				79135E102969E17000F95694 /* COORDINATEURS MATIERES 2022.pdf */,
+				79135E112969E17000F95694 /* TROMBINSCOPE PROFS 2022.pdf */,
+				79135E122969E17000F95694 /* Doc Prof Caousou.pdf */,
+			);
+			path = Docs;
+			sourceTree = "<group>";
+		};
+		79135E172969E18200F95694 /* Plans */ = {
+			isa = PBXGroup;
+			children = (
+				79135E182969E18200F95694 /* Plan TECHNO-2.png */,
+				79135E192969E18200F95694 /* Plan Salle.png */,
+			);
+			path = Plans;
+			sourceTree = "<group>";
+		};
 		7921F548292575B400173F39 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,13 +412,6 @@
 			path = Group;
 			sourceTree = "<group>";
 		};
-		79388A4329256819002AABB8 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
 		79388A4C29256E7D002AABB8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -374,7 +419,6 @@
 				79388A4E29257025002AABB8 /* AppState.swift */,
 				79FFF42C295122F60037A327 /* ColorOptions.swift */,
 				79DEDB1D292598BE00F508EF /* Persistence */,
-				79388A4329256819002AABB8 /* Managers */,
 				79BF1DA029280E8B005D6CF3 /* School */,
 				79BF1DA629290F32005D6CF3 /* Classe */,
 				79F41E622954B05F00EAAC52 /* Eleve */,
@@ -502,6 +546,7 @@
 		79B6630329244C3F007B1FBD /* Assistant Professeur */ = {
 			isa = PBXGroup;
 			children = (
+				79135E0B2969E14C00F95694 /* AppData */,
 				79B6630429244C3F007B1FBD /* Assistant_ProfesseurApp.swift */,
 				79388A4829256E13002AABB8 /* MainScene.swift */,
 				79388A4C29256E7D002AABB8 /* Model */,
@@ -870,7 +915,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				79B6630D29244C3F007B1FBD /* Preview Assets.xcassets in Resources */,
+				79135E132969E17000F95694 /* TROMBINOSCOPE personnel 2022-2023.pdf in Resources */,
+				79135E142969E17000F95694 /* COORDINATEURS MATIERES 2022.pdf in Resources */,
+				79135E1B2969E18200F95694 /* Plan Salle.png in Resources */,
+				79135E162969E17000F95694 /* Doc Prof Caousou.pdf in Resources */,
 				79B6630929244C3F007B1FBD /* Assets.xcassets in Resources */,
+				79135E152969E17000F95694 /* TROMBINSCOPE PROFS 2022.pdf in Resources */,
+				79135E0D2969E15B00F95694 /* AppVersion.json in Resources */,
+				79135E1A2969E18200F95694 /* Plan TECHNO-2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1210,13 +1262,12 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.michaud.lionel.Assistant-Professeur";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -1250,13 +1301,12 @@
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.michaud.lionel.Assistant-Professeur";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;

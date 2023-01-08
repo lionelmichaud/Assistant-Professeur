@@ -1,43 +1,10 @@
 {
   "version" : {
-    "name" : "",
-    "version" : "7.0.0",
-    "date" : "2022-11-02T22:00:00Z"
   },
   "revisionHistory" : [
     {
-      "version" : "7.0.0",
-      "date" : "2022-11-02T22:00:00Z",
-      "comment" : "Ajout des documents à un établissement"
-    },
-    {
-      "version" : "6.0.0",
-      "date" : "2022-10-24T22:00:00Z",
-      "comment" : "Ajout des événements à un établissement"
-    },
-    {
-      "version" : "5.0.0",
-      "date" : "2022-10-21T22:00:00Z",
-      "comment" : "Ajout des salles de classe à un établissement"
-    },
-    {
-      "version" : "4.0.0",
-      "date" : "2022-06-19T22:00:00Z",
-      "comment" : "Ajout de ressources à un établissement"
-    },
-    {
-      "version" : "3.0.0",
-      "date" : "2022-05-23T22:00:00Z",
-      "comment" : "Ajout d'un coefficient aux évaluations"
-    },
-    {
-      "version" : "2.0.0",
-      "date" : "2022-05-21T22:00:00Z",
-      "comment" : "Ajout d'une note bonus à chaque élève"
-    },
-    {
       "version" : "1.0.0",
-      "date" : "2022-05-09T22:00:00Z",
+      "date" : "2023-01-07T22:00:00Z",
       "comment" : "Première version"
     }
   ]

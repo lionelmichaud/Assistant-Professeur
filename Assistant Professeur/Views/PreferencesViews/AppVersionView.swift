@@ -12,7 +12,7 @@ import Files
 struct AppVersionView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 4) {
-            Text(AppVersion.shared.name ?? "Patrimonio")
+            Text(AppVersion.shared.name ?? "Assistant Professeur")
                 .font(.title)
                 .fontWeight(.heavy)
                 .frame(maxWidth: .infinity)
