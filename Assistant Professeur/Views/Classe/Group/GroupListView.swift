@@ -120,7 +120,6 @@ struct GroupListView : View {
     }
 }
 
-// FIXME: Ne fonctionne pas
 struct MoveEleveDialog: View {
     @ObservedObject
     var eleve: EleveEntity

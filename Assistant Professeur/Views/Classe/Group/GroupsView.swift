@@ -158,8 +158,10 @@ struct GroupsView: View {
                                             searchString: searchString
                                         )
                                     case .picture:
-                                        EmptyView()
-                                        //GroupPicturesView(group: group)
+                                        GroupPicturesView(
+                                            groupe: groupe,
+                                            searchString: searchString
+                                        )
                                 }
                             } label: {
                                 if groupe.number == 0 {
