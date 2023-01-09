@@ -137,7 +137,6 @@ extension ColleEntity {
         """
 
         COLLE:
-           ID            : \(id)
            Eleve         : \(String(describing: eleve?.displayName))
            Date          : \(date.stringShortDate)
            Motif         : \(motifEnum.displayString)

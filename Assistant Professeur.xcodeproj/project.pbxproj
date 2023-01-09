@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		79134554296B65AB0092E7CD /* TrombinoscopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79134553296B65AB0092E7CD /* TrombinoscopeView.swift */; };
+		79134557296B6C620092E7CD /* TrombineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79134556296B6C620092E7CD /* TrombineView.swift */; };
 		79135E0D2969E15B00F95694 /* AppVersion.json in Resources */ = {isa = PBXBuildFile; fileRef = 79135E0C2969E15B00F95694 /* AppVersion.json */; };
 		79135E132969E17000F95694 /* TROMBINOSCOPE personnel 2022-2023.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 79135E0F2969E17000F95694 /* TROMBINOSCOPE personnel 2022-2023.pdf */; };
 		79135E142969E17000F95694 /* COORDINATEURS MATIERES 2022.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 79135E102969E17000F95694 /* COORDINATEURS MATIERES 2022.pdf */; };
@@ -68,6 +70,8 @@
 		795EED0B29677C76009AA6F4 /* MarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0929677C76009AA6F4 /* MarkView.swift */; };
 		795EED0C29677C76009AA6F4 /* MarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0A29677C76009AA6F4 /* MarkListView.swift */; };
 		798458EA2939529D00B74538 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798458E92939529D00B74538 /* AnnotationView.swift */; };
+		798B825E296C8DD5004A24A8 /* EleveNameStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */; };
+		798B8260296CAC84004A24A8 /* ImportExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B825F296CAC84004A24A8 /* ImportExportManager.swift */; };
 		79AEA0A929356DBA0053DDDD /* SchoolEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */; };
 		79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */; };
 		79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B6630429244C3F007B1FBD /* Assistant_ProfesseurApp.swift */; };
@@ -187,6 +191,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		79134553296B65AB0092E7CD /* TrombinoscopeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrombinoscopeView.swift; sourceTree = "<group>"; };
+		79134556296B6C620092E7CD /* TrombineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrombineView.swift; sourceTree = "<group>"; };
 		79135E0C2969E15B00F95694 /* AppVersion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AppVersion.json; sourceTree = "<group>"; };
 		79135E0F2969E17000F95694 /* TROMBINOSCOPE personnel 2022-2023.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "TROMBINOSCOPE personnel 2022-2023.pdf"; sourceTree = "<group>"; };
 		79135E102969E17000F95694 /* COORDINATEURS MATIERES 2022.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "COORDINATEURS MATIERES 2022.pdf"; sourceTree = "<group>"; };
@@ -244,6 +250,8 @@
 		795EED0A29677C76009AA6F4 /* MarkListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkListView.swift; sourceTree = "<group>"; };
 		7966DCF8292573A1001D6C7F /* AppFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppFoundation; path = ../Packages/AppFoundation; sourceTree = "<group>"; };
 		798458E92939529D00B74538 /* AnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
+		798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveNameStyling.swift; sourceTree = "<group>"; };
+		798B825F296CAC84004A24A8 /* ImportExportManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportExportManager.swift; sourceTree = "<group>"; };
 		79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolEditor.swift; sourceTree = "<group>"; };
 		79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolDetail.swift; sourceTree = "<group>"; };
 		79B6630129244C3F007B1FBD /* Assistant Professeur.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Assistant Professeur.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -349,6 +357,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		79134555296B6AD80092E7CD /* Trombinoscop */ = {
+			isa = PBXGroup;
+			children = (
+				79134553296B65AB0092E7CD /* TrombinoscopeView.swift */,
+				79134556296B6C620092E7CD /* TrombineView.swift */,
+			);
+			path = Trombinoscop;
+			sourceTree = "<group>";
+		};
 		79135E0A2969E13D00F95694 /* JSON */ = {
 			isa = PBXGroup;
 			children = (
@@ -674,6 +691,7 @@
 				79398D2A2965FA950013564D /* Exam */,
 				792381152960B023009E51B7 /* Group */,
 				79F41E692954C83A00EAAC52 /* Liste */,
+				79134555296B6AD80092E7CD /* Trombinoscop */,
 				79FFF42E29522BA80037A327 /* ClasseViewModel.swift */,
 				79DEDAEB2925864A00F508EF /* ClasseSplitView.swift */,
 				79DEDB0029258D4000F508EF /* ClasseSidebarView.swift */,
@@ -704,6 +722,7 @@
 				79F41E702954D2F900EAAC52 /* EleveLabel.swift */,
 				79ECF1F62959F6CA008F0282 /* EleveColleLabel.swift */,
 				79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */,
+				798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */,
 			);
 			path = Eleve;
 			sourceTree = "<group>";
@@ -763,6 +782,7 @@
 				79DEDB262925996E00F508EF /* Preferences.swift */,
 				79DEDB252925996E00F508EF /* UIPreferences.swift */,
 				79388A5229257045002AABB8 /* NavigationModel.swift */,
+				798B825F296CAC84004A24A8 /* ImportExportManager.swift */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -949,6 +969,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				798B8260296CAC84004A24A8 /* ImportExportManager.swift in Sources */,
 				79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */,
 				79DEDB17292593C200F508EF /* SettingsSchool.swift in Sources */,
 				793D626F295DCBBC00477932 /* MotifLabel.swift in Sources */,
@@ -1041,12 +1062,14 @@
 				79FFF42B295120100037A327 /* LevelClasse.swift in Sources */,
 				79DEDAFB2925897600F508EF /* ObservSidebarView.swift in Sources */,
 				79FFF42729511DF20037A327 /* ClassBrowserRow.swift in Sources */,
+				798B825E296C8DD5004A24A8 /* EleveNameStyling.swift in Sources */,
 				794F6E0C295CDC3700042B95 /* ObservCreatorModal.swift in Sources */,
 				79AEA0A929356DBA0053DDDD /* SchoolEditor.swift in Sources */,
 				79BF1DA229280ED7005D6CF3 /* School+Extensions.swift in Sources */,
 				79DEDAF82925870500F508EF /* ColleSidebarView.swift in Sources */,
 				79DEDB272925996E00F508EF /* Interoperability.swift in Sources */,
 				79DEDAF5292586C800F508EF /* ColleSplitView.swift in Sources */,
+				79134557296B6C620092E7CD /* TrombineView.swift in Sources */,
 				79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */,
 				793C29D62953C08100E7F65B /* SchoolRessourceRow.swift in Sources */,
 				79398D352966224A0013564D /* ExamViewModel.swift in Sources */,
@@ -1056,6 +1079,7 @@
 				7921F54C2925825800173F39 /* ModelEntityP.swift in Sources */,
 				79DEDB15292593C200F508EF /* SettingsGeneral.swift in Sources */,
 				794F6E11295CE1B700042B95 /* ObservDetail.swift in Sources */,
+				79134554296B65AB0092E7CD /* TrombinoscopeView.swift in Sources */,
 				79DEDB292925996E00F508EF /* UIPreferences.swift in Sources */,
 				79388A5329257045002AABB8 /* NavigationModel.swift in Sources */,
 				798458EA2939529D00B74538 /* AnnotationView.swift in Sources */,

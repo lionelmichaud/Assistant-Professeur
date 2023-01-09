@@ -80,8 +80,8 @@ struct GroupManager {
         }
 
         try? EleveEntity.saveIfContextHasChanged()
-        print(eleves)
-        print(classe.allGroupsSortedByNumber)
+//        print(eleves)
+//        print(classe.allGroupsSortedByNumber)
     }
 
     /// Former les groupes aléatoirement dans la `classe`.

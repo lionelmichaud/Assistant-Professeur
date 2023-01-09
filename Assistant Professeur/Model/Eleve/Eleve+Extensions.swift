@@ -7,6 +7,8 @@
 
 import Foundation
 import CoreData
+import UIKit
+import SwiftUI
 
 
 /// Un élève
@@ -22,7 +24,39 @@ extension EleveEntity {
 
     // MARK: - Computed properties
 
-    /// Wrapper of `trouble`
+    /// Wrapper of `trombine`
+    /// - Important: *Saves the context to the store after modification is done*
+    var viewUIImageTrombine: UIImage {
+        get {
+            if let trombine {
+                return UIImage(data: trombine) ?? UIImage(systemName: "questionmark.square.dashed")!
+            } else {
+                return UIImage(systemName: "questionmark.square.dashed")!
+            }
+        }
+        set {
+            self.trombine = newValue.jpegData(compressionQuality: 1)
+            try? EleveEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `trombine`
+    /// - Important: *Saves the context to the store after modification is done*
+    var viewImageTrombine: Image {
+        get {
+            if let trombine, let uiImage = UIImage(data: trombine) {
+                return Image(uiImage: uiImage)
+            } else {
+                return Image(systemName: "questionmark.square.dashed")
+            }
+        }
+    }
+
+    var hasImageTrombine: Bool {
+        trombine != nil
+    }
+
+   /// Wrapper of `trouble`
     /// - Important: *Saves the context to the store after modification is done*
     var troubleEnum: TroubleDys {
         get {
@@ -147,6 +181,14 @@ extension EleveEntity {
             case .nomPrenom:
                 return "\(familyName ?? "") \(givenName ?? "")"
         }
+    }
+
+    var imageFileName: String? {
+        guard var familyName = familyName, let givenName = givenName else {
+            return nil
+        }
+        familyName = familyName.replacing(" ", with: "_")
+        return familyName + "_" + givenName + ".jpg"
     }
 
     var additionalTimeInt: Int {
@@ -548,7 +590,7 @@ extension EleveEntity {
         """
 
         ELEVE: \(displayName)
-           ID          : \(id)
+           ID          : \(objectID)
            Classe      : \(String(describing: classe?.displayString))
            Groupe      : \(String(describing: group?.displayString))
            Sexe        : \(sexEnum.pickerString)
@@ -559,8 +601,9 @@ extension EleveEntity {
            Bonus       : \(viewBonus)
            Nb observs  : \(nbOfObservs)
            Nb colles   : \(nbOfColles)
-           Observations: \(String(describing: observs).withPrefixedSplittedLines("     "))
-           Colles: \(String(describing: colles).withPrefixedSplittedLines("     "))
         """
+//    Observations: \(String(describing: observs).withPrefixedSplittedLines("     "))
+//    Colles: \(String(describing: colles).withPrefixedSplittedLines("     "))
+//        """
     }
 }

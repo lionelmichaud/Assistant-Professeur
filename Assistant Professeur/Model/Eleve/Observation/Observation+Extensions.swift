@@ -123,7 +123,6 @@ extension ObservEntity {
         """
 
         OBSERVATION:
-           ID            : \(id)
            Eleve         : \(String(describing: eleve?.displayName))
            Date          : \(date.stringShortDate)
            Motif         : \(motifEnum.displayString)

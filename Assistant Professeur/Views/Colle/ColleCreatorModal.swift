@@ -100,7 +100,7 @@ struct ColleCreatorModal: View {
             }
         }
         #if os(iOS)
-        .navigationTitle("Nouvelle observation")
+        .navigationTitle("Nouvelle colle")
         #endif
     }
 }

@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import CloudKit
+import AppFoundation
 import HelpersView
 
 struct ContentView: View {
@@ -17,7 +19,13 @@ struct ContentView: View {
     private var navigationModel = NavigationModel()
 
     @State
-    private var alertItem: AlertItem?
+    private var initAlertIsPresented = false
+
+    @State
+    private var iCloudAlertIsPresented = false
+
+    @State
+    private var iCloudError: ICloudError?
 
     var body: some View {
         TabView(selection: $navigationModel.selectedTab) {
@@ -52,26 +60,73 @@ struct ContentView: View {
                 .badge(ColleEntity.cardinal())
         }
         .environmentObject(navigationModel)
-        .alert(item: $alertItem, content: newAlert)
+
+        // Alerte en cas d'erreur d'initilisation de l'App
+        .alert(isPresented: $initAlertIsPresented,
+               error: AppState.shared.initError) { error in
+            Button("Continuer", role: .cancel) { }
+        } message: { error in
+            Text(error.failureReason ?? "Raison inconue.")
+        }
+
+        // Alerte en cas d'erreur de connection iCloud
+        .alert(isPresented: $iCloudAlertIsPresented,
+               error: AppState.shared.initError) { error in
+            Button("Continuer", role: .cancel) { }
+        } message: { error in
+            Text(error.failureReason ?? "Raison inconue.")
+        }
+
         .task {
-            switch AppState.shared.initError {
-                case .none:
-                    break
+            // Afficher une alerte en cas de problème d'initialisation de l'App
+            checkAppInitFailure()
 
-                case .failedToLoadUserData,
-                        .failedToInitialize,
-                        .failedToLoadApplicationData,
-                        .failedToCheckCompatibility:
-                    self.alertItem = AlertItem(title         : Text("Erreur"),
-                                               message       : Text(AppState.shared.initError!.rawValue),
-                                               dismissButton : .default(Text("OK")))
-            }
+            // Vérifier le status de iCloud
+            checkiCloudSignIn()
 
+            // décoder le dernier status de navigation dans l'App
             if let navigationData {
                 navigationModel.jsonData = navigationData
             }
             for await _ in navigationModel.objectWillChangeSequence {
                 navigationData = navigationModel.jsonData
+            }
+        }
+    }
+
+    // Afficher une alerte en cas de problème d'initialisation de l'App
+    private func checkAppInitFailure() {
+        switch AppState.shared.initError {
+            case .none:
+                break
+
+            case .failedToLoadUserData,
+                    .failedToInitialize,
+                    .failedToLoadApplicationData,
+                    .failedToCheckCompatibility:
+                initAlertIsPresented = true
+        }
+    }
+
+    // Vérifier le status de iCloud
+    private func checkiCloudSignIn() {
+        CKContainer.default().accountStatus { accountStatus, error in
+            if accountStatus != .available {
+                switch accountStatus {
+                    case .couldNotDetermine:
+                        iCloudError = .couldNotDetermine
+                    case .available:
+                        return
+                    case .restricted:
+                        iCloudError = .restricted
+                    case .noAccount:
+                        iCloudError = .noAccount
+                    case .temporarilyUnavailable:
+                        iCloudError = .temporarilyUnavailable
+                    @unknown default:
+                        iCloudError = .unknown
+                }
+                iCloudAlertIsPresented = true
             }
         }
     }

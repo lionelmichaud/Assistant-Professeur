@@ -130,11 +130,10 @@ struct ClasseDetail: View {
     }
 
     private var trombinoscopeView: some View {
-        Text("trombinoscopeView placeholder")
-//        NavigationLink(value: ClasseNavigationRoute.trombinoscope($classe)) {
-//            Text("Trombinoscope")
-//                .fontWeight(.bold)
-//        }
+        NavigationLink(value: ClasseNavigationRoute.trombinoscope(classe)) {
+            Text("Trombinoscope")
+                .fontWeight(.bold)
+        }
     }
 
     private var groupsView: some View {

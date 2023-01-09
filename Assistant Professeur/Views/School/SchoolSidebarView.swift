@@ -151,9 +151,9 @@ struct SchoolSidebarView: View {
 
         /// Importer des fichiers JPEG
         .fileImporter(isPresented: $isImportingJpegFile,
-                     allowedContentTypes: [.jpeg],
-                     allowsMultipleSelection: true) { result in
-           importUserSelectedFiles(result: result)
+                      allowedContentTypes: [.jpeg],
+                      allowsMultipleSelection: true) { result in
+            importUserSelectedFiles(result: result)
         }
     }
 }
@@ -398,8 +398,9 @@ extension SchoolSidebarView {
 
             case .success(let filesUrl):
                 do {
-                    //                    try ImportExportManager.importURLsToDocumentsFolder(filesUrl             : filesUrl,
-                    //                                                                        importIfAlreadyExist : true)
+//                    try ImportExportManager.importURLsToDocumentsFolder(filesUrl             : filesUrl,
+//                                                                        importIfAlreadyExist : true)
+                    try ImportExportManager.importTrombinesImages(filesUrl: filesUrl)
 
                 } catch {
                     alertTitle   = "Échec"

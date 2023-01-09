@@ -64,19 +64,20 @@ class CoreDataController {
         do {
             // Use the container to initialize the development schema.
             try container.initializeCloudKitSchema(
-                options: [.printSchema]
+                options: []
+                //options: [.printSchema]
             )
         } catch {
             // Handle any errors.
-            customLog.log(level: .fault,
-                          "Failed to initialize the development schema in ClodKit: \(error.localizedDescription)")
+            customLog.log(level: .error,
+                          "Failed to initialize the development schema in ClouKit: \(error.localizedDescription)")
         }
-        #endif
 
         // TODO: - DEBUG
         let directories = NSSearchPathForDirectoriesInDomains(.documentDirectory,
-            .userDomainMask, true)
+                                                              .userDomainMask, true)
         print(directories[0])
+        #endif
     }
     
     // MARK: - Methods
