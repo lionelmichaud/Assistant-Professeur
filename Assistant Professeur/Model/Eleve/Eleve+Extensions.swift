@@ -422,6 +422,37 @@ extension EleveEntity: ModelEntityP {
 
     // MARK: - Type Methods
 
+    /// Créer un nouve élève et l'ajouter à la `classe`
+    /// - Parameters:
+    ///   - familyName: Nom de famille
+    ///   - givenName: Prénom
+    ///   - sex: Sexe
+    ///   - classe: Classe  à laquelle ajouter l'élève créé
+    /// - Returns: Le nouvel élève
+    @discardableResult static func create(
+        familyName  : String,
+        givenName   : String,
+        sex         : Sexe,
+        dans classe : ClasseEntity
+    ) -> EleveEntity {
+        let eleve = EleveEntity.create()
+        // classe d'appartenance.
+        // mandatory
+        eleve.classe = classe
+
+        // groupe d'appartenance.
+        // mandatory
+        eleve.group = classe.groupOfUngroupedEleves
+
+        eleve.setSex(sex)
+        eleve.viewFamilyName = familyName
+        eleve.viewGivenName  = givenName
+
+        try? EleveEntity.saveIfContextHasChanged()
+        
+        return eleve
+    }
+
     static func byName(familyName: String,
                        givenName: String) -> EleveEntity? {
         all()

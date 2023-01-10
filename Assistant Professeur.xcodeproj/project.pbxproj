@@ -72,6 +72,7 @@
 		798458EA2939529D00B74538 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798458E92939529D00B74538 /* AnnotationView.swift */; };
 		798B825E296C8DD5004A24A8 /* EleveNameStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */; };
 		798B8260296CAC84004A24A8 /* ImportExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B825F296CAC84004A24A8 /* ImportExportManager.swift */; };
+		798B8262296CEC5F004A24A8 /* CsvImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B8261296CEC5E004A24A8 /* CsvImporter.swift */; };
 		79AEA0A929356DBA0053DDDD /* SchoolEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */; };
 		79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */; };
 		79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B6630429244C3F007B1FBD /* Assistant_ProfesseurApp.swift */; };
@@ -252,6 +253,7 @@
 		798458E92939529D00B74538 /* AnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 		798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveNameStyling.swift; sourceTree = "<group>"; };
 		798B825F296CAC84004A24A8 /* ImportExportManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportExportManager.swift; sourceTree = "<group>"; };
+		798B8261296CEC5E004A24A8 /* CsvImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CsvImporter.swift; sourceTree = "<group>"; };
 		79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolEditor.swift; sourceTree = "<group>"; };
 		79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolDetail.swift; sourceTree = "<group>"; };
 		79B6630129244C3F007B1FBD /* Assistant Professeur.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Assistant Professeur.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -782,6 +784,7 @@
 				79DEDB262925996E00F508EF /* Preferences.swift */,
 				79DEDB252925996E00F508EF /* UIPreferences.swift */,
 				79388A5229257045002AABB8 /* NavigationModel.swift */,
+				798B8261296CEC5E004A24A8 /* CsvImporter.swift */,
 				798B825F296CAC84004A24A8 /* ImportExportManager.swift */,
 			);
 			path = Persistence;
@@ -969,6 +972,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				798B8262296CEC5F004A24A8 /* CsvImporter.swift in Sources */,
 				798B8260296CAC84004A24A8 /* ImportExportManager.swift in Sources */,
 				79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */,
 				79DEDB17292593C200F508EF /* SettingsSchool.swift in Sources */,

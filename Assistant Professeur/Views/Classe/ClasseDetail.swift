@@ -87,6 +87,15 @@ struct ClasseDetail: View {
     @State
     private var isAddingNewExam = false
 
+    @State
+    private var alertTitle = ""
+
+    @State
+    private var alertMessage = ""
+
+    @State
+    private var alertIsPresented = false
+
     // MARK: - Computed Properties
 
     private var roomView: some View {
@@ -243,10 +252,9 @@ struct ClasseDetail: View {
                     }
                     Button("Importer et remplacer", role: .destructive) {
                         withAnimation {
-//                            ClasseManager().retirerTousLesEleves(deClasse    : &classe,
-//                                                                 eleveStore  : eleveStore,
-//                                                                 observStore : observStore,
-//                                                                 colleStore  : colleStore)
+                            classe.allEleves.forEach { eleve in
+                                try? eleve.delete()
+                            }
                         }
                         importCsvFile = true
                     }
@@ -256,13 +264,17 @@ struct ClasseDetail: View {
                 }
             }
         }
-//        .alert(item: $alertItem, content: newAlert)
-//        /// Importer un fichier CSV au format PRONOTE ou EcoleDirecte
-//        .fileImporter(isPresented             : $importCsvFile,
-//                      allowedContentTypes     : [.commaSeparatedText],
-//                      allowsMultipleSelection : false) { result in
-//            importCsvFiles(result: result)
-//        }
+        .alert(alertTitle,
+               isPresented: $alertIsPresented,
+               actions: { },
+               message: { Text(alertMessage) }
+        )
+        /// Importer un fichier CSV au format PRONOTE ou EcoleDirecte
+        .fileImporter(isPresented             : $importCsvFile,
+                      allowedContentTypes     : [.commaSeparatedText],
+                      allowsMultipleSelection : false) { result in
+            importCsvFiles(result: result)
+        }
         #if os(iOS)
         .navigationTitle("Classe")
         .navigationBarTitleDisplayMode(.inline)
@@ -284,48 +296,41 @@ struct ClasseDetail: View {
     }
 
     private func importCsvFiles(result: Result<[URL], Error>) {
-//        switch result {
-//            case .failure(let error):
-//                self.alertItem = AlertItem(title         : Text("Échec"),
-//                                           message       : Text("L'importation du fichier a échouée"),
-//                                           dismissButton : .default(Text("OK")))
-//                print("Error selecting file: \(error.localizedDescription)")
-//
-//            case .success(let filesUrl):
-//                filesUrl.forEach { fileUrl in
-//                    guard fileUrl.startAccessingSecurityScopedResource() else { return }
-//
-//                    if let data = try? Data(contentsOf: fileUrl) {
-//                        do {
-//                            var eleves = [Eleve]()
-//
-//                            switch interoperability {
-//                                case .ecoleDirecte:
-//                                    eleves = try CsvImporter().importElevesFromEcoleDirecte(from: data)
-//
-//                                case .proNote:
-//                                    eleves = try CsvImporter().importElevesFromPRONOTE(from: data)
-//                            }
-//
-//                            for idx in eleves.startIndex...eleves.endIndex-1 {
-//                                withAnimation {
-//                                    ClasseManager()
-//                                        .ajouter(eleve      : &eleves[idx],
-//                                                 aClasse    : &classe,
-//                                                 eleveStore : eleveStore)
-//                                }
-//                            }
-//                        } catch let error {
-//                            self.alertItem = AlertItem(title         : Text("Échec"),
-//                                                       message       : Text("L'importation du fichier a échouée"),
-//                                                       dismissButton : .default(Text("OK")))
-//                            print("Error reading file \(error.localizedDescription)")
-//                        }
-//                    }
-//
-//                    fileUrl.stopAccessingSecurityScopedResource()
-//                }
-//        }
+        switch result {
+            case .failure(let error):
+                print("Error selecting file: \(error.localizedDescription)")
+                alertTitle   = "Échec"
+                alertMessage = "L'importation du fichier a échouée"
+                alertIsPresented.toggle()
+
+            case .success(let filesUrl):
+                filesUrl.forEach { fileUrl in
+                    guard fileUrl.startAccessingSecurityScopedResource() else { return }
+
+                    if let data = try? Data(contentsOf: fileUrl) {
+                        do {
+                            switch interoperability {
+                                case .ecoleDirecte:
+                                    try CsvImporter()
+                                        .importElevesFromEcoleDirecte(from: data,
+                                                                      dans: classe)
+
+                                case .proNote:
+                                    try CsvImporter()
+                                        .importElevesFromPRONOTE(from: data,
+                                                                 dans: classe)
+                            }
+                        } catch let error {
+                            print("Error reading file \(error.localizedDescription)")
+                            alertTitle   = "Échec"
+                            alertMessage = "L'importation du fichier a échouée"
+                            alertIsPresented.toggle()
+                        }
+                    }
+
+                    fileUrl.stopAccessingSecurityScopedResource()
+                }
+        }
     }
 }
 

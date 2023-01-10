@@ -35,7 +35,7 @@ struct ImportExportManager {
 //                height: 32)
 //        }
 //    }
-//
+
 //    /// Partager les fichiers contenus dans le dossier actif de `dataStore`
 //    /// et qui contiennent l'une des Strings de `fileNames`
 //    /// ou bien tous les fichiers si `fileNames` = `nil`
@@ -75,6 +75,8 @@ struct ImportExportManager {
         }
     }
 
+    /// Importer les fichiers image au format JPEG pour le trombinoscope
+    /// - Parameter filesUrl: URLs des fichiers sélectionnés
     static func importTrombinesImages(filesUrl: [URL]) throws {
         try filesUrl.forEach { fileUrl in
             let data = try Data(contentsOf: fileUrl)

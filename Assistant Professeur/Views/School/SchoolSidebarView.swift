@@ -112,7 +112,6 @@ struct SchoolSidebarView: View {
                                 .foregroundColor(.secondary)
                                 .fontWeight(.bold)
                         }
-
                     }
                 }
             }
@@ -123,7 +122,8 @@ struct SchoolSidebarView: View {
         .alert(alertTitle,
                isPresented: $alertIsPresented,
                actions: { },
-               message: { Text(alertMessage) })
+               message: { Text(alertMessage) }
+        )
 
         .sheet(isPresented: $isShowingAbout) {
             NavigationStack {
