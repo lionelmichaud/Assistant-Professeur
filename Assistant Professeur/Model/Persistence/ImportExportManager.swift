@@ -92,6 +92,11 @@ struct ImportExportManager {
         }
     }
 
+    static func getRoomPlan(from fileUrl: URL) throws -> UIImage? {
+        let data = try Data(contentsOf: fileUrl)
+        return UIImage(data: data)
+    }
+
     /// Importer les fichiers dont les URL sont `filesUrl`vers le dossier Document.
     /// Exécute l'`action` pour chaque fichier importé.
     /// - Parameters:

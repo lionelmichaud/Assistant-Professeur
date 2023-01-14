@@ -99,55 +99,36 @@ struct ClasseDetail: View {
     // MARK: - Computed Properties
 
     private var roomView: some View {
-        Text("roomView placeholder")
-//        var school: School? {
-//            guard let schoolId = classe.schoolId else {
-//                return nil
-//            }
-//            return schoolStore.item(withID: schoolId)
-//        }
-//
-//        var room: Room? {
-//            guard let school, let roomId = classe.roomId else {
-//                return nil
-//            }
-//            return RoomManager.room(withId: roomId, in: school)
-//        }
-//
-//        var roomName: String {
-//            room?.name ?? ""
-//        }
-//
-//        return NavigationLink(value: ClasseNavigationRoute.room($classe)) {
-//            HStack {
-//                Text("Salle de classe")
-//                    .fontWeight(.bold)
-//                if classe.hasAssociatedRoom {
-//                    Spacer()
-//                    Text(roomName)
-//                        .foregroundColor(.secondary)
-//                }
-//            }
-//        }
+        return NavigationLink(value: ClasseNavigationRoute.room(classe)) {
+            HStack {
+                Label("Salle de classe", systemImage: "chair")
+                    .fontWeight(.bold)
+                if classe.hasAssociatedRoom {
+                    Spacer()
+                    Text(classe.room!.viewName)
+                        .foregroundColor(.secondary)
+                }
+            }
+        }
     }
 
     private var elevesListView: some View {
         NavigationLink(value: ClasseNavigationRoute.liste(classe)) {
-            Text("Liste")
+            Label("Liste", systemImage: "list.bullet")
                 .fontWeight(.bold)
         }
     }
 
     private var trombinoscopeView: some View {
         NavigationLink(value: ClasseNavigationRoute.trombinoscope(classe)) {
-            Text("Trombinoscope")
+            Label("Trombinoscope", systemImage: "person.crop.square.fill")
                 .fontWeight(.bold)
         }
     }
 
     private var groupsView: some View {
         NavigationLink(value: ClasseNavigationRoute.groups(classe)) {
-            Text("Groupes")
+            Label("Groupes", systemImage: "person.line.dotted.person.fill")
                 .fontWeight(.bold)
         }
     }
@@ -191,8 +172,6 @@ struct ClasseDetail: View {
             ClasseNameGroupBox(classe: classe)
 
             List {
-                roomView
-
                 /// appréciation sur la classe
                 if classeAppreciationEnabled {
                     AppreciationView(appreciation: $classe.viewAppreciation)
@@ -201,6 +180,8 @@ struct ClasseDetail: View {
                 if classeAnnotationEnabled {
                     AnnotationView(annotation: $classe.viewAnnotation)
                 }
+
+                roomView
 
                 Section {
                     /// édition de la liste des élèves

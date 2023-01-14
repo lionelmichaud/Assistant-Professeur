@@ -31,7 +31,7 @@ struct AppreciationView: View {
             }
         } label: {
             HStack {
-                Text("Appréciation")
+                Label("Appréciation", systemImage: "note.text")
                     .font(.headline)
                     .fontWeight(.bold)
                 Spacer()

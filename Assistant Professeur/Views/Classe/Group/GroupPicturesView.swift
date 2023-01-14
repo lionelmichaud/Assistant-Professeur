@@ -29,20 +29,9 @@ struct GroupPicturesView : View {
             ForEach(groupe.filteredElevesSortedByName(searchString: searchString), id: \.objectID) { eleve in
                 VStack {
                     if eleve.hasImageTrombine {
-                        eleve.viewImageTrombine
-                        //Image(systemName: "questionmark.square.dashed")
-                            .resizable()
-                            .scaledToFit()
-                            .cornerRadius(15)
-                            .shadow(radius: 5)
-                            .accessibility(hidden: false)
+                        Trombine(eleve: eleve)
                     } else {
-                        eleve.viewImageTrombine
-                            .resizable()
-                            .scaledToFit()
-                            .cornerRadius(15)
-                            .shadow(radius: 5)
-                            .accessibility(hidden: false)
+                        Trombine(eleve: eleve)
                             .foregroundColor(.secondary)
                     }
                     

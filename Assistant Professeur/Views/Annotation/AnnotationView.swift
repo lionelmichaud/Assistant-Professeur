@@ -31,7 +31,7 @@ struct AnnotationView: View {
             }
         } label: {
             HStack {
-                Text("Annotation")
+                Label("Annotation", systemImage: "note.text")
                     .font(.headline)
                     .fontWeight(.bold)
                 Spacer()

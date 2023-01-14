@@ -10,7 +10,6 @@ import CoreData
 import UIKit
 import SwiftUI
 
-
 /// Un élève
 extension EleveEntity {
 
@@ -422,7 +421,7 @@ extension EleveEntity: ModelEntityP {
 
     // MARK: - Type Methods
 
-    /// Créer un nouve élève et l'ajouter à la `classe`
+    /// Créer un nouvel élève et l'ajouter à la `classe`
     /// - Parameters:
     ///   - familyName: Nom de famille
     ///   - givenName: Prénom

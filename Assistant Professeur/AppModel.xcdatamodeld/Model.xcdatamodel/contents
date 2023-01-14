@@ -52,6 +52,7 @@
         <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GroupEntity" inverseName="eleves" inverseEntity="GroupEntity"/>
         <relationship name="marks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MarkEntity" inverseName="eleve" inverseEntity="MarkEntity"/>
         <relationship name="observs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ObservEntity" inverseName="eleve" inverseEntity="ObservEntity"/>
+        <relationship name="seat" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SeatEntity" inverseName="eleves" inverseEntity="SeatEntity"/>
     </entity>
     <entity name="EventEntity" representedClassName="EventEntity" syncable="YES" codeGenerationType="class">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -94,9 +95,12 @@
     </entity>
     <entity name="RoomEntity" representedClassName="RoomEntity" syncable="YES" codeGenerationType="class">
         <attribute name="capacity" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
+        <attribute name="seatsCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="seats.@count" usesScalarValueType="YES"/>
         <relationship name="classes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="room" inverseEntity="ClasseEntity"/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="rooms" inverseEntity="SchoolEntity"/>
+        <relationship name="seats" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SeatEntity" inverseName="room" inverseEntity="SeatEntity"/>
     </entity>
     <entity name="SchoolEntity" representedClassName="SchoolEntity" syncable="YES" codeGenerationType="class">
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
@@ -111,6 +115,13 @@
         <relationship name="documents" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DocumentEntity" inverseName="school" inverseEntity="DocumentEntity"/>
         <relationship name="events" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EventEntity" inverseName="school" inverseEntity="EventEntity"/>
         <relationship name="ressources" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RessourceEntity" inverseName="school" inverseEntity="RessourceEntity"/>
-        <relationship name="rooms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RoomEntity" inverseName="school" inverseEntity="RoomEntity"/>
+        <relationship name="rooms" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RoomEntity" inverseName="school" inverseEntity="RoomEntity"/>
+    </entity>
+    <entity name="SeatEntity" representedClassName="SeatEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="numero" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="x" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="y" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="eleves" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="seat" inverseEntity="EleveEntity"/>
+        <relationship name="room" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoomEntity" inverseName="seats" inverseEntity="RoomEntity"/>
     </entity>
 </model>

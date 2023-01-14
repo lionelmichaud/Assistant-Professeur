@@ -59,7 +59,8 @@ struct EleveDetail: View {
                 in    : -maxBonusMalus ... maxBonusMalus,
                 step  : maxBonusIncrement) {
             HStack {
-                Text(eleve.bonus >= 0 ? "Bonus" : "Malus")
+                Label(eleve.bonus >= 0 ? "Bonus" : "Malus",
+                      systemImage: "plusminus")
                 Spacer()
                 Text("\(eleve.bonus.formatted(.number.precision(.fractionLength(2))))")
                     .foregroundColor(.secondary)

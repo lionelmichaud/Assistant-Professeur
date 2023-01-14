@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import os
 //import Files
 //import FileAndFolder
 import HelpersView
+
+private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
+                               category  : "SchoolSidebarView")
 
 struct SchoolSidebarView: View {
     @EnvironmentObject
@@ -391,18 +395,19 @@ extension SchoolSidebarView {
     private func importUserSelectedFiles(result: Result<[URL], Error>) {
         switch result {
             case .failure(let error):
+                customLog.log(level: .fault,
+                              "Error selecting file: \(error.localizedDescription)")
                 alertTitle   = "Échec"
-                alertMessage = "L'importation des fichiers a échoué!"
+                alertMessage = "L'importation des fichiers a échouée!"
                 alertIsPresented.toggle()
-                print("Error selecting file: \(error.localizedDescription)")
 
             case .success(let filesUrl):
                 do {
-//                    try ImportExportManager.importURLsToDocumentsFolder(filesUrl             : filesUrl,
-//                                                                        importIfAlreadyExist : true)
                     try ImportExportManager.importTrombinesImages(filesUrl: filesUrl)
 
                 } catch {
+                    customLog.log(level: .fault,
+                                  "L'importation des fichiers trombines a échouée: \(error.localizedDescription)")
                     alertTitle   = "Échec"
                     alertMessage = "L'importation des fichiers a échoué!"
                     alertIsPresented.toggle()

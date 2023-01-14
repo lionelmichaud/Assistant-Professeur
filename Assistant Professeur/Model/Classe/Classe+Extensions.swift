@@ -116,8 +116,7 @@ extension ClasseEntity {
     }
 
     var hasAssociatedRoom: Bool {
-        false
-//        roomId != nil
+        room != nil
     }
 
     /// Nombre d'élèves dans la Classe
@@ -391,6 +390,27 @@ extension ClasseEntity: ModelEntityP {
                 eleve.satisfiesTo(searchString: searchString)
             }
             .sorted(using: sortOrder)
+    }
+
+    /// Retourne la liste des élèves de la classe qui n'ont pas de place assise.
+    ///
+    /// Les élèves trouvés sont triés en utilisant les péréférences `nameSortOrder`.
+    func unseatedEleves() -> [EleveEntity] {
+        let sortComparators = ClasseEntity.nameSortOrder == .nomPrenom ?
+        [
+            SortDescriptor(\EleveEntity.familyName, order: .forward),
+            SortDescriptor(\EleveEntity.givenName, order: .forward)
+        ] :
+        [
+            SortDescriptor(\EleveEntity.givenName, order: .forward),
+            SortDescriptor(\EleveEntity.familyName, order: .forward)
+        ]
+
+        return allEleves
+            .filter { eleve in
+                eleve.seat == nil
+            }
+            .sorted(using: sortComparators)
     }
 
     // MARK: - Méthodes Observation

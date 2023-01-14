@@ -173,6 +173,14 @@ extension SchoolEntity: ModelEntityP {
         }
     }
 
+    /// Liste des salles de classe de l'établissement non triées
+    var allRooms: [RoomEntity] {
+        if let rooms {
+            return (rooms.allObjects as! [RoomEntity])
+        } else {
+            return [ ]
+        }
+    }
     /// Liste des classes de l'établissement triées par niveau puis par numéro
     var classesSortedByLevelNumber: [ClasseEntity] {
         let sortComparators =
