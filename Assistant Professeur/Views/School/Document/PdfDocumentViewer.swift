@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct PdfDocumentViewer: View {
-    var document: Document
+    @ObservedObject
+    var document: DocumentEntity
 
     @Environment(\.dismiss) private var dismiss
 
@@ -20,15 +21,15 @@ struct PdfDocumentViewer: View {
 
     // MARK: - Computed Properties
 
-    private func getPdfImages() -> [Image] {
-        if let uiImages = imagesFromPDF(at: document.url) {
-            return uiImages.map { uiImage in
-                Image(uiImage: uiImage)
-            }
-        } else {
-            return [Image(systemName: "doc.richtext").resizable()]
-        }
-    }
+//    private func getPdfImages() -> [Image] {
+//        if let uiImages = imagesFromPDF(at: document.url) {
+//            return uiImages.map { uiImage in
+//                Image(uiImage: uiImage)
+//            }
+//        } else {
+//            return [Image(systemName: "doc.richtext").resizable()]
+//        }
+//    }
 
     var body: some View {
         Group {
@@ -42,11 +43,11 @@ struct PdfDocumentViewer: View {
             }
         }
         #if os(iOS)
-        .navigationTitle("\(document.docName)")
+        .navigationTitle("\(document.viewName)")
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .onAppear {
-            pdfImages = getPdfImages()
+//            pdfImages = getPdfImages()
         }
         .toolbar {
             ToolbarItem(placement: .navigation) {

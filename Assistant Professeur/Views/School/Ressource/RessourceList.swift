@@ -30,13 +30,10 @@ struct RessourceList: View {
             .buttonStyle(.borderless)
 
             // édition de la liste des examen
-            ForEach(school.allRessources) { ressource in
+            ForEach(school.ressourcesSortedByName, id: \.objectID) { ressource in
                 RessourceEditor(ressource: ressource)
             }
             .onDelete(perform: deleteItems)
-//            .onMove { fromOffsets, toOffset in
-//                school.ressources.move(fromOffsets: fromOffsets, toOffset: toOffset)
-//            }
 
         } header: {
             Text("Ressources (\(school.nbOfRessourceTypes))")
@@ -49,7 +46,7 @@ struct RessourceList: View {
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             offsets
-                .map { school.allRessources[$0] }
+                .map { school.ressourcesSortedByName[$0] }
                 .forEach(managedObjectContext.delete)
 
             try? EventEntity.saveIfContextHasChanged()

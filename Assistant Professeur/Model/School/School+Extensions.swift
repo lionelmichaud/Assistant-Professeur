@@ -181,6 +181,16 @@ extension SchoolEntity: ModelEntityP {
             return [ ]
         }
     }
+
+    /// Liste des documents importants de l'établissement non triées
+    var allDocuments: [DocumentEntity] {
+        if let documents {
+            return (documents.allObjects as! [DocumentEntity])
+        } else {
+            return [ ]
+        }
+    }
+
     /// Liste des classes de l'établissement triées par niveau puis par numéro
     var classesSortedByLevelNumber: [ClasseEntity] {
         let sortComparators =
@@ -192,6 +202,15 @@ extension SchoolEntity: ModelEntityP {
         return allClasses.sorted(using: sortComparators)
     }
 
+    /// Liste des ressources de l'établissement non triées par ordre alphabétique
+    var ressourcesSortedByName: [RessourceEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(\RessourceEntity.name, order: .forward),
+        ]
+        return allRessources.sorted(using: sortComparators)
+    }
+
     /// Liste des événements importants de l'établissement triées par date
     var eventsSortedByDate: [EventEntity] {
         let sortComparators =
@@ -199,6 +218,24 @@ extension SchoolEntity: ModelEntityP {
             SortDescriptor(\EventEntity.date, order: .reverse),
         ]
         return allEvents.sorted(using: sortComparators)
+    }
+
+    /// Liste des salles de classe de l'établissement triées par ordre alphabétique
+    var roomsSortedByName: [RoomEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(\RoomEntity.name, order: .forward),
+        ]
+        return allRooms.sorted(using: sortComparators)
+    }
+
+    /// Liste des documents importants de l'établissement triées par ordre alphabétique
+    var documentsSortedByName: [DocumentEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(\DocumentEntity.docName, order: .forward),
+        ]
+        return allDocuments.sorted(using: sortComparators)
     }
 
     // MARK: - Methods
@@ -241,7 +278,11 @@ extension SchoolEntity {
            Niveau     : \(levelString)
            Nom        : \(viewName)
            Note       : \(viewAnnotation)
-           Nb classes : \(nbOfClasses)
+           Nb salles     : \(nbOfRooms)
+           Nb classes    : \(nbOfClasses)
+           Nb documents  : \(nbOfDocuments)
+           Nb événments  : \(nbOfEvents)
+           Nb ressources : \(nbOfRessourceTypes)
         """
 //           ClassesID: \(String(describing: classesID).withPrefixedSplittedLines("     "))
 //           Evénements: \(String(describing: events).withPrefixedSplittedLines("     "))

@@ -88,7 +88,8 @@ extension SeatEntity {
     override public var description: String {
         """
 
-        PLACE ASSISE : \(numero)
+        PLACE ASSISE : n°\(numero)
+           Occupée par: \(allEleves.count) élèves
         """
     }
 }

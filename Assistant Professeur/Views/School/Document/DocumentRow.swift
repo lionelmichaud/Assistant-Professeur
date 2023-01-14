@@ -8,21 +8,22 @@
 import SwiftUI
 
 struct DocumentRow: View {
-    var document: Document
+    @ObservedObject
+    var document: DocumentEntity
 
     @State
     private var isViewing = false
 
     var body: some View {
         HStack {
-            Label(document.docName, systemImage: "doc.richtext")
+            Label(document.viewName, systemImage: "doc.richtext")
             Spacer()
             Button("Voir") {
                 isViewing.toggle()
             }
             .buttonStyle(.bordered)
         }
-        // Modal: ajout d'une nouvelle classe
+        // Modal: visualisation du document PDF
         .sheet(isPresented: $isViewing) {
             NavigationStack {
                 PdfDocumentViewer(document: document)

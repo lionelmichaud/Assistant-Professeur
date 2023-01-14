@@ -33,7 +33,7 @@ struct RoomList: View {
             /// Ajouter une nouvelle salle de classe
             Button {
                 withAnimation {
-                    let room = RoomEntity.create(dans: school)
+                    _ = RoomEntity.create(dans: school)
                 }
             } label: {
                 HStack {
@@ -44,7 +44,7 @@ struct RoomList: View {
             .buttonStyle(.borderless)
 
             /// Editer la liste des salles de classe
-            ForEach(school.allRooms) { room in
+            ForEach(school.roomsSortedByName, id: \.objectID) { room in
                 RoomEditor(room: room)
             }
             .onDelete { indexSet in
@@ -58,9 +58,6 @@ struct RoomList: View {
                 self.indexSet = indexSet
                 alertIsPresented.toggle()
             }
-//            .onMove { fromOffsets, toOffset in
-//                school.rooms.move(fromOffsets: fromOffsets, toOffset: toOffset)
-//            }
             .alert(
                 alertTitle,
                 isPresented : $alertIsPresented,
@@ -79,7 +76,7 @@ struct RoomList: View {
     private func deleteItems() {
         withAnimation {
             indexSet
-                .map { school.allRooms[$0] }
+                .map { school.roomsSortedByName[$0] }
                 .forEach(managedObjectContext.delete)
 
             try? RoomEntity.saveIfContextHasChanged()
