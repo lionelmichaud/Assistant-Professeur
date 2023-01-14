@@ -185,7 +185,7 @@ struct RoomLayoutEditor: View {
                     }
 
                     do {
-                        guard let roomPlan = try ImportExportManager.getRoomPlan(from: theFileURL) else {
+                        guard let roomPlan = try ImportExportManager.loadUIImage(from: theFileURL) else {
                             customLog.log(level: .fault,
                                           "Le contenu de l'image n'est pas lisible.")
                             alertTitle   = "Échec"

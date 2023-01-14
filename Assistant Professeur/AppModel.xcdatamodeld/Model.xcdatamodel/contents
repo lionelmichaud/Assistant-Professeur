@@ -31,6 +31,7 @@
         <attribute name="docName" optional="YES" attributeType="String"/>
         <attribute name="fileExtension" optional="YES" attributeType="String"/>
         <attribute name="filenameExcludingExtension" optional="YES" attributeType="String"/>
+        <attribute name="pdfData" optional="YES" attributeType="Binary"/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="documents" inverseEntity="SchoolEntity"/>
     </entity>
     <entity name="EleveEntity" representedClassName="EleveEntity" syncable="YES" codeGenerationType="class">

@@ -79,21 +79,33 @@ struct ImportExportManager {
     /// - Parameter filesUrl: URLs des fichiers sélectionnés
     static func importTrombinesImages(filesUrl: [URL]) throws {
         try filesUrl.forEach { fileUrl in
+            guard fileUrl.startAccessingSecurityScopedResource() else { return }
+
             let data = try Data(contentsOf: fileUrl)
-            guard let image = UIImage(data: data) else { return }
+            guard let image = UIImage(data: data) else {
+                fileUrl.stopAccessingSecurityScopedResource()
+                return
+            }
             let urlFileNameWithExtension = fileUrl.lastPathComponent
             let eleves = EleveEntity.all()
+
             eleves.forEach { eleve in
                 let imageFileName = eleve.imageFileName
                 if imageFileName == urlFileNameWithExtension {
                     eleve.viewUIImageTrombine = image
                 }
             }
+
+            fileUrl.stopAccessingSecurityScopedResource()
         }
     }
 
-    static func getRoomPlan(from fileUrl: URL) throws -> UIImage? {
+    static func loadUIImage(from fileUrl: URL) throws -> UIImage? {
+        guard fileUrl.startAccessingSecurityScopedResource() else { return nil }
+
         let data = try Data(contentsOf: fileUrl)
+
+        fileUrl.stopAccessingSecurityScopedResource()
         return UIImage(data: data)
     }
 

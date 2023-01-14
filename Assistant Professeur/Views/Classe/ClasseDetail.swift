@@ -101,7 +101,7 @@ struct ClasseDetail: View {
     private var roomView: some View {
         return NavigationLink(value: ClasseNavigationRoute.room(classe)) {
             HStack {
-                Label("Salle de classe", systemImage: "chair")
+                Label("Salle de classe", systemImage: "door.left.hand.open")
                     .fontWeight(.bold)
                 if classe.hasAssociatedRoom {
                     Spacer()

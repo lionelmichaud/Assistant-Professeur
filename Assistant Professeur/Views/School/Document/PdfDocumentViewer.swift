@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PDFKit
 
 struct PdfDocumentViewer: View {
     @ObservedObject
@@ -21,16 +22,6 @@ struct PdfDocumentViewer: View {
 
     // MARK: - Computed Properties
 
-//    private func getPdfImages() -> [Image] {
-//        if let uiImages = imagesFromPDF(at: document.url) {
-//            return uiImages.map { uiImage in
-//                Image(uiImage: uiImage)
-//            }
-//        } else {
-//            return [Image(systemName: "doc.richtext").resizable()]
-//        }
-//    }
-
     var body: some View {
         Group {
             if pdfImages.isNotEmpty {
@@ -39,7 +30,7 @@ struct PdfDocumentViewer: View {
                     pdfImages[pgNumber]
                 }
             } else {
-                Text("Chargement")
+                Text(pdfImages.isEmpty ? "Aucune page PDF trouvée" : "Chargement")
             }
         }
         #if os(iOS)
@@ -47,7 +38,7 @@ struct PdfDocumentViewer: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .onAppear {
-//            pdfImages = getPdfImages()
+            pdfImages = getPdfImages()
         }
         .toolbar {
             ToolbarItem(placement: .navigation) {
@@ -77,22 +68,33 @@ struct PdfDocumentViewer: View {
 
     // MARK: - Methods
 
+    /// Extrait les pages du document PDF sous forme d'image `Image`
+    /// - Returns: Array d'images
+    private func getPdfImages() -> [Image] {
+        if let pdfDocument = document.pdfDocument,
+            let uiImages = imagesFromPDF(pdfDocument) {
+            return uiImages.map { uiImage in
+                Image(uiImage: uiImage)
+            }
+        } else {
+            return [Image(systemName: "doc.richtext").resizable()]
+        }
+    }
+
     /// Retourne une suite d'images créées à partir d'un document PDF.
     /// - Parameter url: URL du document PDF à convertir
     /// - Returns: Une image pour chaque page du PDF.
-    private func imagesFromPDF(at url: URL) -> [UIImage]? {
-        guard let document = CGPDFDocument(url as CFURL) else { return nil }
-
-        let numberOfPages = document.numberOfPages
+    private func imagesFromPDF(_ pdfDocument: PDFDocument) -> [UIImage]? {
+        let numberOfPages = pdfDocument.pageCount
         guard numberOfPages.isPositive else { return nil }
 
-        let pagesRange = 1 ... numberOfPages
+        let pagesRange = 0 ... numberOfPages - 1
         var images = [UIImage]()
 
         pagesRange.forEach { pageNumber in
-            guard let page = document.page(at: pageNumber) else { return }
+            guard let page = pdfDocument.page(at: pageNumber) else { return }
 
-            let pageRect = page.getBoxRect(.mediaBox)
+            let pageRect = page.bounds(for: .mediaBox)
             let renderer = UIGraphicsImageRenderer(size: pageRect.size)
             let img = renderer.image { ctx in
                 UIColor.white.set()
@@ -101,7 +103,7 @@ struct PdfDocumentViewer: View {
                 ctx.cgContext.translateBy(x: 0.0, y: pageRect.size.height)
                 ctx.cgContext.scaleBy(x: 1.0, y: -1.0)
 
-                ctx.cgContext.drawPDFPage(page)
+                page.draw(with: .mediaBox, to: ctx.cgContext)
             }
 
             images.append(img)

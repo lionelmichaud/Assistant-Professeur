@@ -19,7 +19,7 @@ struct RoomEditor: View {
 
     var nameView: some View {
         HStack {
-            Image(systemName: "chair")
+            Image(systemName: "door.left.hand.open")
                 .sfSymbolStyling()
                 .foregroundColor(.accentColor)
             TextField("Nom de la salle", text: $room.viewName)

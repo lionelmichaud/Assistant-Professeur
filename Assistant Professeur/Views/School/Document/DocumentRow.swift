@@ -16,15 +16,20 @@ struct DocumentRow: View {
 
     var body: some View {
         HStack {
-            Label(document.viewName, systemImage: "doc.richtext")
-            Spacer()
+            Image(systemName: "doc.richtext")
+                .sfSymbolStyling()
+                .foregroundColor(.accentColor)
+            TextField("Nom du document", text: $document.viewName)
+                .textFieldStyle(.roundedBorder)
+            Spacer(minLength: 12)
             Button("Voir") {
                 isViewing.toggle()
             }
             .buttonStyle(.bordered)
         }
         // Modal: visualisation du document PDF
-        .sheet(isPresented: $isViewing) {
+        .fullScreenCover(isPresented: $isViewing) {
+//        .sheet(isPresented: $isViewing) {
             NavigationStack {
                 PdfDocumentViewer(document: document)
             }
