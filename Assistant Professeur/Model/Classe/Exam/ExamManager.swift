@@ -21,7 +21,14 @@ struct ExamManager {
     /// - Returns: L'évaluation créée.
     ///
     /// - Important: The context has changes and **is commited**
-    static func createExam(pour classe: ClasseEntity) -> ExamEntity {
+    @discardableResult static func createExam(
+        sujet        : String = "",
+        coef         : Double = 1.0,
+        maxMark      : Int    = 20,
+        dateExecuted : Date   = Date.now,
+        pour classe  : ClasseEntity
+    ) -> ExamEntity {
+        // TODO: - Faire ce qu'il faut quand un nouvel élève est ajouté à une classe
         let exam = ExamEntity.create()
         exam.classe = classe
 
@@ -31,6 +38,11 @@ struct ExamManager {
             mark.eleve = eleve
             mark.exam = exam
         }
+
+        exam.sujet        = sujet
+        exam.coef         = coef
+        exam.maxMark      = Int16(maxMark)
+        exam.dateExecuted = dateExecuted
 
         try? ExamEntity.saveIfContextHasChanged()
 

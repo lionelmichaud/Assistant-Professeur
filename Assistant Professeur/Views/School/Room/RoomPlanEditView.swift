@@ -74,7 +74,7 @@ struct RoomPlanEditView: View {
                 Button {
                     isImportingPngFile.toggle()
                 } label: {
-                    Label("Importer un plan au format 'PNG' et nommé '\(room.fileName)'",
+                    Label("Importer un plan au format 'PNG'",
                           systemImage: "square.and.arrow.down")
                 }
                 /// Importer un fichier PNG

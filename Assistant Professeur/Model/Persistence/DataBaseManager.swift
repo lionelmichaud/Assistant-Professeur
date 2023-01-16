@@ -100,6 +100,13 @@ struct DataBaseManager {
             withName : "Un document important"
         )
 
+        /// Salles de classe
+        let room = RoomEntity.create(
+            withName     : "TECHNO-2",
+            withCapacity : 16,
+            dans         : college
+        )
+
         /// Classes
         let classe5E1 = ClasseEntity.create(
             level        : .n5ieme,
@@ -112,6 +119,7 @@ struct DataBaseManager {
             appreciation : "Ceci est une appreciation de classe",
             dans         : college
         )
+        classe5E1.room = room
 
         let classe3E2 = ClasseEntity.create(
             level        : .n3ieme,
@@ -197,6 +205,14 @@ struct DataBaseManager {
             hasAddTime   : false,
             bonus        : 0,
             dans         : classe2E5
+        )
+
+        /// Examen
+        ExamManager.createExam(
+            sujet   : "Le sujet de l'évaluation",
+            coef    : 0.5,
+            maxMark : 10,
+            pour    : classe5E1
         )
 
         /// Groupes

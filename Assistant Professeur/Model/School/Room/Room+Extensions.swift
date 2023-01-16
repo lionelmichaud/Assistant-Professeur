@@ -151,12 +151,17 @@ extension RoomEntity: ModelEntityP {
     // MARK: - Type Methods
 
     @discardableResult static func create(
-        dans school: SchoolEntity
+        withName     : String = "",
+        withCapacity : Int    = 1,
+        dans school  : SchoolEntity
     ) -> RoomEntity {
         let room = RoomEntity.create()
         // établissement d'appartenance.
         // mandatory
         room.school = school
+
+        room.name     = withName
+        room.capacity = Int16(withCapacity)
 
         try? RoomEntity.saveIfContextHasChanged()
 

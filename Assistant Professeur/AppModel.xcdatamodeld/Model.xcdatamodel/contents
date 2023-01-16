@@ -62,7 +62,7 @@
         <attribute name="coef" attributeType="Double" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="dateExecuted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="marksCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="marks.@count" usesScalarValueType="YES"/>
-        <attribute name="maxMark" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="maxMark" attributeType="Integer 16" defaultValueString="20" usesScalarValueType="YES"/>
         <attribute name="sujet" attributeType="String" defaultValueString=""/>
         <relationship name="classe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="exams" inverseEntity="ClasseEntity"/>
         <relationship name="marks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MarkEntity" inverseName="exam" inverseEntity="MarkEntity"/>
@@ -93,7 +93,7 @@
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="ressources" inverseEntity="SchoolEntity"/>
     </entity>
     <entity name="RoomEntity" representedClassName="RoomEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="capacity" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="capacity" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
         <attribute name="seatsCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="seats.@count" usesScalarValueType="YES"/>
