@@ -49,6 +49,7 @@ struct GroupManager {
 
         let eleves = classe.elevesSortedByName
         let nbEleves = eleves.count
+        guard nbEleves > 0 else { return }
         let (nbGroupes, reste) = nbEleves.quotientAndRemainder(dividingBy: nbEleveParGroupe)
         let distributeRemainder = reste > 0 && (reste.double() < nbEleveParGroupe.double() / 2.0)
 
@@ -80,8 +81,6 @@ struct GroupManager {
         }
 
         try? EleveEntity.saveIfContextHasChanged()
-//        print(eleves)
-//        print(classe.allGroupsSortedByNumber)
     }
 
     /// Former les groupes aléatoirement dans la `classe`.
@@ -90,8 +89,46 @@ struct GroupManager {
     ///   - classe: dans cette classe
     static func formRandomGroups(nbEleveParGroupe : Int,
                                  dans classe      : ClasseEntity) {
-        // TODO: - Coder la génération automatique de groupes aléatoire
 
+        func nextGroupe(num        : inout Int,
+                        nbOfGroups : Int) {
+            if num == nbOfGroups {
+                num = 1
+            } else {
+                num += 1
+            }
+        }
+
+        func formRegularGroups(nbOfGroups: Int) {
+            var numGroupe = 1
+
+            while eleves.isNotEmpty {
+                // prendre un élève au hazard dans la classe
+                guard let eleve = eleves.randomElement() else { break }
+                // le retirer de la liste des élèves
+                eleves = eleves.filter { $0 != eleve }
+
+                // le ranger dans un groupe
+                eleve.group = classe.groupe(number: numGroupe)
+                nextGroupe(num: &numGroupe, nbOfGroups: nbOfGroups)
+            }
+        }
+
+        // TODO: - Coder la génération automatique de groupes aléatoire
+        var eleves = classe.elevesSortedByName
+        let nbEleves = eleves.count
+        guard nbEleves > 0 else { return }
+        let (nbGroupes, reste) = nbEleves.quotientAndRemainder(dividingBy: nbEleveParGroupe)
+        let distributeRemainder = reste > 0 && (reste.double() < nbEleveParGroupe.double() / 2.0)
+
+        if reste == 0 {
+            // nombre entier de groupes complets
+            recreate(nbOfGroups: nbGroupes, dans: classe)
+            formRegularGroups(nbOfGroups: nbGroupes)
+        } else {
+            recreate(nbOfGroups: nbGroupes+1, dans: classe)
+            formRegularGroups(nbOfGroups: nbGroupes+1)
+        }
     }
 
     static func addGroup(dans classe: ClasseEntity) {

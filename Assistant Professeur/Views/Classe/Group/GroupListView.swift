@@ -31,19 +31,15 @@ struct GroupListView : View {
         groupe.number != 0
     }
 
-    private var groupeIsEmpty: Bool {
-        classe.groupe(number: groupe.viewNumber).isEmpty
-    }
-
     private var allElevesAssigned: Bool {
-        classe.groupOfUngroupedEleves.isEmpty
+        ungroupedEleves.isEmpty
     }
 
     private var showAddEleveMenu: Bool {
         (groupIsEditable && !allElevesAssigned)
     }
 
-    private var unGroupedEleve: [EleveEntity] {
+    private var ungroupedEleves: [EleveEntity] {
         classe.groupOfUngroupedEleves.elevesSortedByName
     }
 
@@ -54,7 +50,7 @@ struct GroupListView : View {
             if showAddEleveMenu {
                 /// ajouter au groupe un élève parmis ceux qui ne sont  affectés à aucun groupe
                 Menu {
-                    ForEach(unGroupedEleve) { eleve in
+                    ForEach(ungroupedEleves) { eleve in
                         Button {
                             GroupManager.assign(
                                 eleve: eleve,
