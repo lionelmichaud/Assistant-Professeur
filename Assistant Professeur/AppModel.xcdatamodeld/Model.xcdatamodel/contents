@@ -1,43 +1,126 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22A400" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="ClasseEntity" representedClassName="ClasseEntity" syncable="YES" codeGenerationType="class">
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
         <attribute name="appreciation" attributeType="String" defaultValueString=""/>
+        <attribute name="discipline" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="elevesCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="eleves.@count" usesScalarValueType="YES"/>
+        <attribute name="examsCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="exams.@count" usesScalarValueType="YES"/>
+        <attribute name="groupCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="groups.@count" usesScalarValueType="YES"/>
         <attribute name="heures" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="isFlagged" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="niveau" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="numero" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="level" attributeType="String" defaultValueString=""/>
+        <attribute name="numero" attributeType="Integer 32" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="segpa" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="eleves" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EleveEntity" inverseName="classe" inverseEntity="EleveEntity"/>
+        <relationship name="exams" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ExamEntity" inverseName="classe" inverseEntity="ExamEntity"/>
+        <relationship name="groups" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GroupEntity" inverseName="classe" inverseEntity="GroupEntity"/>
         <relationship name="room" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoomEntity" inverseName="classes" inverseEntity="RoomEntity"/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="classes" inverseEntity="SchoolEntity"/>
     </entity>
+    <entity name="ColleEntity" representedClassName="ColleEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="descriptionMotif" attributeType="String" defaultValueString=""/>
+        <attribute name="duree" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="isConsignee" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isVerified" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="motif" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="eleve" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="colles" inverseEntity="EleveEntity"/>
+    </entity>
     <entity name="DocumentEntity" representedClassName="DocumentEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="docName" attributeType="String"/>
-        <attribute name="fileExtension" optional="YES" attributeType="String"/>
-        <attribute name="filenameExcludingExtension" attributeType="String"/>
+        <attribute name="docName" optional="YES" attributeType="String"/>
+        <attribute name="pdfData" optional="YES" attributeType="Binary"/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="documents" inverseEntity="SchoolEntity"/>
     </entity>
+    <entity name="EleveEntity" representedClassName="EleveEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="annotation" attributeType="String" defaultValueString=""/>
+        <attribute name="appreciation" attributeType="String" defaultValueString=""/>
+        <attribute name="bonus" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="collesCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="colles.@count" usesScalarValueType="YES"/>
+        <attribute name="familyName" attributeType="String" defaultValueString=""/>
+        <attribute name="givenName" attributeType="String" defaultValueString=""/>
+        <attribute name="hasAddTime" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isFlagged" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="marksCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="marks.@count" usesScalarValueType="YES"/>
+        <attribute name="observsCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="observs.@count" usesScalarValueType="YES"/>
+        <attribute name="sex" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="trombine" optional="YES" attributeType="Binary"/>
+        <attribute name="trouble" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="classe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="eleves" inverseEntity="ClasseEntity"/>
+        <relationship name="colles" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ColleEntity" inverseName="eleve" inverseEntity="ColleEntity"/>
+        <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GroupEntity" inverseName="eleves" inverseEntity="GroupEntity"/>
+        <relationship name="marks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MarkEntity" inverseName="eleve" inverseEntity="MarkEntity"/>
+        <relationship name="observs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ObservEntity" inverseName="eleve" inverseEntity="ObservEntity"/>
+        <relationship name="seat" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SeatEntity" inverseName="eleves" inverseEntity="SeatEntity"/>
+    </entity>
     <entity name="EventEntity" representedClassName="EventEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="name" attributeType="String" defaultValueString=""/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String" defaultValueString=""/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="events" inverseEntity="SchoolEntity"/>
+    </entity>
+    <entity name="ExamEntity" representedClassName="ExamEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="coef" attributeType="Double" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="dateExecuted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="marksCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="marks.@count" usesScalarValueType="YES"/>
+        <attribute name="maxMark" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sujet" attributeType="String" defaultValueString=""/>
+        <relationship name="classe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="exams" inverseEntity="ClasseEntity"/>
+        <relationship name="marks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MarkEntity" inverseName="exam" inverseEntity="MarkEntity"/>
+    </entity>
+    <entity name="GroupEntity" representedClassName="GroupEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="elevesCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="eleves.@count" usesScalarValueType="YES"/>
+        <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="classe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="groups" inverseEntity="ClasseEntity"/>
+        <relationship name="eleves" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="group" inverseEntity="EleveEntity"/>
+    </entity>
+    <entity name="MarkEntity" representedClassName="MarkEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="mark" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="markType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="eleve" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="marks" inverseEntity="EleveEntity"/>
+        <relationship name="exam" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ExamEntity" inverseName="marks" inverseEntity="ExamEntity"/>
+    </entity>
+    <entity name="ObservEntity" representedClassName="ObservEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="descriptionMotif" attributeType="String" defaultValueString=""/>
+        <attribute name="isConsignee" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isVerified" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="motif" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="eleve" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="observs" inverseEntity="EleveEntity"/>
+    </entity>
+    <entity name="RessourceEntity" representedClassName="RessourceEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="quantity" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="ressources" inverseEntity="SchoolEntity"/>
     </entity>
     <entity name="RoomEntity" representedClassName="RoomEntity" syncable="YES" codeGenerationType="class">
         <attribute name="capacity" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
+        <attribute name="seatsCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="seats.@count" usesScalarValueType="YES"/>
         <relationship name="classes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="room" inverseEntity="ClasseEntity"/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="rooms" inverseEntity="SchoolEntity"/>
+        <relationship name="seats" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SeatEntity" inverseName="room" inverseEntity="SeatEntity"/>
     </entity>
     <entity name="SchoolEntity" representedClassName="SchoolEntity" syncable="YES" codeGenerationType="class">
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
-        <attribute name="documentsCount" attributeType="Integer 32" derived="YES" derivationExpression="documents.@count" usesScalarValueType="YES"/>
-        <attribute name="eventsCount" attributeType="Integer 32" derived="YES" derivationExpression="events.@count" usesScalarValueType="YES"/>
+        <attribute name="classesCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="classes.@count" usesScalarValueType="YES"/>
+        <attribute name="documentsCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="documents.@count" usesScalarValueType="YES"/>
+        <attribute name="eventsCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="events.@count" usesScalarValueType="YES"/>
         <attribute name="level" attributeType="String" defaultValueString=""/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
-        <attribute name="roomsCount" attributeType="Integer 32" derived="YES" derivationExpression="rooms.@count" usesScalarValueType="YES"/>
-        <relationship name="classes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="school" inverseEntity="ClasseEntity"/>
-        <relationship name="documents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DocumentEntity" inverseName="school" inverseEntity="DocumentEntity"/>
-        <relationship name="events" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EventEntity" inverseName="school" inverseEntity="EventEntity"/>
-        <relationship name="rooms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RoomEntity" inverseName="school" inverseEntity="RoomEntity"/>
+        <attribute name="ressourcesCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="ressources.@count" usesScalarValueType="YES"/>
+        <attribute name="roomsCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="rooms.@count" usesScalarValueType="YES"/>
+        <relationship name="classes" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ClasseEntity" inverseName="school" inverseEntity="ClasseEntity"/>
+        <relationship name="documents" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DocumentEntity" inverseName="school" inverseEntity="DocumentEntity"/>
+        <relationship name="events" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EventEntity" inverseName="school" inverseEntity="EventEntity"/>
+        <relationship name="ressources" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RessourceEntity" inverseName="school" inverseEntity="RessourceEntity"/>
+        <relationship name="rooms" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RoomEntity" inverseName="school" inverseEntity="RoomEntity"/>
+    </entity>
+    <entity name="SeatEntity" representedClassName="SeatEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="numero" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="x" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="y" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="eleves" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="seat" inverseEntity="EleveEntity"/>
+        <relationship name="room" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoomEntity" inverseName="seats" inverseEntity="RoomEntity"/>
     </entity>
 </model>

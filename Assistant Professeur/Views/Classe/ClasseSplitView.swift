@@ -11,8 +11,11 @@ struct ClasseSplitView: View {
     @Environment(\.horizontalSizeClass)
     var horizontalSizeClass
 
-    @EnvironmentObject private var navigationModel : NavigationModel
-    @State private var path = NavigationPath()
+    @EnvironmentObject
+    private var navigationModel : NavigationModel
+
+    @State
+    private var path = NavigationPath()
 
     var body: some View {
         NavigationSplitView(
@@ -20,34 +23,33 @@ struct ClasseSplitView: View {
         ) {
             ClasseSidebarView()
         } detail: {
-            Text("Classe Detail View")
-//            NavigationStack(path: $path) {
-//                ClasseEditor()
-//                    .navigationDestination(for: ClasseNavigationRoute.self) { route in
-//                        switch route {
-//                            case .room(let classe):
-//                                RoomElevePlacement(classe: classe)
-//
-//                            case .liste(let classe):
-//                                switch horizontalSizeClass {
-//                                    case .compact:
-//                                        ElevesListView(classe: classe)
-//                                    default:
-//                                        ElevesTableView(classe: classe)
-//                                }
-//
-//                            case .trombinoscope(let classe):
-//                                TrombinoscopeView(classe : classe)
-//
-//                            case .groups(let classe):
-//                                GroupsView(classe: classe)
-//
-//                            case .exam(let classe, let examId):
-//                                ExamEditor(classe: classe,
-//                                           examId: examId)
-//                        }
-//                    }
-//            }
+            //Text("Classe Detail View")
+            NavigationStack(path: $path) {
+                ClasseEditor()
+                    .navigationDestination(for: ClasseNavigationRoute.self) { route in
+                        switch route {
+                            case let.room(classe):
+                                RoomElevePlacement(classe: classe)
+
+                            case let.liste(classe):
+                                switch horizontalSizeClass {
+                                    case .compact:
+                                        ElevesListView(classe: classe)
+                                    default:
+                                        ElevesTableView(classe: classe)
+                                }
+
+                            case let.trombinoscope(classe):
+                                TrombinoscopeView(classe : classe)
+
+                            case let.groups(classe):
+                                GroupsView(classe: classe)
+
+                            case let.exam(classe, exam):
+                                ExamEditor(classe: classe, exam: exam)
+                        }
+                    }
+            }
         }
     }
 }

@@ -7,18 +7,20 @@ A navigation model used to persist and restore the navigation state.
 
 import SwiftUI
 import Combine
+import CoreData
 
+//@MainActor
 final class NavigationModel: ObservableObject, Codable {
     enum Tab: Int, Hashable, Codable {
         case userSettings, school, classe, eleve, colle, observation
     }
     @Published var columnVisibility  : NavigationSplitViewVisibility
     @Published var selectedTab       : Tab
-//    @Published var selectedObservId  : Observation.ID?
-//    @Published var selectedColleId   : Colle.ID?
-//    @Published var selectedEleveId   : Eleve.ID?
-//    @Published var selectedClasseId  : Classe.ID?
-    @Published var selectedSchoolId  : SchoolViewModel.ID?
+    @Published var selectedObservId  : NSManagedObjectID?
+    @Published var selectedColleId   : NSManagedObjectID?
+    @Published var selectedEleveId   : NSManagedObjectID?
+    @Published var selectedClasseId  : NSManagedObjectID?
+    @Published var selectedSchoolId  : NSManagedObjectID?
     @Published var filterObservation : Bool
     @Published var filterColle       : Bool
     @Published var filterFlag        : Bool
@@ -27,22 +29,22 @@ final class NavigationModel: ObservableObject, Codable {
     private lazy var encoder = JSONEncoder()
 
     init(columnVisibility  : NavigationSplitViewVisibility = .doubleColumn,
-         selectedTab       : Tab              = .school,
-//         selectedObservId  : Observation.ID?  = nil,
-//         selectedColleId   : Colle.ID?        = nil,
-//         selectedEleveId   : Eleve.ID?        = nil,
-//         selectedClasseId  : Classe.ID?       = nil,
-         selectedSchoolId  : SchoolViewModel.ID?       = nil,
-         filterObservation : Bool             = false,
-         filterColle       : Bool             = false,
-         filterFlag        : Bool             = false
+         selectedTab       : Tab                = .school,
+         selectedObservId  : NSManagedObjectID? = nil,
+         selectedColleId   : NSManagedObjectID? = nil,
+         selectedEleveId   : NSManagedObjectID? = nil,
+         selectedClasseId  : NSManagedObjectID? = nil,
+         selectedSchoolId  : NSManagedObjectID? = nil,
+         filterObservation : Bool               = false,
+         filterColle       : Bool               = false,
+         filterFlag        : Bool               = false
     ) {
         self.columnVisibility  = columnVisibility
         self.selectedTab       = selectedTab
-//        self.selectedObservId  = selectedObservId
-//        self.selectedColleId   = selectedColleId
-//        self.selectedEleveId   = selectedEleveId
-//        self.selectedClasseId  = selectedClasseId
+        self.selectedObservId  = selectedObservId
+        self.selectedColleId   = selectedColleId
+        self.selectedEleveId   = selectedEleveId
+        self.selectedClasseId  = selectedClasseId
         self.selectedSchoolId  = selectedSchoolId
         self.filterObservation = filterObservation
         self.filterColle       = filterColle
@@ -57,10 +59,10 @@ final class NavigationModel: ObservableObject, Codable {
             else { return }
             columnVisibility  = model.columnVisibility
             selectedTab       = model.selectedTab
-//            selectedObservId  = model.selectedObservId
-//            selectedColleId   = model.selectedColleId
-//            selectedEleveId   = model.selectedEleveId
-//            selectedClasseId  = model.selectedClasseId
+            selectedObservId  = model.selectedObservId
+            selectedColleId   = model.selectedColleId
+            selectedEleveId   = model.selectedEleveId
+            selectedClasseId  = model.selectedClasseId
             selectedSchoolId  = model.selectedSchoolId
             filterObservation = model.filterObservation
             filterColle       = model.filterColle
@@ -86,13 +88,13 @@ final class NavigationModel: ObservableObject, Codable {
 //            Colle.ID.self, forKey: .selectedColleId)
 //
 //        self.selectedEleveId = try container.decodeIfPresent(
-//            Eleve.ID.self, forKey: .selectedEleveId)
+//            NSManagedObjectID.self, forKey: .selectedEleveId)
 //
 //        self.selectedClasseId = try container.decodeIfPresent(
 //            Classe.ID.self, forKey: .selectedClasseId)
 //
 //        self.selectedSchoolId = try container.decodeIfPresent(
-//            SchoolViewModel.ID.self, forKey: .selectedSchoolId)
+//            SchoolEntity.ID.self, forKey: .selectedSchoolId)
 
         self.filterObservation = try container.decode(
             Bool.self, forKey: .filterObservation)
@@ -124,10 +126,10 @@ final class NavigationModel: ObservableObject, Codable {
     enum CodingKeys: String, CodingKey {
         case columnVisibility
         case selectedTab
-//        case selectedObservId
-//        case selectedColleId
-//        case selectedEleveId
-//        case selectedClasseId
+        case selectedObservId
+        case selectedColleId
+        case selectedEleveId
+        case selectedClasseId
         case selectedSchoolId
         case filterObservation
         case filterColle

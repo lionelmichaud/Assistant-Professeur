@@ -10,12 +10,20 @@ import os
 import CoreData
 
 private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
-                               category  : "BaseModel")
+                               category  : "ModelEntityP")
 
 protocol ModelEntityP: NSManagedObject {
 
-    /// Remove the object `self` from its persistent store
-    func delete() throws
+    // MARK: - Type Methods
+
+    /// Returns an array of all objects of type `Self` in the persistent store
+    /// - Returns: Array of all items in the persistent store
+    static func all() -> [Self]
+
+    static func byId(id: NSManagedObjectID) -> Self?
+
+    /// Creates a sample Object in the Context
+    static func create() -> Self
 
     /// Remove all the object of type `Self` from its persistent store
     static func deleteAll() throws
@@ -23,35 +31,23 @@ protocol ModelEntityP: NSManagedObject {
     /// Checks whether the context has changes and commits them if needed.
     ///
     /// Seulement si des changements ont été opérés.
-    static func save() throws
+    static func saveIfContextHasChanged() throws
 
-    /// Returns an array of all objects of type `Self` in the persistent store
-    /// - Returns: Array of all items in the persistent store
-    static func all() -> [Self]
+    // MARK: - Methods
 
-    static func byId(id: NSManagedObjectID) -> Self?
+    /// Remove the object `self` from its persistent store
+    func delete() throws
 }
 
 extension ModelEntityP {
 
-    // MARK: - Type Properties
-
     static var viewContext: NSManagedObjectContext {
-        CoreDataManager.shared.viewContext
+        CoreDataController.shared.viewContext
     }
 
     // MARK: - Type Methods
 
-    /// Remove all the object of type `Self` from its persistent store
-    static func deleteAll() throws {
-        Self.all().forEach { item in
-            Self.viewContext.delete(item)
-        }
-        try Self.save()
-    }
-
     /// Returns an array of all objects of type `Self` in the persistent store
-    /// - Returns: Array of all items in the persistent store
     static func all() -> [Self] {
 
         let fetchRequest: NSFetchRequest<Self> = NSFetchRequest(entityName: String(describing: Self.self))
@@ -63,24 +59,43 @@ extension ModelEntityP {
         }
     }
 
+    /// Returns the number of elements of type `Self` in the persistent store
+    static func cardinal() -> Int {
+        Self.all().count
+    }
+
     static func byId(id: NSManagedObjectID) -> Self? {
         do {
             return try viewContext.existingObject(with: id) as? Self
         } catch {
-            print(error)
+            customLog.log(level: .error, "Objet \(Self.self) non trouvé: \(error.localizedDescription)")
             return nil
         }
+    }
+
+    /// Creates a sample Object in the Context
+    static func create() -> Self {
+        let newItem: Self = Self(context: viewContext)
+        return newItem
+    }
+
+    /// Remove all the object of type `Self` from its persistent store
+    static func deleteAll() throws {
+        Self.all().forEach { item in
+            Self.viewContext.delete(item)
+        }
+        try Self.saveIfContextHasChanged()
     }
 
     /// Checks whether the context has changes and commits them if needed.
     ///
     /// Seulement si des changements ont été opérés.
-    static func save() throws {
+    static func saveIfContextHasChanged() throws {
         if Self.viewContext.hasChanges {
             do {
                 try Self.viewContext.save()
             } catch {
-                customLog.log(level: .fault, "Echec de l'enregistrement des modifications de la BDD \(error.localizedDescription)")
+                customLog.log(level: .fault, "Echec de l'enregistrement des modifications de la BDD: \(error.localizedDescription)")
                 throw error
             }
         }
@@ -88,10 +103,14 @@ extension ModelEntityP {
 
     // MARK: - Methods
 
-    /// Remove the object `self` from its persistent store
+    /// Remove the object `self` from its persistent store and saves the changes to the persistent store
     func delete() throws {
         Self.viewContext.delete(self)
-        try Self.save()
+        try Self.saveIfContextHasChanged()
+    }
+
+    func refresh() {
+        Self.viewContext.refresh(self, mergeChanges: false)
     }
 
 }

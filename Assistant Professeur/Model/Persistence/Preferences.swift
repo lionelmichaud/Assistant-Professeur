@@ -222,10 +222,10 @@ public final class Preferences {
     public var eleveBonusEnabled: Bool = true
 
     @UserDefault("bonus_malus_max")
-    public var maxBonusMalus: Double = 100.0
+    public var maxBonusMalus: Int = 100
 
     @UserDefault("bonus_malus_increment")
-    public var maxBonusIncrement: Double = 1.0
+    public var maxBonusIncrement: Int = 1
 
     /// Paramètres Graphiques
     // graphique Bilan

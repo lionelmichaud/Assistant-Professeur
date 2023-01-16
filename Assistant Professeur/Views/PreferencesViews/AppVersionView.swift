@@ -12,7 +12,7 @@ import Files
 struct AppVersionView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 4) {
-            Text(AppVersion.shared.name ?? "Patrimonio")
+            Text(AppVersion.shared.name ?? "Assistant Professeur")
                 .font(.title)
                 .fontWeight(.heavy)
                 .frame(maxWidth: .infinity)
@@ -32,10 +32,12 @@ struct AppVersionView: View {
                     // Historique des révisions
                     RevisionHistoryView(revisions: AppVersion.shared.revisionHistory)
                 }
+                #if DEBUG
                 Section {
                     // Liste des directories utilisées par l'application
                     DirectoriesListView()
                 }
+                #endif
             }
         }
         .navigationBarHidden(true)

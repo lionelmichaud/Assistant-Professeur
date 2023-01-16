@@ -48,8 +48,8 @@ struct SettingsEleve: View {
                     }
 
                     Stepper(value : $maxBonusIncrement,
-                            in    : 0.25 ... 1,
-                            step  : 0.25) {
+                            in    : 1 ... 5,
+                            step  : 1) {
                         HStack {
                             Text("Par incrément de")
                             Spacer()

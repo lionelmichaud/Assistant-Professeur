@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ColleSplitView: View {
-    @EnvironmentObject private var navigationModel : NavigationModel
+    @EnvironmentObject
+    private var navigationModel : NavigationModel
 
     var body: some View {
         NavigationSplitView(
@@ -16,8 +17,7 @@ struct ColleSplitView: View {
         ) {
             ColleSidebarView()
         } detail: {
-            Text("Colle Detail View")
-            //ColleEditor()
+            ColleEditor()
         }
     }
 }

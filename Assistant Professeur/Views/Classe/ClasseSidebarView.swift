@@ -8,31 +8,80 @@
 import SwiftUI
 
 struct ClasseSidebarView: View {
-    @EnvironmentObject private var navigationModel : NavigationModel
+    @EnvironmentObject
+    private var navigationModel : NavigationModel
+
+    @SectionedFetchRequest<String, ClasseEntity>(
+        fetchRequest      : ClasseEntity.requestAllSortedbySchoolThenClasseLevelNumber,
+        sectionIdentifier : \.school!.displayString,
+        animation         : .default)
+    private var classesSections: SectionedFetchResults<String, ClasseEntity>
 
     var body: some View {
-        Text("EleveSidebarView")
-//        List(selection: $navigationModel.selectedClasseId) {
-//            if classeStore.items.isEmpty {
-//                Text("Aucune classe actuellement")
-//            } else {
-//                /// pour chaque Etablissement
-//                ForEach(schoolStore.sortedSchools()) { $school in
-//                    if school.nbOfClasses != 0 {
-//                        Section {
-//                            /// pour chaque Classe
-//                            ClasseSidebarSchoolSubview(school: $school)
-//                        } header: {
-//                            Text(school.displayString)
-//                                .font(.callout)
-//                                .foregroundColor(.secondary)
-//                                .fontWeight(.bold)
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        List(selection: $navigationModel.selectedClasseId) {
+            if ClasseEntity.all().isEmpty {
+                Text("Aucune classe actuellement")
+            } else {
+                /// pour chaque Etablissement
+                ForEach(classesSections) { section in
+                    if section.isNotEmpty {
+                        Section {
+                            /// pour chaque Classe
+                            ClasseSidebarSchoolSubview(schoolSection: section)
+                        } header: {
+                            Text(section.id)
+                                .font(.callout)
+                                .foregroundColor(.secondary)
+                                .fontWeight(.bold)
+                        }
+                    }
+                }
+            }
+        }
         .navigationTitle("Les Classes")
+    }
+}
+
+struct ClasseSidebarSchoolSubview : View {
+    var schoolSection: SectionedFetchResults<String, ClasseEntity>.Element
+
+    @EnvironmentObject
+    private var navigationModel : NavigationModel
+
+    var body: some View {
+        /// pour chaque Classe
+        ForEach(schoolSection, id: \.objectID) { classe in
+            ClassBrowserRow(classe: classe)
+
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    // supprimer la classe et tous ses descendants
+                    Button(role: .destructive) {
+                        withAnimation {
+                            try? classe.delete()
+                            if navigationModel.selectedClasseId == classe.objectID {
+                                navigationModel.selectedClasseId = nil
+                            }
+                        }
+                    } label: {
+                        Label("Supprimer", systemImage: "trash")
+                    }
+                }
+
+                .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                // modifier le flag de la classe
+                    Button {
+                        withAnimation {
+                            classe.toggleFlag()
+                        }
+                    } label: {
+                        if classe.isFlagged {
+                            Label("Sans drapeau", systemImage: "flag.slash")
+                        } else {
+                            Label("Avec drapeau", systemImage: "flag.fill")
+                        }
+                    }.tint(.orange)
+                }
+        }
     }
 }
 

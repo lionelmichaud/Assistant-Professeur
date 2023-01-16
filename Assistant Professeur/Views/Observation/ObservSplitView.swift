@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ObservSplitView: View {
-    @EnvironmentObject private var navigationModel : NavigationModel
+    @EnvironmentObject
+    private var navigationModel : NavigationModel
 
     var body: some View {
         NavigationSplitView(
@@ -16,8 +17,7 @@ struct ObservSplitView: View {
         ) {
             ObservSidebarView()
         } detail: {
-            Text("Observation Detail View")
-            //ObservEditor()
+            ObservEditor()
         }
         .navigationSplitViewStyle(.balanced)
     }
