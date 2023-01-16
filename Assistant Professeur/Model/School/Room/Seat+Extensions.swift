@@ -80,6 +80,15 @@ extension SeatEntity: ModelEntityP {
         return create(x: locInRoom.x, y: locInRoom.y, dans: room)
     }
 
+    static func checkConsistency(errorFound: inout Bool) {
+        all().forEach { seat in
+            guard seat.room != nil else {
+                errorFound = true
+                return
+            }
+        }
+    }
+
 }
 
 // MARK: - Extension Debug

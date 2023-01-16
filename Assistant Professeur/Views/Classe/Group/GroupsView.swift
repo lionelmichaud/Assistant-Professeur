@@ -116,11 +116,13 @@ struct GroupsView: View {
                 Label("Générer les groupes", systemImage: "person.line.dotted.person.fill")
             }
 
-            /// Supprimer tous les groupes
-            Button(role: .destructive) {
-                isShowingDeleteGroupsDialog.toggle()
-            } label: {
-                Label("Suprimer les groupes", systemImage: "trash")
+            if classe.nbOfGroups > 1 {
+                /// Supprimer tous les groupes
+                Button(role: .destructive) {
+                    isShowingDeleteGroupsDialog.toggle()
+                } label: {
+                    Label("Suprimer les groupes", systemImage: "trash")
+                }
             }
 
         } label: {

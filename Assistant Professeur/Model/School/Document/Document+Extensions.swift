@@ -68,7 +68,7 @@ extension DocumentEntity: ModelEntityP {
 
     @discardableResult static func create(
         dans school   : SchoolEntity,
-        withData data : Data,
+        withData data : Data?,
         withName name : String
     ) -> DocumentEntity {
         let doc = DocumentEntity.create()
@@ -76,12 +76,23 @@ extension DocumentEntity: ModelEntityP {
         // mandatory
         doc.school = school
 
-        doc.pdfData = data
+        if let data {
+            doc.pdfData = data
+        }
         doc.docName = name
 
         try? SchoolEntity.saveIfContextHasChanged()
 
         return doc
+    }
+
+    static func checkConsistency(errorFound: inout Bool) {
+        all().forEach { doc in
+            guard doc.school != nil else {
+                errorFound = true
+                return
+            }
+        }
     }
 
     // MARK: - Computed properties

@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 import CoreData
 
-@MainActor
+//@MainActor
 final class NavigationModel: ObservableObject, Codable {
     enum Tab: Int, Hashable, Codable {
         case userSettings, school, classe, eleve, colle, observation

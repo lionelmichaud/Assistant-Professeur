@@ -20,9 +20,10 @@ struct EventList: View {
             // ajouter un événement
             Button {
                 withAnimation {
-                    let event = EventEntity.create()
-                    event.school = school
-                    try? EventEntity.saveIfContextHasChanged()
+                    _ = EventEntity.create(
+                        dans: school,
+                        withName: ""
+                    )
                 }
             } label: {
                 Label("Ajouter un événement", systemImage: "plus.circle.fill")

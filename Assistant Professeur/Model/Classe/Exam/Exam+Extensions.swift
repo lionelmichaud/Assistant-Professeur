@@ -68,6 +68,17 @@ extension ExamEntity: ModelEntityP {
     @Preference(\.nameSortOrder)
     static private var nameSortOrder
 
+    // MARK: - Type Methods
+
+    static func checkConsistency(errorFound: inout Bool) {
+        all().forEach { exam in
+            guard exam.classe != nil else {
+                errorFound = true
+                return
+            }
+        }
+    }
+
     // MARK: - Computed Properties
 
     /// Liste des notes de l'évaluation non triées

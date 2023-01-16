@@ -429,10 +429,16 @@ extension EleveEntity: ModelEntityP {
     ///   - classe: Classe  à laquelle ajouter l'élève créé
     /// - Returns: Le nouvel élève
     @discardableResult static func create(
-        familyName  : String,
-        givenName   : String,
-        sex         : Sexe,
-        dans classe : ClasseEntity
+        familyName   : String,
+        givenName    : String,
+        sex          : Sexe,
+        isFlagged    : Bool       = false,
+        trouble      : TroubleDys = .none,
+        hasAddTime   : Bool       = false,
+        annotation   : String     = "",
+        appreciation : String     = "",
+        bonus        : Int16      = 0,
+        dans classe  : ClasseEntity
     ) -> EleveEntity {
         let eleve = EleveEntity.create()
         // classe d'appartenance.
@@ -443,13 +449,28 @@ extension EleveEntity: ModelEntityP {
         // mandatory
         eleve.group = classe.groupOfUngroupedEleves
 
+        eleve.familyName   = familyName
+        eleve.givenName    = givenName
         eleve.setSex(sex)
-        eleve.viewFamilyName = familyName
-        eleve.viewGivenName  = givenName
+        eleve.isFlagged    = isFlagged
+        eleve.trouble      = trouble.rawValue
+        eleve.hasAddTime   = hasAddTime
+        eleve.annotation   = annotation
+        eleve.appreciation = appreciation
+        eleve.bonus        = bonus
 
         try? EleveEntity.saveIfContextHasChanged()
         
         return eleve
+    }
+
+    static func checkConsistency(errorFound: inout Bool) {
+        all().forEach { eleve in
+            guard eleve.classe != nil else {
+                errorFound = true
+                return
+            }
+        }
     }
 
     static func byName(familyName: String,

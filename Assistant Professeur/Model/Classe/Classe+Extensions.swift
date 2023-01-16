@@ -309,6 +309,52 @@ extension ClasseEntity: ModelEntityP {
         //        self.fileDate = Date()
     }
 
+    // MARK: - Type Methods
+
+    @discardableResult
+    static func create(
+        level        : LevelClasse,
+        numero       : Int,
+        segpa        : Bool,
+        discipline   : Discipline,
+        heures       : Double,
+        isFlagged    : Bool,
+        annotation   : String = "",
+        appreciation : String = "",
+        dans school  : SchoolEntity?
+    ) -> ClasseEntity {
+        let classe = ClasseEntity.create()
+        // Etablissement d'appartenance.
+        // mandatory
+        classe.school     = school
+
+        // créer un Groupe 0 pour les élèves de la classe
+        // n'appartenant à aucun groupe.
+        // mandatory
+        GroupEntity.create(numero: 0, dans: classe)
+
+        classe.level        = level.rawValue
+        classe.numero       = Int32(numero)
+        classe.segpa        = segpa
+        classe.discipline   = discipline.rawValue
+        classe.heures       = heures
+        classe.isFlagged    = isFlagged
+        classe.annotation   = annotation
+        classe.appreciation = appreciation
+
+        try? ClasseEntity.saveIfContextHasChanged()
+        return classe
+    }
+
+    static func checkConsistency(errorFound: inout Bool) {
+        all().forEach { classe in
+            guard classe.school != nil else {
+                errorFound = true
+                return
+            }
+        }
+    }
+
     // MARK: - Méthodes Groupes
 
     func groupe(number: Int) -> GroupEntity {

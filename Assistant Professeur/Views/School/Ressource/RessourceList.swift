@@ -20,9 +20,7 @@ struct RessourceList: View {
             // ajouter une évaluation
             Button {
                 withAnimation {
-                    let ressource = RessourceEntity.create()
-                    ressource.school = school
-                    try? RessourceEntity.saveIfContextHasChanged()
+                    _ = RessourceEntity.create(dans: school)
                 }
             } label: {
                 Label("Ajouter une ressource", systemImage: "plus.circle.fill")

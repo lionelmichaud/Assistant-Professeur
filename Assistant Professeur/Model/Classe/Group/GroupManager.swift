@@ -90,18 +90,20 @@ struct GroupManager {
     ///   - classe: dans cette classe
     static func formRandomGroups(nbEleveParGroupe : Int,
                                  dans classe      : ClasseEntity) {
+        // TODO: - Coder la génération automatique de groupes aléatoire
 
     }
 
     static func addGroup(dans classe: ClasseEntity) {
         let largestGroupNumber = classe.allGroups.max(\.number)
 
-        let groupe = GroupEntity.create()
-        groupe.classe = classe
-        groupe.number = largestGroupNumber + 1
+        GroupEntity.create(
+            numero: largestGroupNumber + 1,
+            dans: classe
+        )
     }
 
-    /// Ajouter `nbOfGroups`aux groupe 0 dans la `classe`.
+    /// Ajouter `nbOfGroups`au groupe 0 dans la `classe`.
     ///
     /// Supprime au préalable les groupes existants.
     /// - Parameter nbOfGroups: nombre de groupes à ajouter

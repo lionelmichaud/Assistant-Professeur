@@ -34,6 +34,35 @@ extension EventEntity {
 
 extension EventEntity: ModelEntityP {
 
+    // MARK: - Type Methods
+
+    @discardableResult static func create(
+        dans school   : SchoolEntity,
+        date          : Date = Date.now,
+        withName name : String
+    ) -> EventEntity {
+        let event = EventEntity.create()
+        // établissement d'appartenance.
+        // mandatory
+        event.school = school
+
+        event.name = name
+        event.date = date
+
+        try? SchoolEntity.saveIfContextHasChanged()
+
+        return event
+    }
+
+    static func checkConsistency(errorFound: inout Bool) {
+        all().forEach { event in
+            guard event.school != nil else {
+                errorFound = true
+                return
+            }
+        }
+    }
+
     // MARK: - Methods
 
     public override func awakeFromInsert() {

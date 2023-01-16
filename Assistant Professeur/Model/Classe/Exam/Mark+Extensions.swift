@@ -89,6 +89,36 @@ extension MarkEntity: ModelEntityP {
 
     // MARK: - Type Computed Properties
 
+    // MARK: - Type Methods
+
+    @discardableResult
+    static func create(
+        pourEleve : EleveEntity,
+        pourExam  : ExamEntity
+    ) -> MarkEntity {
+        let mark = MarkEntity.create()
+        // Classe d'appartenance.
+        // mandatory
+        mark.eleve = pourEleve
+        mark.exam  = pourExam
+
+        try? MarkEntity.saveIfContextHasChanged()
+        return mark
+    }
+
+    static func checkConsistency(errorFound: inout Bool) {
+        all().forEach { mark in
+            guard mark.eleve != nil else {
+                errorFound = true
+                return
+            }
+            guard mark.exam != nil else {
+                errorFound = true
+                return
+            }
+        }
+    }
+
 }
 
 // MARK: - Extension Debug

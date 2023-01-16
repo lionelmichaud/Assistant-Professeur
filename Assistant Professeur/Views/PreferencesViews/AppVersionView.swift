@@ -32,10 +32,12 @@ struct AppVersionView: View {
                     // Historique des révisions
                     RevisionHistoryView(revisions: AppVersion.shared.revisionHistory)
                 }
+                #if DEBUG
                 Section {
                     // Liste des directories utilisées par l'application
                     DirectoriesListView()
                 }
+                #endif
             }
         }
         .navigationBarHidden(true)

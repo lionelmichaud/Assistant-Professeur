@@ -50,19 +50,14 @@ class ColleViewModel: ObservViewModel {
     }
 
     override func createAndSaveEntity(pourEleve: EleveEntity) {
-        let colle = ColleEntity.create()
-        
-        // élève d'appartenance.
-        // mandatory
-        colle.eleve = pourEleve // lien vers l'élève
-
-        colle.setMotif(motifEnum)
-        colle.date             = date
-        colle.descriptionMotif = descriptionMotif
-        colle.isConsignee      = isConsignee
-        colle.isVerified       = isVerified
-        colle.duree            = Int16(duree)
-
-        try? ColleEntity.saveIfContextHasChanged()
+        ColleEntity.create(
+            pour             : pourEleve,
+            date             : date,
+            motifEnum        : motifEnum,
+            descriptionMotif : descriptionMotif,
+            isConsignee      : isConsignee,
+            isVerified       : isVerified,
+            duree            : duree
+        )
     }
 }

@@ -49,18 +49,13 @@ class ObservViewModel: ObservableObject {
     }
 
     func createAndSaveEntity(pourEleve: EleveEntity) {
-        let observ = ObservEntity.create()
-        
-        // élève d'appartenance.
-        // mandatory
-        observ.eleve = pourEleve // lien vers l'élève
-
-        observ.setMotif(motifEnum)
-        observ.date             = date
-        observ.descriptionMotif = descriptionMotif
-        observ.isConsignee      = isConsignee
-        observ.isVerified       = isVerified
-
-        try? ObservEntity.saveIfContextHasChanged()
+        ObservEntity.create(
+            pour             : pourEleve,
+            date             : date,
+            motifEnum        : motifEnum,
+            descriptionMotif : descriptionMotif,
+            isConsignee      : isConsignee,
+            isVerified       : isVerified
+        )
     }
 }

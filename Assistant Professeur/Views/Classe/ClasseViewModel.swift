@@ -60,32 +60,21 @@ class ClasseViewModel: ObservableObject {
         self.appreciation   = classe.viewAppreciation
     }
 
-    /// Créer une entité School à partir du VM et
+    /// Créer une entité `ClasseEntity` à partir du VM et
     /// sauvegarder le veiwContext.
     ///
     /// Crée un Groupe 0 pour les élèves de la classe n'appartenant à aucun groupe
     func createAndSaveEntity(_ inSchool: SchoolEntity) {
-        let classe = ClasseEntity.create()
-        // établissement d'appartenance.
-        // mandatory
-        classe.school = inSchool
-
-        // créer un Groupe 0 pour les élèves de la classe
-        // n'appartenant à aucun groupe.
-        // mandatory
-        let group0 = GroupEntity.create()
-        group0.number = 0
-        group0.classe = classe
-
-        classe.setLevel(levelEnum)
-        classe.numero         = Int32(numero)
-        classe.segpa          = segpa
-        classe.setDiscipline(disciplineEnum)
-        classe.heures         = heures
-        classe.isFlagged      = isFlagged
-        classe.annotation     = annotation
-        classe.appreciation   = appreciation
-
-        try? ClasseEntity.saveIfContextHasChanged()
+        ClasseEntity.create(
+            level        : levelEnum,
+            numero       : numero,
+            segpa        : segpa,
+            discipline   : disciplineEnum,
+            heures       : heures,
+            isFlagged    : isFlagged,
+            annotation   : annotation,
+            appreciation : appreciation,
+            dans         : inSchool
+        )
     }
 }

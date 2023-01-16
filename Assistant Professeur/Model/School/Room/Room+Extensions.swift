@@ -163,6 +163,15 @@ extension RoomEntity: ModelEntityP {
         return room
     }
 
+    static func checkConsistency(errorFound: inout Bool) {
+        all().forEach { room in
+            guard room.school != nil else {
+                errorFound = true
+                return
+            }
+        }
+    }
+
     // MARK: - Methods
 
     /// Positionner un siège supplémentaires `seat` sur le plan de la salle de classe.

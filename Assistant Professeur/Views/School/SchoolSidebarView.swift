@@ -53,69 +53,59 @@ struct SchoolSidebarView: View {
     private var isShowingRepairDBDialog = false
     @State
     private var isImportingJpegFile = false
-    @State
-    private var progress = 0.0
-    @State
-    private var isProgressing = false
 
     // MARK: - Computed Properties
 
     var body: some View {
-        VStack {
-            if isProgressing {
-                //ProgressView(value: progress)
-                ProgressView()
+        List(selection: $navigationModel.selectedSchoolId) {
+            if SchoolEntity.all().isEmpty {
+                Text("Aucun établissement actuellement")
             }
-            List(selection: $navigationModel.selectedSchoolId) {
-                if SchoolEntity.all().isEmpty {
-                    Text("Aucun établissement actuellement")
-                }
-                /// pour chaque Type d'établissement
-                ForEach(schoolsSections) { section in
-                    if section.isNotEmpty {
-                        Section {
-                            /// pour chaque Etablissement
-                            ForEach(section, id: \.objectID) { school in
-                                SchoolBrowserRow(school: school)
-                                    .badge(school.nbOfClasses)
+            /// pour chaque Type d'établissement
+            ForEach(schoolsSections) { section in
+                if section.isNotEmpty {
+                    Section {
+                        /// pour chaque Etablissement
+                        ForEach(section, id: \.objectID) { school in
+                            SchoolBrowserRow(school: school)
+                                .badge(school.nbOfClasses)
 
-                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                        // supprimer l'établissement et tous ses descendants
-                                        Button(role: .destructive) {
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    // supprimer l'établissement et tous ses descendants
+                                    Button(role: .destructive) {
+                                        withAnimation {
+                                            try? school.delete()
+                                            if navigationModel.selectedSchoolId == school.objectID {
+                                                navigationModel.selectedSchoolId = nil
+                                            }
+                                        }
+                                    } label: {
+                                        Label("Supprimer", systemImage: "trash")
+                                    }
+                                }
+
+                                .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                                    // modifier le type de l'établissement
+                                    if school.classesCount == 0 {
+                                        Button {
                                             withAnimation {
-                                                try? school.delete()
-                                                if navigationModel.selectedSchoolId == school.objectID {
-                                                    navigationModel.selectedSchoolId = nil
+                                                if school.classesCount == 0 {
+                                                    school.toggleLevel()
                                                 }
                                             }
                                         } label: {
-                                            Label("Supprimer", systemImage: "trash")
+                                            Label(school.levelEnum == .college ? "Lycée" : "Collège",
+                                                  systemImage: school.levelEnum == .college ?  "building.2" : "building")
                                         }
+                                        .tint(school.levelEnum == .college ? .mint : .orange)
                                     }
-
-                                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                                        // modifier le type de l'établissement
-                                        if school.classesCount == 0 {
-                                            Button {
-                                                withAnimation {
-                                                    if school.classesCount == 0 {
-                                                        school.toggleLevel()
-                                                    }
-                                                }
-                                            } label: {
-                                                Label(school.levelEnum == .college ? "Lycée" : "Collège",
-                                                      systemImage: school.levelEnum == .college ?  "building.2" : "building")
-                                            }
-                                            .tint(school.levelEnum == .college ? .mint : .orange)
-                                        }
-                                    }
-                            }
-                        } header: {
-                            Text(section.id + "s")
-                                .font(.callout)
-                                .foregroundColor(.secondary)
-                                .fontWeight(.bold)
+                                }
                         }
+                    } header: {
+                        Text(section.id + "s")
+                            .font(.callout)
+                            .foregroundColor(.secondary)
+                            .fontWeight(.bold)
                     }
                 }
             }
@@ -123,6 +113,7 @@ struct SchoolSidebarView: View {
         .navigationTitle("Établissements")
         //.navigationViewStyle(.columns)
         .toolbar(content: myToolBarContent)
+
         .alert(alertTitle,
                isPresented: $alertIsPresented,
                actions: { },
@@ -214,6 +205,13 @@ extension SchoolSidebarView {
                     Label("Importer les données de l'App", systemImage: "square.and.arrow.down")
                 }
 
+                /// Vérifier la cohérence de la base de donnée
+                Button(role: .destructive) {
+                    checkAllUserData()
+                } label: {
+                    Label("Vérifier la base de donnée", systemImage: "checkmark.circle.trianglebadge.exclamationmark")
+                }
+
                 /// Effacer toutes les données utilisateur
                 Button(role: .destructive) {
                     isShowingDeleteConfirmDialog.toggle()
@@ -223,7 +221,7 @@ extension SchoolSidebarView {
 
                 #if targetEnvironment(simulator)
                 Button {
-                    populate()
+                    DataBaseManager.populate()
                 } label: {
                     Text("Dev - Peupler la BDD").foregroundColor(.primary)
                 }
@@ -298,65 +296,25 @@ extension SchoolSidebarView {
     //        }
     //    }
 
+    private func checkAllUserData() {
+        alertTitle   = "Échec"
+        alertMessage = "La vérfication de la base de donnée a trouvé des erreurs"
+
+        DataBaseManager.check(errorFound: &alertIsPresented)
+
+        if alertIsPresented == false {
+            alertTitle   = "Vérification terminée"
+            alertMessage = "Aucune anomalie détectée."
+            alertIsPresented.toggle()
+        }
+    }
+
     /// Suppression de toutes les données utilisateur
     private func clearAllUserData() {
         alertTitle   = "Échec"
-        alertMessage = "L'effacement de la base de donnée a échoué"
-        let nbSteps = 4.0
-        progress = 0.0
-        isProgressing = true
+        alertMessage = "L'effacement complet de la base de donnée a échoué"
 
-        // Suppression des Etablissements
-        DispatchQueue.main.async(qos: .background) {
-            do {
-                try SchoolEntity.deleteAll()
-                try DocumentEntity.deleteAll()
-                try EventEntity.deleteAll()
-                try RessourceEntity.deleteAll()
-                try RoomEntity.deleteAll()
-            } catch {
-                alertIsPresented.toggle()
-            }
-            //self.schoolListVM.getAllItems()
-            self.progress += 1.0/nbSteps
-        }
-
-        // Suppression des Classes
-        DispatchQueue.main.async(qos: .background) {
-            do {
-                try ClasseEntity.deleteAll()
-                try GroupEntity.deleteAll()
-            } catch {
-                alertIsPresented.toggle()
-            }
-            self.progress += 1.0/nbSteps
-            self.isProgressing = false
-        }
-
-        // Suppression des Evaluations
-        DispatchQueue.main.async(qos: .background) {
-            do {
-                try ExamEntity.deleteAll()
-                try MarkEntity.deleteAll()
-            } catch {
-                alertIsPresented.toggle()
-            }
-            self.progress += 1.0/nbSteps
-            self.isProgressing = false
-        }
-
-        // Suppression des Eleves
-        DispatchQueue.main.async(qos: .background) {
-            do {
-                try EleveEntity.deleteAll()
-                try ObservEntity.deleteAll()
-                try ColleEntity.deleteAll()
-            } catch {
-                alertIsPresented.toggle()
-            }
-            self.progress += 1.0/nbSteps
-            self.isProgressing = false
-        }
+        DataBaseManager.clear(failed: &alertIsPresented)
     }
 
     /// Importer tous les fichiers JSON, JPEG et PNG depuis le Bundle Application
@@ -413,16 +371,6 @@ extension SchoolSidebarView {
                     alertIsPresented.toggle()
                 }
         }
-    }
-
-    private func populate() {
-        //                TestEnvir.populateWithFakes(
-        //                    schoolStore : schoolStore,
-        //                    classeStore : classeStore,
-        //                    eleveStore  : eleveStore,
-        //                    observStore : observStore,
-        //                    colleStore  : colleStore)
-
     }
 }
 

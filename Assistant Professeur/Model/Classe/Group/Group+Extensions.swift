@@ -91,6 +91,32 @@ extension GroupEntity: ModelEntityP {
         return request
     }
 
+    // MARK: - Type Methods
+
+    @discardableResult
+    static func create(
+        numero       : Int16,
+        dans classe  : ClasseEntity?
+    ) -> GroupEntity {
+        let groupe = GroupEntity.create()
+        // Classe d'appartenance.
+        // mandatory
+        groupe.classe = classe
+        groupe.number = numero
+
+        try? GroupEntity.saveIfContextHasChanged()
+        return groupe
+    }
+
+    static func checkConsistency(errorFound: inout Bool) {
+        all().forEach { groupe in
+            guard groupe.classe != nil else {
+                errorFound = true
+                return
+            }
+        }
+    }
+
     // MARK: - Computed Properties
 
     /// Liste des élèves du groupe non triées
@@ -110,6 +136,8 @@ extension GroupEntity: ModelEntityP {
     var elevesSortedByName: [EleveEntity] {
         filteredElevesSortedByName(searchString: "")
     }
+
+    // MARK: - Methods
 
     /// Retourne la liste des élèves du groupe satisfaisant *au moins à l'un des critères* définis en paramètre.
     /// Les élèves trouvés sont triés par nom.

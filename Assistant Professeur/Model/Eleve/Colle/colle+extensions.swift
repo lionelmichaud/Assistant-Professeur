@@ -128,6 +128,44 @@ extension ColleEntity: ModelEntityP {
         //        self.fileName = ""
         self.date = Date.now
     }
+
+    // MARK: - Type Methods
+
+    @discardableResult
+    static func create(
+        pour eleve       : EleveEntity,
+        date             : Date = Date.now,
+        motifEnum        : MotifEnum,
+        descriptionMotif : String,
+        isConsignee      : Bool = false,
+        isVerified       : Bool = false,
+        duree            : Int  = 1
+    ) -> ColleEntity {
+        let colle = ColleEntity.create()
+        // Eleve d'appartenance.
+        // mandatory
+        colle.eleve = eleve
+
+        colle.setMotif(motifEnum)
+        colle.date             = date
+        colle.descriptionMotif = descriptionMotif
+        colle.isConsignee      = isConsignee
+        colle.isVerified       = isVerified
+        colle.duree            = Int16(duree)
+
+        try? ColleEntity.saveIfContextHasChanged()
+        return colle
+    }
+
+    static func checkConsistency(errorFound: inout Bool) {
+        all().forEach { colle in
+            guard colle.eleve != nil else {
+                errorFound = true
+                return
+            }
+        }
+    }
+
 }
 
 // MARK: - Extension Debug

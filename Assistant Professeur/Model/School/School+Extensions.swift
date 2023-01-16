@@ -115,6 +115,23 @@ extension SchoolEntity: ModelEntityP {
         return request
     }
 
+    // MARK: - Type Methods
+
+    @discardableResult
+    static func create(
+        name       : String,
+        level      : LevelSchool,
+        annotation : String = ""
+    ) -> SchoolEntity {
+        let school = SchoolEntity.create()
+        school.name       = name
+        school.level      = level.rawValue
+        school.annotation = annotation
+
+        try? SchoolEntity.saveIfContextHasChanged()
+        return school
+    }
+
     // MARK: - Computed Properties
 
     /// Nombre de classes dans l'établissement

@@ -114,6 +114,42 @@ extension ObservEntity: ModelEntityP {
         //        self.fileName = ""
         self.date = Date.now
     }
+
+    // MARK: - Type Methods
+
+    @discardableResult
+    static func create(
+        pour eleve       : EleveEntity,
+        date             : Date = Date.now,
+        motifEnum        : MotifEnum ,
+        descriptionMotif : String,
+        isConsignee      : Bool = false,
+        isVerified       : Bool = false
+    ) -> ObservEntity {
+        let observ = ObservEntity.create()
+        // Eleve d'appartenance.
+        // mandatory
+        observ.eleve = eleve
+
+        observ.setMotif(motifEnum)
+        observ.date             = date
+        observ.descriptionMotif = descriptionMotif
+        observ.isConsignee      = isConsignee
+        observ.isVerified       = isVerified
+
+        try? ObservEntity.saveIfContextHasChanged()
+        return observ
+    }
+
+    static func checkConsistency(errorFound: inout Bool) {
+        all().forEach { observ in
+            guard observ.eleve != nil else {
+                errorFound = true
+                return
+            }
+        }
+    }
+
 }
 
 // MARK: - Extension Debug
