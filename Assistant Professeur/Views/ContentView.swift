@@ -35,11 +35,28 @@ struct ContentView: View {
                 .tag(NavigationModel.Tab.school)
                 .badge(SchoolEntity.cardinal())
 
+            // Alerte en cas d'erreur d'initilisation de l'App
+                .alert(isPresented: $initAlertIsPresented,
+                       error: AppState.shared.initError) { error in
+                    Button("Continuer", role: .cancel) { }
+                } message: { error in
+                    Text(error.failureReason ?? "Raison inconue.")
+                }
+
+
             /// composition de la famille
             ClasseSplitView()
                 .tabItem { Label("Classes", systemImage: "person.3.sequence").symbolVariant(.none) }
                 .tag(NavigationModel.Tab.classe)
                 .badge(ClasseEntity.cardinal())
+
+            // Alerte en cas d'erreur de connection iCloud
+                .alert(isPresented: $iCloudAlertIsPresented,
+                       error: iCloudError) { error in
+                    Button("Continuer", role: .cancel) { }
+                } message: { error in
+                    Text(error.failureReason ?? "Raison inconue.")
+                }
 
             /// dépenses de la famille
             EleveSplitView()
@@ -60,22 +77,6 @@ struct ContentView: View {
                 .badge(ColleEntity.cardinal())
         }
         .environmentObject(navigationModel)
-
-        // Alerte en cas d'erreur d'initilisation de l'App
-        .alert(isPresented: $initAlertIsPresented,
-               error: AppState.shared.initError) { error in
-            Button("Continuer", role: .cancel) { }
-        } message: { error in
-            Text(error.failureReason ?? "Raison inconue.")
-        }
-
-        // Alerte en cas d'erreur de connection iCloud
-        .alert(isPresented: $iCloudAlertIsPresented,
-               error: AppState.shared.initError) { error in
-            Button("Continuer", role: .cancel) { }
-        } message: { error in
-            Text(error.failureReason ?? "Raison inconue.")
-        }
 
         .task {
             // Afficher une alerte en cas de problème d'initialisation de l'App

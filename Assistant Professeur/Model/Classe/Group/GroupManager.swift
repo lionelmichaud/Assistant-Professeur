@@ -119,7 +119,6 @@ struct GroupManager {
         let nbEleves = eleves.count
         guard nbEleves > 0 else { return }
         let (nbGroupes, reste) = nbEleves.quotientAndRemainder(dividingBy: nbEleveParGroupe)
-        let distributeRemainder = reste > 0 && (reste.double() < nbEleveParGroupe.double() / 2.0)
 
         if reste == 0 {
             // nombre entier de groupes complets
