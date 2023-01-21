@@ -20,7 +20,7 @@ struct ObservEditor: View {
 
     private var selectedObserv: ObservEntity? {
         guard let selectedObservId else { return nil }
-        return ObservEntity.byId(id: selectedObservId)
+        return ObservEntity.byObjectId(id: selectedObservId)
     }
 
     private var selectedObservExists: Bool {

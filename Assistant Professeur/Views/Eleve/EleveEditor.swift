@@ -21,7 +21,7 @@ struct EleveEditor: View {
 
     private var selectedEleve: EleveEntity? {
         guard let selectedEleveId else { return nil }
-        return EleveEntity.byId(id: selectedEleveId)
+        return EleveEntity.byObjectId(id: selectedEleveId)
     }
 
     private var selectedEleveExists: Bool {

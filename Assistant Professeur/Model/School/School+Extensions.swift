@@ -117,6 +117,7 @@ extension SchoolEntity: ModelEntityP {
 
     // MARK: - Type Methods
 
+    /// Créer une nouvelle instance et la sauvegarder dans le context
     @discardableResult
     static func create(
         name       : String,

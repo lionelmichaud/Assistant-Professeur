@@ -227,6 +227,11 @@ public final class Preferences {
     @UserDefault("bonus_malus_increment")
     public var maxBonusIncrement: Int = 1
 
+    /// Programme pédagogique
+    // Séquences
+    @UserDefault("marge_inter_sequence_pedagogique")
+    public var margeInterSequence: Int = 1
+
     /// Paramètres Graphiques
     // graphique Bilan
 //    @UserEnumDefault("ownership_graphic_selection")

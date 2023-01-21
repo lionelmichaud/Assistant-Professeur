@@ -63,6 +63,10 @@ struct ImportExportManager {
 //        }
 //    }
 
+    static func exportGroupsToCSV(deClasse classe: ClasseEntity) {
+        // TODO: - Exporter les groupes au format CSV
+    }
+
     /// Fournit la litse des URL des fichiers contenus dans le dossier Document
     /// et qui contiennent `fileNames`dans leur nom de fichier.
     /// - Parameter fileNames: critère de collecte (par exemple ".json")

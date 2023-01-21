@@ -21,7 +21,7 @@ struct ClasseEditor: View {
 
     private var selectedClasse: ClasseEntity? {
         guard let selectedClasseId else { return nil }
-        return ClasseEntity.byId(id: selectedClasseId)
+        return ClasseEntity.byObjectId(id: selectedClasseId)
     }
 
     private var selectedClasseExists: Bool {

@@ -1,0 +1,124 @@
+//
+//  Sequence+Extensions.swift
+//  Assistant Professeur
+//
+//  Created by Lionel MICHAUD on 18/01/2023.
+//
+
+import Foundation
+import CoreData
+
+/// Une séquence d'un programme scolaire pour une dscipline et un niveau donnés
+extension SequenceEntity {
+
+    // MARK: - Computed properties
+
+    /// Wrapper of `name`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewName: String {
+        get {
+            self.name ?? ""
+        }
+        set {
+            self.name = newValue
+            try? SequenceEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `number`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewNumber: Int {
+        get {
+            Int(self.number)
+        }
+        set {
+            self.number = Int16(newValue)
+            try? SequenceEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Nombre d'Activités dans la Séquence
+    var nbOfActivities: Int {
+        Int(activitiesCount)
+    }
+}
+
+// MARK: - Extension Core Data
+
+extension SequenceEntity: ModelEntityP {
+
+    // MARK: - Computed properties
+
+    /// Somme des durées des activités
+    /// sans marge à la fin de la séquence
+    var durationWithoutMargin: Double {
+        allActivities.reduce(0) { $0 + $1.duration }
+    }
+
+    /// Somme des durées des activités en nombre de séances
+    /// + une marge d'une séance à la fin de la séquence
+    var durationWithMargin: Double {
+        @Preference(\.margeInterSequence)
+        var margeInterSequence
+
+        return durationWithoutMargin + Double(margeInterSequence)
+    }
+
+   /// Liste des activités de la séquence non triées
+    var allActivities: [ActivityEntity] {
+        if let activities {
+            return (activities.allObjects as! [ActivityEntity])
+        } else {
+            return [ ]
+        }
+    }
+
+    /// Liste des activités de la séquence triées par numéro d'activité
+    var activitiesSortedByNumber: [ActivityEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(\ActivityEntity.number, order: .forward)
+        ]
+        return allActivities.sorted(using: sortComparators)
+    }
+
+    // MARK: - Méthodes
+
+    /// Liste des activités de la séquence filtrées et triées par numéro d'activité
+    func filteredActivitiesSortedByNumber(
+        searchString: String
+    ) -> [ActivityEntity] {
+        guard searchString.isNotEmpty else {
+            return activitiesSortedByNumber
+        }
+
+        let sortComparators =
+        [
+            SortDescriptor(\ActivityEntity.number, order: .forward)
+        ]
+        return allActivities
+            .filter { activity in
+                let string = searchString.lowercased()
+                return activity.name!.lowercased().contains(string)
+            }
+            .sorted(using: sortComparators)
+    }
+}
+
+// MARK: - Extension Debug
+
+extension SequenceEntity {
+    public override var description: String {
+        """
+
+        SEQUENCE: \(viewName)
+           Numéro : \(viewNumber)
+           Nom    : \(viewName)
+           URL    : \(String(describing: url))
+           Nb d'activités : \(activitiesCount)
+           Activités : \(String(describing: allActivities).withPrefixedSplittedLines("     "))
+        """
+    }
+}

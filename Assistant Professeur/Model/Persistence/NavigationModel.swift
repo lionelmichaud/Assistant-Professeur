@@ -12,15 +12,18 @@ import CoreData
 //@MainActor
 final class NavigationModel: ObservableObject, Codable {
     enum Tab: Int, Hashable, Codable {
-        case userSettings, school, classe, eleve, colle, observation
+        case userSettings, school, classe, eleve, colle, observation, program
     }
-    @Published var columnVisibility  : NavigationSplitViewVisibility
-    @Published var selectedTab       : Tab
+    @Published var columnVisibility   : NavigationSplitViewVisibility
+    @Published var selectedTab        : Tab
+    @Published var selectedProgramId  : UUID?
+    // TODO: - Trouver une autre solution
     @Published var selectedObservId  : NSManagedObjectID?
     @Published var selectedColleId   : NSManagedObjectID?
     @Published var selectedEleveId   : NSManagedObjectID?
     @Published var selectedClasseId  : NSManagedObjectID?
     @Published var selectedSchoolId  : NSManagedObjectID?
+    
     @Published var filterObservation : Bool
     @Published var filterColle       : Bool
     @Published var filterFlag        : Bool
@@ -30,6 +33,7 @@ final class NavigationModel: ObservableObject, Codable {
 
     init(columnVisibility  : NavigationSplitViewVisibility = .doubleColumn,
          selectedTab       : Tab                = .school,
+         selectedProgramId : UUID? = nil,
          selectedObservId  : NSManagedObjectID? = nil,
          selectedColleId   : NSManagedObjectID? = nil,
          selectedEleveId   : NSManagedObjectID? = nil,
@@ -41,6 +45,7 @@ final class NavigationModel: ObservableObject, Codable {
     ) {
         self.columnVisibility  = columnVisibility
         self.selectedTab       = selectedTab
+        self.selectedProgramId = selectedProgramId
         self.selectedObservId  = selectedObservId
         self.selectedColleId   = selectedColleId
         self.selectedEleveId   = selectedEleveId
@@ -58,6 +63,7 @@ final class NavigationModel: ObservableObject, Codable {
                   let model = try? decoder.decode(Self.self, from: data)
             else { return }
             columnVisibility  = model.columnVisibility
+            selectedProgramId = model.selectedProgramId
             selectedTab       = model.selectedTab
             selectedObservId  = model.selectedObservId
             selectedColleId   = model.selectedColleId
@@ -81,7 +87,10 @@ final class NavigationModel: ObservableObject, Codable {
         self.selectedTab = try container.decode(
             NavigationModel.Tab.self, forKey: .selectedTab)
 
-//        self.selectedObservId = try container.decodeIfPresent(
+        self.selectedProgramId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedProgramId)
+
+        //        self.selectedObservId = try container.decodeIfPresent(
 //            Observation.ID.self, forKey: .selectedObservId)
 //
 //        self.selectedColleId = try container.decodeIfPresent(
@@ -112,6 +121,7 @@ final class NavigationModel: ObservableObject, Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(selectedTab, forKey: .selectedTab)
+        try container.encodeIfPresent(selectedProgramId, forKey: .selectedProgramId)
 //        try container.encodeIfPresent(selectedObservId, forKey: .selectedObservId)
 //        try container.encodeIfPresent(selectedColleId,  forKey: .selectedColleId)
 //        try container.encodeIfPresent(selectedEleveId,  forKey: .selectedEleveId)
@@ -126,6 +136,7 @@ final class NavigationModel: ObservableObject, Codable {
     enum CodingKeys: String, CodingKey {
         case columnVisibility
         case selectedTab
+        case selectedProgramId
         case selectedObservId
         case selectedColleId
         case selectedEleveId

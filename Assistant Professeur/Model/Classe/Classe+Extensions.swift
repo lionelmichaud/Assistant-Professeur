@@ -21,7 +21,11 @@ extension ClasseEntity {
     /// - Important: *Saves the context to the store after modification is done*
     var disciplineEnum: Discipline {
         get {
-            Discipline(rawValue: discipline) ?? .technologie
+            if let discipline {
+                return Discipline(rawValue: discipline) ?? .technologie
+            } else {
+                return .technologie
+            }
         }
         set {
             self.discipline = newValue.rawValue
@@ -311,7 +315,8 @@ extension ClasseEntity: ModelEntityP {
 
     // MARK: - Type Methods
 
-    @discardableResult
+    /// Créer une nouvelle instance et la sauvegarder dans le context
+   @discardableResult
     static func create(
         level        : LevelClasse,
         numero       : Int,
@@ -429,7 +434,9 @@ extension ClasseEntity: ModelEntityP {
         searchString : String,
         sortOrder    : [KeyPathComparator<EleveEntity>]
     ) -> [EleveEntity] {
-        guard searchString.isNotEmpty else { return allEleves.sorted(using: sortOrder) }
+        guard searchString.isNotEmpty else {
+            return allEleves.sorted(using: sortOrder)
+        }
 
         return allEleves
             .filter { eleve in

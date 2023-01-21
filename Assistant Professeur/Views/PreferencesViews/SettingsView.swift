@@ -16,6 +16,7 @@ struct SettingsView: View {
             SettingsSchool()
             SettingsClasse()
             SettingsEleve()
+            SettingsProgram()
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
         .toolbar {

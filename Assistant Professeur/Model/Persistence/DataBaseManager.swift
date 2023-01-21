@@ -22,6 +22,8 @@ struct DataBaseManager {
         EleveEntity.checkConsistency(errorFound: &errorFound)
         ColleEntity.checkConsistency(errorFound: &errorFound)
         ObservEntity.checkConsistency(errorFound: &errorFound)
+
+        ProgramEntity.checkConsistency(errorFound: &errorFound)
     }
 
     /// Effacer tout le contenu de la base de donnée Core Data
@@ -63,7 +65,16 @@ struct DataBaseManager {
         } catch {
             failed = true
         }
-    }
+
+        // Suppression des Programmes
+        do {
+            try ProgramEntity.deleteAll()
+            try SequenceEntity.deleteAll()
+            try ActivityEntity.deleteAll()
+        } catch {
+            failed = true
+        }
+}
 
     /// Peupler la base de donnée
     static func populate() {
@@ -111,7 +122,7 @@ struct DataBaseManager {
         let classe5E1 = ClasseEntity.create(
             level        : .n5ieme,
             numero       : 1,
-            segpa        : true,
+            segpa        : false,
             discipline   : .technologie,
             heures       : 1.5,
             isFlagged    : true,
