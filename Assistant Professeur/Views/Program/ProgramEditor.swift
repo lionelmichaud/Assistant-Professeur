@@ -14,13 +14,13 @@ struct ProgramEditor: View {
 
     // MARK: - Computed Properties
 
-    private var selectedProgramId: UUID? {
+    private var selectedProgramId: NSManagedObjectID? {
         navigationModel.selectedProgramId
     }
 
     private var selectedProgram: ProgramEntity? {
         guard let selectedProgramId else { return nil }
-        return ProgramEntity.byId(id: selectedProgramId)
+        return ProgramEntity.byObjectId(id: selectedProgramId)
     }
 
     private var selectedProgramExists: Bool {

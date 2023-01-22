@@ -34,8 +34,8 @@ struct ProgramSidebarView: View {
                 if section.isNotEmpty {
                     Section {
                         /// pour chaque Discipline
-                        ForEach(section, id: \.id) { program in
-                            NavigationLink(value: program.id) {
+                        ForEach(section, id: \.objectID) { program in
+                            NavigationLink(value: program.objectID) {
                                 ProgramBrowserRow(program: program)
                                     .badge(program.nbOfSequences)
 
@@ -44,7 +44,7 @@ struct ProgramSidebarView: View {
                                         Button(role: .destructive) {
                                             withAnimation {
                                                 try? program.delete()
-                                                if navigationModel.selectedProgramId == program.id {
+                                                if navigationModel.selectedProgramId == program.objectID {
                                                     navigationModel.selectedProgramId = nil
                                                 }
                                             }

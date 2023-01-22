@@ -16,7 +16,7 @@ final class NavigationModel: ObservableObject, Codable {
     }
     @Published var columnVisibility   : NavigationSplitViewVisibility
     @Published var selectedTab        : Tab
-    @Published var selectedProgramId  : UUID?
+    @Published var selectedProgramId  : NSManagedObjectID?
     // TODO: - Trouver une autre solution
     @Published var selectedObservId  : NSManagedObjectID?
     @Published var selectedColleId   : NSManagedObjectID?
@@ -33,7 +33,7 @@ final class NavigationModel: ObservableObject, Codable {
 
     init(columnVisibility  : NavigationSplitViewVisibility = .doubleColumn,
          selectedTab       : Tab                = .school,
-         selectedProgramId : UUID? = nil,
+         selectedProgramId : NSManagedObjectID? = nil,
          selectedObservId  : NSManagedObjectID? = nil,
          selectedColleId   : NSManagedObjectID? = nil,
          selectedEleveId   : NSManagedObjectID? = nil,
@@ -87,8 +87,8 @@ final class NavigationModel: ObservableObject, Codable {
         self.selectedTab = try container.decode(
             NavigationModel.Tab.self, forKey: .selectedTab)
 
-        self.selectedProgramId = try container.decodeIfPresent(
-            UUID.self, forKey: .selectedProgramId)
+//        self.selectedProgramId = try container.decodeIfPresent(
+//            UUID.self, forKey: .selectedProgramId)
 
         //        self.selectedObservId = try container.decodeIfPresent(
 //            Observation.ID.self, forKey: .selectedObservId)
@@ -121,7 +121,7 @@ final class NavigationModel: ObservableObject, Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(selectedTab, forKey: .selectedTab)
-        try container.encodeIfPresent(selectedProgramId, forKey: .selectedProgramId)
+//        try container.encodeIfPresent(selectedProgramId, forKey: .selectedProgramId)
 //        try container.encodeIfPresent(selectedObservId, forKey: .selectedObservId)
 //        try container.encodeIfPresent(selectedColleId,  forKey: .selectedColleId)
 //        try container.encodeIfPresent(selectedEleveId,  forKey: .selectedEleveId)

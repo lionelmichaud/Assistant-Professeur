@@ -241,7 +241,7 @@ extension ProgramEntity {
         """
 
         PROGRAMME:
-           ID           : \(id)
+           ID           : \(String(describing: id))
            Discipline   : \(disciplineString)
            Niveau       : \(levelString)
            SEGPA        : \(segpa.frenchString)
