@@ -16,8 +16,10 @@ final class NavigationModel: ObservableObject, Codable {
     }
     @Published var columnVisibility   : NavigationSplitViewVisibility
     @Published var selectedTab        : Tab
-    @Published var selectedProgramId  : NSManagedObjectID?
     // TODO: - Trouver une autre solution
+    @Published var selectedProgramId  : NSManagedObjectID?
+    @Published var selectedSequenceId : NSManagedObjectID?
+    @Published var selectedActivityId : NSManagedObjectID?
     @Published var selectedObservId  : NSManagedObjectID?
     @Published var selectedColleId   : NSManagedObjectID?
     @Published var selectedEleveId   : NSManagedObjectID?
@@ -31,9 +33,11 @@ final class NavigationModel: ObservableObject, Codable {
     private lazy var decoder = JSONDecoder()
     private lazy var encoder = JSONEncoder()
 
-    init(columnVisibility  : NavigationSplitViewVisibility = .doubleColumn,
+    init(columnVisibility  : NavigationSplitViewVisibility = .all,
          selectedTab       : Tab                = .school,
-         selectedProgramId : NSManagedObjectID? = nil,
+         selectedProgramId  : NSManagedObjectID? = nil,
+         selectedSequenceId : NSManagedObjectID? = nil,
+         selectedActivityId : NSManagedObjectID? = nil,
          selectedObservId  : NSManagedObjectID? = nil,
          selectedColleId   : NSManagedObjectID? = nil,
          selectedEleveId   : NSManagedObjectID? = nil,
@@ -45,7 +49,9 @@ final class NavigationModel: ObservableObject, Codable {
     ) {
         self.columnVisibility  = columnVisibility
         self.selectedTab       = selectedTab
-        self.selectedProgramId = selectedProgramId
+        self.selectedProgramId  = selectedProgramId
+        self.selectedSequenceId = selectedSequenceId
+        self.selectedActivityId = selectedActivityId
         self.selectedObservId  = selectedObservId
         self.selectedColleId   = selectedColleId
         self.selectedEleveId   = selectedEleveId
@@ -63,7 +69,9 @@ final class NavigationModel: ObservableObject, Codable {
                   let model = try? decoder.decode(Self.self, from: data)
             else { return }
             columnVisibility  = model.columnVisibility
-            selectedProgramId = model.selectedProgramId
+            selectedProgramId  = model.selectedProgramId
+            selectedSequenceId = model.selectedSequenceId
+            selectedActivityId = model.selectedActivityId
             selectedTab       = model.selectedTab
             selectedObservId  = model.selectedObservId
             selectedColleId   = model.selectedColleId

@@ -25,7 +25,7 @@ extension ProgramEntity {
         }
         set {
             self.discipline = newValue.rawValue
-            try? ProgramEntity.saveIfContextHasChanged()
+            try? Self.saveIfContextHasChanged()
         }
     }
 
@@ -41,7 +41,7 @@ extension ProgramEntity {
         }
         set {
             self.level = newValue.rawValue
-            try? ProgramEntity.saveIfContextHasChanged()
+            try? Self.saveIfContextHasChanged()
         }
     }
 
@@ -54,7 +54,7 @@ extension ProgramEntity {
         }
         set {
             self.segpa = newValue
-            try? ProgramEntity.saveIfContextHasChanged()
+            try? Self.saveIfContextHasChanged()
         }
     }
 
@@ -67,7 +67,7 @@ extension ProgramEntity {
         }
         set {
             self.annotation = newValue
-            try? SchoolEntity.saveIfContextHasChanged()
+            try? Self.saveIfContextHasChanged()
         }
     }
 
@@ -126,7 +126,7 @@ extension ProgramEntity: ModelEntityP {
     ///   3. SGPA ou non
     static var requestAllSortedbyDisciplineLevelSegpa: NSFetchRequest<ProgramEntity> {
         let request = ProgramEntity.fetchRequest()
-        request.sortDescriptors = ProgramEntity.byDisciplineLevelSegpaNSSortDescriptor
+        request.sortDescriptors = Self.byDisciplineLevelSegpaNSSortDescriptor
         return request
     }
 
@@ -184,14 +184,10 @@ extension ProgramEntity: ModelEntityP {
             .sorted(using: sortComparators)
     }
 
-    static func exists(
-        classeLevel   : LevelClasse,
-        classeIsSegpa : Bool
-    ) -> Bool {
-        all().contains {
-            $0.levelEnum == classeLevel &&
-            $0.segpa == classeIsSegpa
-        }
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        //Set defaults here
+        self.id = UUID()
     }
 
     // MARK: - Type Methods
@@ -199,6 +195,16 @@ extension ProgramEntity: ModelEntityP {
     static func byId(id: UUID) -> Self? {
         all().first { object in
             object.id == id
+        }
+    }
+
+    static func exists(
+        classeLevel   : LevelClasse,
+        classeIsSegpa : Bool
+    ) -> Bool {
+        all().contains {
+            $0.levelEnum == classeLevel &&
+            $0.segpa == classeIsSegpa
         }
     }
 
@@ -217,7 +223,7 @@ extension ProgramEntity: ModelEntityP {
         program.segpa        = segpa
         program.annotation   = annotation
 
-        try? ProgramEntity.saveIfContextHasChanged()
+        try? Self.saveIfContextHasChanged()
         return program
     }
 
@@ -225,12 +231,6 @@ extension ProgramEntity: ModelEntityP {
         all().forEach { classe in
             // TODO: - Compléter
         }
-    }
-
-    public override func awakeFromInsert() {
-        super.awakeFromInsert()
-        //Set defaults here
-        self.id = UUID()
     }
 }
 

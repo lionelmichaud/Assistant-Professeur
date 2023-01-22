@@ -27,7 +27,9 @@ struct ProgramSidebarView: View {
     var body: some View {
         List(selection: $navigationModel.selectedProgramId) {
             if ProgramEntity.all().isEmpty {
-                Text("Aucun programme actuellement")
+                Text("Aucun programme existant")
+                    .foregroundStyle(.secondary)
+                    .font(.title2)
             }
             /// pour chaque Discipline
             ForEach(programsSections) { section in
@@ -52,7 +54,6 @@ struct ProgramSidebarView: View {
                                             Label("Supprimer", systemImage: "trash")
                                         }
                                     }
-
                             }
                         }
                     } header: {
@@ -99,6 +100,7 @@ extension ProgramSidebarView {
 
     }
 }
+
 struct ProgramSidebarView_Previews: PreviewProvider {
     static var previews: some View {
         ProgramSidebarView()

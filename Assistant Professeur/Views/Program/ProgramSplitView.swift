@@ -16,8 +16,25 @@ struct ProgramSplitView: View {
             columnVisibility: $navigationModel.columnVisibility
         ) {
             ProgramSidebarView()
+                .navigationSplitViewColumnWidth(250)
+        } content: {
+            SequenceSidebarView()
+                .navigationSplitViewColumnWidth(min: 250,
+                                                ideal: 350,
+                                                max: 500)
         } detail: {
             ProgramEditor()
+        }
+        .navigationSplitViewStyle(.balanced)
+        .onChange(of: navigationModel.selectedProgramId) { _ in
+            navigationModel.selectedSequenceId = nil
+        }
+        .onChange(of: navigationModel.selectedSequenceId) { _ in
+            if navigationModel.selectedSequenceId == nil {
+                navigationModel.columnVisibility = .all
+            } else {
+                navigationModel.columnVisibility = .doubleColumn
+            }
         }
     }
 }

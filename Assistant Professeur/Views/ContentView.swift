@@ -79,7 +79,7 @@ struct ContentView: View {
             ProgramSplitView()
                 .tabItem { Label("Programmes", systemImage: "books.vertical").symbolVariant(.none) }
                 .tag(NavigationModel.Tab.program)
-                //.badge(ProgramEntity.cardinal())
+                .badge(ProgramEntity.cardinal())
         }
         .environmentObject(navigationModel)
 

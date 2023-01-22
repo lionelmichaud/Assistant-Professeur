@@ -82,6 +82,10 @@
 		795EED07296741A1009AA6F4 /* ExamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED06296741A1009AA6F4 /* ExamManager.swift */; };
 		795EED0B29677C76009AA6F4 /* MarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0929677C76009AA6F4 /* MarkView.swift */; };
 		795EED0C29677C76009AA6F4 /* MarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0A29677C76009AA6F4 /* MarkListView.swift */; };
+		796371FF297D575800ECDBC3 /* SequenceSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796371FE297D575800ECDBC3 /* SequenceSidebarView.swift */; };
+		79637201297D707400ECDBC3 /* SequenceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637200297D707400ECDBC3 /* SequenceList.swift */; };
+		79637203297D826400ECDBC3 /* ProgramManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637202297D826400ECDBC3 /* ProgramManager.swift */; };
+		79637205297D85EF00ECDBC3 /* SequenceBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637204297D85EF00ECDBC3 /* SequenceBrowserRow.swift */; };
 		798458EA2939529D00B74538 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798458E92939529D00B74538 /* AnnotationView.swift */; };
 		798B825E296C8DD5004A24A8 /* EleveNameStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */; };
 		798B8260296CAC84004A24A8 /* ImportExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B825F296CAC84004A24A8 /* ImportExportManager.swift */; };
@@ -288,6 +292,10 @@
 		795EED06296741A1009AA6F4 /* ExamManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamManager.swift; sourceTree = "<group>"; };
 		795EED0929677C76009AA6F4 /* MarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkView.swift; sourceTree = "<group>"; };
 		795EED0A29677C76009AA6F4 /* MarkListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkListView.swift; sourceTree = "<group>"; };
+		796371FE297D575800ECDBC3 /* SequenceSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceSidebarView.swift; sourceTree = "<group>"; };
+		79637200297D707400ECDBC3 /* SequenceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceList.swift; sourceTree = "<group>"; };
+		79637202297D826400ECDBC3 /* ProgramManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramManager.swift; sourceTree = "<group>"; };
+		79637204297D85EF00ECDBC3 /* SequenceBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceBrowserRow.swift; sourceTree = "<group>"; };
 		7966DCF8292573A1001D6C7F /* AppFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppFoundation; path = ../Packages/AppFoundation; sourceTree = "<group>"; };
 		798458E92939529D00B74538 /* AnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 		798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveNameStyling.swift; sourceTree = "<group>"; };
@@ -464,6 +472,7 @@
 			children = (
 				792135562978724C0036A5EA /* Program+Extensions.swift */,
 				79213558297872510036A5EA /* Sequence */,
+				79637202297D826400ECDBC3 /* ProgramManager.swift */,
 			);
 			path = Program;
 			sourceTree = "<group>";
@@ -540,6 +549,8 @@
 				79DEDAE7292585BD00F508EF /* Colle */,
 				793D626B295DCBBC00477932 /* MotifView */,
 				79975314297B146600D1C66E /* Program */,
+				796371FD297D574B00ECDBC3 /* Sequence */,
+				79637206297D879100ECDBC3 /* Activity */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -617,6 +628,23 @@
 				795EED0A29677C76009AA6F4 /* MarkListView.swift */,
 			);
 			path = Mark;
+			sourceTree = "<group>";
+		};
+		796371FD297D574B00ECDBC3 /* Sequence */ = {
+			isa = PBXGroup;
+			children = (
+				796371FE297D575800ECDBC3 /* SequenceSidebarView.swift */,
+				79637200297D707400ECDBC3 /* SequenceList.swift */,
+				79637204297D85EF00ECDBC3 /* SequenceBrowserRow.swift */,
+			);
+			path = Sequence;
+			sourceTree = "<group>";
+		};
+		79637206297D879100ECDBC3 /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Activity;
 			sourceTree = "<group>";
 		};
 		7966DCF7292573A1001D6C7F /* Packages */ = {
@@ -1182,11 +1210,13 @@
 				79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */,
 				7921355A2978726E0036A5EA /* Sequence+Extensions.swift in Sources */,
 				7921355D2978728A0036A5EA /* Activity+Extensions.swift in Sources */,
+				79637203297D826400ECDBC3 /* ProgramManager.swift in Sources */,
 				79ECF202295A15F0008F0282 /* EleveObservRow.swift in Sources */,
 				791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */,
 				79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */,
 				79DEDAEC2925864A00F508EF /* ClasseSplitView.swift in Sources */,
 				79BF1DAD29290FBC005D6CF3 /* Observation+Extensions.swift in Sources */,
+				79637201297D707400ECDBC3 /* SequenceList.swift in Sources */,
 				79388A4F29257025002AABB8 /* AppState.swift in Sources */,
 				79DEDAFE292589F400F508EF /* EleveSidebarView.swift in Sources */,
 				79398D33296616850013564D /* ExamEditor.swift in Sources */,
@@ -1196,6 +1226,7 @@
 				79ECF1FF295A02EE008F0282 /* EleveDetail.swift in Sources */,
 				79E524BD295376EA00DA99A7 /* EventList.swift in Sources */,
 				79ECF1F42959F09F008F0282 /* colle+extensions.swift in Sources */,
+				796371FF297D575800ECDBC3 /* SequenceSidebarView.swift in Sources */,
 				7994E31F2972DE8400952D08 /* RoomSeatManager.swift in Sources */,
 				7997531C297C17F400D1C66E /* ProgramEditor.swift in Sources */,
 				79BF1DA42928E37B005D6CF3 /* SchoolCreatorModal.swift in Sources */,
@@ -1224,6 +1255,7 @@
 				79DEDAF82925870500F508EF /* ColleSidebarView.swift in Sources */,
 				79DEDB272925996E00F508EF /* Interoperability.swift in Sources */,
 				79DEDAF5292586C800F508EF /* ColleSplitView.swift in Sources */,
+				79637205297D85EF00ECDBC3 /* SequenceBrowserRow.swift in Sources */,
 				79134557296B6C620092E7CD /* TrombineView.swift in Sources */,
 				79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */,
 				795C2C2B296E2DCA00EDFF09 /* EditableSeatLabel.swift in Sources */,

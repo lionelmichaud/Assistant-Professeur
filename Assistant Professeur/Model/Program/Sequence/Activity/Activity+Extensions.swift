@@ -71,8 +71,54 @@ extension ActivityEntity {
 
 extension ActivityEntity: ModelEntityP {
 
-}
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        //Set defaults here
+        self.id = UUID()
+    }
 
+    // MARK: - Type Methods
+
+    static func byId(id: UUID) -> Self? {
+        all().first { object in
+            object.id == id
+        }
+    }
+
+    /// Créer une nouvelle instance et la sauvegarder dans le context
+    @discardableResult
+    static func create(
+        name          : String = "",
+        annotation    : String = "",
+        duration      : Double = 1,
+        isEval        : Bool   = false,
+        dans sequence : SequenceEntity
+    ) -> ActivityEntity {
+        let nbSeqInProgram = sequence.nbOfActivities
+        let activity = ActivityEntity.create()
+        // Séquence d'appartenance.
+        // mandatory
+        activity.sequence = sequence
+
+        activity.name       = name
+        activity.number     = Int16(nbSeqInProgram + 1)
+        activity.annotation = annotation
+        activity.duration   = duration
+        activity.isEval     = isEval
+
+        try? Self.saveIfContextHasChanged()
+        return activity
+    }
+
+    static func checkConsistency(errorFound: inout Bool) {
+        all().forEach { activity in
+            guard activity.sequence != nil else {
+                errorFound = true
+                return
+            }
+        }
+    }
+}
 
 // MARK: - Extension Debug
 
@@ -80,9 +126,11 @@ extension ActivityEntity {
     public override var description: String {
         """
 
-        ACTIVITÉ: \(viewName)
+        ACTIVITÉ:
            Numéro : \(viewNumber)
            Nom    : \(viewName)
+           Durée  : \(viewDuration) séances
+           Eval   : \(isEval.frenchString)
            URL    : \(String(describing: url))
         """
     }

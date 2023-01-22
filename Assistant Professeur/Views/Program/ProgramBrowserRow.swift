@@ -16,7 +16,7 @@ struct ProgramBrowserRow: View {
             Image(systemName: "person.3.sequence.fill")
                 .sfSymbolStyling()
                 .foregroundColor(program.levelEnum.color)
-            Text(program.levelString)
+            Text(program.levelEnum.pickerString + (program.segpa ? " Segpa" : ""))
                 .fontWeight(.bold)
         }
     }

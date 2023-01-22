@@ -22,7 +22,7 @@ extension SequenceEntity {
         }
         set {
             self.name = newValue
-            try? SequenceEntity.saveIfContextHasChanged()
+            try? Self.saveIfContextHasChanged()
         }
     }
 
@@ -35,7 +35,20 @@ extension SequenceEntity {
         }
         set {
             self.number = Int16(newValue)
-            try? SequenceEntity.saveIfContextHasChanged()
+            try? Self.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `annotation`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewAnnotation: String {
+        get {
+            self.annotation ?? ""
+        }
+        set {
+            self.annotation = newValue
+            try? Self.saveIfContextHasChanged()
         }
     }
 
@@ -105,6 +118,50 @@ extension SequenceEntity: ModelEntityP {
             }
             .sorted(using: sortComparators)
     }
+
+    public override func awakeFromInsert() {
+        super.awakeFromInsert()
+        //Set defaults here
+        self.id = UUID()
+    }
+
+    // MARK: - Type Methods
+
+    static func byId(id: UUID) -> Self? {
+        all().first { object in
+            object.id == id
+        }
+    }
+
+    /// Créer une nouvelle instance et la sauvegarder dans le context
+    @discardableResult
+    static func create(
+        name         : String = "",
+        annotation   : String = "",
+        dans program : ProgramEntity
+    ) -> SequenceEntity {
+        let nbSeqInProgram = program.nbOfSequences
+        let sequence = SequenceEntity.create()
+        // Programme d'appartenance.
+        // mandatory
+        sequence.program = program
+
+        sequence.name       = name
+        sequence.number     = Int16(nbSeqInProgram + 1)
+        sequence.annotation = annotation
+
+        try? Self.saveIfContextHasChanged()
+        return sequence
+    }
+
+    static func checkConsistency(errorFound: inout Bool) {
+        all().forEach { sequence in
+            guard sequence.program != nil else {
+                errorFound = true
+                return
+            }
+        }
+    }
 }
 
 // MARK: - Extension Debug
@@ -113,7 +170,7 @@ extension SequenceEntity {
     public override var description: String {
         """
 
-        SEQUENCE: \(viewName)
+        SEQUENCE:
            Numéro : \(viewNumber)
            Nom    : \(viewName)
            URL    : \(String(describing: url))

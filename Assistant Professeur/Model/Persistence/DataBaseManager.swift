@@ -24,6 +24,8 @@ struct DataBaseManager {
         ObservEntity.checkConsistency(errorFound: &errorFound)
 
         ProgramEntity.checkConsistency(errorFound: &errorFound)
+        SequenceEntity.checkConsistency(errorFound: &errorFound)
+        ActivityEntity.checkConsistency(errorFound: &errorFound)
     }
 
     /// Effacer tout le contenu de la base de donnée Core Data
@@ -74,7 +76,7 @@ struct DataBaseManager {
         } catch {
             failed = true
         }
-}
+    }
 
     /// Peupler la base de donnée
     static func populate() {
@@ -280,5 +282,49 @@ struct DataBaseManager {
             isVerified       : true,
             duree: 2
         )
+
+        /// Programmes
+        let progTechno6 = ProgramEntity.create(
+            discipline : .technologie,
+            level      : .n6ieme,
+            segpa      : false,
+            annotation : "Programme de technologie de classe de 6ième"
+        )
+        ProgramEntity.create(
+            discipline : .technologie,
+            level      : .n5ieme,
+            segpa      : true,
+            annotation : "Programme de technologie de classe de 5ième SEGPA"
+        )
+        ProgramEntity.create(
+            discipline : .histoireGeo   ,
+            level      : .n0terminale,
+            segpa      : false,
+            annotation : "Programme d'Histoire-Géographie de classe de Terminale"
+        )
+
+        /// Séquences
+        SequenceEntity.create(
+            name       : "Séquence 1 du Programme de Technologie",
+            annotation : "Une annotation de séquence",
+            dans       : progTechno6
+        )
+        SequenceEntity.create(
+            name       : "Séquence 2 du Programme de Technologie",
+            annotation : "Une annotation de séquence",
+            dans       : progTechno6
+        )
+        SequenceEntity.create(
+            name       : "Séquence 3 du Programme de Technologie",
+            annotation : "Une annotation de séquence",
+            dans       : progTechno6
+        )
+        SequenceEntity.create(
+            name       : "Séquence 4 du Programme de Technologie",
+            annotation : "Une annotation de séquence",
+            dans       : progTechno6
+        )
+
+        /// Activités
     }
 }

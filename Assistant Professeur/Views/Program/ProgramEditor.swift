@@ -36,7 +36,7 @@ struct ProgramEditor: View {
                 Text("Sélectionner un programme.")
             }
             .foregroundStyle(.secondary)
-            .font(.title)
+            .font(.title2)
         }
     }
 }
