@@ -15,6 +15,9 @@ struct ContentView: View {
     @SceneStorage("navigation")
     private var navigationData: Data?
     
+    @Environment(\.horizontalSizeClass)
+    private var horizontalSizeClass
+
     @StateObject
     private var navigationModel = NavigationModel()
 
@@ -75,11 +78,13 @@ struct ContentView: View {
                 .tag(NavigationModel.Tab.colle)
                 .badge(ColleEntity.cardinal())
 
-            /// Les programmes scolaires
-            ProgramSplitView()
-                .tabItem { Label("Programmes", systemImage: "books.vertical").symbolVariant(.none) }
-                .tag(NavigationModel.Tab.program)
-                .badge(ProgramEntity.cardinal())
+            if horizontalSizeClass == .regular {
+                /// Les programmes scolaires
+                ProgramSplitView()
+                    .tabItem { Label("Programmes", systemImage: "books.vertical").symbolVariant(.none) }
+                    .tag(NavigationModel.Tab.program)
+                    .badge(ProgramEntity.cardinal())
+            }
         }
         .environmentObject(navigationModel)
 

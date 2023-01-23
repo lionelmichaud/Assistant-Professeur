@@ -288,7 +288,8 @@ struct DataBaseManager {
             discipline : .technologie,
             level      : .n6ieme,
             segpa      : false,
-            annotation : "Programme de technologie de classe de 6ième"
+            annotation : "Programme de technologie de classe de 6ième",
+            url        : URL(string: "http://www.apple.com")
         )
         ProgramEntity.create(
             discipline : .technologie,
@@ -304,27 +305,48 @@ struct DataBaseManager {
         )
 
         /// Séquences
-        SequenceEntity.create(
+        let progTechno6Seq1 = SequenceEntity.create(
             name       : "Séquence 1 du Programme de Technologie",
-            annotation : "Une annotation de séquence",
+            annotation : "Une annotation de séquence 1",
             dans       : progTechno6
         )
         SequenceEntity.create(
             name       : "Séquence 2 du Programme de Technologie",
-            annotation : "Une annotation de séquence",
+            annotation : "Une annotation de séquence 2",
             dans       : progTechno6
         )
         SequenceEntity.create(
             name       : "Séquence 3 du Programme de Technologie",
-            annotation : "Une annotation de séquence",
+            annotation : "Une annotation de séquence 3",
             dans       : progTechno6
         )
         SequenceEntity.create(
             name       : "Séquence 4 du Programme de Technologie",
-            annotation : "Une annotation de séquence",
+            annotation : "Une annotation de séquence 4",
             dans       : progTechno6
         )
 
         /// Activités
+        ActivityEntity.create(
+            name       : "Activité 1 de Séquence 1 de Techno",
+            annotation : "Une annotation d'activité 1",
+            duration   : 1.0,
+            isEval     : false,
+            dans       : progTechno6Seq1
+        )
+        ActivityEntity.create(
+            name       : "Activité 2 de Séquence 1 de Techno",
+            annotation : "Une annotation d'activité 1",
+            duration   : 2.0,
+            isEval     : false,
+            dans       : progTechno6Seq1
+        )
+        ActivityEntity.create(
+            name       : "Activité 3 de Séquence 1 de Techno",
+            annotation : "Une annotation d'activité 1",
+            duration   : 1.0,
+            isEval     : true,
+            dans       : progTechno6Seq1
+        )
     }
 }

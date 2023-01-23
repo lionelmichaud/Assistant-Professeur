@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.dismiss)
+    private var dismiss
+
+    @Environment(\.horizontalSizeClass)
+    private var horizontalSizeClass
 
     var body: some View {
         TabView {
@@ -16,7 +20,11 @@ struct SettingsView: View {
             SettingsSchool()
             SettingsClasse()
             SettingsEleve()
-            SettingsProgram()
+            if horizontalSizeClass == .regular {
+                SettingsProgram()
+                SettingsSequence()
+                SettingsActivity()
+            }
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
         .toolbar {

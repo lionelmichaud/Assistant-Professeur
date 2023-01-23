@@ -29,7 +29,7 @@ struct ProgramEditor: View {
 
     var body: some View {
         if selectedProgramExists {
-            ProgramDetail(program: selectedProgram!)
+            ProgramDetailGroupBox(program: selectedProgram!)
         } else {
             VStack(alignment: .center) {
                 Text("Aucun programme sélectionné.")

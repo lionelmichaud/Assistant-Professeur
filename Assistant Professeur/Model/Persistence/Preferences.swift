@@ -228,9 +228,23 @@ public final class Preferences {
     public var maxBonusIncrement: Int = 1
 
     /// Programme pédagogique
+    // Programmes
+    // Champ annotation
+    @UserDefault("program_annotation")
+    public var programAnnotationEnabled: Bool = true
+
     // Séquences
+    // Champ annotation
+    @UserDefault("sequence_annotation")
+    public var sequenceAnnotationEnabled: Bool = true
+
     @UserDefault("marge_inter_sequence_pedagogique")
     public var margeInterSequence: Int = 1
+
+    // Activités
+    // Champ annotation
+    @UserDefault("activity_annotation")
+    public var activityAnnotationEnabled: Bool = true
 
     /// Paramètres Graphiques
     // graphique Bilan

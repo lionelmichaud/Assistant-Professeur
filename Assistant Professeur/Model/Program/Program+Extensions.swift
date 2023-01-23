@@ -199,10 +199,12 @@ extension ProgramEntity: ModelEntityP {
     }
 
     static func exists(
+        dscipline     : Discipline,
         classeLevel   : LevelClasse,
         classeIsSegpa : Bool
     ) -> Bool {
         all().contains {
+            $0.disciplineEnum == dscipline &&
             $0.levelEnum == classeLevel &&
             $0.segpa == classeIsSegpa
         }
@@ -214,7 +216,8 @@ extension ProgramEntity: ModelEntityP {
         discipline   : Discipline,
         level        : LevelClasse,
         segpa        : Bool,
-        annotation   : String = ""
+        annotation   : String = "",
+        url          : URL? = nil
     ) -> ProgramEntity {
         let program = ProgramEntity.create()
 
@@ -222,6 +225,7 @@ extension ProgramEntity: ModelEntityP {
         program.level        = level.rawValue
         program.segpa        = segpa
         program.annotation   = annotation
+        program.url          = url
 
         try? Self.saveIfContextHasChanged()
         return program

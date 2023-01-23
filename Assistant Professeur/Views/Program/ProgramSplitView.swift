@@ -9,34 +9,56 @@ import SwiftUI
 
 struct ProgramSplitView: View {
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navig : NavigationModel
+
+    @State
+    private var path = NavigationPath()
 
     var body: some View {
         NavigationSplitView(
-            columnVisibility: $navigationModel.columnVisibility
+            columnVisibility: $navig.columnVisibility
         ) {
+            /// 1ère colonne
             ProgramSidebarView()
-                .navigationSplitViewColumnWidth(250)
+//                .navigationSplitViewColumnWidth(min: 200,
+//                                                ideal: 250,
+//                                                max: 500)
         } content: {
-            SequenceSidebarView()
-                .navigationSplitViewColumnWidth(min: 250,
-                                                ideal: 350,
-                                                max: 500)
+            /// 2nde colonne
+            NavigationStack(path: $path) {
+                SequenceSidebarView()
+                    .navigationDestination(for: ProgramEntity.self) { program in
+                        ProgramDetailGroupBox(program: program)
+                    }
+                    .navigationDestination(for: SequenceEntity.self) { sequence in
+                        ActivitySideBar(sequence: sequence)
+                    }
+            }
         } detail: {
-            ProgramEditor()
+            /// Détail dans la 3ième colonne
+            ActivityEditor()
         }
         .navigationSplitViewStyle(.balanced)
-        .onChange(of: navigationModel.selectedProgramId) { _ in
-            navigationModel.selectedSequenceId = nil
+
+        // désélectionner la séquence quand on change de programme
+        .onChange(of: navig.selectedProgramId) { _ in
+            navig.selectedSequenceId = nil
         }
-        .onChange(of: navigationModel.selectedSequenceId) { _ in
-            if navigationModel.selectedSequenceId == nil {
-                navigationModel.columnVisibility = .all
+
+        // désélectionner l'activité quand on change de séquence
+        .onChange(of: navig.selectedSequenceId) { _ in
+            navig.selectedActivityId = nil
+        }
+
+        // escamoter la 1ère colonne quand une activité est sélectionnée
+        .onChange(of: navig.selectedActivityId) { _ in
+            if navig.selectedActivityId == nil {
+                navig.columnVisibility = .all
             } else {
-                navigationModel.columnVisibility = .doubleColumn
+                navig.columnVisibility = .doubleColumn
             }
         }
-    }
+   }
 }
 
 struct ProgramSplitView_Previews: PreviewProvider {

@@ -15,18 +15,21 @@ class ProgramViewModel: ObservableObject {
     @Published var levelEnum      : LevelClasse = .n6ieme
     @Published var segpa          : Bool        = false
     @Published var annotation     : String      = ""
+    @Published var url            : URL?
 
     // MARK: - Initializers
     internal init(
         disciplineEnum : Discipline  = .technologie,
         levelEnum      : LevelClasse = .n6ieme,
         segpa          : Bool        = false,
-        annotation     : String      = ""
+        annotation     : String      = "",
+        url            : URL?        = nil
     ) {
         self.disciplineEnum = disciplineEnum
         self.levelEnum      = levelEnum
         self.segpa          = segpa
         self.annotation     = annotation
+        self.url            = url
     }
 
     convenience init(from program: ProgramEntity) {
@@ -41,6 +44,7 @@ class ProgramViewModel: ObservableObject {
         self.levelEnum      = program.levelEnum
         self.segpa          = program.segpa
         self.annotation     = program.viewAnnotation
+        self.url            = program.url
     }
 
     /// Créer une entité `ProgramEntity` à partir du VM et
@@ -52,7 +56,8 @@ class ProgramViewModel: ObservableObject {
             discipline   : disciplineEnum,
             level        : levelEnum,
             segpa        : segpa,
-            annotation   : annotation
+            annotation   : annotation,
+            url          : url
         )
     }
 

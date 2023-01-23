@@ -168,7 +168,7 @@ struct EleveDetail: View {
                 }
                 /// annotation sur l'élève
                 if eleveAnnotationEnabled {
-                    AnnotationView(annotation: $eleve.viewAnnotation)
+                    AnnotationEditView(annotation: $eleve.viewAnnotation)
                 }
                 /// bonus/malus de l'élève
                 if eleveBonusEnabled {

@@ -8,27 +8,17 @@
 import SwiftUI
 
 struct SettingsProgram: View {
-    @Preference(\.margeInterSequence)
-    var margeInterSequence
+    @Preference(\.programAnnotationEnabled)
+    var programAnnotationEnabled
 
     var body: some View {
         List {
             Section {
-                Stepper(value : $margeInterSequence,
-                        in    : 0 ... 3,
-                        step  : 1) {
-                    HStack {
-                        Text("Nombre de séances")
-                        Spacer()
-                        Text("\(margeInterSequence.formatted(.number))")
-                            .foregroundColor(.secondary)
-                    }
-                }
-
+                Toggle("Annotation", isOn: $programAnnotationEnabled)
             } header: {
-                Text("Marge temporelle entre deux séquences pédagogiques")
+                Text("Champs")
             } footer: {
-                Text("Ajouter éventuellement une marge temporelle d'une ou plusieurs séances entre deux séquences pédagogiques.")
+                Text("Ajouter un champ de saisie d'annotation à chaque programme")
             }
         }
         #if os(iOS)

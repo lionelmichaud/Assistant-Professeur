@@ -37,7 +37,7 @@ struct ProgramSidebarView: View {
                     Section {
                         /// pour chaque Discipline
                         ForEach(section, id: \.objectID) { program in
-                            NavigationLink(value: program.objectID) {
+//                            NavigationLink(value: program.objectID) {
                                 ProgramBrowserRow(program: program)
                                     .badge(program.nbOfSequences)
 
@@ -54,7 +54,7 @@ struct ProgramSidebarView: View {
                                             Label("Supprimer", systemImage: "trash")
                                         }
                                     }
-                            }
+//                            }
                         }
                     } header: {
                         Text("\(section.id)")

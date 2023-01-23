@@ -94,14 +94,14 @@ extension ActivityEntity: ModelEntityP {
         isEval        : Bool   = false,
         dans sequence : SequenceEntity
     ) -> ActivityEntity {
-        let nbSeqInProgram = sequence.nbOfActivities
+        let nbActInProgram = sequence.nbOfActivities
         let activity = ActivityEntity.create()
         // Séquence d'appartenance.
         // mandatory
         activity.sequence = sequence
 
         activity.name       = name
-        activity.number     = Int16(nbSeqInProgram + 1)
+        activity.number     = Int16(nbActInProgram + 1)
         activity.annotation = annotation
         activity.duration   = duration
         activity.isEval     = isEval

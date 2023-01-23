@@ -15,9 +15,13 @@ struct SequenceSidebarView: View {
     private var isAddingNewSequence = false
 
     var body: some View {
-        Group {
+        VStack {
             if let programId = navigationModel.selectedProgramId {
                 if let program = ProgramEntity.byObjectId(id: programId) {
+//                    NavigationLink(value: program) {
+//                        Label("Information sur le programme", systemImage: "books.vertical")
+//                    }
+                    ProgramDetailGroupBox(program: program)
                     SequenceList(program: program)
                 } else {
                     Text("Programme introuvable")
@@ -33,7 +37,9 @@ struct SequenceSidebarView: View {
                 .font(.title2)
             }
         }
-        .navigationTitle("Séquences")
+        #if os(iOS)
+        .navigationTitle("Programme")
+        #endif
         .toolbar(content: myToolBarContent)
     }
 }
@@ -44,8 +50,8 @@ extension SequenceSidebarView {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         if let programId = navigationModel.selectedProgramId,
-            let _ = ProgramEntity.byObjectId(id: programId) {
-        /// Ajouter un établissement
+            ProgramEntity.byObjectId(id: programId) != nil {
+        /// Ajouter une Séquence
             ToolbarItemGroup(placement: .status) {
                 Button {
                     isAddingNewSequence = true
@@ -58,7 +64,6 @@ extension SequenceSidebarView {
                 }
             }
         }
-
     }
 }
 

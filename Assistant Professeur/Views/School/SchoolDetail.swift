@@ -50,7 +50,7 @@ struct SchoolDetail: View {
             List {
                 // note sur la classe
                 if schoolAnnotation {
-                     AnnotationView(annotation: $school.viewAnnotation)
+                     AnnotationEditView(annotation: $school.viewAnnotation)
                 }
 
                 // édition de la liste des classes

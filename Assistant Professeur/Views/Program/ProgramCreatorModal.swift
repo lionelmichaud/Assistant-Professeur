@@ -16,6 +16,12 @@ struct ProgramCreatorModal: View {
     @Environment(\.dismiss)
     private var dismiss
 
+    @Environment(\.horizontalSizeClass)
+    private var hClass
+
+    @Preference(\.programAnnotationEnabled)
+    private var annotationEnabled
+
     @State
     private var alertTitle = ""
 
@@ -77,6 +83,17 @@ struct ProgramCreatorModal: View {
                     }
                 }
             }
+            if annotationEnabled {
+                TextField(
+                    "Annotation",
+                    text : $programVM.annotation,
+                    axis : .vertical
+                )
+                .lineLimit(5)
+                .font(hClass == .compact ? .callout : .body)
+                .textFieldStyle(.roundedBorder)
+            }
+            WebsiteEditView(website: $programVM.url)
         }
         .alert(
             alertTitle,
@@ -105,12 +122,13 @@ extension ProgramCreatorModal {
             Button("Ajouter") {
                 /// Ajouter un nouveau programme
                 if ProgramEntity.exists(
+                    dscipline: programVM.disciplineEnum,
                     classeLevel: programVM.levelEnum,
                     classeIsSegpa: programVM.segpa
                 ) {
                     // doublon
                     alertTitle   = "Ajout impossible"
-                    alertMessage = "Un programme pour ce niveau xiste déjà"
+                    alertMessage = "Un programme pour ce niveau existe déjà dans cette discipline."
                     alertIsPresented.toggle()
 
                 } else {

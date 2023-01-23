@@ -314,6 +314,7 @@ extension SchoolSidebarView {
         alertTitle   = "Échec"
         alertMessage = "L'effacement complet de la base de donnée a échoué"
 
+        navigationModel.resetSelections()
         DataBaseManager.clear(failed: &alertIsPresented)
     }
 

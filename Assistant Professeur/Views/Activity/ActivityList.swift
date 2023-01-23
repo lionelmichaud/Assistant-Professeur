@@ -1,5 +1,5 @@
 //
-//  SequenceList.swift
+//  ActivityList.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 22/01/2023.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct SequenceList: View {
+struct ActivityList: View {
     @ObservedObject
-    var program: ProgramEntity
+    var sequence: SequenceEntity
 
     @Environment(\.managedObjectContext)
     private var managedObjectContext
@@ -19,21 +19,21 @@ struct SequenceList: View {
 
     var body: some View {
         Section {
-            if program.sequencesSortedByNumber.isNotEmpty {
-                List(selection: $navig.selectedSequenceId) {
-                    ForEach(program.sequencesSortedByNumber, id: \.objectID) { sequence in
-                        NavigationLink(value: sequence) {
-                            SequenceBrowserRow(sequence: sequence)
-                        }
+            if sequence.activitiesSortedByNumber.isNotEmpty {
+                List(selection: $navig.selectedActivityId) {
+                    ForEach(sequence.activitiesSortedByNumber, id: \.objectID) { activity in
+//                        NavigationLink(value: sequence) {
+                            ActivityBrowserRow(activity: activity)
+//                        }
                     }
                     .onDelete(perform: deleteItems)
                 }
 
             } else {
                 GroupBox {
-                    Text("Aucune séquence")
+                    Text("Aucune activité")
                         .bold()
-                    Text("Les séquences ajoutées apparaîtront ici.")
+                    Text("Les activités ajoutées apparaîtront ici.")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .padding(.top, 2)
@@ -41,7 +41,7 @@ struct SequenceList: View {
             }
         } header: {
             HStack {
-                Text("Séquences (\(program.nbOfSequences))")
+                Text("Activités (\(sequence.nbOfActivities))")
                     .font(.callout)
                     .foregroundColor(.secondary)
                     .fontWeight(.bold)
@@ -56,13 +56,13 @@ struct SequenceList: View {
         withAnimation {
             offsets
                 .map {
-                    program.sequencesSortedByNumber[$0]
+                    sequence.activitiesSortedByNumber[$0]
                 }
                 .forEach {
                     // Supprimer et renuméroter les séquences restantes
                     ProgramManager.delete(
-                        sequence: $0,
-                        de: program
+                        activity: $0,
+                        de: sequence
                     )
                 }
 
@@ -71,8 +71,8 @@ struct SequenceList: View {
     }
 }
 
-//struct SequenceList_Previews: PreviewProvider {
+//struct ActivityList_Previews: PreviewProvider {
 //    static var previews: some View {
-//        SequenceList()
+//        ActivityList()
 //    }
 //}

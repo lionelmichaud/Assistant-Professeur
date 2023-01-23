@@ -56,8 +56,10 @@ struct RoomLayoutEditor: View {
 
     var body: some View {
         RoomPlanEditView(room: room)
+            #if os(iOS)
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbarTitleMenu {
                 /// Positionner une nouvelle place au centre du plan de la salle de classe
                 if room.nbSeatUnpositionned > 0 {
