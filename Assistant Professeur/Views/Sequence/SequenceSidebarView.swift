@@ -14,6 +14,9 @@ struct SequenceSidebarView: View {
     @State
     private var isAddingNewSequence = false
 
+    @State
+    private var isEditing = false
+
     var body: some View {
         VStack {
             if let programId = navigationModel.selectedProgramId {
@@ -41,6 +44,27 @@ struct SequenceSidebarView: View {
         .navigationTitle("Programme")
         #endif
         .toolbar(content: myToolBarContent)
+
+        /// Modal Sheet de création d'une nouvelle séquence
+        .sheet(isPresented: $isAddingNewSequence,
+               onDismiss: { }) {
+            NavigationStack {
+                //ProgramCreatorModal()
+            }
+            .presentationDetents([.medium])
+        }
+
+        /// Modal Sheet de modification du programme
+        .sheet(isPresented: $isEditing,
+               onDismiss: { ProgramEntity.rollback() }) {
+            if let programId = navigationModel.selectedProgramId,
+               let program = ProgramEntity.byObjectId(id: programId) {
+                NavigationStack {
+                    ProgramEditorModal(program: program)
+                }
+                .presentationDetents([.medium])
+            }
+        }
     }
 }
 
@@ -50,11 +74,18 @@ extension SequenceSidebarView {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         if let programId = navigationModel.selectedProgramId,
-            ProgramEntity.byObjectId(id: programId) != nil {
-        /// Ajouter une Séquence
+           ProgramEntity.byObjectId(id: programId) != nil {
+            /// Editer le Programme
+            ToolbarItemGroup(placement: .automatic) {
+                Button("Modifier") {
+                    isEditing.toggle()
+                }
+            }
+
+            /// Ajouter une Séquence
             ToolbarItemGroup(placement: .status) {
                 Button {
-                    isAddingNewSequence = true
+                    isAddingNewSequence.toggle()
                 } label: {
                     HStack {
                         Image(systemName: "plus.circle.fill")

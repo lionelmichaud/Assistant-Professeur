@@ -105,7 +105,7 @@
 		79975316297B148800D1C66E /* ProgramSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975315297B148800D1C66E /* ProgramSplitView.swift */; };
 		79975318297B173800D1C66E /* SettingsProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975317297B173800D1C66E /* SettingsProgram.swift */; };
 		7997531A297C17E300D1C66E /* ProgramSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975319297C17E300D1C66E /* ProgramSidebarView.swift */; };
-		7997531C297C17F400D1C66E /* ProgramEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7997531B297C17F400D1C66E /* ProgramEditor.swift */; };
+		7997531C297C17F400D1C66E /* ProgramEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7997531B297C17F400D1C66E /* ProgramEditorModal.swift */; };
 		7997531E297C3D5B00D1C66E /* ProgramCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7997531D297C3D5B00D1C66E /* ProgramCreatorModal.swift */; };
 		79975320297C3F9200D1C66E /* ProgramViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7997531F297C3F9200D1C66E /* ProgramViewModel.swift */; };
 		79975322297C4AEF00D1C66E /* ProgramBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */; };
@@ -324,7 +324,7 @@
 		79975315297B148800D1C66E /* ProgramSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramSplitView.swift; sourceTree = "<group>"; };
 		79975317297B173800D1C66E /* SettingsProgram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsProgram.swift; sourceTree = "<group>"; };
 		79975319297C17E300D1C66E /* ProgramSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramSidebarView.swift; sourceTree = "<group>"; };
-		7997531B297C17F400D1C66E /* ProgramEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramEditor.swift; sourceTree = "<group>"; };
+		7997531B297C17F400D1C66E /* ProgramEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramEditorModal.swift; sourceTree = "<group>"; };
 		7997531D297C3D5B00D1C66E /* ProgramCreatorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramCreatorModal.swift; sourceTree = "<group>"; };
 		7997531F297C3F9200D1C66E /* ProgramViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramViewModel.swift; sourceTree = "<group>"; };
 		79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramBrowserRow.swift; sourceTree = "<group>"; };
@@ -704,7 +704,7 @@
 				79975319297C17E300D1C66E /* ProgramSidebarView.swift */,
 				79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */,
 				7997531D297C3D5B00D1C66E /* ProgramCreatorModal.swift */,
-				7997531B297C17F400D1C66E /* ProgramEditor.swift */,
+				7997531B297C17F400D1C66E /* ProgramEditorModal.swift */,
 				79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */,
 				797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */,
 			);
@@ -1256,7 +1256,7 @@
 				796371FF297D575800ECDBC3 /* SequenceSidebarView.swift in Sources */,
 				7994E31F2972DE8400952D08 /* RoomSeatManager.swift in Sources */,
 				79637214297DBD6500ECDBC3 /* SettingsActivity.swift in Sources */,
-				7997531C297C17F400D1C66E /* ProgramEditor.swift in Sources */,
+				7997531C297C17F400D1C66E /* ProgramEditorModal.swift in Sources */,
 				79BF1DA42928E37B005D6CF3 /* SchoolCreatorModal.swift in Sources */,
 				795C2C2D296E2DCA00EDFF09 /* RoomLayoutEditor.swift in Sources */,
 				79BF1DB929291069005D6CF3 /* Room+Extensions.swift in Sources */,

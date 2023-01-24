@@ -15,7 +15,7 @@ extension ProgramEntity {
 
     /// Wrapper of `discipline`
     /// - Important: *Saves the context to the store after modification is done*
-    var disciplineEnum: Discipline {
+    var viewDisciplineEnum: Discipline {
         get {
             if let discipline {
                 return Discipline(rawValue: discipline) ?? .technologie
@@ -29,9 +29,24 @@ extension ProgramEntity {
         }
     }
 
+    /// Wrapper of `discipline`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    var disciplineEnum: Discipline {
+        get {
+            if let discipline {
+                return Discipline(rawValue: discipline) ?? .technologie
+            } else {
+                return .technologie
+            }
+        }
+        set {
+            self.discipline = newValue.rawValue
+        }
+    }
+
     /// Wrapper of `level`
     /// - Important: *Saves the context to the store after modification is done*
-    var levelEnum: LevelClasse {
+    var viewLevelEnum: LevelClasse {
         get {
             if let level {
                 return LevelClasse(rawValue: level) ?? .n6ieme
@@ -42,6 +57,21 @@ extension ProgramEntity {
         set {
             self.level = newValue.rawValue
             try? Self.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `level`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    var levelEnum: LevelClasse {
+        get {
+            if let level {
+                return LevelClasse(rawValue: level) ?? .n6ieme
+            } else {
+                return .n6ieme
+            }
+        }
+        set {
+            self.level = newValue.rawValue
         }
     }
 
@@ -73,12 +103,12 @@ extension ProgramEntity {
 
     @objc
     var levelString: String {
-        levelEnum.displayString
+        viewLevelEnum.displayString
     }
 
     @objc
     var disciplineString: String {
-        disciplineEnum.displayString
+        viewDisciplineEnum.displayString
     }
 
     // MARK: - Methods
@@ -198,15 +228,21 @@ extension ProgramEntity: ModelEntityP {
         }
     }
 
+    /// Retourne true si un object équivalent existe déjà dans le context.
+    ///
+    /// Si `objectID` != `nil` alors on retourne true seulement
+    /// si l'objet existant possède ne possède pas le même identifiant.
     static func exists(
         dscipline     : Discipline,
         classeLevel   : LevelClasse,
-        classeIsSegpa : Bool
+        classeIsSegpa : Bool,
+        objectID      : NSManagedObjectID? = nil
     ) -> Bool {
         all().contains {
-            $0.disciplineEnum == dscipline &&
-            $0.levelEnum == classeLevel &&
-            $0.segpa == classeIsSegpa
+            $0.viewDisciplineEnum == dscipline &&
+            $0.viewLevelEnum == classeLevel &&
+            $0.segpa == classeIsSegpa &&
+            (objectID == nil || $0.objectID != objectID)
         }
     }
 

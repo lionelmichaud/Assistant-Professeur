@@ -14,10 +14,10 @@ struct ProgramDisciplineLevel: View {
     var body: some View {
         Label(program.disciplineString, systemImage: "books.vertical")
         Label {
-            Text(program.levelEnum.pickerString + (program.segpa ? " Segpa" : ""))
+            Text(program.viewLevelEnum.pickerString + (program.segpa ? " Segpa" : ""))
         } icon : {
             Image(systemName: "person.3.sequence.fill")
-                .foregroundColor(program.levelEnum.color)
+                .foregroundColor(program.viewLevelEnum.color)
         }
     }
 }

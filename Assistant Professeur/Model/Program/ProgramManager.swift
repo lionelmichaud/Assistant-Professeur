@@ -9,6 +9,30 @@ import Foundation
 import SwiftUI
 
 struct ProgramManager {
+
+    /// - Warning: Les modifications ne sont pas auvegardées dans le contexte.
+    static func move(
+        sequence       : SequenceEntity,
+        de program     : ProgramEntity,
+        to destination : Int
+    ) {
+        let orderedSequences = program.sequencesSortedByNumber
+        guard let indexSource = orderedSequences.firstIndex(of: sequence) else {
+            return
+        }
+        if destination > indexSource {
+            for idx in indexSource+1 ... destination-1 {
+                orderedSequences[idx].number -= 1
+            }
+            sequence.number = Int16(destination)
+        } else {
+            for idx in destination ... indexSource-1 {
+                orderedSequences[idx].number += 1
+            }
+            sequence.number = Int16(destination + 1)
+        }
+    }
+
     /// Supprimer la `sequence` du `program` et
     /// re-numéroter les séquences restantes en conséquence.
     ///

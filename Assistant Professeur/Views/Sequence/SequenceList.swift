@@ -27,6 +27,7 @@ struct SequenceList: View {
                         }
                     }
                     .onDelete(perform: deleteItems)
+                    .onMove(perform: moveItems)
                 }
 
             } else {
@@ -49,6 +50,25 @@ struct SequenceList: View {
             }
             .padding(.top)
             .padding(.leading)
+        }
+    }
+
+    private func moveItems(from source: IndexSet, to destination: Int) {
+        withAnimation {
+            source
+                .map {
+                    program.sequencesSortedByNumber[$0]
+                }
+                .forEach {
+                    // Permuter et renuméroter les séquences restantes
+                    ProgramManager.move(
+                        sequence: $0,
+                        de: program,
+                        to: destination
+                    )
+                }
+
+            try? EventEntity.saveIfContextHasChanged()
         }
     }
 

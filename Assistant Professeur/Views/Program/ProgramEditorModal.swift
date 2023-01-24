@@ -1,17 +1,17 @@
 //
-//  ProgramCreatorModal.swift
+//  ProgramEditor.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 21/01/2023.
 //
 
 import SwiftUI
+import CoreData
 import HelpersView
 
-struct ProgramCreatorModal: View {
-
-    @StateObject
-    private var programVM = ProgramViewModel()
+struct ProgramEditorModal: View {
+    @ObservedObject
+    var program: ProgramEntity
 
     @Environment(\.dismiss)
     private var dismiss
@@ -36,16 +36,16 @@ struct ProgramCreatorModal: View {
             // niveau de cette classe
             Image(systemName: "person.3.sequence.fill")
                 .sfSymbolStyling()
-                .foregroundColor(programVM.levelEnum.color)
+                .foregroundColor(program.levelEnum.color)
 
-            CasePicker(pickedCase: $programVM.levelEnum,
+            CasePicker(pickedCase: $program.levelEnum,
                        label: "")
             .pickerStyle(.menu)
         }
     }
 
     var segpaView: some View {
-        Toggle(isOn: $programVM.segpa.animation()) {
+        Toggle(isOn: $program.segpa.animation()) {
             Text("SEGPA")
         }
         .toggleStyle(.button)
@@ -53,12 +53,12 @@ struct ProgramCreatorModal: View {
     }
 
     var disciplineView: some View {
-        CasePicker(pickedCase: $programVM.disciplineEnum,
+        CasePicker(pickedCase: $program.disciplineEnum,
                    label: "Discipline")
         .pickerStyle(.menu)
         .frame(width: 300)
     }
-
+    
     var body: some View {
         Form {
             ViewThatFits(in: .horizontal) {
@@ -86,14 +86,14 @@ struct ProgramCreatorModal: View {
             if annotationEnabled {
                 TextField(
                     "Annotation",
-                    text : $programVM.annotation,
+                    text : $program.annotation.bound,
                     axis : .vertical
                 )
                 .lineLimit(5)
                 .font(hClass == .compact ? .callout : .body)
                 .textFieldStyle(.roundedBorder)
             }
-            WebsiteEditView(website: $programVM.url)
+            WebsiteEditView(website: $program.url)
         }
         .alert(
             alertTitle,
@@ -102,29 +102,28 @@ struct ProgramCreatorModal: View {
             message: { Text(alertMessage) }
         )
         .toolbar(content: myToolBarContent)
-        #if os(iOS)
-        .navigationTitle("Nouveau Programme")
-        #endif
     }
 }
 
 // MARK: Toolbar Content
 
-extension ProgramCreatorModal {
+extension ProgramEditorModal {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
             Button("Annuler") {
+                ProgramEntity.rollback()
                 dismiss()
             }
         }
         ToolbarItem(placement: .confirmationAction) {
-            Button("Ajouter") {
+            Button("Modifier") {
                 /// Ajouter un nouveau programme
                 if ProgramEntity.exists(
-                    dscipline: programVM.disciplineEnum,
-                    classeLevel: programVM.levelEnum,
-                    classeIsSegpa: programVM.segpa
+                    dscipline: program.disciplineEnum,
+                    classeLevel: program.levelEnum,
+                    classeIsSegpa: program.segpa,
+                    objectID: program.objectID
                 ) {
                     // doublon
                     alertTitle   = "Ajout impossible"
@@ -134,7 +133,7 @@ extension ProgramCreatorModal {
                 } else {
                     // Créer et Ajouter un nouveau programme
                     withAnimation {
-                        programVM.createAndSaveEntity()
+                        try? ProgramEntity.saveIfContextHasChanged()
                     }
                     dismiss()
                 }
@@ -143,8 +142,9 @@ extension ProgramCreatorModal {
     }
 }
 
-//struct ProgramCreatorModal_Previews: PreviewProvider {
+
+//struct ProgramEditor_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ProgramCreatorModal()
+//        ProgramEditor()
 //    }
 //}

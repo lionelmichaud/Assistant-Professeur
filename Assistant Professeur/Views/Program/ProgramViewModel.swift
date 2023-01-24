@@ -40,8 +40,8 @@ class ProgramViewModel: ObservableObject {
     // MARK: - Methods
 
     func update(from program: ProgramEntity) {
-        self.disciplineEnum = program.disciplineEnum
-        self.levelEnum      = program.levelEnum
+        self.disciplineEnum = program.viewDisciplineEnum
+        self.levelEnum      = program.viewLevelEnum
         self.segpa          = program.segpa
         self.annotation     = program.viewAnnotation
         self.url            = program.url

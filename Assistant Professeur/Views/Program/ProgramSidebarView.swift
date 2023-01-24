@@ -45,10 +45,10 @@ struct ProgramSidebarView: View {
                                         // supprimer le programme et tous ses descendants
                                         Button(role: .destructive) {
                                             withAnimation {
-                                                try? program.delete()
                                                 if navigationModel.selectedProgramId == program.objectID {
                                                     navigationModel.selectedProgramId = nil
                                                 }
+                                                try? program.delete()
                                             }
                                         } label: {
                                             Label("Supprimer", systemImage: "trash")
@@ -76,7 +76,6 @@ struct ProgramSidebarView: View {
             }
             .presentationDetents([.medium])
         }
-
     }
 }
 

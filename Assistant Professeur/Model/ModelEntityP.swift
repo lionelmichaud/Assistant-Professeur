@@ -87,6 +87,11 @@ extension ModelEntityP {
         try Self.saveIfContextHasChanged()
     }
 
+    static func rollback(){
+        Self.viewContext.rollback()
+        try? Self.saveIfContextHasChanged()
+    }
+
     /// Checks whether the context has changes and commits them if needed.
     ///
     /// Seulement si des changements ont été opérés.
