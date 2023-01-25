@@ -6,16 +6,26 @@
 //
 
 import SwiftUI
+import HelpersView
 
 struct ActivityBrowserRow: View {
     @ObservedObject
     var activity: ActivityEntity
 
+    @Environment(\.horizontalSizeClass)
+    private var hClass
+
     var body: some View {
-        HStack {
+        VStack(alignment: .leading) {
             Label(activity.viewName,
                   systemImage: "\(activity.viewNumber).circle")
+            HStack {
+                DurationView(duration: activity.duration, withMargin: false)
+                Spacer()
+                WebsiteView(url: activity.url)
+            }
         }
+        .font(hClass == .compact ? .subheadline : .callout)
     }
 }
 

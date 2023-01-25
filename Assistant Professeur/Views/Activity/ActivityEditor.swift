@@ -29,7 +29,7 @@ struct ActivityEditor: View {
 
     var body: some View {
         if selectedActivityExists {
-            ActivityDetail(activity: selectedActivity!)
+            ActivityEditorModal(activity: selectedActivity!)
         } else {
             VStack(alignment: .center) {
                 Text("Aucune Activité sélectionnée.")

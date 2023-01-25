@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */; };
+		790F76A229818858000A5C7D /* DurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F76A129818858000A5C7D /* DurationView.swift */; };
 		79134554296B65AB0092E7CD /* TrombinoscopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79134553296B65AB0092E7CD /* TrombinoscopeView.swift */; };
 		79134557296B6C620092E7CD /* TrombineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79134556296B6C620092E7CD /* TrombineView.swift */; };
 		79135E0D2969E15B00F95694 /* AppVersion.json in Resources */ = {isa = PBXBuildFile; fileRef = 79135E0C2969E15B00F95694 /* AppVersion.json */; };
@@ -27,6 +29,7 @@
 		792381192960B04F009E51B7 /* GroupPicturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792381162960B04F009E51B7 /* GroupPicturesView.swift */; };
 		7923811A2960B04F009E51B7 /* GroupListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792381172960B04F009E51B7 /* GroupListView.swift */; };
 		7923811B2960B04F009E51B7 /* GroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792381182960B04F009E51B7 /* GroupsView.swift */; };
+		7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7927E6C72980A12F007002CE /* SequenceEditorModal.swift */; };
 		79388A4529256819002AABB8 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4429256819002AABB8 /* CoreDataController.swift */; };
 		79388A4629256819002AABB8 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4429256819002AABB8 /* CoreDataController.swift */; };
 		79388A4929256E13002AABB8 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4829256E13002AABB8 /* MainScene.swift */; };
@@ -112,6 +115,9 @@
 		79975324297C4ED900D1C66E /* ProgramDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */; };
 		79AEA0A929356DBA0053DDDD /* SchoolEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */; };
 		79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */; };
+		79AFBFB42981A4B0001576DD /* SequenceDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */; };
+		79AFBFB62981C9DA001576DD /* ActivityCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AFBFB52981C9DA001576DD /* ActivityCreatorModal.swift */; };
+		79AFBFB82981D264001576DD /* ActivityEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AFBFB72981D264001576DD /* ActivityEditorModal.swift */; };
 		79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B6630429244C3F007B1FBD /* Assistant_ProfesseurApp.swift */; };
 		79B6630729244C3F007B1FBD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B6630629244C3F007B1FBD /* ContentView.swift */; };
 		79B6630929244C3F007B1FBD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79B6630829244C3F007B1FBD /* Assets.xcassets */; };
@@ -230,6 +236,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceCreatorModal.swift; sourceTree = "<group>"; };
+		790F76A129818858000A5C7D /* DurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationView.swift; sourceTree = "<group>"; };
 		79134553296B65AB0092E7CD /* TrombinoscopeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrombinoscopeView.swift; sourceTree = "<group>"; };
 		79134556296B6C620092E7CD /* TrombineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrombineView.swift; sourceTree = "<group>"; };
 		79135E0C2969E15B00F95694 /* AppVersion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AppVersion.json; sourceTree = "<group>"; };
@@ -251,6 +259,7 @@
 		792381162960B04F009E51B7 /* GroupPicturesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupPicturesView.swift; sourceTree = "<group>"; };
 		792381172960B04F009E51B7 /* GroupListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupListView.swift; sourceTree = "<group>"; };
 		792381182960B04F009E51B7 /* GroupsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsView.swift; sourceTree = "<group>"; };
+		7927E6C72980A12F007002CE /* SequenceEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceEditorModal.swift; sourceTree = "<group>"; };
 		79388A4429256819002AABB8 /* CoreDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		79388A4829256E13002AABB8 /* MainScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		79388A4E29257025002AABB8 /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
@@ -331,6 +340,9 @@
 		79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailGroupBox.swift; sourceTree = "<group>"; };
 		79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolEditor.swift; sourceTree = "<group>"; };
 		79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolDetail.swift; sourceTree = "<group>"; };
+		79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceDetailGroupBox.swift; sourceTree = "<group>"; };
+		79AFBFB52981C9DA001576DD /* ActivityCreatorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCreatorModal.swift; sourceTree = "<group>"; };
+		79AFBFB72981D264001576DD /* ActivityEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityEditorModal.swift; sourceTree = "<group>"; };
 		79B6630129244C3F007B1FBD /* Assistant Professeur.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Assistant Professeur.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		79B6630429244C3F007B1FBD /* Assistant_ProfesseurApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assistant_ProfesseurApp.swift; sourceTree = "<group>"; };
 		79B6630629244C3F007B1FBD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -652,6 +664,9 @@
 				796371FE297D575800ECDBC3 /* SequenceSidebarView.swift */,
 				79637200297D707400ECDBC3 /* SequenceList.swift */,
 				79637204297D85EF00ECDBC3 /* SequenceBrowserRow.swift */,
+				790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */,
+				7927E6C72980A12F007002CE /* SequenceEditorModal.swift */,
+				79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */,
 			);
 			path = Sequence;
 			sourceTree = "<group>";
@@ -662,6 +677,8 @@
 				79637207297D9B5B00ECDBC3 /* ActivitySideBar.swift */,
 				79637209297DA2DB00ECDBC3 /* ActivityList.swift */,
 				7963720B297DA37E00ECDBC3 /* ActivityBrowserRow.swift */,
+				79AFBFB52981C9DA001576DD /* ActivityCreatorModal.swift */,
+				79AFBFB72981D264001576DD /* ActivityEditorModal.swift */,
 				7963720D297DA87300ECDBC3 /* ActivityEditor.swift */,
 				7963720F297DA91200ECDBC3 /* ActivityDetail.swift */,
 			);
@@ -707,6 +724,7 @@
 				7997531B297C17F400D1C66E /* ProgramEditorModal.swift */,
 				79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */,
 				797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */,
+				790F76A129818858000A5C7D /* DurationView.swift */,
 			);
 			path = Program;
 			sourceTree = "<group>";
@@ -1094,9 +1112,10 @@
 			};
 			buildConfigurationList = 79B662FC29244C3F007B1FBD /* Build configuration list for PBXProject "Assistant Professeur" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = fr;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				fr,
 				en,
 				Base,
 			);
@@ -1193,6 +1212,7 @@
 				7923811A2960B04F009E51B7 /* GroupListView.swift in Sources */,
 				79DEDB11292593C200F508EF /* SettingsEleve.swift in Sources */,
 				79F41E642954B08A00EAAC52 /* Eleve+Extensions.swift in Sources */,
+				79AFBFB82981D264001576DD /* ActivityEditorModal.swift in Sources */,
 				795EED0B29677C76009AA6F4 /* MarkView.swift in Sources */,
 				794F6E14295CEC0C00042B95 /* ObservViewModel.swift in Sources */,
 				795EED0529673B88009AA6F4 /* Mark+Extensions.swift in Sources */,
@@ -1223,6 +1243,7 @@
 				794F6E0E295CDC9100042B95 /* ColleCreatorModal.swift in Sources */,
 				79BF1DA829290F5A005D6CF3 /* Classe+Extensions.swift in Sources */,
 				79F41E6F2954C83A00EAAC52 /* ElevesTableView.swift in Sources */,
+				79AFBFB42981A4B0001576DD /* SequenceDetailGroupBox.swift in Sources */,
 				79388A4529256819002AABB8 /* CoreDataController.swift in Sources */,
 				795CB1952958F668006EF060 /* Motif.swift in Sources */,
 				79F41E662954B1DC00EAAC52 /* Sexe.swift in Sources */,
@@ -1235,11 +1256,13 @@
 				794F6E12295CE1B700042B95 /* ObservEditor.swift in Sources */,
 				79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */,
 				7921355A2978726E0036A5EA /* Sequence+Extensions.swift in Sources */,
+				7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */,
 				7921355D2978728A0036A5EA /* Activity+Extensions.swift in Sources */,
 				79637203297D826400ECDBC3 /* ProgramManager.swift in Sources */,
 				79ECF202295A15F0008F0282 /* EleveObservRow.swift in Sources */,
 				791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */,
 				79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */,
+				790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */,
 				79DEDAEC2925864A00F508EF /* ClasseSplitView.swift in Sources */,
 				79BF1DAD29290FBC005D6CF3 /* Observation+Extensions.swift in Sources */,
 				79637201297D707400ECDBC3 /* SequenceList.swift in Sources */,
@@ -1274,6 +1297,7 @@
 				79DEDAF2292586B500F508EF /* ObservSplitView.swift in Sources */,
 				79FFF42B295120100037A327 /* LevelClasse.swift in Sources */,
 				79DEDAFB2925897600F508EF /* ObservSidebarView.swift in Sources */,
+				79AFBFB62981C9DA001576DD /* ActivityCreatorModal.swift in Sources */,
 				7994E3242972F4E500952D08 /* DocumentList.swift in Sources */,
 				795C2C31296E2DCA00EDFF09 /* RoomElevePlacement.swift in Sources */,
 				79FFF42729511DF20037A327 /* ClassBrowserRow.swift in Sources */,
@@ -1298,6 +1322,7 @@
 				7921F54C2925825800173F39 /* ModelEntityP.swift in Sources */,
 				79DEDB15292593C200F508EF /* SettingsGeneral.swift in Sources */,
 				794F6E11295CE1B700042B95 /* ObservDetail.swift in Sources */,
+				790F76A229818858000A5C7D /* DurationView.swift in Sources */,
 				79134554296B65AB0092E7CD /* TrombinoscopeView.swift in Sources */,
 				79DEDB292925996E00F508EF /* UIPreferences.swift in Sources */,
 				79388A5329257045002AABB8 /* NavigationModel.swift in Sources */,

@@ -1,16 +1,16 @@
 //
-//  ProgramDetail.swift
+//  SequenceDetailGroupBox.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 21/01/2023.
+//  Created by Lionel MICHAUD on 25/01/2023.
 //
 
 import SwiftUI
 import HelpersView
 
-struct ProgramDetailGroupBox: View {
+struct SequenceDetailGroupBox: View {
     @ObservedObject
-    var program: ProgramEntity
+    var sequence: SequenceEntity
 
     @Environment(\.horizontalSizeClass)
     private var hClass
@@ -20,17 +20,21 @@ struct ProgramDetailGroupBox: View {
 
     var body: some View {
         GroupBox {
-            // Discipline - Niveau
             HStack {
-                ProgramDisciplineLevel(program: program)
+                Label {
+                    Text(sequence.viewName)
+                } icon: {
+                    Image(systemName: "\(sequence.viewNumber).circle")
+                        .font(.body)
+                }
                 Spacer()
             }
 
             // note sur le programme
-            if annotationEnabled {
+            if annotationEnabled && sequence.viewAnnotation.isNotEmpty {
                 HStack {
                     AnnotationView(
-                        annotation   : program.viewAnnotation,
+                        annotation   : sequence.viewAnnotation,
                         scrollable   : true,
                         scrollHeight : 40
                     )
@@ -38,13 +42,12 @@ struct ProgramDetailGroupBox: View {
                 }
             }
 
-            // Durées / url
             HStack {
-                DurationView(duration: program.durationWithoutMargin, withMargin: false)
+                DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
                 Spacer()
-                DurationView(duration: program.durationWithMargin, withMargin: true)
+                DurationView(duration: sequence.durationWithMargin, withMargin: true)
                 Spacer()
-                WebsiteView(url: program.url)
+                WebsiteView(url: sequence.url)
             }
         }
         .font(hClass == .compact ? .subheadline : .callout)
@@ -52,8 +55,8 @@ struct ProgramDetailGroupBox: View {
     }
 }
 
-//struct ProgramDetail_Previews: PreviewProvider {
+//struct SequenceDetailGroupBox_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ProgramDetail()
+//        SequenceDetailGroupBox()
 //    }
 //}

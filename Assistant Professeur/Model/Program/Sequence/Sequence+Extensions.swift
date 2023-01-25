@@ -133,11 +133,11 @@ extension SequenceEntity: ModelEntityP {
         }
     }
 
-    /// Créer une nouvelle instance et la sauvegarder dans le context
-    @discardableResult
-    static func create(
+    /// Créer une nouvelle instance **SANS** la sauvegarder dans le context
+    static func createWithoutSaving(
         name         : String = "",
         annotation   : String = "",
+        url          : URL?   = nil,
         dans program : ProgramEntity
     ) -> SequenceEntity {
         let nbSeqInProgram = program.nbOfSequences
@@ -149,9 +149,27 @@ extension SequenceEntity: ModelEntityP {
         sequence.name       = name
         sequence.number     = Int16(nbSeqInProgram + 1)
         sequence.annotation = annotation
+        sequence.url        = url
+        return sequence
+    }
+
+    /// Créer une nouvelle instance et la sauvegarder dans le context
+    @discardableResult
+    static func create(
+        name         : String = "",
+        annotation   : String = "",
+        url          : URL?   = nil,
+        dans program : ProgramEntity
+    ) -> SequenceEntity {
+        let newSequence = createWithoutSaving(
+            name: name,
+            annotation: annotation,
+            url: url,
+            dans: program
+        )
 
         try? Self.saveIfContextHasChanged()
-        return sequence
+        return newSequence
     }
 
     static func checkConsistency(errorFound: inout Bool) {

@@ -17,17 +17,30 @@ struct ActivityList: View {
     @EnvironmentObject
     private var navig : NavigationModel
 
+    @State
+    private var searchString: String = ""
+
     var body: some View {
         Section {
             if sequence.activitiesSortedByNumber.isNotEmpty {
                 List(selection: $navig.selectedActivityId) {
-                    ForEach(sequence.activitiesSortedByNumber, id: \.objectID) { activity in
+                    ForEach(
+                        sequence.filteredActivitiesSortedByNumber(searchString: searchString),
+                        id: \.objectID) { activity in
 //                        NavigationLink(value: sequence) {
                             ActivityBrowserRow(activity: activity)
 //                        }
                     }
+                    .onMove(perform: moveItems)
                     .onDelete(perform: deleteItems)
+                    .listRowSeparatorTint(.secondary)
                 }
+                .searchable(
+                    text      : $searchString,
+                    placement : .navigationBarDrawer(displayMode : .automatic),
+                    //                    placement : .toolbar,
+                    prompt    : "Nom de l'activité"
+                )
 
             } else {
                 GroupBox {
@@ -49,6 +62,25 @@ struct ActivityList: View {
             }
             .padding(.top)
             .padding(.leading)
+        }
+    }
+
+    private func moveItems(from source: IndexSet, to destination: Int) {
+        withAnimation {
+            source
+                .map {
+                    sequence.activitiesSortedByNumber[$0]
+                }
+                .forEach {
+                    // Permuter et renuméroter les séquences restantes
+                    ProgramManager.move(
+                        activity: $0,
+                        de: sequence,
+                        to: destination
+                    )
+                }
+
+            try? EventEntity.saveIfContextHasChanged()
         }
     }
 

@@ -17,18 +17,30 @@ struct SequenceList: View {
     @EnvironmentObject
     private var navig : NavigationModel
 
+    @State
+    private var searchString: String = ""
+
     var body: some View {
         Section {
             if program.sequencesSortedByNumber.isNotEmpty {
                 List(selection: $navig.selectedSequenceId) {
-                    ForEach(program.sequencesSortedByNumber, id: \.objectID) { sequence in
-                        NavigationLink(value: sequence) {
-                            SequenceBrowserRow(sequence: sequence)
+                    ForEach(
+                        program.filteredSequencesSortedByNumber(searchString: searchString),
+                        id: \.objectID) { sequence in
+                            NavigationLink(value: sequence) {
+                                SequenceBrowserRow(sequence: sequence)
+                            }
                         }
-                    }
-                    .onDelete(perform: deleteItems)
-                    .onMove(perform: moveItems)
+                        .onMove(perform: moveItems)
+                        .onDelete(perform: deleteItems)
+                        .listRowSeparatorTint(.secondary)
                 }
+                .searchable(
+                    text      : $searchString,
+                    placement : .navigationBarDrawer(displayMode : .automatic),
+                    //                    placement : .toolbar,
+                    prompt    : "Nom de la séquence"
+                )
 
             } else {
                 GroupBox {

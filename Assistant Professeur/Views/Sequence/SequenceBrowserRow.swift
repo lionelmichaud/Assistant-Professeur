@@ -6,16 +6,28 @@
 //
 
 import SwiftUI
+import HelpersView
 
 struct SequenceBrowserRow: View {
     @ObservedObject
     var sequence: SequenceEntity
 
+    @Environment(\.horizontalSizeClass)
+    private var hClass
+
     var body: some View {
-        HStack {
+        VStack(alignment: .leading) {
             Label(sequence.viewName,
                   systemImage: "\(sequence.viewNumber).circle")
+            HStack {
+                DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
+                Spacer()
+                DurationView(duration: sequence.durationWithMargin, withMargin: true)
+                Spacer()
+                WebsiteView(url: sequence.url)
+            }
         }
+        .font(hClass == .compact ? .subheadline : .callout)
     }
 }
 

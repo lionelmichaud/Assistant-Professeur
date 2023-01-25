@@ -85,11 +85,11 @@ extension ActivityEntity: ModelEntityP {
         }
     }
 
-    /// Créer une nouvelle instance et la sauvegarder dans le context
-    @discardableResult
-    static func create(
+    /// Créer une nouvelle instance SANS la sauvegarder dans le context
+    static func createWithoutSaving(
         name          : String = "",
         annotation    : String = "",
+        url           : URL?   = nil,
         duration      : Double = 1,
         isEval        : Bool   = false,
         dans sequence : SequenceEntity
@@ -103,11 +103,34 @@ extension ActivityEntity: ModelEntityP {
         activity.name       = name
         activity.number     = Int16(nbActInProgram + 1)
         activity.annotation = annotation
+        activity.url        = url
         activity.duration   = duration
         activity.isEval     = isEval
 
-        try? Self.saveIfContextHasChanged()
         return activity
+    }
+
+    /// Créer une nouvelle instance et la sauvegarder dans le context
+    @discardableResult
+    static func create(
+        name          : String = "",
+        annotation    : String = "",
+        url           : URL?   = nil,
+        duration      : Double = 1,
+        isEval        : Bool   = false,
+        dans sequence : SequenceEntity
+    ) -> ActivityEntity {
+        let newActivity = createWithoutSaving(
+            name: name,
+            annotation: annotation,
+            url: url,
+            duration: duration,
+            isEval: isEval,
+            dans: sequence
+        )
+
+        try? Self.saveIfContextHasChanged()
+        return newActivity
     }
 
     static func checkConsistency(errorFound: inout Bool) {

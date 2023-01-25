@@ -12,19 +12,22 @@ struct ActivitySideBar: View {
     var sequence: SequenceEntity
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navig : NavigationModel
 
     @State
     private var isAddingNewActivity = false
 
+    @State
+    private var isEditing = false
+
     var body: some View {
         VStack {
-            if let sequenceId = navigationModel.selectedSequenceId {
+            if let sequenceId = navig.selectedSequenceId {
                 if let sequence = SequenceEntity.byObjectId(id: sequenceId) {
-                    if let program = sequence.program {
-                        ProgramDetailGroupBox(program: program)
+                    if sequence.program != nil {
+                        SequenceDetailGroupBox(sequence: sequence)
                     } else {
-                        Text("Programme introuvable")
+                        Text("Programme associé introuvable")
                     }
                     ActivityList(sequence: sequence)
                 } else {
@@ -41,8 +44,35 @@ struct ActivitySideBar: View {
                 .font(.title2)
             }
         }
+        #if os(iOS)
         .navigationTitle("Séquence")
+        #endif
+        .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)
+
+        /// Modal Sheet de création d'une nouvelle activité
+        .sheet(isPresented: $isAddingNewActivity,
+               onDismiss: { SequenceEntity.rollback() }) {
+            if let sequenceId = navig.selectedSequenceId,
+               let sequence = SequenceEntity.byObjectId(id: sequenceId) {
+                NavigationStack {
+                    ActivityCreatorModal(sequence: sequence)
+                }
+                .presentationDetents([.medium])
+            }
+        }
+
+        /// Modal Sheet de modification de la séquence
+               .sheet(isPresented: $isEditing,
+                      onDismiss: { SequenceEntity.rollback() }) {
+                   if let sequenceId = navig.selectedSequenceId,
+                      let sequence = SequenceEntity.byObjectId(id: sequenceId) {
+                       NavigationStack {
+                           SequenceEditorModal(sequence: sequence)
+                       }
+                       .presentationDetents([.medium])
+                   }
+               }
     }
 }
 
@@ -52,12 +82,19 @@ struct ActivitySideBar: View {
 extension ActivitySideBar {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
-        if let sequenceId = navigationModel.selectedSequenceId,
+        if let sequenceId = navig.selectedSequenceId,
            SequenceEntity.byObjectId(id: sequenceId) != nil {
+            /// Editer la Séquence
+            ToolbarItemGroup(placement: .automatic) {
+                Button("Modifier") {
+                    isEditing.toggle()
+                }
+            }
+
             /// Ajouter une Activité
             ToolbarItemGroup(placement: .status) {
                 Button {
-                    isAddingNewActivity = true
+                    isAddingNewActivity.toggle()
                 } label: {
                     HStack {
                         Image(systemName: "plus.circle.fill")

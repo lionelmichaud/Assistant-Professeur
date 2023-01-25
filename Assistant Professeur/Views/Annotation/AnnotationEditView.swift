@@ -12,23 +12,18 @@ struct AnnotationView : View {
     private var scrollable   : Bool
     private var scrollHeight : Int
 
-    @Environment(\.horizontalSizeClass)
-    private var hClass
-
     var body: some View {
         HStack {
             Image(systemName: "note.text")
             if scrollable {
                 ScrollView(.vertical, showsIndicators: true) {
                     Text(annotation)
-                        .font(hClass == .compact ? .callout : .body)
                 }
                 .frame(maxHeight: CGFloat(scrollHeight))
 
             } else {
                 Text(annotation)
                     .lineLimit(5)
-                    .font(hClass == .compact ? .callout : .body)
                     .textFieldStyle(.roundedBorder)
             }
         }

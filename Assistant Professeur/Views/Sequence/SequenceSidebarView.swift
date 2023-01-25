@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SequenceSidebarView: View {
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navig : NavigationModel
 
     @State
     private var isAddingNewSequence = false
@@ -19,7 +19,7 @@ struct SequenceSidebarView: View {
 
     var body: some View {
         VStack {
-            if let programId = navigationModel.selectedProgramId {
+            if let programId = navig.selectedProgramId {
                 if let program = ProgramEntity.byObjectId(id: programId) {
 //                    NavigationLink(value: program) {
 //                        Label("Information sur le programme", systemImage: "books.vertical")
@@ -43,21 +43,25 @@ struct SequenceSidebarView: View {
         #if os(iOS)
         .navigationTitle("Programme")
         #endif
+        .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)
 
         /// Modal Sheet de création d'une nouvelle séquence
         .sheet(isPresented: $isAddingNewSequence,
-               onDismiss: { }) {
-            NavigationStack {
-                //ProgramCreatorModal()
+               onDismiss: { ProgramEntity.rollback() }) {
+            if let programId = navig.selectedProgramId,
+               let program = ProgramEntity.byObjectId(id: programId) {
+                NavigationStack {
+                    SequenceCreatorModal(program: program)
+                }
+                .presentationDetents([.medium])
             }
-            .presentationDetents([.medium])
         }
 
         /// Modal Sheet de modification du programme
         .sheet(isPresented: $isEditing,
                onDismiss: { ProgramEntity.rollback() }) {
-            if let programId = navigationModel.selectedProgramId,
+            if let programId = navig.selectedProgramId,
                let program = ProgramEntity.byObjectId(id: programId) {
                 NavigationStack {
                     ProgramEditorModal(program: program)
@@ -73,7 +77,7 @@ struct SequenceSidebarView: View {
 extension SequenceSidebarView {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
-        if let programId = navigationModel.selectedProgramId,
+        if let programId = navig.selectedProgramId,
            ProgramEntity.byObjectId(id: programId) != nil {
             /// Editer le Programme
             ToolbarItemGroup(placement: .automatic) {

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import CoreData
 import HelpersView
 
 struct ProgramEditorModal: View {
@@ -101,6 +100,10 @@ struct ProgramEditorModal: View {
             actions: { },
             message: { Text(alertMessage) }
         )
+        #if os(iOS)
+        .navigationTitle("Programme")
+        #endif
+        .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)
     }
 }
@@ -117,8 +120,7 @@ extension ProgramEditorModal {
             }
         }
         ToolbarItem(placement: .confirmationAction) {
-            Button("Modifier") {
-                /// Ajouter un nouveau programme
+            Button("Ok") {
                 if ProgramEntity.exists(
                     dscipline: program.disciplineEnum,
                     classeLevel: program.levelEnum,
@@ -131,7 +133,6 @@ extension ProgramEditorModal {
                     alertIsPresented.toggle()
 
                 } else {
-                    // Créer et Ajouter un nouveau programme
                     withAnimation {
                         try? ProgramEntity.saveIfContextHasChanged()
                     }
@@ -141,7 +142,6 @@ extension ProgramEditorModal {
         }
     }
 }
-
 
 //struct ProgramEditor_Previews: PreviewProvider {
 //    static var previews: some View {
