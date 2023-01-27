@@ -47,7 +47,7 @@ struct SequenceDetailGroupBox: View {
             }
         }
         .font(hClass == .compact ? .subheadline : .callout)
-        .padding(.horizontal, 6)
+        .padding(.horizontal)
     }
 }
 

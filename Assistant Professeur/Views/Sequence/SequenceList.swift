@@ -43,18 +43,21 @@ struct SequenceList: View {
                 )
 
             } else {
-                GroupBox {
-                    Text("Aucune séquence")
-                        .bold()
-                    Text("Les séquences ajoutées apparaîtront ici.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .padding(.top, 2)
+                VStack {
+                    GroupBox {
+                        Text("Aucune séquence")
+                            .bold()
+                        Text("Les séquences ajoutées apparaîtront ici.")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .padding(.top, 2)
+                    }
+                    Spacer()
                 }
             }
         } header: {
             HStack {
-                Text("Séquences (\(program.nbOfSequences))")
+                Text("Séquences de ce Programme (\(program.nbOfSequences))")
                     .font(.callout)
                     .foregroundColor(.secondary)
                     .fontWeight(.bold)

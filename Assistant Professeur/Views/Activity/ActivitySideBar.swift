@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct ActivitySideBar: View {
     @ObservedObject
@@ -20,16 +21,35 @@ struct ActivitySideBar: View {
     @State
     private var isEditing = false
 
+    // MARK: - Computed Properties
+
+    private var selectedSequenceId: NSManagedObjectID? {
+        navig.selectedSequenceId
+    }
+
+    private var selectedSequence: SequenceEntity? {
+        guard let selectedSequenceId else { return nil }
+        return SequenceEntity.byObjectId(id: selectedSequenceId)
+    }
+
+    private var selectedASequenceExists: Bool {
+        selectedSequence != nil
+    }
+
+    private var selectedSequenceNumber: String {
+        selectedSequence?.viewNumber.formatted() ?? ""
+    }
+
     var body: some View {
         VStack {
-            if let sequenceId = navig.selectedSequenceId {
-                if let sequence = SequenceEntity.byObjectId(id: sequenceId) {
-                    if sequence.program != nil {
-                        SequenceDetailGroupBox(sequence: sequence)
+            if selectedASequenceExists {
+                if selectedSequence != nil {
+                    if selectedSequence!.program != nil {
+                        SequenceDetailGroupBox(sequence: selectedSequence!)
                     } else {
                         Text("Programme associé introuvable")
                     }
-                    ActivityList(sequence: sequence)
+                    ActivityList(sequence: selectedSequence!)
                 } else {
                     Text("Séquence introuvable")
                         .foregroundStyle(.secondary)
@@ -45,7 +65,7 @@ struct ActivitySideBar: View {
             }
         }
         #if os(iOS)
-        .navigationTitle("Séquence")
+        .navigationTitle("Séquence " + selectedSequenceNumber)
         #endif
         .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)

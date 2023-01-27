@@ -43,18 +43,21 @@ struct ActivityList: View {
                 )
 
             } else {
-                GroupBox {
-                    Text("Aucune activité")
-                        .bold()
-                    Text("Les activités ajoutées apparaîtront ici.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .padding(.top, 2)
+                VStack {
+                    GroupBox {
+                        Text("Aucune activité")
+                            .bold()
+                        Text("Les activités ajoutées apparaîtront ici.")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                            .padding(.top, 2)
+                    }
+                    Spacer()
                 }
             }
         } header: {
             HStack {
-                Text("Activités (\(sequence.nbOfActivities))")
+                Text("Activités de cette Séquence (\(sequence.nbOfActivities))")
                     .font(.callout)
                     .foregroundColor(.secondary)
                     .fontWeight(.bold)

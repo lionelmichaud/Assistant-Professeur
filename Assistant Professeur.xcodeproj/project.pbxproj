@@ -93,7 +93,6 @@
 		79637208297D9B5B00ECDBC3 /* ActivitySideBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637207297D9B5B00ECDBC3 /* ActivitySideBar.swift */; };
 		7963720A297DA2DB00ECDBC3 /* ActivityList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637209297DA2DB00ECDBC3 /* ActivityList.swift */; };
 		7963720C297DA37E00ECDBC3 /* ActivityBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7963720B297DA37E00ECDBC3 /* ActivityBrowserRow.swift */; };
-		7963720E297DA87300ECDBC3 /* ActivityEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7963720D297DA87300ECDBC3 /* ActivityEditor.swift */; };
 		79637210297DA91200ECDBC3 /* ActivityDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7963720F297DA91200ECDBC3 /* ActivityDetail.swift */; };
 		79637212297DBCE200ECDBC3 /* SettingsSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637211297DBCE200ECDBC3 /* SettingsSequence.swift */; };
 		79637214297DBD6500ECDBC3 /* SettingsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637213297DBD6500ECDBC3 /* SettingsActivity.swift */; };
@@ -318,7 +317,6 @@
 		79637207297D9B5B00ECDBC3 /* ActivitySideBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySideBar.swift; sourceTree = "<group>"; };
 		79637209297DA2DB00ECDBC3 /* ActivityList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityList.swift; sourceTree = "<group>"; };
 		7963720B297DA37E00ECDBC3 /* ActivityBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityBrowserRow.swift; sourceTree = "<group>"; };
-		7963720D297DA87300ECDBC3 /* ActivityEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityEditor.swift; sourceTree = "<group>"; };
 		7963720F297DA91200ECDBC3 /* ActivityDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetail.swift; sourceTree = "<group>"; };
 		79637211297DBCE200ECDBC3 /* SettingsSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSequence.swift; sourceTree = "<group>"; };
 		79637213297DBD6500ECDBC3 /* SettingsActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsActivity.swift; sourceTree = "<group>"; };
@@ -681,7 +679,6 @@
 				7963720B297DA37E00ECDBC3 /* ActivityBrowserRow.swift */,
 				79AFBFB52981C9DA001576DD /* ActivityCreatorModal.swift */,
 				79AFBFB72981D264001576DD /* ActivityEditorModal.swift */,
-				7963720D297DA87300ECDBC3 /* ActivityEditor.swift */,
 				7963720F297DA91200ECDBC3 /* ActivityDetail.swift */,
 				792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */,
 			);
@@ -1225,7 +1222,6 @@
 				79ECF1F82959F6CA008F0282 /* EleveColleLabel.swift in Sources */,
 				792381142960A888009E51B7 /* Group+Extensions.swift in Sources */,
 				793D6271295DCBBC00477932 /* MotifEditor.swift in Sources */,
-				7963720E297DA87300ECDBC3 /* ActivityEditor.swift in Sources */,
 				79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */,
 				795EED07296741A1009AA6F4 /* ExamManager.swift in Sources */,
 				793D6270295DCBBC00477932 /* MotifView.swift in Sources */,
