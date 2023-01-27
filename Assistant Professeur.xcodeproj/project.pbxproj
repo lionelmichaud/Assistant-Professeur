@@ -30,6 +30,7 @@
 		7923811A2960B04F009E51B7 /* GroupListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792381172960B04F009E51B7 /* GroupListView.swift */; };
 		7923811B2960B04F009E51B7 /* GroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792381182960B04F009E51B7 /* GroupsView.swift */; };
 		7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7927E6C72980A12F007002CE /* SequenceEditorModal.swift */; };
+		792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */; };
 		79388A4529256819002AABB8 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4429256819002AABB8 /* CoreDataController.swift */; };
 		79388A4629256819002AABB8 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4429256819002AABB8 /* CoreDataController.swift */; };
 		79388A4929256E13002AABB8 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4829256E13002AABB8 /* MainScene.swift */; };
@@ -260,6 +261,7 @@
 		792381172960B04F009E51B7 /* GroupListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupListView.swift; sourceTree = "<group>"; };
 		792381182960B04F009E51B7 /* GroupsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsView.swift; sourceTree = "<group>"; };
 		7927E6C72980A12F007002CE /* SequenceEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceEditorModal.swift; sourceTree = "<group>"; };
+		792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailGroupBox.swift; sourceTree = "<group>"; };
 		79388A4429256819002AABB8 /* CoreDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		79388A4829256E13002AABB8 /* MainScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		79388A4E29257025002AABB8 /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
@@ -681,6 +683,7 @@
 				79AFBFB72981D264001576DD /* ActivityEditorModal.swift */,
 				7963720D297DA87300ECDBC3 /* ActivityEditor.swift */,
 				7963720F297DA91200ECDBC3 /* ActivityDetail.swift */,
+				792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -1260,6 +1263,7 @@
 				7921355D2978728A0036A5EA /* Activity+Extensions.swift in Sources */,
 				79637203297D826400ECDBC3 /* ProgramManager.swift in Sources */,
 				79ECF202295A15F0008F0282 /* EleveObservRow.swift in Sources */,
+				792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */,
 				791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */,
 				79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */,
 				790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */,

@@ -39,6 +39,19 @@ extension ActivityEntity {
         }
     }
 
+    /// Wrapper of `annotation`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewAnnotation: String {
+        get {
+            self.annotation ?? ""
+        }
+        set {
+            self.annotation = newValue
+            try? Self.saveIfContextHasChanged()
+        }
+    }
+
     /// Durée estimée de l'activité en nombre de séances
     /// Wrapper of `duration`
     /// - Important: *Saves the context to the store after modification is done*

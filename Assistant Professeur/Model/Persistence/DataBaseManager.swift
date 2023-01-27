@@ -359,7 +359,7 @@ struct DataBaseManager {
 
             /// Activités
             ActivityEntity.create(
-                name       : "Activité 1 de Séquence 1 de Techno",
+                name       : "Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno",
                 annotation : "Une annotation d'activité 1",
                 url        : URL(string: "http://apple.fr"),
                 duration   : 1.0,

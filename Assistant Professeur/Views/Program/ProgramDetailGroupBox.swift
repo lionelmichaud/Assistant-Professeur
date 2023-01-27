@@ -20,31 +20,27 @@ struct ProgramDetailGroupBox: View {
 
     var body: some View {
         GroupBox {
-            // Discipline - Niveau
-            HStack {
+            VStack(alignment: .leading) {
+                // Discipline - Niveau
                 ProgramDisciplineLevel(program: program)
-                Spacer()
-            }
-
-            // note sur le programme
-            if annotationEnabled {
-                HStack {
+                
+                // note sur le programme
+                if annotationEnabled {
                     AnnotationView(
                         annotation   : program.viewAnnotation,
                         scrollable   : true,
                         scrollHeight : 40
                     )
-                    Spacer()
                 }
-            }
-
-            // Durées / url
-            HStack {
-                DurationView(duration: program.durationWithoutMargin, withMargin: false)
-                Spacer()
-                DurationView(duration: program.durationWithMargin, withMargin: true)
-                Spacer()
-                WebsiteView(url: program.url)
+                
+                // Durées / url
+                HStack {
+                    DurationView(duration: program.durationWithoutMargin, withMargin: false)
+                    Spacer()
+                    DurationView(duration: program.durationWithMargin, withMargin: true)
+                    Spacer()
+                    WebsiteView(url: program.url)
+                }
             }
         }
         .font(hClass == .compact ? .subheadline : .callout)

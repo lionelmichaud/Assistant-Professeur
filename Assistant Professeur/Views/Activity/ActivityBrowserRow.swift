@@ -22,7 +22,11 @@ struct ActivityBrowserRow: View {
             HStack {
                 DurationView(duration: activity.duration, withMargin: false)
                 Spacer()
-                WebsiteView(url: activity.url)
+                if activity.isEval {
+                    Label("Évaluation",
+                          systemImage: "doc.plaintext")
+                }
+                //WebsiteView(url: activity.url)
             }
         }
         .font(hClass == .compact ? .subheadline : .callout)

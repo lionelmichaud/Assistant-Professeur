@@ -36,18 +36,27 @@ struct ProgramSplitView: View {
             }
         } detail: {
             /// Détail dans la 3ième colonne
-            ActivityEditor()
+            ActivityDetail()
         }
         .navigationSplitViewStyle(.balanced)
 
-        // désélectionner la séquence quand on change de programme
+        .onAppear {
+            if navig.selectedSequenceId == nil {
+                navig.columnVisibility = .all
+            }
+        }
+
+        // désélectionner la séquence et l'activité quand on change de programme
         .onChange(of: navig.selectedProgramId) { _ in
             navig.selectedSequenceId = nil
+            navig.selectedActivityId = nil
+            navig.columnVisibility = .all
         }
 
         // désélectionner l'activité quand on change de séquence
         .onChange(of: navig.selectedSequenceId) { _ in
             navig.selectedActivityId = nil
+            navig.columnVisibility = .all
         }
 
         // escamoter la 1ère colonne quand une activité est sélectionnée
