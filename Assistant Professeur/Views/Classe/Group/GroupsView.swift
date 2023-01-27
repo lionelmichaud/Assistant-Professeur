@@ -35,6 +35,13 @@ struct GroupsView: View {
 
     private var toolbarMenu: some View {
         Menu {
+            /// Exporter les groupes au format CSV
+            if classe.nbOfGroups > 1 {
+                Button("Exporter au format CSV") {
+                    ImportExportManager.exportGroupsToCSV(deClasse: classe)
+                }
+            }
+
             /// Générer les groupes
             Menu {
                 Menu {
@@ -44,7 +51,6 @@ struct GroupsView: View {
                                 nbEleveParGroupe: 2,
                                 dans: classe
                             )
-
                         }
                     }
                     Button("3 élèves") {
@@ -116,8 +122,8 @@ struct GroupsView: View {
                 Label("Générer les groupes", systemImage: "person.line.dotted.person.fill")
             }
 
+            /// Supprimer tous les groupes
             if classe.nbOfGroups > 1 {
-                /// Supprimer tous les groupes
                 Button(role: .destructive) {
                     isShowingDeleteGroupsDialog.toggle()
                 } label: {

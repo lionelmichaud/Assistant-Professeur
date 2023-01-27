@@ -47,7 +47,7 @@ struct RessourceList: View {
                 .map { school.ressourcesSortedByName[$0] }
                 .forEach(managedObjectContext.delete)
 
-            try? EventEntity.saveIfContextHasChanged()
+            try? RessourceEntity.saveIfContextHasChanged()
         }
     }
 }

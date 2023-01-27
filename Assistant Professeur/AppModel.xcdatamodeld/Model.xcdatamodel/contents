@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="ActivityEntity" representedClassName="ActivityEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="annotation" attributeType="String" defaultValueString=""/>
+        <attribute name="duration" attributeType="Double" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isEval" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String" defaultValueString=""/>
+        <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="url" optional="YES" attributeType="URI"/>
+        <relationship name="sequence" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SequenceEntity" inverseName="activities" inverseEntity="SequenceEntity"/>
+    </entity>
     <entity name="ClasseEntity" representedClassName="ClasseEntity" syncable="YES" codeGenerationType="class">
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
         <attribute name="appreciation" attributeType="String" defaultValueString=""/>
-        <attribute name="discipline" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="discipline" attributeType="String" defaultValueString=""/>
         <attribute name="elevesCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="eleves.@count" usesScalarValueType="YES"/>
         <attribute name="examsCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="exams.@count" usesScalarValueType="YES"/>
         <attribute name="groupCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="groups.@count" usesScalarValueType="YES"/>
@@ -87,6 +97,16 @@
         <attribute name="motif" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="eleve" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="observs" inverseEntity="EleveEntity"/>
     </entity>
+    <entity name="ProgramEntity" representedClassName="ProgramEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="annotation" attributeType="String" defaultValueString=""/>
+        <attribute name="discipline" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="level" attributeType="String" defaultValueString=""/>
+        <attribute name="segpa" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="sequencesCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="sequences.@count" usesScalarValueType="YES"/>
+        <attribute name="url" optional="YES" attributeType="URI"/>
+        <relationship name="sequences" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SequenceEntity" inverseName="program" inverseEntity="SequenceEntity"/>
+    </entity>
     <entity name="RessourceEntity" representedClassName="RessourceEntity" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="quantity" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
@@ -122,5 +142,15 @@
         <attribute name="y" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="eleves" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="seat" inverseEntity="EleveEntity"/>
         <relationship name="room" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoomEntity" inverseName="seats" inverseEntity="RoomEntity"/>
+    </entity>
+    <entity name="SequenceEntity" representedClassName="SequenceEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="activitiesCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="activities.@count" usesScalarValueType="YES"/>
+        <attribute name="annotation" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String" defaultValueString=""/>
+        <attribute name="number" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="url" optional="YES" attributeType="URI"/>
+        <relationship name="activities" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ActivityEntity" inverseName="sequence" inverseEntity="ActivityEntity"/>
+        <relationship name="program" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProgramEntity" inverseName="sequences" inverseEntity="ProgramEntity"/>
     </entity>
 </model>

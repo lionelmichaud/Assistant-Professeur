@@ -9,7 +9,7 @@ import Foundation
 import AppFoundation
 
 /// Discipline d'enseignement
-enum Discipline: Int16, PickableEnumP, Codable {
+enum Discipline: String, PickableIdentifiableEnumP, Codable {
     case allemand
     case anglais
     case artPla
@@ -25,6 +25,10 @@ enum Discipline: Int16, PickableEnumP, Codable {
     case svt
     case technologie
     case autre
+
+    var id: String {
+        rawValue
+    }
 
     var pickerString: String {
         switch self {

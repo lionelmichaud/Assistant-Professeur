@@ -87,7 +87,6 @@ struct ClassCreatorModal: View {
                     // niveau de cette classe
                     niveauView
                         .frame(width: 200)
-                    //Spacer(minLength: 50)
 
                     // numéro de cette classe
                     numeroView

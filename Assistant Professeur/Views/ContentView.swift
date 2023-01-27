@@ -15,6 +15,9 @@ struct ContentView: View {
     @SceneStorage("navigation")
     private var navigationData: Data?
     
+    @Environment(\.horizontalSizeClass)
+    private var horizontalSizeClass
+
     @StateObject
     private var navigationModel = NavigationModel()
 
@@ -29,7 +32,7 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: $navigationModel.selectedTab) {
-            /// gestion des dossiers
+            /// Les établissements scolaires
             SchoolSplitView()
                 .tabItem { Label("Etablissement", systemImage: "building.2").symbolVariant(.none) }
                 .tag(NavigationModel.Tab.school)
@@ -43,14 +46,13 @@ struct ContentView: View {
                     Text(error.failureReason ?? "Raison inconue.")
                 }
 
-
-            /// composition de la famille
+            /// Les classes
             ClasseSplitView()
                 .tabItem { Label("Classes", systemImage: "person.3.sequence").symbolVariant(.none) }
                 .tag(NavigationModel.Tab.classe)
                 .badge(ClasseEntity.cardinal())
 
-            // Alerte en cas d'erreur de connection iCloud
+            /// Alerte en cas d'erreur de connection iCloud
                 .alert(isPresented: $iCloudAlertIsPresented,
                        error: iCloudError) { error in
                     Button("Continuer", role: .cancel) { }
@@ -58,23 +60,31 @@ struct ContentView: View {
                     Text(error.failureReason ?? "Raison inconue.")
                 }
 
-            /// dépenses de la famille
+            /// Les élèves
             EleveSplitView()
                 .tabItem { Label("Elèves", systemImage: "graduationcap").symbolVariant(.none) }
                 .tag(NavigationModel.Tab.eleve)
                 .badge(EleveEntity.cardinal())
 
-            /// scenario paramètrique de simulation
+            /// Les observations données aux élèves
             ObservSplitView()
                 .tabItem { Label("Observations", systemImage: "rectangle.and.text.magnifyingglass").symbolVariant(.none) }
                 .tag(NavigationModel.Tab.observation)
                 .badge(ObservEntity.cardinal())
 
-            /// actifs & passifs du patrimoine de la famille
+            /// Les colles données aux élèves
             ColleSplitView()
                 .tabItem { Label("Colles", systemImage: "lock").symbolVariant(.none) }
                 .tag(NavigationModel.Tab.colle)
                 .badge(ColleEntity.cardinal())
+
+            if horizontalSizeClass == .regular {
+                /// Les programmes scolaires
+                ProgramSplitView()
+                    .tabItem { Label("Programmes", systemImage: "books.vertical").symbolVariant(.none) }
+                    .tag(NavigationModel.Tab.program)
+                    .badge(ProgramEntity.cardinal())
+            }
         }
         .environmentObject(navigationModel)
 

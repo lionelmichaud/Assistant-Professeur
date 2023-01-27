@@ -20,7 +20,7 @@ protocol ModelEntityP: NSManagedObject {
     /// - Returns: Array of all items in the persistent store
     static func all() -> [Self]
 
-    static func byId(id: NSManagedObjectID) -> Self?
+    static func byObjectId(id: NSManagedObjectID) -> Self?
 
     /// Creates a sample Object in the Context
     static func create() -> Self
@@ -64,7 +64,7 @@ extension ModelEntityP {
         Self.all().count
     }
 
-    static func byId(id: NSManagedObjectID) -> Self? {
+    static func byObjectId(id: NSManagedObjectID) -> Self? {
         do {
             return try viewContext.existingObject(with: id) as? Self
         } catch {
@@ -85,6 +85,11 @@ extension ModelEntityP {
             Self.viewContext.delete(item)
         }
         try Self.saveIfContextHasChanged()
+    }
+
+    static func rollback(){
+        Self.viewContext.rollback()
+        try? Self.saveIfContextHasChanged()
     }
 
     /// Checks whether the context has changes and commits them if needed.

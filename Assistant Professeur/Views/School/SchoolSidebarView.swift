@@ -216,12 +216,17 @@ extension SchoolSidebarView {
                 Button(role: .destructive) {
                     isShowingDeleteConfirmDialog.toggle()
                 } label: {
-                    Label("supprimer toutes vos données", systemImage: "trash")
+                    Label("Supprimer toutes vos données", systemImage: "trash")
                 }
 
                 #if targetEnvironment(simulator)
                 Button {
-                    DataBaseManager.populate()
+                    alertTitle   = "Échec"
+                    alertMessage = "L'effacement complet de la base de donnée a échoué"
+
+                    withAnimation {
+                        DataBaseManager.populate(failed: &alertIsPresented)
+                    }
                 } label: {
                     Text("Dev - Peupler la BDD").foregroundColor(.primary)
                 }
@@ -314,6 +319,7 @@ extension SchoolSidebarView {
         alertTitle   = "Échec"
         alertMessage = "L'effacement complet de la base de donnée a échoué"
 
+        navigationModel.resetSelections()
         DataBaseManager.clear(failed: &alertIsPresented)
     }
 

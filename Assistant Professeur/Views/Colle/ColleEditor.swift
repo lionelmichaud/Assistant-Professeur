@@ -20,7 +20,7 @@ struct ColleEditor: View {
 
     private var selectedColle: ColleEntity? {
         guard let selectedColleId else { return nil }
-        return ColleEntity.byId(id: selectedColleId)
+        return ColleEntity.byObjectId(id: selectedColleId)
     }
 
     private var selectedColleExists: Bool {

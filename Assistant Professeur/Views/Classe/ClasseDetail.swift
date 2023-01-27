@@ -165,7 +165,7 @@ struct ClasseDetail: View {
     }
 
     var body: some View {
-        // TODO: - Rempacer par NavigationStack(path: $path) et garder la navigation vers les subview locale à cette View en utilisant @State private var path = NavigationPath()
+        // TODO: - Remplacer par NavigationStack(path: $path) et garder la navigation vers les subview locale à cette View en utilisant @State private var path = NavigationPath()
         // https://swiftwithmajid.com/2022/10/05/mastering-navigationstack-in-swiftui-navigationpath/
         VStack {
             /// nom
@@ -178,7 +178,7 @@ struct ClasseDetail: View {
                 }
                 /// annotation sur la classe
                 if classeAnnotationEnabled {
-                    AnnotationView(annotation: $classe.viewAnnotation)
+                    AnnotationEditView(annotation: $classe.viewAnnotation)
                 }
 
                 roomView

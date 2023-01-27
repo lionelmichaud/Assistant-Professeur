@@ -11,16 +11,41 @@ import CoreData
 
 //@MainActor
 final class NavigationModel: ObservableObject, Codable {
+
+    // MARK: - Embeded Types
+
     enum Tab: Int, Hashable, Codable {
-        case userSettings, school, classe, eleve, colle, observation
+        case userSettings, school, classe, eleve, colle, observation, program
     }
-    @Published var columnVisibility  : NavigationSplitViewVisibility
-    @Published var selectedTab       : Tab
+
+    enum CodingKeys: String, CodingKey {
+        case columnVisibility
+        case selectedTab
+        case selectedProgramId
+        case selectedObservId
+        case selectedColleId
+        case selectedEleveId
+        case selectedClasseId
+        case selectedSchoolId
+        case filterObservation
+        case filterColle
+        case filterFlag
+    }
+
+    // MARK: - Properties
+
+    @Published var columnVisibility   : NavigationSplitViewVisibility
+    @Published var selectedTab        : Tab
+    // TODO: - Trouver une autre solution
+    @Published var selectedProgramId  : NSManagedObjectID?
+    @Published var selectedSequenceId : NSManagedObjectID?
+    @Published var selectedActivityId : NSManagedObjectID?
     @Published var selectedObservId  : NSManagedObjectID?
     @Published var selectedColleId   : NSManagedObjectID?
     @Published var selectedEleveId   : NSManagedObjectID?
     @Published var selectedClasseId  : NSManagedObjectID?
     @Published var selectedSchoolId  : NSManagedObjectID?
+    
     @Published var filterObservation : Bool
     @Published var filterColle       : Bool
     @Published var filterFlag        : Bool
@@ -28,28 +53,7 @@ final class NavigationModel: ObservableObject, Codable {
     private lazy var decoder = JSONDecoder()
     private lazy var encoder = JSONEncoder()
 
-    init(columnVisibility  : NavigationSplitViewVisibility = .doubleColumn,
-         selectedTab       : Tab                = .school,
-         selectedObservId  : NSManagedObjectID? = nil,
-         selectedColleId   : NSManagedObjectID? = nil,
-         selectedEleveId   : NSManagedObjectID? = nil,
-         selectedClasseId  : NSManagedObjectID? = nil,
-         selectedSchoolId  : NSManagedObjectID? = nil,
-         filterObservation : Bool               = false,
-         filterColle       : Bool               = false,
-         filterFlag        : Bool               = false
-    ) {
-        self.columnVisibility  = columnVisibility
-        self.selectedTab       = selectedTab
-        self.selectedObservId  = selectedObservId
-        self.selectedColleId   = selectedColleId
-        self.selectedEleveId   = selectedEleveId
-        self.selectedClasseId  = selectedClasseId
-        self.selectedSchoolId  = selectedSchoolId
-        self.filterObservation = filterObservation
-        self.filterColle       = filterColle
-        self.filterFlag        = filterFlag
-    }
+    // MARK: - Computed Properties
 
     var jsonData: Data? {
         get { try? encoder.encode(self) }
@@ -58,6 +62,9 @@ final class NavigationModel: ObservableObject, Codable {
                   let model = try? decoder.decode(Self.self, from: data)
             else { return }
             columnVisibility  = model.columnVisibility
+            selectedProgramId  = model.selectedProgramId
+            selectedSequenceId = model.selectedSequenceId
+            selectedActivityId = model.selectedActivityId
             selectedTab       = model.selectedTab
             selectedObservId  = model.selectedObservId
             selectedColleId   = model.selectedColleId
@@ -76,12 +83,46 @@ final class NavigationModel: ObservableObject, Codable {
             .values
     }
 
-    required init(from decoder: Decoder) throws {
+    // MARK: - Initializers
+
+    init(columnVisibility  : NavigationSplitViewVisibility = .all,
+         selectedTab       : Tab                = .school,
+         selectedProgramId  : NSManagedObjectID? = nil,
+         selectedSequenceId : NSManagedObjectID? = nil,
+         selectedActivityId : NSManagedObjectID? = nil,
+         selectedObservId  : NSManagedObjectID? = nil,
+         selectedColleId   : NSManagedObjectID? = nil,
+         selectedEleveId   : NSManagedObjectID? = nil,
+         selectedClasseId  : NSManagedObjectID? = nil,
+         selectedSchoolId  : NSManagedObjectID? = nil,
+         filterObservation : Bool               = false,
+         filterColle       : Bool               = false,
+         filterFlag        : Bool               = false
+    ) {
+        self.columnVisibility  = columnVisibility
+        self.selectedTab       = selectedTab
+        self.selectedProgramId  = selectedProgramId
+        self.selectedSequenceId = selectedSequenceId
+        self.selectedActivityId = selectedActivityId
+        self.selectedObservId  = selectedObservId
+        self.selectedColleId   = selectedColleId
+        self.selectedEleveId   = selectedEleveId
+        self.selectedClasseId  = selectedClasseId
+        self.selectedSchoolId  = selectedSchoolId
+        self.filterObservation = filterObservation
+        self.filterColle       = filterColle
+        self.filterFlag        = filterFlag
+    }
+
+     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.selectedTab = try container.decode(
             NavigationModel.Tab.self, forKey: .selectedTab)
 
-//        self.selectedObservId = try container.decodeIfPresent(
+//        self.selectedProgramId = try container.decodeIfPresent(
+//            UUID.self, forKey: .selectedProgramId)
+
+        //        self.selectedObservId = try container.decodeIfPresent(
 //            Observation.ID.self, forKey: .selectedObservId)
 //
 //        self.selectedColleId = try container.decodeIfPresent(
@@ -109,9 +150,24 @@ final class NavigationModel: ObservableObject, Codable {
             NavigationSplitViewVisibility.self, forKey: .columnVisibility)
     }
 
+    // MARK: - Methods
+
+    func resetSelections() {
+        selectedTab = .school
+        selectedProgramId  = nil
+        selectedSequenceId = nil
+        selectedActivityId = nil
+        selectedObservId   = nil
+        selectedColleId    = nil
+        selectedEleveId    = nil
+        selectedClasseId   = nil
+        selectedSchoolId   = nil
+    }
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(selectedTab, forKey: .selectedTab)
+//        try container.encodeIfPresent(selectedProgramId, forKey: .selectedProgramId)
 //        try container.encodeIfPresent(selectedObservId, forKey: .selectedObservId)
 //        try container.encodeIfPresent(selectedColleId,  forKey: .selectedColleId)
 //        try container.encodeIfPresent(selectedEleveId,  forKey: .selectedEleveId)
@@ -121,18 +177,5 @@ final class NavigationModel: ObservableObject, Codable {
         try container.encode(filterColle, forKey: .filterColle)
         try container.encode(filterFlag, forKey: .filterFlag)
         try container.encode(columnVisibility, forKey: .columnVisibility)
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case columnVisibility
-        case selectedTab
-        case selectedObservId
-        case selectedColleId
-        case selectedEleveId
-        case selectedClasseId
-        case selectedSchoolId
-        case filterObservation
-        case filterColle
-        case filterFlag
     }
 }

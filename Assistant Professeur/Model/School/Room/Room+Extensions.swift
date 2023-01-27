@@ -13,7 +13,7 @@ import SwiftUI
 
 private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
                                category  : "RoomEntity")
-
+/// Une salle de classe
 extension RoomEntity {
 
     // MARK: - Type Properties

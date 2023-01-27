@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import HelpersView
 import CoreData
 
 struct SchoolEditor: View {
@@ -21,7 +20,7 @@ struct SchoolEditor: View {
 
     private var selectedSchool: SchoolEntity? {
         guard let selectedSchoolId else { return nil }
-        return SchoolEntity.byId(id: selectedSchoolId)
+        return SchoolEntity.byObjectId(id: selectedSchoolId)
     }
 
     private var selectedSchoolExists: Bool {
