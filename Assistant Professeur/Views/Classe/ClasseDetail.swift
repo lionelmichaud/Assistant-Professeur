@@ -5,9 +5,9 @@
 //  Created by Lionel MICHAUD on 20/04/2022.
 //
 
-import SwiftUI
 import AppFoundation
 import HelpersView
+import SwiftUI
 
 enum ClasseNavigationRoute: Hashable {
     case room(ClasseEntity)
@@ -18,43 +18,43 @@ enum ClasseNavigationRoute: Hashable {
 
     static func == (lhs: ClasseNavigationRoute, rhs: ClasseNavigationRoute) -> Bool {
         switch (lhs, rhs) {
-            case let(.room(classel), .room(classer)):
-                return (classel.id == classer.id)
+        case let (.room(classel), .room(classer)):
+            return (classel.id == classer.id)
 
-            case let(.liste(classel), .liste(classer)):
-                return classel.id == classer.id
+        case let (.liste(classel), .liste(classer)):
+            return classel.id == classer.id
 
-            case let(.trombinoscope(classel), .trombinoscope(classer)):
-                return classel.id == classer.id
+        case let (.trombinoscope(classel), .trombinoscope(classer)):
+            return classel.id == classer.id
 
-            case let(.groups(classel), .groups(classer)):
-                return classel.id == classer.id
+        case let (.groups(classel), .groups(classer)):
+            return classel.id == classer.id
 
-            case let(.exam(classel, examl), .exam(classer, examr)):
-                return (classel.id == classer.id) &&
+        case let (.exam(classel, examl), .exam(classer, examr)):
+            return (classel.id == classer.id) &&
                 (examl == examr)
 
-            default : return false
+        default: return false
         }
     }
 
     func hash(into hasher: inout Hasher) {
         switch self {
-            case .room(let classe):
-                hasher.combine("room")
-                hasher.combine(classe.id)
-            case .liste(let classe):
-                hasher.combine("liste")
-                hasher.combine(classe.id)
-            case .trombinoscope(let classe):
-                hasher.combine("trombinoscope")
-                hasher.combine(classe.id)
-            case .groups(let classe):
-                hasher.combine("groups")
-                hasher.combine(classe.id)
-            case .exam(let classe, let exam):
-                hasher.combine(classe.id)
-                hasher.combine(exam.id)
+        case let .room(classe):
+            hasher.combine("room")
+            hasher.combine(classe.id)
+        case let .liste(classe):
+            hasher.combine("liste")
+            hasher.combine(classe.id)
+        case let .trombinoscope(classe):
+            hasher.combine("trombinoscope")
+            hasher.combine(classe.id)
+        case let .groups(classe):
+            hasher.combine("groups")
+            hasher.combine(classe.id)
+        case let .exam(classe, exam):
+            hasher.combine(classe.id)
+            hasher.combine(exam.id)
         }
     }
 }
@@ -145,8 +145,7 @@ struct ClasseDetail: View {
 
             // édition de la liste des examen
             ForEach(classe.allExams) { exam in
-                NavigationLink(value: ClasseNavigationRoute.exam(classe, exam))
-                {
+                NavigationLink(value: ClasseNavigationRoute.exam(classe, exam)) {
                     ClasseExamRow(exam: exam)
                 }
             }
@@ -168,15 +167,15 @@ struct ClasseDetail: View {
         // TODO: - Remplacer par NavigationStack(path: $path) et garder la navigation vers les subview locale à cette View en utilisant @State private var path = NavigationPath()
         // https://swiftwithmajid.com/2022/10/05/mastering-navigationstack-in-swiftui-navigationpath/
         VStack {
-            /// nom
+            // nom
             ClasseNameGroupBox(classe: classe)
 
             List {
-                /// appréciation sur la classe
+                // appréciation sur la classe
                 if classeAppreciationEnabled {
                     AppreciationView(appreciation: $classe.viewAppreciation)
                 }
-                /// annotation sur la classe
+                // annotation sur la classe
                 if classeAnnotationEnabled {
                     AnnotationEditView(annotation: $classe.viewAnnotation)
                 }
@@ -184,15 +183,15 @@ struct ClasseDetail: View {
                 roomView
 
                 Section {
-                    /// édition de la liste des élèves
+                    // édition de la liste des élèves
                     elevesListView
 
-                    /// trombinoscope
+                    // trombinoscope
                     if eleveTrombineEnabled {
                         trombinoscopeView
                     }
 
-                    /// gestion des groupes
+                    // gestion des groupes
                     groupsView
                 } header: {
                     Text("Elèves (\(classe.nbOfEleves))")
@@ -201,7 +200,7 @@ struct ClasseDetail: View {
                         .fontWeight(.bold)
                 }
 
-                /// édition de la liste des examens
+                // édition de la liste des examens
                 Section {
                     examsListView
                 } header: {
@@ -214,18 +213,20 @@ struct ClasseDetail: View {
         }
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
-                /// Importation des données
-                /// Importer une liste d'élèves d'une classe depuis un fichier CSV au format PRONOTE
+                // Importation des données
+                // Importer une liste d'élèves d'une classe depuis un fichier CSV au format PRONOTE
                 Button {
                     isShowingImportListeDialog.toggle()
                 } label: {
                     Image(systemName: "square.and.arrow.down")
                         .imageScale(.large)
                 }
-                /// Confirmation de l'importation d'une liste d'élèves d'une classe
-                .confirmationDialog("Importer une liste d'élèves",
-                                    isPresented     : $isShowingImportListeDialog,
-                                    titleVisibility : .visible) {
+                // Confirmation de l'importation d'une liste d'élèves d'une classe
+                .confirmationDialog(
+                    "Importer une liste d'élèves",
+                    isPresented: $isShowingImportListeDialog,
+                    titleVisibility: .visible
+                ) {
                     Button("Importer et ajouter") {
                         withAnimation {
                             importCsvFile = true
@@ -241,19 +242,22 @@ struct ClasseDetail: View {
                     }
                 } message: {
                     Text("La liste des élèves importée doit être au format CSV de \(interoperability == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
-                    Text("Cette action ne peut pas être annulée.")
+                        Text("Cette action ne peut pas être annulée.")
                 }
             }
         }
-        .alert(alertTitle,
-               isPresented: $alertIsPresented,
-               actions: { },
-               message: { Text(alertMessage) }
+        .alert(
+            alertTitle,
+            isPresented: $alertIsPresented,
+            actions: {},
+            message: { Text(alertMessage) }
         )
-        /// Importer un fichier CSV au format PRONOTE ou EcoleDirecte
-        .fileImporter(isPresented             : $importCsvFile,
-                      allowedContentTypes     : [.commaSeparatedText],
-                      allowsMultipleSelection : false) { result in
+        // Importer un fichier CSV au format PRONOTE ou EcoleDirecte
+        .fileImporter(
+            isPresented: $importCsvFile,
+            allowedContentTypes: [.commaSeparatedText],
+            allowsMultipleSelection: false
+        ) { result in
             importCsvFiles(result: result)
         }
         #if os(iOS)
@@ -273,49 +277,55 @@ struct ClasseDetail: View {
 
     private func save() {
         try? ClasseEntity.saveIfContextHasChanged()
-        //school.refresh()
+        // school.refresh()
     }
 
     private func importCsvFiles(result: Result<[URL], Error>) {
         switch result {
-            case .failure(let error):
-                print("Error selecting file: \(error.localizedDescription)")
-                alertTitle   = "Échec"
-                alertMessage = "L'importation du fichier a échouée"
-                alertIsPresented.toggle()
+        case let .failure(error):
+            print("Error selecting file: \(error.localizedDescription)")
+            alertTitle = "Échec"
+            alertMessage = "L'importation du fichier a échouée"
+            alertIsPresented.toggle()
 
-            case .success(let filesUrl):
-                filesUrl.forEach { fileUrl in
-                    guard fileUrl.startAccessingSecurityScopedResource() else { return }
-
-                    if let data = try? Data(contentsOf: fileUrl) {
-                        do {
-                            switch interoperability {
-                                case .ecoleDirecte:
-                                    try CsvImporter()
-                                        .importElevesFromEcoleDirecte(from: data,
-                                                                      dans: classe)
-
-                                case .proNote:
-                                    try CsvImporter()
-                                        .importElevesFromPRONOTE(from: data,
-                                                                 dans: classe)
-                            }
-                        } catch let error {
-                            print("Error reading file \(error.localizedDescription)")
-                            alertTitle   = "Échec"
-                            alertMessage = "L'importation du fichier a échouée"
-                            alertIsPresented.toggle()
-                        }
-                    }
-
-                    fileUrl.stopAccessingSecurityScopedResource()
+        case let .success(filesUrl):
+            filesUrl.forEach { fileUrl in
+                guard fileUrl.startAccessingSecurityScopedResource() else {
+                    return
                 }
+
+                if let data = try? Data(contentsOf: fileUrl) {
+                    do {
+                        switch interoperability {
+                        case .ecoleDirecte:
+                            try CsvImporter()
+                                .importElevesFromEcoleDirecte(
+                                    from: data,
+                                    dans: classe
+                                )
+
+                        case .proNote:
+                            try CsvImporter()
+                                .importElevesFromPRONOTE(
+                                    from: data,
+                                    dans: classe
+                                )
+                        }
+                    } catch {
+                        print("Error reading file \(error.localizedDescription)")
+                        alertTitle = "Échec"
+                        alertMessage = "L'importation du fichier a échouée"
+                        alertIsPresented.toggle()
+                    }
+                }
+
+                fileUrl.stopAccessingSecurityScopedResource()
+            }
         }
     }
 }
 
-//struct ClassDetail_Previews: PreviewProvider {
+// struct ClassDetail_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -342,4 +352,4 @@ struct ClasseDetail: View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

@@ -5,12 +5,11 @@
 //  Created by Lionel MICHAUD on 19/11/2022.
 //
 
-import Foundation
 import CoreData
+import Foundation
 import PDFKit
 
 extension DocumentEntity {
-
     // MARK: - Computed properties
 
     /// Wrapper of `docName`
@@ -47,29 +46,30 @@ extension DocumentEntity {
     /// - Important: *Saves the context to the store after modification is done*
     @objc
     var cgPDFDocument: CGPDFDocument? {
-        get {
-            if let pdfData {
-                guard let cgDataProvider = CGDataProvider(data: pdfData as CFData) else { return nil }
-                guard let pdf = CGPDFDocument(cgDataProvider) else { return nil }
-                return pdf
-            } else {
+        if let pdfData {
+            guard let cgDataProvider = CGDataProvider(data: pdfData as CFData) else {
                 return nil
             }
+            guard let pdf = CGPDFDocument(cgDataProvider) else {
+                return nil
+            }
+            return pdf
+        } else {
+            return nil
         }
     }
-
 }
 
 // MARK: - Extension Core Data
 
 extension DocumentEntity: ModelEntityP {
-
     // MARK: - Type Methods
 
-    @discardableResult static func create(
-        dans school   : SchoolEntity,
-        withData data : Data?,
-        withName name : String
+    @discardableResult
+    static func create(
+        dans school: SchoolEntity,
+        withData data: Data?,
+        withName name: String
     ) -> DocumentEntity {
         let doc = DocumentEntity.create()
         // établissement d'appartenance.
@@ -96,5 +96,4 @@ extension DocumentEntity: ModelEntityP {
     }
 
     // MARK: - Computed properties
-
 }

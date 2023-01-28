@@ -5,12 +5,12 @@
 //  Created by Lionel MICHAUD on 22/01/2023.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct ActivityDetail: View {
     @EnvironmentObject
-    private var navig : NavigationModel
+    private var navig: NavigationModel
 
     @State
     private var isEditing = false
@@ -22,7 +22,9 @@ struct ActivityDetail: View {
     }
 
     private var selectedActivity: ActivityEntity? {
-        guard let selectedActivityId else { return nil }
+        guard let selectedActivityId else {
+            return nil
+        }
         return ActivityEntity.byObjectId(id: selectedActivityId)
     }
 
@@ -54,9 +56,11 @@ struct ActivityDetail: View {
         .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)
 
-        /// Modal Sheet de modification de l'activité
-        .sheet(isPresented: $isEditing,
-               onDismiss: { ActivityEntity.rollback() }) {
+        // Modal Sheet de modification de l'activité
+        .sheet(
+            isPresented: $isEditing,
+            onDismiss: ActivityEntity.rollback
+        ) {
             if selectedActivityExists {
                 NavigationStack {
                     ActivityEditorModal(activity: selectedActivity!)
@@ -73,7 +77,7 @@ extension ActivityDetail {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         if selectedActivityExists {
-            /// Editer l'activité
+            // Editer l'activité
             ToolbarItemGroup(placement: .automatic) {
                 Button("Modifier") {
                     isEditing.toggle()
@@ -83,8 +87,8 @@ extension ActivityDetail {
     }
 }
 
-//struct ActivityDetail_Previews: PreviewProvider {
+// struct ActivityDetail_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ActivityDetail()
 //    }
-//}
+// }

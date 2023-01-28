@@ -5,12 +5,11 @@
 //  Created by Lionel MICHAUD on 18/01/2023.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /// Une séquence d'un programme scolaire pour une dscipline et un niveau donnés
 extension ActivityEntity {
-
     // MARK: - Computed properties
 
     /// Wrapper of `name`
@@ -83,10 +82,9 @@ extension ActivityEntity {
 // MARK: - Extension Core Data
 
 extension ActivityEntity: ModelEntityP {
-
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
-        //Set defaults here
+        // Set defaults here
         self.id = UUID()
     }
 
@@ -100,12 +98,12 @@ extension ActivityEntity: ModelEntityP {
 
     /// Créer une nouvelle instance SANS la sauvegarder dans le context
     static func createWithoutSaving(
-        name          : String = "",
-        annotation    : String = "",
-        url           : URL?   = nil,
-        duration      : Double = 1,
-        isEval        : Bool   = false,
-        dans sequence : SequenceEntity
+        name: String = "",
+        annotation: String = "",
+        url: URL? = nil,
+        duration: Double = 1,
+        isEval: Bool = false,
+        dans sequence: SequenceEntity
     ) -> ActivityEntity {
         let nbActInProgram = sequence.nbOfActivities
         let activity = ActivityEntity.create()
@@ -113,12 +111,12 @@ extension ActivityEntity: ModelEntityP {
         // mandatory
         activity.sequence = sequence
 
-        activity.name       = name
-        activity.number     = Int16(nbActInProgram + 1)
+        activity.name = name
+        activity.number = Int16(nbActInProgram + 1)
         activity.annotation = annotation
-        activity.url        = url
-        activity.duration   = duration
-        activity.isEval     = isEval
+        activity.url = url
+        activity.duration = duration
+        activity.isEval = isEval
 
         return activity
     }
@@ -126,12 +124,12 @@ extension ActivityEntity: ModelEntityP {
     /// Créer une nouvelle instance et la sauvegarder dans le context
     @discardableResult
     static func create(
-        name          : String = "",
-        annotation    : String = "",
-        url           : URL?   = nil,
-        duration      : Double = 1,
-        isEval        : Bool   = false,
-        dans sequence : SequenceEntity
+        name: String = "",
+        annotation: String = "",
+        url: URL? = nil,
+        duration: Double = 1,
+        isEval: Bool = false,
+        dans sequence: SequenceEntity
     ) -> ActivityEntity {
         let newActivity = createWithoutSaving(
             name: name,
@@ -158,14 +156,14 @@ extension ActivityEntity: ModelEntityP {
 
 // MARK: - Extension Debug
 
-extension ActivityEntity {
-    public override var description: String {
+public extension ActivityEntity {
+    override var description: String {
         """
 
         ACTIVITÉ:
-           Numéro : \(viewNumber)
-           Nom    : \(viewName)
-           Durée  : \(viewDuration) séances
+           Numéro : \(self.viewNumber)
+           Nom    : \(self.viewName)
+           Durée  : \(self.viewDuration) séances
            Eval   : \(isEval.frenchString)
            URL    : \(String(describing: url))
         """

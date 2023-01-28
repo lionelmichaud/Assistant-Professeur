@@ -5,13 +5,13 @@
 //  Created by Lionel MICHAUD on 15/10/2022.
 //
 
-import SwiftUI
-import CoreData
 import AppFoundation
+import CoreData
 import HelpersView
+import SwiftUI
 
 /// Liste des notes éditables de chaque élève de la classe
-struct MarkListView : View {
+struct MarkListView: View {
     @ObservedObject
     var exam: ExamEntity
 
@@ -35,16 +35,18 @@ struct MarkListView : View {
                 Text("Notes")
                 Spacer()
 
-                /// reset de toutes les notes de la classe
+                // reset de toutes les notes de la classe
                 Button(role: .destructive) {
                     isShowingResetConfirmDialog = true
                 } label: {
                     Image(systemName: "eraser.fill")
                 }
-                /// Confirmation de Suppression de toutes vos données
-                .confirmationDialog("Remettre toutes les notes à \"Non noté\" ?",
-                                    isPresented: $isShowingResetConfirmDialog,
-                                    titleVisibility : .visible) {
+                // Confirmation de Suppression de toutes vos données
+                .confirmationDialog(
+                    "Remettre toutes les notes à \"Non noté\" ?",
+                    isPresented: $isShowingResetConfirmDialog,
+                    titleVisibility: .visible
+                ) {
                     Button("Poursuivre", role: .destructive) {
                         withAnimation {
                             self.resetAllMarks()
@@ -54,7 +56,7 @@ struct MarkListView : View {
                     Text("Cette action ne peut pas être annulée.")
                 }
 
-                /// affecter la même note à tous les membres d'un même groupe
+                // affecter la même note à tous les membres d'un même groupe
                 if exam.classe!.nbOfGroups > 1 {
                     Button {
                         isAddingGroupMark = true
@@ -85,7 +87,7 @@ struct MarkListView : View {
 }
 
 /// Saisie la de la note dun groupe pour une évaluation
-struct GroupMarkModal : View {
+struct GroupMarkModal: View {
     @ObservedObject
     var exam: ExamEntity
 
@@ -98,10 +100,10 @@ struct GroupMarkModal : View {
 
         public var pickerString: String {
             switch self {
-                case .attribuer:
-                    return "Atribuer une note"
-                case .modifier:
-                    return "Modifier la note"
+            case .attribuer:
+                return "Atribuer une note"
+            case .modifier:
+                return "Modifier la note"
             }
         }
     }
@@ -113,7 +115,7 @@ struct GroupMarkModal : View {
     private var mark: Double = 0
 
     @State
-    private var selectedGroupeNb : Int = 1
+    private var selectedGroupeNb: Int = 1
 
     @State
     private var grpTable = [Int]()
@@ -132,8 +134,10 @@ struct GroupMarkModal : View {
     }
 
     private var oprationPicker: some View {
-        CasePicker(pickedCase: $operationType,
-                   label: "Opération")
+        CasePicker(
+            pickedCase: $operationType,
+            label: "Opération"
+        )
         .pickerStyle(.segmented)
     }
 
@@ -151,28 +155,32 @@ struct GroupMarkModal : View {
     private var noteEditor: some View {
         HStack {
             switch operationType {
-                case .attribuer:
-                    AmountEditView(label    : "Note",
-                                   amount   : $mark,
-                                   validity : .within(range: 0.0 ... Double(exam.maxMark)),
-                                   currency : false)
-                    Stepper(
-                        "",
-                        value : $mark,
-                        in    : 0 ... Double(exam.maxMark),
-                        step  : 0.5
-                    )
-                case .modifier:
-                    AmountEditView(label    : "Modifier",
-                                   amount   : $mark,
-                                   validity : .within(range: Double(-exam.maxMark) ... Double(exam.maxMark)),
-                                   currency : false)
-                    Stepper(
-                        "",
-                        value : $mark,
-                        in    : Double(-exam.maxMark) ... Double(exam.maxMark),
-                        step  : 0.5
-                    )
+            case .attribuer:
+                AmountEditView(
+                    label: "Note",
+                    amount: $mark,
+                    validity: .within(range: 0.0 ... Double(exam.maxMark)),
+                    currency: false
+                )
+                Stepper(
+                    "",
+                    value: $mark,
+                    in: 0 ... Double(exam.maxMark),
+                    step: 0.5
+                )
+            case .modifier:
+                AmountEditView(
+                    label: "Modifier",
+                    amount: $mark,
+                    validity: .within(range: Double(-exam.maxMark) ... Double(exam.maxMark)),
+                    currency: false
+                )
+                Stepper(
+                    "",
+                    value: $mark,
+                    in: Double(-exam.maxMark) ... Double(exam.maxMark),
+                    step: 0.5
+                )
             }
         }
     }
@@ -239,20 +247,20 @@ struct GroupMarkModal : View {
 
             ToolbarItem(placement: .confirmationAction) {
                 switch operationType {
-                    case .attribuer:
-                        Button("Attribuer") {
-                            withAnimation {
-                                attribuer(note: mark, auGroupe: selectedGroupeNb)
-                            }
-                            dismiss()
+                case .attribuer:
+                    Button("Attribuer") {
+                        withAnimation {
+                            attribuer(note: mark, auGroupe: selectedGroupeNb)
                         }
-                    case .modifier:
-                        Button("Modifer") {
-                            withAnimation {
-                                modifier(note: mark, auGroupe: selectedGroupeNb)
-                            }
-                            dismiss()
+                        dismiss()
+                    }
+                case .modifier:
+                    Button("Modifer") {
+                        withAnimation {
+                            modifier(note: mark, auGroupe: selectedGroupeNb)
                         }
+                        dismiss()
+                    }
                 }
             }
         }
@@ -273,8 +281,7 @@ struct GroupMarkModal : View {
                 exam.allMarks
                     .forEach { mark in
                         if elevesInGroupIDs
-                            .contains(mark.eleve!.objectID)
-                        {
+                            .contains(mark.eleve!.objectID) {
                             mark.markTypeEnum = .note
                             mark.viewMark = note
                         }
@@ -296,8 +303,7 @@ struct GroupMarkModal : View {
                 exam.allMarks
                     .forEach { mark in
                         if elevesInGroupIDs
-                            .contains(mark.eleve!.objectID)
-                        {
+                            .contains(mark.eleve!.objectID) {
                             if mark.markTypeEnum == .note {
                                 mark.viewMark += note
                             } else {
@@ -311,7 +317,7 @@ struct GroupMarkModal : View {
     }
 }
 
-//struct MarkListView_Previews: PreviewProvider {
+// struct MarkListView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -342,4 +348,4 @@ struct GroupMarkModal : View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

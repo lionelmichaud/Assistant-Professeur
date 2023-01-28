@@ -5,16 +5,17 @@
 //  Created by Lionel MICHAUD on 19/11/2022.
 //
 
+import CoreData
 import Foundation
 import os
-import CoreData
 
-private let customLog = Logger(subsystem: "com.michaud.lionel.Assistant-Professeur",
-                               category: "ClasseEntity")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "ClasseEntity"
+)
 
 /// Une classe d'élèves
 extension ClasseEntity {
-
     // MARK: - Computed properties
 
     /// Wrapper of `discipline`
@@ -75,7 +76,7 @@ extension ClasseEntity {
         }
     }
 
-   /// Wrapper of `annotation`
+    /// Wrapper of `annotation`
     /// - Important: *Saves the context to the store after modification is done*
     @objc
     var viewAnnotation: String {
@@ -193,34 +194,38 @@ extension ClasseEntity {
 // MARK: - Extension Core Data
 
 extension ClasseEntity: ModelEntityP {
-
     // MARK: - Type Properties
 
     @Preference(\.nameSortOrder)
-    static private var nameSortOrder
+    private static var nameSortOrder
 
     // MARK: - Type Computed Properties
 
     static var bySchoolThenClasseLevelNumberNSSortDescriptor: [NSSortDescriptor] =
-    [
-        // school
-        NSSortDescriptor(
-            keyPath: \ClasseEntity.school?.level,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \ClasseEntity.school?.name,
-            ascending: true),
-        // classe
-        NSSortDescriptor(
-            keyPath: \ClasseEntity.level,
-            ascending: false),
-        NSSortDescriptor(
-            keyPath: \ClasseEntity.numero,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \ClasseEntity.segpa,
-            ascending: true)
-    ]
+        [
+            // school
+            NSSortDescriptor(
+                keyPath: \ClasseEntity.school?.level,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \ClasseEntity.school?.name,
+                ascending: true
+            ),
+            // classe
+            NSSortDescriptor(
+                keyPath: \ClasseEntity.level,
+                ascending: false
+            ),
+            NSSortDescriptor(
+                keyPath: \ClasseEntity.numero,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \ClasseEntity.segpa,
+                ascending: true
+            )
+        ]
 
     /// Requête pour toutes les classes triées.
     ///
@@ -243,7 +248,7 @@ extension ClasseEntity: ModelEntityP {
         if let groups {
             return (groups.allObjects as! [GroupEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
@@ -252,7 +257,7 @@ extension ClasseEntity: ModelEntityP {
         if let exams {
             return (exams.allObjects as! [ExamEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
@@ -263,9 +268,9 @@ extension ClasseEntity: ModelEntityP {
     ///   1. Numéro de groupe
     var allGroupsSortedByNumber: [GroupEntity] {
         let sortComparators =
-        [
-            SortDescriptor(\GroupEntity.number, order: .forward),
-        ]
+            [
+                SortDescriptor(\GroupEntity.number, order: .forward)
+            ]
 
         return allGroups
             .sorted(using: sortComparators)
@@ -278,8 +283,10 @@ extension ClasseEntity: ModelEntityP {
         if foundGroup.isNotEmpty {
             return foundGroup.first!
         } else {
-            customLog.log(level: .fault,
-                          "groupOfUngroupedEleves: le groupe 0 n'existe pas")
+            customLog.log(
+                level: .fault,
+                "groupOfUngroupedEleves: le groupe 0 n'existe pas"
+            )
             fatalError()
         }
     }
@@ -291,7 +298,7 @@ extension ClasseEntity: ModelEntityP {
         if let eleves {
             return (eleves.allObjects as! [EleveEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
@@ -306,9 +313,9 @@ extension ClasseEntity: ModelEntityP {
 
     // MARK: - Methods
 
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
-        //Set defaults here
+        // Set defaults here
         // self.group = ""
         //        self.fileDate = Date()
     }
@@ -316,35 +323,35 @@ extension ClasseEntity: ModelEntityP {
     // MARK: - Type Methods
 
     /// Créer une nouvelle instance et la sauvegarder dans le context
-   @discardableResult
-    static func create(
-        level        : LevelClasse,
-        numero       : Int,
-        segpa        : Bool,
-        discipline   : Discipline,
-        heures       : Double,
-        isFlagged    : Bool,
-        annotation   : String = "",
-        appreciation : String = "",
-        dans school  : SchoolEntity?
+    @discardableResult
+    static func create( // swiftlint:disable:this function_parameter_count
+        level: LevelClasse,
+        numero: Int,
+        segpa: Bool,
+        discipline: Discipline,
+        heures: Double,
+        isFlagged: Bool,
+        annotation: String = "",
+        appreciation: String = "",
+        dans school: SchoolEntity?
     ) -> ClasseEntity {
         let classe = ClasseEntity.create()
         // Etablissement d'appartenance.
         // mandatory
-        classe.school     = school
+        classe.school = school
 
         // créer un Groupe 0 pour les élèves de la classe
         // n'appartenant à aucun groupe.
         // mandatory
         GroupEntity.create(numero: 0, dans: classe)
 
-        classe.level        = level.rawValue
-        classe.numero       = Int32(numero)
-        classe.segpa        = segpa
-        classe.discipline   = discipline.rawValue
-        classe.heures       = heures
-        classe.isFlagged    = isFlagged
-        classe.annotation   = annotation
+        classe.level = level.rawValue
+        classe.numero = Int32(numero)
+        classe.segpa = segpa
+        classe.discipline = discipline.rawValue
+        classe.heures = heures
+        classe.isFlagged = isFlagged
+        classe.annotation = annotation
         classe.appreciation = appreciation
 
         try? ClasseEntity.saveIfContextHasChanged()
@@ -392,37 +399,35 @@ extension ClasseEntity: ModelEntityP {
     ///   - filterFlag: si `true` alors ne conserver que que les élèves **flagés**
     /// - Returns: Liste des élèves de la classe satisfaisant *au moins à l'un des critères* définis en paramètre
     func filteredElevesSortedByName(
-        searchString      : String,
-        filterObservation : Bool = false,
-        filterColle       : Bool = false,
-        filterFlag        : Bool = false
+        searchString: String,
+        filterObservation: Bool = false,
+        filterColle: Bool = false,
+        filterFlag: Bool = false
     ) -> [EleveEntity] {
         let sortComparators = ClasseEntity.nameSortOrder == .nomPrenom ?
-        [
-            SortDescriptor(\EleveEntity.familyName, order: .forward),
-            SortDescriptor(\EleveEntity.givenName, order: .forward)
-        ] :
-        [
-            SortDescriptor(\EleveEntity.givenName, order: .forward),
-            SortDescriptor(\EleveEntity.familyName, order: .forward)
-        ]
+            [
+                SortDescriptor(\EleveEntity.familyName, order: .forward),
+                SortDescriptor(\EleveEntity.givenName, order: .forward)
+            ] :
+            [
+                SortDescriptor(\EleveEntity.givenName, order: .forward),
+                SortDescriptor(\EleveEntity.familyName, order: .forward)
+            ]
 
         return allEleves
             .filter { eleve in
-                lazy var nbObservWithActionToDo : Int = {
-                    eleve.nbOfObservations(isConsignee : false,
-                                           isVerified  : false)
-                }()
+                lazy var nbObservWithActionToDo: Int = eleve.nbOfObservations(
+                    isConsignee: false,
+                    isVerified: false
+                )
 
-                lazy var nbColleWithActionToDo : Int = {
-                    eleve.nbOfColles(isConsignee : false)
-                }()
+                lazy var nbColleWithActionToDo: Int = eleve.nbOfColles(isConsignee: false)
 
                 return eleve.satisfiesTo(searchString: searchString) &&
-                ((!filterObservation && !filterColle && !filterFlag) ||
-                 (filterObservation && (nbObservWithActionToDo > 0)) ||
-                 (filterColle && nbColleWithActionToDo > 0) ||
-                 (filterFlag && eleve.isFlagged))
+                    ((!filterObservation && !filterColle && !filterFlag) ||
+                        (filterObservation && (nbObservWithActionToDo > 0)) ||
+                        (filterColle && nbColleWithActionToDo > 0) ||
+                        (filterFlag && eleve.isFlagged))
             }
             .sorted(using: sortComparators)
     }
@@ -431,8 +436,8 @@ extension ClasseEntity: ModelEntityP {
     ///
     /// Les élèves trouvés sont triés en utilisant `sortOrder`.
     func filteredSortedEleves(
-        searchString : String,
-        sortOrder    : [KeyPathComparator<EleveEntity>]
+        searchString: String,
+        sortOrder: [KeyPathComparator<EleveEntity>]
     ) -> [EleveEntity] {
         guard searchString.isNotEmpty else {
             return allEleves.sorted(using: sortOrder)
@@ -450,14 +455,14 @@ extension ClasseEntity: ModelEntityP {
     /// Les élèves trouvés sont triés en utilisant les péréférences `nameSortOrder`.
     func unseatedEleves() -> [EleveEntity] {
         let sortComparators = ClasseEntity.nameSortOrder == .nomPrenom ?
-        [
-            SortDescriptor(\EleveEntity.familyName, order: .forward),
-            SortDescriptor(\EleveEntity.givenName, order: .forward)
-        ] :
-        [
-            SortDescriptor(\EleveEntity.givenName, order: .forward),
-            SortDescriptor(\EleveEntity.familyName, order: .forward)
-        ]
+            [
+                SortDescriptor(\EleveEntity.familyName, order: .forward),
+                SortDescriptor(\EleveEntity.givenName, order: .forward)
+            ] :
+            [
+                SortDescriptor(\EleveEntity.givenName, order: .forward),
+                SortDescriptor(\EleveEntity.familyName, order: .forward)
+            ]
 
         return allEleves
             .filter { eleve in
@@ -475,33 +480,35 @@ extension ClasseEntity: ModelEntityP {
     ///   - isVerified: si `nil` on ne filtre pas, sinon on filtre sur la valeur booléenne
     /// - Returns: Nombre des `ObservEntity` associées aux élèves de la classe
     func nbOfObservations(
-        isConsignee  : Bool? = nil,
-        isVerified   : Bool? = nil
+        isConsignee: Bool? = nil,
+        isVerified: Bool? = nil
     ) -> Int {
         let eleves = allEleves
         var total = 0
 
         switch (isConsignee, isVerified) {
-            case (nil, nil):
-                eleves.forEach { eleve in
-                    total += eleve.nbOfObservs
-                }
+        case (nil, nil):
+            eleves.forEach { eleve in
+                total += eleve.nbOfObservs
+            }
 
-            case let(.some(c), nil):
-                eleves.forEach { eleve in
-                    total += eleve.nbOfObservations(isConsignee: c)
-                }
+        case let (.some(c), nil):
+            eleves.forEach { eleve in
+                total += eleve.nbOfObservations(isConsignee: c)
+            }
 
-            case let(nil, .some(v)):
-                eleves.forEach { eleve in
-                    total += eleve.nbOfObservations(isVerified: v)
-                }
+        case let (nil, .some(v)):
+            eleves.forEach { eleve in
+                total += eleve.nbOfObservations(isVerified: v)
+            }
 
-            case let(.some(c), .some(v)):
-                eleves.forEach { eleve in
-                    total += eleve.nbOfObservations(isConsignee: c,
-                                                    isVerified: v)
-                }
+        case let (.some(c), .some(v)):
+            eleves.forEach { eleve in
+                total += eleve.nbOfObservations(
+                    isConsignee: c,
+                    isVerified: v
+                )
+            }
         }
         return total
     }
@@ -513,15 +520,17 @@ extension ClasseEntity: ModelEntityP {
     ///   - isVerified: si `nil` on ne filtre pas, sinon on filtre sur la valeur booléenne
     /// - Returns: Liste des `ObservEntity` associées aux élèves de la classe
     func filteredSortedObservations(
-        isConsignee : Bool? = nil,
-        isVerified  : Bool? = nil
+        isConsignee: Bool? = nil,
+        isVerified: Bool? = nil
     ) -> [ObservEntity] {
         var observs = [ObservEntity]()
 
         self.elevesSortedByName
             .forEach { eleve in
-                observs += eleve.sortedObservations(isConsignee: isConsignee,
-                                                    isVerified: isVerified)
+                observs += eleve.sortedObservations(
+                    isConsignee: isConsignee,
+                    isVerified: isVerified
+                )
             }
 
         return observs
@@ -536,32 +545,34 @@ extension ClasseEntity: ModelEntityP {
     ///   - isVerified: si `nil` on ne filtre pas, sinon on filtre sur la valeur booléenne
     /// - Returns: Nombre des `ColleEntity` associées aux élèves de la classe
     func nbOfColles(
-        isConsignee : Bool?  = nil,
-        isVerified  : Bool?  = nil
+        isConsignee: Bool? = nil,
+        isVerified: Bool? = nil
     ) -> Int {
         let eleves = allEleves
         var total = 0
         switch (isConsignee, isVerified) {
-            case (nil, nil):
-                eleves.forEach { eleve in
-                    total += eleve.nbOfColles
-                }
+        case (nil, nil):
+            eleves.forEach { eleve in
+                total += eleve.nbOfColles
+            }
 
-            case let(.some(c), nil):
-                eleves.forEach { eleve in
-                    total += eleve.nbOfColles(isConsignee: c)
-                }
+        case let (.some(c), nil):
+            eleves.forEach { eleve in
+                total += eleve.nbOfColles(isConsignee: c)
+            }
 
-            case let(nil, .some(v)):
-                eleves.forEach { eleve in
-                    total += eleve.nbOfColles(isVerified: v)
-                }
+        case let (nil, .some(v)):
+            eleves.forEach { eleve in
+                total += eleve.nbOfColles(isVerified: v)
+            }
 
-            case let(.some(c), .some(v)):
-                eleves.forEach { eleve in
-                    total += eleve.nbOfColles(isConsignee: c,
-                                              isVerified: v)
-                }
+        case let (.some(c), .some(v)):
+            eleves.forEach { eleve in
+                total += eleve.nbOfColles(
+                    isConsignee: c,
+                    isVerified: v
+                )
+            }
         }
         return total
     }
@@ -573,15 +584,17 @@ extension ClasseEntity: ModelEntityP {
     ///   - isVerified: si `nil` on ne filtre pas, sinon on filtre sur la valeur booléenne
     /// - Returns: Liste des `ColleEntity` associées aux élèves de la classe
     func filteredSortedColles(
-        isConsignee : Bool? = nil,
-        isVerified  : Bool? = nil
+        isConsignee: Bool? = nil,
+        isVerified: Bool? = nil
     ) -> [ColleEntity] {
         var observs = [ColleEntity]()
 
         self.elevesSortedByName
             .forEach { eleve in
-                observs += eleve.sortedColles(isConsignee: isConsignee,
-                                              isVerified: isVerified)
+                observs += eleve.sortedColles(
+                    isConsignee: isConsignee,
+                    isVerified: isVerified
+                )
             }
 
         return observs
@@ -590,8 +603,8 @@ extension ClasseEntity: ModelEntityP {
 
 // MARK: - Extension Debug
 
-extension ClasseEntity {
-    public override var description: String {
+public extension ClasseEntity {
+    override var description: String {
         """
 
         CLASSE: \(displayString)

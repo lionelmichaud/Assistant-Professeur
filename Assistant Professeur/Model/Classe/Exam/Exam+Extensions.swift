@@ -5,12 +5,11 @@
 //  Created by Lionel MICHAUD on 04/01/2023.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /// Un établissement scolaire
 extension ExamEntity {
-
     // MARK: - Computed properties
 
     /// Wrapper of `sujet`
@@ -62,11 +61,10 @@ extension ExamEntity {
 // MARK: - Extension Core Data
 
 extension ExamEntity: ModelEntityP {
-
     // MARK: - Type Computed Properties
 
     @Preference(\.nameSortOrder)
-    static private var nameSortOrder
+    private static var nameSortOrder
 
     // MARK: - Type Methods
 
@@ -86,7 +84,7 @@ extension ExamEntity: ModelEntityP {
         if let marks {
             return (marks.allObjects as! [MarkEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
@@ -101,9 +99,9 @@ extension ExamEntity: ModelEntityP {
 
     // MARK: - Methods
 
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
-        //Set defaults here
+        // Set defaults here
         // self.group = ""
         //        self.fileDate = Date()
     }
@@ -120,14 +118,14 @@ extension ExamEntity: ModelEntityP {
     /// - Returns: Liste des notes des élèves de la classe satisfaisant *au moins à l'un des critères* définis en paramètre
     func sortedMarksByEleveName(searchString: String = "") -> [MarkEntity] {
         let sortComparators = ExamEntity.nameSortOrder == .nomPrenom ?
-        [
-            SortDescriptor(\MarkEntity.eleve?.familyName, order: .forward),
-            SortDescriptor(\MarkEntity.eleve?.givenName, order: .forward)
-        ] :
-        [
-            SortDescriptor(\MarkEntity.eleve?.givenName, order: .forward),
-            SortDescriptor(\MarkEntity.eleve?.familyName, order: .forward)
-        ]
+            [
+                SortDescriptor(\MarkEntity.eleve?.familyName, order: .forward),
+                SortDescriptor(\MarkEntity.eleve?.givenName, order: .forward)
+            ] :
+            [
+                SortDescriptor(\MarkEntity.eleve?.givenName, order: .forward),
+                SortDescriptor(\MarkEntity.eleve?.familyName, order: .forward)
+            ]
 
         return allMarks
             .filter { mark in
@@ -143,8 +141,8 @@ extension ExamEntity: ModelEntityP {
 
 // MARK: - Extension Debug
 
-extension ExamEntity {
-    public override var description: String {
+public extension ExamEntity {
+    override var description: String {
         """
 
         EVALUATION: \(viewSujet)
@@ -157,4 +155,3 @@ extension ExamEntity {
         """
     }
 }
-

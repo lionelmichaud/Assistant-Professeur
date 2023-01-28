@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SequenceSidebarView: View {
     @EnvironmentObject
-    private var navig : NavigationModel
+    private var navig: NavigationModel
 
     @State
     private var isAddingNewSequence = false
@@ -26,11 +26,13 @@ struct SequenceSidebarView: View {
 //                    }
                     ProgramDetailGroupBox(program: program)
                     SequenceList(program: program)
+
                 } else {
                     Text("Programme introuvable")
                         .foregroundStyle(.secondary)
                         .font(.title2)
                 }
+
             } else {
                 VStack(alignment: .center) {
                     Text("Aucun programme sélectionné.")
@@ -46,9 +48,11 @@ struct SequenceSidebarView: View {
         .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)
 
-        /// Modal Sheet de création d'une nouvelle séquence
-        .sheet(isPresented: $isAddingNewSequence,
-               onDismiss: { ProgramEntity.rollback() }) {
+        // Modal Sheet de création d'une nouvelle séquence
+        .sheet(
+            isPresented: $isAddingNewSequence,
+            onDismiss: ProgramEntity.rollback
+        ) {
             if let programId = navig.selectedProgramId,
                let program = ProgramEntity.byObjectId(id: programId) {
                 NavigationStack {
@@ -58,9 +62,11 @@ struct SequenceSidebarView: View {
             }
         }
 
-        /// Modal Sheet de modification du programme
-        .sheet(isPresented: $isEditing,
-               onDismiss: { ProgramEntity.rollback() }) {
+        // Modal Sheet de modification du programme
+        .sheet(
+            isPresented: $isEditing,
+            onDismiss: ProgramEntity.rollback
+        ) {
             if let programId = navig.selectedProgramId,
                let program = ProgramEntity.byObjectId(id: programId) {
                 NavigationStack {
@@ -79,14 +85,14 @@ extension SequenceSidebarView {
     private func myToolBarContent() -> some ToolbarContent {
         if let programId = navig.selectedProgramId,
            ProgramEntity.byObjectId(id: programId) != nil {
-            /// Editer le Programme
+            // Editer le Programme
             ToolbarItemGroup(placement: .automatic) {
                 Button("Modifier") {
                     isEditing.toggle()
                 }
             }
 
-            /// Ajouter une Séquence
+            // Ajouter une Séquence
             ToolbarItemGroup(placement: .status) {
                 Button {
                     isAddingNewSequence.toggle()

@@ -5,23 +5,27 @@
 //  Created by Lionel MICHAUD on 15/04/2022.
 //
 
-import SwiftUI
 import os
-//import Files
-//import FileAndFolder
+import SwiftUI
+
+// import Files
+// import FileAndFolder
 import HelpersView
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
-                               category  : "SchoolSidebarView")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "SchoolSidebarView"
+)
 
 struct SchoolSidebarView: View {
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     @SectionedFetchRequest<String, SchoolEntity>(
-        fetchRequest      : SchoolEntity.requestAllSortedByLevelName,
-        sectionIdentifier : \.levelString,
-        animation         : .default)
+        fetchRequest: SchoolEntity.requestAllSortedByLevelName,
+        sectionIdentifier: \.levelString,
+        animation: .default
+    )
     private var schoolsSections: SectionedFetchResults<String, SchoolEntity>
 
     @State
@@ -61,11 +65,11 @@ struct SchoolSidebarView: View {
             if SchoolEntity.all().isEmpty {
                 Text("Aucun établissement actuellement")
             }
-            /// pour chaque Type d'établissement
+            // pour chaque Type d'établissement
             ForEach(schoolsSections) { section in
                 if section.isNotEmpty {
                     Section {
-                        /// pour chaque Etablissement
+                        // pour chaque Etablissement
                         ForEach(section, id: \.objectID) { school in
                             SchoolBrowserRow(school: school)
                                 .badge(school.nbOfClasses)
@@ -94,8 +98,10 @@ struct SchoolSidebarView: View {
                                                 }
                                             }
                                         } label: {
-                                            Label(school.levelEnum == .college ? "Lycée" : "Collège",
-                                                  systemImage: school.levelEnum == .college ?  "building.2" : "building")
+                                            Label(
+                                                school.levelEnum == .college ? "Lycée" : "Collège",
+                                                systemImage: school.levelEnum == .college ? "building.2" : "building"
+                                            )
                                         }
                                         .tint(school.levelEnum == .college ? .mint : .orange)
                                     }
@@ -111,13 +117,14 @@ struct SchoolSidebarView: View {
             }
         }
         .navigationTitle("Établissements")
-        //.navigationViewStyle(.columns)
+        // .navigationViewStyle(.columns)
         .toolbar(content: myToolBarContent)
 
-        .alert(alertTitle,
-               isPresented: $alertIsPresented,
-               actions: { },
-               message: { Text(alertMessage) }
+        .alert(
+            alertTitle,
+            isPresented: $alertIsPresented,
+            actions: {},
+            message: { Text(alertMessage) }
         )
 
         .sheet(isPresented: $isShowingAbout) {
@@ -127,7 +134,7 @@ struct SchoolSidebarView: View {
             .presentationDetents([.large])
         }
 
-        /// Modal Sheet de gestion des Préférences
+        // Modal Sheet de gestion des Préférences
         .sheet(isPresented: $isEditingPreferences) {
             NavigationStack {
                 SettingsView()
@@ -135,19 +142,23 @@ struct SchoolSidebarView: View {
             .presentationDetents([.large])
         }
 
-        /// Modal Sheet de création d'un nouvel établissement
-        .sheet(isPresented: $isAddingNewSchool,
-               onDismiss: { }) {
+        // Modal Sheet de création d'un nouvel établissement
+        .sheet(
+            isPresented: $isAddingNewSchool
+            //onDismiss: {}
+        ) {
             NavigationStack {
                 SchoolCreatorModal()
             }
             .presentationDetents([.medium])
         }
 
-        /// Importer des fichiers JPEG
-        .fileImporter(isPresented: $isImportingJpegFile,
-                      allowedContentTypes: [.jpeg],
-                      allowsMultipleSelection: true) { result in
+        // Importer des fichiers JPEG
+        .fileImporter(
+            isPresented: $isImportingJpegFile,
+            allowedContentTypes: [.jpeg],
+            allowsMultipleSelection: true
+        ) { result in
             importUserSelectedFiles(result: result)
         }
     }
@@ -158,7 +169,7 @@ struct SchoolSidebarView: View {
 extension SchoolSidebarView {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
-        /// Ajouter un établissement
+        // Ajouter un établissement
         ToolbarItemGroup(placement: .status) {
             Button {
                 isAddingNewSchool = true
@@ -171,48 +182,48 @@ extension SchoolSidebarView {
             }
         }
 
-        /// Menu
+        // Menu
         ToolbarItemGroup(placement: .automatic) {
             Menu {
-                /// A propos
+                // A propos
                 Button {
                     isShowingAbout = true
                 } label: {
                     Label("A propos", systemImage: "info.circle")
                 }
 
-                /// Edition des préférences utilisateur
+                // Edition des préférences utilisateur
                 Button {
                     isEditingPreferences = true
                 } label: {
                     Label("Préférences", systemImage: "gear")
                 }
 
-                /// Exporter les fichiers JSON utilisateurs
-                //shareMenuItem
+                // Exporter les fichiers JSON utilisateurs
+                // shareMenuItem
 
-                /// Importer des fichiers JPEG pour le trombinoscope
+                // Importer des fichiers JPEG pour le trombinoscope
                 Button {
                     isShowingImportTrombineDialog.toggle()
                 } label: {
                     Label("Importer des photos du trombinoscope", systemImage: "person.crop.rectangle.stack.fill")
                 }
 
-                /// Importer les fichiers JSON depuis le Bundle Application
+                // Importer les fichiers JSON depuis le Bundle Application
                 Button(role: .destructive) {
                     isShowingImportConfirmDialog.toggle()
                 } label: {
                     Label("Importer les données de l'App", systemImage: "square.and.arrow.down")
                 }
 
-                /// Vérifier la cohérence de la base de donnée
+                // Vérifier la cohérence de la base de donnée
                 Button(role: .destructive) {
                     checkAllUserData()
                 } label: {
                     Label("Vérifier la base de donnée", systemImage: "checkmark.circle.trianglebadge.exclamationmark")
                 }
 
-                /// Effacer toutes les données utilisateur
+                // Effacer toutes les données utilisateur
                 Button(role: .destructive) {
                     isShowingDeleteConfirmDialog.toggle()
                 } label: {
@@ -220,25 +231,27 @@ extension SchoolSidebarView {
                 }
 
                 #if targetEnvironment(simulator)
-                Button {
-                    alertTitle   = "Échec"
-                    alertMessage = "L'effacement complet de la base de donnée a échoué"
+                    Button {
+                        alertTitle = "Échec"
+                        alertMessage = "L'effacement complet de la base de donnée a échoué"
 
-                    withAnimation {
-                        DataBaseManager.populate(failed: &alertIsPresented)
+                        withAnimation {
+                            DataBaseManager.populate(failed: &alertIsPresented)
+                        }
+                    } label: {
+                        Text("Dev - Peupler la BDD").foregroundColor(.primary)
                     }
-                } label: {
-                    Text("Dev - Peupler la BDD").foregroundColor(.primary)
-                }
                 #endif
             } label: {
                 Image(systemName: "ellipsis.circle")
             }
 
-            /// Confirmation importation de tous les fichiers depuis l'App
-            .confirmationDialog("Importation des fichiers de l'App",
-                                isPresented: $isShowingImportConfirmDialog,
-                                titleVisibility: .visible) {
+            // Confirmation importation de tous les fichiers depuis l'App
+            .confirmationDialog(
+                "Importation des fichiers de l'App",
+                isPresented: $isShowingImportConfirmDialog,
+                titleVisibility: .visible
+            ) {
                 Button("Importer", role: .destructive) {
                     withAnimation {
                         self.import()
@@ -246,13 +259,15 @@ extension SchoolSidebarView {
                 }
             } message: {
                 Text("L'importation va remplacer vos données actuelles par celles contenues dans l'Application.\n") +
-                Text("Cette action ne peut pas être annulée.")
+                    Text("Cette action ne peut pas être annulée.")
             }
 
-            /// Confirmation importation des fichiers JPEG pour le trombinoscope
-            .confirmationDialog("Importer des photos d'élèves",
-                                isPresented: $isShowingImportTrombineDialog,
-                                titleVisibility: .visible) {
+            // Confirmation importation des fichiers JPEG pour le trombinoscope
+            .confirmationDialog(
+                "Importer des photos d'élèves",
+                isPresented: $isShowingImportTrombineDialog,
+                titleVisibility: .visible
+            ) {
                 Button("Importer") {
                     withAnimation {
                         isImportingJpegFile = true
@@ -260,14 +275,16 @@ extension SchoolSidebarView {
                 }
             } message: {
                 Text("Les photos importées doivent être au format JPEG ") +
-                Text("et être nommées NOM_Prénom.jpg.\n") +
-                Text("Cette action ne peut pas être annulée.")
+                    Text("et être nommées NOM_Prénom.jpg.\n") +
+                    Text("Cette action ne peut pas être annulée.")
             }
 
-            /// Confirmation de Suppression de toutes vos données
-            .confirmationDialog("Suppression de toutes vos données",
-                                isPresented: $isShowingDeleteConfirmDialog,
-                                titleVisibility: .visible) {
+            // Confirmation de Suppression de toutes vos données
+            .confirmationDialog(
+                "Suppression de toutes vos données",
+                isPresented: $isShowingDeleteConfirmDialog,
+                titleVisibility: .visible
+            ) {
                 Button("Supprimer", role: .destructive) {
                     withAnimation {
                         self.clearAllUserData()
@@ -283,7 +300,6 @@ extension SchoolSidebarView {
 // MARK: Core Data
 
 extension SchoolSidebarView {
-
     //    private var jsonURLsToShare: [URL] {
     //        ImportExportManager.documentsURLsToShare(fileNames: [".json"])
     //    }
@@ -302,13 +318,13 @@ extension SchoolSidebarView {
     //    }
 
     private func checkAllUserData() {
-        alertTitle   = "Échec"
+        alertTitle = "Échec"
         alertMessage = "La vérfication de la base de donnée a trouvé des erreurs"
 
         DataBaseManager.check(errorFound: &alertIsPresented)
 
         if alertIsPresented == false {
-            alertTitle   = "Vérification terminée"
+            alertTitle = "Vérification terminée"
             alertMessage = "Aucune anomalie détectée."
             alertIsPresented.toggle()
         }
@@ -316,7 +332,7 @@ extension SchoolSidebarView {
 
     /// Suppression de toutes les données utilisateur
     private func clearAllUserData() {
-        alertTitle   = "Échec"
+        alertTitle = "Échec"
         alertMessage = "L'effacement complet de la base de donnée a échoué"
 
         navigationModel.resetSelections()
@@ -329,9 +345,9 @@ extension SchoolSidebarView {
         do {
             //            try PersistenceManager().forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
         } catch {
-            alertTitle   = "Échec"
+            alertTitle = "Échec"
             alertMessage = "L'importation des fichiers a échouée!"
-            /// trigger second alert
+            // trigger second alert
             DispatchQueue.main.async {
                 alertIsPresented.toggle()
             }
@@ -344,43 +360,47 @@ extension SchoolSidebarView {
             //            try colleStore.loadFromJSON(fromFolder: nil)
             //            try observStore.loadFromJSON(fromFolder: nil)
         } catch {
-            alertTitle   = "Échec"
+            alertTitle = "Échec"
             alertMessage = "La lecture des fichiers importés a échouée!"
-            /// trigger second alert
+            // trigger second alert
             DispatchQueue.main.async {
                 alertIsPresented.toggle()
             }
         }
-        //eleveStore.sort()
+        // eleveStore.sort()
     }
 
     /// Copier les fichiers  sélectionnés dans le dossier Document de l'application.
     /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
     private func importUserSelectedFiles(result: Result<[URL], Error>) {
         switch result {
-            case .failure(let error):
-                customLog.log(level: .fault,
-                              "Error selecting file: \(error.localizedDescription)")
-                alertTitle   = "Échec"
-                alertMessage = "L'importation des fichiers a échouée!"
+        case let .failure(error):
+            customLog.log(
+                level: .fault,
+                "Error selecting file: \(error.localizedDescription)"
+            )
+            alertTitle = "Échec"
+            alertMessage = "L'importation des fichiers a échouée!"
+            alertIsPresented.toggle()
+
+        case let .success(filesUrl):
+            do {
+                try ImportExportManager.importTrombinesImages(filesUrl: filesUrl)
+
+            } catch {
+                customLog.log(
+                    level: .fault,
+                    "L'importation des fichiers trombines a échouée: \(error.localizedDescription)"
+                )
+                alertTitle = "Échec"
+                alertMessage = "L'importation des fichiers a échoué!"
                 alertIsPresented.toggle()
-
-            case .success(let filesUrl):
-                do {
-                    try ImportExportManager.importTrombinesImages(filesUrl: filesUrl)
-
-                } catch {
-                    customLog.log(level: .fault,
-                                  "L'importation des fichiers trombines a échouée: \(error.localizedDescription)")
-                    alertTitle   = "Échec"
-                    alertMessage = "L'importation des fichiers a échoué!"
-                    alertIsPresented.toggle()
-                }
+            }
         }
     }
 }
 
-//struct SchoolSidebarView_Previews: PreviewProvider {
+// struct SchoolSidebarView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -403,4 +423,4 @@ extension SchoolSidebarView {
 //                .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

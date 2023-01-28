@@ -5,15 +5,15 @@
 //  Created by Lionel MICHAUD on 22/01/2023.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct ActivitySideBar: View {
     @ObservedObject
     var sequence: SequenceEntity
 
     @EnvironmentObject
-    private var navig : NavigationModel
+    private var navig: NavigationModel
 
     @State
     private var isAddingNewActivity = false
@@ -28,7 +28,9 @@ struct ActivitySideBar: View {
     }
 
     private var selectedSequence: SequenceEntity? {
-        guard let selectedSequenceId else { return nil }
+        guard let selectedSequenceId else {
+            return nil
+        }
         return SequenceEntity.byObjectId(id: selectedSequenceId)
     }
 
@@ -70,9 +72,11 @@ struct ActivitySideBar: View {
         .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)
 
-        /// Modal Sheet de création d'une nouvelle activité
-        .sheet(isPresented: $isAddingNewActivity,
-               onDismiss: { SequenceEntity.rollback() }) {
+        // Modal Sheet de création d'une nouvelle activité
+        .sheet(
+            isPresented: $isAddingNewActivity,
+            onDismiss: SequenceEntity.rollback
+        ) {
             if let sequenceId = navig.selectedSequenceId,
                let sequence = SequenceEntity.byObjectId(id: sequenceId) {
                 NavigationStack {
@@ -82,20 +86,21 @@ struct ActivitySideBar: View {
             }
         }
 
-        /// Modal Sheet de modification de la séquence
-               .sheet(isPresented: $isEditing,
-                      onDismiss: { SequenceEntity.rollback() }) {
-                   if let sequenceId = navig.selectedSequenceId,
-                      let sequence = SequenceEntity.byObjectId(id: sequenceId) {
-                       NavigationStack {
-                           SequenceEditorModal(sequence: sequence)
-                       }
-                       .presentationDetents([.medium])
-                   }
-               }
+        // Modal Sheet de modification de la séquence
+        .sheet(
+            isPresented: $isEditing,
+            onDismiss: SequenceEntity.rollback
+        ) {
+            if let sequenceId = navig.selectedSequenceId,
+               let sequence = SequenceEntity.byObjectId(id: sequenceId) {
+                NavigationStack {
+                    SequenceEditorModal(sequence: sequence)
+                }
+                .presentationDetents([.medium])
+            }
+        }
     }
 }
-
 
 // MARK: Toolbar Content
 
@@ -104,14 +109,14 @@ extension ActivitySideBar {
     private func myToolBarContent() -> some ToolbarContent {
         if let sequenceId = navig.selectedSequenceId,
            SequenceEntity.byObjectId(id: sequenceId) != nil {
-            /// Editer la Séquence
+            // Editer la Séquence
             ToolbarItemGroup(placement: .automatic) {
                 Button("Modifier") {
                     isEditing.toggle()
                 }
             }
 
-            /// Ajouter une Activité
+            // Ajouter une Activité
             ToolbarItemGroup(placement: .status) {
                 Button {
                     isAddingNewActivity.toggle()
@@ -127,8 +132,8 @@ extension ActivitySideBar {
     }
 }
 
-//struct ActivitySideBar_Previews: PreviewProvider {
+// struct ActivitySideBar_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ActivitySideBar()
 //    }
-//}
+// }

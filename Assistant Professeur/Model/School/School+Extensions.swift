@@ -5,12 +5,11 @@
 //  Created by Lionel MICHAUD on 18/11/2022.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /// Un établissement scolaire
 extension SchoolEntity {
-
     // MARK: - Computed properties
 
     /// Wrapper of `level`
@@ -92,16 +91,17 @@ extension SchoolEntity {
 // MARK: - Extension Core Data
 
 extension SchoolEntity: ModelEntityP {
-
     // MARK: - Type Computed Properties
 
     static var byLevelNameNSSortDescriptor: [NSSortDescriptor] = [
         NSSortDescriptor(
             keyPath: \SchoolEntity.level,
-            ascending: true),
+            ascending: true
+        ),
         NSSortDescriptor(
             keyPath: \SchoolEntity.name,
-            ascending: true)
+            ascending: true
+        )
     ]
 
     /// Requête pour tous les établissements triées.
@@ -120,13 +120,13 @@ extension SchoolEntity: ModelEntityP {
     /// Créer une nouvelle instance et la sauvegarder dans le context
     @discardableResult
     static func create(
-        name       : String,
-        level      : LevelSchool,
-        annotation : String = ""
+        name: String,
+        level: LevelSchool,
+        annotation: String = ""
     ) -> SchoolEntity {
         let school = SchoolEntity.create()
-        school.name       = name
-        school.level      = level.rawValue
+        school.name = name
+        school.level = level.rawValue
         school.annotation = annotation
 
         try? SchoolEntity.saveIfContextHasChanged()
@@ -169,7 +169,7 @@ extension SchoolEntity: ModelEntityP {
         if let classes {
             return (classes.allObjects as! [ClasseEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
@@ -178,7 +178,7 @@ extension SchoolEntity: ModelEntityP {
         if let events {
             return (events.allObjects as! [EventEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
@@ -187,7 +187,7 @@ extension SchoolEntity: ModelEntityP {
         if let ressources {
             return (ressources.allObjects as! [RessourceEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
@@ -196,7 +196,7 @@ extension SchoolEntity: ModelEntityP {
         if let rooms {
             return (rooms.allObjects as! [RoomEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
@@ -205,54 +205,54 @@ extension SchoolEntity: ModelEntityP {
         if let documents {
             return (documents.allObjects as! [DocumentEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
     /// Liste des classes de l'établissement triées par niveau puis par numéro
     var classesSortedByLevelNumber: [ClasseEntity] {
         let sortComparators =
-        [
-            SortDescriptor(\ClasseEntity.level, order: .reverse),
-            SortDescriptor(\ClasseEntity.numero, order: .forward),
-            SortDescriptor(\ClasseEntity.segpa, order: .forward)
-        ]
+            [
+                SortDescriptor(\ClasseEntity.level, order: .reverse),
+                SortDescriptor(\ClasseEntity.numero, order: .forward),
+                SortDescriptor(\ClasseEntity.segpa, order: .forward)
+            ]
         return allClasses.sorted(using: sortComparators)
     }
 
     /// Liste des ressources de l'établissement non triées par ordre alphabétique
     var ressourcesSortedByName: [RessourceEntity] {
         let sortComparators =
-        [
-            SortDescriptor(\RessourceEntity.name, order: .forward),
-        ]
+            [
+                SortDescriptor(\RessourceEntity.name, order: .forward)
+            ]
         return allRessources.sorted(using: sortComparators)
     }
 
     /// Liste des événements importants de l'établissement triées par date
     var eventsSortedByDate: [EventEntity] {
         let sortComparators =
-        [
-            SortDescriptor(\EventEntity.date, order: .reverse),
-        ]
+            [
+                SortDescriptor(\EventEntity.date, order: .reverse)
+            ]
         return allEvents.sorted(using: sortComparators)
     }
 
     /// Liste des salles de classe de l'établissement triées par ordre alphabétique
     var roomsSortedByName: [RoomEntity] {
         let sortComparators =
-        [
-            SortDescriptor(\RoomEntity.name, order: .forward),
-        ]
+            [
+                SortDescriptor(\RoomEntity.name, order: .forward)
+            ]
         return allRooms.sorted(using: sortComparators)
     }
 
     /// Liste des documents importants de l'établissement triées par ordre alphabétique
     var documentsSortedByName: [DocumentEntity] {
         let sortComparators =
-        [
-            SortDescriptor(\DocumentEntity.docName, order: .forward),
-        ]
+            [
+                SortDescriptor(\DocumentEntity.docName, order: .forward)
+            ]
         return allDocuments.sorted(using: sortComparators)
     }
 
@@ -265,21 +265,21 @@ extension SchoolEntity: ModelEntityP {
     ///   - classeIsSegpa: classe de SEGPA ou non
     /// - Returns: Vrai si la classe existe déjà dans l'établissement
     func exists(
-        classeLevel   : LevelClasse,
-        classeNumero  : Int,
-        classeIsSegpa : Bool
+        classeLevel: LevelClasse,
+        classeNumero: Int,
+        classeIsSegpa: Bool
     ) -> Bool {
         (self.classes?.allObjects as! [ClasseEntity])
             .contains {
                 $0.levelEnum == classeLevel &&
-                $0.numero == classeNumero &&
-                $0.segpa == classeIsSegpa
+                    $0.numero == classeNumero &&
+                    $0.segpa == classeIsSegpa
             }
     }
 
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
-        //Set defaults here
+        // Set defaults here
         //        self.fileName = ""
 //        self.fileDate = Date()
     }
@@ -287,8 +287,8 @@ extension SchoolEntity: ModelEntityP {
 
 // MARK: - Extension Debug
 
-extension SchoolEntity {
-    public override var description: String {
+public extension SchoolEntity {
+    override var description: String {
         """
 
         ETABLISSEMENT: \(displayString)

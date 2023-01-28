@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HelpersView
 
 struct ActivityList: View {
     @ObservedObject
@@ -43,17 +44,15 @@ struct ActivityList: View {
                 )
 
             } else {
-                VStack {
-                    GroupBox {
-                        Text("Aucune activité")
-                            .bold()
-                        Text("Les activités ajoutées apparaîtront ici.")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .padding(.top, 2)
-                    }
-                    Spacer()
+                GroupBox {
+                    Text("Aucune activité")
+                        .bold()
+                    Text("Les activités ajoutées apparaîtront ici.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .padding(.top, 2)
                 }
+                .verticallyAligned(.top)
             }
         } header: {
             HStack {

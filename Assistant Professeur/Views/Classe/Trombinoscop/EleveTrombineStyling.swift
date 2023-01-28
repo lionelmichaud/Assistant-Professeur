@@ -20,20 +20,21 @@ struct EleveTrombineStyling: ViewModifier {
     }
 }
 
-extension View {
-    public func elevTrombineStyling(
+public extension View {
+    func elevTrombineStyling(
         cornerRadius: Int = 15,
         shadowRadius: Int = 5
     ) -> some View {
         modifier(EleveTrombineStyling(
             cornerRadius: cornerRadius,
-            shadowRadius: shadowRadius)
+            shadowRadius: shadowRadius
+        )
         )
     }
 }
 
 /// Affiche la trombine d'un élève
-struct Trombine : View {
+struct Trombine: View {
     @ObservedObject
     var eleve: EleveEntity
 
@@ -43,4 +44,3 @@ struct Trombine : View {
             .elevTrombineStyling()
     }
 }
-

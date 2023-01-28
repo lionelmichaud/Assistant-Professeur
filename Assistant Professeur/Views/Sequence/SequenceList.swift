@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HelpersView
 
 struct SequenceList: View {
     @ObservedObject
@@ -43,17 +44,15 @@ struct SequenceList: View {
                 )
 
             } else {
-                VStack {
-                    GroupBox {
-                        Text("Aucune séquence")
-                            .bold()
-                        Text("Les séquences ajoutées apparaîtront ici.")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .padding(.top, 2)
-                    }
-                    Spacer()
+                GroupBox {
+                    Text("Aucune séquence")
+                        .bold()
+                    Text("Les séquences ajoutées apparaîtront ici.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .padding(.top, 2)
                 }
+                .verticallyAligned(.top)
             }
         } header: {
             HStack {

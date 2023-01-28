@@ -5,21 +5,20 @@
 //  Created by Lionel MICHAUD on 22/12/2022.
 //
 
-import Foundation
 import CoreData
-import UIKit
+import Foundation
 import SwiftUI
+import UIKit
 
 /// Un élève
 extension EleveEntity {
-
     // MARK: - Type Properties
 
     @Preference(\.nameSortOrder)
-    static private var nameSortOrder
+    private static var nameSortOrder
 
     @Preference(\.nameDisplayOrder)
-    static private var nameDisplayOrder
+    private static var nameDisplayOrder
 
     // MARK: - Computed properties
 
@@ -42,12 +41,10 @@ extension EleveEntity {
     /// Wrapper of `trombine`
     /// - Important: *Saves the context to the store after modification is done*
     var viewImageTrombine: Image {
-        get {
-            if let trombine, let uiImage = UIImage(data: trombine) {
-                return Image(uiImage: uiImage)
-            } else {
-                return Image(systemName: "questionmark.square.dashed")
-            }
+        if let trombine, let uiImage = UIImage(data: trombine) {
+            return Image(uiImage: uiImage)
+        } else {
+            return Image(systemName: "questionmark.square.dashed")
         }
     }
 
@@ -55,7 +52,7 @@ extension EleveEntity {
         trombine != nil
     }
 
-   /// Wrapper of `trouble`
+    /// Wrapper of `trouble`
     /// - Important: *Saves the context to the store after modification is done*
     var troubleEnum: TroubleDys {
         get {
@@ -163,22 +160,22 @@ extension EleveEntity {
     }
 
     @objc
-    var displayName : String {
+    var displayName: String {
         switch EleveEntity.nameDisplayOrder {
-            case .prenomNom:
-                return "\(givenName ?? "") \(familyName ?? "")"
-            case .nomPrenom:
-                return "\(familyName ?? "") \(givenName ?? "")"
+        case .prenomNom:
+            return "\(givenName ?? "") \(familyName ?? "")"
+        case .nomPrenom:
+            return "\(familyName ?? "") \(givenName ?? "")"
         }
     }
 
     @objc
-    var sortName : String {
+    var sortName: String {
         switch EleveEntity.nameSortOrder {
-            case .prenomNom:
-                return "\(givenName ?? "") \(familyName ?? "")"
-            case .nomPrenom:
-                return "\(familyName ?? "") \(givenName ?? "")"
+        case .prenomNom:
+            return "\(givenName ?? "") \(familyName ?? "")"
+        case .nomPrenom:
+            return "\(familyName ?? "") \(givenName ?? "")"
         }
     }
 
@@ -212,7 +209,7 @@ extension EleveEntity {
 
     func isSameAs(_ eleve: EleveEntity) -> Bool {
         self.familyName == eleve.familyName &&
-        self.givenName == eleve.givenName
+            self.givenName == eleve.givenName
     }
 
     /// Modifie l'attribut `sex`
@@ -234,19 +231,19 @@ extension EleveEntity {
 
     func displayName(_ order: NameOrdering = .prenomNom) -> String {
         switch order {
-            case .prenomNom:
-                return "\(givenName ?? "") \(familyName ?? "")"
-            case .nomPrenom:
-                return "\(familyName ?? "") \(givenName ?? "")"
+        case .prenomNom:
+            return "\(givenName ?? "") \(familyName ?? "")"
+        case .nomPrenom:
+            return "\(familyName ?? "") \(givenName ?? "")"
         }
     }
 
     func displayName2lines(_ order: NameOrdering = .prenomNom) -> String {
         switch order {
-            case .prenomNom:
-                return "\(givenName ?? "")\n\(familyName ?? "")"
-            case .nomPrenom:
-                return "\(familyName ?? "")\n\(givenName ?? "")"
+        case .prenomNom:
+            return "\(givenName ?? "")\n\(familyName ?? "")"
+        case .nomPrenom:
+            return "\(familyName ?? "")\n\(givenName ?? "")"
         }
     }
 
@@ -261,141 +258,168 @@ extension EleveEntity {
                 // filtrage sur nom et prénom
                 let string = searchString.lowercased()
                 return familyName!.lowercased().contains(string) ||
-                givenName!.lowercased().contains(string)
+                    givenName!.lowercased().contains(string)
             }
         } else {
             return true
         }
     }
-
 }
 
 // MARK: - Extension Core Data
 
 extension EleveEntity: ModelEntityP {
-
     // MARK: - Type Computed Properties
 
     static var bySchoolNameClasseEleveFamilyNameNSSortDescriptor: [NSSortDescriptor] =
-    [
-        // school
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.school?.level,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.school?.name,
-            ascending: true),
-        // classe
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.level,
-            ascending: false),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.numero,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.segpa,
-            ascending: true),
-        // name
-        NSSortDescriptor(
-            keyPath: \EleveEntity.familyName,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.givenName,
-            ascending: true)
-    ]
+        [
+            // school
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.school?.level,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.school?.name,
+                ascending: true
+            ),
+            // classe
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.level,
+                ascending: false
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.numero,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.segpa,
+                ascending: true
+            ),
+            // name
+            NSSortDescriptor(
+                keyPath: \EleveEntity.familyName,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.givenName,
+                ascending: true
+            )
+        ]
 
     static var bySchoolNameClasseEleveGivenNameNSSortDescriptor: [NSSortDescriptor] =
-    [
-        // school
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.school?.level,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.school?.name,
-            ascending: true),
-        // classe
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.level,
-            ascending: false),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.numero,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.segpa,
-            ascending: true),
-        // name
-        NSSortDescriptor(
-            keyPath: \EleveEntity.givenName,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.familyName,
-            ascending: true)
-    ]
+        [
+            // school
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.school?.level,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.school?.name,
+                ascending: true
+            ),
+            // classe
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.level,
+                ascending: false
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.numero,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.segpa,
+                ascending: true
+            ),
+            // name
+            NSSortDescriptor(
+                keyPath: \EleveEntity.givenName,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.familyName,
+                ascending: true
+            )
+        ]
 
     static var bySchoolNameClasseGroupeEleveFamilyNameNSSortDescriptor: [NSSortDescriptor] =
-    [
-        // school
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.school?.level,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.school?.name,
-            ascending: true),
-        // classe
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.level,
-            ascending: false),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.numero,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.segpa,
-            ascending: true),
-        // groupe
-        NSSortDescriptor(
-            keyPath: \EleveEntity.group?.number,
-            ascending: true),
-        // name
-        NSSortDescriptor(
-            keyPath: \EleveEntity.familyName,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.givenName,
-            ascending: true)
-
-    ]
+        [
+            // school
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.school?.level,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.school?.name,
+                ascending: true
+            ),
+            // classe
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.level,
+                ascending: false
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.numero,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.segpa,
+                ascending: true
+            ),
+            // groupe
+            NSSortDescriptor(
+                keyPath: \EleveEntity.group?.number,
+                ascending: true
+            ),
+            // name
+            NSSortDescriptor(
+                keyPath: \EleveEntity.familyName,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.givenName,
+                ascending: true
+            )
+        ]
 
     static var bySchoolNameClasseGroupeEleveGivenNameNSSortDescriptor: [NSSortDescriptor] =
-    [
-        // school
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.school?.level,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.school?.name,
-            ascending: true),
-        // classe
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.level,
-            ascending: false),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.numero,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.classe?.segpa,
-            ascending: true),
-        // groupe
-        NSSortDescriptor(
-            keyPath: \EleveEntity.group?.number,
-            ascending: true),
-        // name
-        NSSortDescriptor(
-            keyPath: \EleveEntity.givenName,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \EleveEntity.familyName,
-            ascending: true)
-    ]
+        [
+            // school
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.school?.level,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.school?.name,
+                ascending: true
+            ),
+            // classe
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.level,
+                ascending: false
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.numero,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.classe?.segpa,
+                ascending: true
+            ),
+            // groupe
+            NSSortDescriptor(
+                keyPath: \EleveEntity.group?.number,
+                ascending: true
+            ),
+            // name
+            NSSortDescriptor(
+                keyPath: \EleveEntity.givenName,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \EleveEntity.familyName,
+                ascending: true
+            )
+        ]
 
     /// Requête pour tous les élèves triées.
     ///
@@ -411,10 +435,10 @@ extension EleveEntity: ModelEntityP {
         let request = EleveEntity.fetchRequest()
         if nameSortOrder == .nomPrenom {
             request.sortDescriptors =
-            EleveEntity.bySchoolNameClasseGroupeEleveFamilyNameNSSortDescriptor
+                EleveEntity.bySchoolNameClasseGroupeEleveFamilyNameNSSortDescriptor
         } else {
             request.sortDescriptors =
-            EleveEntity.bySchoolNameClasseGroupeEleveGivenNameNSSortDescriptor
+                EleveEntity.bySchoolNameClasseGroupeEleveGivenNameNSSortDescriptor
         }
         return request
     }
@@ -428,17 +452,18 @@ extension EleveEntity: ModelEntityP {
     ///   - sex: Sexe
     ///   - classe: Classe  à laquelle ajouter l'élève créé
     /// - Returns: Le nouvel élève
-    @discardableResult static func create(
-        familyName   : String,
-        givenName    : String,
-        sex          : Sexe,
-        isFlagged    : Bool       = false,
-        trouble      : TroubleDys = .none,
-        hasAddTime   : Bool       = false,
-        annotation   : String     = "",
-        appreciation : String     = "",
-        bonus        : Int16      = 0,
-        dans classe  : ClasseEntity
+    @discardableResult
+    static func create(
+        familyName: String,
+        givenName: String,
+        sex: Sexe,
+        isFlagged: Bool = false,
+        trouble: TroubleDys = .none,
+        hasAddTime: Bool = false,
+        annotation: String = "",
+        appreciation: String = "",
+        bonus: Int16 = 0,
+        dans classe: ClasseEntity
     ) -> EleveEntity {
         let eleve = EleveEntity.create()
         // classe d'appartenance.
@@ -449,18 +474,18 @@ extension EleveEntity: ModelEntityP {
         // mandatory
         eleve.group = classe.groupOfUngroupedEleves
 
-        eleve.familyName   = familyName
-        eleve.givenName    = givenName
+        eleve.familyName = familyName
+        eleve.givenName = givenName
         eleve.setSex(sex)
-        eleve.isFlagged    = isFlagged
-        eleve.trouble      = trouble.rawValue
-        eleve.hasAddTime   = hasAddTime
-        eleve.annotation   = annotation
+        eleve.isFlagged = isFlagged
+        eleve.trouble = trouble.rawValue
+        eleve.hasAddTime = hasAddTime
+        eleve.annotation = annotation
         eleve.appreciation = appreciation
-        eleve.bonus        = bonus
+        eleve.bonus = bonus
 
         try? EleveEntity.saveIfContextHasChanged()
-        
+
         return eleve
     }
 
@@ -473,12 +498,14 @@ extension EleveEntity: ModelEntityP {
         }
     }
 
-    static func byName(familyName: String,
-                       givenName: String) -> EleveEntity? {
+    static func byName(
+        familyName: String,
+        givenName: String
+    ) -> EleveEntity? {
         all()
             .first {
                 $0.familyName == familyName &&
-                $0.givenName == givenName
+                    $0.givenName == givenName
             }
     }
 
@@ -503,16 +530,16 @@ extension EleveEntity: ModelEntityP {
     ///   4. Nom / Prénom
     ///   5. Prénom / Nom
     static func requestAllFilteredSortedByName(
-        dansSchoolId: NSManagedObjectID,
-        searchString: String
+        dansSchoolId _: NSManagedObjectID,
+        searchString _: String
     ) -> NSFetchRequest<EleveEntity> {
         let request = EleveEntity.fetchRequest()
         if nameSortOrder == .nomPrenom {
             request.sortDescriptors =
-            EleveEntity.bySchoolNameClasseEleveFamilyNameNSSortDescriptor
+                EleveEntity.bySchoolNameClasseEleveFamilyNameNSSortDescriptor
         } else {
             request.sortDescriptors =
-            EleveEntity.bySchoolNameClasseEleveGivenNameNSSortDescriptor
+                EleveEntity.bySchoolNameClasseEleveGivenNameNSSortDescriptor
         }
         return request
     }
@@ -524,7 +551,7 @@ extension EleveEntity: ModelEntityP {
         if let colles {
             return (colles.allObjects as! [ColleEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
@@ -533,21 +560,23 @@ extension EleveEntity: ModelEntityP {
         if let observs {
             return (observs.allObjects as! [ObservEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
     // MARK: - Methods
 
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
-        //Set defaults here
+        // Set defaults here
         // self.group = ""
         //        self.fileDate = Date()
     }
 
-    func sortedObservations(isConsignee : Bool? = nil,
-                            isVerified  : Bool? = nil) -> [ObservEntity] {
+    func sortedObservations(
+        isConsignee: Bool? = nil,
+        isVerified: Bool? = nil
+    ) -> [ObservEntity] {
         let sortComparators = [
             SortDescriptor(\ObservEntity.isConsignee, order: .forward),
             SortDescriptor(\ObservEntity.isVerified, order: .forward),
@@ -556,42 +585,46 @@ extension EleveEntity: ModelEntityP {
 
         return allObservs
             .filter { observ in
-                observ.satisfies(isConsignee: isConsignee,
-                                 isVerified: isVerified)
+                observ.satisfies(
+                    isConsignee: isConsignee,
+                    isVerified: isVerified
+                )
             }
             .sorted(using: sortComparators)
     }
 
     func nbOfObservations(
-        isConsignee  : Bool? = nil,
-        isVerified   : Bool? = nil
+        isConsignee: Bool? = nil,
+        isVerified: Bool? = nil
     ) -> Int {
         switch (isConsignee, isVerified) {
-            case (nil, nil):
-                return nbOfObservs
+        case (nil, nil):
+            return nbOfObservs
 
-            case let(.some(c), nil):
-                return self.allObservs
-                    .reduce(into: 0) { partialResult, observ in
-                        partialResult += (observ.isConsignee == c ? 1 : 0)
-                    }
+        case let (.some(c), nil):
+            return self.allObservs
+                .reduce(into: 0) { partialResult, observ in
+                    partialResult += (observ.isConsignee == c ? 1 : 0)
+                }
 
-            case let(nil, .some(v)):
-                return self.allObservs
-                    .reduce(into: 0) { partialResult, observ in
-                        partialResult += (observ.isVerified == v ? 1 : 0)
-                    }
+        case let (nil, .some(v)):
+            return self.allObservs
+                .reduce(into: 0) { partialResult, observ in
+                    partialResult += (observ.isVerified == v ? 1 : 0)
+                }
 
-            case let(.some(c), .some(v)):
-                return self.allObservs
-                    .reduce(into: 0) { partialResult, observ in
-                        partialResult += ((observ.isConsignee == c || observ.isVerified == v) ? 1 : 0)
-                    }
+        case let (.some(c), .some(v)):
+            return self.allObservs
+                .reduce(into: 0) { partialResult, observ in
+                    partialResult += ((observ.isConsignee == c || observ.isVerified == v) ? 1 : 0)
+                }
         }
     }
 
-    func sortedColles(isConsignee : Bool? = nil,
-                      isVerified  : Bool? = nil) -> [ColleEntity] {
+    func sortedColles(
+        isConsignee: Bool? = nil,
+        isVerified: Bool? = nil
+    ) -> [ColleEntity] {
         let sortComparators = [
             SortDescriptor(\ColleEntity.isConsignee, order: .forward),
             SortDescriptor(\ColleEntity.date, order: .forward)
@@ -599,45 +632,47 @@ extension EleveEntity: ModelEntityP {
 
         return allColles
             .filter { colle in
-                colle.satisfies(isConsignee: isConsignee,
-                                isVerified: isVerified)
+                colle.satisfies(
+                    isConsignee: isConsignee,
+                    isVerified: isVerified
+                )
             }
             .sorted(using: sortComparators)
     }
 
     func nbOfColles(
-        isConsignee : Bool?  = nil,
-        isVerified  : Bool?  = nil
+        isConsignee: Bool? = nil,
+        isVerified: Bool? = nil
     ) -> Int {
         switch (isConsignee, isVerified) {
-            case (nil, nil):
-                return nbOfColles
+        case (nil, nil):
+            return nbOfColles
 
-            case (.some(let c), nil):
-                return self.allColles
-                    .reduce(into: 0) { partialResult, colle in
-                        partialResult += (colle.isConsignee == c ? 1 : 0)
-                    }
+        case (.some(let c), nil):
+            return self.allColles
+                .reduce(into: 0) { partialResult, colle in
+                    partialResult += (colle.isConsignee == c ? 1 : 0)
+                }
 
-            case (nil, .some(let v)):
-                return self.allColles
-                    .reduce(into: 0) { partialResult, colle in
-                        partialResult += (colle.isVerified == v ? 1 : 0)
-                    }
+        case (nil, let .some(v)):
+            return self.allColles
+                .reduce(into: 0) { partialResult, colle in
+                    partialResult += (colle.isVerified == v ? 1 : 0)
+                }
 
-            case (.some(let c), .some(let v)):
-                return self.allColles
-                    .reduce(into: 0) { partialResult, colle in
-                        partialResult += ((colle.isConsignee == c || colle.isVerified == v) ? 1 : 0)
-                    }
+        case let (.some(c), .some(v)):
+            return self.allColles
+                .reduce(into: 0) { partialResult, colle in
+                    partialResult += ((colle.isConsignee == c || colle.isVerified == v) ? 1 : 0)
+                }
         }
     }
 }
 
 // MARK: - Extension Debug
 
-extension EleveEntity {
-    public override var description: String {
+public extension EleveEntity {
+    override var description: String {
         """
 
         ELEVE: \(displayName)

@@ -12,15 +12,16 @@ struct ActivityCreatorModal: View {
     @ObservedObject
     var sequence: SequenceEntity
 
-    //This will not show changes to the variables in this View
-    @State var newActivity: ActivityEntity? = nil
+    /// This will not show changes to the variables in this View
+    @State
+    var newActivity: ActivityEntity?
 
     var body: some View {
-        Group{
+        Group {
             if let newActivity {
                 ActivityEditorModal(activity: newActivity)
             } else {
-                //Likely wont ever be visible but there has to be a fallback
+                // Likely wont ever be visible but there has to be a fallback
                 ProgressView()
                     .onAppear {
                         newActivity = ActivityEntity.createWithoutSaving(dans: sequence)
@@ -30,8 +31,8 @@ struct ActivityCreatorModal: View {
     }
 }
 
-//struct ActivityCreatorModal_Previews: PreviewProvider {
+// struct ActivityCreatorModal_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ActivityCreatorModal()
 //    }
-//}
+// }

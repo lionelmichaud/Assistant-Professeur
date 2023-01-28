@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct DataBaseManager {
-
+struct DataBaseManager { // swiftlint:disable:this type_body_length
     static func check(errorFound: inout Bool) {
         RoomEntity.checkConsistency(errorFound: &errorFound)
         SeatEntity.checkConsistency(errorFound: &errorFound)
@@ -29,23 +28,23 @@ struct DataBaseManager {
     }
 
     static func isEmpty() -> Bool {
-        (SchoolEntity.cardinal() == 0 &&
-         DocumentEntity.cardinal() == 0 &&
-         EventEntity.cardinal() == 0 &&
-         RessourceEntity.cardinal() == 0 &&
-         RoomEntity.cardinal() == 0 &&
-         SeatEntity.cardinal() == 0 &&
-         ClasseEntity.cardinal() == 0 &&
-         GroupEntity.cardinal() == 0 &&
-         ExamEntity.cardinal() == 0 &&
-         MarkEntity.cardinal() == 0 &&
-         EleveEntity.cardinal() == 0 &&
-         ObservEntity.cardinal() == 0 &&
-         ColleEntity.cardinal() == 0 &&
+        SchoolEntity.cardinal() == 0 &&
+            DocumentEntity.cardinal() == 0 &&
+            EventEntity.cardinal() == 0 &&
+            RessourceEntity.cardinal() == 0 &&
+            RoomEntity.cardinal() == 0 &&
+            SeatEntity.cardinal() == 0 &&
+            ClasseEntity.cardinal() == 0 &&
+            GroupEntity.cardinal() == 0 &&
+            ExamEntity.cardinal() == 0 &&
+            MarkEntity.cardinal() == 0 &&
+            EleveEntity.cardinal() == 0 &&
+            ObservEntity.cardinal() == 0 &&
+            ColleEntity.cardinal() == 0 &&
 
-         ProgramEntity.cardinal() == 0 &&
-         SequenceEntity.cardinal() == 0 &&
-         ActivityEntity.cardinal() == 0)
+            ProgramEntity.cardinal() == 0 &&
+            SequenceEntity.cardinal() == 0 &&
+            ActivityEntity.cardinal() == 0
     }
 
     /// Effacer tout le contenu de la base de donnée Core Data
@@ -97,7 +96,7 @@ struct DataBaseManager {
             failed = true
         }
 
-        /// Vérifier que le contenu de la base est vide
+        // Vérifier que le contenu de la base est vide
         if !failed {
             failed = !isEmpty()
         }
@@ -105,287 +104,287 @@ struct DataBaseManager {
 
     /// Peupler la base de donnée apr!ès en avoir complètement effacé le contenu
     static func populate(failed: inout Bool) {
-        /// Effacer le contenu de la DB
+        // Effacer le contenu de la DB
 //        var isFailed = false
 //        clear(failed: &isFailed)
 
         if !failed {
-            /// Etablissement
+            // Etablissement
             let college = SchoolEntity.create(
-                name       : "Caousou",
-                level      : .college,
-                annotation : "Ceci est une annotation"
+                name: "Caousou",
+                level: .college,
+                annotation: "Ceci est une annotation"
             )
 
             let lycee = SchoolEntity.create(
-                name       : "Caousou",
-                level      : .lycee,
-                annotation : "Ceci est une annotation 2"
+                name: "Caousou",
+                level: .lycee,
+                annotation: "Ceci est une annotation 2"
             )
 
-            /// Evenements
+            // Evenements
             EventEntity.create(
-                dans     : college,
-                withName : "Un événement important"
+                dans: college,
+                withName: "Un événement important"
             )
 
-            /// Ressources
+            // Ressources
             RessourceEntity.create(
-                dans     : college,
-                withName : "Une ressource de l'établissement",
-                quantity : 2
+                dans: college,
+                withName: "Une ressource de l'établissement",
+                quantity: 2
             )
 
-            /// Documents
+            // Documents
             DocumentEntity.create(
-                dans     : college,
-                withData : nil,
-                withName : "Un document important"
+                dans: college,
+                withData: nil,
+                withName: "Un document important"
             )
 
-            /// Salles de classe
+            // Salles de classe
             let room = RoomEntity.create(
-                withName     : "TECHNO-2",
-                withCapacity : 16,
-                dans         : college
+                withName: "TECHNO-2",
+                withCapacity: 16,
+                dans: college
             )
 
-            /// Classes
+            // Classes
             let classe5E1 = ClasseEntity.create(
-                level        : .n5ieme,
-                numero       : 1,
-                segpa        : false,
-                discipline   : .technologie,
-                heures       : 1.5,
-                isFlagged    : true,
-                annotation   : "Ceci est une annotation de classe",
-                appreciation : "Ceci est une appreciation de classe",
-                dans         : college
+                level: .n5ieme,
+                numero: 1,
+                segpa: false,
+                discipline: .technologie,
+                heures: 1.5,
+                isFlagged: true,
+                annotation: "Ceci est une annotation de classe",
+                appreciation: "Ceci est une appreciation de classe",
+                dans: college
             )
             classe5E1.room = room
 
             let classe3E2 = ClasseEntity.create(
-                level        : .n3ieme,
-                numero       : 2,
-                segpa        : false,
-                discipline   : .mathematiques,
-                heures       : 4.0,
-                isFlagged    : false,
-                annotation   : "Ceci est une annotation de classe 2",
-                appreciation : "Ceci est une appreciation de classe 2",
-                dans       : college
+                level: .n3ieme,
+                numero: 2,
+                segpa: false,
+                discipline: .mathematiques,
+                heures: 4.0,
+                isFlagged: false,
+                annotation: "Ceci est une annotation de classe 2",
+                appreciation: "Ceci est une appreciation de classe 2",
+                dans: college
             )
 
             let classe2E5 = ClasseEntity.create(
-                level        : .n2nd,
-                numero       : 5,
-                segpa        : true,
-                discipline   : .snt,
-                heures       : 1.5,
-                isFlagged    : false,
-                annotation   : "Ceci est une annotation de classe 3",
-                appreciation : "Ceci est une appreciation de classe 3",
-                dans         : lycee
+                level: .n2nd,
+                numero: 5,
+                segpa: true,
+                discipline: .snt,
+                heures: 1.5,
+                isFlagged: false,
+                annotation: "Ceci est une annotation de classe 3",
+                appreciation: "Ceci est une appreciation de classe 3",
+                dans: lycee
             )
 
-            /// Eleves
+            // Eleves
             let eleve5E1_1 = EleveEntity.create(
-                familyName   : "MICHAUD",
-                givenName    : "Lionel",
-                sex          : .male,
-                isFlagged    : true,
-                trouble      : .begaiement,
-                hasAddTime   : true,
-                annotation   : "Ceci est une annotation d'élève",
-                appreciation : "Ceci est une appreciation d'élève",
-                bonus        : 2,
-                dans         : classe5E1
+                familyName: "MICHAUD",
+                givenName: "Lionel",
+                sex: .male,
+                isFlagged: true,
+                trouble: .begaiement,
+                hasAddTime: true,
+                annotation: "Ceci est une annotation d'élève",
+                appreciation: "Ceci est une appreciation d'élève",
+                bonus: 2,
+                dans: classe5E1
             )
 
             let eleve5E1_2 = EleveEntity.create(
-                familyName   : "DUPONT",
-                givenName    : "Mathilde",
-                sex          : .female,
-                isFlagged    : false,
-                trouble      : .none,
-                hasAddTime   : true,
-                annotation   : "Ceci est une annotation d'élève 2",
-                appreciation : "Ceci est une appreciation d'élève 2",
-                bonus        : -2,
-                dans         : classe5E1
+                familyName: "DUPONT",
+                givenName: "Mathilde",
+                sex: .female,
+                isFlagged: false,
+                trouble: .none,
+                hasAddTime: true,
+                annotation: "Ceci est une annotation d'élève 2",
+                appreciation: "Ceci est une appreciation d'élève 2",
+                bonus: -2,
+                dans: classe5E1
             )
 
             let eleve5E1_3 = EleveEntity.create(
-                familyName   : "GOBIN",
-                givenName    : "Bertrans",
-                sex          : .male,
-                isFlagged    : false,
-                trouble      : .none,
-                hasAddTime   : false,
-                annotation   : "Ceci est une annotation d'élève 3",
-                appreciation : "Ceci est une appreciation d'élève 3",
-                bonus        : -2,
-                dans         : classe5E1
+                familyName: "GOBIN",
+                givenName: "Bertrans",
+                sex: .male,
+                isFlagged: false,
+                trouble: .none,
+                hasAddTime: false,
+                annotation: "Ceci est une annotation d'élève 3",
+                appreciation: "Ceci est une appreciation d'élève 3",
+                bonus: -2,
+                dans: classe5E1
             )
 
             let eleve3E2_3 = EleveEntity.create(
-                familyName   : "BIDULE",
-                givenName    : "Françine",
-                sex          : .female,
-                isFlagged    : false,
-                trouble      : .none,
-                hasAddTime   : false,
-                bonus        : 0,
-                dans         : classe3E2
+                familyName: "BIDULE",
+                givenName: "Françine",
+                sex: .female,
+                isFlagged: false,
+                trouble: .none,
+                hasAddTime: false,
+                bonus: 0,
+                dans: classe3E2
             )
 
             let eleve2E5_3 = EleveEntity.create(
-                familyName   : "LEGENDRE",
-                givenName    : "Frédérick",
-                sex          : .male,
-                isFlagged    : false,
-                trouble      : .none,
-                hasAddTime   : false,
-                bonus        : 0,
-                dans         : classe2E5
+                familyName: "LEGENDRE",
+                givenName: "Frédérick",
+                sex: .male,
+                isFlagged: false,
+                trouble: .none,
+                hasAddTime: false,
+                bonus: 0,
+                dans: classe2E5
             )
 
-            /// Examen
+            // Examen
             ExamManager.createExam(
-                sujet   : "Le sujet de l'évaluation",
-                coef    : 0.5,
-                maxMark : 10,
-                pour    : classe5E1
+                sujet: "Le sujet de l'évaluation",
+                coef: 0.5,
+                maxMark: 10,
+                pour: classe5E1
             )
 
-            /// Groupes
+            // Groupes
             GroupManager.formOrderedGroups(
-                nbEleveParGroupe : 2,
-                dans             : classe5E1
+                nbEleveParGroupe: 2,
+                dans: classe5E1
             )
 
-            /// Observations
+            // Observations
             ObservEntity.create(
-                pour             : eleve5E1_1,
-                motifEnum        : .autre,
-                descriptionMotif : "Comportement innacceptable",
-                isConsignee      : true,
-                isVerified       : false
+                pour: eleve5E1_1,
+                motifEnum: .autre,
+                descriptionMotif: "Comportement innacceptable",
+                isConsignee: true,
+                isVerified: false
             )
             ObservEntity.create(
-                pour             : eleve5E1_2,
-                motifEnum        : .bavardage,
-                descriptionMotif : "Trop de bavardages",
-                isConsignee      : false,
-                isVerified       : true
+                pour: eleve5E1_2,
+                motifEnum: .bavardage,
+                descriptionMotif: "Trop de bavardages",
+                isConsignee: false,
+                isVerified: true
             )
             ObservEntity.create(
-                pour             : eleve5E1_3,
-                motifEnum        : .attitudeIndaptee,
-                descriptionMotif : "Description de l'attitude de l'élève",
-                isConsignee      : true,
-                isVerified       : true
+                pour: eleve5E1_3,
+                motifEnum: .attitudeIndaptee,
+                descriptionMotif: "Description de l'attitude de l'élève",
+                isConsignee: true,
+                isVerified: true
             )
 
-            /// Colles
+            // Colles
             ColleEntity.create(
                 pour: eleve5E1_1,
-                motifEnum        : .autre,
-                descriptionMotif : "Comportement innacceptable",
-                isConsignee      : false,
-                isVerified       : false,
+                motifEnum: .autre,
+                descriptionMotif: "Comportement innacceptable",
+                isConsignee: false,
+                isVerified: false,
                 duree: 2
             )
             ColleEntity.create(
                 pour: eleve5E1_1,
-                motifEnum        : .bavardage,
-                descriptionMotif : "Trop de bavardages",
-                isConsignee      : true,
-                isVerified       : false,
+                motifEnum: .bavardage,
+                descriptionMotif: "Trop de bavardages",
+                isConsignee: true,
+                isVerified: false,
                 duree: 1
             )
             ColleEntity.create(
                 pour: eleve5E1_1,
-                motifEnum        : .attitudeIndaptee,
-                descriptionMotif : "Description de l'attitude de l'élève",
-                isConsignee      : true,
-                isVerified       : true,
+                motifEnum: .attitudeIndaptee,
+                descriptionMotif: "Description de l'attitude de l'élève",
+                isConsignee: true,
+                isVerified: true,
                 duree: 2
             )
 
-            /// Programmes
+            // Programmes
             let progTechno6 = ProgramEntity.create(
-                discipline : .technologie,
-                level      : .n6ieme,
-                segpa      : false,
-                annotation : "Programme de technologie de classe de 6ième",
-                url        : URL(string: "http://www.apple.com")
+                discipline: .technologie,
+                level: .n6ieme,
+                segpa: false,
+                annotation: "Programme de technologie de classe de 6ième",
+                url: URL(string: "http://www.apple.com")
             )
             ProgramEntity.create(
-                discipline : .technologie,
-                level      : .n5ieme,
-                segpa      : true,
-                annotation : "Programme de technologie de classe de 5ième SEGPA"
+                discipline: .technologie,
+                level: .n5ieme,
+                segpa: true,
+                annotation: "Programme de technologie de classe de 5ième SEGPA"
             )
             ProgramEntity.create(
-                discipline : .histoireGeo   ,
-                level      : .n0terminale,
-                segpa      : false,
-                annotation : "Programme d'Histoire-Géographie de classe de Terminale"
+                discipline: .histoireGeo,
+                level: .n0terminale,
+                segpa: false,
+                annotation: "Programme d'Histoire-Géographie de classe de Terminale"
             )
 
-            /// Séquences
+            // Séquences
             let progTechno6Seq1 = SequenceEntity.create(
-                name       : "Séquence 1 du Programme de Technologie",
-                annotation : "Une annotation de séquence 1",
-                url        : URL(string: "http://www.google.com"),
-                dans       : progTechno6
+                name: "Séquence 1 du Programme de Technologie",
+                annotation: "Une annotation de séquence 1",
+                url: URL(string: "http://www.google.com"),
+                dans: progTechno6
             )
             let progTechno6Seq2 = SequenceEntity.create(
-                name       : "Séquence 2 du Programme de Technologie",
-                annotation : "Une annotation de séquence 2",
-                dans       : progTechno6
+                name: "Séquence 2 du Programme de Technologie",
+                annotation: "Une annotation de séquence 2",
+                dans: progTechno6
             )
             SequenceEntity.create(
-                name       : "Séquence 3 du Programme de Technologie",
-                annotation : "Une annotation de séquence 3",
-                dans       : progTechno6
+                name: "Séquence 3 du Programme de Technologie",
+                annotation: "Une annotation de séquence 3",
+                dans: progTechno6
             )
             SequenceEntity.create(
-                name       : "Séquence 4 du Programme de Technologie",
-                annotation : "Une annotation de séquence 4",
-                dans       : progTechno6
+                name: "Séquence 4 du Programme de Technologie",
+                annotation: "Une annotation de séquence 4",
+                dans: progTechno6
             )
 
-            /// Activités
+            // Activités
             ActivityEntity.create(
-                name       : "Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno",
-                annotation : "Une annotation d'activité 1",
-                url        : URL(string: "http://apple.fr"),
-                duration   : 1.0,
-                isEval     : false,
-                dans       : progTechno6Seq1
+                name: "Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno",
+                annotation: "Une annotation d'activité 1",
+                url: URL(string: "http://apple.fr"),
+                duration: 1.0,
+                isEval: false,
+                dans: progTechno6Seq1
             )
             ActivityEntity.create(
-                name       : "Activité 2 de Séquence 1 de Techno",
-                annotation : "Une annotation d'activité 2",
-                duration   : 2.0,
-                isEval     : false,
-                dans       : progTechno6Seq1
+                name: "Activité 2 de Séquence 1 de Techno",
+                annotation: "Une annotation d'activité 2",
+                duration: 2.0,
+                isEval: false,
+                dans: progTechno6Seq1
             )
             ActivityEntity.create(
-                name       : "Activité 3 de Séquence 1 de Techno",
-                annotation : "Une annotation d'activité 3",
-                duration   : 1.0,
-                isEval     : true,
-                dans       : progTechno6Seq1
+                name: "Activité 3 de Séquence 1 de Techno",
+                annotation: "Une annotation d'activité 3",
+                duration: 1.0,
+                isEval: true,
+                dans: progTechno6Seq1
             )
             ActivityEntity.create(
-                name       : "Activité 1 de Séquence 2 de Techno",
-                annotation : "Une annotation d'activité 4",
-                duration   : 3.0,
-                isEval     : true,
-                dans       : progTechno6Seq2
+                name: "Activité 1 de Séquence 2 de Techno",
+                annotation: "Une annotation d'activité 4",
+                duration: 3.0,
+                isEval: true,
+                dans: progTechno6Seq2
             )
         }
     }

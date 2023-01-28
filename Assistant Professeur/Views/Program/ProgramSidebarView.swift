@@ -5,55 +5,66 @@
 //  Created by Lionel MICHAUD on 21/01/2023.
 //
 
-import SwiftUI
+import HelpersView
 import os
+import SwiftUI
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
-                               category  : "ProgramSidebarView")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "ProgramSidebarView"
+)
 
 struct ProgramSidebarView: View {
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     @State
     private var isAddingNewProgram = false
 
     @SectionedFetchRequest<String, ProgramEntity>(
-        fetchRequest      : ProgramEntity.requestAllSortedbyDisciplineLevelSegpa,
-        sectionIdentifier : \.disciplineString,
-        animation         : .default)
+        fetchRequest: ProgramEntity.requestAllSortedbyDisciplineLevelSegpa,
+        sectionIdentifier: \.disciplineString,
+        animation: .default
+    )
     private var programsSections: SectionedFetchResults<String, ProgramEntity>
 
     var body: some View {
         List(selection: $navigationModel.selectedProgramId) {
             if ProgramEntity.all().isEmpty {
-                Text("Aucun programme existant")
-                    .foregroundStyle(.secondary)
-                    .font(.title2)
+                GroupBox {
+                    Text("Aucun programme")
+                        .bold()
+                    Text("Les programmes ajoutés apparaîtront ici.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .padding(.top, 2)
+                }
+                .verticallyAligned(.top)
             }
-            /// pour chaque Discipline
+
+            // pour chaque Discipline
             ForEach(programsSections) { section in
                 if section.isNotEmpty {
                     Section {
-                        /// pour chaque Discipline
+                        // pour chaque Discipline
                         ForEach(section, id: \.objectID) { program in
 //                            NavigationLink(value: program.objectID) {
-                                ProgramBrowserRow(program: program)
-                                    .badge(program.nbOfSequences)
+                            ProgramBrowserRow(program: program)
+                                .badge(program.nbOfSequences)
 
-                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                        // supprimer le programme et tous ses descendants
-                                        Button(role: .destructive) {
-                                            withAnimation {
-                                                if navigationModel.selectedProgramId == program.objectID {
-                                                    navigationModel.selectedProgramId = nil
-                                                }
-                                                try? program.delete()
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    // supprimer le programme et tous ses descendants
+                                    Button(role: .destructive) {
+                                        withAnimation {
+                                            if navigationModel.selectedProgramId == program.objectID {
+                                                navigationModel.selectedProgramId = nil
                                             }
-                                        } label: {
-                                            Label("Supprimer", systemImage: "trash")
+                                            try? program.delete()
                                         }
+                                    } label: {
+                                        Label("Supprimer", systemImage: "trash")
                                     }
+                                }
 //                            }
                         }
                     } header: {
@@ -68,9 +79,11 @@ struct ProgramSidebarView: View {
         .navigationTitle("Programmes")
         .toolbar(content: myToolBarContent)
 
-        /// Modal Sheet de création d'un nouveau programme
-        .sheet(isPresented: $isAddingNewProgram,
-               onDismiss: { }) {
+        // Modal Sheet de création d'un nouveau programme
+        .sheet(
+            isPresented: $isAddingNewProgram
+            //onDismiss: {}
+        ) {
             NavigationStack {
                 ProgramCreatorModal()
             }
@@ -84,7 +97,7 @@ struct ProgramSidebarView: View {
 extension ProgramSidebarView {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
-        /// Ajouter un établissement
+        // Ajouter un établissement
         ToolbarItemGroup(placement: .status) {
             Button {
                 isAddingNewProgram = true
@@ -96,7 +109,6 @@ extension ProgramSidebarView {
                 }
             }
         }
-
     }
 }
 

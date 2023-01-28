@@ -5,15 +5,16 @@
 //  Created by Mohammad Azam on 3/11/21.
 //
 
+import CoreData
 import Foundation
 import os
-import CoreData
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
-                               category  : "ModelEntityP")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "ModelEntityP"
+)
 
 protocol ModelEntityP: NSManagedObject {
-
     // MARK: - Type Methods
 
     /// Returns an array of all objects of type `Self` in the persistent store
@@ -40,7 +41,6 @@ protocol ModelEntityP: NSManagedObject {
 }
 
 extension ModelEntityP {
-
     static var viewContext: NSManagedObjectContext {
         CoreDataController.shared.viewContext
     }
@@ -49,7 +49,6 @@ extension ModelEntityP {
 
     /// Returns an array of all objects of type `Self` in the persistent store
     static func all() -> [Self] {
-
         let fetchRequest: NSFetchRequest<Self> = NSFetchRequest(entityName: String(describing: Self.self))
 
         do {
@@ -75,7 +74,7 @@ extension ModelEntityP {
 
     /// Creates a sample Object in the Context
     static func create() -> Self {
-        let newItem: Self = Self(context: viewContext)
+        let newItem = Self(context: viewContext)
         return newItem
     }
 
@@ -87,7 +86,7 @@ extension ModelEntityP {
         try Self.saveIfContextHasChanged()
     }
 
-    static func rollback(){
+    static func rollback() {
         Self.viewContext.rollback()
         try? Self.saveIfContextHasChanged()
     }
@@ -117,5 +116,4 @@ extension ModelEntityP {
     func refresh() {
         Self.viewContext.refresh(self, mergeChanges: false)
     }
-
 }

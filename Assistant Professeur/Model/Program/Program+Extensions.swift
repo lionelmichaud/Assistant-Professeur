@@ -5,12 +5,11 @@
 //  Created by Lionel MICHAUD on 18/01/2023.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /// Un programme scolaire pour une dscipline et un niveau donnés
 extension ProgramEntity {
-
     // MARK: - Computed properties
 
     /// Wrapper of `discipline`
@@ -132,21 +131,23 @@ extension ProgramEntity {
 // MARK: - Extension Core Data
 
 extension ProgramEntity: ModelEntityP {
-
     // MARK: - Type Computed Properties
 
     static var byDisciplineLevelSegpaNSSortDescriptor: [NSSortDescriptor] =
-    [
-        NSSortDescriptor(
-            keyPath: \ProgramEntity.discipline,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \ProgramEntity.level,
-            ascending: false),
-        NSSortDescriptor(
-            keyPath: \ProgramEntity.segpa,
-            ascending: true)
-    ]
+        [
+            NSSortDescriptor(
+                keyPath: \ProgramEntity.discipline,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \ProgramEntity.level,
+                ascending: false
+            ),
+            NSSortDescriptor(
+                keyPath: \ProgramEntity.segpa,
+                ascending: true
+            )
+        ]
 
     /// Requête pour tous les programmes triés.
     ///
@@ -179,16 +180,16 @@ extension ProgramEntity: ModelEntityP {
         if let sequences {
             return (sequences.allObjects as! [SequenceEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
     /// Liste des séquences du programme triées par numéro de séquence
     var sequencesSortedByNumber: [SequenceEntity] {
         let sortComparators =
-        [
-            SortDescriptor(\SequenceEntity.number, order: .forward)
-        ]
+            [
+                SortDescriptor(\SequenceEntity.number, order: .forward)
+            ]
         return allSequences.sorted(using: sortComparators)
     }
 
@@ -203,9 +204,9 @@ extension ProgramEntity: ModelEntityP {
         }
 
         let sortComparators =
-        [
-            SortDescriptor(\SequenceEntity.number, order: .forward)
-        ]
+            [
+                SortDescriptor(\SequenceEntity.number, order: .forward)
+            ]
         return allSequences
             .filter { seq in
                 let string = searchString.lowercased()
@@ -214,9 +215,9 @@ extension ProgramEntity: ModelEntityP {
             .sorted(using: sortComparators)
     }
 
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
-        //Set defaults here
+        // Set defaults here
         self.id = UUID()
     }
 
@@ -233,42 +234,42 @@ extension ProgramEntity: ModelEntityP {
     /// Si `objectID` != `nil` alors on retourne true seulement
     /// si l'objet existant possède ne possède pas le même identifiant.
     static func exists(
-        dscipline     : Discipline,
-        classeLevel   : LevelClasse,
-        classeIsSegpa : Bool,
-        objectID      : NSManagedObjectID? = nil
+        dscipline: Discipline,
+        classeLevel: LevelClasse,
+        classeIsSegpa: Bool,
+        objectID: NSManagedObjectID? = nil
     ) -> Bool {
         all().contains {
             $0.viewDisciplineEnum == dscipline &&
-            $0.viewLevelEnum == classeLevel &&
-            $0.segpa == classeIsSegpa &&
-            (objectID == nil || $0.objectID != objectID)
+                $0.viewLevelEnum == classeLevel &&
+                $0.segpa == classeIsSegpa &&
+                (objectID == nil || $0.objectID != objectID)
         }
     }
 
     /// Créer une nouvelle instance et la sauvegarder dans le context
     @discardableResult
     static func create(
-        discipline   : Discipline,
-        level        : LevelClasse,
-        segpa        : Bool,
-        annotation   : String = "",
-        url          : URL? = nil
+        discipline: Discipline,
+        level: LevelClasse,
+        segpa: Bool,
+        annotation: String = "",
+        url: URL? = nil
     ) -> ProgramEntity {
         let program = ProgramEntity.create()
 
-        program.discipline   = discipline.rawValue
-        program.level        = level.rawValue
-        program.segpa        = segpa
-        program.annotation   = annotation
-        program.url          = url
+        program.discipline = discipline.rawValue
+        program.level = level.rawValue
+        program.segpa = segpa
+        program.annotation = annotation
+        program.url = url
 
         try? Self.saveIfContextHasChanged()
         return program
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
-        all().forEach { classe in
+    static func checkConsistency(errorFound _: inout Bool) {
+        all().forEach { _ in
             // TODO: - Compléter
         }
     }
@@ -276,8 +277,8 @@ extension ProgramEntity: ModelEntityP {
 
 // MARK: - Extension Debug
 
-extension ProgramEntity {
-    public override var description: String {
+public extension ProgramEntity {
+    override var description: String {
         """
 
         PROGRAMME:

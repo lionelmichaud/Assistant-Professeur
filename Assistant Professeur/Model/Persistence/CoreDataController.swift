@@ -5,17 +5,18 @@
 //  Created by Mohammad Azam on 2/23/21.
 //
 
+import CoreData
 import Foundation
 import os
-import CoreData
 import SwiftUI
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
-                               category  : "CoreDataController")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "CoreDataController"
+)
 
 /// Class to hold all the Persistence methods
 class CoreDataController {
-
     // MARK: - SINGLETON
 
     /// A singleton for our entire app to use
@@ -43,43 +44,52 @@ class CoreDataController {
         container
             .persistentStoreDescriptions
             .first!
-            .setOption(true as NSNumber,
-                                  forKey: NSPersistentHistoryTrackingKey)
+            .setOption(
+                true as NSNumber,
+                forKey: NSPersistentHistoryTrackingKey
+            )
 
         // set merge policy
         container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
         container.viewContext.automaticallyMergesChangesFromParent = true
 
         container
-            .loadPersistentStores { (description, error) in
-            if let error {
-                customLog.log(level: .fault,
-                              "Failed to load the persistence store form Core Data: \(error.localizedDescription)")
+            .loadPersistentStores { _, error in
+                if let error {
+                    customLog.log(
+                        level: .fault,
+                        "Failed to load the persistence store form Core Data: \(error.localizedDescription)"
+                    )
+                }
             }
-        }
 
         // Only initialize the schema when building the app with the
         // Debug build configuration.
         #if DEBUG
-        do {
-            // Use the container to initialize the development schema.
-            try container.initializeCloudKitSchema(
-                options: []
-                //options: [.printSchema]
-            )
-        } catch {
-            // Handle any errors.
-            customLog.log(level: .error,
-                          "Failed to initialize the development schema in ClouKit: \(error.localizedDescription)")
-        }
+            do {
+                // Use the container to initialize the development schema.
+                try container.initializeCloudKitSchema(
+                    options: []
+                    // options: [.printSchema]
+                )
+            } catch {
+                // Handle any errors.
+                customLog.log(
+                    level: .error,
+                    "Failed to initialize the development schema in ClouKit: \(error.localizedDescription)"
+                )
+            }
 
-        // TODO: - DEBUG
-        let directories = NSSearchPathForDirectoriesInDomains(.documentDirectory,
-                                                              .userDomainMask, true)
-        print(directories[0])
+            /// TODO: - DEBUG
+            let directories = NSSearchPathForDirectoriesInDomains(
+                .documentDirectory,
+                .userDomainMask,
+                true
+            )
+            print(directories[0])
         #endif
     }
-    
+
     // MARK: - Methods
 
     /// Creates an NSManagedObject of **ANY** type
@@ -91,7 +101,7 @@ class CoreDataController {
     ///
     func create<T: NSManagedObject>() -> T {
         T(context: viewContext)
-        //For adding Defaults see the `extension` all the way at the bottom of this post
+        // For adding Defaults see the `extension` all the way at the bottom of this post
     }
 
     /// Deletes  an NSManagedObject of any type
@@ -108,7 +118,7 @@ class CoreDataController {
         try saveIfContextHasChanged()
     }
 
-    func rollback(){
+    func rollback() {
         viewContext.rollback()
         try? saveIfContextHasChanged()
     }
@@ -131,7 +141,4 @@ class CoreDataController {
             }
         }
     }
-
 }
-
-

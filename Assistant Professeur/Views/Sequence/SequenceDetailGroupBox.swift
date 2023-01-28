@@ -20,30 +20,30 @@ struct SequenceDetailGroupBox: View {
 
     var body: some View {
         GroupBox {
-            VStack(alignment: .leading) {
-                Label {
-                    Text(sequence.viewName)
-                } icon: {
-                    Image(systemName: "\(sequence.viewNumber).circle")
-                        .font(.body)
-                }
+            Label {
+                Text(sequence.viewName)
+            } icon: {
+                Image(systemName: "\(sequence.viewNumber).circle")
+                    .font(.body)
+            }
+            .horizontallyAligned(.leading)
 
-                // note sur le programme
-                if annotationEnabled && sequence.viewAnnotation.isNotEmpty {
-                    AnnotationView(
-                        annotation   : sequence.viewAnnotation,
-                        scrollable   : true,
-                        scrollHeight : 40
-                    )
-                }
+            // note sur le programme
+            if annotationEnabled && sequence.viewAnnotation.isNotEmpty {
+                AnnotationView(
+                    annotation   : sequence.viewAnnotation,
+                    scrollable   : true,
+                    scrollHeight : 40
+                )
+                .horizontallyAligned(.leading)
+            }
 
-                HStack {
-                    DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
-                    Spacer()
-                    DurationView(duration: sequence.durationWithMargin, withMargin: true)
-                    Spacer()
-                    WebsiteView(url: sequence.url)
-                }
+            HStack {
+                DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
+                Spacer()
+                DurationView(duration: sequence.durationWithMargin, withMargin: true)
+                Spacer()
+                WebsiteView(url: sequence.url)
             }
         }
         .font(hClass == .compact ? .subheadline : .callout)

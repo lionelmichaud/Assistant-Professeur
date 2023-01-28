@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct AnnotationView : View {
-    private var annotation   : String
-    private var scrollable   : Bool
-    private var scrollHeight : Int
+struct AnnotationView: View {
+    private var annotation: String
+    private var scrollable: Bool
+    private var scrollHeight: Int
 
     var body: some View {
         HStack {
@@ -30,9 +30,9 @@ struct AnnotationView : View {
     }
 
     init(
-        annotation   : String,
-        scrollable   : Bool = false,
-        scrollHeight : Int  = 100
+        annotation: String,
+        scrollable: Bool = false,
+        scrollHeight: Int = 100
     ) {
         self.annotation = annotation
         self.scrollable = scrollable
@@ -40,9 +40,9 @@ struct AnnotationView : View {
     }
 }
 
-
 struct AnnotationEditView: View {
-    @Binding var annotation: String
+    @Binding
+    var annotation: String
 
     @Environment(\.horizontalSizeClass)
     private var hClass
@@ -54,8 +54,8 @@ struct AnnotationEditView: View {
         DisclosureGroup(isExpanded: $isExpanded) {
             TextField(
                 "Annotation",
-                text : $annotation,
-                axis : .vertical
+                text: $annotation,
+                axis: .vertical
             )
             .lineLimit(5)
             .font(hClass == .compact ? .callout : .body)

@@ -12,7 +12,7 @@ struct ElevesTableView: View {
     var classe: ClasseEntity
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     @State
     private var isAddingNewEleve = false
@@ -22,19 +22,20 @@ struct ElevesTableView: View {
 
     @State
     private var sortOrder =
-    [KeyPathComparator(\EleveEntity.sortName),
-     KeyPathComparator(\EleveEntity.groupInt),
-     KeyPathComparator(\EleveEntity.bonus),
-     KeyPathComparator(\EleveEntity.additionalTimeInt),
-     KeyPathComparator(\EleveEntity.nbOfObservs),
-     KeyPathComparator(\EleveEntity.nbOfColles)
-    ]
+        [
+            KeyPathComparator(\EleveEntity.sortName),
+            KeyPathComparator(\EleveEntity.groupInt),
+            KeyPathComparator(\EleveEntity.bonus),
+            KeyPathComparator(\EleveEntity.additionalTimeInt),
+            KeyPathComparator(\EleveEntity.nbOfObservs),
+            KeyPathComparator(\EleveEntity.nbOfColles)
+        ]
 
     @State
     private var isAddingNewObserv = false
 
     @State
-    private var isAddingNewColle  = false
+    private var isAddingNewColle = false
 
     @State
     private var searchString: String = ""
@@ -117,27 +118,29 @@ struct ElevesTableView: View {
                 }
                 .width(70)
             }
-            .searchable(text      : $searchString,
-                        placement : .navigationBarDrawer(displayMode : .automatic),
-                        prompt    : "Nom, Prénom ou n° de groupe")
-            .onChange(of: sortOrder) { newValue in
+            .searchable(
+                text: $searchString,
+                placement: .navigationBarDrawer(displayMode: .automatic),
+                prompt: "Nom, Prénom ou n° de groupe"
+            )
+            .onChange(of: sortOrder) { _ in
                 print("Sort order changed")
             }
             .autocorrectionDisabled()
             #if os(macOS)
-            .tableStyle(.bordered(alternatesRowBackgrounds: true))
+                .tableStyle(.bordered(alternatesRowBackgrounds: true))
             #endif
         }
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                /// aller à la fiche élève
+                // aller à la fiche élève
                 Button {
                     // Programatic Navigation
-                    navigationModel.selectedTab     = .eleve
+                    navigationModel.selectedTab = .eleve
                     navigationModel.selectedEleveId =
-                    EleveEntity
-                        .byObjectIdentifier(objectID: selection.first!)!
-                        .objectID
+                        EleveEntity
+                            .byObjectIdentifier(objectID: selection.first!)!
+                            .objectID
                 } label: {
                     Label("Fiche élève", systemImage: "info.circle")
                 }
@@ -148,7 +151,7 @@ struct ElevesTableView: View {
             ToolbarItem(placement: .primaryAction) {
                 // pour rapprocher les icones
                 ControlGroup {
-                    /// supprimer des élèves
+                    // supprimer des élèves
                     Button(role: .destructive) {
                         withAnimation {
                             EleveEntity.byObjectIdentifier(objectIDs: selection)
@@ -165,7 +168,7 @@ struct ElevesTableView: View {
                     }
                     .disabled(selection.isEmpty)
 
-                    /// ajouter un élève
+                    // ajouter un élève
                     Button {
                         isAddingNewEleve = true
                     } label: {
@@ -175,11 +178,11 @@ struct ElevesTableView: View {
             }
 
             ToolbarItemGroup(placement: .secondaryAction) {
-                /// flager les élèves
+                // flager les élèves
                 if selection.count > 1 || (
-                    selection.count == 1 && (
+                    selection.count == 1 &&
                         !(EleveEntity.byObjectIdentifier(objectID: selection.first!)?.isFlagged ?? false)
-                    )
+
                 ) {
                     Button {
                         withAnimation {
@@ -194,10 +197,10 @@ struct ElevesTableView: View {
                     }
                 }
 
-                /// supprimer le flage des élèves
+                // supprimer le flage des élèves
                 if selection.count > 1 || (
                     selection.count == 1 && (
-                        (EleveEntity.byObjectIdentifier(objectID: selection.first!)?.isFlagged ?? false)
+                        EleveEntity.byObjectIdentifier(objectID: selection.first!)?.isFlagged ?? false
                     )
                 ) {
                     Button {
@@ -213,7 +216,7 @@ struct ElevesTableView: View {
                     }
                 }
 
-                /// ajouter une observation
+                // ajouter une observation
                 Button {
                     isAddingNewObserv = true
                 } label: {
@@ -221,7 +224,7 @@ struct ElevesTableView: View {
                 }
                 .disabled(selection.count != 1)
 
-                /// ajouter une colle
+                // ajouter une colle
                 Button {
                     isAddingNewColle = true
                 } label: {
@@ -261,7 +264,7 @@ struct ElevesTableView: View {
     }
 }
 
-//struct ElevesTableView_Previews: PreviewProvider {
+// struct ElevesTableView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -288,4 +291,4 @@ struct ElevesTableView: View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

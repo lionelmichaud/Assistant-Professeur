@@ -5,21 +5,22 @@
 //  Created by Lionel MICHAUD on 19/11/2022.
 //
 
+import CoreData
 import Foundation
 import os
-import CoreData
-import UIKit
 import SwiftUI
+import UIKit
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
-                               category  : "RoomEntity")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "RoomEntity"
+)
 /// Une salle de classe
 extension RoomEntity {
-
     // MARK: - Type Properties
 
-    static let defaultPlanUIImage : UIImage = UIImage(systemName: "questionmark.app.dashed")!
-    static let defaultPlanImage   : Image = Image(systemName: "questionmark.app.dashed")
+    static let defaultPlanUIImage: UIImage = .init(systemName: "questionmark.app.dashed")!
+    static let defaultPlanImage: Image = .init(systemName: "questionmark.app.dashed")
 
     // MARK: - Computed Properties
 
@@ -68,12 +69,10 @@ extension RoomEntity {
     /// Wrapper of `image`
     /// - Important: *Saves the context to the store after modification is done*
     var viewImage: Image {
-        get {
-            if let image, let uiImage = UIImage(data: image) {
-                return Image(uiImage: uiImage)
-            } else {
-                return RoomEntity.defaultPlanImage
-            }
+        if let image, let uiImage = UIImage(data: image) {
+            return Image(uiImage: uiImage)
+        } else {
+            return RoomEntity.defaultPlanImage
         }
     }
 
@@ -96,13 +95,13 @@ extension RoomEntity {
     }
 
     /// Retourne les dimensions de l'image
-    var imageSize : CGSize? {
+    var imageSize: CGSize? {
         if let image,
            let imageSource = CGImageSourceCreateWithData(image as CFData, nil),
            let imageProperties = CGImageSourceCopyPropertiesAtIndex(imageSource, 0, nil) as Dictionary? {
-            let pixelWidth  = imageProperties[kCGImagePropertyPixelWidth] as! Int
+            let pixelWidth = imageProperties[kCGImagePropertyPixelWidth] as! Int
             let pixelHeight = imageProperties[kCGImagePropertyPixelHeight] as! Int
-            //print("Width: \(pixelWidth), Height: \(pixelHeight)")
+            // print("Width: \(pixelWidth), Height: \(pixelHeight)")
             return CGSize(width: pixelWidth, height: pixelHeight)
         }
         return nil
@@ -136,7 +135,6 @@ extension RoomEntity {
 // MARK: - Extension Core Data
 
 extension RoomEntity: ModelEntityP {
-
     // MARK: - Computed Properties
 
     /// Liste des sièges de la salle de classe non triés
@@ -144,23 +142,24 @@ extension RoomEntity: ModelEntityP {
         if let seats {
             return (seats.allObjects as! [SeatEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
     // MARK: - Type Methods
 
-    @discardableResult static func create(
-        withName     : String = "",
-        withCapacity : Int    = 1,
-        dans school  : SchoolEntity
+    @discardableResult
+    static func create(
+        withName: String = "",
+        withCapacity: Int = 1,
+        dans school: SchoolEntity
     ) -> RoomEntity {
         let room = RoomEntity.create()
         // établissement d'appartenance.
         // mandatory
         room.school = school
 
-        room.name     = withName
+        room.name = withName
         room.capacity = Int16(withCapacity)
 
         try? RoomEntity.saveIfContextHasChanged()
@@ -187,8 +186,8 @@ extension RoomEntity: ModelEntityP {
     /// Si le nombre de place déjà positionnées est égale à la capacité max de la salle de classe,
     /// alors ne fait rien.
     func addSeatToPlan(
-        x : Double = 0.5,
-        y : Double = 0.5
+        x: Double = 0.5,
+        y: Double = 0.5
     ) {
         guard nbSeatUnpositionned.isPositive else {
             return
@@ -215,8 +214,10 @@ extension RoomEntity: ModelEntityP {
                         removedSeats += 1
                     }
                 } catch {
-                    customLog.log(level: .error,
-                                  "Echec de la tentative de retirer une place assise d'une salle de classe.")
+                    customLog.log(
+                        level: .error,
+                        "Echec de la tentative de retirer une place assise d'une salle de classe."
+                    )
                 }
             }
             viewCapacity -= removedSeats
@@ -243,15 +244,15 @@ extension RoomEntity: ModelEntityP {
     func deleteRoomPlan() {
         image = nil
         removeAllSeatsFromPlan()
-        
+
         try? RoomEntity.saveIfContextHasChanged()
     }
 }
 
 // MARK: - Extension Debug
 
-extension RoomEntity {
-    public override var description: String {
+public extension RoomEntity {
+    override var description: String {
         """
 
         SALLE DE CLASSE : \(viewName)

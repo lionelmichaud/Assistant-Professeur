@@ -5,12 +5,11 @@
 //  Created by Lionel MICHAUD on 26/12/2022.
 //
 
-import Foundation
 import CoreData
+import Foundation
 import SwiftUI
 
 extension ColleEntity {
-
     // MARK: - Computed properties
 
     /// Wrapper of `motif`
@@ -97,34 +96,34 @@ extension ColleEntity {
     /// - Parameters:
     ///   - isConsignee: si `nil`, le critère n'est pas pris en compe
     ///   - isVerified: si `nil`, le critère n'est pas pris en compe
-    func satisfies(isConsignee : Bool?  = nil,
-                   isVerified  : Bool?  = nil) -> Bool {
+    func satisfies(
+        isConsignee: Bool? = nil,
+        isVerified: Bool? = nil
+    ) -> Bool {
         switch (isConsignee, isVerified) {
-            case (nil, nil):
-                return true
+        case (nil, nil):
+            return true
 
-            case (.some(let c), nil):
-                return self.isConsignee == c
+        case (.some(let c), nil):
+            return self.isConsignee == c
 
-            case (nil, .some(let v)):
-                return self.isVerified == v
+        case (nil, let .some(v)):
+            return self.isVerified == v
 
-            case (.some(let c), .some(let v)):
-                return self.isConsignee == c || self.isVerified == v
+        case let (.some(c), .some(v)):
+            return self.isConsignee == c || self.isVerified == v
         }
     }
 }
 
-
 // MARK: - Extension Core Data
 
 extension ColleEntity: ModelEntityP {
-
     // MARK: - Type Computed Properties
 
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
-        //Set defaults here
+        // Set defaults here
         //        self.fileName = ""
         self.date = Date.now
     }
@@ -133,13 +132,13 @@ extension ColleEntity: ModelEntityP {
 
     @discardableResult
     static func create(
-        pour eleve       : EleveEntity,
-        date             : Date = Date.now,
-        motifEnum        : MotifEnum,
-        descriptionMotif : String,
-        isConsignee      : Bool = false,
-        isVerified       : Bool = false,
-        duree            : Int  = 1
+        pour eleve: EleveEntity,
+        date: Date = Date.now,
+        motifEnum: MotifEnum,
+        descriptionMotif: String,
+        isConsignee: Bool = false,
+        isVerified: Bool = false,
+        duree: Int = 1
     ) -> ColleEntity {
         let colle = ColleEntity.create()
         // Eleve d'appartenance.
@@ -147,11 +146,11 @@ extension ColleEntity: ModelEntityP {
         colle.eleve = eleve
 
         colle.setMotif(motifEnum)
-        colle.date             = date
+        colle.date = date
         colle.descriptionMotif = descriptionMotif
-        colle.isConsignee      = isConsignee
-        colle.isVerified       = isVerified
-        colle.duree            = Int16(duree)
+        colle.isConsignee = isConsignee
+        colle.isVerified = isVerified
+        colle.duree = Int16(duree)
 
         try? ColleEntity.saveIfContextHasChanged()
         return colle
@@ -165,13 +164,12 @@ extension ColleEntity: ModelEntityP {
             }
         }
     }
-
 }
 
 // MARK: - Extension Debug
 
-extension ColleEntity {
-    public override var description: String {
+public extension ColleEntity {
+    override var description: String {
         """
 
         COLLE:
