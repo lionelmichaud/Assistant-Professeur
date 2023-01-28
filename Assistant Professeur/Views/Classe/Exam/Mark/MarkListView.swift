@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import CoreData
+import AppFoundation
 import HelpersView
 
 /// Liste des notes éditables de chaque élève de la classe
@@ -90,6 +92,23 @@ struct GroupMarkModal : View {
     @Environment(\.dismiss)
     private var dismiss
 
+    enum OperationType: PickableEnumP {
+        case attribuer
+        case modifier
+
+        public var pickerString: String {
+            switch self {
+                case .attribuer:
+                    return "Atribuer une note"
+                case .modifier:
+                    return "Modifier la note"
+            }
+        }
+    }
+
+    @State
+    private var operationType: OperationType = .attribuer
+
     @State
     private var mark: Double = 0
 
@@ -112,6 +131,12 @@ struct GroupMarkModal : View {
         return array
     }
 
+    private var oprationPicker: some View {
+        CasePicker(pickedCase: $operationType,
+                   label: "Opération")
+        .pickerStyle(.segmented)
+    }
+
     private var groupPicker: some View {
         Picker(selection: $selectedGroupeNb) {
             ForEach(groupsNb, id: \.self) { grp in
@@ -125,17 +150,30 @@ struct GroupMarkModal : View {
 
     private var noteEditor: some View {
         HStack {
-            AmountEditView(label    : "Note",
-                           amount   : $mark,
-                           validity : .within(range: 0.0 ... Double(exam.maxMark)),
-                           currency : false)
-
-            Stepper(
-                "",
-                value : $mark,
-                in    : 0 ... Double(exam.maxMark),
-                step  : 0.5
-            )
+            switch operationType {
+                case .attribuer:
+                    AmountEditView(label    : "Note",
+                                   amount   : $mark,
+                                   validity : .within(range: 0.0 ... Double(exam.maxMark)),
+                                   currency : false)
+                    Stepper(
+                        "",
+                        value : $mark,
+                        in    : 0 ... Double(exam.maxMark),
+                        step  : 0.5
+                    )
+                case .modifier:
+                    AmountEditView(label    : "Modifier",
+                                   amount   : $mark,
+                                   validity : .within(range: Double(-exam.maxMark) ... Double(exam.maxMark)),
+                                   currency : false)
+                    Stepper(
+                        "",
+                        value : $mark,
+                        in    : Double(-exam.maxMark) ... Double(exam.maxMark),
+                        step  : 0.5
+                    )
+            }
         }
     }
 
@@ -147,7 +185,7 @@ struct GroupMarkModal : View {
             Spacer()
 
             noteEditor
-                .frame(maxWidth: 250)
+                .frame(maxWidth: 300)
         }
     }
 
@@ -158,12 +196,35 @@ struct GroupMarkModal : View {
         }
     }
 
+    private var elevesInGroupIDs: [NSManagedObjectID]? {
+        exam.classe?
+            .groupe(number: selectedGroupeNb)
+            .allEleves
+            .map { $0.objectID }
+    }
+
+    private var listeEleves: some View {
+        Group {
+            if let elevesInGroupIDs {
+                List(elevesInGroupIDs, id: \.self) { eleveID in
+                    if let eleve = EleveEntity.byObjectId(id: eleveID) {
+                        Text(eleve.displayName)
+                    }
+                }
+            } else {
+                EmptyView()
+            }
+        }
+    }
+
     var body: some View {
         Form {
+            oprationPicker
             ViewThatFits {
                 regulartForm
                 compactForm
             }
+            listeEleves
         }
         #if os(iOS)
         .navigationTitle("Note de groupe")
@@ -177,11 +238,21 @@ struct GroupMarkModal : View {
             }
 
             ToolbarItem(placement: .confirmationAction) {
-                Button("Attribuer") {
-                    withAnimation {
-                        attribuer(note: mark, auGroupe: selectedGroupeNb)
-                    }
-                    dismiss()
+                switch operationType {
+                    case .attribuer:
+                        Button("Attribuer") {
+                            withAnimation {
+                                attribuer(note: mark, auGroupe: selectedGroupeNb)
+                            }
+                            dismiss()
+                        }
+                    case .modifier:
+                        Button("Modifer") {
+                            withAnimation {
+                                modifier(note: mark, auGroupe: selectedGroupeNb)
+                            }
+                            dismiss()
+                        }
                 }
             }
         }
@@ -206,6 +277,33 @@ struct GroupMarkModal : View {
                         {
                             mark.markTypeEnum = .note
                             mark.viewMark = note
+                        }
+                    }
+            }
+        }
+    }
+
+    func modifier(note: Double, auGroupe: Int) {
+        withAnimation {
+            // Liste des élèves du groupe
+            let elevesInGroupIDs = exam.classe?
+                .groupe(number: auGroupe)
+                .allEleves
+                .map { $0.objectID }
+
+            // modifier la note de ces élèves
+            if let elevesInGroupIDs {
+                exam.allMarks
+                    .forEach { mark in
+                        if elevesInGroupIDs
+                            .contains(mark.eleve!.objectID)
+                        {
+                            if mark.markTypeEnum == .note {
+                                mark.viewMark += note
+                            } else {
+                                mark.markTypeEnum = .note
+                                mark.viewMark = note
+                            }
                         }
                     }
             }
