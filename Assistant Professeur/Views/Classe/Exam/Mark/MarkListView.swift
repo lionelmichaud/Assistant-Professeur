@@ -159,26 +159,26 @@ struct GroupMarkModal: View {
                 AmountEditView(
                     label: "Note",
                     amount: $mark,
-                    validity: .within(range: 0.0 ... Double(exam.maxMark)),
+                    validity: .within(range: 0.0 ... Double(exam.viewMaxMark)),
                     currency: false
                 )
                 Stepper(
                     "",
                     value: $mark,
-                    in: 0 ... Double(exam.maxMark),
+                    in: 0 ... Double(exam.viewMaxMark),
                     step: 0.5
                 )
             case .modifier:
                 AmountEditView(
                     label: "Modifier",
                     amount: $mark,
-                    validity: .within(range: Double(-exam.maxMark) ... Double(exam.maxMark)),
+                    validity: .within(range: Double(-exam.viewMaxMark) ... Double(exam.viewMaxMark)),
                     currency: false
                 )
                 Stepper(
                     "",
                     value: $mark,
-                    in: Double(-exam.maxMark) ... Double(exam.maxMark),
+                    in: Double(-exam.viewMaxMark) ... Double(exam.viewMaxMark),
                     step: 0.5
                 )
             }

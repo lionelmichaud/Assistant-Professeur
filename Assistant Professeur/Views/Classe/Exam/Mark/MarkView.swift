@@ -31,17 +31,17 @@ struct MarkView: View {
                             HStack {
                                 AmountEditView(label    : "Note",
                                                amount   : $mark.viewMark,
-                                               validity : .within(range: 0.0 ... Double(mark.exam!.maxMark)),
+                                               validity : .within(range: 0.0 ... Double(mark.exam!.viewMaxMark)),
                                                currency : false)
                                 Stepper(
                                     "",
                                     onIncrement: {
                                         mark.viewMark = (mark.viewMark + 0.5)
-                                            .clamp(low: 0.0, high: Double(mark.exam!.maxMark))
+                                            .clamp(low: 0.0, high: Double(mark.exam!.viewMaxMark))
                                     },
                                     onDecrement: {
                                         mark.viewMark = (mark.viewMark - 0.5)
-                                            .clamp(low: 0.0, high: Double(mark.exam!.maxMark))
+                                            .clamp(low: 0.0, high: Double(mark.exam!.viewMaxMark))
                                     })
                             }
                         }
@@ -50,17 +50,17 @@ struct MarkView: View {
                             Image(systemName: "graduationcap")
                             AmountEditView(label    : mark.eleve!.displayName,
                                            amount   : $mark.viewMark,
-                                           validity : .within(range: 0.0 ... Double(mark.exam!.maxMark)),
+                                           validity : .within(range: 0.0 ... Double(mark.exam!.viewMaxMark)),
                                            currency : false)
                             Stepper(
                                 "",
                                 onIncrement: {
                                     mark.viewMark = (mark.viewMark + 0.5)
-                                        .clamp(low: 0.0, high: Double(mark.exam!.maxMark))
+                                        .clamp(low: 0.0, high: Double(mark.exam!.viewMaxMark))
                                 },
                                 onDecrement: {
                                     mark.viewMark = (mark.viewMark - 0.5)
-                                        .clamp(low: 0.0, high: Double(mark.exam!.maxMark))
+                                        .clamp(low: 0.0, high: Double(mark.exam!.viewMaxMark))
                                 })
                             .frame(maxWidth: 100)
 
@@ -82,20 +82,3 @@ struct MarkView: View {
         }
     }
 }
-
-//struct MarkView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        List {
-//            MarkView(eleve   : Eleve.exemple,
-//                     maxMark : 20,
-//                     type    : .constant(.nonNote),
-//                     mark    : .constant(0.0))
-//        }
-//        List {
-//            MarkView(eleve   : Eleve.exemple,
-//                     maxMark : 20,
-//                     type    : .constant(.note),
-//                     mark    : .constant(10.0))
-//        }
-//    }
-//}

@@ -33,6 +33,7 @@
 		792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */; };
 		7937A24229859A5500D0ED59 /* ExamStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A24129859A5500D0ED59 /* ExamStep.swift */; };
 		7937A2442986AD9100D0ED59 /* CloudKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */; };
+		7937A2462986C57D00D0ED59 /* ExamTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */; };
 		79388A4529256819002AABB8 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4429256819002AABB8 /* CoreDataController.swift */; };
 		79388A4629256819002AABB8 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4429256819002AABB8 /* CoreDataController.swift */; };
 		79388A4929256E13002AABB8 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4829256E13002AABB8 /* MainScene.swift */; };
@@ -265,6 +266,7 @@
 		792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailGroupBox.swift; sourceTree = "<group>"; };
 		7937A24129859A5500D0ED59 /* ExamStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamStep.swift; sourceTree = "<group>"; };
 		7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitViewModel.swift; sourceTree = "<group>"; };
+		7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamTypeEnum.swift; sourceTree = "<group>"; };
 		79388A4429256819002AABB8 /* CoreDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		79388A4829256E13002AABB8 /* MainScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		79388A4E29257025002AABB8 /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
@@ -608,6 +610,7 @@
 				795EED0429673B88009AA6F4 /* Mark+Extensions.swift */,
 				795EED06296741A1009AA6F4 /* ExamManager.swift */,
 				7937A24129859A5500D0ED59 /* ExamStep.swift */,
+				7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */,
 			);
 			path = Exam;
 			sourceTree = "<group>";
@@ -1253,6 +1256,7 @@
 				792381142960A888009E51B7 /* Group+Extensions.swift in Sources */,
 				793D6271295DCBBC00477932 /* MotifEditor.swift in Sources */,
 				79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */,
+				7937A2462986C57D00D0ED59 /* ExamTypeEnum.swift in Sources */,
 				795EED07296741A1009AA6F4 /* ExamManager.swift in Sources */,
 				793D6270295DCBBC00477932 /* MotifView.swift in Sources */,
 				79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */,

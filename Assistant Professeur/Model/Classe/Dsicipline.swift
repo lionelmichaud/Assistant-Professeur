@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 23/12/2022.
 //
 
-import Foundation
 import AppFoundation
+import Foundation
 
 /// Discipline d'enseignement
 enum Discipline: String, PickableIdentifiableEnumP, Codable {

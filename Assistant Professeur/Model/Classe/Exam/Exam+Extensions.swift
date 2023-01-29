@@ -12,6 +12,22 @@ import Foundation
 extension ExamEntity {
     // MARK: - Computed properties
 
+    /// Wrapper of `examType`
+    /// - Important: *Saves the context to the store after modification is done*
+    var examTypeEnum: ExamTypeEnum {
+        get {
+            if let examType {
+                return ExamTypeEnum(rawValue: examType) ?? .global
+            } else {
+                return .global
+            }
+        }
+        set {
+            self.examType = newValue.rawValue
+            try? ExamEntity.saveIfContextHasChanged()
+        }
+    }
+
     /// Wrapper of `sujet`
     /// - Important: *Saves the context to the store after modification is done*
     @objc
@@ -51,11 +67,38 @@ extension ExamEntity {
         }
     }
 
+    /// Wrapper of `coef`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewCoef: Double {
+        get {
+            self.coef
+        }
+        set {
+            self.coef = newValue
+            try? ExamEntity.saveIfContextHasChanged()
+        }
+    }
+
     /// Nombre de notes de cette évaluation.
-    /// En principe, autant que d'élèves dans la classe associée.
+    /// En principe, autant que d'élèves dans la classe associée à cette évaluation.
     var nbOfMarks: Int {
         Int(marksCount)
     }
+
+    // MARK: - Methods
+
+    /// Modifie l'attribut `examType`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setExamTypeEnum(_ newExamType: ExamTypeEnum) {
+        self.examType = newExamType.rawValue
+    }
+}
+
+// MARK: - Extension Notes Echelonnées
+
+extension ExamEntity {
+    
 }
 
 // MARK: - Extension Core Data

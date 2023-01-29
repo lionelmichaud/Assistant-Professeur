@@ -6,10 +6,22 @@
 //
 
 import Foundation
+import os
+
+private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
+                               category  : "ExamStepTransformer")
 
 public class ExamStep: NSObject {
     public var name: String = ""
     public var points: Int = 0
+
+    init(
+        name: String = "",
+        points: Int = 0
+    ) {
+        self.name = name
+        self.points = points
+    }
 }
 
 class ExamStepTransformer: ValueTransformer {
@@ -24,8 +36,8 @@ class ExamStepTransformer: ValueTransformer {
             )
             return data
         } catch {
-            print("failed to archive array with error: \(error)")
-            return nil
+            customLog.log(level: .fault, "Failed to archive array with error: \(error)")
+            fatalError("Failed to archive array with error: \(error)")
         }
     }
 
@@ -45,12 +57,12 @@ class ExamStepTransformer: ValueTransformer {
             ) as? [ExamStep] {
                 return steps
             } else {
-                print("could not convert unarchive array to [ExamStep]")
-                return nil
+                customLog.log(level: .fault, "Could not convert unarchive array to [ExamStep]")
+                fatalError("Could not convert unarchive array to [ExamStep]")
             }
         } catch {
-            print("could not unarchive array: \(error)")
-            return nil
+            customLog.log(level: .fault, "Could not unarchive array: \(error)")
+            fatalError("Could not unarchive array: \(error)")
         }
     }
 }

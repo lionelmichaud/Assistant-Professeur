@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct ExamDetail : View {
+struct ExamDetail: View {
     @ObservedObject
-    var exam : ExamEntity
+    var exam: ExamEntity
 
     private var name: some View {
         HStack {
@@ -18,10 +18,12 @@ struct ExamDetail : View {
                 .foregroundColor(.accentColor)
 
             // sujet
-            TextField("Sujet de l'évaluation",
-                      text: $exam.viewSujet)
-                .font(.title2)
-                .textFieldStyle(.roundedBorder)
+            TextField(
+                "Sujet de l'évaluation",
+                text: $exam.viewSujet
+            )
+            .font(.title2)
+            .textFieldStyle(.roundedBorder)
         }
         .listRowSeparator(.hidden)
     }
@@ -31,40 +33,46 @@ struct ExamDetail : View {
         name
 
         // date
-        DatePicker("Date",
-                   selection: $exam.viewDateExecuted,
-                   displayedComponents: [.date, .hourAndMinute])
-        .environment(\.locale, Locale.init(identifier: "fr_FR"))
+        DatePicker(
+            "Date",
+            selection: $exam.viewDateExecuted,
+            displayedComponents: [.date, .hourAndMinute]
+        )
+        .environment(\.locale, Locale(identifier: "fr_FR"))
         .listRowSeparator(.hidden)
 
         // barême
-        Stepper(value : $exam.maxMark,
-                in    : 1 ... 100,
-                step  : 1) {
+        Stepper(
+            value: $exam.viewMaxMark,
+            in: 1 ... 100,
+            step: 1
+        ) {
             HStack {
                 Text("Barême")
                 Spacer()
-                Text("\(exam.maxMark) points")
+                Text("\(exam.viewMaxMark) points")
                     .foregroundColor(.secondary)
             }
         }
-                .listRowSeparator(.hidden)
+        .listRowSeparator(.hidden)
 
         // coefficient
-        Stepper(value : $exam.coef,
-                in    : 0.0 ... 5.0,
-                step  : 0.25) {
+        Stepper(
+            value: $exam.viewCoef,
+            in: 0.0 ... 5.0,
+            step: 0.25
+        ) {
             HStack {
                 Text("Coefficient")
                 Spacer()
-                Text("\(exam.coef.formatted(.number.precision(.fractionLength(2))))")
+                Text("\(exam.viewCoef.formatted(.number.precision(.fractionLength(2))))")
                     .foregroundColor(.secondary)
             }
         }
     }
 }
 
-//struct ExamDetail_Previews: PreviewProvider {
+// struct ExamDetail_Previews: PreviewProvider {
 //    static var previews: some View {
 //        Group {
 //            List {
@@ -78,4 +86,4 @@ struct ExamDetail : View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

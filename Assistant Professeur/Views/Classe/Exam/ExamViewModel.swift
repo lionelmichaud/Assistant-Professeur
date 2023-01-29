@@ -47,7 +47,7 @@ class ExamViewModel: ObservableObject {
     /// Créer une entité Exam à partir du VM et
     /// sauvegarder le veiwContext.
     func createAndSaveEntity(inClass classe: ClasseEntity) {
-        let exam = ExamManager.createExam(pour: classe)
+        let exam = ExamManager.createGlobalExam(pour: classe)
         // Classe d'appartenance.
         // mandatory
         exam.classe = classe

@@ -167,11 +167,13 @@ extension ClasseEntity {
     // MARK: - Methods
 
     /// Modifie l'attribut `discipline`
+    /// - Important: *Does NOT save the context to the store after modification is done*
     func setDiscipline(_ newDiscipline: Discipline) {
         self.discipline = newDiscipline.rawValue
     }
 
     /// Modifie l'attribut `level`
+    /// - Important: *Does NOT save the context to the store after modification is done*
     func setLevel(_ newLevel: LevelClasse) {
         self.level = newLevel.rawValue
     }
