@@ -149,8 +149,8 @@ struct SchoolSidebarView: View {
         ) {
             NavigationStack {
                 SchoolCreatorModal()
+                    .presentationDetents([.medium])
             }
-            .presentationDetents([.medium])
         }
 
         // Importer des fichiers JPEG
