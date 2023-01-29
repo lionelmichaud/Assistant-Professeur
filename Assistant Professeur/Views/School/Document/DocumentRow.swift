@@ -29,11 +29,9 @@ struct DocumentRow: View {
         }
         // Modal: visualisation du document PDF
         .fullScreenCover(isPresented: $isViewing) {
-//        .sheet(isPresented: $isViewing) {
             NavigationStack {
                 PdfDocumentViewer(document: document)
             }
-            .presentationDetents([.large])
         }
     }
 }

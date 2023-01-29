@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="ActivityEntity" representedClassName="ActivityEntity" syncable="YES" codeGenerationType="class">
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
         <attribute name="duration" attributeType="Double" defaultValueString="1" usesScalarValueType="YES"/>
@@ -71,8 +71,10 @@
     <entity name="ExamEntity" representedClassName="ExamEntity" syncable="YES" codeGenerationType="class">
         <attribute name="coef" attributeType="Double" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="dateExecuted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="isStepped" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="marksCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="marks.@count" usesScalarValueType="YES"/>
         <attribute name="maxMark" attributeType="Integer 16" defaultValueString="20" usesScalarValueType="YES"/>
+        <attribute name="steps" optional="YES" attributeType="Transformable" valueTransformerName="ExamStepTransformer" customClassName="[ExamStep]"/>
         <attribute name="sujet" attributeType="String" defaultValueString=""/>
         <relationship name="classe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="exams" inverseEntity="ClasseEntity"/>
         <relationship name="marks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MarkEntity" inverseName="exam" inverseEntity="MarkEntity"/>

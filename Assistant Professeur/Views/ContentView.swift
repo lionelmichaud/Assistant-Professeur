@@ -8,7 +8,13 @@
 import AppFoundation
 import CloudKit
 import HelpersView
+import os
 import SwiftUI
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "Extensions.Bundle-Codable"
+)
 
 struct ContentView: View {
     @SceneStorage("navigation")
@@ -20,14 +26,11 @@ struct ContentView: View {
     @StateObject
     private var navigationModel = NavigationModel()
 
+    @StateObject
+    private var cloudKitVM = CloudKitViewModel()
+
     @State
     private var initAlertIsPresented = false
-
-    @State
-    private var iCloudAlertIsPresented = false
-
-    @State
-    private var iCloudError: ICloudError?
 
     var body: some View {
         TabView(selection: $navigationModel.selectedTab) {
@@ -42,10 +45,16 @@ struct ContentView: View {
                     isPresented: $initAlertIsPresented,
                     error: AppState.shared.initError
                 ) { _ in
-                    Button("Continuer", role: .cancel) {}
+                    Button("Quiter", role: .cancel) {}
                 } message: { error in
                     Text(error.failureReason ?? "Raison inconue.")
+                    if let recoverySuggestion = error.recoverySuggestion {
+                        Text(recoverySuggestion)
+                    }
                 }
+
+                // passer les infos CloudKit pour les Infos
+                .environmentObject(cloudKitVM)
 
             // Les classes
             ClasseSplitView()
@@ -55,10 +64,13 @@ struct ContentView: View {
 
                 // Alerte en cas d'erreur de connection iCloud
                 .alert(
-                    isPresented: $iCloudAlertIsPresented,
-                    error: iCloudError
-                ) { _ in
-                    Button("Continuer", role: .cancel) {}
+                    isPresented: $cloudKitVM.isSignedInToicloud,
+                    error: cloudKitVM.iCloudError
+                ) { error in
+                    Button("Quitter", role: .cancel) {
+                        customLog.log(level: .fault, "\(error.failureReason ?? "Raison inconue.")")
+                        fatalError()
+                    }
                 } message: { error in
                     Text(error.failureReason ?? "Raison inconue.")
                 }
@@ -91,13 +103,14 @@ struct ContentView: View {
         }
         .environmentObject(navigationModel)
 
-        .task {
+        // Synchronous initializaing of the View
+        .onAppear {
             // Afficher une alerte en cas de problème d'initialisation de l'App
             checkAppInitFailure()
+        }
 
-            // Vérifier le status de iCloud
-            checkiCloudSignIn()
-
+        // Asynchronous initializaing of the View
+        .task {
             // décoder le dernier status de navigation dans l'App
             if let navigationData {
                 navigationModel.jsonData = navigationData
@@ -119,29 +132,6 @@ struct ContentView: View {
              .failedToLoadApplicationData,
              .failedToCheckCompatibility:
             initAlertIsPresented = true
-        }
-    }
-
-    /// Vérifier le status de iCloud
-    private func checkiCloudSignIn() {
-        CKContainer.default().accountStatus { accountStatus, _ in
-            if accountStatus != .available {
-                switch accountStatus {
-                case .couldNotDetermine:
-                    iCloudError = .couldNotDetermine
-                case .available:
-                    return
-                case .restricted:
-                    iCloudError = .restricted
-                case .noAccount:
-                    iCloudError = .noAccount
-                case .temporarilyUnavailable:
-                    iCloudError = .temporarilyUnavailable
-                @unknown default:
-                    iCloudError = .unknown
-                }
-                iCloudAlertIsPresented = true
-            }
         }
     }
 }

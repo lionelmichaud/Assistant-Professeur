@@ -38,6 +38,12 @@ class CoreDataController {
 
     /// An initializer to load Core Data
     private init() {
+        // Register value transformers
+        ValueTransformer.setValueTransformer(
+            ExamStepTransformer(),
+            forName: NSValueTransformerName("ExamStepTransformer")
+        )
+
         container = NSPersistentCloudKitContainer(name: "AppModel")
 
         // set History Tracking

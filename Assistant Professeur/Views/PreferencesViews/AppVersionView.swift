@@ -5,49 +5,69 @@
 //  Created by Lionel MICHAUD on 23/04/2021.
 //
 
-import SwiftUI
 import AppFoundation
 import Files
+import SwiftUI
 
 struct AppVersionView: View {
+    @EnvironmentObject
+    private var cloudKitVM : CloudKitViewModel
+
     var body: some View {
         VStack(alignment: .center, spacing: 4) {
-            Text(AppVersion.shared.name ?? "Assistant Professeur")
-                .font(.title)
-                .fontWeight(.heavy)
-                .frame(maxWidth: .infinity)
-            Text("Version: \(AppVersion.shared.theVersion ?? "?")")
-                .font(.title3)
-            if let date = AppVersion.shared.date {
-                Text(date, style: Text.DateStyle.date)
+            // Infos Appli
+            GroupBox {
+                Text(AppVersion.shared.name ?? "Assistant Professeur")
+                    .font(.title)
+                    .fontWeight(.heavy)
+                Text("Version: \(AppVersion.shared.theVersion ?? "?")")
                     .font(.title3)
+                    .foregroundColor(.secondary)
+                if let date = AppVersion.shared.date {
+                    Text(date, style: Text.DateStyle.date)
+                        .font(.title3)
+                        .foregroundColor(.secondary)
+                }
+                if let comment = AppVersion.shared.comment {
+                    Text(comment)
+                        .font(.title3)
+                        .foregroundColor(.secondary)
+                }
             }
-            if let comment = AppVersion.shared.comment {
-                Text(comment)
-                    .font(.title3)
+
+            // Infos Utilisateur
+            if let userName = cloudKitVM.userName {
+                Text("Bienvenu \(userName.formatted(.name(style: .medium)))")
+                    .font(.title2)
+                    .bold()
+                    .foregroundColor(.primary)
+                    .padding(.top)
             }
-            
+
+            // Infos Historique
             Form {
                 Section {
                     // Historique des révisions
                     RevisionHistoryView(revisions: AppVersion.shared.revisionHistory)
                 }
                 #if DEBUG
-                Section {
-                    // Liste des directories utilisées par l'application
-                    DirectoriesListView()
-                }
+                    Section {
+                        // Liste des directories utilisées par l'application
+                        DirectoriesListView()
+                    }
                 #endif
             }
         }
+        .padding(.top)
         .navigationBarHidden(true)
     }
 }
 
 struct RevisionHistoryView: View {
     var revisions: [Version]
-    @State private var expanded = true
-    
+    @State
+    private var expanded = true
+
     var body: some View {
         DisclosureGroup(
             isExpanded: $expanded,
@@ -55,10 +75,12 @@ struct RevisionHistoryView: View {
                 ForEach(revisions, id: \.self) { revision in
                     RevisionView(revision: revision)
                 }
+                .foregroundColor(.secondary)
             },
             label: {
                 Text("HISTORIQUE DES REVISIONS").font(.headline)
-            })
+            }
+        )
     }
 }
 
@@ -77,7 +99,7 @@ struct RevisionView: View {
                 }
             }
             .font(.subheadline)
-            
+
             Text(revision.comment ?? "")
                 .multilineTextAlignment(.leading)
                 .lineSpacing(10.0)
@@ -87,7 +109,8 @@ struct RevisionView: View {
 }
 
 struct DirectoriesListView: View {
-    @State private var expanded = false
+    @State
+    private var expanded = false
 
     var body: some View {
         DisclosureGroup(
@@ -95,18 +118,19 @@ struct DirectoriesListView: View {
             content: {
                 Text("resourcePath: \n").font(.headline) + Text(Bundle.main.resourcePath!)
                 Text("Application: \n").font(.headline) + Text(Folder.application!.path)
-                Text("Home: \n").font(.headline) +      Text(Folder.home.path)
+                Text("Home: \n").font(.headline) + Text(Folder.home.path)
                 VStack(alignment: .leading) {
                     Text("Documents:").font(.headline)
                         .padding(.bottom, 2)
-                    Text((Folder.documents?.path ?? "introuvable")).textSelection(.enabled)
+                    Text(Folder.documents?.path ?? "introuvable").textSelection(.enabled)
                 }
-                Text("Library: \n").font(.headline) +   Text((Folder.library?.path ?? "introuvable"))
+                Text("Library: \n").font(.headline) + Text(Folder.library?.path ?? "introuvable")
                 Text("temporary: \n").font(.headline) + Text(Folder.temporary.path)
             },
             label: {
                 Text("REPERTOIRES DE L'APPLICATION").font(.headline)
-            })
+            }
+        )
     }
 }
 
@@ -119,8 +143,8 @@ struct AppVersionView_Previews: PreviewProvider {
 struct RevisionView_Previews: PreviewProvider {
     static var previews: some View {
         RevisionView(revision: Version()
-                        .versioned("2.0.0")
-                        .commented(with: "Descriptif de version"))
+            .versioned("2.0.0")
+            .commented(with: "Descriptif de version"))
             .previewLayout(.sizeThatFits)
     }
 }
@@ -135,6 +159,5 @@ struct RevisionHistoryView_Previews: PreviewProvider {
 struct DirectoriesListView_Previews: PreviewProvider {
     static var previews: some View {
         DirectoriesListView()
-        
     }
 }
