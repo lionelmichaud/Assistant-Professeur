@@ -76,15 +76,13 @@ struct RoomEditor: View {
         }
         // Modal: ajout d'une nouvelle classe
         .sheet(isPresented: $isPlacing) {
-            NavigationStack {
-                RoomLayoutEditor(room: room)
-            }
-            .presentationDetents([.large])
+            RoomLayoutEditor(room: room)
+                .presentationDetents([.large])
         }
     }
 }
 
-//struct RoomCreator_Previews: PreviewProvider {
+// struct RoomCreator_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -102,4 +100,4 @@ struct RoomEditor: View {
 //            .previewDevice("iPad mini (6th generation)")
 //        }
 //    }
-//}
+// }

@@ -57,21 +57,21 @@ struct MarkListView: View {
                 }
 
                 // affecter la même note à tous les membres d'un même groupe
-                if exam.classe!.nbOfGroups > 1 {
-                    Button {
-                        isAddingGroupMark = true
-                    } label: {
-                        Image(systemName: "person.line.dotted.person.fill")
+                if let classe = exam.classe {
+                    if classe.nbOfGroups > 1 {
+                        Button {
+                            isAddingGroupMark = true
+                        } label: {
+                            Image(systemName: "person.line.dotted.person.fill")
+                        }
                     }
                 }
             }
         }
         .headerProminence(.increased)
         .sheet(isPresented: $isAddingGroupMark) {
-            NavigationStack {
-                GroupMarkModal(exam: exam)
-            }
-            .presentationDetents([.medium])
+            GroupMarkModal(exam: exam)
+                .presentationDetents([.medium])
         }
     }
 
@@ -100,10 +100,10 @@ struct GroupMarkModal: View {
 
         public var pickerString: String {
             switch self {
-            case .attribuer:
-                return "Atribuer une note"
-            case .modifier:
-                return "Modifier la note"
+                case .attribuer:
+                    return "Atribuer une note"
+                case .modifier:
+                    return "Modifier la note"
             }
         }
     }
@@ -155,32 +155,32 @@ struct GroupMarkModal: View {
     private var noteEditor: some View {
         HStack {
             switch operationType {
-            case .attribuer:
-                AmountEditView(
-                    label: "Note",
-                    amount: $mark,
-                    validity: .within(range: 0.0 ... Double(exam.viewMaxMark)),
-                    currency: false
-                )
-                Stepper(
-                    "",
-                    value: $mark,
-                    in: 0 ... Double(exam.viewMaxMark),
-                    step: 0.5
-                )
-            case .modifier:
-                AmountEditView(
-                    label: "Modifier",
-                    amount: $mark,
-                    validity: .within(range: Double(-exam.viewMaxMark) ... Double(exam.viewMaxMark)),
-                    currency: false
-                )
-                Stepper(
-                    "",
-                    value: $mark,
-                    in: Double(-exam.viewMaxMark) ... Double(exam.viewMaxMark),
-                    step: 0.5
-                )
+                case .attribuer:
+                    AmountEditView(
+                        label: "Note",
+                        amount: $mark,
+                        validity: .within(range: 0.0 ... Double(exam.viewMaxMark)),
+                        currency: false
+                    )
+                    Stepper(
+                        "",
+                        value: $mark,
+                        in: 0 ... Double(exam.viewMaxMark),
+                        step: 0.5
+                    )
+                case .modifier:
+                    AmountEditView(
+                        label: "Modifier",
+                        amount: $mark,
+                        validity: .within(range: Double(-exam.viewMaxMark) ... Double(exam.viewMaxMark)),
+                        currency: false
+                    )
+                    Stepper(
+                        "",
+                        value: $mark,
+                        in: Double(-exam.viewMaxMark) ... Double(exam.viewMaxMark),
+                        step: 0.5
+                    )
             }
         }
     }
@@ -247,20 +247,20 @@ struct GroupMarkModal: View {
 
             ToolbarItem(placement: .confirmationAction) {
                 switch operationType {
-                case .attribuer:
-                    Button("Attribuer") {
-                        withAnimation {
-                            attribuer(note: mark, auGroupe: selectedGroupeNb)
+                    case .attribuer:
+                        Button("Attribuer") {
+                            withAnimation {
+                                attribuer(note: mark, auGroupe: selectedGroupeNb)
+                            }
+                            dismiss()
                         }
-                        dismiss()
-                    }
-                case .modifier:
-                    Button("Modifer") {
-                        withAnimation {
-                            modifier(note: mark, auGroupe: selectedGroupeNb)
+                    case .modifier:
+                        Button("Modifer") {
+                            withAnimation {
+                                modifier(note: mark, auGroupe: selectedGroupeNb)
+                            }
+                            dismiss()
                         }
-                        dismiss()
-                    }
                 }
             }
         }

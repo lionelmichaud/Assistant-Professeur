@@ -74,9 +74,11 @@ struct MarkView: View {
                 default:
                     HStack {
                         Image(systemName: "graduationcap")
-                        CasePicker(pickedCase: $mark.markTypeEnum,
-                                   label: mark.eleve!.displayName)
-                        .pickerStyle(.menu)
+                        if let eleve = mark.eleve {
+                            CasePicker(pickedCase: $mark.markTypeEnum,
+                                       label: eleve.displayName)
+                            .pickerStyle(.menu)
+                        }
                     }
             }
         }

@@ -238,28 +238,22 @@ struct ElevesTableView: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .sheet(isPresented: $isAddingNewEleve) {
-            NavigationStack {
-                EleveCreatorModal(inClasse: classe)
-            }
-            .presentationDetents([.medium])
+            EleveCreatorModal(inClasse: classe)
+                .presentationDetents([.medium])
         }
         .sheet(isPresented: $isAddingNewObserv) {
-            NavigationStack {
-                EmptyView()
+            EmptyView()
                 //                if let eleve = eleveStore.itemBinding(withID: selection.first!) {
                 //                    ObservCreator(eleve: eleve)
                 //                }
-            }
-            .presentationDetents([.medium])
+                .presentationDetents([.medium])
         }
         .sheet(isPresented: $isAddingNewColle) {
-            NavigationStack {
-                EmptyView()
+            EmptyView()
                 //                if let eleve = eleveStore.itemBinding(withID: selection.first!) {
                 //                    ColleCreator(eleve: eleve)
                 //                }
-            }
-            .presentationDetents([.medium])
+                .presentationDetents([.medium])
         }
     }
 }

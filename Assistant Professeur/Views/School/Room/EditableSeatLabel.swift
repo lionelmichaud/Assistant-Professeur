@@ -14,17 +14,17 @@ struct EditableSeatLabel: View {
     @ObservedObject
     var seat: SeatEntity
 
-    var viewGeometrySize : CGSize
-    var imageSize        : CGSize
+    var viewGeometrySize: CGSize
+    var imageSize: CGSize
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     @State
     private var isAddingNewObserv = false
 
     @State
-    private var isAddingNewColle  = false
+    private var isAddingNewColle = false
 
     // MARK: - ComputedProperties
 
@@ -48,7 +48,7 @@ struct EditableSeatLabel: View {
                     // aller à la fiche élève
                     Button {
                         // Programatic Navigation
-                        navigationModel.selectedTab     = .eleve
+                        navigationModel.selectedTab = .eleve
                         navigationModel.selectedEleveId = eleveOnSeat.objectID
                     } label: {
                         Label("Fiche élève", systemImage: "info.circle")
@@ -95,7 +95,7 @@ struct EditableSeatLabel: View {
             }
 
             Section {
-                ForEach(unSeatedEleves, id:\.objectID) { eleve in
+                ForEach(unSeatedEleves, id: \.objectID) { eleve in
                     Button(eleve.displayName) {
                         withAnimation {
                             // enlever l'élève qui était assis à cette place
@@ -111,8 +111,10 @@ struct EditableSeatLabel: View {
     }
 
     var body: some View {
-        SeatLabel(label          : nameOfEleveOnSeat,
-                  backgoundColor : eleveOnSeat == nil ? .pink : .blue)
+        SeatLabel(
+            label: nameOfEleveOnSeat,
+            backgoundColor: eleveOnSeat == nil ? .pink : .blue
+        )
         .contextMenu {
             seatMenu
         } preview: {
@@ -125,15 +127,15 @@ struct EditableSeatLabel: View {
                     .frame(minWidth: 75, minHeight: 75)
             }
         }
-        .offset(posInView(relativePos  : seat.locInRoom,
-                          geometrySize : viewGeometrySize,
-                          imageSize    : imageSize)
+        .offset(posInView(
+            relativePos: seat.locInRoom,
+            geometrySize: viewGeometrySize,
+            imageSize: imageSize
+        )
         )
         .sheet(isPresented: $isAddingNewObserv) {
-            NavigationStack {
-                ObservCreatorModal(eleve: eleveOnSeat!)
-            }
-            .presentationDetents([.medium])
+            ObservCreatorModal(eleve: eleveOnSeat!)
+                .presentationDetents([.medium])
         }
         .sheet(isPresented: $isAddingNewColle) {
             NavigationStack {
@@ -152,24 +154,30 @@ struct EditableSeatLabel: View {
     ///   - geometrySize: taille de la vue contenant l'image (alignée .topLeading)
     ///   - imageSize: taille de l'image dans laquelle se situe l'objet
     /// - Returns: position absolue en pixels de l'objet dans la vue définie par `geometrySize`
-    private func posInView(relativePos  : CGPoint,
-                           geometrySize : CGSize,
-                           imageSize    : CGSize) -> CGSize {
-        let imageSizeRatio    = imageSize.width / imageSize.height
+    private func posInView(
+        relativePos: CGPoint,
+        geometrySize: CGSize,
+        imageSize: CGSize
+    ) -> CGSize {
+        let imageSizeRatio = imageSize.width / imageSize.height
         let geometrySizeRatio = geometrySize.width / geometrySize.height
 
         if imageSizeRatio >= geometrySizeRatio {
-            return CGSize(width  : relativePos.x * geometrySize.width,
-                          height : relativePos.y * (geometrySize.width * imageSize.height / imageSize.width))
+            return CGSize(
+                width: relativePos.x * geometrySize.width,
+                height: relativePos.y * (geometrySize.width * imageSize.height / imageSize.width)
+            )
         } else {
-            return CGSize(width  : relativePos.x * (geometrySize.height * imageSize.width / imageSize.height),
-                          height : relativePos.y * geometrySize.height)
+            return CGSize(
+                width: relativePos.x * (geometrySize.height * imageSize.width / imageSize.height),
+                height: relativePos.y * geometrySize.height
+            )
         }
     }
 }
 
-//struct EditablePlaceLabel_Previews: PreviewProvider {
+// struct EditablePlaceLabel_Previews: PreviewProvider {
 //    static var previews: some View {
 //        EditableSeatLabel()
 //    }
-//}
+// }

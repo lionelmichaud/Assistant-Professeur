@@ -7,15 +7,15 @@
 
 import SwiftUI
 
-struct GroupListView : View {
+struct GroupListView: View {
     /// Liste des élèves d'un groupe donné
     @ObservedObject
-    var groupe : GroupEntity
+    var groupe: GroupEntity
 
-    let searchString : String
+    let searchString: String
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     @Preference(\.nameDisplayOrder)
     private var nameDisplayOrder
@@ -36,7 +36,7 @@ struct GroupListView : View {
     }
 
     private var showAddEleveMenu: Bool {
-        (groupIsEditable && !allElevesAssigned)
+        groupIsEditable && !allElevesAssigned
     }
 
     private var ungroupedEleves: [EleveEntity] {
@@ -48,7 +48,7 @@ struct GroupListView : View {
     var body: some View {
         Group {
             if showAddEleveMenu {
-                /// ajouter au groupe un élève parmis ceux qui ne sont  affectés à aucun groupe
+                // ajouter au groupe un élève parmis ceux qui ne sont  affectés à aucun groupe
                 Menu {
                     ForEach(ungroupedEleves) { eleve in
                         Button {
@@ -57,28 +57,32 @@ struct GroupListView : View {
                                 toGroupNumber: groupe.viewNumber
                             )
                         } label: {
-                            Label(eleve.displayName,
-                                  systemImage: "graduationcap")
+                            Label(
+                                eleve.displayName,
+                                systemImage: "graduationcap"
+                            )
                         }
                     }
                 } label: {
-                    Label("Ajouter un élève",
-                          systemImage: "plus.circle.fill")
+                    Label(
+                        "Ajouter un élève",
+                        systemImage: "plus.circle.fill"
+                    )
                 }
             }
 
-            /// pour chaque Elève du groupe
+            // pour chaque Elève du groupe
             ForEach(groupe.filteredElevesSortedByName(searchString: searchString), id: \.objectID) { eleve in
                 EleveLabel(eleve: eleve)
                     .onTapGesture {
-                        /// Programatic Navigation
-                        navigationModel.selectedTab     = .eleve
+                        // Programatic Navigation
+                        navigationModel.selectedTab = .eleve
                         navigationModel.selectedEleveId = eleve.objectID
                     }
 
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                         if groupIsEditable {
-                            /// retirer l'élève du groupe
+                            // retirer l'élève du groupe
                             Button(role: .destructive) {
                                 withAnimation {
                                     GroupManager
@@ -91,7 +95,7 @@ struct GroupListView : View {
                     }
 
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                        /// changer l'élève de groupe
+                        // changer l'élève de groupe
                         if true {
                             Button {
                                 isMovingEleve = true
@@ -99,17 +103,15 @@ struct GroupListView : View {
                                 Text("Déplacer")
                                     .popover(isPresented: $isMovingEleve) {
                                         Text("test")
-                                        //MoveEleveDialog(eleve: eleve)
+                                        // MoveEleveDialog(eleve: eleve)
                                     }
                             }
                         }
                     }
 
                     .sheet(isPresented: $isMovingEleve) {
-                        NavigationStack {
-                            MoveEleveDialog(eleve: eleve)
-                        }
-                        .presentationDetents([.large])
+                        MoveEleveDialog(eleve: eleve)
+                            .presentationDetents([.large])
                     }
             }
         }
@@ -136,7 +138,7 @@ struct MoveEleveDialog: View {
     // MARK: - Computed Properties
 
     private var grpRange: Range<Int> {
-        1 ..< (nbGroupInClasse+1)
+        1 ..< (nbGroupInClasse + 1)
     }
 
     var body: some View {
@@ -161,9 +163,11 @@ struct MoveEleveDialog: View {
             ToolbarItem {
                 Button("Déplacer") {
                     withAnimation {
-                        print("\(eleve.displayName) déplacé de \(String(describing : eleve.group?.displayString)) vers \(groupeNb)")
-                        GroupManager.assign(eleve: eleve,
-                                            toGroupNumber: groupeNb)
+                        print("\(eleve.displayName) déplacé de \(String(describing: eleve.group?.displayString)) vers \(groupeNb)")
+                        GroupManager.assign(
+                            eleve: eleve,
+                            toGroupNumber: groupeNb
+                        )
                     }
                     dismiss()
                 }
@@ -177,7 +181,7 @@ struct MoveEleveDialog: View {
     }
 }
 
-//struct GroupListView_Previews: PreviewProvider {
+// struct GroupListView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -208,4 +212,4 @@ struct MoveEleveDialog: View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

@@ -59,7 +59,13 @@ extension ExamEntity {
     @objc
     var viewMaxMark: Int {
         get {
-            Int(self.maxMark)
+            switch self.examTypeEnum {
+                case .global:
+                    return Int(self.maxMark)
+                case .multiStep:
+                    print(steps?.steps.count ?? "Aucune étapes dans viewMaxMark")
+                    return steps?.steps.sum(for: \.points) ?? 0
+            }
         }
         set {
             self.maxMark = Int16(newValue)
@@ -80,6 +86,29 @@ extension ExamEntity {
         }
     }
 
+    /// Wrapper of `steps`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewSteps: StepsArray {
+        get {
+            switch self.examTypeEnum {
+                case .global:
+                    return [ ]
+                case .multiStep:
+                    return steps?.steps ?? [ ]
+            }
+        }
+        set {
+            self.steps = ExamSteps(steps: newValue)
+            try? ExamEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Nombre d'étapes de cette évaluation.
+    var nbOfSteps: Int? {
+        steps?.steps.count
+    }
+
     /// Nombre de notes de cette évaluation.
     /// En principe, autant que d'élèves dans la classe associée à cette évaluation.
     var nbOfMarks: Int {
@@ -92,6 +121,31 @@ extension ExamEntity {
     /// - Important: *Does NOT save the context to the store after modification is done*
     func setExamTypeEnum(_ newExamType: ExamTypeEnum) {
         self.examType = newExamType.rawValue
+    }
+
+    /// Modifie l'attribut `examType`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setSujet(_ sujet: String) {
+        self.sujet = sujet
+    }
+
+    /// Modifie l'attribut `dateExecuted`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setDateExecuted(_ date: Date) {
+        self.dateExecuted = date
+    }
+
+    /// Modifie l'attribut `coef`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setCoef(_ coef: Double) {
+        self.coef = coef
+    }
+
+    /// Modifie l'attribut `steps`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setSteps(_ steps: StepsArray) {
+        self.steps = ExamSteps(steps: steps)
+        print(self.steps?.steps.count ?? "Aucune étapes dans setSteps")
     }
 }
 

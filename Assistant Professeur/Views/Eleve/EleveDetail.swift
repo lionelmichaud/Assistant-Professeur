@@ -12,9 +12,9 @@ struct EleveDetail: View {
     var eleve: EleveEntity
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
-    // true si le mode édition est engagé
+    /// true si le mode édition est engagé
     @State
     private var isEditing = false
 
@@ -22,7 +22,7 @@ struct EleveDetail: View {
     private var isAddingNewObserv = false
 
     @State
-    private var isAddingNewColle  = false
+    private var isAddingNewColle = false
 
     @State
     private var bonusIsExpanded = false
@@ -47,26 +47,31 @@ struct EleveDetail: View {
 
     // MARK: - Computed properties
 
-    private var filterObservation : Bool {
+    private var filterObservation: Bool {
         navigationModel.filterObservation
     }
-    private var filterColle : Bool {
+
+    private var filterColle: Bool {
         navigationModel.filterColle
     }
 
     private var bonusView: some View {
-        Stepper(value : $eleve.viewBonus,
-                in    : -maxBonusMalus ... maxBonusMalus,
-                step  : maxBonusIncrement) {
+        Stepper(
+            value: $eleve.viewBonus,
+            in: -maxBonusMalus ... maxBonusMalus,
+            step: maxBonusIncrement
+        ) {
             HStack {
-                Label(eleve.bonus >= 0 ? "Bonus" : "Malus",
-                      systemImage: "plusminus")
+                Label(
+                    eleve.bonus >= 0 ? "Bonus" : "Malus",
+                    systemImage: "plusminus"
+                )
                 Spacer()
                 Text("\(eleve.bonus.formatted(.number.precision(.fractionLength(2))))")
                     .foregroundColor(.secondary)
             }
         }
-                .listRowSeparator(.hidden)
+        .listRowSeparator(.hidden)
     }
 
     private var observationsView: some View {
@@ -79,13 +84,15 @@ struct EleveDetail: View {
             .buttonStyle(.borderless)
 
             // édition de la liste des observations
-            ForEach(eleve.sortedObservations(isConsignee: filterObservation ? false : nil,
-                                             isVerified: filterObservation ? false : nil)) { observ in
+            ForEach(eleve.sortedObservations(
+                isConsignee: filterObservation ? false : nil,
+                isVerified: filterObservation ? false : nil
+            )) { observ in
                 EleveObservRow(observ: observ)
 
                     .onTapGesture {
                         // Programatic Navigation
-                        navigationModel.selectedTab      = .observation
+                        navigationModel.selectedTab = .observation
                         navigationModel.selectedObservId = observ.objectID
                     }
 
@@ -128,7 +135,7 @@ struct EleveDetail: View {
 
                     .onTapGesture {
                         // Programatic Navigation
-                        navigationModel.selectedTab     = .colle
+                        navigationModel.selectedTab = .colle
                         navigationModel.selectedColleId = colle.objectID
                     }
 
@@ -157,26 +164,28 @@ struct EleveDetail: View {
 
     var body: some View {
         VStack {
-            /// nom
-            EleveNameGroupBox(eleve    : eleve,
-                              isEditing: isEditing)
+            // nom
+            EleveNameGroupBox(
+                eleve: eleve,
+                isEditing: isEditing
+            )
 
             List {
-                /// appréciation sur l'élève
+                // appréciation sur l'élève
                 if eleveAppreciationEnabled {
                     AppreciationView(appreciation: $eleve.viewAppreciation)
                 }
-                /// annotation sur l'élève
+                // annotation sur l'élève
                 if eleveAnnotationEnabled {
                     AnnotationEditView(annotation: $eleve.viewAnnotation)
                 }
-                /// bonus/malus de l'élève
+                // bonus/malus de l'élève
                 if eleveBonusEnabled {
                     bonusView
                 }
-                /// observations sur l'élève
+                // observations sur l'élève
                 observationsView
-                /// colles de l'élève
+                // colles de l'élève
                 collesView
             }
         }
@@ -205,21 +214,17 @@ struct EleveDetail: View {
             bonusIsExpanded = (eleve.bonus != 0)
         }
         .sheet(isPresented: $isAddingNewObserv) {
-            NavigationStack {
-                ObservCreatorModal(eleve: eleve)
-            }
-            .presentationDetents([.medium])
+            ObservCreatorModal(eleve: eleve)
+                .presentationDetents([.medium])
         }
         .sheet(isPresented: $isAddingNewColle) {
-            NavigationStack {
-                ColleCreatorModal(eleve: eleve)
-            }
-            .presentationDetents([.medium])
+            ColleCreatorModal(eleve: eleve)
+                .presentationDetents([.medium])
         }
     }
 }
 
-//struct EleveDetail_Previews: PreviewProvider {
+// struct EleveDetail_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -246,4 +251,4 @@ struct EleveDetail: View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

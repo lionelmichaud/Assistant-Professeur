@@ -40,8 +40,8 @@ class CoreDataController {
     private init() {
         // Register value transformers
         ValueTransformer.setValueTransformer(
-            ExamStepTransformer(),
-            forName: NSValueTransformerName("ExamStepTransformer")
+            ExamStepsTransformer(),
+            forName: .examStepsTransformer
         )
 
         container = NSPersistentCloudKitContainer(name: "AppModel")

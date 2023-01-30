@@ -34,6 +34,7 @@
 		7937A24229859A5500D0ED59 /* ExamStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A24129859A5500D0ED59 /* ExamStep.swift */; };
 		7937A2442986AD9100D0ED59 /* CloudKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */; };
 		7937A2462986C57D00D0ED59 /* ExamTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */; };
+		7937A2492987F7B400D0ED59 /* StepsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2482987F7B400D0ED59 /* StepsListView.swift */; };
 		79388A4529256819002AABB8 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4429256819002AABB8 /* CoreDataController.swift */; };
 		79388A4629256819002AABB8 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4429256819002AABB8 /* CoreDataController.swift */; };
 		79388A4929256E13002AABB8 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4829256E13002AABB8 /* MainScene.swift */; };
@@ -267,6 +268,7 @@
 		7937A24129859A5500D0ED59 /* ExamStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamStep.swift; sourceTree = "<group>"; };
 		7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitViewModel.swift; sourceTree = "<group>"; };
 		7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamTypeEnum.swift; sourceTree = "<group>"; };
+		7937A2482987F7B400D0ED59 /* StepsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsListView.swift; sourceTree = "<group>"; };
 		79388A4429256819002AABB8 /* CoreDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		79388A4829256E13002AABB8 /* MainScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		79388A4E29257025002AABB8 /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
@@ -554,6 +556,14 @@
 			path = Group;
 			sourceTree = "<group>";
 		};
+		7937A2472987F79900D0ED59 /* Steps */ = {
+			isa = PBXGroup;
+			children = (
+				7937A2482987F7B400D0ED59 /* StepsListView.swift */,
+			);
+			path = Steps;
+			sourceTree = "<group>";
+		};
 		79388A4C29256E7D002AABB8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -593,6 +603,7 @@
 		79398D2A2965FA950013564D /* Exam */ = {
 			isa = PBXGroup;
 			children = (
+				7937A2472987F79900D0ED59 /* Steps */,
 				795EED0829677C76009AA6F4 /* Mark */,
 				79398D342966224A0013564D /* ExamViewModel.swift */,
 				79398D2F296616250013564D /* ExamCreatorModal.swift */,
@@ -1126,7 +1137,6 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				fr,
-				en,
 				Base,
 			);
 			mainGroup = 79B662F829244C3F007B1FBD;
@@ -1308,6 +1318,7 @@
 				79975324297C4ED900D1C66E /* ProgramDetailGroupBox.swift in Sources */,
 				7923811B2960B04F009E51B7 /* GroupsView.swift in Sources */,
 				79ECF1FF295A02EE008F0282 /* EleveDetail.swift in Sources */,
+				7937A2492987F7B400D0ED59 /* StepsListView.swift in Sources */,
 				79E524BD295376EA00DA99A7 /* EventList.swift in Sources */,
 				79ECF1F42959F09F008F0282 /* colle+extensions.swift in Sources */,
 				796371FF297D575800ECDBC3 /* SequenceSidebarView.swift in Sources */,

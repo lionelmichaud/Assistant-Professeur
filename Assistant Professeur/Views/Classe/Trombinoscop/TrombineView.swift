@@ -7,25 +7,25 @@
 
 import SwiftUI
 
-struct TrombineView : View {
+struct TrombineView: View {
     @ObservedObject
     var eleve: EleveEntity
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     @State
     private var isAddingNewObserv = false
 
     @State
-    private var isAddingNewColle  = false
+    private var isAddingNewColle = false
 
     private var menu: some View {
         Menu {
             // aller à la fiche élève
             Button {
                 // Programatic Navigation
-                navigationModel.selectedTab     = .eleve
+                navigationModel.selectedTab = .eleve
                 navigationModel.selectedEleveId = eleve.objectID
             } label: {
                 Label("Fiche élève", systemImage: "info.circle")
@@ -65,26 +65,22 @@ struct TrombineView : View {
                             .foregroundColor(.secondary)
                     }
 
-                    /// Légende basse: Points +/-
+                    // Légende basse: Points +/-
                     TrombinoscopeFooterView(eleve: eleve)
                 }
-                /// Coin supérieur droit: Menu
+                // Coin supérieur droit: Menu
                 menu
                     .sheet(isPresented: $isAddingNewObserv) {
-                        NavigationStack {
-                            ObservCreatorModal(eleve: eleve)
-                        }
-                        .presentationDetents([.medium])
+                        ObservCreatorModal(eleve: eleve)
+                            .presentationDetents([.medium])
                     }
                     .sheet(isPresented: $isAddingNewColle) {
-                        NavigationStack {
-                            ColleCreatorModal(eleve: eleve)
-                        }
-                        .presentationDetents([.medium])
+                        ColleCreatorModal(eleve: eleve)
+                            .presentationDetents([.medium])
                     }
             }
 
-            /// Coin supérieur gauche: Flag
+            // Coin supérieur gauche: Flag
             Button {
                 eleve.isFlagged.toggle()
             } label: {
@@ -132,11 +128,11 @@ struct TrombinoscopeFooterView: View {
     }
 }
 
-//struct TrombinoscopeFooterView_Previews: PreviewProvider {
+// struct TrombinoscopeFooterView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TrombinoscopeFooterView(eleve: .constant(Eleve.exemple))
 //            .previewLayout(.sizeThatFits)
 //            .previewDisplayName("Footer")
 //        //.previewDevice("iPhone 13")
 //    }
-//}
+// }

@@ -74,7 +74,7 @@
         <attribute name="examType" attributeType="String" defaultValueString=""/>
         <attribute name="marksCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="marks.@count" usesScalarValueType="YES"/>
         <attribute name="maxMark" attributeType="Integer 16" defaultValueString="20" usesScalarValueType="YES"/>
-        <attribute name="steps" optional="YES" attributeType="Transformable" valueTransformerName="ExamStepTransformer" customClassName="[ExamStep]"/>
+        <attribute name="steps" optional="YES" attributeType="Transformable" valueTransformerName="ExamStepsTransformer" customClassName="ExamSteps"/>
         <attribute name="sujet" attributeType="String" defaultValueString=""/>
         <relationship name="classe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="exams" inverseEntity="ClasseEntity"/>
         <relationship name="marks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MarkEntity" inverseName="exam" inverseEntity="MarkEntity"/>

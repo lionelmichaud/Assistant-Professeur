@@ -128,10 +128,8 @@ struct SchoolSidebarView: View {
         )
 
         .sheet(isPresented: $isShowingAbout) {
-            NavigationStack {
-                AppVersionView()
-            }
-            .presentationDetents([.large])
+            AppVersionView()
+                .presentationDetents([.large])
         }
 
         // Modal Sheet de gestion des Préférences
@@ -145,7 +143,7 @@ struct SchoolSidebarView: View {
         // Modal Sheet de création d'un nouvel établissement
         .sheet(
             isPresented: $isAddingNewSchool
-            //onDismiss: {}
+            // onDismiss: {}
         ) {
             NavigationStack {
                 SchoolCreatorModal()
@@ -374,28 +372,28 @@ extension SchoolSidebarView {
     /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
     private func importUserSelectedFiles(result: Result<[URL], Error>) {
         switch result {
-        case let .failure(error):
-            customLog.log(
-                level: .fault,
-                "Error selecting file: \(error.localizedDescription)"
-            )
-            alertTitle = "Échec"
-            alertMessage = "L'importation des fichiers a échouée!"
-            alertIsPresented.toggle()
-
-        case let .success(filesUrl):
-            do {
-                try ImportExportManager.importTrombinesImages(filesUrl: filesUrl)
-
-            } catch {
+            case let .failure(error):
                 customLog.log(
                     level: .fault,
-                    "L'importation des fichiers trombines a échouée: \(error.localizedDescription)"
+                    "Error selecting file: \(error.localizedDescription)"
                 )
                 alertTitle = "Échec"
-                alertMessage = "L'importation des fichiers a échoué!"
+                alertMessage = "L'importation des fichiers a échouée!"
                 alertIsPresented.toggle()
-            }
+
+            case let .success(filesUrl):
+                do {
+                    try ImportExportManager.importTrombinesImages(filesUrl: filesUrl)
+
+                } catch {
+                    customLog.log(
+                        level: .fault,
+                        "L'importation des fichiers trombines a échouée: \(error.localizedDescription)"
+                    )
+                    alertTitle = "Échec"
+                    alertMessage = "L'importation des fichiers a échoué!"
+                    alertIsPresented.toggle()
+                }
         }
     }
 }

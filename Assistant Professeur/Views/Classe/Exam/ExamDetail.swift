@@ -11,7 +11,7 @@ struct ExamDetail: View {
     @ObservedObject
     var exam: ExamEntity
 
-    private var name: some View {
+    private var nameEditView: some View {
         HStack {
             Image(systemName: "doc.plaintext")
                 .sfSymbolStyling()
@@ -25,23 +25,33 @@ struct ExamDetail: View {
             .font(.title2)
             .textFieldStyle(.roundedBorder)
         }
-        .listRowSeparator(.hidden)
     }
 
-    var body: some View {
-        // nom
-        name
-
-        // date
+    private var dateEditView: some View {
         DatePicker(
             "Date",
             selection: $exam.viewDateExecuted,
             displayedComponents: [.date, .hourAndMinute]
         )
         .environment(\.locale, Locale(identifier: "fr_FR"))
-        .listRowSeparator(.hidden)
+    }
 
-        // barême
+    private var coefEditView: some View {
+        Stepper(
+            value: $exam.viewCoef,
+            in: 0.0 ... 5.0,
+            step: 0.25
+        ) {
+            HStack {
+                Text("Coefficient")
+                Spacer()
+                Text("\(exam.viewCoef.formatted(.number.precision(.fractionLength(2))))")
+                    .foregroundColor(.secondary)
+            }
+        }
+    }
+
+    private var globalBaremeEditView: some View {
         Stepper(
             value: $exam.viewMaxMark,
             in: 1 ... 100,
@@ -55,19 +65,27 @@ struct ExamDetail: View {
             }
         }
         .listRowSeparator(.hidden)
+    }
+
+    var body: some View {
+        // nom
+        nameEditView
+            .listRowSeparator(.hidden)
+
+        // date
+        dateEditView
+            .listRowSeparator(.hidden)
 
         // coefficient
-        Stepper(
-            value: $exam.viewCoef,
-            in: 0.0 ... 5.0,
-            step: 0.25
-        ) {
-            HStack {
-                Text("Coefficient")
-                Spacer()
-                Text("\(exam.viewCoef.formatted(.number.precision(.fractionLength(2))))")
-                    .foregroundColor(.secondary)
-            }
+        coefEditView
+
+        // barême
+        switch exam.examTypeEnum {
+            case .global:
+                globalBaremeEditView
+
+            case .multiStep:
+                StepsListView(exam: exam)
         }
     }
 }
