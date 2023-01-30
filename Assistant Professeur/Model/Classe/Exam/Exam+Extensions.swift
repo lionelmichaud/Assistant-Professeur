@@ -63,8 +63,8 @@ extension ExamEntity {
                 case .global:
                     return Int(self.maxMark)
                 case .multiStep:
-                    print(steps?.steps.count ?? "Aucune étapes dans viewMaxMark")
-                    return steps?.steps.sum(for: \.points) ?? 0
+                    print("Nombre d'étapes dans viewMaxMark \(viewSteps.count)")
+                    return viewSteps.sum(for: \.points)
             }
         }
         set {
@@ -95,18 +95,19 @@ extension ExamEntity {
                 case .global:
                     return [ ]
                 case .multiStep:
-                    return steps?.steps ?? [ ]
+                    print("Nombre d'étapes dans viewSteps \(steps?.count ?? 0)")
+                    return (steps as? StepsArray) ?? [ ]
             }
         }
         set {
-            self.steps = ExamSteps(steps: newValue)
+            self.steps = NSArray(array: newValue)
             try? ExamEntity.saveIfContextHasChanged()
         }
     }
 
     /// Nombre d'étapes de cette évaluation.
     var nbOfSteps: Int? {
-        steps?.steps.count
+        steps?.count
     }
 
     /// Nombre de notes de cette évaluation.
@@ -144,8 +145,8 @@ extension ExamEntity {
     /// Modifie l'attribut `steps`
     /// - Important: *Does NOT save the context to the store after modification is done*
     func setSteps(_ steps: StepsArray) {
-        self.steps = ExamSteps(steps: steps)
-        print(self.steps?.steps.count ?? "Aucune étapes dans setSteps")
+        self.steps = NSArray(array: steps)
+        print(self.steps?.count ?? "Aucune étapes dans setSteps")
     }
 }
 

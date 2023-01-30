@@ -15,50 +15,14 @@ private let customLog = Logger(
 
 public typealias StepsArray = [ExamStep]
 
-/// Un tableau d'étapes d'évaluation
-@objc
-public class ExamSteps: NSObject, NSSecureCoding {
-    public static var supportsSecureCoding: Bool = true
-
-    enum Key: String {
-        case steps
-    }
-
-    public var steps: StepsArray = []
-
-    // MARK: - Initializers
-
-    public init(steps: StepsArray = []) {
-        super.init()
-        self.steps = steps
-    }
-
-    public required convenience init?(coder: NSCoder) {
-        if let steps = coder.decodeObject(forKey: Key.steps.rawValue) {
-            if steps is StepsArray {
-                self.init(steps: steps as! StepsArray)
-            } else {
-                return nil
-            }
-        } else {
-            return nil
-        }
-    }
-
-    // MARK: - Methods
-
-    public func encode(with coder: NSCoder) {
-        coder.encode(steps, forKey: Key.steps.rawValue)
-    }
-}
-
 /// Une étape d'évaluation
 @objc
 public class ExamStep: NSObject, NSSecureCoding {
     public static var supportsSecureCoding: Bool = true
 
     enum Key: String {
-        case ExamStep
+        case name
+        case points
     }
 
     public var name: String = ""
@@ -76,8 +40,9 @@ public class ExamStep: NSObject, NSSecureCoding {
     }
 
     public required convenience init?(coder: NSCoder) {
-        if let step = coder.decodeObject(of: ExamStep.self, forKey: Key.ExamStep.rawValue) {
-            self.init(name: step.name, points: step.points)
+        let points = coder.decodeInteger(forKey: Key.points.rawValue)
+        if let name = coder.decodeObject(forKey: Key.name.rawValue) as? String {
+            self.init(name: name, points: points)
         } else {
             return nil
         }
@@ -86,62 +51,47 @@ public class ExamStep: NSObject, NSSecureCoding {
     // MARK: - Methods
 
     public func encode(with coder: NSCoder) {
-        coder.encode(self, forKey: Key.ExamStep.rawValue)
+        coder.encode(self.points, forKey: Key.points.rawValue)
+        coder.encode(self.name, forKey: Key.name.rawValue)
     }
 }
 
 // MARK: - Transformer for StepsArray
+
 class ExamStepsTransformer: NSSecureUnarchiveFromDataTransformer {
     override class func allowsReverseTransformation() -> Bool {
         return true
     }
 
     override class func transformedValueClass() -> AnyClass {
-        return ExamSteps.self
+        return NSArray.self
     }
 
     override class var allowedTopLevelClasses: [AnyClass] {
-        return [ExamSteps.self]
+        return [ExamStep.self, NSArray.self, NSString.self]
     }
 
+    /// Transformation from [ExamStep] to Data
+    /// - Parameter value: [ExamStep]
+    /// - Returns: Data
     override func reverseTransformedValue(_ value: Any?) -> Any? {
-        guard let steps = value as? ExamSteps else {
-            customLog.log(level: .fault, "Wrong data type: value must be a ExamSteps object; received \(type(of: value))")
+        guard let steps = value as? [ExamStep] else {
+            customLog.log(level: .fault, "Wrong data type: value must be a [ExamStep] object; received \(type(of: value))")
             fatalError()
         }
-        do {
-            let data = try NSKeyedArchiver.archivedData(
-                withRootObject: steps,
-                requiringSecureCoding: true
-            )
-            return data
-        } catch {
-            customLog.log(level: .fault, "Failed to archive array with error: \(error)")
-            fatalError()
-        }
+        return super.reverseTransformedValue(steps)
     }
 
+    /// Transformation from Data to [ExamStep]
+    /// - Parameter value: Data
+    /// - Returns: [ExamStep]
     override func transformedValue(_ value: Any?) -> Any? {
         guard let data = value as? Data else {
             customLog.log(level: .fault, "Wrong data type: value must be a Data object; received \(type(of: value))")
             fatalError()
         }
 
-        do {
-            if let steps = try NSKeyedUnarchiver.unarchivedObject(
-                ofClass: ExamSteps.self,
-                from: data
-            ) {
-                return steps
-            } else {
-                customLog.log(level: .fault, "Could not convert unarchive array to [ExamStep]")
-                fatalError()
-            }
-        } catch {
-            customLog.log(level: .fault, "Could not unarchive array: \(error)")
-            return nil
-            //fatalError()
-        }
+        return super.transformedValue(data)
     }
 }
 
