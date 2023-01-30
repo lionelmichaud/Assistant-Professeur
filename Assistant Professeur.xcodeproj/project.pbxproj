@@ -35,6 +35,7 @@
 		7937A2442986AD9100D0ED59 /* CloudKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */; };
 		7937A2462986C57D00D0ED59 /* ExamTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */; };
 		7937A2492987F7B400D0ED59 /* StepsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2482987F7B400D0ED59 /* StepsListView.swift */; };
+		7937A24B298830CC00D0ED59 /* StepEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A24A298830CC00D0ED59 /* StepEditor.swift */; };
 		79388A4529256819002AABB8 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4429256819002AABB8 /* CoreDataController.swift */; };
 		79388A4629256819002AABB8 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4429256819002AABB8 /* CoreDataController.swift */; };
 		79388A4929256E13002AABB8 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4829256E13002AABB8 /* MainScene.swift */; };
@@ -269,6 +270,7 @@
 		7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitViewModel.swift; sourceTree = "<group>"; };
 		7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamTypeEnum.swift; sourceTree = "<group>"; };
 		7937A2482987F7B400D0ED59 /* StepsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsListView.swift; sourceTree = "<group>"; };
+		7937A24A298830CC00D0ED59 /* StepEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepEditor.swift; sourceTree = "<group>"; };
 		79388A4429256819002AABB8 /* CoreDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
 		79388A4829256E13002AABB8 /* MainScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		79388A4E29257025002AABB8 /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
@@ -560,6 +562,7 @@
 			isa = PBXGroup;
 			children = (
 				7937A2482987F7B400D0ED59 /* StepsListView.swift */,
+				7937A24A298830CC00D0ED59 /* StepEditor.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -1255,6 +1258,7 @@
 				7923811A2960B04F009E51B7 /* GroupListView.swift in Sources */,
 				79DEDB11292593C200F508EF /* SettingsEleve.swift in Sources */,
 				79F41E642954B08A00EAAC52 /* Eleve+Extensions.swift in Sources */,
+				7937A24B298830CC00D0ED59 /* StepEditor.swift in Sources */,
 				79AFBFB82981D264001576DD /* ActivityEditorModal.swift in Sources */,
 				795EED0B29677C76009AA6F4 /* MarkView.swift in Sources */,
 				794F6E14295CEC0C00042B95 /* ObservViewModel.swift in Sources */,

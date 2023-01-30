@@ -63,7 +63,6 @@ extension ExamEntity {
                 case .global:
                     return Int(self.maxMark)
                 case .multiStep:
-                    print("Nombre d'étapes dans viewMaxMark \(viewSteps.count)")
                     return viewSteps.sum(for: \.points)
             }
         }
@@ -95,7 +94,6 @@ extension ExamEntity {
                 case .global:
                     return [ ]
                 case .multiStep:
-                    print("Nombre d'étapes dans viewSteps \(steps?.count ?? 0)")
                     return (steps as? StepsArray) ?? [ ]
             }
         }
@@ -146,7 +144,6 @@ extension ExamEntity {
     /// - Important: *Does NOT save the context to the store after modification is done*
     func setSteps(_ steps: StepsArray) {
         self.steps = NSArray(array: steps)
-        print(self.steps?.count ?? "Aucune étapes dans setSteps")
     }
 }
 

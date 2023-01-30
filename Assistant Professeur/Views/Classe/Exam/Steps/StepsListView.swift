@@ -35,16 +35,20 @@ struct StepsListView: View {
             Section {
                 // ajouter une étape
                 Button {
-                    isAddingNewStep = true
+                    insertItem()
                 } label: {
                     Label("Ajouter une étape", systemImage: "plus.circle.fill")
                 }
                 .buttonStyle(.borderless)
 
-                ForEach(exam.viewSteps, id: \.self) { step in
-                    Text(step.name)
-                    Text(step.points.formatted(.number))
+                ForEach($exam.viewSteps, id: \.self) { $step in
+                    StepEditor(step: $step)
+                        .onChange(of: step) { _ in
+                            try? ExamEntity.saveIfContextHasChanged()
+                        }
                 }
+                .onDelete(perform: deleteItems)
+                .onMove(perform: moveItems)
                 .sheet(isPresented: $isAddingNewStep) {
                     Text("Add")
                         .presentationDetents([.medium])
@@ -53,6 +57,24 @@ struct StepsListView: View {
                 Text("Étapes de l'évaluation (\(nbOfSteps))")
             }
             .headerProminence(.increased)
+        }
+    }
+
+    private func insertItem() {
+        withAnimation {
+            exam.viewSteps.append(ExamStep(name: "Etape", points: 0))
+        }
+    }
+
+    private func moveItems(fromOffsets: IndexSet, toOffset: Int) {
+        withAnimation {
+            exam.viewSteps.move(fromOffsets: fromOffsets, toOffset: toOffset)
+        }
+    }
+
+    private func deleteItems(offsets: IndexSet) {
+        withAnimation {
+            exam.viewSteps.remove(atOffsets: offsets)
         }
     }
 }
