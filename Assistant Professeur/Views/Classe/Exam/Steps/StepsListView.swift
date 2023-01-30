@@ -41,11 +41,8 @@ struct StepsListView: View {
                 }
                 .buttonStyle(.borderless)
 
-                ForEach($exam.viewSteps, id: \.self) { $step in
+                ForEach($exam.viewSteps) { $step in
                     StepEditor(step: $step)
-                        .onChange(of: step) { _ in
-                            try? ExamEntity.saveIfContextHasChanged()
-                        }
                 }
                 .onDelete(perform: deleteItems)
                 .onMove(perform: moveItems)

@@ -87,25 +87,34 @@ extension ExamEntity {
 
     /// Wrapper of `steps`
     /// - Important: *Saves the context to the store after modification is done*
-    @objc
     var viewSteps: StepsArray {
         get {
             switch self.examTypeEnum {
                 case .global:
-                    return [ ]
+                    return []
                 case .multiStep:
-                    return (steps as? StepsArray) ?? [ ]
+                    if let steps {
+                        let data = Data(steps.utf8)
+                        return (try? JSONDecoder().decode(StepsArray.self, from: data)) ?? []
+                    } else {
+                        return []
+                    }
             }
         }
         set {
-            self.steps = NSArray(array: newValue)
+            guard let data = try? JSONEncoder().encode(newValue),
+                  let string = String(data: data, encoding: .utf8) else {
+                self.steps = ""
+                return
+            }
+            self.steps = string
             try? ExamEntity.saveIfContextHasChanged()
         }
     }
 
     /// Nombre d'étapes de cette évaluation.
     var nbOfSteps: Int? {
-        steps?.count
+        viewSteps.count
     }
 
     /// Nombre de notes de cette évaluation.
@@ -143,15 +152,18 @@ extension ExamEntity {
     /// Modifie l'attribut `steps`
     /// - Important: *Does NOT save the context to the store after modification is done*
     func setSteps(_ steps: StepsArray) {
-        self.steps = NSArray(array: steps)
+        guard let data = try? JSONEncoder().encode(steps),
+              let string = String(data: data, encoding: .utf8) else {
+            self.steps = ""
+            return
+        }
+        self.steps = string
     }
 }
 
 // MARK: - Extension Notes Echelonnées
 
-extension ExamEntity {
-    
-}
+extension ExamEntity {}
 
 // MARK: - Extension Core Data
 

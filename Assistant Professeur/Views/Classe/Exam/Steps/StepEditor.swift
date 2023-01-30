@@ -22,9 +22,9 @@ struct StepEditor: View {
             TextField("Nom de l'étape", text: $step.name)
                 .textFieldStyle(.roundedBorder)
         }
-        .onChange(of: step.name) { _ in
-            try? ExamEntity.saveIfContextHasChanged()
-        }
+//        .onChange(of: step.name) { _ in
+//            try? ExamEntity.saveIfContextHasChanged()
+//        }
     }
 
     var pointsView: some View {
@@ -39,9 +39,9 @@ struct StepEditor: View {
                 Text("\(step.points)")
                     .foregroundColor(.secondary)
             }
-            .onChange(of: step.points) { _ in
-                try? ExamEntity.saveIfContextHasChanged()
-            }
+//            .onChange(of: step.points) { _ in
+//                try? ExamEntity.saveIfContextHasChanged()
+//            }
         }
     }
 

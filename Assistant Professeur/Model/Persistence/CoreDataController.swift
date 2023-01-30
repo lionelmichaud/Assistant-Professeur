@@ -39,10 +39,10 @@ class CoreDataController {
     /// An initializer to load Core Data
     private init() {
         // Register value transformers
-        ValueTransformer.setValueTransformer(
-            ExamStepsTransformer(),
-            forName: .examStepsTransformer
-        )
+//        ValueTransformer.setValueTransformer(
+//            ExamStepsTransformer(),
+//            forName: .examStepsTransformer
+//        )
 
         container = NSPersistentCloudKitContainer(name: "AppModel")
 
