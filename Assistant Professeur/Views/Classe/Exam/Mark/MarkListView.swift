@@ -70,8 +70,10 @@ struct MarkListView: View {
         }
         .headerProminence(.increased)
         .sheet(isPresented: $isAddingGroupMark) {
-            GroupMarkModal(exam: exam)
-                .presentationDetents([.medium])
+            NavigationStack {
+                GroupMarkModal(exam: exam)
+                    .presentationDetents([.medium])
+            }
         }
     }
 

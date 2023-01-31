@@ -82,8 +82,10 @@ struct ClassList: View {
         }
         // Modal: ajout d'une nouvelle classe
         .sheet(isPresented: $isAddingNewClasse) {
-            ClassCreatorModal(inSchool: school)
-                .presentationDetents([.medium])
+            NavigationStack {
+                ClassCreatorModal(inSchool: school)
+                    .presentationDetents([.medium])
+            }
         }
     }
 }

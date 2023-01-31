@@ -71,12 +71,16 @@ struct TrombineView: View {
                 // Coin supérieur droit: Menu
                 menu
                     .sheet(isPresented: $isAddingNewObserv) {
-                        ObservCreatorModal(eleve: eleve)
-                            .presentationDetents([.medium])
+                        NavigationStack {
+                            ObservCreatorModal(eleve: eleve)
+                                .presentationDetents([.medium])
+                        }
                     }
                     .sheet(isPresented: $isAddingNewColle) {
-                        ColleCreatorModal(eleve: eleve)
-                            .presentationDetents([.medium])
+                        NavigationStack {
+                            ColleCreatorModal(eleve: eleve)
+                                .presentationDetents([.medium])
+                        }
                     }
             }
 

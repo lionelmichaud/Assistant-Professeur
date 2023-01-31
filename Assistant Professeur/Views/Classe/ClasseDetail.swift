@@ -266,8 +266,10 @@ struct ClasseDetail: View {
         #endif
         .onDisappear(perform: save)
         .sheet(isPresented: $isAddingNewExam) {
-            ExamCreatorModal(classe: classe)
-                .presentationDetents([.medium])
+            NavigationStack {
+                ExamCreatorModal(classe: classe)
+                    .presentationDetents([.medium])
+            }
         }
     }
 

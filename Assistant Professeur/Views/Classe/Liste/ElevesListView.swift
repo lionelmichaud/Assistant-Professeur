@@ -85,8 +85,10 @@ struct ElevesListView: View {
             .navigationTitle(navbarTitle)
         #endif
             .sheet(isPresented: $isAddingNewEleve) {
-                EleveCreatorModal(inClasse: classe)
-                    .presentationDetents([.medium])
+                NavigationStack {
+                    EleveCreatorModal(inClasse: classe)
+                        .presentationDetents([.medium])
+                }
             }
     }
 }

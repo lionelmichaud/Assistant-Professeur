@@ -585,6 +585,7 @@
 		79388A4D29256E92002AABB8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */,
 				79B6630629244C3F007B1FBD /* ContentView.swift */,
 				79DEDB06292593C200F508EF /* PreferencesViews */,
 				798458E82939529D00B74538 /* Annotation */,
@@ -598,7 +599,6 @@
 				79975314297B146600D1C66E /* Program */,
 				796371FD297D574B00ECDBC3 /* Sequence */,
 				79637206297D879100ECDBC3 /* Activity */,
-				7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

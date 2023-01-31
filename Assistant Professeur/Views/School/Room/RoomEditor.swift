@@ -76,8 +76,10 @@ struct RoomEditor: View {
         }
         // Modal: ajout d'une nouvelle classe
         .sheet(isPresented: $isPlacing) {
-            RoomLayoutEditor(room: room)
-                .presentationDetents([.large])
+            NavigationStack {
+                RoomLayoutEditor(room: room)
+                    .presentationDetents([.large])
+            }
         }
     }
 }

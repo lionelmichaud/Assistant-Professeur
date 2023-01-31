@@ -75,6 +75,13 @@ class EleveViewModel: ObservableObject {
         eleve.appreciation = appreciation
         eleve.bonus        = Int16(bonus)
 
+        // ajouter une note pour chaque évaluation de la classe
+        inClasse.allExams.forEach { exam in
+            let mark = MarkEntity.create()
+            mark.eleve = eleve
+            mark.exam = exam
+        }
+
         try? EleveEntity.saveIfContextHasChanged()
     }
 }

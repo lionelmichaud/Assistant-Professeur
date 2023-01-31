@@ -21,6 +21,9 @@ struct TrombinoscopeView: View {
     let fontWeight : Font.Weight = .semibold
 
     @State
+    private var isShowingResetBonuConfirmDialog: Bool = false
+
+    @State
     private var searchString: String = ""
 
     @State
@@ -46,12 +49,32 @@ struct TrombinoscopeView: View {
         }
         .padding(2)
         .toolbar {
+            ToolbarItemGroup(placement: .destructiveAction) {
+                Button(role: .destructive) {
+                    isShowingResetBonuConfirmDialog.toggle()
+                } label: {
+                    Image(systemName: "eraser.fill")
+                        .tint(.red)
+                }
+                /// Confirmation de Reset des Bonus / Malus de tous les élèves
+                .confirmationDialog("Effacement des Bonus / Malus",
+                                    isPresented: $isShowingResetBonuConfirmDialog,
+                                    titleVisibility : .visible) {
+                    Button("Effacer", role: .destructive) {
+                        withAnimation {
+                            resetBonusMalus()
+                        }
+                    }
+                } message: {
+                    Text("Cette action remettra à zéro le bonus / malus de tous les élèves de la classe.")
+                }
+            }
             ToolbarItemGroup(placement: .automatic) {
                 Picker("Présentation", selection: $pictureSize.animation()) {
                     Image(systemName: "minus.magnifyingglass")
                         .tag("Small picture")
                     Image(systemName: "plus.magnifyingglass")
-                        .tag("Largepicture")
+                        .tag("Large picture")
                 }
                 .pickerStyle(.segmented)
             }
@@ -64,6 +87,13 @@ struct TrombinoscopeView: View {
                     placement : .navigationBarDrawer(displayMode : .automatic),
                     prompt    : "Nom, Prénom ou n° de groupe")
         .autocorrectionDisabled()
+    }
+
+    private func resetBonusMalus() {
+        classe.allEleves.forEach { eleve in
+            eleve.bonus = 0
+        }
+        try? ClasseEntity.saveIfContextHasChanged()
     }
 }
 

@@ -46,10 +46,6 @@ struct StepsListView: View {
                 }
                 .onDelete(perform: deleteItems)
                 .onMove(perform: moveItems)
-                .sheet(isPresented: $isAddingNewStep) {
-                    Text("Add")
-                        .presentationDetents([.medium])
-                }
             } header: {
                 Text("Étapes de l'évaluation (\(nbOfSteps))")
             }

@@ -134,8 +134,10 @@ struct EditableSeatLabel: View {
         )
         )
         .sheet(isPresented: $isAddingNewObserv) {
-            ObservCreatorModal(eleve: eleveOnSeat!)
-                .presentationDetents([.medium])
+            NavigationStack {
+                ObservCreatorModal(eleve: eleveOnSeat!)
+                    .presentationDetents([.medium])
+            }
         }
         .sheet(isPresented: $isAddingNewColle) {
             NavigationStack {

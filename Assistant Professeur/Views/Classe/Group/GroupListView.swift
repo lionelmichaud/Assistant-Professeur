@@ -110,8 +110,10 @@ struct GroupListView: View {
                     }
 
                     .sheet(isPresented: $isMovingEleve) {
-                        MoveEleveDialog(eleve: eleve)
-                            .presentationDetents([.large])
+                        NavigationStack {
+                            MoveEleveDialog(eleve: eleve)
+                                .presentationDetents([.large])
+                        }
                     }
             }
         }
