@@ -103,6 +103,7 @@
 		79637214297DBD6500ECDBC3 /* SettingsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637213297DBD6500ECDBC3 /* SettingsActivity.swift */; };
 		797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */; };
 		798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798458E92939529D00B74538 /* AnnotationEditView.swift */; };
+		7986A8572989B1A2007471BE /* GroupMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7986A8562989B1A2007471BE /* GroupMarkModal.swift */; };
 		798B825E296C8DD5004A24A8 /* EleveNameStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */; };
 		798B8260296CAC84004A24A8 /* ImportExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B825F296CAC84004A24A8 /* ImportExportManager.swift */; };
 		798B8262296CEC5F004A24A8 /* CsvImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B8261296CEC5E004A24A8 /* CsvImporter.swift */; };
@@ -333,6 +334,7 @@
 		7966DCF8292573A1001D6C7F /* AppFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppFoundation; path = ../Packages/AppFoundation; sourceTree = "<group>"; };
 		797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDisciplineLevel.swift; sourceTree = "<group>"; };
 		798458E92939529D00B74538 /* AnnotationEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationEditView.swift; sourceTree = "<group>"; };
+		7986A8562989B1A2007471BE /* GroupMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMarkModal.swift; sourceTree = "<group>"; };
 		798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveNameStyling.swift; sourceTree = "<group>"; };
 		798B825F296CAC84004A24A8 /* ImportExportManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportExportManager.swift; sourceTree = "<group>"; };
 		798B8261296CEC5E004A24A8 /* CsvImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CsvImporter.swift; sourceTree = "<group>"; };
@@ -677,6 +679,7 @@
 			children = (
 				795EED0929677C76009AA6F4 /* MarkView.swift */,
 				795EED0A29677C76009AA6F4 /* MarkListView.swift */,
+				7986A8562989B1A2007471BE /* GroupMarkModal.swift */,
 			);
 			path = Mark;
 			sourceTree = "<group>";
@@ -1216,6 +1219,7 @@
 			files = (
 				79975316297B148800D1C66E /* ProgramSplitView.swift in Sources */,
 				798B8262296CEC5F004A24A8 /* CsvImporter.swift in Sources */,
+				7986A8572989B1A2007471BE /* GroupMarkModal.swift in Sources */,
 				798B8260296CAC84004A24A8 /* ImportExportManager.swift in Sources */,
 				79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */,
 				7994E3252972F4E500952D08 /* DocumentRow.swift in Sources */,

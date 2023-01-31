@@ -11,8 +11,8 @@ struct TrombinoscopeView: View {
     @ObservedObject
     var classe: ClasseEntity
 
-    let smallColumns = [GridItem(.adaptive(minimum: 120, maximum: 200))]
-    let largeColumns = [GridItem(.adaptive(minimum: 180, maximum: 300))]
+    private let smallColumns = [GridItem(.adaptive(minimum: 120, maximum: 200))]
+    private let largeColumns = [GridItem(.adaptive(minimum: 180, maximum: 300))]
 
     @Preference(\.nameDisplayOrder)
     private var nameDisplayOrder
