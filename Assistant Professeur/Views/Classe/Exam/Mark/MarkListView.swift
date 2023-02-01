@@ -64,8 +64,14 @@ struct MarkListView: View {
                         }
                         .sheet(isPresented: $isAddingGroupMark) {
                             NavigationStack {
-                                GroupMarkModal(exam: exam)
-                                    .presentationDetents([.medium])
+                                switch exam.examTypeEnum {
+                                    case .global:
+                                        GroupGlobalMarkModal(exam: exam)
+                                            .presentationDetents([.medium])
+                                    case .multiStep:
+                                        GroupSteppedlMarkModal(exam: exam)
+                                            .presentationDetents([.medium])
+                                }
                             }
                         }
                     }

@@ -11,7 +11,7 @@ import HelpersView
 import SwiftUI
 
 /// Saisie la de la note dun groupe pour une évaluation
-struct GroupMarkModal: View {
+struct GroupGlobalMarkModal: View {
     @ObservedObject
     var exam: ExamEntity
 
@@ -22,7 +22,7 @@ struct GroupMarkModal: View {
     private var nameDisplayOrder
 
     private let fontWeight : Font.Weight = .semibold
-    private let largeColumns = [GridItem(.adaptive(minimum: 180, maximum: 300))]
+    private let smallColumns = [GridItem(.adaptive(minimum: 120, maximum: 200))]
 
     enum OperationType: PickableEnumP {
         case attribuer
@@ -47,10 +47,15 @@ struct GroupMarkModal: View {
     @State
     private var selectedGroupeNb: Int = 1
 
-    @State
-    private var grpTable = [Int]()
-
     // MARK: - Computed Properties
+
+    private var oprationPickerView: some View {
+        CasePicker(
+            pickedCase: $operationType,
+            label: "Opération"
+        )
+        .pickerStyle(.segmented)
+    }
 
     private var groupsNb: [Int] {
         var array = [Int]()
@@ -61,14 +66,6 @@ struct GroupMarkModal: View {
                 }
             }
         return array
-    }
-
-    private var oprationPickerView: some View {
-        CasePicker(
-            pickedCase: $operationType,
-            label: "Opération"
-        )
-        .pickerStyle(.segmented)
     }
 
     private var groupPickerView: some View {
@@ -142,10 +139,10 @@ struct GroupMarkModal: View {
             .map { $0.objectID }
     }
 
-    /// Vue de la liste des élèves appartenant au groupe
+    /// Vue des trombines des élèves appartenant au groupe
     private var listeElevesView: some View {
         LazyVGrid(
-            columns: largeColumns,
+            columns: smallColumns,
             spacing: 4
         ) {
             ForEach(
@@ -176,6 +173,7 @@ struct GroupMarkModal: View {
                 regulartForm
                 compactForm
             }
+            .padding([.top, .bottom])
 
             listeElevesView
         }
