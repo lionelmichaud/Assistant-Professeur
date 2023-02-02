@@ -21,7 +21,7 @@ struct ExamStep: Codable, Identifiable {
 
     var id: UUID = UUID()
     var name: String = ""
-    var points: Int = 0
+    var points: Int = 1
 
     // MARK: - Initializers
 

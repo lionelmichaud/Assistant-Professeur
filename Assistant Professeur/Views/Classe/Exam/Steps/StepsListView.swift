@@ -32,7 +32,7 @@ struct StepsListView: View {
 
         // Étapes de l'évaluation
         if let nbOfSteps {
-            Section {
+            DisclosureGroup {
                 // Ajouter une étape
                 Button {
                     addItem()
@@ -47,7 +47,7 @@ struct StepsListView: View {
                 }
                 .onDelete(perform: deleteItems)
                 .onMove(perform: moveItems)
-            } header: {
+            } label: {
                 Text("Étapes de l'évaluation (\(nbOfSteps))")
             }
             .headerProminence(.increased)

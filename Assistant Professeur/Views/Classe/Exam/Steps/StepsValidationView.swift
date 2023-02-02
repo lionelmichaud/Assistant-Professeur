@@ -11,27 +11,51 @@ struct StepsValidationView: View {
     @ObservedObject
     var exam: ExamEntity
 
+    let width: Int
+
     @State
-    private var tog: Bool = false
+    private var value: Double = 0.0
 
     var body: some View {
-        VStack(alignment: .center) {
-            Text("Étapes")
-                .font(.headline)
-            Text("Note totale: 10")
-                .font(.body)
-                .padding(.top, 8)
+        VStack {
+            HStack {
+                Text("Étapes")
+                Spacer()
+                Text("Note totale: 10")
+                    .padding(.top, 8)
+                    .foregroundColor(.accentColor)
+            }
+            .font(.headline)
+            .padding(.horizontal)
+
             List(exam.viewSteps) { step in
                 HStack {
-                    Image(systemName: "figure.stair.stepper")
-                        .sfSymbolStyling()
-                        .foregroundColor(.accentColor)
-                    Toggle(isOn: $tog) {
-                        Text(step.name)
+                    Text(step.name)
+                        .frame(width: CGFloat(width), alignment: .leading)
+                    Slider(
+                        value: $value,
+                        in: 0 ... step.points.double(),
+                        step: 0.5
+                    ) {
+                        Text("Label")
+                    } minimumValueLabel: {
+                        Text("")
+                    } maximumValueLabel: {
+                        Text("\(valueSting(value: value))").foregroundColor(.accentColor) +
+                        Text(" / \(maxValue(value: Double(step.points)))")
+                    } onEditingChanged: { _ in
                     }
                 }
             }
         }
+    }
+
+    private func maxValue(value: Double) -> String {
+        value.formatted(.number.precision(.fractionLength(0)))
+    }
+
+    private func valueSting(value: Double) -> String {
+        value.formatted(.number.precision(.fractionLength(1)))
     }
 }
 

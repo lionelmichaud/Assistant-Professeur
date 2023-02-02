@@ -16,6 +16,9 @@ struct GroupSteppedlMarkModal: View {
     @Environment(\.dismiss)
     private var dismiss
 
+    @Environment(\.horizontalSizeClass)
+    private var horizontalSizeClass
+
     @Preference(\.nameDisplayOrder)
     private var nameDisplayOrder
 
@@ -56,7 +59,7 @@ struct GroupSteppedlMarkModal: View {
     }
 
     /// Vue des trombines des élèves appartenant au groupe
-    private var listeElevesView: some View {
+    private var listeTrombinesElevesView: some View {
         LazyVGrid(
             columns: smallColumns,
             spacing: 4
@@ -72,6 +75,7 @@ struct GroupSteppedlMarkModal: View {
                     Text(eleve.displayName2lines(nameDisplayOrder))
                         .multilineTextAlignment(.center)
                         .fontWeight(fontWeight)
+                        .font(.body)
                         .elevNameStyling(
                             hasTrouble: eleve.hasTrouble,
                             hasAddTime: eleve.hasAddTime
@@ -81,37 +85,24 @@ struct GroupSteppedlMarkModal: View {
         }
     }
 
-    private var regulartForm: some View {
-        HStack(alignment: .top) {
+    var body: some View {
+        VStack(alignment: .leading) {
             // Sélection du groupe d'élèves à noter
             VStack(alignment: .center) {
                 groupPickerView
                     .frame(maxWidth: 300)
                     .padding(.bottom)
-                listeElevesView
-            }.padding(.trailing)
+                listeTrombinesElevesView
+            }.padding(.horizontal)
 
             Divider()
 
             // Saisie de la validation des étapes de l'évaluation
-            StepsValidationView(exam: exam)
-        }
-    }
-
-    private var compactForm: some View {
-        VStack {
-            groupPickerView
-                .frame(maxWidth: 200)
-                .padding(.bottom)
-            listeElevesView
-            Text("éditeur csdac sadcasdcde notes")
-        }
-    }
-
-    var body: some View {
-        ViewThatFits(in: .horizontal) {
-            regulartForm
-            compactForm
+            if horizontalSizeClass == .regular {
+                StepsValidationView(exam: exam, width: 250)
+            } else {
+                StepsValidationView(exam: exam, width: 125)
+            }
         }
         #if os(iOS)
         .navigationTitle("Note de groupe")
