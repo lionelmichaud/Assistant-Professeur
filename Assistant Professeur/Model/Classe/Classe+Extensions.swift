@@ -254,13 +254,22 @@ extension ClasseEntity: ModelEntityP {
         }
     }
 
-    /// Liste des évaluations de lla classe non triées
+    /// Liste des évaluations de la classe non triées
     var allExams: [ExamEntity] {
         if let exams {
             return (exams.allObjects as! [ExamEntity])
         } else {
             return []
         }
+    }
+
+    /// Liste des évaluations de la classe triés par date
+    var examsSortedByDate: [ExamEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(\ExamEntity.dateExecuted, order: .reverse)
+        ]
+        return allExams.sorted(using: sortComparators)
     }
 
     /// Retourne la liste des groupes de la classe.

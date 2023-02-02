@@ -85,9 +85,6 @@ struct ClasseDetail: View {
     private var importCsvFile = false
 
     @State
-    private var isAddingNewExam = false
-
-    @State
     private var alertTitle = ""
 
     @State
@@ -133,36 +130,6 @@ struct ClasseDetail: View {
         }
     }
 
-    private var examsListView: some View {
-        return Group {
-            // ajouter une évaluation
-            Button {
-                isAddingNewExam = true
-            } label: {
-                Label("Ajouter une évaluation", systemImage: "plus.circle.fill")
-            }
-            .buttonStyle(.borderless)
-
-            // édition de la liste des examen
-            ForEach(classe.allExams) { exam in
-                NavigationLink(value: ClasseNavigationRoute.exam(classe, exam)) {
-                    ClasseExamRow(exam: exam)
-                }
-            }
-            .onDelete(perform: deleteItems)
-        }
-
-        func deleteItems(offsets: IndexSet) {
-            withAnimation {
-                offsets
-                    .map { classe.allExams[$0] }
-                    .forEach(managedObjectContext.delete)
-
-                try? ExamEntity.saveIfContextHasChanged()
-            }
-        }
-    }
-
     var body: some View {
         // TODO: - Remplacer par NavigationStack(path: $path) et garder la navigation vers les subview locale à cette View en utilisant @State private var path = NavigationPath()
         // https://swiftwithmajid.com/2022/10/05/mastering-navigationstack-in-swiftui-navigationpath/
@@ -202,7 +169,7 @@ struct ClasseDetail: View {
 
                 // édition de la liste des examens
                 Section {
-                    examsListView
+                    ExamList(classe: classe)
                 } header: {
                     Text("Evaluations (\(classe.nbOfExams))")
                         .font(.callout)
@@ -265,12 +232,6 @@ struct ClasseDetail: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .onDisappear(perform: save)
-        .sheet(isPresented: $isAddingNewExam) {
-            NavigationStack {
-                ExamCreatorModal(classe: classe)
-                    .presentationDetents([.medium])
-            }
-        }
     }
 
     // MARK: - Methods

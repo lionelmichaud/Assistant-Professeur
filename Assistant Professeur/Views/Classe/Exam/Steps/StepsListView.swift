@@ -33,14 +33,15 @@ struct StepsListView: View {
         // étapes de l'évaluation
         if let nbOfSteps {
             Section {
-                // ajouter une étape
+                // Ajouter une étape
                 Button {
-                    insertItem()
+                    addItem()
                 } label: {
                     Label("Ajouter une étape", systemImage: "plus.circle.fill")
                 }
                 .buttonStyle(.borderless)
 
+                // Liste des étapes
                 ForEach($exam.viewSteps) { $step in
                     StepEditor(step: $step)
                 }
@@ -53,21 +54,39 @@ struct StepsListView: View {
         }
     }
 
-    private func insertItem() {
+    private func addItem() {
         withAnimation {
+            // Ajouter une étape supplémentaire à l'évaluation
             exam.viewSteps.append(ExamStep(name: "Etape", points: 0))
+            
+            // Ajouter une note d'étape supplémentaire pour cette étape à chaque note d'élève de la classe
+            exam.allMarks.forEach { mark in
+                mark.viewSteps.append(0.0)
+            }
         }
     }
 
     private func moveItems(fromOffsets: IndexSet, toOffset: Int) {
         withAnimation {
+            // Déplacer une étape de l'évaluation
             exam.viewSteps.move(fromOffsets: fromOffsets, toOffset: toOffset)
+
+            // Déplacer une note d'étape de chaque note d'élève de la classe
+            exam.allMarks.forEach { mark in
+                mark.viewSteps.move(fromOffsets: fromOffsets, toOffset: toOffset)
+            }
         }
     }
 
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
+            // Supprimer une étape de l'évaluation
             exam.viewSteps.remove(atOffsets: offsets)
+
+            // Supprimer une note d'étape de chaque note d'élève de la classe
+            exam.allMarks.forEach { mark in
+                mark.viewSteps.remove(atOffsets: offsets)
+            }
         }
     }
 }

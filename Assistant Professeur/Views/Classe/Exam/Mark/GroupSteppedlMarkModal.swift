@@ -86,6 +86,7 @@ struct GroupSteppedlMarkModal: View {
 
     private var regulartForm: some View {
         HStack(alignment: .top) {
+            // Sélection du groupe d'élèves à noter
             VStack(alignment: .center) {
                 groupPickerView
                     .frame(maxWidth: 300)
@@ -95,6 +96,7 @@ struct GroupSteppedlMarkModal: View {
 
             Divider()
 
+            // Saisie de la validation des étapes de l'évaluation
             VStack(alignment: .center) {
                 Text("Étapes")
                     .font(.headline)

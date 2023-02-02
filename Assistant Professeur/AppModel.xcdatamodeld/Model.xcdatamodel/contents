@@ -72,6 +72,7 @@
         <attribute name="coef" attributeType="Double" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="dateExecuted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="examType" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="marksCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="marks.@count" usesScalarValueType="YES"/>
         <attribute name="maxMark" attributeType="Integer 16" defaultValueString="20" usesScalarValueType="YES"/>
         <attribute name="steps" attributeType="String" valueTransformerName="ExamStepsTransformer" defaultValueString="" customClassName="NSArray"/>
@@ -86,8 +87,11 @@
         <relationship name="eleves" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="group" inverseEntity="EleveEntity"/>
     </entity>
     <entity name="MarkEntity" representedClassName="MarkEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="examType" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="mark" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="markType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="steps" attributeType="String" defaultValueString=""/>
         <relationship name="eleve" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="marks" inverseEntity="EleveEntity"/>
         <relationship name="exam" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ExamEntity" inverseName="marks" inverseEntity="ExamEntity"/>
     </entity>

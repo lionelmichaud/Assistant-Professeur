@@ -41,10 +41,26 @@ extension MarkEnum: PickableEnumP {
     }
 }
 
-/// Un établissement scolaire
+/// Une note d'évaluation
 extension MarkEntity {
 
     // MARK: - Computed properties
+
+    /// Wrapper of `examType`
+    /// - Important: *Saves the context to the store after modification is done*
+    var examTypeEnum: ExamTypeEnum {
+        get {
+            if let examType {
+                return ExamTypeEnum(rawValue: examType) ?? .global
+            } else {
+                return .global
+            }
+        }
+        set {
+            self.examType = newValue.rawValue
+            try? ExamEntity.saveIfContextHasChanged()
+        }
+    }
 
     /// Wrapper of `markType`
     /// - Important: *Saves the context to the store after modification is done*
@@ -77,8 +93,14 @@ extension MarkEntity {
     // MARK: - Methods
 
     /// Modifie l'attribut `markType`
-    func setmarkType(_ newMarkType: MarkEnum) {
+    func setMarkType(_ newMarkType: MarkEnum) {
         self.markType = newMarkType.rawValue
+    }
+
+    /// Modifie l'attribut `examType`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setExamTypeEnum(_ newExamType: ExamTypeEnum) {
+        self.examType = newExamType.rawValue
     }
 
 }
@@ -119,6 +141,60 @@ extension MarkEntity: ModelEntityP {
         }
     }
 
+    // MARK: - Methods
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
+    }
+}
+
+// MARK: - Extension Notes Echelonnées
+
+extension MarkEntity {
+    /// Wrapper of `steps`: [note] avec note dans [0.0, 1.0]
+    /// - Important: *Saves the context to the store after modification is done*
+    var viewSteps: [Double] {
+        get {
+            switch self.examTypeEnum {
+                case .global:
+                    return []
+                case .multiStep:
+                    if let steps {
+                        let data = Data(steps.utf8)
+                        return (try? JSONDecoder().decode([Double].self, from: data)) ?? []
+                    } else {
+                        return []
+                    }
+            }
+        }
+        set {
+            guard let data = try? JSONEncoder().encode(newValue),
+                  let string = String(data: data, encoding: .utf8) else {
+                self.steps = ""
+                return
+            }
+            self.steps = string
+            try? MarkEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Modifie l'attribut `steps`: [note] avec note dans [0.0, 1.0]
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setSteps(_ steps: [Double]) {
+        guard let data = try? JSONEncoder().encode(steps),
+              let string = String(data: data, encoding: .utf8) else {
+            self.steps = ""
+            return
+        }
+        self.steps = string
+    }
+
+    /// Nombre d'étapes de cette évaluation.
+    var nbOfSteps: Int? {
+        viewSteps.count
+    }
 }
 
 // MARK: - Extension Debug

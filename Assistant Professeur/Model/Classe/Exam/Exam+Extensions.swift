@@ -85,38 +85,6 @@ extension ExamEntity {
         }
     }
 
-    /// Wrapper of `steps`
-    /// - Important: *Saves the context to the store after modification is done*
-    var viewSteps: StepsArray {
-        get {
-            switch self.examTypeEnum {
-                case .global:
-                    return []
-                case .multiStep:
-                    if let steps {
-                        let data = Data(steps.utf8)
-                        return (try? JSONDecoder().decode(StepsArray.self, from: data)) ?? []
-                    } else {
-                        return []
-                    }
-            }
-        }
-        set {
-            guard let data = try? JSONEncoder().encode(newValue),
-                  let string = String(data: data, encoding: .utf8) else {
-                self.steps = ""
-                return
-            }
-            self.steps = string
-            try? ExamEntity.saveIfContextHasChanged()
-        }
-    }
-
-    /// Nombre d'étapes de cette évaluation.
-    var nbOfSteps: Int? {
-        viewSteps.count
-    }
-
     /// Nombre de notes de cette évaluation.
     /// En principe, autant que d'élèves dans la classe associée à cette évaluation.
     var nbOfMarks: Int {
@@ -148,6 +116,37 @@ extension ExamEntity {
     func setCoef(_ coef: Double) {
         self.coef = coef
     }
+}
+
+// MARK: - Extension Notes Echelonnées
+
+extension ExamEntity {
+    /// Wrapper of `steps`
+    /// - Important: *Saves the context to the store after modification is done*
+    var viewSteps: StepsArray {
+        get {
+            switch self.examTypeEnum {
+                case .global:
+                    return []
+                case .multiStep:
+                    if let steps {
+                        let data = Data(steps.utf8)
+                        return (try? JSONDecoder().decode(StepsArray.self, from: data)) ?? []
+                    } else {
+                        return []
+                    }
+            }
+        }
+        set {
+            guard let data = try? JSONEncoder().encode(newValue),
+                  let string = String(data: data, encoding: .utf8) else {
+                self.steps = ""
+                return
+            }
+            self.steps = string
+            try? ExamEntity.saveIfContextHasChanged()
+        }
+    }
 
     /// Modifie l'attribut `steps`
     /// - Important: *Does NOT save the context to the store after modification is done*
@@ -159,11 +158,12 @@ extension ExamEntity {
         }
         self.steps = string
     }
+
+    /// Nombre d'étapes de cette évaluation.
+    var nbOfSteps: Int? {
+        viewSteps.count
+    }
 }
-
-// MARK: - Extension Notes Echelonnées
-
-extension ExamEntity {}
 
 // MARK: - Extension Core Data
 
@@ -209,8 +209,7 @@ extension ExamEntity: ModelEntityP {
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         // Set defaults here
-        // self.group = ""
-        //        self.fileDate = Date()
+        self.id = UUID()
     }
 
     /// Retourne la liste des notes des élèves de la classe satisfaisant *au moins à l'un des critères* définis en paramètre.

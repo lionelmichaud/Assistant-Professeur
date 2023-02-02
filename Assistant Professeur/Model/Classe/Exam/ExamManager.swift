@@ -30,22 +30,19 @@ enum ExamManager {
         dateExecuted: Date = Date.now,
         pour classe: ClasseEntity
     ) -> ExamEntity {
-        // TODO: - Faire ce qu'il faut quand un nouvel élève est ajouté à une classe
         let exam = ExamEntity.create()
         exam.classe = classe
 
+        exam.setExamTypeEnum(.global)
+        exam.setSujet(sujet)
+        exam.setCoef(coef)
+        exam.setDateExecuted(dateExecuted)
+        exam.maxMark = Int16(maxMark)
+
         let eleves = classe.allEleves
         eleves.forEach { eleve in
-            let mark = MarkEntity.create()
-            mark.eleve = eleve
-            mark.exam = exam
+            createGlobalMark(of: eleve, for: exam)
         }
-
-        exam.setExamTypeEnum(.global)
-        exam.sujet = sujet
-        exam.coef = coef
-        exam.maxMark = Int16(maxMark)
-        exam.dateExecuted = dateExecuted
 
         try? ExamEntity.saveIfContextHasChanged()
 
@@ -81,13 +78,40 @@ enum ExamManager {
 
         let eleves = classe.allEleves
         eleves.forEach { eleve in
-            let mark = MarkEntity.create()
-            mark.eleve = eleve
-            mark.exam = exam
+            createSteppedMark(of: eleve, for: exam)
         }
 
         try? ExamEntity.saveIfContextHasChanged()
 
         return exam
+    }
+
+    @discardableResult
+    static func createGlobalMark(
+        of eleve: EleveEntity,
+        for exam: ExamEntity
+    ) -> MarkEntity {
+        let mark = MarkEntity.create()
+        mark.setExamTypeEnum(.global)
+        mark.eleve = eleve
+        mark.exam = exam
+        return mark
+    }
+
+    @discardableResult
+    static func createSteppedMark(
+        of eleve: EleveEntity,
+        for exam: ExamEntity
+    ) -> MarkEntity {
+        let mark = MarkEntity.create()
+        mark.setExamTypeEnum(.multiStep)
+        mark.eleve = eleve
+        mark.exam = exam
+
+        // initialiser les notes de chaque étapes de l'évaluation
+        let nbOfSteps = exam.viewSteps.count
+        mark.viewSteps = [Double].init(repeating: 0.0, count: nbOfSteps)
+
+        return mark
     }
 }
