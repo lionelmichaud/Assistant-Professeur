@@ -66,9 +66,11 @@ struct MarkListView: View {
                             NavigationStack {
                                 switch exam.examTypeEnum {
                                     case .global:
+                                        // Note globale
                                         GroupGlobalMarkModal(exam: exam)
                                             .presentationDetents([.medium])
                                     case .multiStep:
+                                        // Notes échelonnées
                                         GroupSteppedlMarkModal(exam: exam)
                                             .presentationDetents([.medium])
                                 }

@@ -30,7 +30,7 @@ struct StepsListView: View {
             Text("points")
         }
 
-        // étapes de l'évaluation
+        // Étapes de l'évaluation
         if let nbOfSteps {
             Section {
                 // Ajouter une étape

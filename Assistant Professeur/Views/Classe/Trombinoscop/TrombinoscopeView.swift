@@ -35,7 +35,7 @@ struct TrombinoscopeView: View {
                       spacing: 4) {
                 ForEach(classe.filteredElevesSortedByName(searchString: searchString)) { eleve in
                     VStack {
-                        TrombineView(eleve: eleve)
+                        TrombineInteractivView(eleve: eleve)
 
                         /// Nom de l'élève
                         Text(eleve.displayName2lines(nameDisplayOrder))

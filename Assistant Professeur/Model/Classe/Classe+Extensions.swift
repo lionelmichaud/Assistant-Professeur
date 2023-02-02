@@ -266,9 +266,9 @@ extension ClasseEntity: ModelEntityP {
     /// Liste des évaluations de la classe triés par date
     var examsSortedByDate: [ExamEntity] {
         let sortComparators =
-        [
-            SortDescriptor(\ExamEntity.dateExecuted, order: .reverse)
-        ]
+            [
+                SortDescriptor(\ExamEntity.dateExecuted, order: .reverse)
+            ]
         return allExams.sorted(using: sortComparators)
     }
 
@@ -498,28 +498,28 @@ extension ClasseEntity: ModelEntityP {
         var total = 0
 
         switch (isConsignee, isVerified) {
-        case (nil, nil):
-            eleves.forEach { eleve in
-                total += eleve.nbOfObservs
-            }
+            case (nil, nil):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfObservs
+                }
 
-        case let (.some(c), nil):
-            eleves.forEach { eleve in
-                total += eleve.nbOfObservations(isConsignee: c)
-            }
+            case let (.some(c), nil):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfObservations(isConsignee: c)
+                }
 
-        case let (nil, .some(v)):
-            eleves.forEach { eleve in
-                total += eleve.nbOfObservations(isVerified: v)
-            }
+            case let (nil, .some(v)):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfObservations(isVerified: v)
+                }
 
-        case let (.some(c), .some(v)):
-            eleves.forEach { eleve in
-                total += eleve.nbOfObservations(
-                    isConsignee: c,
-                    isVerified: v
-                )
-            }
+            case let (.some(c), .some(v)):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfObservations(
+                        isConsignee: c,
+                        isVerified: v
+                    )
+                }
         }
         return total
     }
@@ -562,28 +562,28 @@ extension ClasseEntity: ModelEntityP {
         let eleves = allEleves
         var total = 0
         switch (isConsignee, isVerified) {
-        case (nil, nil):
-            eleves.forEach { eleve in
-                total += eleve.nbOfColles
-            }
+            case (nil, nil):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfColles
+                }
 
-        case let (.some(c), nil):
-            eleves.forEach { eleve in
-                total += eleve.nbOfColles(isConsignee: c)
-            }
+            case let (.some(c), nil):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfColles(isConsignee: c)
+                }
 
-        case let (nil, .some(v)):
-            eleves.forEach { eleve in
-                total += eleve.nbOfColles(isVerified: v)
-            }
+            case let (nil, .some(v)):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfColles(isVerified: v)
+                }
 
-        case let (.some(c), .some(v)):
-            eleves.forEach { eleve in
-                total += eleve.nbOfColles(
-                    isConsignee: c,
-                    isVerified: v
-                )
-            }
+            case let (.some(c), .some(v)):
+                eleves.forEach { eleve in
+                    total += eleve.nbOfColles(
+                        isConsignee: c,
+                        isVerified: v
+                    )
+                }
         }
         return total
     }

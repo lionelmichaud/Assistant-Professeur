@@ -25,9 +25,6 @@ struct GroupSteppedlMarkModal: View {
     @State
     private var selectedGroupeNb: Int = 1
 
-    @State
-    private var tog: Bool = false
-
     private var groupsNb: [Int] {
         var array = [Int]()
         exam.classe?.allGroupsSortedByNumber
@@ -97,23 +94,7 @@ struct GroupSteppedlMarkModal: View {
             Divider()
 
             // Saisie de la validation des étapes de l'évaluation
-            VStack(alignment: .center) {
-                Text("Étapes")
-                    .font(.headline)
-                Text("Note totale: 10")
-                    .font(.body)
-                    .padding(.top, 8)
-                List(exam.viewSteps) { step in
-                    HStack {
-                        Image(systemName: "figure.stair.stepper")
-                            .sfSymbolStyling()
-                            .foregroundColor(.accentColor)
-                        Toggle(isOn: $tog) {
-                            Text(step.name)
-                        }
-                    }
-                }
-            }
+            StepsValidationView(exam: exam)
         }
     }
 

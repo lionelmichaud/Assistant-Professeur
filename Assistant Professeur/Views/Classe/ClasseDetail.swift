@@ -169,7 +169,7 @@ struct ClasseDetail: View {
 
                 // édition de la liste des examens
                 Section {
-                    ExamList(classe: classe)
+                    ExamListView(classe: classe)
                 } header: {
                     Text("Evaluations (\(classe.nbOfExams))")
                         .font(.callout)

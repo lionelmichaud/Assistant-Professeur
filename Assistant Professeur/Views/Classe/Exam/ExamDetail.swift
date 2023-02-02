@@ -79,7 +79,7 @@ struct ExamDetail: View {
         // coefficient
         coefEditView
 
-        // barême
+        // barême / étapes
         switch exam.examTypeEnum {
             case .global:
                 globalBaremeEditView

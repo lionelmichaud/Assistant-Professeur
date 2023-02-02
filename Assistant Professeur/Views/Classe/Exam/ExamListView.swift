@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ExamList: View {
+struct ExamListView: View {
     @ObservedObject
     var classe: ClasseEntity
 
