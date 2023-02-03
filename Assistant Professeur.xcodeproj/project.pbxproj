@@ -109,7 +109,7 @@
 		798B8260296CAC84004A24A8 /* ImportExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B825F296CAC84004A24A8 /* ImportExportManager.swift */; };
 		798B8262296CEC5F004A24A8 /* CsvImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B8261296CEC5E004A24A8 /* CsvImporter.swift */; };
 		798DD4D2298C318F00C47B2C /* ExamListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D1298C318F00C47B2C /* ExamListView.swift */; };
-		798DD4D4298C352A00C47B2C /* StepsValidationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D3298C352A00C47B2C /* StepsValidationView.swift */; };
+		798DD4D4298C352A00C47B2C /* StepsNotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D3298C352A00C47B2C /* StepsNotationView.swift */; };
 		798DD4D6298C366300C47B2C /* TrombineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D5298C366300C47B2C /* TrombineView.swift */; };
 		7994E31F2972DE8400952D08 /* RoomSeatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E31E2972DE8400952D08 /* RoomSeatManager.swift */; };
 		7994E3242972F4E500952D08 /* DocumentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E3212972F4E500952D08 /* DocumentList.swift */; };
@@ -344,7 +344,7 @@
 		798B825F296CAC84004A24A8 /* ImportExportManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportExportManager.swift; sourceTree = "<group>"; };
 		798B8261296CEC5E004A24A8 /* CsvImporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CsvImporter.swift; sourceTree = "<group>"; };
 		798DD4D1298C318F00C47B2C /* ExamListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListView.swift; sourceTree = "<group>"; };
-		798DD4D3298C352A00C47B2C /* StepsValidationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsValidationView.swift; sourceTree = "<group>"; };
+		798DD4D3298C352A00C47B2C /* StepsNotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsNotationView.swift; sourceTree = "<group>"; };
 		798DD4D5298C366300C47B2C /* TrombineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrombineView.swift; sourceTree = "<group>"; };
 		7994E31E2972DE8400952D08 /* RoomSeatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSeatManager.swift; sourceTree = "<group>"; };
 		7994E3212972F4E500952D08 /* DocumentList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentList.swift; sourceTree = "<group>"; };
@@ -574,7 +574,7 @@
 			children = (
 				7937A2482987F7B400D0ED59 /* StepsListView.swift */,
 				7937A24A298830CC00D0ED59 /* StepEditor.swift */,
-				798DD4D3298C352A00C47B2C /* StepsValidationView.swift */,
+				798DD4D3298C352A00C47B2C /* StepsNotationView.swift */,
 			);
 			path = Steps;
 			sourceTree = "<group>";
@@ -1365,7 +1365,7 @@
 				79DEDAF2292586B500F508EF /* ObservSplitView.swift in Sources */,
 				79FFF42B295120100037A327 /* LevelClasse.swift in Sources */,
 				79DEDAFB2925897600F508EF /* ObservSidebarView.swift in Sources */,
-				798DD4D4298C352A00C47B2C /* StepsValidationView.swift in Sources */,
+				798DD4D4298C352A00C47B2C /* StepsNotationView.swift in Sources */,
 				79AFBFB62981C9DA001576DD /* ActivityCreatorModal.swift in Sources */,
 				7994E3242972F4E500952D08 /* DocumentList.swift in Sources */,
 				795C2C31296E2DCA00EDFF09 /* RoomElevePlacement.swift in Sources */,

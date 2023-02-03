@@ -61,7 +61,7 @@ struct StepsListView: View {
             
             // Ajouter une note d'étape supplémentaire pour cette étape à chaque note d'élève de la classe
             exam.allMarks.forEach { mark in
-                mark.viewSteps.append(0.0)
+                mark.viewStepsMarks.append(0.0)
             }
         }
     }
@@ -73,7 +73,7 @@ struct StepsListView: View {
 
             // Déplacer une note d'étape de chaque note d'élève de la classe
             exam.allMarks.forEach { mark in
-                mark.viewSteps.move(fromOffsets: fromOffsets, toOffset: toOffset)
+                mark.viewStepsMarks.move(fromOffsets: fromOffsets, toOffset: toOffset)
             }
         }
     }
@@ -85,7 +85,7 @@ struct StepsListView: View {
 
             // Supprimer une note d'étape de chaque note d'élève de la classe
             exam.allMarks.forEach { mark in
-                mark.viewSteps.remove(atOffsets: offsets)
+                mark.viewStepsMarks.remove(atOffsets: offsets)
             }
         }
     }

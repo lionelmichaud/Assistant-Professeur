@@ -77,12 +77,23 @@ extension MarkEntity {
         }
     }
 
+    /// Retourne la note obtenue par un élève `mark.eleve` à
+    /// un examen `mark.exam`.
+    ///
+    /// Si la note est **échelonnée**, retourne la somme des notes obtenues
+    /// à chaque étape.
+    ///
     /// Wrapper of `mark`
     /// - Important: *Saves the context to the store after modification is done*
     @objc
     var viewMark: Double {
         get {
-            self.mark
+            switch self.examTypeEnum {
+                case .global:
+                    return self.mark
+                case .multiStep:
+                    return viewStepsMarks.sum()
+            }
         }
         set {
             self.mark = newValue
@@ -91,6 +102,11 @@ extension MarkEntity {
     }
     
     // MARK: - Methods
+
+    /// Modifie l'attribut `mark`
+    func setMark(_ newMark: Double) {
+        self.mark = newMark
+    }
 
     /// Modifie l'attribut `markType`
     func setMarkType(_ newMarkType: MarkEnum) {
@@ -138,6 +154,16 @@ extension MarkEntity: ModelEntityP {
                 errorFound = true
                 return
             }
+            // note échelonnée si exam échelonné
+            guard mark.examTypeEnum == mark.exam?.examTypeEnum else {
+                errorFound = true
+                return
+            }
+            // si note échelonnée alors une note pour un step
+            guard mark.nbOfSteps == mark.exam?.nbOfSteps else {
+                errorFound = true
+                return
+            }
         }
     }
 
@@ -153,9 +179,9 @@ extension MarkEntity: ModelEntityP {
 // MARK: - Extension Notes Echelonnées
 
 extension MarkEntity {
-    /// Wrapper of `steps`: [note] avec note dans [0.0, 1.0]
+    /// Wrapper of `steps`: [note] avec note dans [0.0, exam.step.points]
     /// - Important: *Saves the context to the store after modification is done*
-    var viewSteps: [Double] {
+    var viewStepsMarks: [Double] {
         get {
             switch self.examTypeEnum {
                 case .global:
@@ -182,7 +208,7 @@ extension MarkEntity {
 
     /// Modifie l'attribut `steps`: [note] avec note dans [0.0, 1.0]
     /// - Important: *Does NOT save the context to the store after modification is done*
-    func setSteps(_ steps: [Double]) {
+    func setStepsMarks(_ steps: [Double]) {
         guard let data = try? JSONEncoder().encode(steps),
               let string = String(data: data, encoding: .utf8) else {
             self.steps = ""
@@ -193,7 +219,7 @@ extension MarkEntity {
 
     /// Nombre d'étapes de cette évaluation.
     var nbOfSteps: Int? {
-        viewSteps.count
+        viewStepsMarks.count
     }
 }
 

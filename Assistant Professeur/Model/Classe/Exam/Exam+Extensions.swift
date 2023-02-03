@@ -160,7 +160,7 @@ extension ExamEntity {
     }
 
     /// Nombre d'étapes de cette évaluation.
-    var nbOfSteps: Int? {
+    var nbOfSteps: Int {
         viewSteps.count
     }
 }

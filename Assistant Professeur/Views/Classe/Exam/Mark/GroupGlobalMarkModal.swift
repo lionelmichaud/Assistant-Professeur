@@ -21,7 +21,7 @@ struct GroupGlobalMarkModal: View {
     @Preference(\.nameDisplayOrder)
     private var nameDisplayOrder
 
-    private let fontWeight : Font.Weight = .semibold
+    private let fontWeight: Font.Weight = .semibold
     private let smallColumns = [GridItem(.adaptive(minimum: 120, maximum: 200))]
 
     enum OperationType: PickableEnumP {
@@ -97,7 +97,7 @@ struct GroupGlobalMarkModal: View {
                     )
                 case .modifier:
                     AmountEditView(
-                        label: "Modifier",
+                        label: "+/-",
                         amount: $mark,
                         validity: .within(range: Double(-exam.viewMaxMark) ... Double(exam.viewMaxMark)),
                         currency: false
@@ -148,7 +148,7 @@ struct GroupGlobalMarkModal: View {
             ForEach(
                 exam.classe?
                     .groupe(number: selectedGroupeNb)
-                    .elevesSortedByName ?? [ ]) { eleve in
+                    .elevesSortedByName ?? []) { eleve in
                 VStack {
                     TrombineView(eleve: eleve)
 
@@ -193,14 +193,14 @@ struct GroupGlobalMarkModal: View {
                     case .attribuer:
                         Button("Attribuer") {
                             withAnimation {
-                                attribuer(note: mark, auGroupe: selectedGroupeNb)
+                                attribuer(note: mark)
                             }
                             dismiss()
                         }
                     case .modifier:
                         Button("Modifer") {
                             withAnimation {
-                                modifier(note: mark, auGroupe: selectedGroupeNb)
+                                modifier(note: mark)
                             }
                             dismiss()
                         }
@@ -211,37 +211,35 @@ struct GroupGlobalMarkModal: View {
 
     // MARK: - Methods
 
-    func attribuer(note: Double, auGroupe _: Int) {
-        withAnimation {
-            // affecter la note à ces élèves
-            if let elevesInGroupID {
-                exam.allMarks
-                    .forEach { mark in
-                        if elevesInGroupID.contains(mark.eleve!.objectID) {
-                            mark.markTypeEnum = .note
-                            mark.viewMark = note
-                        }
+    /// Affecter la note à chaque élève du groupe sélectionné
+    private func attribuer(note: Double) {
+        if let elevesInGroupID {
+            exam.allMarks
+                .forEach { mark in
+                    if elevesInGroupID.contains(mark.eleve!.objectID) {
+                        mark.setMarkType(.note)
+                        mark.setMark(note)
                     }
-            }
+                }
+            try? MarkEntity.saveIfContextHasChanged()
         }
     }
 
-    func modifier(note: Double, auGroupe _: Int) {
-        withAnimation {
-            // modifier la note de ces élèves
-            if let elevesInGroupID {
-                exam.allMarks
-                    .forEach { mark in
-                        if elevesInGroupID.contains(mark.eleve!.objectID) {
-                            if mark.markTypeEnum == .note {
-                                mark.viewMark += note
-                            } else {
-                                mark.markTypeEnum = .note
-                                mark.viewMark = note
-                            }
+    /// Modifier la note de chaque élève du groupe sélectionné
+    private func modifier(note: Double) {
+        if let elevesInGroupID {
+            exam.allMarks
+                .forEach { mark in
+                    if elevesInGroupID.contains(mark.eleve!.objectID) {
+                        if mark.markTypeEnum == .note {
+                            mark.setMark(mark.viewMark + note)
+                        } else {
+                            mark.setMarkType(.note)
+                            mark.setMark(note)
                         }
                     }
-            }
+                }
+            try? MarkEntity.saveIfContextHasChanged()
         }
     }
 }

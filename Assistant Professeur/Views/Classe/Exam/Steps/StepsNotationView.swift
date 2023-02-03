@@ -7,42 +7,61 @@
 
 import SwiftUI
 
-struct StepsValidationView: View {
+struct StepsNotationView: View {
+    
+    // MARK: - Initializer
+
+    init(
+        exam: ExamEntity,
+        width: Int,
+        stepsMarks: Binding<[Double]>
+    ) {
+        self.exam = exam
+        self.width = width
+        self._stepsMarks = stepsMarks
+    }
+
+    // MARK: - Properties
+
     @ObservedObject
-    var exam: ExamEntity
+    private var exam: ExamEntity
 
-    let width: Int
+    private let width: Int
 
-    @State
-    private var value: Double = 0.0
+    @Binding
+    private var stepsMarks: [Double]
+
+    private var noteTotale: Double {
+        stepsMarks.sum()
+    }
 
     var body: some View {
         VStack {
             HStack {
                 Text("Étapes")
                 Spacer()
-                Text("Note totale: 10")
+                Text("Note totale: \(valueString(value: noteTotale))")
                     .padding(.top, 8)
                     .foregroundColor(.accentColor)
             }
             .font(.headline)
             .padding(.horizontal)
 
-            List(exam.viewSteps) { step in
+            List(exam.viewSteps.indices, id: \.self) { idx in
                 HStack {
-                    Text(step.name)
+                    Text(exam.viewSteps[idx].name)
                         .frame(width: CGFloat(width), alignment: .leading)
                     Slider(
-                        value: $value,
-                        in: 0 ... step.points.double(),
+                        value: $stepsMarks[idx],
+                        in: 0 ... exam.viewSteps[idx].points.double(),
                         step: 0.5
                     ) {
                         Text("Label")
                     } minimumValueLabel: {
                         Text("")
                     } maximumValueLabel: {
-                        Text("\(valueSting(value: value))").foregroundColor(.accentColor) +
-                        Text(" / \(maxValue(value: Double(step.points)))")
+                        Text("\(valueString(value: stepsMarks[idx]))").foregroundColor(.accentColor) +
+                            Text(" / \(maxValue(value: Double(exam.viewSteps[idx].points)))")
                     } onEditingChanged: { _ in
                     }
                 }
@@ -50,11 +69,13 @@ struct StepsValidationView: View {
         }
     }
 
+    // MARK: - Methods
+
     private func maxValue(value: Double) -> String {
         value.formatted(.number.precision(.fractionLength(0)))
     }
 
-    private func valueSting(value: Double) -> String {
+    private func valueString(value: Double) -> String {
         value.formatted(.number.precision(.fractionLength(1)))
     }
 }

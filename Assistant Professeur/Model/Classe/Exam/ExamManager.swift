@@ -110,7 +110,7 @@ enum ExamManager {
 
         // initialiser les notes de chaque étapes de l'évaluation
         let nbOfSteps = exam.viewSteps.count
-        mark.viewSteps = [Double].init(repeating: 0.0, count: nbOfSteps)
+        mark.viewStepsMarks = [Double].init(repeating: 0.0, count: nbOfSteps)
 
         return mark
     }
