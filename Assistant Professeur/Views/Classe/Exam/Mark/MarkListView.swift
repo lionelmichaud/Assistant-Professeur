@@ -27,6 +27,7 @@ struct MarkListView: View {
         Section {
             ForEach(exam.sortedMarksByEleveName(searchString: searchString)) { mark in
                 MarkView(mark: mark)
+                    .listRowSeparatorTint(.secondary)
             }
         } header: {
             HStack {

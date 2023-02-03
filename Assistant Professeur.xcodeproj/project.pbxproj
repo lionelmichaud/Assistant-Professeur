@@ -221,6 +221,7 @@
 		79F41E6F2954C83A00EAAC52 /* ElevesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E6C2954C83A00EAAC52 /* ElevesTableView.swift */; };
 		79F41E712954D2F900EAAC52 /* EleveLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E702954D2F900EAAC52 /* EleveLabel.swift */; };
 		79F41E732954D30F00EAAC52 /* EleveBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E722954D30F00EAAC52 /* EleveBrowserRow.swift */; };
+		79FC04E5298DCC240093BC8B /* SteppedlMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FC04E4298DCC240093BC8B /* SteppedlMarkModal.swift */; };
 		79FFF42729511DF20037A327 /* ClassBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42629511DF20037A327 /* ClassBrowserRow.swift */; };
 		79FFF42929511E040037A327 /* ClassCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42829511E040037A327 /* ClassCreatorModal.swift */; };
 		79FFF42B295120100037A327 /* LevelClasse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42A295120100037A327 /* LevelClasse.swift */; };
@@ -432,6 +433,7 @@
 		79F41E6C2954C83A00EAAC52 /* ElevesTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElevesTableView.swift; sourceTree = "<group>"; };
 		79F41E702954D2F900EAAC52 /* EleveLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveLabel.swift; sourceTree = "<group>"; };
 		79F41E722954D30F00EAAC52 /* EleveBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveBrowserRow.swift; sourceTree = "<group>"; };
+		79FC04E4298DCC240093BC8B /* SteppedlMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppedlMarkModal.swift; sourceTree = "<group>"; };
 		79FFF42629511DF20037A327 /* ClassBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassBrowserRow.swift; sourceTree = "<group>"; };
 		79FFF42829511E040037A327 /* ClassCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassCreatorModal.swift; sourceTree = "<group>"; };
 		79FFF42A295120100037A327 /* LevelClasse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelClasse.swift; sourceTree = "<group>"; };
@@ -692,6 +694,7 @@
 				795EED0A29677C76009AA6F4 /* MarkListView.swift */,
 				7986A8562989B1A2007471BE /* GroupGlobalMarkModal.swift */,
 				7986A8582989CE73007471BE /* GroupSteppedlMarkModal.swift */,
+				79FC04E4298DCC240093BC8B /* SteppedlMarkModal.swift */,
 			);
 			path = Mark;
 			sourceTree = "<group>";
@@ -1320,6 +1323,7 @@
 				79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */,
 				798DD4D2298C318F00C47B2C /* ExamListView.swift in Sources */,
 				794F6E12295CE1B700042B95 /* ObservEditor.swift in Sources */,
+				79FC04E5298DCC240093BC8B /* SteppedlMarkModal.swift in Sources */,
 				79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */,
 				7921355A2978726E0036A5EA /* Sequence+Extensions.swift in Sources */,
 				7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */,
