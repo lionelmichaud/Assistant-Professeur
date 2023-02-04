@@ -18,43 +18,43 @@ enum ClasseNavigationRoute: Hashable {
 
     static func == (lhs: ClasseNavigationRoute, rhs: ClasseNavigationRoute) -> Bool {
         switch (lhs, rhs) {
-        case let (.room(classel), .room(classer)):
-            return (classel.id == classer.id)
+            case let (.room(classel), .room(classer)):
+                return (classel.id == classer.id)
 
-        case let (.liste(classel), .liste(classer)):
-            return classel.id == classer.id
+            case let (.liste(classel), .liste(classer)):
+                return classel.id == classer.id
 
-        case let (.trombinoscope(classel), .trombinoscope(classer)):
-            return classel.id == classer.id
+            case let (.trombinoscope(classel), .trombinoscope(classer)):
+                return classel.id == classer.id
 
-        case let (.groups(classel), .groups(classer)):
-            return classel.id == classer.id
+            case let (.groups(classel), .groups(classer)):
+                return classel.id == classer.id
 
-        case let (.exam(classel, examl), .exam(classer, examr)):
-            return (classel.id == classer.id) &&
-                (examl == examr)
+            case let (.exam(classel, examl), .exam(classer, examr)):
+                return (classel.id == classer.id) &&
+                    (examl == examr)
 
-        default: return false
+            default: return false
         }
     }
 
     func hash(into hasher: inout Hasher) {
         switch self {
-        case let .room(classe):
-            hasher.combine("room")
-            hasher.combine(classe.id)
-        case let .liste(classe):
-            hasher.combine("liste")
-            hasher.combine(classe.id)
-        case let .trombinoscope(classe):
-            hasher.combine("trombinoscope")
-            hasher.combine(classe.id)
-        case let .groups(classe):
-            hasher.combine("groups")
-            hasher.combine(classe.id)
-        case let .exam(classe, exam):
-            hasher.combine(classe.id)
-            hasher.combine(exam.id)
+            case let .room(classe):
+                hasher.combine("room")
+                hasher.combine(classe.id)
+            case let .liste(classe):
+                hasher.combine("liste")
+                hasher.combine(classe.id)
+            case let .trombinoscope(classe):
+                hasher.combine("trombinoscope")
+                hasher.combine(classe.id)
+            case let .groups(classe):
+                hasher.combine("groups")
+                hasher.combine(classe.id)
+            case let .exam(classe, exam):
+                hasher.combine(classe.id)
+                hasher.combine(exam.id)
         }
     }
 }
@@ -83,9 +83,6 @@ struct ClasseDetail: View {
 
     @State
     private var importCsvFile = false
-
-    @State
-    private var isAddingNewExam = false
 
     @State
     private var alertTitle = ""
@@ -133,36 +130,6 @@ struct ClasseDetail: View {
         }
     }
 
-    private var examsListView: some View {
-        return Group {
-            // ajouter une évaluation
-            Button {
-                isAddingNewExam = true
-            } label: {
-                Label("Ajouter une évaluation", systemImage: "plus.circle.fill")
-            }
-            .buttonStyle(.borderless)
-
-            // édition de la liste des examen
-            ForEach(classe.allExams) { exam in
-                NavigationLink(value: ClasseNavigationRoute.exam(classe, exam)) {
-                    ClasseExamRow(exam: exam)
-                }
-            }
-            .onDelete(perform: deleteItems)
-        }
-
-        func deleteItems(offsets: IndexSet) {
-            withAnimation {
-                offsets
-                    .map { classe.allExams[$0] }
-                    .forEach(managedObjectContext.delete)
-
-                try? ExamEntity.saveIfContextHasChanged()
-            }
-        }
-    }
-
     var body: some View {
         // TODO: - Remplacer par NavigationStack(path: $path) et garder la navigation vers les subview locale à cette View en utilisant @State private var path = NavigationPath()
         // https://swiftwithmajid.com/2022/10/05/mastering-navigationstack-in-swiftui-navigationpath/
@@ -202,7 +169,7 @@ struct ClasseDetail: View {
 
                 // édition de la liste des examens
                 Section {
-                    examsListView
+                    ExamListView(classe: classe)
                 } header: {
                     Text("Evaluations (\(classe.nbOfExams))")
                         .font(.callout)
@@ -265,12 +232,6 @@ struct ClasseDetail: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .onDisappear(perform: save)
-        .sheet(isPresented: $isAddingNewExam) {
-            NavigationStack {
-                ExamCreatorModal(classe: classe)
-            }
-            .presentationDetents([.medium])
-        }
     }
 
     // MARK: - Methods
@@ -282,45 +243,45 @@ struct ClasseDetail: View {
 
     private func importCsvFiles(result: Result<[URL], Error>) {
         switch result {
-        case let .failure(error):
-            print("Error selecting file: \(error.localizedDescription)")
-            alertTitle = "Échec"
-            alertMessage = "L'importation du fichier a échouée"
-            alertIsPresented.toggle()
+            case let .failure(error):
+                print("Error selecting file: \(error.localizedDescription)")
+                alertTitle = "Échec"
+                alertMessage = "L'importation du fichier a échouée"
+                alertIsPresented.toggle()
 
-        case let .success(filesUrl):
-            filesUrl.forEach { fileUrl in
-                guard fileUrl.startAccessingSecurityScopedResource() else {
-                    return
-                }
-
-                if let data = try? Data(contentsOf: fileUrl) {
-                    do {
-                        switch interoperability {
-                        case .ecoleDirecte:
-                            try CsvImporter()
-                                .importElevesFromEcoleDirecte(
-                                    from: data,
-                                    dans: classe
-                                )
-
-                        case .proNote:
-                            try CsvImporter()
-                                .importElevesFromPRONOTE(
-                                    from: data,
-                                    dans: classe
-                                )
-                        }
-                    } catch {
-                        print("Error reading file \(error.localizedDescription)")
-                        alertTitle = "Échec"
-                        alertMessage = "L'importation du fichier a échouée"
-                        alertIsPresented.toggle()
+            case let .success(filesUrl):
+                filesUrl.forEach { fileUrl in
+                    guard fileUrl.startAccessingSecurityScopedResource() else {
+                        return
                     }
-                }
 
-                fileUrl.stopAccessingSecurityScopedResource()
-            }
+                    if let data = try? Data(contentsOf: fileUrl) {
+                        do {
+                            switch interoperability {
+                                case .ecoleDirecte:
+                                    try CsvImporter()
+                                        .importElevesFromEcoleDirecte(
+                                            from: data,
+                                            dans: classe
+                                        )
+
+                                case .proNote:
+                                    try CsvImporter()
+                                        .importElevesFromPRONOTE(
+                                            from: data,
+                                            dans: classe
+                                        )
+                            }
+                        } catch {
+                            print("Error reading file \(error.localizedDescription)")
+                            alertTitle = "Échec"
+                            alertMessage = "L'importation du fichier a échouée"
+                            alertIsPresented.toggle()
+                        }
+                    }
+
+                    fileUrl.stopAccessingSecurityScopedResource()
+                }
         }
     }
 }

@@ -250,10 +250,22 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
             )
 
             // Examen
-            ExamManager.createExam(
-                sujet: "Le sujet de l'évaluation",
+            ExamEntity.createGlobalExam(
+                sujet: "Le sujet de l'évaluation Globale",
                 coef: 0.5,
                 maxMark: 10,
+                pour: classe5E1
+            )
+
+            // Examen
+            ExamEntity.createSteppedExam(
+                sujet: "Le sujet de l'évaluation Échelonnée",
+                coef: 0.5,
+                examSteps: [
+                    ExamStep(name: "1.1", points: 1),
+                    ExamStep(name: "1.2", points: 2),
+                    ExamStep(name: "2.1", points: 3)
+                ],
                 pour: classe5E1
             )
 

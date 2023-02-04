@@ -12,6 +12,22 @@ import Foundation
 extension ExamEntity {
     // MARK: - Computed properties
 
+    /// Wrapper of `examType`
+    /// - Important: *Saves the context to the store after modification is done*
+    var examTypeEnum: ExamTypeEnum {
+        get {
+            if let examType {
+                return ExamTypeEnum(rawValue: examType) ?? .global
+            } else {
+                return .global
+            }
+        }
+        set {
+            self.examType = newValue.rawValue
+            try? ExamEntity.saveIfContextHasChanged()
+        }
+    }
+
     /// Wrapper of `sujet`
     /// - Important: *Saves the context to the store after modification is done*
     @objc
@@ -43,7 +59,12 @@ extension ExamEntity {
     @objc
     var viewMaxMark: Int {
         get {
-            Int(self.maxMark)
+            switch self.examTypeEnum {
+                case .global:
+                    return Int(self.maxMark)
+                case .multiStep:
+                    return viewSteps.sum(for: \.points)
+            }
         }
         set {
             self.maxMark = Int16(newValue)
@@ -51,10 +72,167 @@ extension ExamEntity {
         }
     }
 
+    /// Wrapper of `coef`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewCoef: Double {
+        get {
+            self.coef
+        }
+        set {
+            self.coef = newValue
+            try? ExamEntity.saveIfContextHasChanged()
+        }
+    }
+
     /// Nombre de notes de cette évaluation.
-    /// En principe, autant que d'élèves dans la classe associée.
+    /// En principe, autant que d'élèves dans la classe associée à cette évaluation.
     var nbOfMarks: Int {
         Int(marksCount)
+    }
+
+    // MARK: - Methods
+
+    /// Modifie l'attribut `examType`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setExamTypeEnum(_ newExamType: ExamTypeEnum) {
+        self.examType = newExamType.rawValue
+    }
+
+    /// Modifie l'attribut `examType`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setSujet(_ sujet: String) {
+        self.sujet = sujet
+    }
+
+    /// Modifie l'attribut `dateExecuted`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setDateExecuted(_ date: Date) {
+        self.dateExecuted = date
+    }
+
+    /// Modifie l'attribut `coef`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setCoef(_ coef: Double) {
+        self.coef = coef
+    }
+}
+
+// MARK: - Extension Notes Echelonnées
+
+extension ExamEntity {
+    /// Wrapper of `steps`
+    /// - Important: *Saves the context to the store after modification is done*
+    var viewSteps: StepsArray {
+        get {
+            switch self.examTypeEnum {
+                case .global:
+                    return []
+                case .multiStep:
+                    if let steps {
+                        let data = Data(steps.utf8)
+                        return (try? JSONDecoder().decode(StepsArray.self, from: data)) ?? []
+                    } else {
+                        return []
+                    }
+            }
+        }
+        set {
+            guard let data = try? JSONEncoder().encode(newValue),
+                  let string = String(data: data, encoding: .utf8) else {
+                self.steps = ""
+                return
+            }
+            self.steps = string
+            try? ExamEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Modifie l'attribut `steps`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setSteps(_ steps: StepsArray) {
+        guard let data = try? JSONEncoder().encode(steps),
+              let string = String(data: data, encoding: .utf8) else {
+            self.steps = ""
+            return
+        }
+        self.steps = string
+    }
+
+    /// Nombre d'étapes de cette évaluation.
+    var nbOfSteps: Int {
+        viewSteps.count
+    }
+
+    /// Créer une nouvelle évaluation **globale** pour une classe d'élèves
+    ///
+    /// Crée une note par défaut pour chaque élève de la classe.
+    /// - Parameter classe: Classe pour laquelle l'évaluation est créée
+    /// - Returns: L'évaluation créée.
+    ///
+    /// - Important: The context has changes and **is commited**
+    @discardableResult
+    static func createGlobalExam(
+        sujet: String = "",
+        coef: Double = 1.0,
+        maxMark: Int = 20,
+        dateExecuted: Date = Date.now,
+        pour classe: ClasseEntity
+    ) -> ExamEntity {
+        let exam = ExamEntity.create()
+        exam.classe = classe
+
+        exam.setExamTypeEnum(.global)
+        exam.setSujet(sujet)
+        exam.setCoef(coef)
+        exam.setDateExecuted(dateExecuted)
+        exam.maxMark = Int16(maxMark)
+
+        let eleves = classe.allEleves
+        eleves.forEach { eleve in
+            MarkEntity.createGlobalMark(of: eleve, for: exam)
+        }
+
+        try? ExamEntity.saveIfContextHasChanged()
+
+        return exam
+    }
+
+    /// Créer une nouvelle évaluation **échelonnée** pour une classe d'élèves
+    ///
+    /// Crée une note par défaut pour chaque élève de la classe.
+    /// - Parameter classe: Classe pour laquelle l'évaluation est créée
+    /// - Returns: L'évaluation créée.
+    ///
+    /// - Important: The context has changes and **is commited**
+    @discardableResult
+    static func createSteppedExam(
+        sujet: String = "",
+        coef: Double = 1.0,
+        examSteps: [ExamStep] = [],
+        dateExecuted: Date = Date.now,
+        pour classe: ClasseEntity
+    ) -> ExamEntity {
+        // TODO: - Faire ce qu'il faut quand un nouvel élève est ajouté à une classe
+        let exam = ExamEntity.create()
+        exam.classe = classe
+
+        exam.setExamTypeEnum(.multiStep)
+        exam.setSujet(sujet)
+        exam.setCoef(coef)
+        exam.setDateExecuted(dateExecuted)
+        exam.setSteps(examSteps)
+        // la note maxi est la somme des points maxi de chaque étape
+        exam.maxMark = Int16(examSteps.sum(for: \.points))
+
+        let eleves = classe.allEleves
+        eleves.forEach { eleve in
+            MarkEntity.createSteppedMark(of: eleve, for: exam)
+        }
+
+        try? ExamEntity.saveIfContextHasChanged()
+
+        return exam
     }
 }
 
@@ -102,8 +280,7 @@ extension ExamEntity: ModelEntityP {
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         // Set defaults here
-        // self.group = ""
-        //        self.fileDate = Date()
+        self.id = UUID()
     }
 
     /// Retourne la liste des notes des élèves de la classe satisfaisant *au moins à l'un des critères* définis en paramètre.
@@ -146,7 +323,7 @@ public extension ExamEntity {
         """
 
         EVALUATION: \(viewSujet)
-           ID          : \(id)
+           ID          : \(String(describing: id))
            Date        : \(dateExecuted.stringShortDate)
            Noté sur    : \(maxMark)
            Coefficient : \(coef.formatted(.number.precision(.fractionLength(2))))

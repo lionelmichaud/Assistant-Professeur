@@ -7,64 +7,90 @@
 
 import SwiftUI
 
-struct ExamDetail : View {
+struct ExamDetail: View {
     @ObservedObject
-    var exam : ExamEntity
+    var exam: ExamEntity
 
-    private var name: some View {
+    private var nameEditView: some View {
         HStack {
             Image(systemName: "doc.plaintext")
                 .sfSymbolStyling()
                 .foregroundColor(.accentColor)
 
             // sujet
-            TextField("Sujet de l'évaluation",
-                      text: $exam.viewSujet)
-                .font(.title2)
-                .textFieldStyle(.roundedBorder)
+            TextField(
+                "Sujet de l'évaluation",
+                text: $exam.viewSujet
+            )
+            .font(.title2)
+            .textFieldStyle(.roundedBorder)
+        }
+    }
+
+    private var dateEditView: some View {
+        DatePicker(
+            "Date",
+            selection: $exam.viewDateExecuted,
+            displayedComponents: [.date, .hourAndMinute]
+        )
+        .environment(\.locale, Locale(identifier: "fr_FR"))
+    }
+
+    private var coefEditView: some View {
+        Stepper(
+            value: $exam.viewCoef,
+            in: 0.0 ... 5.0,
+            step: 0.25
+        ) {
+            HStack {
+                Text("Coefficient")
+                Spacer()
+                Text("\(exam.viewCoef.formatted(.number.precision(.fractionLength(2))))")
+                    .foregroundColor(.secondary)
+            }
+        }
+    }
+
+    private var globalBaremeEditView: some View {
+        Stepper(
+            value: $exam.viewMaxMark,
+            in: 1 ... 100,
+            step: 1
+        ) {
+            HStack {
+                Text("Barême")
+                Spacer()
+                Text("\(exam.viewMaxMark) points")
+                    .foregroundColor(.secondary)
+            }
         }
         .listRowSeparator(.hidden)
     }
 
     var body: some View {
         // nom
-        name
+        nameEditView
+            .listRowSeparator(.hidden)
 
         // date
-        DatePicker("Date",
-                   selection: $exam.viewDateExecuted,
-                   displayedComponents: [.date, .hourAndMinute])
-        .environment(\.locale, Locale.init(identifier: "fr_FR"))
-        .listRowSeparator(.hidden)
-
-        // barême
-        Stepper(value : $exam.maxMark,
-                in    : 1 ... 100,
-                step  : 1) {
-            HStack {
-                Text("Barême")
-                Spacer()
-                Text("\(exam.maxMark) points")
-                    .foregroundColor(.secondary)
-            }
-        }
-                .listRowSeparator(.hidden)
+        dateEditView
+            .listRowSeparator(.hidden)
 
         // coefficient
-        Stepper(value : $exam.coef,
-                in    : 0.0 ... 5.0,
-                step  : 0.25) {
-            HStack {
-                Text("Coefficient")
-                Spacer()
-                Text("\(exam.coef.formatted(.number.precision(.fractionLength(2))))")
-                    .foregroundColor(.secondary)
-            }
+        coefEditView
+
+        // barême / étapes
+        switch exam.examTypeEnum {
+            case .global:
+                globalBaremeEditView
+
+            case .multiStep:
+                StepsListView(exam: exam)
         }
     }
 }
 
-//struct ExamDetail_Previews: PreviewProvider {
+// struct ExamDetail_Previews: PreviewProvider {
 //    static var previews: some View {
 //        Group {
 //            List {
@@ -78,4 +104,4 @@ struct ExamDetail : View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

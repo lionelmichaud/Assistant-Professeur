@@ -6,51 +6,30 @@
 //
 
 import Foundation
+import os
 
-public class ExamStep: NSObject {
-    public var name: String = ""
-    public var points: Int = 0
-}
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "ExamStepsTransformer"
+)
 
-class ExamStepTransformer: ValueTransformer {
-    override func transformedValue(_ value: Any?) -> Any? {
-        guard let steps = value as? [ExamStep] else {
-            return nil
-        }
-        do {
-            let data = try NSKeyedArchiver.archivedData(
-                withRootObject: steps,
-                requiringSecureCoding: true
-            )
-            return data
-        } catch {
-            print("failed to archive array with error: \(error)")
-            return nil
-        }
-    }
+typealias StepsArray = [ExamStep]
 
-    override class func allowsReverseTransformation() -> Bool {
-        return true
-    }
+/// Une étape d'évaluation
+struct ExamStep: Codable, Identifiable {
+    public static var supportsSecureCoding: Bool = true
 
-    override func reverseTransformedValue(_ value: Any?) -> Any? {
-        guard let data = value as? Data else {
-            return nil
-        }
+    var id: UUID = UUID()
+    var name: String = ""
+    var points: Int = 1
 
-        do {
-            if let steps = try NSKeyedUnarchiver.unarchivedObject(
-                ofClass: NSArray.self,
-                from: data
-            ) as? [ExamStep] {
-                return steps
-            } else {
-                print("could not convert unarchive array to [ExamStep]")
-                return nil
-            }
-        } catch {
-            print("could not unarchive array: \(error)")
-            return nil
-        }
+    // MARK: - Initializers
+
+    public init(
+        name: String = "",
+        points: Int = 0
+    ) {
+        self.name = name
+        self.points = points
     }
 }

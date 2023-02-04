@@ -12,7 +12,7 @@ struct ClassList: View {
     var school: SchoolEntity
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     @State
     private var isAddingNewClasse = false
@@ -35,7 +35,7 @@ struct ClassList: View {
 
                     .onTapGesture {
                         // Programatic Navigation
-                        navigationModel.selectedTab      = .classe
+                        navigationModel.selectedTab = .classe
                         navigationModel.selectedClasseId = classe.objectID
                     }
 
@@ -84,14 +84,13 @@ struct ClassList: View {
         .sheet(isPresented: $isAddingNewClasse) {
             NavigationStack {
                 ClassCreatorModal(inSchool: school)
+                    .presentationDetents([.medium])
             }
-            .presentationDetents([.medium])
         }
-
     }
 }
 
-//struct ClassList_Previews: PreviewProvider {
+// struct ClassList_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -118,4 +117,4 @@ struct ClassList: View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

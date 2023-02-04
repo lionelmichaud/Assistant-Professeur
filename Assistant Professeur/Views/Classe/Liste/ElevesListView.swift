@@ -12,7 +12,7 @@ struct ElevesListView: View {
     var classe: ClasseEntity
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     @State
     private var isAddingNewEleve = false
@@ -26,7 +26,7 @@ struct ElevesListView: View {
 
     var body: some View {
         List {
-            /// ajouter un élève
+            // ajouter un élève
             Button {
                 isAddingNewEleve = true
             } label: {
@@ -34,13 +34,13 @@ struct ElevesListView: View {
             }
             .buttonStyle(.borderless)
 
-            /// liste des élèves
+            // liste des élèves
             ForEach(classe.filteredElevesSortedByName(searchString: searchString)) { eleve in
                 ClasseEleveRow(eleve: eleve)
 
                     .onTapGesture {
                         // Programatic Navigation
-                        navigationModel.selectedTab     = .eleve
+                        navigationModel.selectedTab = .eleve
                         navigationModel.selectedEleveId = eleve.objectID
                     }
 
@@ -75,23 +75,25 @@ struct ElevesListView: View {
                     }
             }
         }
-        .searchable(text      : $searchString,
-                    placement : .navigationBarDrawer(displayMode : .automatic),
-                    prompt    : "Nom, Prénom ou n° de groupe")
+        .searchable(
+            text: $searchString,
+            placement: .navigationBarDrawer(displayMode: .automatic),
+            prompt: "Nom, Prénom ou n° de groupe"
+        )
         .autocorrectionDisabled()
         #if os(iOS)
-        .navigationTitle(navbarTitle)
+            .navigationTitle(navbarTitle)
         #endif
-        .sheet(isPresented: $isAddingNewEleve) {
-            NavigationStack {
-                EleveCreatorModal(inClasse: classe)
+            .sheet(isPresented: $isAddingNewEleve) {
+                NavigationStack {
+                    EleveCreatorModal(inClasse: classe)
+                        .presentationDetents([.medium])
+                }
             }
-            .presentationDetents([.medium])
-        }
     }
 }
 
-//struct ElevesListView_Previews: PreviewProvider {
+// struct ElevesListView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -118,4 +120,4 @@ struct ElevesListView: View {
 //                .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

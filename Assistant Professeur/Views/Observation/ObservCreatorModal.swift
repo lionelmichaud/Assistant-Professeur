@@ -20,7 +20,7 @@ struct ObservCreatorModal: View {
 
     // MARK: - Computed properties
 
-    var isConsigneeLabel: some View {
+    private var isConsigneeLabel: some View {
         Label(
             title: {
                 Text("Notifiée aux parents")
@@ -31,7 +31,7 @@ struct ObservCreatorModal: View {
         )
     }
 
-    var isVerifiedLabel: some View {
+    private var isVerifiedLabel: some View {
         Label(
             title: {
                 Text("Signature des parents vérifiée")

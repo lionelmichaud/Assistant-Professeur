@@ -6,8 +6,6 @@
 //
 
 import AppFoundation
-import CoreData
-import HelpersView
 import SwiftUI
 
 /// Liste des notes éditables de chaque élève de la classe
@@ -28,7 +26,8 @@ struct MarkListView: View {
     var body: some View {
         Section {
             ForEach(exam.sortedMarksByEleveName(searchString: searchString)) { mark in
-                MarkView(mark: mark)
+                MarkRow(mark: mark)
+                    .listRowSeparatorTint(.secondary)
             }
         } header: {
             HStack {
@@ -57,22 +56,32 @@ struct MarkListView: View {
                 }
 
                 // affecter la même note à tous les membres d'un même groupe
-                if exam.classe!.nbOfGroups > 1 {
-                    Button {
-                        isAddingGroupMark = true
-                    } label: {
-                        Image(systemName: "person.line.dotted.person.fill")
+                if let classe = exam.classe {
+                    if classe.nbOfGroups > 1 {
+                        Button {
+                            isAddingGroupMark = true
+                        } label: {
+                            Image(systemName: "person.line.dotted.person.fill")
+                        }
+                        .sheet(isPresented: $isAddingGroupMark) {
+                            NavigationStack {
+                                switch exam.examTypeEnum {
+                                    case .global:
+                                        // Note globale
+                                        GroupGlobalMarkModal(exam: exam)
+                                            .presentationDetents([.medium])
+                                    case .multiStep:
+                                        // Notes échelonnées
+                                        GroupSteppedlMarkModal(exam: exam)
+                                            .presentationDetents([.medium])
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
         .headerProminence(.increased)
-        .sheet(isPresented: $isAddingGroupMark) {
-            NavigationStack {
-                GroupMarkModal(exam: exam)
-            }
-            .presentationDetents([.medium])
-        }
     }
 
     // MARK: - Methods
@@ -81,237 +90,6 @@ struct MarkListView: View {
         withAnimation {
             exam.allMarks.forEach { mark in
                 mark.markTypeEnum = .nonNote
-            }
-        }
-    }
-}
-
-/// Saisie la de la note dun groupe pour une évaluation
-struct GroupMarkModal: View {
-    @ObservedObject
-    var exam: ExamEntity
-
-    @Environment(\.dismiss)
-    private var dismiss
-
-    enum OperationType: PickableEnumP {
-        case attribuer
-        case modifier
-
-        public var pickerString: String {
-            switch self {
-            case .attribuer:
-                return "Atribuer une note"
-            case .modifier:
-                return "Modifier la note"
-            }
-        }
-    }
-
-    @State
-    private var operationType: OperationType = .attribuer
-
-    @State
-    private var mark: Double = 0
-
-    @State
-    private var selectedGroupeNb: Int = 1
-
-    @State
-    private var grpTable = [Int]()
-
-    // MARK: - Computed Properties
-
-    private var groupsNb: [Int] {
-        var array = [Int]()
-        exam.classe?.allGroupsSortedByNumber
-            .forEach { group in
-                if group.viewNumber != 0 && !group.isEmpty {
-                    array.append(group.viewNumber)
-                }
-            }
-        return array
-    }
-
-    private var oprationPicker: some View {
-        CasePicker(
-            pickedCase: $operationType,
-            label: "Opération"
-        )
-        .pickerStyle(.segmented)
-    }
-
-    private var groupPicker: some View {
-        Picker(selection: $selectedGroupeNb) {
-            ForEach(groupsNb, id: \.self) { grp in
-                Text("Groupe \(grp)")
-            }
-        } label: {
-            Image(systemName: "person.line.dotted.person.fill")
-        }
-        .pickerStyle(.menu)
-    }
-
-    private var noteEditor: some View {
-        HStack {
-            switch operationType {
-            case .attribuer:
-                AmountEditView(
-                    label: "Note",
-                    amount: $mark,
-                    validity: .within(range: 0.0 ... Double(exam.maxMark)),
-                    currency: false
-                )
-                Stepper(
-                    "",
-                    value: $mark,
-                    in: 0 ... Double(exam.maxMark),
-                    step: 0.5
-                )
-            case .modifier:
-                AmountEditView(
-                    label: "Modifier",
-                    amount: $mark,
-                    validity: .within(range: Double(-exam.maxMark) ... Double(exam.maxMark)),
-                    currency: false
-                )
-                Stepper(
-                    "",
-                    value: $mark,
-                    in: Double(-exam.maxMark) ... Double(exam.maxMark),
-                    step: 0.5
-                )
-            }
-        }
-    }
-
-    private var regulartForm: some View {
-        HStack {
-            groupPicker
-                .frame(maxWidth: 200)
-
-            Spacer()
-
-            noteEditor
-                .frame(maxWidth: 300)
-        }
-    }
-
-    private var compactForm: some View {
-        VStack {
-            groupPicker
-            noteEditor
-        }
-    }
-
-    private var elevesInGroupIDs: [NSManagedObjectID]? {
-        exam.classe?
-            .groupe(number: selectedGroupeNb)
-            .allEleves
-            .map { $0.objectID }
-    }
-
-    private var listeEleves: some View {
-        Group {
-            if let elevesInGroupIDs {
-                List(elevesInGroupIDs, id: \.self) { eleveID in
-                    if let eleve = EleveEntity.byObjectId(id: eleveID) {
-                        Text(eleve.displayName)
-                    }
-                }
-            } else {
-                EmptyView()
-            }
-        }
-    }
-
-    var body: some View {
-        Form {
-            oprationPicker
-            ViewThatFits {
-                regulartForm
-                compactForm
-            }
-            listeEleves
-        }
-        #if os(iOS)
-        .navigationTitle("Note de groupe")
-        .navigationBarTitleDisplayMode(.inline)
-        #endif
-        .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Button("Annuler") {
-                    dismiss()
-                }
-            }
-
-            ToolbarItem(placement: .confirmationAction) {
-                switch operationType {
-                case .attribuer:
-                    Button("Attribuer") {
-                        withAnimation {
-                            attribuer(note: mark, auGroupe: selectedGroupeNb)
-                        }
-                        dismiss()
-                    }
-                case .modifier:
-                    Button("Modifer") {
-                        withAnimation {
-                            modifier(note: mark, auGroupe: selectedGroupeNb)
-                        }
-                        dismiss()
-                    }
-                }
-            }
-        }
-    }
-
-    // MARK: - Methods
-
-    func attribuer(note: Double, auGroupe: Int) {
-        withAnimation {
-            // Liste des élèves du groupe
-            let elevesInGroupIDs = exam.classe?
-                .groupe(number: auGroupe)
-                .allEleves
-                .map { $0.objectID }
-
-            // affecter la note à ces élèves
-            if let elevesInGroupIDs {
-                exam.allMarks
-                    .forEach { mark in
-                        if elevesInGroupIDs
-                            .contains(mark.eleve!.objectID) {
-                            mark.markTypeEnum = .note
-                            mark.viewMark = note
-                        }
-                    }
-            }
-        }
-    }
-
-    func modifier(note: Double, auGroupe: Int) {
-        withAnimation {
-            // Liste des élèves du groupe
-            let elevesInGroupIDs = exam.classe?
-                .groupe(number: auGroupe)
-                .allEleves
-                .map { $0.objectID }
-
-            // modifier la note de ces élèves
-            if let elevesInGroupIDs {
-                exam.allMarks
-                    .forEach { mark in
-                        if elevesInGroupIDs
-                            .contains(mark.eleve!.objectID) {
-                            if mark.markTypeEnum == .note {
-                                mark.viewMark += note
-                            } else {
-                                mark.markTypeEnum = .note
-                                mark.viewMark = note
-                            }
-                        }
-                    }
             }
         }
     }

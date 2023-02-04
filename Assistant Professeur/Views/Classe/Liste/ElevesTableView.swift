@@ -42,6 +42,14 @@ struct ElevesTableView: View {
 
     // MARK: - Computed Properties
 
+    private var selectedEleve: EleveEntity? {
+        if let first = selection.first {
+            return EleveEntity.byObjectIdentifier(objectID: first)
+        } else {
+            return nil
+        }
+    }
+
     @ViewBuilder
     private func nameView(_ eleve: EleveEntity) -> some View {
         EleveLabel(eleve: eleve)
@@ -131,108 +139,7 @@ struct ElevesTableView: View {
                 .tableStyle(.bordered(alternatesRowBackgrounds: true))
             #endif
         }
-        .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
-                // aller à la fiche élève
-                Button {
-                    // Programatic Navigation
-                    navigationModel.selectedTab = .eleve
-                    navigationModel.selectedEleveId =
-                        EleveEntity
-                            .byObjectIdentifier(objectID: selection.first!)!
-                            .objectID
-                } label: {
-                    Label("Fiche élève", systemImage: "info.circle")
-                }
-                .disabled(selection.count != 1 || EleveEntity
-                    .byObjectIdentifier(objectID: selection.first!) == nil)
-            }
-
-            ToolbarItem(placement: .primaryAction) {
-                // pour rapprocher les icones
-                ControlGroup {
-                    // supprimer des élèves
-                    Button(role: .destructive) {
-                        withAnimation {
-                            EleveEntity.byObjectIdentifier(objectIDs: selection)
-                                .forEach { eleve in
-                                    // supprimer l'élève et tous ses descendants
-                                    try? eleve.delete()
-                                    if navigationModel.selectedEleveId == eleve.objectID {
-                                        navigationModel.selectedEleveId = nil
-                                    }
-                                }
-                        }
-                    } label: {
-                        Label("Supprimer", systemImage: "trash")
-                    }
-                    .disabled(selection.isEmpty)
-
-                    // ajouter un élève
-                    Button {
-                        isAddingNewEleve = true
-                    } label: {
-                        Label("Ajouter", systemImage: "plus.circle.fill")
-                    }
-                }.controlGroupStyle(.navigation)
-            }
-
-            ToolbarItemGroup(placement: .secondaryAction) {
-                // flager les élèves
-                if selection.count > 1 || (
-                    selection.count == 1 &&
-                        !(EleveEntity.byObjectIdentifier(objectID: selection.first!)?.isFlagged ?? false)
-
-                ) {
-                    Button {
-                        withAnimation {
-                            EleveEntity.byObjectIdentifier(objectIDs: selection)
-                                .forEach { eleve in
-                                    eleve.isFlagged = true
-                                    try? EleveEntity.saveIfContextHasChanged()
-                                }
-                        }
-                    } label: {
-                        Label("Marquer", systemImage: "flag.fill")
-                    }
-                }
-
-                // supprimer le flage des élèves
-                if selection.count > 1 || (
-                    selection.count == 1 && (
-                        EleveEntity.byObjectIdentifier(objectID: selection.first!)?.isFlagged ?? false
-                    )
-                ) {
-                    Button {
-                        withAnimation {
-                            EleveEntity.byObjectIdentifier(objectIDs: selection)
-                                .forEach { eleve in
-                                    eleve.isFlagged = false
-                                    try? EleveEntity.saveIfContextHasChanged()
-                                }
-                        }
-                    } label: {
-                        Label("Supprimer marque", systemImage: "flag.slash")
-                    }
-                }
-
-                // ajouter une observation
-                Button {
-                    isAddingNewObserv = true
-                } label: {
-                    Label("Nouvelle observation", systemImage: "rectangle.and.text.magnifyingglass")
-                }
-                .disabled(selection.count != 1)
-
-                // ajouter une colle
-                Button {
-                    isAddingNewColle = true
-                } label: {
-                    Label("Nouvelle colle", systemImage: "lock.fill")
-                }
-                .disabled(selection.count != 1)
-            }
-        }
+        .toolbar(content: myToolBarContent)
         #if os(iOS)
         .navigationTitle("Élèves de " + classe.displayString + " (\(classe.nbOfEleves))")
         .navigationBarTitleDisplayMode(.inline)
@@ -240,30 +147,135 @@ struct ElevesTableView: View {
         .sheet(isPresented: $isAddingNewEleve) {
             NavigationStack {
                 EleveCreatorModal(inClasse: classe)
+                    .presentationDetents([.medium])
             }
-            .presentationDetents([.medium])
         }
         .sheet(isPresented: $isAddingNewObserv) {
-            NavigationStack {
-                EmptyView()
-                //                if let eleve = eleveStore.itemBinding(withID: selection.first!) {
-                //                    ObservCreator(eleve: eleve)
-                //                }
+            if let eleve = selectedEleve {
+                NavigationStack {
+                    ObservCreatorModal(eleve: eleve)
+                        .presentationDetents([.medium])
+                }
             }
-            .presentationDetents([.medium])
         }
         .sheet(isPresented: $isAddingNewColle) {
-            NavigationStack {
-                EmptyView()
-                //                if let eleve = eleveStore.itemBinding(withID: selection.first!) {
-                //                    ColleCreator(eleve: eleve)
-                //                }
+            if let eleve = selectedEleve {
+                NavigationStack {
+                    ColleCreatorModal(eleve: eleve)
+                        .presentationDetents([.medium])
+                }
             }
-            .presentationDetents([.medium])
         }
     }
 }
 
+// MARK: Toolbar Content
+
+extension ElevesTableView {
+    @ToolbarContentBuilder
+    private func myToolBarContent() -> some ToolbarContent {
+        ToolbarItemGroup(placement: .primaryAction) {
+            // aller à la fiche élève
+            Button {
+                // Programatic Navigation
+                navigationModel.selectedTab = .eleve
+                navigationModel.selectedEleveId =
+                EleveEntity
+                    .byObjectIdentifier(objectID: selection.first!)!
+                    .objectID
+            } label: {
+                Label("Fiche élève", systemImage: "info.circle")
+            }
+            .disabled(selection.count != 1 || EleveEntity
+                .byObjectIdentifier(objectID: selection.first!) == nil)
+        }
+
+        ToolbarItem(placement: .primaryAction) {
+            // pour rapprocher les icones
+            ControlGroup {
+                // supprimer des élèves
+                Button(role: .destructive) {
+                    withAnimation {
+                        EleveEntity.byObjectIdentifier(objectIDs: selection)
+                            .forEach { eleve in
+                                // supprimer l'élève et tous ses descendants
+                                try? eleve.delete()
+                                if navigationModel.selectedEleveId == eleve.objectID {
+                                    navigationModel.selectedEleveId = nil
+                                }
+                            }
+                    }
+                } label: {
+                    Label("Supprimer", systemImage: "trash")
+                }
+                .disabled(selection.isEmpty)
+
+                // ajouter un élève
+                Button {
+                    isAddingNewEleve = true
+                } label: {
+                    Label("Ajouter", systemImage: "plus.circle.fill")
+                }
+            }.controlGroupStyle(.navigation)
+        }
+
+        ToolbarItemGroup(placement: .secondaryAction) {
+            // flager les élèves
+            if selection.count > 1 || (
+                selection.count == 1 &&
+                !(EleveEntity.byObjectIdentifier(objectID: selection.first!)?.isFlagged ?? false)
+
+            ) {
+                Button {
+                    withAnimation {
+                        EleveEntity.byObjectIdentifier(objectIDs: selection)
+                            .forEach { eleve in
+                                eleve.isFlagged = true
+                                try? EleveEntity.saveIfContextHasChanged()
+                            }
+                    }
+                } label: {
+                    Label("Marquer", systemImage: "flag.fill")
+                }
+            }
+
+            // supprimer le flage des élèves
+            if selection.count > 1 || (
+                selection.count == 1 && (
+                    EleveEntity.byObjectIdentifier(objectID: selection.first!)?.isFlagged ?? false
+                )
+            ) {
+                Button {
+                    withAnimation {
+                        EleveEntity.byObjectIdentifier(objectIDs: selection)
+                            .forEach { eleve in
+                                eleve.isFlagged = false
+                                try? EleveEntity.saveIfContextHasChanged()
+                            }
+                    }
+                } label: {
+                    Label("Supprimer marque", systemImage: "flag.slash")
+                }
+            }
+
+            // ajouter une observation
+            Button {
+                isAddingNewObserv = true
+            } label: {
+                Label("Nouvelle observation", systemImage: "rectangle.and.text.magnifyingglass")
+            }
+            .disabled(selection.count != 1)
+
+            // ajouter une colle
+            Button {
+                isAddingNewColle = true
+            } label: {
+                Label("Nouvelle colle", systemImage: "lock.fill")
+            }
+            .disabled(selection.count != 1)
+        }
+    }
+}
 // struct ElevesTableView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
