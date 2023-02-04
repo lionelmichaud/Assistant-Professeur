@@ -26,7 +26,7 @@ struct MarkListView: View {
     var body: some View {
         Section {
             ForEach(exam.sortedMarksByEleveName(searchString: searchString)) { mark in
-                MarkView(mark: mark)
+                MarkRow(mark: mark)
                     .listRowSeparatorTint(.secondary)
             }
         } header: {

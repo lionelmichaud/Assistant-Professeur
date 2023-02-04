@@ -174,7 +174,7 @@ struct GroupSteppedlMarkModal: View {
     // MARK: - Methods
 
     /// Initializer les notes échelonnées à partir des notes actuelles
-    /// des membres du groupe `aPartirDuGroupe`
+    /// des membres du groupe `groupe` à l'examen `exam`
     private static func initializedStepsMarks(
         pourExam exam: ExamEntity,
         aPartirDuGroupe groupe: Int
@@ -206,7 +206,7 @@ struct GroupSteppedlMarkModal: View {
         return highestStepsMarks
     }
 
-    /// Affecter les notes échelonnées à chaque élève du groupe sélectionné
+    /// Affecter les nouvelles notes échelonnées à chaque élève du groupe sélectionné
     private func attribuer(stepsMarks: [Double]) {
         if let elevesInGroupID {
             exam.allMarks

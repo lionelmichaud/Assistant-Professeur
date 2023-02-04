@@ -5,9 +5,9 @@
 //  Created by Lionel MICHAUD on 05/01/2023.
 //
 
-import Foundation
-import CoreData
 import AppFoundation
+import CoreData
+import Foundation
 
 enum MarkEnum: Int16, Codable {
     case nonNote
@@ -20,7 +20,6 @@ enum MarkEnum: Int16, Codable {
 }
 
 extension MarkEnum: PickableEnumP {
-
     public var pickerString: String {
         switch self {
             case .nonNote:
@@ -43,7 +42,6 @@ extension MarkEnum: PickableEnumP {
 
 /// Une note d'évaluation
 extension MarkEntity {
-
     // MARK: - Computed properties
 
     /// Wrapper of `examType`
@@ -71,6 +69,9 @@ extension MarkEntity {
         set {
             if newValue == .note && newValue != markTypeEnum {
                 self.mark = 0
+                for idx in self.viewStepsMarks.indices {
+                    self.viewStepsMarks[idx] = 0.0
+                }
             }
             self.markType = newValue.rawValue
             try? MarkEntity.saveIfContextHasChanged()
@@ -100,7 +101,7 @@ extension MarkEntity {
             try? ExamEntity.saveIfContextHasChanged()
         }
     }
-    
+
     // MARK: - Methods
 
     /// Modifie l'attribut `mark`
@@ -118,27 +119,25 @@ extension MarkEntity {
     func setExamTypeEnum(_ newExamType: ExamTypeEnum) {
         self.examType = newExamType.rawValue
     }
-
 }
 
 // MARK: - Extension Core Data
 
 extension MarkEntity: ModelEntityP {
-
     // MARK: - Type Computed Properties
 
     // MARK: - Type Methods
 
     @discardableResult
     static func create(
-        pourEleve : EleveEntity,
-        pourExam  : ExamEntity
+        pourEleve: EleveEntity,
+        pourExam: ExamEntity
     ) -> MarkEntity {
         let mark = MarkEntity.create()
         // Classe d'appartenance.
         // mandatory
         mark.eleve = pourEleve
-        mark.exam  = pourExam
+        mark.exam = pourExam
 
         try? MarkEntity.saveIfContextHasChanged()
         return mark
@@ -168,6 +167,35 @@ extension MarkEntity: ModelEntityP {
     }
 
     // MARK: - Methods
+
+    @discardableResult
+    static func createGlobalMark(
+        of eleve: EleveEntity,
+        for exam: ExamEntity
+    ) -> MarkEntity {
+        let mark = MarkEntity.create()
+        mark.setExamTypeEnum(.global)
+        mark.eleve = eleve
+        mark.exam = exam
+        return mark
+    }
+
+    @discardableResult
+    static func createSteppedMark(
+        of eleve: EleveEntity,
+        for exam: ExamEntity
+    ) -> MarkEntity {
+        let mark = MarkEntity.create()
+        mark.setExamTypeEnum(.multiStep)
+        mark.eleve = eleve
+        mark.exam = exam
+
+        // initialiser les notes de chaque étapes de l'évaluation
+        let nbOfSteps = exam.viewSteps.count
+        mark.viewStepsMarks = [Double].init(repeating: 0.0, count: nbOfSteps)
+
+        return mark
+    }
 
     override public func awakeFromInsert() {
         super.awakeFromInsert()
@@ -225,8 +253,8 @@ extension MarkEntity {
 
 // MARK: - Extension Debug
 
-extension MarkEntity {
-    public override var description: String {
+public extension MarkEntity {
+    override var description: String {
         """
 
         NOTE:

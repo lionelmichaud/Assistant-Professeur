@@ -53,7 +53,7 @@ class ExamViewModel: ObservableObject {
     func createAndSaveEntity(inClass classe: ClasseEntity) {
         switch self.examTypeEnum {
             case .global:
-                ExamManager.createGlobalExam(
+                ExamEntity.createGlobalExam(
                     sujet: sujet,
                     coef: coef,
                     maxMark: maxMark,
@@ -62,7 +62,7 @@ class ExamViewModel: ObservableObject {
                 )
 
             case .multiStep:
-                ExamManager.createSteppedExam(
+                ExamEntity.createSteppedExam(
                     sujet: sujet,
                     coef: coef,
                     examSteps: [ ],

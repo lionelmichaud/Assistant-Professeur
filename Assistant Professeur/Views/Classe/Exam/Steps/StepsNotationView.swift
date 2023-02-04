@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct StepsNotationView: View {
-    
     // MARK: - Initializer
 
     init(
@@ -40,11 +39,12 @@ struct StepsNotationView: View {
             HStack {
                 Text("Étapes")
                 Spacer()
-                Text("Note totale: \(valueString(value: noteTotale))")
-                    .padding(.top, 8)
+                Text("Note totale: ")
+                Text(valueString(value: noteTotale))
                     .foregroundColor(.accentColor)
             }
             .font(.headline)
+            .padding(.top, 8)
             .padding(.horizontal)
 
             List(exam.viewSteps.indices, id: \.self) { idx in

@@ -7,7 +7,21 @@
 
 import SwiftUI
 
-struct SteppedlMarkModal: View {
+struct IndividualSteppedlMarkModal: View {
+    // MARK: - Initializer
+
+    init(mark: MarkEntity) {
+        self.mark = mark
+
+        // Initializer les notes échelonnées à partir des
+        // notes actuelles de l'élève
+        self._stepsMarks = State(
+            initialValue: mark.viewStepsMarks
+        )
+    }
+
+    // MARK: - Properties
+
     @ObservedObject
     var mark: MarkEntity
 
@@ -17,19 +31,22 @@ struct SteppedlMarkModal: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
+    @State
+    private var stepsMarks: [Double]
+
     var body: some View {
         Group {
             if hClass == .regular {
                 StepsNotationView(
                     exam: mark.exam!,
                     width: 250,
-                    stepsMarks: $mark.viewStepsMarks
+                    stepsMarks: $stepsMarks
                 )
             } else {
                 StepsNotationView(
                     exam: mark.exam!,
                     width: 125,
-                    stepsMarks: $mark.viewStepsMarks
+                    stepsMarks: $stepsMarks
                 )
             }
         }
@@ -46,12 +63,20 @@ struct SteppedlMarkModal: View {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Attribuer") {
                     withAnimation {
-                        try? MarkEntity.saveIfContextHasChanged()
+                        attribuer(stepsMarks: stepsMarks)
                     }
                     dismiss()
                 }
             }
         }
+    }
+
+    // MARK: - Methods
+
+    /// Affecter les nouvelles notes échelonnées à l'élève
+    private func attribuer(stepsMarks: [Double]) {
+        mark.viewStepsMarks = stepsMarks
+        try? MarkEntity.saveIfContextHasChanged()
     }
 }
 

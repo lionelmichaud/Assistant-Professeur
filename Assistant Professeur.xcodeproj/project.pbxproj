@@ -88,8 +88,7 @@
 		795C2C31296E2DCA00EDFF09 /* RoomElevePlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C29296E2DCA00EDFF09 /* RoomElevePlacement.swift */; };
 		795CB1952958F668006EF060 /* Motif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795CB1942958F668006EF060 /* Motif.swift */; };
 		795EED0529673B88009AA6F4 /* Mark+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0429673B88009AA6F4 /* Mark+Extensions.swift */; };
-		795EED07296741A1009AA6F4 /* ExamManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED06296741A1009AA6F4 /* ExamManager.swift */; };
-		795EED0B29677C76009AA6F4 /* MarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0929677C76009AA6F4 /* MarkView.swift */; };
+		795EED0B29677C76009AA6F4 /* MarkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0929677C76009AA6F4 /* MarkRow.swift */; };
 		795EED0C29677C76009AA6F4 /* MarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0A29677C76009AA6F4 /* MarkListView.swift */; };
 		796371FF297D575800ECDBC3 /* SequenceSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796371FE297D575800ECDBC3 /* SequenceSidebarView.swift */; };
 		79637201297D707400ECDBC3 /* SequenceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637200297D707400ECDBC3 /* SequenceList.swift */; };
@@ -221,7 +220,7 @@
 		79F41E6F2954C83A00EAAC52 /* ElevesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E6C2954C83A00EAAC52 /* ElevesTableView.swift */; };
 		79F41E712954D2F900EAAC52 /* EleveLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E702954D2F900EAAC52 /* EleveLabel.swift */; };
 		79F41E732954D30F00EAAC52 /* EleveBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E722954D30F00EAAC52 /* EleveBrowserRow.swift */; };
-		79FC04E5298DCC240093BC8B /* SteppedlMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FC04E4298DCC240093BC8B /* SteppedlMarkModal.swift */; };
+		79FC04E5298DCC240093BC8B /* IndividualSteppedlMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FC04E4298DCC240093BC8B /* IndividualSteppedlMarkModal.swift */; };
 		79FFF42729511DF20037A327 /* ClassBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42629511DF20037A327 /* ClassBrowserRow.swift */; };
 		79FFF42929511E040037A327 /* ClassCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42829511E040037A327 /* ClassCreatorModal.swift */; };
 		79FFF42B295120100037A327 /* LevelClasse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42A295120100037A327 /* LevelClasse.swift */; };
@@ -323,8 +322,7 @@
 		795C2C29296E2DCA00EDFF09 /* RoomElevePlacement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomElevePlacement.swift; sourceTree = "<group>"; };
 		795CB1942958F668006EF060 /* Motif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Motif.swift; sourceTree = "<group>"; };
 		795EED0429673B88009AA6F4 /* Mark+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mark+Extensions.swift"; sourceTree = "<group>"; };
-		795EED06296741A1009AA6F4 /* ExamManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamManager.swift; sourceTree = "<group>"; };
-		795EED0929677C76009AA6F4 /* MarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkView.swift; sourceTree = "<group>"; };
+		795EED0929677C76009AA6F4 /* MarkRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkRow.swift; sourceTree = "<group>"; };
 		795EED0A29677C76009AA6F4 /* MarkListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkListView.swift; sourceTree = "<group>"; };
 		796371FE297D575800ECDBC3 /* SequenceSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceSidebarView.swift; sourceTree = "<group>"; };
 		79637200297D707400ECDBC3 /* SequenceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceList.swift; sourceTree = "<group>"; };
@@ -433,7 +431,7 @@
 		79F41E6C2954C83A00EAAC52 /* ElevesTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElevesTableView.swift; sourceTree = "<group>"; };
 		79F41E702954D2F900EAAC52 /* EleveLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveLabel.swift; sourceTree = "<group>"; };
 		79F41E722954D30F00EAAC52 /* EleveBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveBrowserRow.swift; sourceTree = "<group>"; };
-		79FC04E4298DCC240093BC8B /* SteppedlMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SteppedlMarkModal.swift; sourceTree = "<group>"; };
+		79FC04E4298DCC240093BC8B /* IndividualSteppedlMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualSteppedlMarkModal.swift; sourceTree = "<group>"; };
 		79FFF42629511DF20037A327 /* ClassBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassBrowserRow.swift; sourceTree = "<group>"; };
 		79FFF42829511E040037A327 /* ClassCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassCreatorModal.swift; sourceTree = "<group>"; };
 		79FFF42A295120100037A327 /* LevelClasse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelClasse.swift; sourceTree = "<group>"; };
@@ -637,7 +635,6 @@
 			children = (
 				79398D2C2965FABE0013564D /* Exam+Extensions.swift */,
 				795EED0429673B88009AA6F4 /* Mark+Extensions.swift */,
-				795EED06296741A1009AA6F4 /* ExamManager.swift */,
 				7937A24129859A5500D0ED59 /* ExamStep.swift */,
 				7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */,
 			);
@@ -690,11 +687,11 @@
 		795EED0829677C76009AA6F4 /* Mark */ = {
 			isa = PBXGroup;
 			children = (
-				795EED0929677C76009AA6F4 /* MarkView.swift */,
+				795EED0929677C76009AA6F4 /* MarkRow.swift */,
 				795EED0A29677C76009AA6F4 /* MarkListView.swift */,
 				7986A8562989B1A2007471BE /* GroupGlobalMarkModal.swift */,
 				7986A8582989CE73007471BE /* GroupSteppedlMarkModal.swift */,
-				79FC04E4298DCC240093BC8B /* SteppedlMarkModal.swift */,
+				79FC04E4298DCC240093BC8B /* IndividualSteppedlMarkModal.swift */,
 			);
 			path = Mark;
 			sourceTree = "<group>";
@@ -1281,7 +1278,7 @@
 				79F41E642954B08A00EAAC52 /* Eleve+Extensions.swift in Sources */,
 				7937A24B298830CC00D0ED59 /* StepEditor.swift in Sources */,
 				79AFBFB82981D264001576DD /* ActivityEditorModal.swift in Sources */,
-				795EED0B29677C76009AA6F4 /* MarkView.swift in Sources */,
+				795EED0B29677C76009AA6F4 /* MarkRow.swift in Sources */,
 				794F6E14295CEC0C00042B95 /* ObservViewModel.swift in Sources */,
 				795EED0529673B88009AA6F4 /* Mark+Extensions.swift in Sources */,
 				79401350295624EF007AD790 /* Dsicipline.swift in Sources */,
@@ -1292,7 +1289,6 @@
 				793D6271295DCBBC00477932 /* MotifEditor.swift in Sources */,
 				79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */,
 				7937A2462986C57D00D0ED59 /* ExamTypeEnum.swift in Sources */,
-				795EED07296741A1009AA6F4 /* ExamManager.swift in Sources */,
 				793D6270295DCBBC00477932 /* MotifView.swift in Sources */,
 				79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */,
 				795C2C2E296E2DCA00EDFF09 /* RoomEditor.swift in Sources */,
@@ -1323,7 +1319,7 @@
 				79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */,
 				798DD4D2298C318F00C47B2C /* ExamListView.swift in Sources */,
 				794F6E12295CE1B700042B95 /* ObservEditor.swift in Sources */,
-				79FC04E5298DCC240093BC8B /* SteppedlMarkModal.swift in Sources */,
+				79FC04E5298DCC240093BC8B /* IndividualSteppedlMarkModal.swift in Sources */,
 				79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */,
 				7921355A2978726E0036A5EA /* Sequence+Extensions.swift in Sources */,
 				7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */,

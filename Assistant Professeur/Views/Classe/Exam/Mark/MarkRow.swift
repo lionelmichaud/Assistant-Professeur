@@ -8,7 +8,7 @@
 import HelpersView
 import SwiftUI
 
-struct MarkView: View {
+struct MarkRow: View {
     @ObservedObject
     var mark: MarkEntity
 
@@ -154,7 +154,7 @@ struct MarkView: View {
             onDismiss: MarkEntity.rollback
         ) {
             NavigationStack {
-                SteppedlMarkModal(mark: mark)
+                IndividualSteppedlMarkModal(mark: mark)
             }
             .presentationDetents([.medium])
         }

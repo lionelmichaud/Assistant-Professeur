@@ -163,6 +163,77 @@ extension ExamEntity {
     var nbOfSteps: Int {
         viewSteps.count
     }
+
+    /// Créer une nouvelle évaluation **globale** pour une classe d'élèves
+    ///
+    /// Crée une note par défaut pour chaque élève de la classe.
+    /// - Parameter classe: Classe pour laquelle l'évaluation est créée
+    /// - Returns: L'évaluation créée.
+    ///
+    /// - Important: The context has changes and **is commited**
+    @discardableResult
+    static func createGlobalExam(
+        sujet: String = "",
+        coef: Double = 1.0,
+        maxMark: Int = 20,
+        dateExecuted: Date = Date.now,
+        pour classe: ClasseEntity
+    ) -> ExamEntity {
+        let exam = ExamEntity.create()
+        exam.classe = classe
+
+        exam.setExamTypeEnum(.global)
+        exam.setSujet(sujet)
+        exam.setCoef(coef)
+        exam.setDateExecuted(dateExecuted)
+        exam.maxMark = Int16(maxMark)
+
+        let eleves = classe.allEleves
+        eleves.forEach { eleve in
+            MarkEntity.createGlobalMark(of: eleve, for: exam)
+        }
+
+        try? ExamEntity.saveIfContextHasChanged()
+
+        return exam
+    }
+
+    /// Créer une nouvelle évaluation **échelonnée** pour une classe d'élèves
+    ///
+    /// Crée une note par défaut pour chaque élève de la classe.
+    /// - Parameter classe: Classe pour laquelle l'évaluation est créée
+    /// - Returns: L'évaluation créée.
+    ///
+    /// - Important: The context has changes and **is commited**
+    @discardableResult
+    static func createSteppedExam(
+        sujet: String = "",
+        coef: Double = 1.0,
+        examSteps: [ExamStep] = [],
+        dateExecuted: Date = Date.now,
+        pour classe: ClasseEntity
+    ) -> ExamEntity {
+        // TODO: - Faire ce qu'il faut quand un nouvel élève est ajouté à une classe
+        let exam = ExamEntity.create()
+        exam.classe = classe
+
+        exam.setExamTypeEnum(.multiStep)
+        exam.setSujet(sujet)
+        exam.setCoef(coef)
+        exam.setDateExecuted(dateExecuted)
+        exam.setSteps(examSteps)
+        // la note maxi est la somme des points maxi de chaque étape
+        exam.maxMark = Int16(examSteps.sum(for: \.points))
+
+        let eleves = classe.allEleves
+        eleves.forEach { eleve in
+            MarkEntity.createSteppedMark(of: eleve, for: exam)
+        }
+
+        try? ExamEntity.saveIfContextHasChanged()
+
+        return exam
+    }
 }
 
 // MARK: - Extension Core Data
@@ -252,7 +323,7 @@ public extension ExamEntity {
         """
 
         EVALUATION: \(viewSujet)
-           ID          : \(id)
+           ID          : \(String(describing: id))
            Date        : \(dateExecuted.stringShortDate)
            Noté sur    : \(maxMark)
            Coefficient : \(coef.formatted(.number.precision(.fractionLength(2))))
