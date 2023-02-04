@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 25/01/2023.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct ActivityEditorModal: View {
     @ObservedObject
@@ -34,8 +34,8 @@ struct ActivityEditorModal: View {
         Form {
             TextField(
                 "Titre",
-                text : $activity.name.bound,
-                axis : .vertical
+                text: $activity.name.bound,
+                axis: .vertical
             )
             .lineLimit(5)
             .font(hClass == .compact ? .callout : .body)
@@ -44,8 +44,8 @@ struct ActivityEditorModal: View {
             if annotationEnabled {
                 TextField(
                     "Annotation",
-                    text : $activity.annotation.bound,
-                    axis : .vertical
+                    text: $activity.annotation.bound,
+                    axis: .vertical
                 )
                 .lineLimit(5)
                 .font(hClass == .compact ? .callout : .body)
@@ -54,18 +54,43 @@ struct ActivityEditorModal: View {
 
             WebsiteEditView(website: $activity.url)
 
-            AmountEditView(label: "Durée",
-                           comment: "nombre de séances",
-                           amount: $activity.duration,
-                           validity: .greaterThanOrEqualTo(limit: 0),
-                           currency: false)
-            
-            Toggle("Evaluation", isOn: $activity.isEval)
+            AmountEditView(
+                label: "Durée",
+                comment: "nombre de séances",
+                amount: $activity.duration,
+                validity: .greaterThanOrEqualTo(limit: 0),
+                currency: false
+            )
+
+            Toggle(isOn: $activity.isProject) {
+                Label(
+                    "Partie d'un projet",
+                    systemImage: ActivityEntity.projectSymbol
+                )
+            }
+            Toggle(isOn: $activity.isTP) {
+                Label(
+                    "Inclue des Travaux Pratiques",
+                    systemImage: ActivityEntity.tpSymbol
+                )
+            }
+            Toggle(isOn: $activity.isEvalFormative) {
+                Label(
+                    "Inclue une Evaluation Formative",
+                    systemImage: ActivityEntity.evalFormativeSymbol
+                )
+            }
+            Toggle(isOn: $activity.isEval) {
+                Label(
+                    "Inclue une Evaluation Sommative",
+                    systemImage: ActivityEntity.evalSommativeSymbol
+                )
+            }
         }
         .alert(
             alertTitle,
             isPresented: $alertIsPresented,
-            actions: { },
+            actions: {},
             message: { Text(alertMessage) }
         )
         #if os(iOS)
@@ -99,8 +124,8 @@ extension ActivityEditorModal {
     }
 }
 
-//struct ActivityEditorModal_Previews: PreviewProvider {
+// struct ActivityEditorModal_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ActivityEditorModal()
 //    }
-//}
+// }

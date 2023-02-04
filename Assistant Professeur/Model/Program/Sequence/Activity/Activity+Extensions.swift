@@ -10,6 +10,13 @@ import Foundation
 
 /// Une séquence d'un programme scolaire pour une dscipline et un niveau donnés
 extension ActivityEntity {
+    // MARK: - Type Constants
+
+    static let evalSommativeSymbol = "clock.badge.checkmark"
+    static let evalFormativeSymbol = "text.badge.checkmark"
+    static let tpSymbol = "testtube.2"
+    static let projectSymbol = "wrench.and.screwdriver"
+
     // MARK: - Computed properties
 
     /// Wrapper of `name`
@@ -65,15 +72,53 @@ extension ActivityEntity {
         }
     }
 
-    /// True si l'activité est une évaluation
+    /// True si l'activité inclue une évaluation sommative
     /// Wrapper of `isEval`
     /// - Important: *Saves the context to the store after modification is done*
-    var viewIsEval: Bool {
+    var viewIsEvalSommative: Bool {
         get {
             self.isEval
         }
         set {
             self.isEval = newValue
+            try? ActivityEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// True si l'activité inclue une évaluation formative
+    /// Wrapper of `isEvalFormative`
+    /// - Important: *Saves the context to the store after modification is done*
+    var viewIsEvalFormative: Bool {
+        get {
+            self.isEvalFormative
+        }
+        set {
+            self.isEvalFormative = newValue
+            try? ActivityEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// True si l'activité inclue un TP
+    /// Wrapper of `isTP`
+    /// - Important: *Saves the context to the store after modification is done*
+    var viewIsTP: Bool {
+        get {
+            self.isTP
+        }
+        set {
+            self.isTP = newValue
+            try? ActivityEntity.saveIfContextHasChanged()
+        }
+    }
+    /// True si l'activité fait partie d'un Projet
+    /// Wrapper of `isProject`
+    /// - Important: *Saves the context to the store after modification is done*
+    var viewIsProject: Bool {
+        get {
+            self.isProject
+        }
+        set {
+            self.isProject = newValue
             try? ActivityEntity.saveIfContextHasChanged()
         }
     }
@@ -102,7 +147,10 @@ extension ActivityEntity: ModelEntityP {
         annotation: String = "",
         url: URL? = nil,
         duration: Double = 1,
-        isEval: Bool = false,
+        isEvalSommative: Bool = false,
+        isEvalFormative: Bool = false,
+        isTP: Bool = false,
+        isProject: Bool = false,
         dans sequence: SequenceEntity
     ) -> ActivityEntity {
         let nbActInProgram = sequence.nbOfActivities
@@ -116,19 +164,25 @@ extension ActivityEntity: ModelEntityP {
         activity.annotation = annotation
         activity.url = url
         activity.duration = duration
-        activity.isEval = isEval
+        activity.isEval = isEvalSommative
+        activity.isEvalFormative = isEvalFormative
+        activity.isTP = isTP
+        activity.isProject = isProject
 
         return activity
     }
 
-    /// Créer une nouvelle instance et la sauvegarder dans le context
+    /// Créer une nouvelle instance ET la sauvegarder dans le context
     @discardableResult
     static func create(
         name: String = "",
         annotation: String = "",
         url: URL? = nil,
         duration: Double = 1,
-        isEval: Bool = false,
+        isEvalSommative: Bool = false,
+        isEvalFormative: Bool = false,
+        isTP: Bool = false,
+        isProject: Bool = false,
         dans sequence: SequenceEntity
     ) -> ActivityEntity {
         let newActivity = createWithoutSaving(
@@ -136,7 +190,10 @@ extension ActivityEntity: ModelEntityP {
             annotation: annotation,
             url: url,
             duration: duration,
-            isEval: isEval,
+            isEvalSommative: isEvalSommative,
+            isEvalFormative: isEvalFormative,
+            isTP: isTP,
+            isProject: isProject,
             dans: sequence
         )
 

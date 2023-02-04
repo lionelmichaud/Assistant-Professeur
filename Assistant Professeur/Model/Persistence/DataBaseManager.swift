@@ -374,28 +374,50 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 annotation: "Une annotation d'activité 1",
                 url: URL(string: "http://apple.fr"),
                 duration: 1.0,
-                isEval: false,
+                isEvalSommative: false,
+                isEvalFormative: false,
+                isTP: false,
+                isProject: false,
                 dans: progTechno6Seq1
             )
             ActivityEntity.create(
                 name: "Activité 2 de Séquence 1 de Techno",
                 annotation: "Une annotation d'activité 2",
                 duration: 2.0,
-                isEval: false,
+                isEvalSommative: false,
+                isEvalFormative: true,
+                isTP: false,
+                isProject: true,
                 dans: progTechno6Seq1
             )
             ActivityEntity.create(
                 name: "Activité 3 de Séquence 1 de Techno",
                 annotation: "Une annotation d'activité 3",
                 duration: 1.0,
-                isEval: true,
+                isEvalSommative: false,
+                isEvalFormative: true,
+                isTP: true,
+                isProject: true,
+                dans: progTechno6Seq1
+            )
+            ActivityEntity.create(
+                name: "Activité 3 de Séquence 1 de Techno",
+                annotation: "Une annotation d'activité 3",
+                duration: 1.0,
+                isEvalSommative: true,
+                isEvalFormative: false,
+                isTP: false,
+                isProject: false,
                 dans: progTechno6Seq1
             )
             ActivityEntity.create(
                 name: "Activité 1 de Séquence 2 de Techno",
                 annotation: "Une annotation d'activité 4",
                 duration: 3.0,
-                isEval: true,
+                isEvalSommative: true,
+                isEvalFormative: false,
+                isTP: false,
+                isProject: false,
                 dans: progTechno6Seq2
             )
         }

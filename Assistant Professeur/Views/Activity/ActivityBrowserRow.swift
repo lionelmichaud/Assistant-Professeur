@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 22/01/2023.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct ActivityBrowserRow: View {
     @ObservedObject
@@ -17,24 +17,27 @@ struct ActivityBrowserRow: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Label(activity.viewName,
-                  systemImage: "\(activity.viewNumber).circle")
+            Label(
+                activity.viewName,
+                systemImage: "\(activity.viewNumber).circle"
+            )
             HStack {
                 DurationView(duration: activity.duration, withMargin: false)
                 Spacer()
-                if activity.isEval {
-                    Label("Évaluation",
-                          systemImage: "doc.plaintext")
-                }
-                //WebsiteView(url: activity.url)
+                ActivityAllSymbols(
+                    activity: activity,
+                    showTitle: false
+                )
+                .tint(.primary)
+                // WebsiteView(url: activity.url)
             }
         }
         .font(hClass == .compact ? .subheadline : .callout)
     }
 }
 
-//struct ActivityBrowserRow_Previews: PreviewProvider {
+// struct ActivityBrowserRow_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ActivityBrowserRow()
 //    }
-//}
+// }

@@ -220,6 +220,7 @@
 		79F41E6F2954C83A00EAAC52 /* ElevesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E6C2954C83A00EAAC52 /* ElevesTableView.swift */; };
 		79F41E712954D2F900EAAC52 /* EleveLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E702954D2F900EAAC52 /* EleveLabel.swift */; };
 		79F41E732954D30F00EAAC52 /* EleveBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E722954D30F00EAAC52 /* EleveBrowserRow.swift */; };
+		79F57E38298EB2D30014B73D /* ActivitySymbolViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */; };
 		79FC04E5298DCC240093BC8B /* IndividualSteppedlMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FC04E4298DCC240093BC8B /* IndividualSteppedlMarkModal.swift */; };
 		79FFF42729511DF20037A327 /* ClassBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42629511DF20037A327 /* ClassBrowserRow.swift */; };
 		79FFF42929511E040037A327 /* ClassCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42829511E040037A327 /* ClassCreatorModal.swift */; };
@@ -431,6 +432,7 @@
 		79F41E6C2954C83A00EAAC52 /* ElevesTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElevesTableView.swift; sourceTree = "<group>"; };
 		79F41E702954D2F900EAAC52 /* EleveLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveLabel.swift; sourceTree = "<group>"; };
 		79F41E722954D30F00EAAC52 /* EleveBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveBrowserRow.swift; sourceTree = "<group>"; };
+		79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySymbolViews.swift; sourceTree = "<group>"; };
 		79FC04E4298DCC240093BC8B /* IndividualSteppedlMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualSteppedlMarkModal.swift; sourceTree = "<group>"; };
 		79FFF42629511DF20037A327 /* ClassBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassBrowserRow.swift; sourceTree = "<group>"; };
 		79FFF42829511E040037A327 /* ClassCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassCreatorModal.swift; sourceTree = "<group>"; };
@@ -719,6 +721,7 @@
 				79AFBFB72981D264001576DD /* ActivityEditorModal.swift */,
 				7963720F297DA91200ECDBC3 /* ActivityDetail.swift */,
 				792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */,
+				79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -1270,6 +1273,7 @@
 				79ECF1FC2959F915008F0282 /* ClasseObservLabel.swift in Sources */,
 				793D6277295DD9E600477932 /* ObservSignIcon.swift in Sources */,
 				793C29D52953C08100E7F65B /* RessourceEditor.swift in Sources */,
+				79F57E38298EB2D30014B73D /* ActivitySymbolViews.swift in Sources */,
 				798DD4D6298C366300C47B2C /* TrombineView.swift in Sources */,
 				7994E3262972F4E500952D08 /* PdfDocumentViewer.swift in Sources */,
 				79D573472927EEDE00B0B7B8 /* SchoolViewModel.swift in Sources */,
