@@ -20,37 +20,35 @@ struct ActivityDetailGroupBox: View {
 
     var body: some View {
         GroupBox {
-            Label {
-                Text(activity.viewName)
-            } icon: {
-                Image(systemName: "\(activity.viewNumber).circle")
-                    .font(.body)
-            }
-            .horizontallyAligned(.leading)
+            Group {
+                Label {
+                    Text(activity.viewName)
+                } icon: {
+                    Image(systemName: "\(activity.viewNumber).circle")
+                        .font(.body)
+                }
 
-            // note sur le programme
-            if annotationEnabled && activity.viewAnnotation.isNotEmpty {
-                AnnotationView(
-                    annotation: activity.viewAnnotation,
-                    scrollable: true,
-                    scrollHeight: 40
+                // note sur le programme
+                if annotationEnabled && activity.viewAnnotation.isNotEmpty {
+                    AnnotationView(
+                        annotation: activity.viewAnnotation,
+                        scrollable: true,
+                        scrollHeight: 40
+                    )
+                }
+
+                DurationView(duration: activity.duration, withMargin: false)
+
+                WebsiteView(url: activity.url, showURL: true)
+                    .padding(.top, 4)
+
+                ActivityAllSymbols(
+                    activity: activity,
+                    showTitle: true
                 )
-                .horizontallyAligned(.leading)
+                .padding(.top, 4)
             }
-
-            DurationView(duration: activity.duration, withMargin: false)
-                .horizontallyAligned(.leading)
-
-            WebsiteView(url: activity.url, showURL: true)
-                .horizontallyAligned(.leading)
-                .padding(.top)
-
-            ActivityAllSymbols(
-                activity: activity,
-                showTitle: true
-            )
             .horizontallyAligned(.leading)
-            .padding(.top)
         }
         .font(hClass == .compact ? .subheadline : .callout)
         .padding(.horizontal)

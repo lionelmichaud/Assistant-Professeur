@@ -21,6 +21,7 @@
         <attribute name="examsCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="exams.@count" usesScalarValueType="YES"/>
         <attribute name="groupCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="groups.@count" usesScalarValueType="YES"/>
         <attribute name="heures" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isFlagged" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="level" attributeType="String" defaultValueString=""/>
         <attribute name="numero" attributeType="Integer 32" defaultValueString="1" usesScalarValueType="YES"/>
@@ -53,6 +54,7 @@
         <attribute name="familyName" attributeType="String" defaultValueString=""/>
         <attribute name="givenName" attributeType="String" defaultValueString=""/>
         <attribute name="hasAddTime" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isFlagged" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="marksCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="marks.@count" usesScalarValueType="YES"/>
         <attribute name="observsCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="observs.@count" usesScalarValueType="YES"/>
@@ -135,6 +137,7 @@
         <attribute name="classesCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="classes.@count" usesScalarValueType="YES"/>
         <attribute name="documentsCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="documents.@count" usesScalarValueType="YES"/>
         <attribute name="eventsCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="events.@count" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="level" attributeType="String" defaultValueString=""/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
         <attribute name="ressourcesCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="ressources.@count" usesScalarValueType="YES"/>

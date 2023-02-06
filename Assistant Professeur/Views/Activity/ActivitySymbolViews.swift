@@ -13,10 +13,10 @@ struct ActivitySymbolEvalSommative: View {
     var showTitle: Bool
 
     var body: some View {
-        if activity.viewIsEvalSommative {
-            Group {
+        Group {
+            if activity.viewIsEvalSommative {
                 Label(
-                    "Éval Sommative",
+                    "Éval Sommative ",
                     systemImage: ActivityEntity.evalSommativeSymbol
                 )
                 .if(showTitle) {
@@ -24,6 +24,8 @@ struct ActivitySymbolEvalSommative: View {
                 } else: {
                     $0.labelStyle(.iconOnly)
                 }
+            } else {
+                EmptyView()
             }
         }
     }
@@ -35,10 +37,10 @@ struct ActivitySymbolEvalFormmative: View {
     var showTitle: Bool
 
     var body: some View {
-        if activity.viewIsEvalFormative {
-            Group {
+        Group {
+            if activity.viewIsEvalFormative {
                 Label(
-                    "Éval Formative",
+                    "Éval Formative ",
                     systemImage: ActivityEntity.evalFormativeSymbol
                 )
                 .if(showTitle) {
@@ -46,6 +48,8 @@ struct ActivitySymbolEvalFormmative: View {
                 } else: {
                     $0.labelStyle(.iconOnly)
                 }
+            } else {
+                EmptyView()
             }
         }
     }
@@ -57,10 +61,10 @@ struct ActivitySymbolTP: View {
     var showTitle: Bool
 
     var body: some View {
-        if activity.viewIsTP {
-            Group {
+        Group {
+            if activity.viewIsTP {
                 Label(
-                    "TP",
+                    "TP ",
                     systemImage: ActivityEntity.tpSymbol
                 )
                 .if(showTitle) {
@@ -68,6 +72,8 @@ struct ActivitySymbolTP: View {
                 } else: {
                     $0.labelStyle(.iconOnly)
                 }
+            } else {
+                EmptyView()
             }
         }
     }
@@ -79,10 +85,10 @@ struct ActivitySymbolProject: View {
     var showTitle: Bool
 
     var body: some View {
-        if activity.viewIsProject {
-            Group {
+        Group {
+            if activity.viewIsProject {
                 Label(
-                    "Projet",
+                    "Projet ",
                     systemImage: ActivityEntity.projectSymbol
                 )
                 .if(showTitle) {
@@ -90,6 +96,8 @@ struct ActivitySymbolProject: View {
                 } else: {
                     $0.labelStyle(.iconOnly)
                 }
+            } else {
+                EmptyView()
             }
         }
     }
@@ -110,17 +118,14 @@ struct ActivityAllSymbols: View {
                 activity: activity,
                 showTitle: showTitle
             )
-            .padding(.leading)
             ActivitySymbolEvalFormmative(
                 activity: activity,
                 showTitle: showTitle
             )
-            .padding(.leading)
             ActivitySymbolEvalSommative(
                 activity: activity,
                 showTitle: showTitle
             )
-            .padding(.leading)
         }
     }
 }

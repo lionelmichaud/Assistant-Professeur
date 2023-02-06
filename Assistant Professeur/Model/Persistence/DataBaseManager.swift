@@ -153,7 +153,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
             let classe5E1 = ClasseEntity.create(
                 level: .n5ieme,
                 numero: 1,
-                segpa: false,
+                segpa: true,
                 discipline: .technologie,
                 heures: 1.5,
                 isFlagged: true,
@@ -166,7 +166,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
             let classe3E2 = ClasseEntity.create(
                 level: .n3ieme,
                 numero: 2,
-                segpa: false,
+                segpa: true,
                 discipline: .mathematiques,
                 heures: 4.0,
                 isFlagged: false,
@@ -175,10 +175,10 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 dans: college
             )
 
-            let classe2E5 = ClasseEntity.create(
-                level: .n2nd,
+            let classeTerm = ClasseEntity.create(
+                level: .n0terminale,
                 numero: 5,
-                segpa: true,
+                segpa: false,
                 discipline: .snt,
                 heures: 1.5,
                 isFlagged: false,
@@ -238,7 +238,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 dans: classe3E2
             )
 
-            let eleve2E5_3 = EleveEntity.create(
+            let eleveTerm = EleveEntity.create(
                 familyName: "LEGENDRE",
                 givenName: "Frédérick",
                 sex: .male,
@@ -246,7 +246,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 trouble: .none,
                 hasAddTime: false,
                 bonus: 0,
-                dans: classe2E5
+                dans: classeTerm
             )
 
             // Examen
@@ -325,47 +325,58 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
             )
 
             // Programmes
-            let progTechno6 = ProgramEntity.create(
+            ProgramEntity.create(
                 discipline: .technologie,
                 level: .n6ieme,
                 segpa: false,
                 annotation: "Programme de technologie de classe de 6ième",
                 url: URL(string: "http://www.apple.com")
             )
-            ProgramEntity.create(
+            let progTechno5 = ProgramEntity.create(
                 discipline: .technologie,
                 level: .n5ieme,
                 segpa: true,
                 annotation: "Programme de technologie de classe de 5ième SEGPA"
             )
-            ProgramEntity.create(
-                discipline: .histoireGeo,
+            let progSntTerm = ProgramEntity.create(
+                discipline: .snt,
                 level: .n0terminale,
                 segpa: false,
                 annotation: "Programme d'Histoire-Géographie de classe de Terminale"
             )
 
             // Séquences
-            let progTechno6Seq1 = SequenceEntity.create(
+            let progTechno5Seq1 = SequenceEntity.create(
                 name: "Séquence 1 du Programme de Technologie",
                 annotation: "Une annotation de séquence 1",
                 url: URL(string: "http://www.google.com"),
-                dans: progTechno6
+                dans: progTechno5
             )
-            let progTechno6Seq2 = SequenceEntity.create(
+            let progTechno5Seq2 = SequenceEntity.create(
                 name: "Séquence 2 du Programme de Technologie",
                 annotation: "Une annotation de séquence 2",
-                dans: progTechno6
+                dans: progTechno5
             )
             SequenceEntity.create(
                 name: "Séquence 3 du Programme de Technologie",
                 annotation: "Une annotation de séquence 3",
-                dans: progTechno6
+                dans: progTechno5
             )
             SequenceEntity.create(
                 name: "Séquence 4 du Programme de Technologie",
                 annotation: "Une annotation de séquence 4",
-                dans: progTechno6
+                dans: progTechno5
+            )
+            let progSntTermSeq1 = SequenceEntity.create(
+                name: "Séquence 1 du Programme de SNT",
+                annotation: "Une annotation de séquence 1",
+                url: URL(string: "http://www.google.com"),
+                dans: progSntTerm
+            )
+            let progSntTermSeq2 = SequenceEntity.create(
+                name: "Séquence 2 du Programme de SNT",
+                annotation: "Une annotation de séquence 2",
+                dans: progSntTerm
             )
 
             // Activités
@@ -378,7 +389,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 isEvalFormative: false,
                 isTP: false,
                 isProject: false,
-                dans: progTechno6Seq1
+                dans: progTechno5Seq1
             )
             ActivityEntity.create(
                 name: "Activité 2 de Séquence 1 de Techno",
@@ -388,7 +399,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 isEvalFormative: true,
                 isTP: false,
                 isProject: true,
-                dans: progTechno6Seq1
+                dans: progTechno5Seq1
             )
             ActivityEntity.create(
                 name: "Activité 3 de Séquence 1 de Techno",
@@ -398,7 +409,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 isEvalFormative: true,
                 isTP: true,
                 isProject: true,
-                dans: progTechno6Seq1
+                dans: progTechno5Seq1
             )
             ActivityEntity.create(
                 name: "Activité 3 de Séquence 1 de Techno",
@@ -408,7 +419,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 isEvalFormative: false,
                 isTP: false,
                 isProject: false,
-                dans: progTechno6Seq1
+                dans: progTechno5Seq1
             )
             ActivityEntity.create(
                 name: "Activité 1 de Séquence 2 de Techno",
@@ -418,8 +429,30 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 isEvalFormative: false,
                 isTP: false,
                 isProject: false,
-                dans: progTechno6Seq2
+                dans: progTechno5Seq2
             )
+            ActivityEntity.create(
+                name: "Activité 1 de Séquence 1 de SNT Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno",
+                annotation: "Une annotation d'activité 1",
+                url: URL(string: "http://apple.fr"),
+                duration: 1.0,
+                isEvalSommative: false,
+                isEvalFormative: false,
+                isTP: false,
+                isProject: false,
+                dans: progSntTermSeq2
+            )
+            ActivityEntity.create(
+                name: "Activité 2 de Séquence 1 de SNT",
+                annotation: "Une annotation d'activité 2",
+                duration: 2.0,
+                isEvalSommative: false,
+                isEvalFormative: true,
+                isTP: false,
+                isProject: true,
+                dans: progSntTermSeq2
+            )
+
         }
     }
 }

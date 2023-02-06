@@ -328,7 +328,7 @@ extension ClasseEntity: ModelEntityP {
         super.awakeFromInsert()
         // Set defaults here
         // self.group = ""
-        //        self.fileDate = Date()
+        self.id = UUID()
     }
 
     // MARK: - Type Methods

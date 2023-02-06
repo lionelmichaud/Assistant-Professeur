@@ -281,7 +281,7 @@ extension SchoolEntity: ModelEntityP {
         super.awakeFromInsert()
         // Set defaults here
         //        self.fileName = ""
-//        self.fileDate = Date()
+        self.id = UUID()
     }
 }
 

@@ -40,7 +40,17 @@ struct ActivityDetail: View {
         VStack {
             if selectedActivityExists {
                 ActivityDetailGroupBox(activity: selectedActivity!)
-                Spacer()
+
+                List {
+                    Section {
+                        ActivityProgressView(activity: selectedActivity!)
+                    } header: {
+                        Text("Avancements des Classes")
+                            .font(.callout)
+                            .foregroundColor(.secondary)
+                            .fontWeight(.bold)
+                    }
+                }
             } else {
                 VStack(alignment: .center) {
                     Text("Aucune Activité sélectionnée.")

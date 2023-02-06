@@ -569,8 +569,7 @@ extension EleveEntity: ModelEntityP {
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         // Set defaults here
-        // self.group = ""
-        //        self.fileDate = Date()
+        self.id = UUID()
     }
 
     func sortedObservations(

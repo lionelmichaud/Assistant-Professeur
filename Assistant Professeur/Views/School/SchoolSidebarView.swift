@@ -183,61 +183,66 @@ extension SchoolSidebarView {
         // Menu
         ToolbarItemGroup(placement: .automatic) {
             Menu {
-                // A propos
-                Button {
-                    isShowingAbout = true
-                } label: {
-                    Label("A propos", systemImage: "info.circle")
+                Section {
+                    // A propos
+                    Button {
+                        isShowingAbout = true
+                    } label: {
+                        Label("A propos", systemImage: "info.circle")
+                    }
+
+                    // Edition des préférences utilisateur
+                    Button {
+                        isEditingPreferences = true
+                    } label: {
+                        Label("Préférences", systemImage: "gear")
+                    }
+
+                    // Exporter les fichiers JSON utilisateurs
+                    // shareMenuItem
+                    // Vérifier la cohérence de la base de donnée
+                    Button {
+                        checkAllUserData()
+                    } label: {
+                        Label("Vérifier la base de donnée", systemImage: "checkmark.circle.trianglebadge.exclamationmark")
+                    }
                 }
 
-                // Edition des préférences utilisateur
-                Button {
-                    isEditingPreferences = true
-                } label: {
-                    Label("Préférences", systemImage: "gear")
-                }
+                Section {
+                    // Importer des fichiers JPEG pour le trombinoscope
+                    Button(role: .destructive) {
+                        isShowingImportTrombineDialog.toggle()
+                    } label: {
+                        Label("Importer des photos du trombinoscope", systemImage: "person.crop.rectangle.stack.fill")
+                    }
 
-                // Exporter les fichiers JSON utilisateurs
-                // shareMenuItem
+                    // Importer les fichiers JSON depuis le Bundle Application
+                    Button(role: .destructive) {
+                        isShowingImportConfirmDialog.toggle()
+                    } label: {
+                        Label("Importer les données de l'App", systemImage: "square.and.arrow.down")
+                    }
 
-                // Importer des fichiers JPEG pour le trombinoscope
-                Button {
-                    isShowingImportTrombineDialog.toggle()
-                } label: {
-                    Label("Importer des photos du trombinoscope", systemImage: "person.crop.rectangle.stack.fill")
-                }
-
-                // Importer les fichiers JSON depuis le Bundle Application
-                Button(role: .destructive) {
-                    isShowingImportConfirmDialog.toggle()
-                } label: {
-                    Label("Importer les données de l'App", systemImage: "square.and.arrow.down")
-                }
-
-                // Vérifier la cohérence de la base de donnée
-                Button(role: .destructive) {
-                    checkAllUserData()
-                } label: {
-                    Label("Vérifier la base de donnée", systemImage: "checkmark.circle.trianglebadge.exclamationmark")
-                }
-
-                // Effacer toutes les données utilisateur
-                Button(role: .destructive) {
-                    isShowingDeleteConfirmDialog.toggle()
-                } label: {
-                    Label("Supprimer toutes vos données", systemImage: "trash")
+                    // Effacer toutes les données utilisateur
+                    Button(role: .destructive) {
+                        isShowingDeleteConfirmDialog.toggle()
+                    } label: {
+                        Label("Supprimer toutes vos données", systemImage: "trash")
+                    }
                 }
 
                 #if targetEnvironment(simulator)
-                    Button {
-                        alertTitle = "Échec"
-                        alertMessage = "L'effacement complet de la base de donnée a échoué"
+                    Section {
+                        Button {
+                            alertTitle = "Échec"
+                            alertMessage = "L'effacement complet de la base de donnée a échoué"
 
-                        withAnimation {
-                            DataBaseManager.populate(failed: &alertIsPresented)
+                            withAnimation {
+                                DataBaseManager.populate(failed: &alertIsPresented)
+                            }
+                        } label: {
+                            Text("Dev - Peupler la BDD").foregroundColor(.primary)
                         }
-                    } label: {
-                        Text("Dev - Peupler la BDD").foregroundColor(.primary)
                     }
                 #endif
             } label: {
