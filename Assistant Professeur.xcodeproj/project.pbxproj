@@ -101,6 +101,7 @@
 		79637212297DBCE200ECDBC3 /* SettingsSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637211297DBCE200ECDBC3 /* SettingsSequence.swift */; };
 		79637214297DBD6500ECDBC3 /* SettingsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637213297DBD6500ECDBC3 /* SettingsActivity.swift */; };
 		797AD2B229902BCE00BE5D37 /* ActivityProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797AD2B129902BCE00BE5D37 /* ActivityProgressView.swift */; };
+		797AD2B429913B4C00BE5D37 /* School+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */; };
 		797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */; };
 		798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798458E92939529D00B74538 /* AnnotationEditView.swift */; };
 		7986A8572989B1A2007471BE /* GroupGlobalMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7986A8562989B1A2007471BE /* GroupGlobalMarkModal.swift */; };
@@ -338,6 +339,7 @@
 		79637213297DBD6500ECDBC3 /* SettingsActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsActivity.swift; sourceTree = "<group>"; };
 		7966DCF8292573A1001D6C7F /* AppFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppFoundation; path = ../Packages/AppFoundation; sourceTree = "<group>"; };
 		797AD2B129902BCE00BE5D37 /* ActivityProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityProgressView.swift; sourceTree = "<group>"; };
+		797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "School+CoreDataClass.swift"; sourceTree = "<group>"; };
 		797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDisciplineLevel.swift; sourceTree = "<group>"; };
 		798458E92939529D00B74538 /* AnnotationEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationEditView.swift; sourceTree = "<group>"; };
 		7986A8562989B1A2007471BE /* GroupGlobalMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupGlobalMarkModal.swift; sourceTree = "<group>"; };
@@ -840,6 +842,7 @@
 		79BF1DA029280E8B005D6CF3 /* School */ = {
 			isa = PBXGroup;
 			children = (
+				797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */,
 				79BF1DA129280ED7005D6CF3 /* School+Extensions.swift */,
 				79D573482927F16B00B0B7B8 /* LevelSchool.swift */,
 				79BF1DAF29291005005D6CF3 /* Document */,
@@ -1406,6 +1409,7 @@
 				79388A5329257045002AABB8 /* NavigationModel.swift in Sources */,
 				797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */,
 				798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */,
+				797AD2B429913B4C00BE5D37 /* School+CoreDataClass.swift in Sources */,
 				79F41E712954D2F900EAAC52 /* EleveLabel.swift in Sources */,
 				793C29D42953C08100E7F65B /* RessourceList.swift in Sources */,
 			);

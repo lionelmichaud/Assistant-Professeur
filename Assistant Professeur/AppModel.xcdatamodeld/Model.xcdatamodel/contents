@@ -132,7 +132,7 @@
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="rooms" inverseEntity="SchoolEntity"/>
         <relationship name="seats" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SeatEntity" inverseName="room" inverseEntity="SeatEntity"/>
     </entity>
-    <entity name="SchoolEntity" representedClassName="SchoolEntity" syncable="YES" codeGenerationType="class">
+    <entity name="SchoolEntity" representedClassName="SchoolEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
         <attribute name="classesCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="classes.@count" usesScalarValueType="YES"/>
         <attribute name="documentsCount" optional="YES" attributeType="Integer 32" derived="YES" derivationExpression="documents.@count" usesScalarValueType="YES"/>

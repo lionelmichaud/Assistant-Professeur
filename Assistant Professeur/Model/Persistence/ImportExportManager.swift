@@ -5,16 +5,17 @@
 //  Created by Lionel MICHAUD on 06/05/2022.
 //
 
-import SwiftUI
-import os
-import HelpersView
 import Files
+import HelpersView
+import os
+import SwiftUI
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Cahier-du-Professeur",
-                               category  : "ImportExportManager")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "ImportExportManager"
+)
 
-struct ImportExportManager {
-
+enum ImportExportManager {
 //    static func share(items      : [Any],
 //                      activities : [UIActivity]?  = nil,
 //                      animated   : Bool           = true,
@@ -63,19 +64,97 @@ struct ImportExportManager {
 //        }
 //    }
 
-    static func exportGroupsToCSV(deClasse classe: ClasseEntity) {
+    static let schoolsFileName = "Etablissements.json"
+
+    static func exportGroupsToCSV(deClasse _: ClasseEntity) {
         // TODO: - Exporter les groupes au format CSV
     }
 
     /// Fournit la litse des URL des fichiers contenus dans le dossier Document
     /// et qui contiennent `fileNames`dans leur nom de fichier.
     /// - Parameter fileNames: critère de collecte (par exemple ".json")
-    static func documentsURLsToShare(fileNames : [String]? = nil) -> [URL] {
-        do {
-            return try PersistenceManager().collectedURLs(fileNames: fileNames)
-        } catch {
-            customLog.log(level: .info, "Echec de la recherche des URL des fichiers contenus dans le dossier Document \(error)")
-            return [ ]
+    static func documentsURLsToShare(fileNames: [String]? = nil) -> [URL] {
+        // vérifier l'existence du Folder Document
+        guard let documentsFolder = Folder.documents else {
+            let error = FileError.failedToResolveDocuments
+            customLog.log(level: .fault, "\(error.rawValue))")
+            fatalError()
+        }
+
+        let foundURLs = PersistenceManager()
+            .collectedURLs(
+                fromFolder: documentsFolder,
+                fileNames: fileNames
+            )
+        if foundURLs.isEmpty {
+            customLog.log(level: .info,
+                          "Echec de la recherche des URL des fichiers contenus dans le dossier \(documentsFolder.name)")
+        }
+        return []
+    }
+
+    /// Fournit la litse des URL des fichiers contenus dans le dossier Caches
+    /// et qui contiennent `fileNames`dans leur nom de fichier.
+    /// - Parameter fileNames: critère de collecte (par exemple ".json")
+    static func cachesURLsToShare(fileNames: [String]? = nil) -> [URL] {
+        // vérifier l'existence du Folder Caches
+        guard let cachesFolder = Folder.caches else {
+            let error = FileError.failedToResolveDocuments
+            customLog.log(level: .fault, "\(error.rawValue))")
+            fatalError()
+        }
+
+        let foundURLs = PersistenceManager()
+            .collectedURLs(
+                fromFolder: cachesFolder,
+                fileNames: fileNames
+            )
+        if foundURLs.isEmpty {
+            customLog.log(level: .info,
+                          "Echec de la recherche des URL des fichiers contenus dans le dossier \(cachesFolder.name)")
+        }
+        return foundURLs
+    }
+
+    /// Exporter les School et leurs descendants vers un fichier au format JSON
+    static func exportSchoolsToJson() {
+        let cachesUrl = URL.cachesDirectory
+        cachesUrl.encode(
+            SchoolEntity.all(),
+            to: schoolsFileName
+        )
+    }
+
+    /// Exporter les données vers des fichiers au format JSON
+    static func exportToJsonFiles() {
+        exportSchoolsToJson()
+    }
+
+    /// Importer les données depsuis des fichiers au format JSON
+    static func importSchoolsFromJson(fileUrl: URL) {
+        let schools = fileUrl.decode(
+            [SchoolEntity].self,
+            from: ""
+        )
+        print(String(describing: schools))
+        try? SchoolEntity.saveIfContextHasChanged()
+    }
+
+    /// Peupler la base de donnée à patir des données ses fichiers  JSON sélectionnés.
+    /// - Parameter filesUrl: URLs des fichiers sélectionnés
+    static func importJsonData(filesUrl: [URL]) {
+        filesUrl.forEach { fileUrl in
+            guard fileUrl.startAccessingSecurityScopedResource() else {
+                return
+            }
+
+            // Importer les données des établissement et de leurs descendants
+            let urlFileNameWithExtension = fileUrl.lastPathComponent
+            if urlFileNameWithExtension == schoolsFileName {
+                importSchoolsFromJson(fileUrl: fileUrl)
+            }
+
+            fileUrl.stopAccessingSecurityScopedResource()
         }
     }
 
@@ -83,7 +162,9 @@ struct ImportExportManager {
     /// - Parameter filesUrl: URLs des fichiers sélectionnés
     static func importTrombinesImages(filesUrl: [URL]) throws {
         try filesUrl.forEach { fileUrl in
-            guard fileUrl.startAccessingSecurityScopedResource() else { return }
+            guard fileUrl.startAccessingSecurityScopedResource() else {
+                return
+            }
 
             let data = try Data(contentsOf: fileUrl)
             guard let image = UIImage(data: data) else {
@@ -105,7 +186,9 @@ struct ImportExportManager {
     }
 
     static func loadUIImage(from fileUrl: URL) throws -> UIImage? {
-        guard fileUrl.startAccessingSecurityScopedResource() else { return nil }
+        guard fileUrl.startAccessingSecurityScopedResource() else {
+            return nil
+        }
 
         let data = try Data(contentsOf: fileUrl)
 
@@ -121,27 +204,33 @@ struct ImportExportManager {
     ///   - importIfAlreadyExist: Si true alors importe le fichier même s'il existe déjà dans le dossier Document
     /// - throws: `FileError.failedToReadFile` si un des fichiers ne peut pas être trouvé.
     /// `FileError.failedToCopyFile` si un des fichiers ne peut pas être copier.
-    static func importURLsToDocumentsFolder(filesUrl             : [URL],
-                                            importIfAlreadyExist : Bool,
-                                            action               : ((File) -> Void)? = nil) throws {
-        guard let documentsFolder = Folder.documents else { return }
+    static func importURLsToDocumentsFolder(
+        filesUrl: [URL],
+        importIfAlreadyExist: Bool,
+        action: ((File) -> Void)? = nil
+    ) throws {
+        guard let documentsFolder = Folder.documents else {
+            return
+        }
 
         try filesUrl.forEach { fileUrl in
-            guard fileUrl.startAccessingSecurityScopedResource() else { return }
+            guard fileUrl.startAccessingSecurityScopedResource() else {
+                return
+            }
 
             var file: File
 
-            /// Trouver le fichier correspondant à l'URL
+            // Trouver le fichier correspondant à l'URL
             do {
                 file = try File(path: fileUrl.path)
             } catch {
                 fileUrl.stopAccessingSecurityScopedResource()
-                let errorStr = String(describing: (error as! LocationError))
+                let errorStr = String(describing: error as! LocationError)
                 customLog.log(level: .error, "\(errorStr)")
                 throw FileError.failedToReadFile
             }
 
-            /// Copier le fichier trouvé vers le dossier Document
+            // Copier le fichier trouvé vers le dossier Document
             do {
                 if importIfAlreadyExist || !documentsFolder.contains(file) {
                     try file.copy(to: documentsFolder)
@@ -151,7 +240,7 @@ struct ImportExportManager {
                 }
             } catch {
                 fileUrl.stopAccessingSecurityScopedResource()
-                let errorStr = String(describing: (error as! LocationError))
+                let errorStr = String(describing: error as! LocationError)
                 customLog.log(level: .error, "\(errorStr)")
                 throw FileError.failedToCopyFile
             }

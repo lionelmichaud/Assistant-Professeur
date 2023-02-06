@@ -90,7 +90,7 @@ extension SchoolEntity {
 
 // MARK: - Extension Core Data
 
-extension SchoolEntity: ModelEntityP {
+extension SchoolEntity {
     // MARK: - Type Computed Properties
 
     static var byLevelNameNSSortDescriptor: [NSSortDescriptor] = [
@@ -292,7 +292,7 @@ public extension SchoolEntity {
         """
 
         ETABLISSEMENT: \(displayString)
-           ID         : \(id)
+           ID         : \(String(describing: id))
            Niveau     : \(levelString)
            Nom        : \(viewName)
            Note       : \(viewAnnotation)

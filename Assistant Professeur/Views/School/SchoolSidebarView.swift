@@ -7,6 +7,7 @@
 
 import os
 import SwiftUI
+import UniformTypeIdentifiers
 
 // import Files
 // import FileAndFolder
@@ -20,6 +21,20 @@ private let customLog = Logger(
 struct SchoolSidebarView: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
+
+    enum FileOperation {
+        case importTrombines
+        case importModel
+        case none
+
+        var allowedContentTypes: [UTType] {
+            switch self {
+                case .importTrombines: return [.jpeg]
+                case .importModel: return [.json]
+                case .none: return []
+            }
+        }
+    }
 
     @SectionedFetchRequest<String, SchoolEntity>(
         fetchRequest: SchoolEntity.requestAllSortedByLevelName,
@@ -47,16 +62,22 @@ struct SchoolSidebarView: View {
     private var alertIsPresented = false
 
     @State
-    private var isShowingDeleteConfirmDialog = false
+    private var fileOperation = FileOperation.none
 
     @State
-    private var isShowingImportConfirmDialog = false
+    private var isShowingDeleteConfirmDialog = false
+    @State
+    private var isShowingJsonImportConfirmDialog = false
+    @State
+    private var isShowingAppImportConfirmDialog = false
     @State
     private var isShowingImportTrombineDialog = false
     @State
     private var isShowingRepairDBDialog = false
     @State
-    private var isImportingJpegFile = false
+    private var isImportingFile = false
+    @State
+    private var isExportingModel = false
 
     // MARK: - Computed Properties
 
@@ -151,13 +172,30 @@ struct SchoolSidebarView: View {
             }
         }
 
-        // Importer des fichiers JPEG
+        // Importer des fichiers JPEG pour les trombines
+        // Importer des fichiers JSON pour le modèle
         .fileImporter(
-            isPresented: $isImportingJpegFile,
-            allowedContentTypes: [.jpeg],
+            isPresented: $isImportingFile,
+            allowedContentTypes: fileOperation.allowedContentTypes,
             allowsMultipleSelection: true
         ) { result in
-            importUserSelectedFiles(result: result)
+            switch fileOperation {
+                case .importModel:
+                    importUserSelectedJsonFiles(result: result)
+
+                case .importTrombines:
+                    importUserSelectedTrombineFiles(result: result)
+
+                case .none:
+                    break
+            }
+        }
+
+        // Importer des fichiers JSON pour le modèle
+        .fileMover(
+            isPresented: $isExportingModel,
+            files: jsonURLsToShare
+        ) { _ in
         }
     }
 }
@@ -208,21 +246,40 @@ extension SchoolSidebarView {
                     }
                 }
 
-                Section {
+                Menu("Importer") {
                     // Importer des fichiers JPEG pour le trombinoscope
                     Button(role: .destructive) {
                         isShowingImportTrombineDialog.toggle()
                     } label: {
-                        Label("Importer des photos du trombinoscope", systemImage: "person.crop.rectangle.stack.fill")
+                        Label("Importer des photos pour le trombinoscope", systemImage: "person.crop.rectangle.stack.fill")
                     }
 
-                    // Importer les fichiers JSON depuis le Bundle Application
+                    // Importer les données depuis des fichiers au format JSON
                     Button(role: .destructive) {
-                        isShowingImportConfirmDialog.toggle()
+                        isShowingJsonImportConfirmDialog.toggle()
                     } label: {
-                        Label("Importer les données de l'App", systemImage: "square.and.arrow.down")
+                        Label("Importer les données depuis un export", systemImage: "square.and.arrow.down")
                     }
 
+                    // Importer des fichiers depuis le Bundle Application
+                    Button(role: .destructive) {
+                        isShowingAppImportConfirmDialog.toggle()
+                    } label: {
+                        Label("Importer les données contenues dans l'Application", systemImage: "square.and.arrow.down")
+                    }
+                }
+
+                Menu("Exporter") {
+                    // Exporter les données dans des fichiers au format JSON
+                    Button {
+                        exportToJSON()
+                        isExportingModel.toggle()
+                    } label: {
+                        Label("Exporter vos données vers des fichiers", systemImage: "square.and.arrow.up")
+                    }
+                }
+
+                Section {
                     // Effacer toutes les données utilisateur
                     Button(role: .destructive) {
                         isShowingDeleteConfirmDialog.toggle()
@@ -249,15 +306,32 @@ extension SchoolSidebarView {
                 Image(systemName: "ellipsis.circle")
             }
 
-            // Confirmation importation de tous les fichiers depuis l'App
+            // Confirmation importation du modèle depuis des fichiers au format JSON
             .confirmationDialog(
-                "Importation des fichiers de l'App",
-                isPresented: $isShowingImportConfirmDialog,
+                "Importation des données depuis un export",
+                isPresented: $isShowingJsonImportConfirmDialog,
                 titleVisibility: .visible
             ) {
                 Button("Importer", role: .destructive) {
                     withAnimation {
-                        self.import()
+                        fileOperation = .importModel
+                        isImportingFile.toggle()
+                    }
+                }
+            } message: {
+                Text("L'importation va remplacer vos données actuelles par celles contenues dans les fichiers importés.\n") +
+                    Text("Cette action ne peut pas être annulée.")
+            }
+
+            // Confirmation importation de tous les fichiers depuis l'App
+            .confirmationDialog(
+                "Importation des données de l'Application",
+                isPresented: $isShowingAppImportConfirmDialog,
+                titleVisibility: .visible
+            ) {
+                Button("Importer", role: .destructive) {
+                    withAnimation {
+                        self.importFromApp()
                     }
                 }
             } message: {
@@ -273,7 +347,8 @@ extension SchoolSidebarView {
             ) {
                 Button("Importer") {
                     withAnimation {
-                        isImportingJpegFile = true
+                        fileOperation = .importModel
+                        isImportingFile.toggle()
                     }
                 }
             } message: {
@@ -320,6 +395,12 @@ extension SchoolSidebarView {
     //        }
     //    }
 
+    private var jsonURLsToShare: [URL] {
+        ImportExportManager.cachesURLsToShare(
+            fileNames: [ImportExportManager.schoolsFileName]
+        )
+    }
+
     private func checkAllUserData() {
         alertTitle = "Échec"
         alertMessage = "La vérfication de la base de donnée a trouvé des erreurs"
@@ -342,8 +423,13 @@ extension SchoolSidebarView {
         DataBaseManager.clear(failed: &alertIsPresented)
     }
 
+    /// Exporter les données vers des fichiers au format JSON
+    private func exportToJSON() {
+        ImportExportManager.exportToJsonFiles()
+    }
+
     /// Importer tous les fichiers JSON, JPEG et PNG depuis le Bundle Application
-    private func `import`() {
+    private func importFromApp() {
         // Copier les fichiers contenus dans le Bundle de l'application vers le répertoire Document de l'utilisateur
         do {
             //            try PersistenceManager().forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
@@ -373,9 +459,38 @@ extension SchoolSidebarView {
         // eleveStore.sort()
     }
 
+    /// Peupler la base de donnée à patir des données ses fichiers  JSON sélectionnés.
+    /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
+    private func importUserSelectedJsonFiles(result: Result<[URL], Error>) {
+        switch result {
+            case let .failure(error):
+                customLog.log(
+                    level: .fault,
+                    "Error selecting file: \(error.localizedDescription)"
+                )
+                alertTitle = "Échec"
+                alertMessage = "L'importation des fichiers a échouée!"
+                alertIsPresented.toggle()
+
+            case let .success(filesUrl):
+                do {
+                    try ImportExportManager.importJsonData(filesUrl: filesUrl)
+
+                } catch {
+                    customLog.log(
+                        level: .fault,
+                        "L'importation des fichiers trombines a échouée: \(error.localizedDescription)"
+                    )
+                    alertTitle = "Échec"
+                    alertMessage = "L'importation des fichiers a échoué!"
+                    alertIsPresented.toggle()
+                }
+        }
+    }
+
     /// Copier les fichiers  sélectionnés dans le dossier Document de l'application.
     /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
-    private func importUserSelectedFiles(result: Result<[URL], Error>) {
+    private func importUserSelectedTrombineFiles(result: Result<[URL], Error>) {
         switch result {
             case let .failure(error):
                 customLog.log(

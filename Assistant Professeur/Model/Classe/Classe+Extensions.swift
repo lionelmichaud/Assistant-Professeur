@@ -619,7 +619,7 @@ public extension ClasseEntity {
         """
 
         CLASSE: \(displayString)
-           ID      : \(id)
+           ID      : \(String(describing: id))
            School  : \(String(describing: school?.displayString))
            Niveau  : \(levelString)
            Numéro  : \(numero)
