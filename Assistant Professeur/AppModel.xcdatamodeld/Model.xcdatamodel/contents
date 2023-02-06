@@ -13,7 +13,7 @@
         <attribute name="url" optional="YES" attributeType="URI"/>
         <relationship name="sequence" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SequenceEntity" inverseName="activities" inverseEntity="SequenceEntity"/>
     </entity>
-    <entity name="ClasseEntity" representedClassName="ClasseEntity" syncable="YES" codeGenerationType="class">
+    <entity name="ClasseEntity" representedClassName="ClasseEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
         <attribute name="appreciation" attributeType="String" defaultValueString=""/>
         <attribute name="discipline" attributeType="String" defaultValueString=""/>

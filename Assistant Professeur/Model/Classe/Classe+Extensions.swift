@@ -195,7 +195,7 @@ extension ClasseEntity {
 
 // MARK: - Extension Core Data
 
-extension ClasseEntity: ModelEntityP {
+extension ClasseEntity {
     // MARK: - Type Properties
 
     @Preference(\.nameSortOrder)

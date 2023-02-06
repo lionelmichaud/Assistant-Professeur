@@ -194,7 +194,7 @@ struct SchoolSidebarView: View {
         // Importer des fichiers JSON pour le modèle
         .fileMover(
             isPresented: $isExportingModel,
-            files: jsonURLsToShare
+            files: isExportingModel ? jsonURLsToShare : [ ]
         ) { _ in
         }
     }

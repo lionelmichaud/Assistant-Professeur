@@ -11,7 +11,7 @@ import Foundation
 @objc(SchoolEntity)
 public class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
-        case id, name, level, annotation
+        case id, name, level, annotation, classes
     }
 
     /// Conformance to Decodable
@@ -23,6 +23,7 @@ public class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
         self.name = try container.decode(String.self, forKey: .name)
         self.level = try container.decode(String.self, forKey: .level)
         self.annotation = try container.decodeIfPresent(String.self, forKey: .annotation)
+        self.classes = try container.decode(Set<ClasseEntity>.self, forKey: .classes) as NSSet
     }
 
     /// Conformance to Encodable
@@ -32,6 +33,6 @@ public class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(name, forKey: .name)
         try container.encode(level, forKey: .level)
         try container.encodeIfPresent(annotation, forKey: .annotation)
-//        try container.encode(completions as! Set<TodoCompletion>, forKey: .completions)
+        try container.encode(classes as! Set<ClasseEntity>, forKey: .classes)
     }
 }
