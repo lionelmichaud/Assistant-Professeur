@@ -194,7 +194,7 @@ struct SchoolSidebarView: View {
         // Importer des fichiers JSON pour le modèle
         .fileMover(
             isPresented: $isExportingModel,
-            files: isExportingModel ? jsonURLsToShare : [ ]
+            files: isExportingModel ? jsonURLsToShare : []
         ) { _ in
         }
     }
@@ -473,18 +473,29 @@ extension SchoolSidebarView {
                 alertIsPresented.toggle()
 
             case let .success(filesUrl):
-                do {
-                    try ImportExportManager.importJsonData(filesUrl: filesUrl)
+                var failed = false
+                navigationModel.resetSelections()
+                DataBaseManager.clear(failed: &failed)
 
-                } catch {
-                    customLog.log(
-                        level: .fault,
-                        "L'importation des fichiers trombines a échouée: \(error.localizedDescription)"
-                    )
+                guard !failed else {
                     alertTitle = "Échec"
-                    alertMessage = "L'importation des fichiers a échoué!"
+                    alertMessage = "L'effacement complet de la base de donnée a échoué"
                     alertIsPresented.toggle()
+                    return
                 }
+
+//                do {
+                ImportExportManager.importJsonData(filesUrl: filesUrl)
+
+//                } catch {
+//                    customLog.log(
+//                        level: .fault,
+//                        "L'importation des fichiers trombines a échouée: \(error.localizedDescription)"
+//                    )
+//                    alertTitle = "Échec"
+//                    alertMessage = "L'importation des fichiers a échoué!"
+//                    alertIsPresented.toggle()
+//                }
         }
     }
 

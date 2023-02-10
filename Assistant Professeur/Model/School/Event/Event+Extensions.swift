@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 19/11/2022.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 extension EventEntity {
     @objc
@@ -32,14 +32,14 @@ extension EventEntity {
 
 // MARK: - Extension Core Data
 
-extension EventEntity: ModelEntityP {
-
+extension EventEntity {
     // MARK: - Type Methods
 
-    @discardableResult static func create(
-        dans school   : SchoolEntity,
-        date          : Date = Date.now,
-        withName name : String
+    @discardableResult
+    static func create(
+        dans school: SchoolEntity,
+        date: Date = Date.now,
+        withName name: String
     ) -> EventEntity {
         let event = EventEntity.create()
         // établissement d'appartenance.
@@ -65,18 +65,18 @@ extension EventEntity: ModelEntityP {
 
     // MARK: - Methods
 
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
-        //Set defaults here
+        // Set defaults here
         self.date = Date.now
+        self.id = UUID()
     }
-
 }
 
 // MARK: - Extension Debug
 
-extension EventEntity {
-    public override var description: String {
+public extension EventEntity {
+    override var description: String {
         """
 
         EVENEMENT: \(viewName)

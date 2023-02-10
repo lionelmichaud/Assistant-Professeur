@@ -41,8 +41,9 @@
         <attribute name="motif" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="eleve" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="colles" inverseEntity="EleveEntity"/>
     </entity>
-    <entity name="DocumentEntity" representedClassName="DocumentEntity" syncable="YES" codeGenerationType="class">
+    <entity name="DocumentEntity" representedClassName="DocumentEntity" syncable="YES" codeGenerationType="category">
         <attribute name="docName" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="pdfData" optional="YES" attributeType="Binary"/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="documents" inverseEntity="SchoolEntity"/>
     </entity>
@@ -68,8 +69,9 @@
         <relationship name="observs" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ObservEntity" inverseName="eleve" inverseEntity="ObservEntity"/>
         <relationship name="seat" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SeatEntity" inverseName="eleves" inverseEntity="SeatEntity"/>
     </entity>
-    <entity name="EventEntity" representedClassName="EventEntity" syncable="YES" codeGenerationType="class">
+    <entity name="EventEntity" representedClassName="EventEntity" syncable="YES" codeGenerationType="category">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String" defaultValueString=""/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="events" inverseEntity="SchoolEntity"/>
     </entity>
@@ -118,13 +120,15 @@
         <attribute name="url" optional="YES" attributeType="URI"/>
         <relationship name="sequences" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SequenceEntity" inverseName="program" inverseEntity="SequenceEntity"/>
     </entity>
-    <entity name="RessourceEntity" representedClassName="RessourceEntity" syncable="YES" codeGenerationType="class">
+    <entity name="RessourceEntity" representedClassName="RessourceEntity" syncable="YES" codeGenerationType="category">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="quantity" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="ressources" inverseEntity="SchoolEntity"/>
     </entity>
-    <entity name="RoomEntity" representedClassName="RoomEntity" syncable="YES" codeGenerationType="class">
+    <entity name="RoomEntity" representedClassName="RoomEntity" syncable="YES" codeGenerationType="category">
         <attribute name="capacity" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
         <attribute name="seatsCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="seats.@count" usesScalarValueType="YES"/>

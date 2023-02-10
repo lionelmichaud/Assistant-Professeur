@@ -195,6 +195,9 @@
 		79DEDB2A2925996E00F508EF /* UIPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB252925996E00F508EF /* UIPreferences.swift */; };
 		79DEDB2B2925996E00F508EF /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB262925996E00F508EF /* Preferences.swift */; };
 		79DEDB2C2925996E00F508EF /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB262925996E00F508EF /* Preferences.swift */; };
+		79E40E6C2996A3A3006BBE49 /* Event+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E6B2996A3A3006BBE49 /* Event+CoreDataClass.swift */; };
+		79E40E6D2996A3A3006BBE49 /* Event+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E6B2996A3A3006BBE49 /* Event+CoreDataClass.swift */; };
+		79E40E732996AEBF006BBE49 /* Room+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E712996AEBF006BBE49 /* Room+CoreDataClass.swift */; };
 		79E524BD295376EA00DA99A7 /* EventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BB295376E900DA99A7 /* EventList.swift */; };
 		79E524BE295376EA00DA99A7 /* EventEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BC295376E900DA99A7 /* EventEditor.swift */; };
 		79E923C52961E94D00EDB7CA /* GroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E923C42961E94D00EDB7CA /* GroupManager.swift */; };
@@ -224,6 +227,9 @@
 		79F41E732954D30F00EAAC52 /* EleveBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E722954D30F00EAAC52 /* EleveBrowserRow.swift */; };
 		79F57E38298EB2D30014B73D /* ActivitySymbolViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */; };
 		79F60D002996923700981385 /* Eleve+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F60CFE2996923700981385 /* Eleve+CoreDataClass.swift */; };
+		79F60D0529969E2800981385 /* DocumentEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F60D0129969E2800981385 /* DocumentEntity+CoreDataClass.swift */; };
+		79F60D0629969E2800981385 /* DocumentEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F60D0129969E2800981385 /* DocumentEntity+CoreDataClass.swift */; };
+		79F60D092996A02200981385 /* Ressource+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F60D072996A02200981385 /* Ressource+CoreDataClass.swift */; };
 		79FBB4D72991C2CC00B47484 /* Classe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */; };
 		79FC04E5298DCC240093BC8B /* IndividualSteppedlMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FC04E4298DCC240093BC8B /* IndividualSteppedlMarkModal.swift */; };
 		79FFF42729511DF20037A327 /* ClassBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42629511DF20037A327 /* ClassBrowserRow.swift */; };
@@ -411,6 +417,8 @@
 		79DEDB242925996E00F508EF /* Interoperability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interoperability.swift; sourceTree = "<group>"; };
 		79DEDB252925996E00F508EF /* UIPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIPreferences.swift; sourceTree = "<group>"; };
 		79DEDB262925996E00F508EF /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		79E40E6B2996A3A3006BBE49 /* Event+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Event+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/School/Event/Event+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		79E40E712996AEBF006BBE49 /* Room+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Room+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79E524BB295376E900DA99A7 /* EventList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventList.swift; sourceTree = "<group>"; };
 		79E524BC295376E900DA99A7 /* EventEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEditor.swift; sourceTree = "<group>"; };
 		79E923C42961E94D00EDB7CA /* GroupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupManager.swift; sourceTree = "<group>"; };
@@ -440,6 +448,8 @@
 		79F41E722954D30F00EAAC52 /* EleveBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveBrowserRow.swift; sourceTree = "<group>"; };
 		79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySymbolViews.swift; sourceTree = "<group>"; };
 		79F60CFE2996923700981385 /* Eleve+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Eleve+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Eleve/Colle/Eleve+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		79F60D0129969E2800981385 /* DocumentEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DocumentEntity+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/School/Document/DocumentEntity+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		79F60D072996A02200981385 /* Ressource+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Ressource+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/School/Ressource/Ressource+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Classe+CoreDataClass.swift"; path = "Assistant Professeur/Model/Classe/Classe+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		79FC04E4298DCC240093BC8B /* IndividualSteppedlMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualSteppedlMarkModal.swift; sourceTree = "<group>"; };
 		79FFF42629511DF20037A327 /* ClassBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassBrowserRow.swift; sourceTree = "<group>"; };
@@ -654,6 +664,7 @@
 		793C29CD2953BE1E00E7F65B /* Ressource */ = {
 			isa = PBXGroup;
 			children = (
+				79F60D072996A02200981385 /* Ressource+CoreDataClass.swift */,
 				793C29CE2953BE4E00E7F65B /* Ressource+Extensions.swift */,
 			);
 			path = Ressource;
@@ -889,6 +900,7 @@
 		79BF1DAF29291005005D6CF3 /* Document */ = {
 			isa = PBXGroup;
 			children = (
+				79F60D0129969E2800981385 /* DocumentEntity+CoreDataClass.swift */,
 				79BF1DB22929104F005D6CF3 /* Document+Extensions.swift */,
 			);
 			path = Document;
@@ -897,6 +909,7 @@
 		79BF1DB02929101A005D6CF3 /* Event */ = {
 			isa = PBXGroup;
 			children = (
+				79E40E6B2996A3A3006BBE49 /* Event+CoreDataClass.swift */,
 				79BF1DB52929105D005D6CF3 /* Event+Extensions.swift */,
 			);
 			path = Event;
@@ -905,6 +918,7 @@
 		79BF1DB129291027005D6CF3 /* Room */ = {
 			isa = PBXGroup;
 			children = (
+				79E40E712996AEBF006BBE49 /* Room+CoreDataClass.swift */,
 				79BF1DB829291069005D6CF3 /* Room+Extensions.swift */,
 				795C2C1F296E24E900EDFF09 /* Seat+Extensions.swift */,
 				7994E31E2972DE8400952D08 /* RoomSeatManager.swift */,
@@ -1398,10 +1412,13 @@
 				79DEDAF5292586C800F508EF /* ColleSplitView.swift in Sources */,
 				79637205297D85EF00ECDBC3 /* SequenceBrowserRow.swift in Sources */,
 				79134557296B6C620092E7CD /* TrombineInteractivView.swift in Sources */,
+				79F60D0529969E2800981385 /* DocumentEntity+CoreDataClass.swift in Sources */,
 				79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */,
 				7937A24229859A5500D0ED59 /* ExamStep.swift in Sources */,
 				795C2C2B296E2DCA00EDFF09 /* EditableSeatLabel.swift in Sources */,
+				79F60D092996A02200981385 /* Ressource+CoreDataClass.swift in Sources */,
 				793C29D62953C08100E7F65B /* SchoolRessourceRow.swift in Sources */,
+				79E40E6C2996A3A3006BBE49 /* Event+CoreDataClass.swift in Sources */,
 				79398D352966224A0013564D /* ExamViewModel.swift in Sources */,
 				79637208297D9B5B00ECDBC3 /* ActivitySideBar.swift in Sources */,
 				79DEDB2B2925996E00F508EF /* Preferences.swift in Sources */,
@@ -1414,6 +1431,7 @@
 				790F76A229818858000A5C7D /* DurationView.swift in Sources */,
 				79134554296B65AB0092E7CD /* TrombinoscopeView.swift in Sources */,
 				79DEDB292925996E00F508EF /* UIPreferences.swift in Sources */,
+				79E40E732996AEBF006BBE49 /* Room+CoreDataClass.swift in Sources */,
 				79388A5329257045002AABB8 /* NavigationModel.swift in Sources */,
 				797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */,
 				798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */,
@@ -1464,10 +1482,12 @@
 				79B6632129244C3F007B1FBD /* Assistant_ProfesseurUITests.swift in Sources */,
 				79BF1DBA29291069005D6CF3 /* Room+Extensions.swift in Sources */,
 				79DEDAF3292586B500F508EF /* ObservSplitView.swift in Sources */,
+				79F60D0629969E2800981385 /* DocumentEntity+CoreDataClass.swift in Sources */,
 				79BF1DA52928E37B005D6CF3 /* SchoolCreatorModal.swift in Sources */,
 				79B6632329244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift in Sources */,
 				79DEDB14292593C200F508EF /* SettingsClasse.swift in Sources */,
 				79DEDAF6292586C800F508EF /* ColleSplitView.swift in Sources */,
+				79E40E6D2996A3A3006BBE49 /* Event+CoreDataClass.swift in Sources */,
 				79DEDAEA292585E300F508EF /* SchoolSplitView.swift in Sources */,
 				79DEDB052925902800F508EF /* SchoolSidebarView.swift in Sources */,
 			);

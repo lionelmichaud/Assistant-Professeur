@@ -6,8 +6,8 @@
 //
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 @objc(ClasseEntity)
 public class ClasseEntity: NSManagedObject, Codable, ModelEntityP {
@@ -17,7 +17,7 @@ public class ClasseEntity: NSManagedObject, Codable, ModelEntityP {
     }
 
     /// Conformance to Decodable
-    required convenience public init(from decoder: Decoder) throws {
+    public required convenience init(from decoder: Decoder) throws {
         self.init(context: Self.viewContext)
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -47,5 +47,4 @@ public class ClasseEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(heures, forKey: .heures)
         try container.encode(eleves as! Set<EleveEntity>, forKey: .eleves)
     }
-
 }

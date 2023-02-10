@@ -322,15 +322,6 @@ extension ClasseEntity {
         filteredElevesSortedByName(searchString: "")
     }
 
-    // MARK: - Methods
-
-    override public func awakeFromInsert() {
-        super.awakeFromInsert()
-        // Set defaults here
-        // self.group = ""
-        self.id = UUID()
-    }
-
     // MARK: - Type Methods
 
     /// Créer une nouvelle instance et la sauvegarder dans le context
@@ -376,6 +367,14 @@ extension ClasseEntity {
                 return
             }
         }
+    }
+
+    // MARK: - Methods
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
     }
 
     // MARK: - Méthodes Groupes

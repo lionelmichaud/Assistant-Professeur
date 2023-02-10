@@ -11,11 +11,12 @@ import Foundation
 @objc(SchoolEntity)
 public class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
-        case id, name, level, annotation, classes
+        case id, name, level, annotation
+        case classes, documents, ressources, events, rooms
     }
 
     /// Conformance to Decodable
-    required convenience public init(from decoder: Decoder) throws {
+    public required convenience init(from decoder: Decoder) throws {
         self.init(context: Self.viewContext)
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -23,7 +24,12 @@ public class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
         self.name = try container.decode(String.self, forKey: .name)
         self.level = try container.decode(String.self, forKey: .level)
         self.annotation = try container.decodeIfPresent(String.self, forKey: .annotation)
+
         self.classes = try container.decode(Set<ClasseEntity>.self, forKey: .classes) as NSSet
+        self.documents = try container.decode(Set<DocumentEntity>.self, forKey: .documents) as NSSet
+        self.ressources = try container.decode(Set<RessourceEntity>.self, forKey: .ressources) as NSSet
+        self.events = try container.decode(Set<EventEntity>.self, forKey: .events) as NSSet
+        self.rooms = try container.decode(Set<RoomEntity>.self, forKey: .rooms) as NSSet
     }
 
     /// Conformance to Encodable
@@ -33,6 +39,11 @@ public class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(name, forKey: .name)
         try container.encode(level, forKey: .level)
         try container.encodeIfPresent(annotation, forKey: .annotation)
+
         try container.encode(classes as! Set<ClasseEntity>, forKey: .classes)
+        try container.encode(documents as! Set<DocumentEntity>, forKey: .documents)
+        try container.encode(ressources as! Set<RessourceEntity>, forKey: .ressources)
+        try container.encode(events as! Set<EventEntity>, forKey: .events)
+        try container.encode(rooms as! Set<RoomEntity>, forKey: .rooms)
     }
 }

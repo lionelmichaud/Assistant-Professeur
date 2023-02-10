@@ -134,7 +134,7 @@ extension RoomEntity {
 
 // MARK: - Extension Core Data
 
-extension RoomEntity: ModelEntityP {
+extension RoomEntity {
     // MARK: - Computed Properties
 
     /// Liste des sièges de la salle de classe non triés
@@ -177,6 +177,12 @@ extension RoomEntity: ModelEntityP {
     }
 
     // MARK: - Methods
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
+    }
 
     /// Positionner un siège supplémentaires `seat` sur le plan de la salle de classe.
     /// - Parameters:

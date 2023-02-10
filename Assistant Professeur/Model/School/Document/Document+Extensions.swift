@@ -62,7 +62,7 @@ extension DocumentEntity {
 
 // MARK: - Extension Core Data
 
-extension DocumentEntity: ModelEntityP {
+extension DocumentEntity {
     // MARK: - Type Methods
 
     @discardableResult
@@ -95,5 +95,11 @@ extension DocumentEntity: ModelEntityP {
         }
     }
 
-    // MARK: - Computed properties
+    // MARK: - Methods
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
+    }
 }
