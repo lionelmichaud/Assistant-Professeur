@@ -46,7 +46,7 @@
         <attribute name="pdfData" optional="YES" attributeType="Binary"/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="documents" inverseEntity="SchoolEntity"/>
     </entity>
-    <entity name="EleveEntity" representedClassName="EleveEntity" syncable="YES" codeGenerationType="class">
+    <entity name="EleveEntity" representedClassName="EleveEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
         <attribute name="appreciation" attributeType="String" defaultValueString=""/>
         <attribute name="bonus" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>

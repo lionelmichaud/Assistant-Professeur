@@ -268,7 +268,7 @@ extension EleveEntity {
 
 // MARK: - Extension Core Data
 
-extension EleveEntity: ModelEntityP {
+extension EleveEntity {
     // MARK: - Type Computed Properties
 
     static var bySchoolNameClasseEleveFamilyNameNSSortDescriptor: [NSSortDescriptor] =

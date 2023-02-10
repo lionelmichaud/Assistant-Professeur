@@ -223,6 +223,7 @@
 		79F41E712954D2F900EAAC52 /* EleveLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E702954D2F900EAAC52 /* EleveLabel.swift */; };
 		79F41E732954D30F00EAAC52 /* EleveBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E722954D30F00EAAC52 /* EleveBrowserRow.swift */; };
 		79F57E38298EB2D30014B73D /* ActivitySymbolViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */; };
+		79F60D002996923700981385 /* Eleve+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F60CFE2996923700981385 /* Eleve+CoreDataClass.swift */; };
 		79FBB4D72991C2CC00B47484 /* Classe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */; };
 		79FC04E5298DCC240093BC8B /* IndividualSteppedlMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FC04E4298DCC240093BC8B /* IndividualSteppedlMarkModal.swift */; };
 		79FFF42729511DF20037A327 /* ClassBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42629511DF20037A327 /* ClassBrowserRow.swift */; };
@@ -438,6 +439,7 @@
 		79F41E702954D2F900EAAC52 /* EleveLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveLabel.swift; sourceTree = "<group>"; };
 		79F41E722954D30F00EAAC52 /* EleveBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveBrowserRow.swift; sourceTree = "<group>"; };
 		79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySymbolViews.swift; sourceTree = "<group>"; };
+		79F60CFE2996923700981385 /* Eleve+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Eleve+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Eleve/Colle/Eleve+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Classe+CoreDataClass.swift"; path = "Assistant Professeur/Model/Classe/Classe+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		79FC04E4298DCC240093BC8B /* IndividualSteppedlMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualSteppedlMarkModal.swift; sourceTree = "<group>"; };
 		79FFF42629511DF20037A327 /* ClassBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassBrowserRow.swift; sourceTree = "<group>"; };
@@ -1058,6 +1060,7 @@
 			children = (
 				79BF1DAA29290F83005D6CF3 /* Observation */,
 				79BF1DAB29290F8C005D6CF3 /* Colle */,
+				79F60CFE2996923700981385 /* Eleve+CoreDataClass.swift */,
 				79F41E632954B08900EAAC52 /* Eleve+Extensions.swift */,
 				79F41E652954B1DB00EAAC52 /* Sexe.swift */,
 				79F41E672954B1E500EAAC52 /* TroubleDys.swift */,
@@ -1280,6 +1283,7 @@
 				79975320297C3F9200D1C66E /* ProgramViewModel.swift in Sources */,
 				7986A8592989CE73007471BE /* GroupSteppedlMarkModal.swift in Sources */,
 				79ECF1FC2959F915008F0282 /* ClasseObservLabel.swift in Sources */,
+				79F60D002996923700981385 /* Eleve+CoreDataClass.swift in Sources */,
 				793D6277295DD9E600477932 /* ObservSignIcon.swift in Sources */,
 				793C29D52953C08100E7F65B /* RessourceEditor.swift in Sources */,
 				79F57E38298EB2D30014B73D /* ActivitySymbolViews.swift in Sources */,

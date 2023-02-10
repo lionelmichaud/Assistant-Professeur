@@ -13,7 +13,7 @@ import CoreData
 public class ClasseEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, level, numero, segpa, isFlagged
-        case annotation, appreciation, discipline, heures
+        case annotation, appreciation, discipline, heures, eleves
     }
 
     /// Conformance to Decodable
@@ -30,6 +30,7 @@ public class ClasseEntity: NSManagedObject, Codable, ModelEntityP {
         self.appreciation = try container.decodeIfPresent(String.self, forKey: .appreciation)
         self.discipline = try container.decode(String.self, forKey: .discipline)
         self.heures = try container.decode(Double.self, forKey: .heures)
+        self.eleves = try container.decode(Set<EleveEntity>.self, forKey: .eleves) as NSSet
     }
 
     /// Conformance to Encodable
@@ -44,7 +45,7 @@ public class ClasseEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encodeIfPresent(appreciation, forKey: .appreciation)
         try container.encode(discipline, forKey: .discipline)
         try container.encode(heures, forKey: .heures)
-        //        try container.encode(completions as! Set<TodoCompletion>, forKey: .completions)
+        try container.encode(eleves as! Set<EleveEntity>, forKey: .eleves)
     }
 
 }
