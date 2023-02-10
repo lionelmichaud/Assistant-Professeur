@@ -26,7 +26,7 @@ extension SeatEntity {
 
 // MARK: - Extension Core Data
 
-extension SeatEntity: ModelEntityP {
+extension SeatEntity {
 
     // MARK: - Computed Properties
 
@@ -65,6 +65,14 @@ extension SeatEntity: ModelEntityP {
         try? SeatEntity.saveIfContextHasChanged()
 
         return seat
+    }
+
+    // MARK: - Methods
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
     }
 
     /// Créer une nouvelle place assise et l'ajouter à la salle de classe `room`

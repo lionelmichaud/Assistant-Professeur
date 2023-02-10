@@ -198,6 +198,7 @@
 		79E40E6C2996A3A3006BBE49 /* Event+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E6B2996A3A3006BBE49 /* Event+CoreDataClass.swift */; };
 		79E40E6D2996A3A3006BBE49 /* Event+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E6B2996A3A3006BBE49 /* Event+CoreDataClass.swift */; };
 		79E40E732996AEBF006BBE49 /* Room+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E712996AEBF006BBE49 /* Room+CoreDataClass.swift */; };
+		79E40E752996BEED006BBE49 /* Seat+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E742996BEED006BBE49 /* Seat+CoreDataClass.swift */; };
 		79E524BD295376EA00DA99A7 /* EventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BB295376E900DA99A7 /* EventList.swift */; };
 		79E524BE295376EA00DA99A7 /* EventEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BC295376E900DA99A7 /* EventEditor.swift */; };
 		79E923C52961E94D00EDB7CA /* GroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E923C42961E94D00EDB7CA /* GroupManager.swift */; };
@@ -419,6 +420,7 @@
 		79DEDB262925996E00F508EF /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		79E40E6B2996A3A3006BBE49 /* Event+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Event+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/School/Event/Event+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		79E40E712996AEBF006BBE49 /* Room+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Room+CoreDataClass.swift"; sourceTree = "<group>"; };
+		79E40E742996BEED006BBE49 /* Seat+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Seat+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79E524BB295376E900DA99A7 /* EventList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventList.swift; sourceTree = "<group>"; };
 		79E524BC295376E900DA99A7 /* EventEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEditor.swift; sourceTree = "<group>"; };
 		79E923C42961E94D00EDB7CA /* GroupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupManager.swift; sourceTree = "<group>"; };
@@ -920,6 +922,7 @@
 			children = (
 				79E40E712996AEBF006BBE49 /* Room+CoreDataClass.swift */,
 				79BF1DB829291069005D6CF3 /* Room+Extensions.swift */,
+				79E40E742996BEED006BBE49 /* Seat+CoreDataClass.swift */,
 				795C2C1F296E24E900EDFF09 /* Seat+Extensions.swift */,
 				7994E31E2972DE8400952D08 /* RoomSeatManager.swift */,
 			);
@@ -1413,6 +1416,7 @@
 				79637205297D85EF00ECDBC3 /* SequenceBrowserRow.swift in Sources */,
 				79134557296B6C620092E7CD /* TrombineInteractivView.swift in Sources */,
 				79F60D0529969E2800981385 /* DocumentEntity+CoreDataClass.swift in Sources */,
+				79E40E752996BEED006BBE49 /* Seat+CoreDataClass.swift in Sources */,
 				79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */,
 				7937A24229859A5500D0ED59 /* ExamStep.swift in Sources */,
 				795C2C2B296E2DCA00EDFF09 /* EditableSeatLabel.swift in Sources */,

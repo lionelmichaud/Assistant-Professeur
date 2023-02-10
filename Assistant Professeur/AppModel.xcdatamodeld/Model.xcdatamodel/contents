@@ -152,7 +152,8 @@
         <relationship name="ressources" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RessourceEntity" inverseName="school" inverseEntity="RessourceEntity"/>
         <relationship name="rooms" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RoomEntity" inverseName="school" inverseEntity="RoomEntity"/>
     </entity>
-    <entity name="SeatEntity" representedClassName="SeatEntity" syncable="YES" codeGenerationType="class">
+    <entity name="SeatEntity" representedClassName="SeatEntity" syncable="YES" codeGenerationType="category">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="numero" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="x" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="y" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
