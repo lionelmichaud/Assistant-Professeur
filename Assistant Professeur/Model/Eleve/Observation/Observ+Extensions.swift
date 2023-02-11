@@ -1,5 +1,5 @@
 //
-//  Observation+Extensions.swift
+//  Observ+Extensions.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 19/11/2022.
@@ -104,7 +104,7 @@ extension ObservEntity {
 
 // MARK: - Extension Core Data
 
-extension ObservEntity: ModelEntityP {
+extension ObservEntity {
 
     // MARK: - Type Computed Properties
 
@@ -113,6 +113,7 @@ extension ObservEntity: ModelEntityP {
         //Set defaults here
         //        self.fileName = ""
         self.date = Date.now
+        self.id = UUID()
     }
 
     // MARK: - Type Methods

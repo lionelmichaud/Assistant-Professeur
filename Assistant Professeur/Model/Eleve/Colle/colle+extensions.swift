@@ -118,7 +118,7 @@ extension ColleEntity {
 
 // MARK: - Extension Core Data
 
-extension ColleEntity: ModelEntityP {
+extension ColleEntity {
     // MARK: - Type Computed Properties
 
     override public func awakeFromInsert() {
@@ -126,6 +126,7 @@ extension ColleEntity: ModelEntityP {
         // Set defaults here
         //        self.fileName = ""
         self.date = Date.now
+        self.id = UUID()
     }
 
     // MARK: - Type Methods
