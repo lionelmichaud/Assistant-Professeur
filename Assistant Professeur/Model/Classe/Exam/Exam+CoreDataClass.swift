@@ -14,6 +14,7 @@ public class ExamEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, coef, dateExecuted, examType
         case maxMark, steps, sujet
+        case marks
     }
 
     /// Conformance to Decodable
@@ -28,6 +29,8 @@ public class ExamEntity: NSManagedObject, Codable, ModelEntityP {
         self.examType = try container.decode(String.self, forKey: .examType)
         self.sujet = try container.decode(String.self, forKey: .sujet)
         self.steps = try container.decode(String.self, forKey: .steps)
+
+        self.marks = try container.decode(Set<MarkEntity>.self, forKey: .marks) as NSSet
     }
 
     /// Conformance to Encodable
@@ -40,5 +43,7 @@ public class ExamEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(examType, forKey: .examType)
         try container.encode(sujet, forKey: .sujet)
         try container.encode(steps, forKey: .steps)
+
+        try container.encode(marks as! Set<MarkEntity>, forKey: .marks)
     }
 }

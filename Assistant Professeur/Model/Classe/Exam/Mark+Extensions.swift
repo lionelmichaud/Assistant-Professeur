@@ -123,7 +123,7 @@ extension MarkEntity {
 
 // MARK: - Extension Core Data
 
-extension MarkEntity: ModelEntityP {
+extension MarkEntity {
     // MARK: - Type Computed Properties
 
     // MARK: - Type Methods
@@ -168,6 +168,12 @@ extension MarkEntity: ModelEntityP {
 
     // MARK: - Methods
 
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
+    }
+
     @discardableResult
     static func createGlobalMark(
         of eleve: EleveEntity,
@@ -195,12 +201,6 @@ extension MarkEntity: ModelEntityP {
         mark.viewStepsMarks = [Double].init(repeating: 0.0, count: nbOfSteps)
 
         return mark
-    }
-
-    override public func awakeFromInsert() {
-        super.awakeFromInsert()
-        // Set defaults here
-        self.id = UUID()
     }
 }
 

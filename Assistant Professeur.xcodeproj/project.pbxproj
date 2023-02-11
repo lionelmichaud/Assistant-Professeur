@@ -221,6 +221,7 @@
 		79ECF204295A1607008F0282 /* ColleBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF203295A1607008F0282 /* ColleBrowserRow.swift */; };
 		79ECF206295A16E2008F0282 /* EleveColleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF205295A16E2008F0282 /* EleveColleRow.swift */; };
 		79ED5AAA2998030A00D536BF /* Exam+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ED5AA92998030A00D536BF /* Exam+CoreDataClass.swift */; };
+		79ED5AAD2998100E00D536BF /* Mark+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ED5AAB2998100E00D536BF /* Mark+CoreDataClass.swift */; };
 		79EE3EA4296F6CF20075E9BD /* EleveTrombineStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE3EA3296F6CF20075E9BD /* EleveTrombineStyling.swift */; };
 		79F41E592954903D00EAAC52 /* ClasseEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E572954903D00EAAC52 /* ClasseEditor.swift */; };
 		79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E582954903D00EAAC52 /* ClasseDetail.swift */; };
@@ -450,6 +451,7 @@
 		79ECF203295A1607008F0282 /* ColleBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColleBrowserRow.swift; sourceTree = "<group>"; };
 		79ECF205295A16E2008F0282 /* EleveColleRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveColleRow.swift; sourceTree = "<group>"; };
 		79ED5AA92998030A00D536BF /* Exam+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Exam+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Classe/Exam/Exam+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		79ED5AAB2998100E00D536BF /* Mark+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mark+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79EE3EA3296F6CF20075E9BD /* EleveTrombineStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveTrombineStyling.swift; sourceTree = "<group>"; };
 		79F41E572954903D00EAAC52 /* ClasseEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseEditor.swift; sourceTree = "<group>"; };
 		79F41E582954903D00EAAC52 /* ClasseDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseDetail.swift; sourceTree = "<group>"; };
@@ -676,9 +678,10 @@
 			children = (
 				79ED5AA92998030A00D536BF /* Exam+CoreDataClass.swift */,
 				79398D2C2965FABE0013564D /* Exam+Extensions.swift */,
-				795EED0429673B88009AA6F4 /* Mark+Extensions.swift */,
 				7937A24129859A5500D0ED59 /* ExamStep.swift */,
 				7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */,
+				79ED5AAB2998100E00D536BF /* Mark+CoreDataClass.swift */,
+				795EED0429673B88009AA6F4 /* Mark+Extensions.swift */,
 			);
 			path = Exam;
 			sourceTree = "<group>";
@@ -1448,6 +1451,7 @@
 				79E40E8A2997FD45006BBE49 /* Group+CoreDataClass.swift in Sources */,
 				7937A24229859A5500D0ED59 /* ExamStep.swift in Sources */,
 				795C2C2B296E2DCA00EDFF09 /* EditableSeatLabel.swift in Sources */,
+				79ED5AAD2998100E00D536BF /* Mark+CoreDataClass.swift in Sources */,
 				79F60D092996A02200981385 /* Ressource+CoreDataClass.swift in Sources */,
 				793C29D62953C08100E7F65B /* SchoolRessourceRow.swift in Sources */,
 				79E40E6C2996A3A3006BBE49 /* Event+CoreDataClass.swift in Sources */,
