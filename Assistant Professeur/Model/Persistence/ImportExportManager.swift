@@ -64,11 +64,8 @@ enum ImportExportManager {
 //        }
 //    }
 
-    static let schoolsFileName = "Etablissements.json"
-
-    static func exportGroupsToCSV(deClasse _: ClasseEntity) {
-        // TODO: - Exporter les groupes au format CSV
-    }
+    static let schoolsFileName = String(describing: SchoolEntity.self)+".json"
+    static let programsFileName = String(describing: ProgramEntity.self)+".json"
 
     /// Fournit la litse des URL des fichiers contenus dans le dossier Document
     /// et qui contiennent `fileNames`dans leur nom de fichier.
@@ -87,8 +84,10 @@ enum ImportExportManager {
                 fileNames: fileNames
             )
         if foundURLs.isEmpty {
-            customLog.log(level: .info,
-                          "Echec de la recherche des URL des fichiers contenus dans le dossier \(documentsFolder.name)")
+            customLog.log(
+                level: .info,
+                "Echec de la recherche des URL des fichiers contenus dans le dossier \(documentsFolder.name)"
+            )
         }
         return []
     }
@@ -110,11 +109,21 @@ enum ImportExportManager {
                 fileNames: fileNames
             )
         if foundURLs.isEmpty {
-            customLog.log(level: .info,
-                          "Echec de la recherche des URL des fichiers contenus dans le dossier \(cachesFolder.name)")
+            customLog.log(
+                level: .info,
+                "Echec de la recherche des URL des fichiers contenus dans le dossier \(cachesFolder.name)"
+            )
         }
         return foundURLs
     }
+
+    // MARK: - Export/Import vers/depuis des fichiers CSV
+
+    static func exportGroupsToCSV(deClasse _: ClasseEntity) {
+        // TODO: - Exporter les groupes au format CSV
+    }
+
+    // MARK: - Export/Import vers/depuis des fichiers JSON
 
     /// Exporter les School et leurs descendants vers un fichier au format JSON
     static func exportSchoolsToJson() {
@@ -125,22 +134,40 @@ enum ImportExportManager {
         )
     }
 
+    /// Exporter les Program et leurs descendants vers un fichier au format JSON
+    static func exportProgramsToJson() {
+        let cachesUrl = URL.cachesDirectory
+        cachesUrl.encode(
+            ProgramEntity.all(),
+            to: programsFileName
+        )
+    }
+
     /// Exporter les données vers des fichiers au format JSON
     static func exportToJsonFiles() {
         exportSchoolsToJson()
+        exportProgramsToJson()
     }
 
-    /// Importer les données depsuis des fichiers au format JSON
+    /// Importer les Schools depuis des fichiers au format JSON
     static func importSchoolsFromJson(fileUrl: URL) {
         let schools = fileUrl.decode(
             [SchoolEntity].self,
             from: ""
         )
         print(String(describing: schools))
-        try? SchoolEntity.saveIfContextHasChanged()
     }
 
-    /// Peupler la base de donnée à patir des données ses fichiers  JSON sélectionnés.
+    /// Importer les Programs depuis des fichiers au format JSON
+    static func importProgramsFromJson(fileUrl: URL) {
+        let programs = fileUrl.decode(
+            [ProgramEntity].self,
+            from: ""
+        )
+        print(String(describing: programs))
+    }
+
+    /// Peupler la base de donnée à patir des données importées des fichiers  JSON sélectionnés.
     /// - Parameter filesUrl: URLs des fichiers sélectionnés
     static func importJsonData(filesUrl: [URL]) {
         filesUrl.forEach { fileUrl in
@@ -148,15 +175,24 @@ enum ImportExportManager {
                 return
             }
 
-            // Importer les données des établissement et de leurs descendants
             let urlFileNameWithExtension = fileUrl.lastPathComponent
-            if urlFileNameWithExtension == schoolsFileName {
+
+            if urlFileNameWithExtension.contains(String(describing: SchoolEntity.self)) {
+                // Importer les données des Schools et de leurs descendants
                 importSchoolsFromJson(fileUrl: fileUrl)
+
+            } else if urlFileNameWithExtension.contains(String(describing: ProgramEntity.self)) {
+                // Importer les données des Programs et de leurs descendants
+                importProgramsFromJson(fileUrl: fileUrl)
             }
 
             fileUrl.stopAccessingSecurityScopedResource()
         }
+
+        try? SchoolEntity.saveIfContextHasChanged()
     }
+
+    // MARK: - Export/Import vers/depuis des fichiers JPEG
 
     /// Importer les fichiers image au format JPEG pour le trombinoscope
     /// - Parameter filesUrl: URLs des fichiers sélectionnés
@@ -195,6 +231,8 @@ enum ImportExportManager {
         fileUrl.stopAccessingSecurityScopedResource()
         return UIImage(data: data)
     }
+
+    // MARK: - Autres Export/Import vers/depuis le dossier Document
 
     /// Importer les fichiers dont les URL sont `filesUrl`vers le dossier Document.
     /// Exécute l'`action` pour chaque fichier importé.

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22C65" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
-    <entity name="ActivityEntity" representedClassName="ActivityEntity" syncable="YES" codeGenerationType="class">
+    <entity name="ActivityEntity" representedClassName="ActivityEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
         <attribute name="duration" attributeType="Double" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -112,7 +112,7 @@
         <attribute name="motif" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="eleve" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="observs" inverseEntity="EleveEntity"/>
     </entity>
-    <entity name="ProgramEntity" representedClassName="ProgramEntity" syncable="YES" codeGenerationType="class">
+    <entity name="ProgramEntity" representedClassName="ProgramEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
         <attribute name="discipline" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -162,7 +162,7 @@
         <relationship name="eleves" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="seat" inverseEntity="EleveEntity"/>
         <relationship name="room" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoomEntity" inverseName="seats" inverseEntity="RoomEntity"/>
     </entity>
-    <entity name="SequenceEntity" representedClassName="SequenceEntity" syncable="YES" codeGenerationType="class">
+    <entity name="SequenceEntity" representedClassName="SequenceEntity" syncable="YES" codeGenerationType="category">
         <attribute name="activitiesCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="activities.@count" usesScalarValueType="YES"/>
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>

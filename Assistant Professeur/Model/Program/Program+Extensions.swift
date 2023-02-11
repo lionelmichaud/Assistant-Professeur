@@ -130,7 +130,7 @@ extension ProgramEntity {
 
 // MARK: - Extension Core Data
 
-extension ProgramEntity: ModelEntityP {
+extension ProgramEntity {
     // MARK: - Type Computed Properties
 
     static var byDisciplineLevelSegpaNSSortDescriptor: [NSSortDescriptor] =

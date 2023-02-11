@@ -203,6 +203,9 @@
 		79E40E7C2997D83D006BBE49 /* Colle+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E7B2997D83D006BBE49 /* Colle+CoreDataClass.swift */; };
 		79E40E812997D8BB006BBE49 /* Observ+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E802997D8BB006BBE49 /* Observ+CoreDataClass.swift */; };
 		79E40E822997D8BB006BBE49 /* Observ+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E802997D8BB006BBE49 /* Observ+CoreDataClass.swift */; };
+		79E40E842997DF43006BBE49 /* Program+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E832997DF43006BBE49 /* Program+CoreDataClass.swift */; };
+		79E40E862997E106006BBE49 /* Sequence+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E852997E106006BBE49 /* Sequence+CoreDataClass.swift */; };
+		79E40E882997E16B006BBE49 /* Activity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E872997E16B006BBE49 /* Activity+CoreDataClass.swift */; };
 		79E524BD295376EA00DA99A7 /* EventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BB295376E900DA99A7 /* EventList.swift */; };
 		79E524BE295376EA00DA99A7 /* EventEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BC295376E900DA99A7 /* EventEditor.swift */; };
 		79E923C52961E94D00EDB7CA /* GroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E923C42961E94D00EDB7CA /* GroupManager.swift */; };
@@ -427,6 +430,9 @@
 		79E40E792997D7FD006BBE49 /* Eleve+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Eleve+CoreDataClass.swift"; path = "Assistant Professeur/Model/Eleve/Eleve+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		79E40E7B2997D83D006BBE49 /* Colle+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Colle+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79E40E802997D8BB006BBE49 /* Observ+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Observ+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Eleve/Observation/Observ+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		79E40E832997DF43006BBE49 /* Program+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Program+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Program/Program+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		79E40E852997E106006BBE49 /* Sequence+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Sequence+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Program/Sequence/Sequence+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		79E40E872997E16B006BBE49 /* Activity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Activity+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Program/Sequence/Activity/Activity+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		79E524BB295376E900DA99A7 /* EventList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventList.swift; sourceTree = "<group>"; };
 		79E524BC295376E900DA99A7 /* EventEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEditor.swift; sourceTree = "<group>"; };
 		79E923C42961E94D00EDB7CA /* GroupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupManager.swift; sourceTree = "<group>"; };
@@ -546,6 +552,7 @@
 		79213555297872320036A5EA /* Program */ = {
 			isa = PBXGroup;
 			children = (
+				79E40E832997DF43006BBE49 /* Program+CoreDataClass.swift */,
 				792135562978724C0036A5EA /* Program+Extensions.swift */,
 				79213558297872510036A5EA /* Sequence */,
 				79637202297D826400ECDBC3 /* ProgramManager.swift */,
@@ -556,6 +563,7 @@
 		79213558297872510036A5EA /* Sequence */ = {
 			isa = PBXGroup;
 			children = (
+				79E40E852997E106006BBE49 /* Sequence+CoreDataClass.swift */,
 				792135592978726E0036A5EA /* Sequence+Extensions.swift */,
 				7921355B297872730036A5EA /* Activity */,
 			);
@@ -565,6 +573,7 @@
 		7921355B297872730036A5EA /* Activity */ = {
 			isa = PBXGroup;
 			children = (
+				79E40E872997E16B006BBE49 /* Activity+CoreDataClass.swift */,
 				7921355C2978728A0036A5EA /* Activity+Extensions.swift */,
 			);
 			path = Activity;
@@ -1301,6 +1310,7 @@
 				79ECF206295A16E2008F0282 /* EleveColleRow.swift in Sources */,
 				79975322297C4AEF00D1C66E /* ProgramBrowserRow.swift in Sources */,
 				79B6630729244C3F007B1FBD /* ContentView.swift in Sources */,
+				79E40E882997E16B006BBE49 /* Activity+CoreDataClass.swift in Sources */,
 				79398D2D2965FABE0013564D /* Exam+Extensions.swift in Sources */,
 				79ECF1FB2959F915008F0282 /* ClasseColleLabel.swift in Sources */,
 				792135572978724C0036A5EA /* Program+Extensions.swift in Sources */,
@@ -1379,6 +1389,8 @@
 				7963720A297DA2DB00ECDBC3 /* ActivityList.swift in Sources */,
 				79398D33296616850013564D /* ExamEditor.swift in Sources */,
 				79F41E6D2954C83A00EAAC52 /* ClasseEleveRow.swift in Sources */,
+				79E40E842997DF43006BBE49 /* Program+CoreDataClass.swift in Sources */,
+				79E40E862997E106006BBE49 /* Sequence+CoreDataClass.swift in Sources */,
 				79975324297C4ED900D1C66E /* ProgramDetailGroupBox.swift in Sources */,
 				7923811B2960B04F009E51B7 /* GroupsView.swift in Sources */,
 				79ECF1FF295A02EE008F0282 /* EleveDetail.swift in Sources */,

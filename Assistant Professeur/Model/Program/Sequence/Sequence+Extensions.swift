@@ -60,7 +60,7 @@ extension SequenceEntity {
 
 // MARK: - Extension Core Data
 
-extension SequenceEntity: ModelEntityP {
+extension SequenceEntity {
 
     // MARK: - Computed properties
 

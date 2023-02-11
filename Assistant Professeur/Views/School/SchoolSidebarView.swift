@@ -397,7 +397,10 @@ extension SchoolSidebarView {
 
     private var jsonURLsToShare: [URL] {
         ImportExportManager.cachesURLsToShare(
-            fileNames: [ImportExportManager.schoolsFileName]
+            fileNames: [
+                ImportExportManager.schoolsFileName,
+                ImportExportManager.programsFileName
+            ]
         )
     }
 
@@ -473,6 +476,7 @@ extension SchoolSidebarView {
                 alertIsPresented.toggle()
 
             case let .success(filesUrl):
+                /// Vider la base de données
                 var failed = false
                 navigationModel.resetSelections()
                 DataBaseManager.clear(failed: &failed)
@@ -485,6 +489,7 @@ extension SchoolSidebarView {
                 }
 
 //                do {
+                // Importer la base de données
                 ImportExportManager.importJsonData(filesUrl: filesUrl)
 
 //                } catch {

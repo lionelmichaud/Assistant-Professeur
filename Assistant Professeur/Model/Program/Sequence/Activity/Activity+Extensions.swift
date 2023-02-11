@@ -126,7 +126,7 @@ extension ActivityEntity {
 
 // MARK: - Extension Core Data
 
-extension ActivityEntity: ModelEntityP {
+extension ActivityEntity {
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         // Set defaults here
