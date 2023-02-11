@@ -215,13 +215,13 @@ extension ProgramEntity {
             .sorted(using: sortComparators)
     }
 
+    // MARK: - Type Methods
+
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         // Set defaults here
         self.id = UUID()
     }
-
-    // MARK: - Type Methods
 
     static func byId(id: UUID) -> Self? {
         all().first { object in

@@ -238,7 +238,7 @@ extension ExamEntity {
 
 // MARK: - Extension Core Data
 
-extension ExamEntity: ModelEntityP {
+extension ExamEntity {
     // MARK: - Type Computed Properties
 
     @Preference(\.nameSortOrder)

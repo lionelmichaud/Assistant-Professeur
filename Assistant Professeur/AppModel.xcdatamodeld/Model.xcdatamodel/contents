@@ -76,7 +76,7 @@
         <attribute name="name" optional="YES" attributeType="String" defaultValueString=""/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="events" inverseEntity="SchoolEntity"/>
     </entity>
-    <entity name="ExamEntity" representedClassName="ExamEntity" syncable="YES" codeGenerationType="class">
+    <entity name="ExamEntity" representedClassName="ExamEntity" syncable="YES" codeGenerationType="category">
         <attribute name="coef" attributeType="Double" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="dateExecuted" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="examType" attributeType="String" defaultValueString=""/>
@@ -88,8 +88,9 @@
         <relationship name="classe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="exams" inverseEntity="ClasseEntity"/>
         <relationship name="marks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MarkEntity" inverseName="exam" inverseEntity="MarkEntity"/>
     </entity>
-    <entity name="GroupEntity" representedClassName="GroupEntity" syncable="YES" codeGenerationType="class">
+    <entity name="GroupEntity" representedClassName="GroupEntity" syncable="YES" codeGenerationType="category">
         <attribute name="elevesCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="eleves.@count" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="classe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="groups" inverseEntity="ClasseEntity"/>
         <relationship name="eleves" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="group" inverseEntity="EleveEntity"/>

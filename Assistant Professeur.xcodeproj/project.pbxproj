@@ -206,6 +206,7 @@
 		79E40E842997DF43006BBE49 /* Program+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E832997DF43006BBE49 /* Program+CoreDataClass.swift */; };
 		79E40E862997E106006BBE49 /* Sequence+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E852997E106006BBE49 /* Sequence+CoreDataClass.swift */; };
 		79E40E882997E16B006BBE49 /* Activity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E872997E16B006BBE49 /* Activity+CoreDataClass.swift */; };
+		79E40E8A2997FD45006BBE49 /* Group+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E892997FD44006BBE49 /* Group+CoreDataClass.swift */; };
 		79E524BD295376EA00DA99A7 /* EventList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BB295376E900DA99A7 /* EventList.swift */; };
 		79E524BE295376EA00DA99A7 /* EventEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BC295376E900DA99A7 /* EventEditor.swift */; };
 		79E923C52961E94D00EDB7CA /* GroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E923C42961E94D00EDB7CA /* GroupManager.swift */; };
@@ -219,6 +220,7 @@
 		79ECF202295A15F0008F0282 /* EleveObservRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF201295A15F0008F0282 /* EleveObservRow.swift */; };
 		79ECF204295A1607008F0282 /* ColleBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF203295A1607008F0282 /* ColleBrowserRow.swift */; };
 		79ECF206295A16E2008F0282 /* EleveColleRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF205295A16E2008F0282 /* EleveColleRow.swift */; };
+		79ED5AAA2998030A00D536BF /* Exam+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ED5AA92998030A00D536BF /* Exam+CoreDataClass.swift */; };
 		79EE3EA4296F6CF20075E9BD /* EleveTrombineStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE3EA3296F6CF20075E9BD /* EleveTrombineStyling.swift */; };
 		79F41E592954903D00EAAC52 /* ClasseEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E572954903D00EAAC52 /* ClasseEditor.swift */; };
 		79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E582954903D00EAAC52 /* ClasseDetail.swift */; };
@@ -433,6 +435,7 @@
 		79E40E832997DF43006BBE49 /* Program+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Program+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Program/Program+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		79E40E852997E106006BBE49 /* Sequence+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Sequence+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Program/Sequence/Sequence+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		79E40E872997E16B006BBE49 /* Activity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Activity+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Program/Sequence/Activity/Activity+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		79E40E892997FD44006BBE49 /* Group+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Group+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Classe/Group/Group+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		79E524BB295376E900DA99A7 /* EventList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventList.swift; sourceTree = "<group>"; };
 		79E524BC295376E900DA99A7 /* EventEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEditor.swift; sourceTree = "<group>"; };
 		79E923C42961E94D00EDB7CA /* GroupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupManager.swift; sourceTree = "<group>"; };
@@ -446,6 +449,7 @@
 		79ECF201295A15F0008F0282 /* EleveObservRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveObservRow.swift; sourceTree = "<group>"; };
 		79ECF203295A1607008F0282 /* ColleBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColleBrowserRow.swift; sourceTree = "<group>"; };
 		79ECF205295A16E2008F0282 /* EleveColleRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveColleRow.swift; sourceTree = "<group>"; };
+		79ED5AA92998030A00D536BF /* Exam+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Exam+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Classe/Exam/Exam+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		79EE3EA3296F6CF20075E9BD /* EleveTrombineStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveTrombineStyling.swift; sourceTree = "<group>"; };
 		79F41E572954903D00EAAC52 /* ClasseEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseEditor.swift; sourceTree = "<group>"; };
 		79F41E582954903D00EAAC52 /* ClasseDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseDetail.swift; sourceTree = "<group>"; };
@@ -589,6 +593,7 @@
 		792381102960A4CF009E51B7 /* Group */ = {
 			isa = PBXGroup;
 			children = (
+				79E40E892997FD44006BBE49 /* Group+CoreDataClass.swift */,
 				792381132960A888009E51B7 /* Group+Extensions.swift */,
 				79E923C42961E94D00EDB7CA /* GroupManager.swift */,
 			);
@@ -669,6 +674,7 @@
 		79398D2B2965FAA60013564D /* Exam */ = {
 			isa = PBXGroup;
 			children = (
+				79ED5AA92998030A00D536BF /* Exam+CoreDataClass.swift */,
 				79398D2C2965FABE0013564D /* Exam+Extensions.swift */,
 				795EED0429673B88009AA6F4 /* Mark+Extensions.swift */,
 				7937A24129859A5500D0ED59 /* ExamStep.swift */,
@@ -1286,6 +1292,7 @@
 				7937A2442986AD9100D0ED59 /* CloudKitViewModel.swift in Sources */,
 				7997531E297C3D5B00D1C66E /* ProgramCreatorModal.swift in Sources */,
 				7963720C297DA37E00ECDBC3 /* ActivityBrowserRow.swift in Sources */,
+				79ED5AAA2998030A00D536BF /* Exam+CoreDataClass.swift in Sources */,
 				795C2C20296E24E900EDFF09 /* Seat+Extensions.swift in Sources */,
 				79DEDB17292593C200F508EF /* SettingsSchool.swift in Sources */,
 				793D626F295DCBBC00477932 /* MotifLabel.swift in Sources */,
@@ -1438,6 +1445,7 @@
 				79F60D0529969E2800981385 /* DocumentEntity+CoreDataClass.swift in Sources */,
 				79E40E752996BEED006BBE49 /* Seat+CoreDataClass.swift in Sources */,
 				79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */,
+				79E40E8A2997FD45006BBE49 /* Group+CoreDataClass.swift in Sources */,
 				7937A24229859A5500D0ED59 /* ExamStep.swift in Sources */,
 				795C2C2B296E2DCA00EDFF09 /* EditableSeatLabel.swift in Sources */,
 				79F60D092996A02200981385 /* Ressource+CoreDataClass.swift in Sources */,

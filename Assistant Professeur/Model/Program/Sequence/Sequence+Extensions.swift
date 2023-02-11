@@ -119,13 +119,13 @@ extension SequenceEntity {
             .sorted(using: sortComparators)
     }
 
+    // MARK: - Type Methods
+
     public override func awakeFromInsert() {
         super.awakeFromInsert()
         //Set defaults here
         self.id = UUID()
     }
-
-    // MARK: - Type Methods
 
     static func byId(id: UUID) -> Self? {
         all().first { object in
