@@ -143,11 +143,17 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
             )
 
             // Salles de classe
-            let room = RoomEntity.create(
+            let roomForClasse5E1 = RoomEntity.create(
                 withName: "TECHNO-2",
                 withCapacity: 16,
                 dans: college
             )
+
+            // Chaises de la salle de classe
+            let classe5E1TopLeftSeat = roomForClasse5E1
+                .addSeatToPlan(x: 0.25, y: 0.25)
+            let classe5E1BotRightSeat = roomForClasse5E1
+                .addSeatToPlan(x: 0.75, y: 0.75)
 
             // Classes
             let classe5E1 = ClasseEntity.create(
@@ -161,7 +167,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 appreciation: "Ceci est une appreciation de classe",
                 dans: college
             )
-            classe5E1.room = room
+            classe5E1.setRoom(roomForClasse5E1)
 
             let classe3E2 = ClasseEntity.create(
                 level: .n3ieme,
@@ -200,6 +206,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 bonus: 2,
                 dans: classe5E1
             )
+            eleve5E1_1.setSeat(classe5E1TopLeftSeat!)
 
             let eleve5E1_2 = EleveEntity.create(
                 familyName: "DUPONT",
@@ -213,6 +220,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 bonus: -2,
                 dans: classe5E1
             )
+            eleve5E1_2.setSeat(classe5E1BotRightSeat!)
 
             let eleve5E1_3 = EleveEntity.create(
                 familyName: "GOBIN",
@@ -250,7 +258,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
             )
 
             // Examen
-            ExamEntity.createGlobalExam(
+            let globalExam = ExamEntity.createGlobalExam(
                 sujet: "Le sujet de l'évaluation Globale",
                 coef: 0.5,
                 maxMark: 10,
@@ -258,7 +266,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
             )
 
             // Examen
-            ExamEntity.createSteppedExam(
+            let setppedExam = ExamEntity.createSteppedExam(
                 sujet: "Le sujet de l'évaluation Échelonnée",
                 coef: 0.5,
                 examSteps: [
@@ -267,6 +275,25 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                     ExamStep(name: "2.1", points: 3)
                 ],
                 pour: classe5E1
+            )
+
+            // Notes
+            globalExam.setGlobalMark(
+                of: eleve5E1_1,
+                markType: .absent
+            )
+            globalExam.setGlobalMark(
+                of: eleve5E1_2,
+                markType: .note,
+                mark: 6.5
+            )
+
+            setppedExam.setSteppedMark(of: eleve5E1_2,
+                                       markType: .nonRendu
+            )
+            setppedExam.setSteppedMark(of: eleve5E1_3,
+                                       markType: .note,
+                                       marks: [0.5, 1.5, 2.5]
             )
 
             // Groupes
@@ -452,7 +479,6 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 isProject: true,
                 dans: progSntTermSeq2
             )
-
         }
     }
 }

@@ -128,21 +128,6 @@ extension MarkEntity {
 
     // MARK: - Type Methods
 
-    @discardableResult
-    static func create(
-        pourEleve: EleveEntity,
-        pourExam: ExamEntity
-    ) -> MarkEntity {
-        let mark = MarkEntity.create()
-        // Classe d'appartenance.
-        // mandatory
-        mark.eleve = pourEleve
-        mark.exam = pourExam
-
-        try? MarkEntity.saveIfContextHasChanged()
-        return mark
-    }
-
     static func checkConsistency(errorFound: inout Bool) {
         all().forEach { mark in
             guard mark.eleve != nil else {
@@ -166,16 +151,21 @@ extension MarkEntity {
         }
     }
 
-    // MARK: - Methods
-
-    override public func awakeFromInsert() {
-        super.awakeFromInsert()
-        // Set defaults here
-        self.id = UUID()
+    @discardableResult
+    static func create(
+        of eleve: EleveEntity,
+        for exam: ExamEntity
+    ) -> MarkEntity {
+        switch exam.examTypeEnum {
+            case .global:
+                return createGlobalMark(of: eleve, for: exam)
+            case .multiStep:
+                return createSteppedMark(of: eleve, for: exam)
+        }
     }
 
     @discardableResult
-    static func createGlobalMark(
+    private static func createGlobalMark(
         of eleve: EleveEntity,
         for exam: ExamEntity
     ) -> MarkEntity {
@@ -187,7 +177,7 @@ extension MarkEntity {
     }
 
     @discardableResult
-    static func createSteppedMark(
+    private static func createSteppedMark(
         of eleve: EleveEntity,
         for exam: ExamEntity
     ) -> MarkEntity {
@@ -201,6 +191,14 @@ extension MarkEntity {
         mark.viewStepsMarks = [Double].init(repeating: 0.0, count: nbOfSteps)
 
         return mark
+    }
+
+    // MARK: - Methods
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
     }
 }
 

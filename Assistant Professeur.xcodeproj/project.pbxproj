@@ -1102,8 +1102,8 @@
 			children = (
 				79BF1DAA29290F83005D6CF3 /* Observation */,
 				79BF1DAB29290F8C005D6CF3 /* Colle */,
-				79F41E632954B08900EAAC52 /* Eleve+Extensions.swift */,
 				79E40E792997D7FD006BBE49 /* Eleve+CoreDataClass.swift */,
+				79F41E632954B08900EAAC52 /* Eleve+Extensions.swift */,
 				79F41E652954B1DB00EAAC52 /* Sexe.swift */,
 				79F41E672954B1E500EAAC52 /* TroubleDys.swift */,
 				795CB1942958F668006EF060 /* Motif.swift */,

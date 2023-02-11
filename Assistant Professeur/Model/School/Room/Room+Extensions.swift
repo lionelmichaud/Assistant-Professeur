@@ -146,6 +146,15 @@ extension RoomEntity {
         }
     }
 
+    /// Liste des classes utilisant  la salle de classe non triés
+    var allClasses: [ClasseEntity] {
+        if let classes {
+            return (classes.allObjects as! [ClasseEntity])
+        } else {
+            return []
+        }
+    }
+
     // MARK: - Type Methods
 
     @discardableResult
@@ -191,14 +200,15 @@ extension RoomEntity {
     ///
     /// Si le nombre de place déjà positionnées est égale à la capacité max de la salle de classe,
     /// alors ne fait rien.
+    @discardableResult
     func addSeatToPlan(
         x: Double = 0.5,
         y: Double = 0.5
-    ) {
+    ) -> SeatEntity? {
         guard nbSeatUnpositionned.isPositive else {
-            return
+            return nil
         }
-        SeatEntity.create(x: x, y: y, dans: self)
+        return SeatEntity.create(x: x, y: y, dans: self)
     }
 
     /// Redéfinit la capacité de la salle de classe.

@@ -8,7 +8,6 @@
 import Foundation
 
 extension SeatEntity {
-
     // MARK: - Computed Properties
 
     /// Position de la place assise à l'intérieur de la classe en % [0.0, 1.0]
@@ -27,7 +26,6 @@ extension SeatEntity {
 // MARK: - Extension Core Data
 
 extension SeatEntity {
-
     // MARK: - Computed Properties
 
     /// Liste des élèves de toutes les classe assi à cette place
@@ -35,7 +33,7 @@ extension SeatEntity {
         if let eleves {
             return (eleves.allObjects as! [EleveEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
@@ -47,19 +45,20 @@ extension SeatEntity {
     ///   - y: position verticale de la place dans la salle en % [0.0, 1.0]
     ///   - room: La salle dans laquelle ajouter la place assise
     /// - Returns: La nouvelle place
-    @discardableResult static func create(
+    @discardableResult
+    static func create(
         //        numero    : Int,
-        x         : Double = 0.5,
-        y         : Double = 0.5,
-        dans room : RoomEntity
+        x: Double = 0.5,
+        y: Double = 0.5,
+        dans room: RoomEntity
     ) -> SeatEntity {
         let seat = SeatEntity.create()
         // salle d'appartenance.
         // mandatory
         seat.room = room
 
-        seat.x      = x
-        seat.y      = y
+        seat.x = x
+        seat.y = y
         //        seat.numero = Int16(numero)
 
         try? SeatEntity.saveIfContextHasChanged()
@@ -80,10 +79,11 @@ extension SeatEntity {
     ///   - locInRoom: positions horizontale et verticale de la place dans la salle en % [0.0, 1.0]
     ///   - room: La salle dans laquelle ajouter la place assise
     /// - Returns: La nouvelle place
-    @discardableResult static func create(
+    @discardableResult
+    static func create(
         //        numero    : Int,
-        locInRoom : CGPoint = CGPoint(x : 0.5, y : 0.5),
-        dans room : RoomEntity
+        locInRoom: CGPoint = CGPoint(x: 0.5, y: 0.5),
+        dans room: RoomEntity
     ) -> SeatEntity {
         return create(x: locInRoom.x, y: locInRoom.y, dans: room)
     }
@@ -96,13 +96,12 @@ extension SeatEntity {
             }
         }
     }
-
 }
 
 // MARK: - Extension Debug
 
-extension SeatEntity {
-    override public var description: String {
+public extension SeatEntity {
+    override var description: String {
         """
 
         PLACE ASSISE : n°\(numero)

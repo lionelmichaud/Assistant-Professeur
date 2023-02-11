@@ -162,20 +162,20 @@ extension EleveEntity {
     @objc
     var displayName: String {
         switch EleveEntity.nameDisplayOrder {
-        case .prenomNom:
-            return "\(givenName ?? "") \(familyName ?? "")"
-        case .nomPrenom:
-            return "\(familyName ?? "") \(givenName ?? "")"
+            case .prenomNom:
+                return "\(givenName ?? "") \(familyName ?? "")"
+            case .nomPrenom:
+                return "\(familyName ?? "") \(givenName ?? "")"
         }
     }
 
     @objc
     var sortName: String {
         switch EleveEntity.nameSortOrder {
-        case .prenomNom:
-            return "\(givenName ?? "") \(familyName ?? "")"
-        case .nomPrenom:
-            return "\(familyName ?? "") \(givenName ?? "")"
+            case .prenomNom:
+                return "\(givenName ?? "") \(familyName ?? "")"
+            case .nomPrenom:
+                return "\(familyName ?? "") \(givenName ?? "")"
         }
     }
 
@@ -213,13 +213,26 @@ extension EleveEntity {
     }
 
     /// Modifie l'attribut `sex`
+    /// - Important: *Does NOT save the context to the store after modification is done*
     func setSex(_ newSex: Sexe) {
         self.sex = (newSex == .male)
     }
 
     /// Modifie l'attribut `trouble`
+    /// - Important: *Does NOT save the context to the store after modification is done*
     func setTrouble(_ newTrouble: TroubleDys) {
         self.trouble = newTrouble.rawValue
+    }
+
+    /// Modifie l'attribut `seat`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setSeat(_ newSeat: SeatEntity) {
+        guard let classe,
+              let classes = newSeat.room?.allClasses,
+              classes.contains(classe) else {
+            return
+        }
+        self.seat = newSeat
     }
 
     /// Toggle l'attribut `isFlagged` de la classe
@@ -231,19 +244,19 @@ extension EleveEntity {
 
     func displayName(_ order: NameOrdering = .prenomNom) -> String {
         switch order {
-        case .prenomNom:
-            return "\(givenName ?? "") \(familyName ?? "")"
-        case .nomPrenom:
-            return "\(familyName ?? "") \(givenName ?? "")"
+            case .prenomNom:
+                return "\(givenName ?? "") \(familyName ?? "")"
+            case .nomPrenom:
+                return "\(familyName ?? "") \(givenName ?? "")"
         }
     }
 
     func displayName2lines(_ order: NameOrdering = .prenomNom) -> String {
         switch order {
-        case .prenomNom:
-            return "\(givenName ?? "")\n\(familyName ?? "")"
-        case .nomPrenom:
-            return "\(familyName ?? "")\n\(givenName ?? "")"
+            case .prenomNom:
+                return "\(givenName ?? "")\n\(familyName ?? "")"
+            case .nomPrenom:
+                return "\(familyName ?? "")\n\(givenName ?? "")"
         }
     }
 
@@ -597,26 +610,26 @@ extension EleveEntity {
         isVerified: Bool? = nil
     ) -> Int {
         switch (isConsignee, isVerified) {
-        case (nil, nil):
-            return nbOfObservs
+            case (nil, nil):
+                return nbOfObservs
 
-        case let (.some(c), nil):
-            return self.allObservs
-                .reduce(into: 0) { partialResult, observ in
-                    partialResult += (observ.isConsignee == c ? 1 : 0)
-                }
+            case let (.some(c), nil):
+                return self.allObservs
+                    .reduce(into: 0) { partialResult, observ in
+                        partialResult += (observ.isConsignee == c ? 1 : 0)
+                    }
 
-        case let (nil, .some(v)):
-            return self.allObservs
-                .reduce(into: 0) { partialResult, observ in
-                    partialResult += (observ.isVerified == v ? 1 : 0)
-                }
+            case let (nil, .some(v)):
+                return self.allObservs
+                    .reduce(into: 0) { partialResult, observ in
+                        partialResult += (observ.isVerified == v ? 1 : 0)
+                    }
 
-        case let (.some(c), .some(v)):
-            return self.allObservs
-                .reduce(into: 0) { partialResult, observ in
-                    partialResult += ((observ.isConsignee == c || observ.isVerified == v) ? 1 : 0)
-                }
+            case let (.some(c), .some(v)):
+                return self.allObservs
+                    .reduce(into: 0) { partialResult, observ in
+                        partialResult += ((observ.isConsignee == c || observ.isVerified == v) ? 1 : 0)
+                    }
         }
     }
 
@@ -644,26 +657,26 @@ extension EleveEntity {
         isVerified: Bool? = nil
     ) -> Int {
         switch (isConsignee, isVerified) {
-        case (nil, nil):
-            return nbOfColles
+            case (nil, nil):
+                return nbOfColles
 
-        case (.some(let c), nil):
-            return self.allColles
-                .reduce(into: 0) { partialResult, colle in
-                    partialResult += (colle.isConsignee == c ? 1 : 0)
-                }
+            case (.some(let c), nil):
+                return self.allColles
+                    .reduce(into: 0) { partialResult, colle in
+                        partialResult += (colle.isConsignee == c ? 1 : 0)
+                    }
 
-        case (nil, let .some(v)):
-            return self.allColles
-                .reduce(into: 0) { partialResult, colle in
-                    partialResult += (colle.isVerified == v ? 1 : 0)
-                }
+            case (nil, let .some(v)):
+                return self.allColles
+                    .reduce(into: 0) { partialResult, colle in
+                        partialResult += (colle.isVerified == v ? 1 : 0)
+                    }
 
-        case let (.some(c), .some(v)):
-            return self.allColles
-                .reduce(into: 0) { partialResult, colle in
-                    partialResult += ((colle.isConsignee == c || colle.isVerified == v) ? 1 : 0)
-                }
+            case let (.some(c), .some(v)):
+                return self.allColles
+                    .reduce(into: 0) { partialResult, colle in
+                        partialResult += ((colle.isConsignee == c || colle.isVerified == v) ? 1 : 0)
+                    }
         }
     }
 }

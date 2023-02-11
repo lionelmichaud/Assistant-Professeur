@@ -65,7 +65,7 @@ struct RoomLayoutEditor: View {
                 if room.nbSeatUnpositionned > 0 {
                     Button {
                         withAnimation {
-                            room.addSeatToPlan(x: 0.5, y: 0.5)
+                            _ = room.addSeatToPlan(x: 0.5, y: 0.5)
                         }
                     } label: {
                         Label("Positionner une place", systemImage: "chair")

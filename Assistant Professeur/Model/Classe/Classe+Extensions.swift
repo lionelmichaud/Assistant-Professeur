@@ -178,6 +178,16 @@ extension ClasseEntity {
         self.level = newLevel.rawValue
     }
 
+    /// Modifie l'attribut `room`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setRoom(_ newRoom: RoomEntity) {
+        guard let school = newRoom.school,
+              school == self.school else {
+            return
+        }
+        self.room = newRoom
+    }
+
     /// Toggle l'attribut `isFlagged` de la classe
     /// - Important: *Saves the context to the store after modification is done*
     func toggleFlag() {

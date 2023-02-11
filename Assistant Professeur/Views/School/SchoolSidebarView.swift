@@ -405,13 +405,13 @@ extension SchoolSidebarView {
     }
 
     private func checkAllUserData() {
-        alertTitle = "Échec"
+        alertTitle = "Erreurs détectées"
         alertMessage = "La vérfication de la base de donnée a trouvé des erreurs"
 
         DataBaseManager.check(errorFound: &alertIsPresented)
 
         if alertIsPresented == false {
-            alertTitle = "Vérification terminée"
+            alertTitle = "Vérification terminée avec succès"
             alertMessage = "Aucune anomalie détectée."
             alertIsPresented.toggle()
         }
