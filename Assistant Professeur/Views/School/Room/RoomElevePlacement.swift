@@ -5,11 +5,13 @@
 //  Created by Lionel MICHAUD on 22/10/2022.
 //
 
-import SwiftUI
 import os
+import SwiftUI
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
-                               category  : "RoomElevePlacement")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "RoomElevePlacement"
+)
 
 struct RoomElevePlacement: View {
     @ObservedObject
@@ -72,49 +74,60 @@ struct RoomElevePlacement: View {
                         }
                     }
                 } else {
-                    Text("Plan de salle introuvable")
+                    VStack {
+                        Text("Plan de salle non défini.")
+                            .font(.title)
+                            .padding(.bottom)
+                        Text("Définir un plan pour la salle **'\(classe.room!.viewName)**' dans l'établissement **'\(classe.school!.displayString)'**.")
+                            .font(.title3)
+                    }
                         .foregroundStyle(.secondary)
-                        .font(.title)
                 }
             } else {
                 VStack {
-                    Text("Aucune salle de classe")
-                    Text("Définir une salle de classe")
+                    Text("Aucune salle de classe.")
+                        .font(.title)
+                        .padding(.bottom)
+                    Text("Définir une salle de classe.")
+                        .font(.title3)
                 }
                 .foregroundStyle(.secondary)
-                .font(.title)
             }
         }
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 if classe.hasAssociatedRoom {
-                    /// Dissocier la classe de la salle de classe
+                    // Dissocier la classe de la salle de classe
                     Button(role: .destructive) {
                         isShowingDissociateDialog.toggle()
                     } label: {
                         Label("Dissocier de cette salle", systemImage: "minus.circle.fill")
                     }
-                    .confirmationDialog("Dissocier la classe de cette salle?",
-                                        isPresented: $isShowingDissociateDialog,
-                                        titleVisibility: .visible) {
-                        Button("Dissocier de cette salle de classe", role: .destructive) {
+                    .confirmationDialog(
+                        "Dissocier la classe de cette salle?",
+                        isPresented: $isShowingDissociateDialog,
+                        titleVisibility: .visible
+                    ) {
+                        Button("Dissocier", role: .destructive) {
                             withAnimation {
                                 if let room {
                                     // Retirer tous les éléves de la `classe` des sièges de la salle de classe.
                                     room.removeAllSeatsFromPlan()
                                 } else {
-                                    customLog.log(level: .fault,
-                                                  "Dissocier: Le plan associé à la salle de classe n'a pas été trouvé")
+                                    customLog.log(
+                                        level: .fault,
+                                        "Dissocier: Le plan associé à la salle de classe n'a pas été trouvé"
+                                    )
                                 }
                                 classe.room = nil
                             }
                         }
                     } message: {
                         Text("La classe de \(classe.displayString) ne sera plus associée à la salle de classe \(room!.viewName).\n") +
-                        Text("Cette action ne peut pas être annulée.")
+                            Text("Cette action ne peut pas être annulée.")
                     }
                 } else if classe.school != nil {
-                    /// associer la classe à une salle de classe
+                    // associer la classe à une salle de classe
                     associateClasseToRoomMenu
                 }
             }
@@ -126,7 +139,7 @@ struct RoomElevePlacement: View {
     }
 }
 
-//struct RoomEditor_Previews: PreviewProvider {
+// struct RoomEditor_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -153,4 +166,4 @@ struct RoomElevePlacement: View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

@@ -77,6 +77,7 @@
 		794F6E14295CEC0C00042B95 /* ObservViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E13295CEC0C00042B95 /* ObservViewModel.swift */; };
 		7951063E294FD9520015AC5C /* ClassList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951063D294FD9520015AC5C /* ClassList.swift */; };
 		79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79595C6E2934298300C81021 /* SchoolBrowserRow.swift */; };
+		795A34132999476100E36959 /* LoadRoomPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795A34122999476100E36959 /* LoadRoomPlanView.swift */; };
 		795C2C20296E24E900EDFF09 /* Seat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C1F296E24E900EDFF09 /* Seat+Extensions.swift */; };
 		795C2C2A296E2DCA00EDFF09 /* RoomPlanEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C22296E2DCA00EDFF09 /* RoomPlanEditView.swift */; };
 		795C2C2B296E2DCA00EDFF09 /* EditableSeatLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C23296E2DCA00EDFF09 /* EditableSeatLabel.swift */; };
@@ -332,6 +333,7 @@
 		794F6E13295CEC0C00042B95 /* ObservViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservViewModel.swift; sourceTree = "<group>"; };
 		7951063D294FD9520015AC5C /* ClassList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassList.swift; sourceTree = "<group>"; };
 		79595C6E2934298300C81021 /* SchoolBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolBrowserRow.swift; sourceTree = "<group>"; };
+		795A34122999476100E36959 /* LoadRoomPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadRoomPlanView.swift; sourceTree = "<group>"; };
 		795C2C1F296E24E900EDFF09 /* Seat+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Seat+Extensions.swift"; sourceTree = "<group>"; };
 		795C2C22296E2DCA00EDFF09 /* RoomPlanEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomPlanEditView.swift; sourceTree = "<group>"; };
 		795C2C23296E2DCA00EDFF09 /* EditableSeatLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditableSeatLabel.swift; sourceTree = "<group>"; };
@@ -726,6 +728,7 @@
 				795C2C27296E2DCA00EDFF09 /* SeatLabel.swift */,
 				795C2C29296E2DCA00EDFF09 /* RoomElevePlacement.swift */,
 				795C2C23296E2DCA00EDFF09 /* EditableSeatLabel.swift */,
+				795A34122999476100E36959 /* LoadRoomPlanView.swift */,
 			);
 			path = Room;
 			sourceTree = "<group>";
@@ -1298,6 +1301,7 @@
 				79ED5AAA2998030A00D536BF /* Exam+CoreDataClass.swift in Sources */,
 				795C2C20296E24E900EDFF09 /* Seat+Extensions.swift in Sources */,
 				79DEDB17292593C200F508EF /* SettingsSchool.swift in Sources */,
+				795A34132999476100E36959 /* LoadRoomPlanView.swift in Sources */,
 				793D626F295DCBBC00477932 /* MotifLabel.swift in Sources */,
 				793D627B295F2A1400477932 /* ColleDetail.swift in Sources */,
 				79ECF200295A02EE008F0282 /* EleveEditor.swift in Sources */,

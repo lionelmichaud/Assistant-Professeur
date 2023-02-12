@@ -51,6 +51,9 @@ extension RoomEntity {
     }
 
     /// Wrapper of `image`
+    ///
+    /// Retreives the PNG data from the object blob `image` attribute and convert it as UIImage.
+    /// Saves the new UIImage as PNG data to the object blob `image` attribute.
     /// - Important: *Saves the context to the store after modification is done*
     var viewUIImage: UIImage {
         get {

@@ -181,17 +181,30 @@ struct SchoolSidebarView: View {
         ) { result in
             switch fileOperation {
                 case .importModel:
-                    importUserSelectedJsonFiles(result: result)
+                    (
+                        alertTitle,
+                        alertMessage,
+                        alertIsPresented
+                    ) = ImportExportManager.importJsonData(
+                        result: result,
+                        resetNavigationData: { navigationModel.resetSelections() }
+                    )
 
                 case .importTrombines:
-                    importUserSelectedTrombineFiles(result: result)
+                    (
+                        alertTitle,
+                        alertMessage,
+                        alertIsPresented
+                    ) = ImportExportManager.importTrombinesImages(
+                        result: result
+                    )
 
                 case .none:
                     break
             }
         }
 
-        // Importer des fichiers JSON pour le modèle
+        // Exporter des fichiers JSON pour le modèle
         .fileMover(
             isPresented: $isExportingModel,
             files: isExportingModel ? jsonURLsToShare : []
@@ -272,7 +285,7 @@ extension SchoolSidebarView {
                 Menu("Exporter") {
                     // Exporter les données dans des fichiers au format JSON
                     Button {
-                        exportToJSON()
+                        ImportExportManager.exportToJsonFiles()
                         isExportingModel.toggle()
                     } label: {
                         Label("Exporter vos données vers des fichiers", systemImage: "square.and.arrow.up")
@@ -426,11 +439,6 @@ extension SchoolSidebarView {
         DataBaseManager.clear(failed: &alertIsPresented)
     }
 
-    /// Exporter les données vers des fichiers au format JSON
-    private func exportToJSON() {
-        ImportExportManager.exportToJsonFiles()
-    }
-
     /// Importer tous les fichiers JSON, JPEG et PNG depuis le Bundle Application
     private func importFromApp() {
         // Copier les fichiers contenus dans le Bundle de l'application vers le répertoire Document de l'utilisateur
@@ -460,77 +468,6 @@ extension SchoolSidebarView {
             }
         }
         // eleveStore.sort()
-    }
-
-    /// Peupler la base de donnée à patir des données ses fichiers  JSON sélectionnés.
-    /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
-    private func importUserSelectedJsonFiles(result: Result<[URL], Error>) {
-        switch result {
-            case let .failure(error):
-                customLog.log(
-                    level: .fault,
-                    "Error selecting file: \(error.localizedDescription)"
-                )
-                alertTitle = "Échec"
-                alertMessage = "L'importation des fichiers a échouée!"
-                alertIsPresented.toggle()
-
-            case let .success(filesUrl):
-                /// Vider la base de données
-                var failed = false
-                navigationModel.resetSelections()
-                DataBaseManager.clear(failed: &failed)
-
-                guard !failed else {
-                    alertTitle = "Échec"
-                    alertMessage = "L'effacement complet de la base de donnée a échoué"
-                    alertIsPresented.toggle()
-                    return
-                }
-
-//                do {
-                // Importer la base de données
-                ImportExportManager.importJsonData(filesUrl: filesUrl)
-
-//                } catch {
-//                    customLog.log(
-//                        level: .fault,
-//                        "L'importation des fichiers trombines a échouée: \(error.localizedDescription)"
-//                    )
-//                    alertTitle = "Échec"
-//                    alertMessage = "L'importation des fichiers a échoué!"
-//                    alertIsPresented.toggle()
-//                }
-        }
-    }
-
-    /// Copier les fichiers  sélectionnés dans le dossier Document de l'application.
-    /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
-    private func importUserSelectedTrombineFiles(result: Result<[URL], Error>) {
-        switch result {
-            case let .failure(error):
-                customLog.log(
-                    level: .fault,
-                    "Error selecting file: \(error.localizedDescription)"
-                )
-                alertTitle = "Échec"
-                alertMessage = "L'importation des fichiers a échouée!"
-                alertIsPresented.toggle()
-
-            case let .success(filesUrl):
-                do {
-                    try ImportExportManager.importTrombinesImages(filesUrl: filesUrl)
-
-                } catch {
-                    customLog.log(
-                        level: .fault,
-                        "L'importation des fichiers trombines a échouée: \(error.localizedDescription)"
-                    )
-                    alertTitle = "Échec"
-                    alertMessage = "L'importation des fichiers a échoué!"
-                    alertIsPresented.toggle()
-                }
-        }
     }
 }
 

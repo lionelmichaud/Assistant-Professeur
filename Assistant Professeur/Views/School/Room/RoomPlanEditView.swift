@@ -5,12 +5,14 @@
 //  Created by Lionel MICHAUD on 23/10/2022.
 //
 
-import SwiftUI
-import os
 import HelpersView
+import os
+import SwiftUI
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Cahier-du-Professeur",
-                               category  : "RoomPlanEditView")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Cahier-du-Professeur",
+    category: "RoomPlanEditView"
+)
 
 public func + (lhs: CGSize, rhs: CGSize) -> CGSize {
     return CGSize(width: lhs.width + rhs.width, height: lhs.height + rhs.height)
@@ -19,24 +21,6 @@ public func + (lhs: CGSize, rhs: CGSize) -> CGSize {
 struct RoomPlanEditView: View {
     @ObservedObject
     var room: RoomEntity
-
-    @State
-    private var alertTitle = ""
-
-    @State
-    private var alertMessage = ""
-
-    @State
-    private var alertIsPresented = false
-
-    @State
-    private var showLongPressMenu = false
-
-    @State
-    private var isImportingPngFile = false
-
-    @State
-    private var alertItem: AlertItem?
 
     // MARK: - Computd Properties
 
@@ -48,86 +32,31 @@ struct RoomPlanEditView: View {
         if let imageSize {
             ZStack(alignment: .topLeading) {
                 GeometryReader { viewGeometry in
-                    /// Image du plan de la salle
+                    // Image du plan de la salle
                     room.viewImage
                         .resizable()
                         .elevTrombineStyling()
 
-                    /// Symboles des places des élèves dans la salle
+                    // Symboles des places des élèves dans la salle
                     if room.nbSeatPositionned > 0 {
-                        ForEach(room.allSeats, id:\.objectID) { seat in
+                        ForEach(room.allSeats, id: \.objectID) { seat in
                             DraggableSeatLabel(
-                                seat             : seat,
-                                viewGeometrySize : viewGeometry.size,
-                                imageSize        : imageSize
+                                seat: seat,
+                                viewGeometrySize: viewGeometry.size,
+                                imageSize: imageSize
                             )
                         }
                     }
                 }
             }
+
         } else {
-            VStack {
-                Text("Pas de plan disponible pour la salle \"\(room.viewName)\"")
-                    .padding()
-
-                /// Télécharger un plan au format PNG
-                Button {
-                    isImportingPngFile.toggle()
-                } label: {
-                    Label("Importer un plan au format 'PNG'",
-                          systemImage: "square.and.arrow.down")
-                }
-                /// Importer un fichier PNG
-                .fileImporter(isPresented             : $isImportingPngFile,
-                              allowedContentTypes     : [.png],
-                              allowsMultipleSelection : false) { result in
-                    // TODO: - renommer le fichier si le nom du fichier importé n'est pas le bon
-                    importRoomPlanFromFile(result: result)
-                }
-                .alert(item: $alertItem, content: newAlert)
-            }
-        }
-    }
-
-    // MARK: - Methods
-
-    /// Importer le plan de la salle de classe à aprtir du fichier sélectionné par l'utilisateur
-    /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
-    private func importRoomPlanFromFile(result: Result<[URL], Error>) {
-        switch result {
-            case .failure(let error):
-                customLog.log(level: .fault,
-                              "Error selecting file: \(error.localizedDescription)")
-                alertTitle   = "Échec"
-                alertMessage = "L'importation du fichier a échouée"
-                alertIsPresented.toggle()
-
-            case .success(let filesUrl):
-                if let theFileURL = filesUrl.first {
-                    do {
-                        guard let roomPlan = try ImportExportManager.loadUIImage(from: theFileURL) else {
-                            customLog.log(level: .fault,
-                                          "Le contenu de l'image n'est pas lisible.")
-                            alertTitle   = "Échec"
-                            alertMessage = "Le contenu de l'image n'est pas lisible."
-                            alertIsPresented.toggle()
-                            return
-                        }
-                        room.viewUIImage = roomPlan
-
-                    } catch {
-                        customLog.log(level: .fault,
-                                      "L'importation du fichier a échouée.")
-                        alertTitle   = "Échec"
-                        alertMessage = "L'importation du fichier a échouée."
-                        alertIsPresented.toggle()
-                    }
-                }
+            LoadRoomPlanView(room: room)
         }
     }
 }
 
-//struct RoomPlan_Previews: PreviewProvider {
+// struct RoomPlan_Previews: PreviewProvider {
 //    static var room: Room = {
 //        var r = Room(name: "TECHNO-2", capacity: 12)
 //        r.addSeatToPlan(Seat(x: 0.0, y: 0.0))
@@ -165,4 +94,4 @@ struct RoomPlanEditView: View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }
