@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DataBaseManager { // swiftlint:disable:this type_body_length
+enum DataBaseManager { // swiftlint:disable:this type_body_length
     static func check(errorFound: inout Bool) {
         RoomEntity.checkConsistency(errorFound: &errorFound)
         SeatEntity.checkConsistency(errorFound: &errorFound)
@@ -288,12 +288,14 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 mark: 6.5
             )
 
-            setppedExam.setSteppedMark(of: eleve5E1_2,
-                                       markType: .nonRendu
+            setppedExam.setSteppedMark(
+                of: eleve5E1_2,
+                markType: .nonRendu
             )
-            setppedExam.setSteppedMark(of: eleve5E1_3,
-                                       markType: .note,
-                                       marks: [0.5, 1.5, 2.5]
+            setppedExam.setSteppedMark(
+                of: eleve5E1_3,
+                markType: .note,
+                marks: [0.5, 1.5, 2.5]
             )
 
             // Groupes
@@ -480,5 +482,26 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 dans: progSntTermSeq2
             )
         }
+    }
+
+    /// Reconnecter les élèves avec les Groupes auquel ils appartiennent
+    private static func connectElevesToGroups() {
+        EleveEntity.all().forEach { eleve in
+            if let groupe = eleve.group {
+
+            }
+        }
+    }
+
+    /// Reconnecter les élèves avec le Seat sur lequel ils sont assis
+    private static func connectElevesToSeats() {}
+
+    /// Reconnecter les classes avec les Salles quelles utilisent
+    private static func connectClassesToRooms() {}
+
+    static func rebuildConnections() {
+        DataBaseManager.connectElevesToGroups()
+        DataBaseManager.connectElevesToSeats()
+        DataBaseManager.connectClassesToRooms()
     }
 }

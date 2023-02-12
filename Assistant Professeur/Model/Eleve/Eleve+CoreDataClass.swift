@@ -8,12 +8,19 @@
 
 import CoreData
 import Foundation
+import os
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "EleveEntity.Codable"
+)
 
 @objc(EleveEntity)
 public class EleveEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, familyName, givenName, sex, trouble, isFlagged
-        case annotation, appreciation, bonus, hasAddTime, observs, colles
+        case annotation, appreciation, bonus, hasAddTime
+        case observs, colles, groupeID, seatID
     }
 
     /// Conformance to Decodable
@@ -34,7 +41,32 @@ public class EleveEntity: NSManagedObject, Codable, ModelEntityP {
 
         self.observs = try container.decode(Set<ObservEntity>.self, forKey: .observs) as NSSet
         self.colles = try container.decode(Set<ColleEntity>.self, forKey: .colles) as NSSet
-        //        self.eleves = try container.decode(Set<EleveEntity>.self, forKey: .eleves) as NSSet
+
+        // Les groupes doivent être chargés AVANT les élèves pour que les élèves puissent
+        // établir la connection avec les groupes. Voir GroupEntity.init(from decoder: Decoder)
+        if let groupID = try container.decodeIfPresent(UUID.self, forKey: .groupeID) {
+            if let groupe = GroupEntity.byId(id: groupID) {
+                self.group = groupe
+            } else {
+                customLog.log(
+                    level: .error,
+                    "Groupe de l'élève \(self.displayName) introuvable!"
+                )
+            }
+        }
+
+        // Les seats doivent être chargés AVANT les élèves pour que les élèves puissent
+        // établir la connection avec les groupes. Voir SchoolEntity.init(from decoder: Decoder)
+        if let seatID = try container.decodeIfPresent(UUID.self, forKey: .seatID) {
+            if let seat = SeatEntity.byId(id: seatID) {
+                self.seat = seat
+            } else {
+                customLog.log(
+                    level: .error,
+                    "Siège de l'élève \(self.displayName) introuvable dans sa salle de classe!"
+                )
+            }
+        }
     }
 
     /// Conformance to Encodable
@@ -53,6 +85,7 @@ public class EleveEntity: NSManagedObject, Codable, ModelEntityP {
 
         try container.encode(observs as! Set<ObservEntity>, forKey: .observs)
         try container.encode(colles as! Set<ColleEntity>, forKey: .colles)
-        //        try container.encode(eleves as! Set<EleveEntity>, forKey: .eleves)
+        try container.encodeIfPresent(group?.id, forKey: .groupeID)
+        try container.encodeIfPresent(seat?.id, forKey: .seatID)
     }
 }

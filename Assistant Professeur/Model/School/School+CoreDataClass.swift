@@ -25,11 +25,13 @@ public class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
         self.level = try container.decode(String.self, forKey: .level)
         self.annotation = try container.decodeIfPresent(String.self, forKey: .annotation)
 
+        // Les rooms doivent être chargés AVANT les classes pour que les classes puissent
+        // établir la connection avec les rooms. Voir RoomEntity.init(from decoder: Decoder)
+        self.rooms = try container.decode(Set<RoomEntity>.self, forKey: .rooms) as NSSet
         self.classes = try container.decode(Set<ClasseEntity>.self, forKey: .classes) as NSSet
         self.documents = try container.decode(Set<DocumentEntity>.self, forKey: .documents) as NSSet
         self.ressources = try container.decode(Set<RessourceEntity>.self, forKey: .ressources) as NSSet
         self.events = try container.decode(Set<EventEntity>.self, forKey: .events) as NSSet
-        self.rooms = try container.decode(Set<RoomEntity>.self, forKey: .rooms) as NSSet
     }
 
     /// Conformance to Encodable

@@ -8,13 +8,19 @@
 
 import CoreData
 import Foundation
+import os
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "ClasseEntity.Codable"
+)
 
 @objc(ClasseEntity)
 public class ClasseEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, level, numero, segpa, isFlagged
         case annotation, appreciation, discipline, heures
-        case eleves, groups, exams
+        case eleves, groups, exams, roomID
     }
 
     /// Conformance to Decodable
@@ -32,9 +38,28 @@ public class ClasseEntity: NSManagedObject, Codable, ModelEntityP {
         self.discipline = try container.decode(String.self, forKey: .discipline)
         self.heures = try container.decode(Double.self, forKey: .heures)
 
-        self.eleves = try container.decode(Set<EleveEntity>.self, forKey: .eleves) as NSSet
+        // Les groupes doivent être chargés AVANT les élèves pour que les élèves puissent
+        // établir la connection avec les groupes. Voir EleveEntity.init(from decoder: Decoder)
         self.groups = try container.decode(Set<GroupEntity>.self, forKey: .groups) as NSSet
+
+        // Les eleves doivent être chargés AVANT les exams pour que les exam.marks puissent
+        // établir la connection avec les élèves. Voir MarkEntity.init(from decoder: Decoder)
+        self.eleves = try container.decode(Set<EleveEntity>.self, forKey: .eleves) as NSSet
+
         self.exams = try container.decode(Set<ExamEntity>.self, forKey: .exams) as NSSet
+
+        // Les rooms doivent être chargés AVANT les classes pour que les classes puissent
+        // établir la connection avec les rooms. Voir SchoolEntity.init(from decoder: Decoder)
+        if let roomID = try container.decodeIfPresent(UUID.self, forKey: .roomID) {
+            if let room = RoomEntity.byId(id: roomID) {
+                self.room = room
+            } else {
+                customLog.log(
+                    level: .error,
+                    "Salle de classe de la classe \(self.displayString) introuvable!"
+                )
+            }
+        }
     }
 
     /// Conformance to Encodable
@@ -53,5 +78,6 @@ public class ClasseEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(eleves as! Set<EleveEntity>, forKey: .eleves)
         try container.encode(groups as! Set<GroupEntity>, forKey: .groups)
         try container.encode(exams as! Set<ExamEntity>, forKey: .exams)
+        try container.encodeIfPresent(room?.id, forKey: .roomID)
     }
 }

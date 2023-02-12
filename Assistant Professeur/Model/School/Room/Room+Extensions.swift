@@ -157,6 +157,12 @@ extension RoomEntity {
 
     // MARK: - Type Methods
 
+    static func byId(id: UUID) -> Self? {
+        all().first { object in
+            object.id == id
+        }
+    }
+
     @discardableResult
     static func create(
         withName: String = "",

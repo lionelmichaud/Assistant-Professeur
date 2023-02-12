@@ -39,6 +39,12 @@ extension SeatEntity {
 
     // MARK: - Type Methods
 
+    static func byId(id: UUID) -> Self? {
+        all().first { object in
+            object.id == id
+        }
+    }
+
     /// Créer une nouvelle place assise et l'ajouter à la salle de classe `room`
     /// - Parameters:
     ///   - x: position horizontale de la place dans la salle en % [0.0, 1.0]

@@ -80,10 +80,12 @@ extension ModelEntityP {
 
     /// Remove all the object of type `Self` from its persistent store
     static func deleteAll() throws {
-        Self.all().forEach { item in
-            Self.viewContext.delete(item)
+        try Self.viewContext.performAndWait {
+            Self.all().forEach { item in
+                Self.viewContext.delete(item)
+            }
+            try Self.saveIfContextHasChanged()
         }
-        try Self.saveIfContextHasChanged()
     }
 
     static func rollback() {

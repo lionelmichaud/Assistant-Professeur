@@ -189,6 +189,7 @@ enum ImportExportManager {
             fileUrl.stopAccessingSecurityScopedResource()
         }
 
+        DataBaseManager.rebuildConnections()
         try? SchoolEntity.saveIfContextHasChanged()
     }
 
