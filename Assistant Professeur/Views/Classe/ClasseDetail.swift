@@ -179,7 +179,7 @@ struct ClasseDetail: View {
             }
         }
         .toolbar {
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
+            ToolbarItemGroup(placement: .primaryAction) {
                 // Importation des données
                 // Importer une liste d'élèves d'une classe depuis un fichier CSV au format PRONOTE
                 Button {

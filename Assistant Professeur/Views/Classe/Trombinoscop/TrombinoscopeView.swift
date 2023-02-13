@@ -83,9 +83,10 @@ struct TrombinoscopeView: View {
         .navigationTitle("Trombines \(classe.displayString) (\(classe.nbOfEleves))")
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .searchable(text      : $searchString,
-                    placement : .navigationBarDrawer(displayMode : .automatic),
-                    prompt    : "Nom, Prénom ou n° de groupe")
+        .searchable(text: $searchString,
+//                    placement : .navigationBarDrawer(displayMode : .automatic),
+                    placement: .toolbar,
+                    prompt: "Nom, Prénom ou n° de groupe")
         .autocorrectionDisabled()
     }
 

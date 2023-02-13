@@ -30,7 +30,8 @@ struct ExamEditor: View {
                              searchString : searchString)
             }
             .searchable(text      : $searchString,
-                        placement : .navigationBarDrawer(displayMode : .automatic),
+//                        placement : .navigationBarDrawer(displayMode : .automatic),
+                        placement : .toolbar,
                         prompt    : "Nom, Prénom ou n° de groupe")
             .autocorrectionDisabled()
 //            .onChange(of: exam) { _ in

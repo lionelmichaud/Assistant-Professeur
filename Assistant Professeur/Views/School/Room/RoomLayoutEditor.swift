@@ -157,7 +157,7 @@ struct RoomLayoutEditor: View {
                                 }
 
                                 // pour le remplacer par celui qui vients d'être choisi
-                                var image: UIImage?
+                                var image: NativeImage?
                                 (
                                     image,
                                     alertTitle,
@@ -165,7 +165,7 @@ struct RoomLayoutEditor: View {
                                     alertIsPresented
                                 ) = ImportExportManager.importImage(result: result)
                                 if let image {
-                                    room.viewUIImage = image
+                                    room.viewNativeImage = image
                                 }
                             }
                         }

@@ -186,7 +186,8 @@ struct GroupsView: View {
                     }
                 }
                 .searchable(text      : $searchString,
-                            placement : .navigationBarDrawer(displayMode : .automatic),
+//                            placement : .navigationBarDrawer(displayMode : .automatic),
+                            placement : .toolbar,
                             prompt    : "Nom ou Prénom de l'élève")
                 .autocorrectionDisabled()
             }
@@ -203,7 +204,7 @@ struct GroupsView: View {
                 .pickerStyle(.segmented)
             }
 
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
+            ToolbarItemGroup(placement: .destructiveAction) {
                 toolbarMenu
                 /// Confirmation de suppresssion de tous les groupes
                     .confirmationDialog(

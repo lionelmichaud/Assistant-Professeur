@@ -8,7 +8,9 @@
 import CoreData
 import Foundation
 import SwiftUI
-import UIKit
+import HelpersView
+
+// import UIKit
 
 /// Un élève
 extension EleveEntity {
@@ -20,20 +22,30 @@ extension EleveEntity {
     @Preference(\.nameDisplayOrder)
     private static var nameDisplayOrder
 
+    #if canImport(UIKit)
+        static let defaultTrombineNativeImage: UIImage = .init(systemName: "questionmark.app.dashed")!
+    #elseif canImport(AppKit)
+        static let defaultTrombineNativeImage: NSImage = .init(systemSymbolName: "questionmark.app.dashed", accessibilityDescription: nil)!
+    #endif
+
     // MARK: - Computed properties
 
     /// Wrapper of `trombine`
     /// - Important: *Saves the context to the store after modification is done*
-    var viewUIImageTrombine: UIImage {
+    var viewNativeImageTrombine: NativeImage {
         get {
             if let trombine {
-                return UIImage(data: trombine) ?? UIImage(systemName: "questionmark.square.dashed")!
+                return NativeImage(data: trombine) ?? EleveEntity.defaultTrombineNativeImage
             } else {
-                return UIImage(systemName: "questionmark.square.dashed")!
+                return EleveEntity.defaultTrombineNativeImage
             }
         }
         set {
-            self.trombine = newValue.jpegData(compressionQuality: 1)
+            #if canImport(UIKit)
+                self.trombine = newValue.jpegData(compressionQuality: 1)
+            #elseif canImport(AppKit)
+                self.trombine = newValue.jpegData()
+            #endif
             try? EleveEntity.saveIfContextHasChanged()
         }
     }
@@ -41,8 +53,12 @@ extension EleveEntity {
     /// Wrapper of `trombine`
     /// - Important: *Saves the context to the store after modification is done*
     var viewImageTrombine: Image {
-        if let trombine, let uiImage = UIImage(data: trombine) {
-            return Image(uiImage: uiImage)
+        if let trombine, let nativeImage = NativeImage(data: trombine) {
+            #if canImport(UIKit)
+                return Image(uiImage: nativeImage)
+            #elseif canImport(AppKit)
+                return Image(nsImage: nativeImage)
+            #endif
         } else {
             return Image(systemName: "questionmark.square.dashed")
         }

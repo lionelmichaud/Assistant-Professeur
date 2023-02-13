@@ -9,7 +9,12 @@ import CoreData
 import Foundation
 import os
 import SwiftUI
-import UIKit
+import HelpersView
+#if canImport(UIKit)
+    import UIKit
+#elseif canImport(AppKit)
+    import AppKit
+#endif
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -19,7 +24,11 @@ private let customLog = Logger(
 extension RoomEntity {
     // MARK: - Type Properties
 
-    static let defaultPlanUIImage: UIImage = .init(systemName: "questionmark.app.dashed")!
+    #if canImport(UIKit)
+        static let defaultPlanNativeImage: UIImage = .init(systemName: "questionmark.app.dashed")!
+    #elseif canImport(AppKit)
+        static let defaultPlanNativeImage: NSImage = .init(systemSymbolName: "questionmark.app.dashed", accessibilityDescription: nil)!
+    #endif
     static let defaultPlanImage: Image = .init(systemName: "questionmark.app.dashed")
 
     // MARK: - Computed Properties
@@ -55,12 +64,12 @@ extension RoomEntity {
     /// Retreives the PNG data from the object blob `image` attribute and convert it as UIImage.
     /// Saves the new UIImage as PNG data to the object blob `image` attribute.
     /// - Important: *Saves the context to the store after modification is done*
-    var viewUIImage: UIImage {
+    var viewNativeImage: NativeImage {
         get {
             if let image {
-                return UIImage(data: image) ?? RoomEntity.defaultPlanUIImage
+                return NativeImage(data: image) ?? RoomEntity.defaultPlanNativeImage
             } else {
-                return RoomEntity.defaultPlanUIImage
+                return RoomEntity.defaultPlanNativeImage
             }
         }
         set {
@@ -72,8 +81,12 @@ extension RoomEntity {
     /// Wrapper of `image`
     /// - Important: *Saves the context to the store after modification is done*
     var viewImage: Image {
-        if let image, let uiImage = UIImage(data: image) {
-            return Image(uiImage: uiImage)
+        if let image, let nativeImage = NativeImage(data: image) {
+            #if canImport(UIKit)
+                return Image(uiImage: nativeImage)
+            #elseif canImport(AppKit)
+                return Image(nsImage: nativeImage)
+            #endif
         } else {
             return RoomEntity.defaultPlanImage
         }

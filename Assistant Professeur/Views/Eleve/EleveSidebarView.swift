@@ -47,7 +47,8 @@ struct EleveSidebarView: View {
         }
         .searchable(
             text      : $searchString,
-            placement : .navigationBarDrawer(displayMode : .automatic),
+//            placement : .navigationBarDrawer(displayMode : .automatic),
+            placement : .toolbar,
             prompt    : "Nom ou Prénom de l'élève"
         )
         .autocorrectionDisabled()

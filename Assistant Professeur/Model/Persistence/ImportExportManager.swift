@@ -169,8 +169,10 @@ enum ImportExportManager {
 
     /// Peupler la base de donnée à patir des données importées des fichiers  JSON sélectionnés.
     /// - Parameter filesUrl: URLs des fichiers sélectionnés
-    static func importJsonData(result: Result<[URL], Error>,
-                               resetNavigationData: () -> Void)
+    static func importJsonData(
+        result: Result<[URL], Error>,
+        resetNavigationData: () -> Void
+    )
         -> (
             alertTitle: String,
             alertMessage: String,
@@ -243,14 +245,14 @@ enum ImportExportManager {
     /// - Parameter fileUrl: fichier image
     /// - Returns: An initialized UIImage object, or nil if the method could not initialize the image from the loaded data.
     /// - Throws: si le contenu du fichier est ilisible
-    private static func loadUIImage(from fileUrl: URL) throws -> UIImage? {
+    private static func loadNativeImage(from fileUrl: URL) throws -> NativeImage? {
         guard fileUrl.startAccessingSecurityScopedResource() else {
             return nil
         }
         do {
             let data = try Data(contentsOf: fileUrl)
             fileUrl.stopAccessingSecurityScopedResource()
-            return UIImage(data: data)
+            return NativeImage(data: data)
         } catch {
             fileUrl.stopAccessingSecurityScopedResource()
             throw error
@@ -262,7 +264,7 @@ enum ImportExportManager {
     /// - Returns: An initialized UIImage object, or nil if the method could not initialize the image from the loaded data.
     static func importImage(result: Result<[URL], Error>)
         -> (
-            image: UIImage?,
+            image: NativeImage?,
             alertTitle: String,
             alertMessage: String,
             alertIsPresented: Bool
@@ -270,7 +272,7 @@ enum ImportExportManager {
         var alertTitle = ""
         var alertMessage = ""
         var alertIsPresented = false
-        var loadedImage: UIImage?
+        var loadedImage: NativeImage?
 
         switch result {
             case let .failure(error):
@@ -285,7 +287,7 @@ enum ImportExportManager {
             case let .success(filesUrl):
                 if let theFileURL = filesUrl.first {
                     do {
-                        if let image = try ImportExportManager.loadUIImage(from: theFileURL) {
+                        if let image = try ImportExportManager.loadNativeImage(from: theFileURL) {
                             loadedImage = image
                         } else {
                             customLog.log(
@@ -342,14 +344,14 @@ enum ImportExportManager {
             case let .success(filesUrl):
                 filesUrl.forEach { fileUrl in
                     do {
-                        if let image = try ImportExportManager.loadUIImage(from: fileUrl) {
+                        if let image = try ImportExportManager.loadNativeImage(from: fileUrl) {
                             let urlFileNameWithExtension = fileUrl.lastPathComponent
                             let eleves = EleveEntity.all()
 
                             eleves.forEach { eleve in
                                 let imageFileName = eleve.imageFileName
                                 if imageFileName == urlFileNameWithExtension {
-                                    eleve.viewUIImageTrombine = image
+                                    eleve.viewNativeImageTrombine = image
                                 }
                             }
                         } else {

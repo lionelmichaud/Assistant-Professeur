@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 12/02/2023.
 //
 
+import HelpersView
 import SwiftUI
 
 struct LoadRoomPlanView: View {
@@ -44,7 +45,7 @@ struct LoadRoomPlanView: View {
                 allowsMultipleSelection: false
             ) { result in
                 withAnimation {
-                    var image: UIImage?
+                    var image: NativeImage?
                     (
                         image,
                         alertTitle,
@@ -52,7 +53,7 @@ struct LoadRoomPlanView: View {
                         alertIsPresented
                     ) = ImportExportManager.importImage(result: result)
                     if let image {
-                        room.viewUIImage = image
+                        room.viewNativeImage = image
                     }
                 }
             }

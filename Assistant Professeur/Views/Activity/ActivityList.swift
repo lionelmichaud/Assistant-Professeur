@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 22/01/2023.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct ActivityList: View {
     @ObservedObject
@@ -16,7 +16,7 @@ struct ActivityList: View {
     private var managedObjectContext
 
     @EnvironmentObject
-    private var navig : NavigationModel
+    private var navig: NavigationModel
 
     @State
     private var searchString: String = ""
@@ -27,9 +27,10 @@ struct ActivityList: View {
                 List(selection: $navig.selectedActivityId) {
                     ForEach(
                         sequence.filteredActivitiesSortedByNumber(searchString: searchString),
-                        id: \.objectID) { activity in
+                        id: \.objectID
+                    ) { activity in
 //                        NavigationLink(value: sequence) {
-                            ActivityBrowserRow(activity: activity)
+                        ActivityBrowserRow(activity: activity)
 //                        }
                     }
                     .onMove(perform: moveItems)
@@ -37,10 +38,10 @@ struct ActivityList: View {
                     .listRowSeparatorTint(.secondary)
                 }
                 .searchable(
-                    text      : $searchString,
-                    placement : .navigationBarDrawer(displayMode : .automatic),
-                    //                    placement : .toolbar,
-                    prompt    : "Nom de l'activité"
+                    text: $searchString,
+//                    placement : .navigationBarDrawer(displayMode : .automatic),
+                    placement: .toolbar,
+                    prompt: "Nom de l'activité"
                 )
 
             } else {
@@ -105,8 +106,8 @@ struct ActivityList: View {
     }
 }
 
-//struct ActivityList_Previews: PreviewProvider {
+// struct ActivityList_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ActivityList()
 //    }
-//}
+// }

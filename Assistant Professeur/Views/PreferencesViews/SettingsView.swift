@@ -26,7 +26,9 @@ struct SettingsView: View {
                 SettingsActivity()
             }
         }
+        #if os(iOS)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+        #endif
         .toolbar {
             ToolbarItem {
                 Button("Fermer") {
