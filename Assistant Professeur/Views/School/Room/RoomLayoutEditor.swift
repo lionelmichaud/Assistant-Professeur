@@ -163,7 +163,7 @@ struct RoomLayoutEditor: View {
                                     alertTitle,
                                     alertMessage,
                                     alertIsPresented
-                                ) = ImportExportManager.importImage(result: result)
+                                ) = ImageImportExportMng.importImage(result: result)
                                 if let image {
                                     room.viewNativeImage = image
                                 }

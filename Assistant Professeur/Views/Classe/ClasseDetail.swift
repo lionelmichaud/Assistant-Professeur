@@ -225,63 +225,23 @@ struct ClasseDetail: View {
             allowedContentTypes: [.commaSeparatedText],
             allowsMultipleSelection: false
         ) { result in
-            importCsvFiles(result: result)
+            (
+                alertTitle,
+                alertMessage,
+                alertIsPresented
+            ) = CsvImportExportMng
+                .importElevesListe(
+                    for: classe,
+                    interoperability: interoperability,
+                    result: result
+                )
         }
         #if os(iOS)
         .navigationTitle("Classe")
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .onDisappear(perform: save)
-    }
-
-    // MARK: - Methods
-
-    private func save() {
-        try? ClasseEntity.saveIfContextHasChanged()
-        // school.refresh()
-    }
-
-    private func importCsvFiles(result: Result<[URL], Error>) {
-        switch result {
-            case let .failure(error):
-                print("Error selecting file: \(error.localizedDescription)")
-                alertTitle = "Échec"
-                alertMessage = "L'importation du fichier a échouée"
-                alertIsPresented.toggle()
-
-            case let .success(filesUrl):
-                filesUrl.forEach { fileUrl in
-                    guard fileUrl.startAccessingSecurityScopedResource() else {
-                        return
-                    }
-
-                    if let data = try? Data(contentsOf: fileUrl) {
-                        do {
-                            switch interoperability {
-                                case .ecoleDirecte:
-                                    try CsvImporter()
-                                        .importElevesFromEcoleDirecte(
-                                            from: data,
-                                            dans: classe
-                                        )
-
-                                case .proNote:
-                                    try CsvImporter()
-                                        .importElevesFromPRONOTE(
-                                            from: data,
-                                            dans: classe
-                                        )
-                            }
-                        } catch {
-                            print("Error reading file \(error.localizedDescription)")
-                            alertTitle = "Échec"
-                            alertMessage = "L'importation du fichier a échouée"
-                            alertIsPresented.toggle()
-                        }
-                    }
-
-                    fileUrl.stopAccessingSecurityScopedResource()
-                }
+        .onDisappear {
+            try? ClasseEntity.saveIfContextHasChanged()
         }
     }
 }

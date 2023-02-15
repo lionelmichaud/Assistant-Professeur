@@ -6,7 +6,6 @@
 //
 
 import Files
-import HelpersView
 import os
 import SwiftUI
 
@@ -64,33 +63,7 @@ enum ImportExportManager {
 //        }
 //    }
 
-    static let schoolsFileName = String(describing: SchoolEntity.self) + ".json"
-    static let programsFileName = String(describing: ProgramEntity.self) + ".json"
-
-    /// Fournit la litse des URL des fichiers contenus dans le dossier Document
-    /// et qui contiennent `fileNames`dans leur nom de fichier.
-    /// - Parameter fileNames: critère de collecte (par exemple ".json")
-    static func documentsURLsToShare(fileNames: [String]? = nil) -> [URL] {
-        // vérifier l'existence du Folder Document
-        guard let documentsFolder = Folder.documents else {
-            let error = FileError.failedToResolveDocuments
-            customLog.log(level: .fault, "\(error.rawValue))")
-            fatalError()
-        }
-
-        let foundURLs = PersistenceManager()
-            .collectedURLs(
-                fromFolder: documentsFolder,
-                fileNames: fileNames
-            )
-        if foundURLs.isEmpty {
-            customLog.log(
-                level: .info,
-                "Echec de la recherche des URL des fichiers contenus dans le dossier \(documentsFolder.name)"
-            )
-        }
-        return []
-    }
+    // MARK: - Autres Export/Import vers/depuis le dossier Caches
 
     /// Fournit la litse des URL des fichiers contenus dans le dossier Caches
     /// et qui contiennent `fileNames`dans leur nom de fichier.
@@ -117,273 +90,32 @@ enum ImportExportManager {
         return foundURLs
     }
 
-    // MARK: - Export/Import vers/depuis des fichiers CSV
-
-    static func exportGroupsToCSV(deClasse _: ClasseEntity) {
-        // TODO: - Exporter les groupes au format CSV
-    }
-
-    // MARK: - Export/Import vers/depuis des fichiers JSON
-
-    /// Exporter les School et leurs descendants vers un fichier au format JSON
-    static func exportSchoolsToJson() {
-        let cachesUrl = URL.cachesDirectory
-        cachesUrl.encode(
-            SchoolEntity.all(),
-            to: schoolsFileName
-        )
-    }
-
-    /// Exporter les Program et leurs descendants vers un fichier au format JSON
-    static func exportProgramsToJson() {
-        let cachesUrl = URL.cachesDirectory
-        cachesUrl.encode(
-            ProgramEntity.all(),
-            to: programsFileName
-        )
-    }
-
-    /// Exporter les données vers des fichiers au format JSON
-    static func exportToJsonFiles() {
-        exportSchoolsToJson()
-        exportProgramsToJson()
-    }
-
-    /// Importer les Schools depuis des fichiers au format JSON
-    static func importSchoolsFromJson(fileUrl: URL) {
-        let schools = fileUrl.decode(
-            [SchoolEntity].self,
-            from: ""
-        )
-        print(String(describing: schools))
-    }
-
-    /// Importer les Programs depuis des fichiers au format JSON
-    static func importProgramsFromJson(fileUrl: URL) {
-        let programs = fileUrl.decode(
-            [ProgramEntity].self,
-            from: ""
-        )
-        print(String(describing: programs))
-    }
-
-    /// Peupler la base de donnée à patir des données importées des fichiers  JSON sélectionnés.
-    /// - Parameter filesUrl: URLs des fichiers sélectionnés
-    static func importJsonData(
-        result: Result<[URL], Error>,
-        resetNavigationData: () -> Void
-    )
-        -> (
-            alertTitle: String,
-            alertMessage: String,
-            alertIsPresented: Bool
-        ) {
-        var alertTitle = ""
-        var alertMessage = ""
-        var alertIsPresented = false
-
-        switch result {
-            case let .failure(error):
-                customLog.log(
-                    level: .fault,
-                    "Error selecting file: \(error.localizedDescription)"
-                )
-                alertTitle = "Échec"
-                alertMessage = "L'importation des fichiers a échouée!"
-                alertIsPresented = true
-
-            case let .success(filesUrl):
-                /// Vider la base de données
-                var failed = false
-                resetNavigationData()
-                DataBaseManager.clear(failed: &failed)
-
-                guard !failed else {
-                    alertTitle = "Échec"
-                    alertMessage = "L'effacement complet de la base de donnée a échoué"
-                    alertIsPresented = true
-                    return (
-                        alertTitle: alertTitle,
-                        alertMessage: alertMessage,
-                        alertIsPresented: alertIsPresented
-                    )
-                }
-
-                filesUrl.forEach { fileUrl in
-                    guard fileUrl.startAccessingSecurityScopedResource() else {
-                        return
-                    }
-
-                    let urlFileNameWithExtension = fileUrl.lastPathComponent
-
-                    if urlFileNameWithExtension.contains(String(describing: SchoolEntity.self)) {
-                        // Importer les données des Schools et de leurs descendants
-                        importSchoolsFromJson(fileUrl: fileUrl)
-
-                    } else if urlFileNameWithExtension.contains(String(describing: ProgramEntity.self)) {
-                        // Importer les données des Programs et de leurs descendants
-                        importProgramsFromJson(fileUrl: fileUrl)
-                    }
-
-                    fileUrl.stopAccessingSecurityScopedResource()
-                }
-
-                DataBaseManager.rebuildConnections()
-                try? SchoolEntity.saveIfContextHasChanged()
-        }
-
-        return (
-            alertTitle: alertTitle,
-            alertMessage: alertMessage,
-            alertIsPresented: alertIsPresented
-        )
-    }
-
-    // MARK: - Export/Import vers/depuis des fichiers Image
-
-    /// Loads image data from a `fileUrl`  and converts it as UIImage.
-    /// - Parameter fileUrl: fichier image
-    /// - Returns: An initialized UIImage object, or nil if the method could not initialize the image from the loaded data.
-    /// - Throws: si le contenu du fichier est ilisible
-    private static func loadNativeImage(from fileUrl: URL) throws -> NativeImage? {
-        guard fileUrl.startAccessingSecurityScopedResource() else {
-            return nil
-        }
-        do {
-            let data = try Data(contentsOf: fileUrl)
-            fileUrl.stopAccessingSecurityScopedResource()
-            return NativeImage(data: data)
-        } catch {
-            fileUrl.stopAccessingSecurityScopedResource()
-            throw error
-        }
-    }
-
-    /// Importer un fichier image dans un format convertible en UIImage
-    /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
-    /// - Returns: An initialized UIImage object, or nil if the method could not initialize the image from the loaded data.
-    static func importImage(result: Result<[URL], Error>)
-        -> (
-            image: NativeImage?,
-            alertTitle: String,
-            alertMessage: String,
-            alertIsPresented: Bool
-        ) {
-        var alertTitle = ""
-        var alertMessage = ""
-        var alertIsPresented = false
-        var loadedImage: NativeImage?
-
-        switch result {
-            case let .failure(error):
-                customLog.log(
-                    level: .error,
-                    "Error selecting file: \(error.localizedDescription)"
-                )
-                alertTitle = "Échec"
-                alertMessage = "L'importation du fichier a échouée"
-                alertIsPresented = true
-
-            case let .success(filesUrl):
-                if let theFileURL = filesUrl.first {
-                    do {
-                        if let image = try ImportExportManager.loadNativeImage(from: theFileURL) {
-                            loadedImage = image
-                        } else {
-                            customLog.log(
-                                level: .error,
-                                "Le contenu de l'image n'est pas lisible."
-                            )
-                            alertTitle = "Échec"
-                            alertMessage = "Le contenu de l'image n'est pas lisible."
-                            alertIsPresented = true
-                        }
-
-                    } catch {
-                        customLog.log(
-                            level: .error,
-                            "L'importation du fichier a échouée."
-                        )
-                        alertTitle = "Échec"
-                        alertMessage = "L'importation du fichier a échouée."
-                        alertIsPresented = true
-                    }
-                }
-        }
-
-        return (
-            image: loadedImage,
-            alertTitle: alertTitle,
-            alertMessage: alertMessage,
-            alertIsPresented: alertIsPresented
-        )
-    }
-
-    /// Importer les fichiers image  pour le trombinoscope
-    /// - Parameter filesUrl: URLs des fichiers sélectionnés
-    static func importTrombinesImages(result: Result<[URL], Error>)
-        -> (
-            alertTitle: String,
-            alertMessage: String,
-            alertIsPresented: Bool
-        ) {
-        var alertTitle = ""
-        var alertMessage = ""
-        var alertIsPresented = false
-
-        switch result {
-            case let .failure(error):
-                customLog.log(
-                    level: .fault,
-                    "Error selecting file: \(error.localizedDescription)"
-                )
-                alertTitle = "Échec"
-                alertMessage = "L'importation des fichiers a échouée!"
-                alertIsPresented.toggle()
-
-            case let .success(filesUrl):
-                filesUrl.forEach { fileUrl in
-                    do {
-                        if let image = try ImportExportManager.loadNativeImage(from: fileUrl) {
-                            let urlFileNameWithExtension = fileUrl.lastPathComponent
-                            let eleves = EleveEntity.all()
-
-                            eleves.forEach { eleve in
-                                let imageFileName = eleve.imageFileName
-                                if imageFileName == urlFileNameWithExtension {
-                                    eleve.viewNativeImageTrombine = image
-                                }
-                            }
-                        } else {
-                            customLog.log(
-                                level: .fault,
-                                "La convertion de certains des fichiers trombines a échouée"
-                            )
-                            alertTitle = "Échec"
-                            alertMessage = "L'importation de certains fichiers a échouée!"
-                            alertIsPresented = true
-                        }
-
-                    } catch {
-                        customLog.log(
-                            level: .fault,
-                            "L'importation des fichiers trombines a échouée: \(error.localizedDescription)"
-                        )
-                        alertTitle = "Échec"
-                        alertMessage = "L'importation de certains fichiers a échouée!"
-                        alertIsPresented = true
-                    }
-                }
-        }
-
-        return (
-            alertTitle: alertTitle,
-            alertMessage: alertMessage,
-            alertIsPresented: alertIsPresented
-        )
-    }
-
     // MARK: - Autres Export/Import vers/depuis le dossier Document
+
+    /// Fournit la litse des URL des fichiers contenus dans le dossier Document
+    /// et qui contiennent `fileNames`dans leur nom de fichier.
+    /// - Parameter fileNames: critère de collecte (par exemple ".json")
+    static func documentsURLsToShare(fileNames: [String]? = nil) -> [URL] {
+        // vérifier l'existence du Folder Document
+        guard let documentsFolder = Folder.documents else {
+            let error = FileError.failedToResolveDocuments
+            customLog.log(level: .fault, "\(error.rawValue))")
+            fatalError()
+        }
+
+        let foundURLs = PersistenceManager()
+            .collectedURLs(
+                fromFolder: documentsFolder,
+                fileNames: fileNames
+            )
+        if foundURLs.isEmpty {
+            customLog.log(
+                level: .info,
+                "Echec de la recherche des URL des fichiers contenus dans le dossier \(documentsFolder.name)"
+            )
+        }
+        return []
+    }
 
     /// Importer les fichiers dont les URL sont `filesUrl`vers le dossier Document.
     /// Exécute l'`action` pour chaque fichier importé.

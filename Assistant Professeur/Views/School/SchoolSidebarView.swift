@@ -22,7 +22,7 @@ struct SchoolSidebarView: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
 
-    enum FileOperation {
+    enum FileImportOperation {
         case importTrombines
         case importModel
         case none
@@ -31,6 +31,41 @@ struct SchoolSidebarView: View {
             switch self {
                 case .importTrombines: return [.jpeg]
                 case .importModel: return [.json]
+                case .none: return []
+            }
+        }
+    }
+
+    enum FileExportOperation {
+        case exportJsonModel
+        case exportCsvEleveList
+        case exportCsvPrograms
+        case none
+
+        var urls: [URL] {
+            switch self {
+                case .exportJsonModel:
+                    return ImportExportManager.cachesURLsToShare(
+                        fileNames: [
+                            JsonImportExportMng.schoolsFileName,
+                            JsonImportExportMng.programsFileName
+                        ]
+                    )
+
+                case .exportCsvEleveList:
+                    return ImportExportManager.cachesURLsToShare(
+                        fileNames: [
+                            CsvImportExportMng.csvEleveListFileName
+                        ]
+                    )
+
+                case .exportCsvPrograms:
+                    return ImportExportManager.cachesURLsToShare(
+                        fileNames: [
+                            CsvImportExportMng.csvProgramListFileName
+                        ]
+                    )
+
                 case .none: return []
             }
         }
@@ -62,7 +97,10 @@ struct SchoolSidebarView: View {
     private var alertIsPresented = false
 
     @State
-    private var fileOperation = FileOperation.none
+    private var fileImportOperation = FileImportOperation.none
+
+    @State
+    private var fileExportOperation = FileExportOperation.none
 
     @State
     private var isShowingDeleteConfirmDialog = false
@@ -176,16 +214,16 @@ struct SchoolSidebarView: View {
         // Importer des fichiers JSON pour le modèle
         .fileImporter(
             isPresented: $isImportingFile,
-            allowedContentTypes: fileOperation.allowedContentTypes,
+            allowedContentTypes: fileImportOperation.allowedContentTypes,
             allowsMultipleSelection: true
         ) { result in
-            switch fileOperation {
+            switch fileImportOperation {
                 case .importModel:
                     (
                         alertTitle,
                         alertMessage,
                         alertIsPresented
-                    ) = ImportExportManager.importJsonData(
+                    ) = JsonImportExportMng.importJsonData(
                         result: result,
                         resetNavigationData: { navigationModel.resetSelections() }
                     )
@@ -195,7 +233,7 @@ struct SchoolSidebarView: View {
                         alertTitle,
                         alertMessage,
                         alertIsPresented
-                    ) = ImportExportManager.importTrombinesImages(
+                    ) = ImageImportExportMng.importTrombinesImages(
                         result: result
                     )
 
@@ -207,7 +245,7 @@ struct SchoolSidebarView: View {
         // Exporter des fichiers JSON pour le modèle
         .fileMover(
             isPresented: $isExportingModel,
-            files: isExportingModel ? jsonURLsToShare : []
+            files: isExportingModel ? fileExportOperation.urls : []
         ) { _ in
         }
     }
@@ -239,14 +277,20 @@ extension SchoolSidebarView {
                     Button {
                         isShowingAbout = true
                     } label: {
-                        Label("A propos", systemImage: "info.circle")
+                        Label(
+                            "A propos",
+                            systemImage: "info.circle"
+                        )
                     }
 
                     // Edition des préférences utilisateur
                     Button {
                         isEditingPreferences = true
                     } label: {
-                        Label("Préférences", systemImage: "gear")
+                        Label(
+                            "Préférences",
+                            systemImage: "gear"
+                        )
                     }
 
                     // Exporter les fichiers JSON utilisateurs
@@ -255,7 +299,10 @@ extension SchoolSidebarView {
                     Button {
                         checkAllUserData()
                     } label: {
-                        Label("Vérifier la base de donnée", systemImage: "checkmark.circle.trianglebadge.exclamationmark")
+                        Label(
+                            "Vérifier la base de donnée",
+                            systemImage: "checkmark.circle.trianglebadge.exclamationmark"
+                        )
                     }
                 }
 
@@ -264,31 +311,55 @@ extension SchoolSidebarView {
                     Button(role: .destructive) {
                         isShowingImportTrombineDialog.toggle()
                     } label: {
-                        Label("Importer des photos pour le trombinoscope", systemImage: "person.crop.rectangle.stack.fill")
+                        Label(
+                            "Importer des photos pour le trombinoscope",
+                            systemImage: "person.crop.rectangle.stack.fill"
+                        )
                     }
 
                     // Importer les données depuis des fichiers au format JSON
                     Button(role: .destructive) {
                         isShowingJsonImportConfirmDialog.toggle()
                     } label: {
-                        Label("Importer les données depuis un export", systemImage: "square.and.arrow.down")
+                        Label(
+                            "Importer les données depuis un export",
+                            systemImage: "square.and.arrow.down"
+                        )
                     }
 
                     // Importer des fichiers depuis le Bundle Application
                     Button(role: .destructive) {
                         isShowingAppImportConfirmDialog.toggle()
                     } label: {
-                        Label("Importer les données contenues dans l'Application", systemImage: "square.and.arrow.down")
+                        Label(
+                            "Importer les données contenues dans l'Application",
+                            systemImage: "square.and.arrow.down"
+                        )
                     }
                 }
 
                 Menu("Exporter") {
                     // Exporter les données dans des fichiers au format JSON
                     Button {
-                        ImportExportManager.exportToJsonFiles()
+                        JsonImportExportMng.exportToJsonFiles()
+                        fileExportOperation = .exportJsonModel
                         isExportingModel.toggle()
                     } label: {
-                        Label("Exporter vos données vers des fichiers", systemImage: "square.and.arrow.up")
+                        Label(
+                            "Archiver vos données vers des fichiers",
+                            systemImage: "square.and.arrow.up"
+                        )
+                    }
+                    // Exporter les données dans des fichiers au format CSV
+                    Button {
+                        CsvImportExportMng.exportEleves()
+                        fileExportOperation = .exportCsvEleveList
+                        isExportingModel.toggle()
+                    } label: {
+                        Label(
+                            "Exporter les listes d'élèves",
+                            systemImage: "square.and.arrow.up"
+                        )
                     }
                 }
 
@@ -297,7 +368,10 @@ extension SchoolSidebarView {
                     Button(role: .destructive) {
                         isShowingDeleteConfirmDialog.toggle()
                     } label: {
-                        Label("Supprimer toutes vos données", systemImage: "trash")
+                        Label(
+                            "Supprimer toutes vos données",
+                            systemImage: "trash"
+                        )
                     }
                 }
 
@@ -327,7 +401,7 @@ extension SchoolSidebarView {
             ) {
                 Button("Importer", role: .destructive) {
                     withAnimation {
-                        fileOperation = .importModel
+                        fileImportOperation = .importModel
                         isImportingFile.toggle()
                     }
                 }
@@ -360,7 +434,7 @@ extension SchoolSidebarView {
             ) {
                 Button("Importer") {
                     withAnimation {
-                        fileOperation = .importModel
+                        fileImportOperation = .importModel
                         isImportingFile.toggle()
                     }
                 }
@@ -411,8 +485,8 @@ extension SchoolSidebarView {
     private var jsonURLsToShare: [URL] {
         ImportExportManager.cachesURLsToShare(
             fileNames: [
-                ImportExportManager.schoolsFileName,
-                ImportExportManager.programsFileName
+                JsonImportExportMng.schoolsFileName,
+                JsonImportExportMng.programsFileName
             ]
         )
     }
