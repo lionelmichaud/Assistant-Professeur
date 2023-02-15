@@ -77,9 +77,7 @@ class EleveViewModel: ObservableObject {
 
         // ajouter une note pour chaque évaluation de la classe
         inClasse.allExams.forEach { exam in
-            let mark = MarkEntity.create()
-            mark.eleve = eleve
-            mark.exam = exam
+            MarkEntity.create(pourEleve: eleve, pourExam: exam)
         }
 
         try? EleveEntity.saveIfContextHasChanged()

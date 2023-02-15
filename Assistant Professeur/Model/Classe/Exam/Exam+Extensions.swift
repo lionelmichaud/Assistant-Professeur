@@ -245,7 +245,7 @@ extension ExamEntity {
 
         let eleves = classe.allEleves
         eleves.forEach { eleve in
-            MarkEntity.create(of: eleve, for: exam)
+            MarkEntity.create(pourEleve: eleve, pourExam: exam)
         }
 
         try? ExamEntity.saveIfContextHasChanged()
@@ -268,7 +268,6 @@ extension ExamEntity {
         dateExecuted: Date = Date.now,
         pour classe: ClasseEntity
     ) -> ExamEntity {
-        // TODO: - Faire ce qu'il faut quand un nouvel élève est ajouté à une classe
         let exam = ExamEntity.create()
         exam.classe = classe
 
@@ -282,7 +281,7 @@ extension ExamEntity {
 
         let eleves = classe.allEleves
         eleves.forEach { eleve in
-            MarkEntity.create(of: eleve, for: exam)
+            MarkEntity.create(pourEleve: eleve, pourExam: exam)
         }
 
         try? ExamEntity.saveIfContextHasChanged()

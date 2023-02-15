@@ -153,8 +153,8 @@ extension MarkEntity {
 
     @discardableResult
     static func create(
-        of eleve: EleveEntity,
-        for exam: ExamEntity
+        pourEleve eleve: EleveEntity,
+        pourExam exam: ExamEntity
     ) -> MarkEntity {
         switch exam.examTypeEnum {
             case .global:

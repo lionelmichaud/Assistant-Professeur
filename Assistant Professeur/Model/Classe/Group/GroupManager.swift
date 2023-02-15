@@ -99,7 +99,7 @@ struct GroupManager {
             }
         }
 
-        func formRegularGroups(nbOfGroups: Int) {
+        func formRandomGroups(nbOfGroups: Int) {
             var numGroupe = 1
 
             while eleves.isNotEmpty {
@@ -114,7 +114,6 @@ struct GroupManager {
             }
         }
 
-        // TODO: - Coder la génération automatique de groupes aléatoire
         var eleves = classe.elevesSortedByName
         let nbEleves = eleves.count
         guard nbEleves > 0 else { return }
@@ -123,10 +122,10 @@ struct GroupManager {
         if reste == 0 {
             // nombre entier de groupes complets
             recreate(nbOfGroups: nbGroupes, dans: classe)
-            formRegularGroups(nbOfGroups: nbGroupes)
+            formRandomGroups(nbOfGroups: nbGroupes)
         } else {
             recreate(nbOfGroups: nbGroupes+1, dans: classe)
-            formRegularGroups(nbOfGroups: nbGroupes+1)
+            formRandomGroups(nbOfGroups: nbGroupes+1)
         }
     }
 
