@@ -325,7 +325,7 @@ extension SchoolSidebarView {
                         isShowingJsonImportConfirmDialog.toggle()
                     } label: {
                         Label(
-                            "Importer les données depuis un export",
+                            "Importer les données depuis une archive",
                             systemImage: "square.and.arrow.down"
                         )
                     }
@@ -360,7 +360,7 @@ extension SchoolSidebarView {
                         isExportingModel.toggle()
                     } label: {
                         Label(
-                            "Exporter les listes d'élèves",
+                            "Exporter les listes d'élèves au format CSV",
                             systemImage: "square.and.arrow.up"
                         )
                     }
@@ -371,7 +371,7 @@ extension SchoolSidebarView {
                             isExportingModel.toggle()
                         } label: {
                             Label(
-                                "Exporter les Programmes",
+                                "Exporter les programmes en CSV",
                                 systemImage: "square.and.arrow.up"
                             )
                         }
@@ -410,7 +410,7 @@ extension SchoolSidebarView {
 
             // Confirmation importation du modèle depuis des fichiers au format JSON
             .confirmationDialog(
-                "Importation des données depuis un export",
+                "Importation des données depuis une archive",
                 isPresented: $isShowingJsonImportConfirmDialog,
                 titleVisibility: .visible
             ) {

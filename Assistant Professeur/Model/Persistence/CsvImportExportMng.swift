@@ -44,7 +44,9 @@ enum CsvImportExportMng {
         ProgramEntity.allSortedbyDisciplineLevelSegpa()
             .forEach { program in
                 let dataFrame = programDataFrame(de: program)
-                print(dataFrame)
+                #if DEBUG
+                    print(dataFrame)
+                #endif
                 if total.isEmpty {
                     total = dataFrame
                 } else {
@@ -224,7 +226,9 @@ enum CsvImportExportMng {
                 school.classesSortedByLevelNumber
                     .forEach { classe in
                         let dataFrame = classeGroupsDataFrame(de: classe)
-                        print(dataFrame)
+                        #if DEBUG
+                            print(dataFrame)
+                        #endif
                         if total.isEmpty {
                             total = dataFrame
                         } else {
