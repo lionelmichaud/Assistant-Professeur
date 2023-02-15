@@ -9,12 +9,13 @@ import SwiftUI
 
 struct ClasseSidebarView: View {
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     @SectionedFetchRequest<String, ClasseEntity>(
-        fetchRequest      : ClasseEntity.requestAllSortedbySchoolThenClasseLevelNumber,
-        sectionIdentifier : \.school!.displayString,
-        animation         : .default)
+        fetchRequest: ClasseEntity.requestAllSortedbySchoolThenClasseLevelNumber,
+        sectionIdentifier: \.school!.displayString,
+        animation: .default
+    )
     private var classesSections: SectionedFetchResults<String, ClasseEntity>
 
     var body: some View {
@@ -22,11 +23,11 @@ struct ClasseSidebarView: View {
             if ClasseEntity.all().isEmpty {
                 Text("Aucune classe actuellement")
             } else {
-                /// pour chaque Etablissement
+                // pour chaque Etablissement
                 ForEach(classesSections) { section in
                     if section.isNotEmpty {
                         Section {
-                            /// pour chaque Classe
+                            // pour chaque Classe
                             ClasseSidebarSchoolSubview(schoolSection: section)
                         } header: {
                             Text(section.id)
@@ -38,18 +39,20 @@ struct ClasseSidebarView: View {
                 }
             }
         }
+        #if os(iOS)
         .navigationTitle("Les Classes")
+        #endif
     }
 }
 
-struct ClasseSidebarSchoolSubview : View {
+struct ClasseSidebarSchoolSubview: View {
     var schoolSection: SectionedFetchResults<String, ClasseEntity>.Element
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     var body: some View {
-        /// pour chaque Classe
+        // pour chaque Classe
         ForEach(schoolSection, id: \.objectID) { classe in
             ClassBrowserRow(classe: classe)
 
@@ -68,7 +71,7 @@ struct ClasseSidebarSchoolSubview : View {
                 }
 
                 .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                // modifier le flag de la classe
+                    // modifier le flag de la classe
                     Button {
                         withAnimation {
                             classe.toggleFlag()
@@ -85,7 +88,7 @@ struct ClasseSidebarSchoolSubview : View {
     }
 }
 
-//struct ClasseSidebarView_Previews: PreviewProvider {
+// struct ClasseSidebarView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -108,4 +111,4 @@ struct ClasseSidebarSchoolSubview : View {
 //                .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

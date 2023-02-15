@@ -21,6 +21,12 @@ struct ProgramSidebarView: View {
     @State
     private var isAddingNewProgram = false
 
+    @State
+    private var isExportingModel = false
+
+    @State
+    private var fileExportOperation = FileExportOperation.none
+
     @SectionedFetchRequest<String, ProgramEntity>(
         fetchRequest: ProgramEntity.requestAllSortedbyDisciplineLevelSegpa,
         sectionIdentifier: \.disciplineString,
@@ -76,18 +82,27 @@ struct ProgramSidebarView: View {
                 }
             }
         }
+        #if os(iOS)
         .navigationTitle("Programmes")
+        #endif
         .toolbar(content: myToolBarContent)
 
         // Modal Sheet de création d'un nouveau programme
         .sheet(
             isPresented: $isAddingNewProgram
-            //onDismiss: {}
+            // onDismiss: {}
         ) {
             NavigationStack {
                 ProgramCreatorModal()
             }
             .presentationDetents([.medium])
+        }
+
+        // Exporter des fichiers JSON pour le modèle
+        .fileMover(
+            isPresented: $isExportingModel,
+            files: isExportingModel ? fileExportOperation.urls : []
+        ) { _ in
         }
     }
 }
@@ -107,6 +122,25 @@ extension ProgramSidebarView {
                     Text("Ajouter un programme")
                     Spacer()
                 }
+            }
+        }
+        // Menu
+        ToolbarItemGroup(placement: .automatic) {
+            Menu {
+                Menu("Exporter") {
+                    Button {
+                        CsvImportExportMng.exportPrograms()
+                        fileExportOperation = .exportCsvPrograms
+                        isExportingModel.toggle()
+                    } label: {
+                        Label(
+                            "Exporter les Programmes",
+                            systemImage: "square.and.arrow.up"
+                        )
+                    }
+                }
+            } label: {
+                Image(systemName: "ellipsis.circle")
             }
         }
     }

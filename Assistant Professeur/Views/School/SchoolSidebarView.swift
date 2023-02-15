@@ -5,10 +5,10 @@
 //  Created by Lionel MICHAUD on 15/04/2022.
 //
 
+import AppFoundation
 import os
 import SwiftUI
 import UniformTypeIdentifiers
-import AppFoundation
 
 // import Files
 // import FileAndFolder
@@ -19,58 +19,58 @@ private let customLog = Logger(
     category: "SchoolSidebarView"
 )
 
+enum FileImportOperation {
+    case importTrombines
+    case importModel
+    case none
+
+    var allowedContentTypes: [UTType] {
+        switch self {
+            case .importTrombines: return [.jpeg]
+            case .importModel: return [.json]
+            case .none: return []
+        }
+    }
+}
+
+enum FileExportOperation {
+    case exportJsonModel
+    case exportCsvEleveList
+    case exportCsvPrograms
+    case none
+
+    var urls: [URL] {
+        switch self {
+            case .exportJsonModel:
+                return ImportExportManager.cachesURLsToShare(
+                    fileNames: [
+                        JsonImportExportMng.schoolsFileName,
+                        JsonImportExportMng.programsFileName
+                    ]
+                )
+
+            case .exportCsvEleveList:
+                return ImportExportManager.cachesURLsToShare(
+                    fileNames: [
+                        CsvImportExportMng.csvEleveListFileName
+                    ]
+                )
+
+            case .exportCsvPrograms:
+                return ImportExportManager.cachesURLsToShare(
+                    fileNames: [
+                        CsvImportExportMng.csvProgramListFileName
+                    ]
+                )
+
+            case .none: return []
+        }
+    }
+}
+
 struct SchoolSidebarView: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
-
-    enum FileImportOperation {
-        case importTrombines
-        case importModel
-        case none
-
-        var allowedContentTypes: [UTType] {
-            switch self {
-                case .importTrombines: return [.jpeg]
-                case .importModel: return [.json]
-                case .none: return []
-            }
-        }
-    }
-
-    enum FileExportOperation {
-        case exportJsonModel
-        case exportCsvEleveList
-        case exportCsvPrograms
-        case none
-
-        var urls: [URL] {
-            switch self {
-                case .exportJsonModel:
-                    return ImportExportManager.cachesURLsToShare(
-                        fileNames: [
-                            JsonImportExportMng.schoolsFileName,
-                            JsonImportExportMng.programsFileName
-                        ]
-                    )
-
-                case .exportCsvEleveList:
-                    return ImportExportManager.cachesURLsToShare(
-                        fileNames: [
-                            CsvImportExportMng.csvEleveListFileName
-                        ]
-                    )
-
-                case .exportCsvPrograms:
-                    return ImportExportManager.cachesURLsToShare(
-                        fileNames: [
-                            CsvImportExportMng.csvProgramListFileName
-                        ]
-                    )
-
-                case .none: return []
-            }
-        }
-    }
 
     @SectionedFetchRequest<String, SchoolEntity>(
         fetchRequest: SchoolEntity.requestAllSortedByLevelName,
@@ -176,7 +176,9 @@ struct SchoolSidebarView: View {
                 }
             }
         }
+        #if os(iOS)
         .navigationTitle("Établissements")
+        #endif
         // .navigationViewStyle(.columns)
         .toolbar(content: myToolBarContent)
 
