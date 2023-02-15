@@ -1,0 +1,50 @@
+//
+//  ActivityEntity+CoreDataClass.swift
+//
+//
+//  Created by Lionel MICHAUD on 11/02/2023.
+//
+//
+
+import CoreData
+import Foundation
+
+@objc(ActivityEntity)
+public class ActivityEntity: NSManagedObject, Codable, ModelEntityP {
+    enum CodingKeys: CodingKey {
+        case id, isEval, isEvalFormative, isProject, isTP
+        case annotation, duration, name, number, url
+    }
+
+    /// Conformance to Decodable
+    public required convenience init(from decoder: Decoder) throws {
+        self.init(context: Self.viewContext)
+
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(UUID.self, forKey: .id)
+        self.isEval = try container.decode(Bool.self, forKey: .isEval)
+        self.isEvalFormative = try container.decode(Bool.self, forKey: .isEvalFormative)
+        self.isProject = try container.decode(Bool.self, forKey: .isProject)
+        self.isTP = try container.decode(Bool.self, forKey: .isTP)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.number = try container.decode(Int16.self, forKey: .number)
+        self.duration = try container.decode(Double.self, forKey: .duration)
+        self.annotation = try container.decodeIfPresent(String.self, forKey: .annotation)
+        self.url = try container.decodeIfPresent(URL.self, forKey: .url)
+    }
+
+    /// Conformance to Encodable
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(isEval, forKey: .isEval)
+        try container.encode(isEvalFormative, forKey: .isEvalFormative)
+        try container.encode(isProject, forKey: .isProject)
+        try container.encode(isTP, forKey: .isTP)
+        try container.encode(name, forKey: .name)
+        try container.encode(number, forKey: .number)
+        try container.encode(duration, forKey: .duration)
+        try container.encodeIfPresent(annotation, forKey: .annotation)
+        try container.encodeIfPresent(url, forKey: .url)
+    }
+}

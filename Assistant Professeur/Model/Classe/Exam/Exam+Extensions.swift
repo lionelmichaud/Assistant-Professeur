@@ -116,6 +116,61 @@ extension ExamEntity {
     func setCoef(_ coef: Double) {
         self.coef = coef
     }
+
+    /// Alouer une note à un élève pour une évaluation globale
+    /// - Parameters:
+    ///   - eleve: élève
+    ///   - markType: type de note
+    ///   - mark: la valeur de la note si `markType` ==  `.note`
+    func setGlobalMark(
+        of eleve: EleveEntity,
+        markType: MarkEnum,
+        mark: Double? = nil
+    ) {
+        guard self.examTypeEnum == .global else {
+            return
+        }
+
+        let m = self.allMarks.first { mark in
+            mark.eleve == eleve
+        }
+
+        m?.setMarkType(markType)
+        if markType == .note, let mark {
+            m?.setMark(mark)
+        }
+
+        try? MarkEntity.saveIfContextHasChanged()
+    }
+
+    /// Alouer une note à un élève pour une évaluation échelonnée
+    /// - Parameters:
+    ///   - eleve: élève
+    ///   - markType: type de note
+    ///   - mark: la valeur de la note si `markType` ==  `.note`
+    func setSteppedMark(
+        of eleve: EleveEntity,
+        markType: MarkEnum,
+        marks: [Double]? = nil
+    ) {
+        guard examTypeEnum == .multiStep else {
+            return
+        }
+        guard markType != .note || nbOfSteps == marks?.count else {
+            return
+        }
+
+        let m = allMarks.first { mark in
+            mark.eleve == eleve
+        }
+
+        m?.setMarkType(markType)
+        if markType == .note, let marks {
+            m?.setStepsMarks(marks)
+        }
+
+        try? MarkEntity.saveIfContextHasChanged()
+    }
 }
 
 // MARK: - Extension Notes Echelonnées
@@ -190,7 +245,7 @@ extension ExamEntity {
 
         let eleves = classe.allEleves
         eleves.forEach { eleve in
-            MarkEntity.createGlobalMark(of: eleve, for: exam)
+            MarkEntity.create(of: eleve, for: exam)
         }
 
         try? ExamEntity.saveIfContextHasChanged()
@@ -227,7 +282,7 @@ extension ExamEntity {
 
         let eleves = classe.allEleves
         eleves.forEach { eleve in
-            MarkEntity.createSteppedMark(of: eleve, for: exam)
+            MarkEntity.create(of: eleve, for: exam)
         }
 
         try? ExamEntity.saveIfContextHasChanged()
@@ -238,7 +293,7 @@ extension ExamEntity {
 
 // MARK: - Extension Core Data
 
-extension ExamEntity: ModelEntityP {
+extension ExamEntity {
     // MARK: - Type Computed Properties
 
     @Preference(\.nameSortOrder)

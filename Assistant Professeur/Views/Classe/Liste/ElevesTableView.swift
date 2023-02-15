@@ -128,7 +128,8 @@ struct ElevesTableView: View {
             }
             .searchable(
                 text: $searchString,
-                placement: .navigationBarDrawer(displayMode: .automatic),
+//                placement: .navigationBarDrawer(displayMode: .automatic),
+                placement: .toolbar,
                 prompt: "Nom, Prénom ou n° de groupe"
             )
             .onChange(of: sortOrder) { _ in

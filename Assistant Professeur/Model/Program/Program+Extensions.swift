@@ -130,7 +130,7 @@ extension ProgramEntity {
 
 // MARK: - Extension Core Data
 
-extension ProgramEntity: ModelEntityP {
+extension ProgramEntity {
     // MARK: - Type Computed Properties
 
     static var byDisciplineLevelSegpaNSSortDescriptor: [NSSortDescriptor] =
@@ -215,13 +215,23 @@ extension ProgramEntity: ModelEntityP {
             .sorted(using: sortComparators)
     }
 
+    // MARK: - Type Methods
+
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         // Set defaults here
         self.id = UUID()
     }
 
-    // MARK: - Type Methods
+    static func allSortedbyDisciplineLevelSegpa() -> [ProgramEntity] {
+        do {
+            return try ProgramEntity
+                .viewContext
+                .fetch(ProgramEntity.requestAllSortedbyDisciplineLevelSegpa)
+        } catch {
+            return []
+        }
+    }
 
     static func byId(id: UUID) -> Self? {
         all().first { object in

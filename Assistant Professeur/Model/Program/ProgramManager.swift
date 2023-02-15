@@ -119,10 +119,14 @@ struct ProgramManager {
     static func classesAssociatedTo(
         thisActivity activity: ActivityEntity
     ) -> [ClasseEntity] {
+        guard let program = activity.sequence?.program else {
+            return [ ]
+        }
+
         let (discipline, level, segpa) = (
-            activity.sequence!.program!.discipline,
-            activity.sequence!.program!.level,
-            activity.sequence!.program!.segpa
+            program.discipline,
+            program.level,
+            program.segpa
         )
         let request = ClasseEntity.requestAllSortedbySchoolThenClasseLevelNumber
 

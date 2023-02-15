@@ -90,7 +90,7 @@ extension SchoolEntity {
 
 // MARK: - Extension Core Data
 
-extension SchoolEntity: ModelEntityP {
+extension SchoolEntity {
     // MARK: - Type Computed Properties
 
     static var byLevelNameNSSortDescriptor: [NSSortDescriptor] = [
@@ -131,6 +131,21 @@ extension SchoolEntity: ModelEntityP {
 
         try? SchoolEntity.saveIfContextHasChanged()
         return school
+    }
+
+    /// Retourne tous les établissements triées.
+    ///
+    /// Ordre de tri:
+    ///   1. Type d'école
+    ///   2. Nom de l'école
+    static func allSortedByLevelName() -> [SchoolEntity] {
+        do {
+            return try SchoolEntity
+                .viewContext
+                .fetch(SchoolEntity.requestAllSortedByLevelName)
+        } catch {
+            return []
+        }
     }
 
     // MARK: - Computed Properties
@@ -292,7 +307,7 @@ public extension SchoolEntity {
         """
 
         ETABLISSEMENT: \(displayString)
-           ID         : \(id)
+           ID         : \(String(describing: id))
            Niveau     : \(levelString)
            Nom        : \(viewName)
            Note       : \(viewAnnotation)

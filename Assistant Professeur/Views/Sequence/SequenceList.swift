@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 22/01/2023.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct SequenceList: View {
     @ObservedObject
@@ -16,7 +16,7 @@ struct SequenceList: View {
     private var managedObjectContext
 
     @EnvironmentObject
-    private var navig : NavigationModel
+    private var navig: NavigationModel
 
     @State
     private var searchString: String = ""
@@ -27,20 +27,21 @@ struct SequenceList: View {
                 List(selection: $navig.selectedSequenceId) {
                     ForEach(
                         program.filteredSequencesSortedByNumber(searchString: searchString),
-                        id: \.objectID) { sequence in
-                            NavigationLink(value: sequence) {
-                                SequenceBrowserRow(sequence: sequence)
-                            }
+                        id: \.objectID
+                    ) { sequence in
+                        NavigationLink(value: sequence) {
+                            SequenceBrowserRow(sequence: sequence)
                         }
-                        .onMove(perform: moveItems)
-                        .onDelete(perform: deleteItems)
-                        .listRowSeparatorTint(.secondary)
+                    }
+                    .onMove(perform: moveItems)
+                    .onDelete(perform: deleteItems)
+                    .listRowSeparatorTint(.secondary)
                 }
                 .searchable(
-                    text      : $searchString,
-                    placement : .navigationBarDrawer(displayMode : .automatic),
-                    //                    placement : .toolbar,
-                    prompt    : "Nom de la séquence"
+                    text: $searchString,
+//                    placement : .navigationBarDrawer(displayMode : .automatic),
+                    placement: .toolbar,
+                    prompt: "Nom de la séquence"
                 )
 
             } else {
@@ -105,8 +106,8 @@ struct SequenceList: View {
     }
 }
 
-//struct SequenceList_Previews: PreviewProvider {
+// struct SequenceList_Previews: PreviewProvider {
 //    static var previews: some View {
 //        SequenceList()
 //    }
-//}
+// }

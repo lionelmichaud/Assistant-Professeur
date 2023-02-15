@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DataBaseManager { // swiftlint:disable:this type_body_length
+enum DataBaseManager { // swiftlint:disable:this type_body_length
     static func check(errorFound: inout Bool) {
         RoomEntity.checkConsistency(errorFound: &errorFound)
         SeatEntity.checkConsistency(errorFound: &errorFound)
@@ -143,11 +143,17 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
             )
 
             // Salles de classe
-            let room = RoomEntity.create(
+            let roomForClasse5E1 = RoomEntity.create(
                 withName: "TECHNO-2",
                 withCapacity: 16,
                 dans: college
             )
+
+            // Chaises de la salle de classe
+            let classe5E1TopLeftSeat = roomForClasse5E1
+                .addSeatToPlan(x: 0.25, y: 0.25)
+            let classe5E1BotRightSeat = roomForClasse5E1
+                .addSeatToPlan(x: 0.75, y: 0.75)
 
             // Classes
             let classe5E1 = ClasseEntity.create(
@@ -161,7 +167,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 appreciation: "Ceci est une appreciation de classe",
                 dans: college
             )
-            classe5E1.room = room
+            classe5E1.setRoom(roomForClasse5E1)
 
             let classe3E2 = ClasseEntity.create(
                 level: .n3ieme,
@@ -200,6 +206,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 bonus: 2,
                 dans: classe5E1
             )
+            eleve5E1_1.setSeat(classe5E1TopLeftSeat!)
 
             let eleve5E1_2 = EleveEntity.create(
                 familyName: "DUPONT",
@@ -213,6 +220,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 bonus: -2,
                 dans: classe5E1
             )
+            eleve5E1_2.setSeat(classe5E1BotRightSeat!)
 
             let eleve5E1_3 = EleveEntity.create(
                 familyName: "GOBIN",
@@ -250,7 +258,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
             )
 
             // Examen
-            ExamEntity.createGlobalExam(
+            let globalExam = ExamEntity.createGlobalExam(
                 sujet: "Le sujet de l'évaluation Globale",
                 coef: 0.5,
                 maxMark: 10,
@@ -258,7 +266,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
             )
 
             // Examen
-            ExamEntity.createSteppedExam(
+            let setppedExam = ExamEntity.createSteppedExam(
                 sujet: "Le sujet de l'évaluation Échelonnée",
                 coef: 0.5,
                 examSteps: [
@@ -267,6 +275,27 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                     ExamStep(name: "2.1", points: 3)
                 ],
                 pour: classe5E1
+            )
+
+            // Notes
+            globalExam.setGlobalMark(
+                of: eleve5E1_1,
+                markType: .absent
+            )
+            globalExam.setGlobalMark(
+                of: eleve5E1_2,
+                markType: .note,
+                mark: 6.5
+            )
+
+            setppedExam.setSteppedMark(
+                of: eleve5E1_2,
+                markType: .nonRendu
+            )
+            setppedExam.setSteppedMark(
+                of: eleve5E1_3,
+                markType: .note,
+                marks: [0.5, 1.5, 2.5]
             )
 
             // Groupes
@@ -342,46 +371,46 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 discipline: .snt,
                 level: .n0terminale,
                 segpa: false,
-                annotation: "Programme d'Histoire-Géographie de classe de Terminale"
+                annotation: "Programme de SNT de classe de Terminale"
             )
 
             // Séquences
             let progTechno5Seq1 = SequenceEntity.create(
-                name: "Séquence 1 du Programme de Technologie",
+                name: "Séquence 1 du Programme de Technologie de 5ième",
                 annotation: "Une annotation de séquence 1",
                 url: URL(string: "http://www.google.com"),
                 dans: progTechno5
             )
             let progTechno5Seq2 = SequenceEntity.create(
-                name: "Séquence 2 du Programme de Technologie",
+                name: "Séquence 2 du Programme de Technologie de 5ième",
                 annotation: "Une annotation de séquence 2",
                 dans: progTechno5
             )
             SequenceEntity.create(
-                name: "Séquence 3 du Programme de Technologie",
+                name: "Séquence 3 du Programme de Technologie de 5ième",
                 annotation: "Une annotation de séquence 3",
                 dans: progTechno5
             )
             SequenceEntity.create(
-                name: "Séquence 4 du Programme de Technologie",
+                name: "Séquence 4 du Programme de Technologie de 5ième",
                 annotation: "Une annotation de séquence 4",
                 dans: progTechno5
             )
             let progSntTermSeq1 = SequenceEntity.create(
                 name: "Séquence 1 du Programme de SNT",
-                annotation: "Une annotation de séquence 1",
+                annotation: "Une annotation de séquence 1 du Programme de SNT",
                 url: URL(string: "http://www.google.com"),
                 dans: progSntTerm
             )
             let progSntTermSeq2 = SequenceEntity.create(
                 name: "Séquence 2 du Programme de SNT",
-                annotation: "Une annotation de séquence 2",
+                annotation: "Une annotation de séquence 2 du Programme de SNT",
                 dans: progSntTerm
             )
 
             // Activités
             ActivityEntity.create(
-                name: "Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno",
+                name: "Activité 1 de Séquence 1 de Techno",
                 annotation: "Une annotation d'activité 1",
                 url: URL(string: "http://apple.fr"),
                 duration: 1.0,
@@ -412,8 +441,8 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 dans: progTechno5Seq1
             )
             ActivityEntity.create(
-                name: "Activité 3 de Séquence 1 de Techno",
-                annotation: "Une annotation d'activité 3",
+                name: "Activité 4 de Séquence 1 de Techno",
+                annotation: "Une annotation d'activité 4",
                 duration: 1.0,
                 isEvalSommative: true,
                 isEvalFormative: false,
@@ -423,7 +452,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
             )
             ActivityEntity.create(
                 name: "Activité 1 de Séquence 2 de Techno",
-                annotation: "Une annotation d'activité 4",
+                annotation: "Une annotation d'activité 1",
                 duration: 3.0,
                 isEvalSommative: true,
                 isEvalFormative: false,
@@ -432,7 +461,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 dans: progTechno5Seq2
             )
             ActivityEntity.create(
-                name: "Activité 1 de Séquence 1 de SNT Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno",
+                name: "Activité 1 de Séquence 2 de SNT Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno",
                 annotation: "Une annotation d'activité 1",
                 url: URL(string: "http://apple.fr"),
                 duration: 1.0,
@@ -443,7 +472,7 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 dans: progSntTermSeq2
             )
             ActivityEntity.create(
-                name: "Activité 2 de Séquence 1 de SNT",
+                name: "Activité 2 de Séquence 2 de SNT",
                 annotation: "Une annotation d'activité 2",
                 duration: 2.0,
                 isEvalSommative: false,
@@ -452,7 +481,27 @@ struct DataBaseManager { // swiftlint:disable:this type_body_length
                 isProject: true,
                 dans: progSntTermSeq2
             )
-
         }
+    }
+
+    /// Reconnecter les élèves avec les Groupes auquel ils appartiennent
+    private static func connectElevesToGroups() {
+        EleveEntity.all().forEach { eleve in
+            if let groupe = eleve.group {
+
+            }
+        }
+    }
+
+    /// Reconnecter les élèves avec le Seat sur lequel ils sont assis
+    private static func connectElevesToSeats() {}
+
+    /// Reconnecter les classes avec les Salles quelles utilisent
+    private static func connectClassesToRooms() {}
+
+    static func rebuildConnections() {
+        DataBaseManager.connectElevesToGroups()
+        DataBaseManager.connectElevesToSeats()
+        DataBaseManager.connectClassesToRooms()
     }
 }

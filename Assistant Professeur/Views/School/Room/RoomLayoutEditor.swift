@@ -5,13 +5,15 @@
 //  Created by Lionel MICHAUD on 22/10/2022.
 //
 
-import SwiftUI
-import os
 import Files
 import HelpersView
+import os
+import SwiftUI
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
-                               category  : "RoomLayoutEditor")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "RoomLayoutEditor"
+)
 
 struct RoomLayoutEditor: View {
     @ObservedObject
@@ -39,10 +41,7 @@ struct RoomLayoutEditor: View {
     private var isShowingChangePlanConfirmDialog: Bool = false
 
     @State
-    private var isImportingPngFile = false
-
-    @State
-    private var alertItem: AlertItem?
+    private var isImportingImageFile = false
 
     // MARK: - Computed Properties
 
@@ -56,22 +55,22 @@ struct RoomLayoutEditor: View {
 
     var body: some View {
         RoomPlanEditView(room: room)
-            #if os(iOS)
+        #if os(iOS)
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
-            #endif
+        #endif
             .toolbarTitleMenu {
-                /// Positionner une nouvelle place au centre du plan de la salle de classe
+                // Positionner une nouvelle place au centre du plan de la salle de classe
                 if room.nbSeatUnpositionned > 0 {
                     Button {
                         withAnimation {
-                            room.addSeatToPlan(x: 0.5, y: 0.5)
+                            _ = room.addSeatToPlan(x: 0.5, y: 0.5)
                         }
                     } label: {
                         Label("Positionner une place", systemImage: "chair")
                     }
                 }
-                /// Supprimer tous les positionnements de places dans la salle de classe (layout)
+                // Supprimer tous les positionnements de places dans la salle de classe (layout)
                 if room.nbSeatPositionned > 0 {
                     Button(role: .destructive) {
                         withAnimation {
@@ -84,7 +83,12 @@ struct RoomLayoutEditor: View {
                     }
                 }
             }
-            .alert(item: $alertItem, content: newAlert)
+            .alert(
+                alertTitle,
+                isPresented: $alertIsPresented,
+                actions: {},
+                message: { Text(alertMessage) }
+            )
             .toolbar {
                 ToolbarItem(placement: .navigation) {
                     Button("OK") {
@@ -94,13 +98,13 @@ struct RoomLayoutEditor: View {
                 if room.planExists {
                     ToolbarItemGroup(placement: .automatic) {
                         Menu {
-                            /// Suppression du plan de la salle de classe
+                            // Suppression du plan de la salle de classe
                             Button(role: .destructive) {
                                 isShowingDeletePlanConfirmDialog.toggle()
                             } label: {
                                 Label("Supprimer le plan", systemImage: "trash")
                             }
-                            /// Modification du plan de la salle de classe
+                            // Modification du plan de la salle de classe
                             Button(role: .destructive) {
                                 isShowingChangePlanConfirmDialog.toggle()
                             } label: {
@@ -110,10 +114,12 @@ struct RoomLayoutEditor: View {
                         } label: {
                             Image(systemName: "ellipsis.circle")
                         }
-                        /// Confirmation de Suppression du plan de la salle de classe
-                        .confirmationDialog("Suppression du plan",
-                                            isPresented: $isShowingDeletePlanConfirmDialog,
-                                            titleVisibility : .visible) {
+                        // Confirmation de Suppression du plan de la salle de classe
+                        .confirmationDialog(
+                            "Suppression du plan",
+                            isPresented: $isShowingDeletePlanConfirmDialog,
+                            titleVisibility: .visible
+                        ) {
                             Button("Supprimer", role: .destructive) {
                                 withAnimation {
                                     room.deleteRoomPlan()
@@ -121,95 +127,55 @@ struct RoomLayoutEditor: View {
                             }
                         } message: {
                             Text("Cette action supprimera le plan de la salle de classe ainsi que toutes les places associées.\n") +
-                            Text("Cette action ne supprimera pas la salle de classe elle-même.\n") +
-                            Text("Cette action ne peut pas être annulée.")
+                                Text("Cette action ne supprimera pas la salle de classe elle-même.\n") +
+                                Text("Cette action ne peut pas être annulée.")
                         }
-                        // TODO: - A tester
-                        /// Confirmation de changement du plan de la salle de classe
-                        .confirmationDialog("Changement du plan",
-                                            isPresented: $isShowingChangePlanConfirmDialog,
-                                            titleVisibility : .visible) {
+                        // Confirmation de changement du plan de la salle de classe
+                        .confirmationDialog(
+                            "Changement du plan",
+                            isPresented: $isShowingChangePlanConfirmDialog,
+                            titleVisibility: .visible
+                        ) {
                             Button("Changer", role: .destructive) {
-                                isImportingPngFile.toggle()
+                                isImportingImageFile.toggle()
                             }
                         } message: {
                             Text("Cette action supprimera le plan actuel de la salle de classe ainsi que toutes les places associées.\n") +
-                            Text("Cette action ne supprimera pas la salle de classe elle-même.\n") +
-                            Text("Cette action ne peut pas être annulée.")
+                                Text("Cette action ne supprimera pas la salle de classe elle-même.\n") +
+                                Text("Cette action ne peut pas être annulée.")
                         }
-                        /// Importer un fichier PNG
-                        .fileImporter(isPresented             : $isImportingPngFile,
-                                      allowedContentTypes     : [.png],
-                                      allowsMultipleSelection : false) { result in
-                            // supprimer le plan existant
+                        // Importer un fichier PNG ou JPEG
+                        .fileImporter(
+                            isPresented: $isImportingImageFile,
+                            allowedContentTypes: [.png, .jpeg],
+                            allowsMultipleSelection: false
+                        ) { result in
                             withAnimation {
-                                switch result {
-                                    case .success:
-                                        // Supprimer le plan
-                                        room.deleteRoomPlan()
-
-                                    case .failure:
-                                        break
+                                if case .success = result {
+                                    // Supprimer le plan
+                                    room.deleteRoomPlan()
                                 }
 
                                 // pour le remplacer par celui qui vients d'être choisi
-                                importRoomPlanFromFile(result: result)
+                                var image: NativeImage?
+                                (
+                                    image,
+                                    alertTitle,
+                                    alertMessage,
+                                    alertIsPresented
+                                ) = ImageImportExportMng.importImage(result: result)
+                                if let image {
+                                    room.viewNativeImage = image
+                                }
                             }
                         }
                     }
                 }
             }
     }
-
-    // MARK: - Methods
-
-    /// Importer le plan de la salle de classe à aprtir du fichier sélectionné par l'utilisateur
-    /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
-    private func importRoomPlanFromFile(result: Result<[URL], Error>) {
-        switch result {
-            case .failure(let error):
-                customLog.log(level: .fault,
-                              "Error selecting file: \(error.localizedDescription)")
-                alertTitle   = "Échec"
-                alertMessage = "L'importation du fichier a échouée"
-                alertIsPresented.toggle()
-
-            case .success(let filesUrl):
-                if let theFileURL = filesUrl.first {
-                    // Si le fichier ne porte le bon nom, arrêter l'importation
-                    guard theFileURL.pathComponents.last == room.fileName else {
-                        customLog.log(level: .fault,
-                                      "Le nom du fichier importé ne correspond pas au nom de la salle de classe.")
-                        alertTitle   = "Échec"
-                        alertMessage = "Le nom du fichier importé ne correspond pas au nom de la salle de classe."
-                        alertIsPresented.toggle()
-                        return
-                    }
-
-                    do {
-                        guard let roomPlan = try ImportExportManager.loadUIImage(from: theFileURL) else {
-                            customLog.log(level: .fault,
-                                          "Le contenu de l'image n'est pas lisible.")
-                            alertTitle   = "Échec"
-                            alertMessage = "Le contenu de l'image n'est pas lisible."
-                            alertIsPresented.toggle()
-                            return
-                        }
-                        room.viewUIImage = roomPlan
-
-                    } catch {
-                        customLog.log(level: .fault,
-                                      "L'importation du fichier a échouée.")
-                        alertTitle   = "Échec"
-                        alertMessage = "L'importation du fichier a échouée."
-                        alertIsPresented.toggle()
-                    }
-                }
-        }
-    }
 }
 
-//struct RoomPlacement_Previews: PreviewProvider {
+// struct RoomPlacement_Previews: PreviewProvider {
 //    static var room: Room = {
 //        var r = Room(name: "TECHNO-2", capacity: 12)
 //        r.addSeatToPlan(Seat(x: 0.0, y: 0.0))
@@ -248,4 +214,4 @@ struct RoomLayoutEditor: View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

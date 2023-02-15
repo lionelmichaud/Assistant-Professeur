@@ -8,7 +8,9 @@
 import CoreData
 import Foundation
 import SwiftUI
-import UIKit
+import HelpersView
+
+// import UIKit
 
 /// Un élève
 extension EleveEntity {
@@ -20,20 +22,30 @@ extension EleveEntity {
     @Preference(\.nameDisplayOrder)
     private static var nameDisplayOrder
 
+    #if canImport(UIKit)
+        static let defaultTrombineNativeImage: UIImage = .init(systemName: "questionmark.app.dashed")!
+    #elseif canImport(AppKit)
+        static let defaultTrombineNativeImage: NSImage = .init(systemSymbolName: "questionmark.app.dashed", accessibilityDescription: nil)!
+    #endif
+
     // MARK: - Computed properties
 
     /// Wrapper of `trombine`
     /// - Important: *Saves the context to the store after modification is done*
-    var viewUIImageTrombine: UIImage {
+    var viewNativeImageTrombine: NativeImage {
         get {
             if let trombine {
-                return UIImage(data: trombine) ?? UIImage(systemName: "questionmark.square.dashed")!
+                return NativeImage(data: trombine) ?? EleveEntity.defaultTrombineNativeImage
             } else {
-                return UIImage(systemName: "questionmark.square.dashed")!
+                return EleveEntity.defaultTrombineNativeImage
             }
         }
         set {
-            self.trombine = newValue.jpegData(compressionQuality: 1)
+            #if canImport(UIKit)
+                self.trombine = newValue.jpegData(compressionQuality: 1)
+            #elseif canImport(AppKit)
+                self.trombine = newValue.jpegData()
+            #endif
             try? EleveEntity.saveIfContextHasChanged()
         }
     }
@@ -41,8 +53,12 @@ extension EleveEntity {
     /// Wrapper of `trombine`
     /// - Important: *Saves the context to the store after modification is done*
     var viewImageTrombine: Image {
-        if let trombine, let uiImage = UIImage(data: trombine) {
-            return Image(uiImage: uiImage)
+        if let trombine, let nativeImage = NativeImage(data: trombine) {
+            #if canImport(UIKit)
+                return Image(uiImage: nativeImage)
+            #elseif canImport(AppKit)
+                return Image(nsImage: nativeImage)
+            #endif
         } else {
             return Image(systemName: "questionmark.square.dashed")
         }
@@ -162,20 +178,20 @@ extension EleveEntity {
     @objc
     var displayName: String {
         switch EleveEntity.nameDisplayOrder {
-        case .prenomNom:
-            return "\(givenName ?? "") \(familyName ?? "")"
-        case .nomPrenom:
-            return "\(familyName ?? "") \(givenName ?? "")"
+            case .prenomNom:
+                return "\(givenName ?? "") \(familyName ?? "")"
+            case .nomPrenom:
+                return "\(familyName ?? "") \(givenName ?? "")"
         }
     }
 
     @objc
     var sortName: String {
         switch EleveEntity.nameSortOrder {
-        case .prenomNom:
-            return "\(givenName ?? "") \(familyName ?? "")"
-        case .nomPrenom:
-            return "\(familyName ?? "") \(givenName ?? "")"
+            case .prenomNom:
+                return "\(givenName ?? "") \(familyName ?? "")"
+            case .nomPrenom:
+                return "\(familyName ?? "") \(givenName ?? "")"
         }
     }
 
@@ -213,13 +229,26 @@ extension EleveEntity {
     }
 
     /// Modifie l'attribut `sex`
+    /// - Important: *Does NOT save the context to the store after modification is done*
     func setSex(_ newSex: Sexe) {
         self.sex = (newSex == .male)
     }
 
     /// Modifie l'attribut `trouble`
+    /// - Important: *Does NOT save the context to the store after modification is done*
     func setTrouble(_ newTrouble: TroubleDys) {
         self.trouble = newTrouble.rawValue
+    }
+
+    /// Modifie l'attribut `seat`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setSeat(_ newSeat: SeatEntity) {
+        guard let classe,
+              let classes = newSeat.room?.allClasses,
+              classes.contains(classe) else {
+            return
+        }
+        self.seat = newSeat
     }
 
     /// Toggle l'attribut `isFlagged` de la classe
@@ -231,19 +260,19 @@ extension EleveEntity {
 
     func displayName(_ order: NameOrdering = .prenomNom) -> String {
         switch order {
-        case .prenomNom:
-            return "\(givenName ?? "") \(familyName ?? "")"
-        case .nomPrenom:
-            return "\(familyName ?? "") \(givenName ?? "")"
+            case .prenomNom:
+                return "\(givenName ?? "") \(familyName ?? "")"
+            case .nomPrenom:
+                return "\(familyName ?? "") \(givenName ?? "")"
         }
     }
 
     func displayName2lines(_ order: NameOrdering = .prenomNom) -> String {
         switch order {
-        case .prenomNom:
-            return "\(givenName ?? "")\n\(familyName ?? "")"
-        case .nomPrenom:
-            return "\(familyName ?? "")\n\(givenName ?? "")"
+            case .prenomNom:
+                return "\(givenName ?? "")\n\(familyName ?? "")"
+            case .nomPrenom:
+                return "\(familyName ?? "")\n\(givenName ?? "")"
         }
     }
 
@@ -268,7 +297,7 @@ extension EleveEntity {
 
 // MARK: - Extension Core Data
 
-extension EleveEntity: ModelEntityP {
+extension EleveEntity {
     // MARK: - Type Computed Properties
 
     static var bySchoolNameClasseEleveFamilyNameNSSortDescriptor: [NSSortDescriptor] =
@@ -445,6 +474,12 @@ extension EleveEntity: ModelEntityP {
 
     // MARK: - Type Methods
 
+    static func byId(id: UUID) -> Self? {
+        all().first { object in
+            object.id == id
+        }
+    }
+
     /// Créer un nouvel élève et l'ajouter à la `classe`
     /// - Parameters:
     ///   - familyName: Nom de famille
@@ -597,26 +632,26 @@ extension EleveEntity: ModelEntityP {
         isVerified: Bool? = nil
     ) -> Int {
         switch (isConsignee, isVerified) {
-        case (nil, nil):
-            return nbOfObservs
+            case (nil, nil):
+                return nbOfObservs
 
-        case let (.some(c), nil):
-            return self.allObservs
-                .reduce(into: 0) { partialResult, observ in
-                    partialResult += (observ.isConsignee == c ? 1 : 0)
-                }
+            case let (.some(c), nil):
+                return self.allObservs
+                    .reduce(into: 0) { partialResult, observ in
+                        partialResult += (observ.isConsignee == c ? 1 : 0)
+                    }
 
-        case let (nil, .some(v)):
-            return self.allObservs
-                .reduce(into: 0) { partialResult, observ in
-                    partialResult += (observ.isVerified == v ? 1 : 0)
-                }
+            case let (nil, .some(v)):
+                return self.allObservs
+                    .reduce(into: 0) { partialResult, observ in
+                        partialResult += (observ.isVerified == v ? 1 : 0)
+                    }
 
-        case let (.some(c), .some(v)):
-            return self.allObservs
-                .reduce(into: 0) { partialResult, observ in
-                    partialResult += ((observ.isConsignee == c || observ.isVerified == v) ? 1 : 0)
-                }
+            case let (.some(c), .some(v)):
+                return self.allObservs
+                    .reduce(into: 0) { partialResult, observ in
+                        partialResult += ((observ.isConsignee == c || observ.isVerified == v) ? 1 : 0)
+                    }
         }
     }
 
@@ -644,26 +679,26 @@ extension EleveEntity: ModelEntityP {
         isVerified: Bool? = nil
     ) -> Int {
         switch (isConsignee, isVerified) {
-        case (nil, nil):
-            return nbOfColles
+            case (nil, nil):
+                return nbOfColles
 
-        case (.some(let c), nil):
-            return self.allColles
-                .reduce(into: 0) { partialResult, colle in
-                    partialResult += (colle.isConsignee == c ? 1 : 0)
-                }
+            case (.some(let c), nil):
+                return self.allColles
+                    .reduce(into: 0) { partialResult, colle in
+                        partialResult += (colle.isConsignee == c ? 1 : 0)
+                    }
 
-        case (nil, let .some(v)):
-            return self.allColles
-                .reduce(into: 0) { partialResult, colle in
-                    partialResult += (colle.isVerified == v ? 1 : 0)
-                }
+            case (nil, let .some(v)):
+                return self.allColles
+                    .reduce(into: 0) { partialResult, colle in
+                        partialResult += (colle.isVerified == v ? 1 : 0)
+                    }
 
-        case let (.some(c), .some(v)):
-            return self.allColles
-                .reduce(into: 0) { partialResult, colle in
-                    partialResult += ((colle.isConsignee == c || colle.isVerified == v) ? 1 : 0)
-                }
+            case let (.some(c), .some(v)):
+                return self.allColles
+                    .reduce(into: 0) { partialResult, colle in
+                        partialResult += ((colle.isConsignee == c || colle.isVerified == v) ? 1 : 0)
+                    }
         }
     }
 }

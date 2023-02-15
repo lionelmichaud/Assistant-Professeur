@@ -5,28 +5,30 @@
 //  Created by Lionel MICHAUD on 09/05/2022.
 //
 
+import AppFoundation
+import FileAndFolder
+import Files
 import Foundation
 import os
-import Files
-import FileAndFolder
-import AppFoundation
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
-                               category  : "PersistenceManager")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "PersistenceManager"
+)
 
 public enum FileError: String, Error {
-    case failedToResolveAppBundle          = "Impossible de trouver le répertoire 'App Bundle'"
-    case failedToResolveCsvFolder          = "Impossible de trouver le répertoire 'CSV'"
-    case failedToResolveDocuments          = "Impossible de trouver le répertoire 'Documents' de l'utilisateur"
-    case failedToResolveLibrary            = "Impossible de trouver le répertoire 'Library' de l'utilisateur"
-    case directoryToDuplicateDoesNotExist  = "Le répertoire à dupliquer n'est pas défini"
-    case failedToReadFile                  = "Echec de lecture du fichier"
-    case failedToCopyFile                  = "Echec de la copie du fichier"
-    case failedToDeleteFile                = "Echec de la suppression du fichier"
-    case failedToDuplicateFiles            = "Echec de la duplication des fichiers"
-    case templatesDossierNotInitialized    = "Dossier 'templates' non initializé"
-    case failedToImportTemplates           = "Echec de l'importation des templates depuis Bundle.Main vers 'Library'"
-    case failedToCheckCompatibility        = "Impossible de vérifier la compatibilité avec la version de l'application"
+    case failedToResolveAppBundle = "Impossible de trouver le répertoire 'App Bundle'"
+    case failedToResolveCsvFolder = "Impossible de trouver le répertoire 'CSV'"
+    case failedToResolveDocuments = "Impossible de trouver le répertoire 'Documents' de l'utilisateur"
+    case failedToResolveLibrary = "Impossible de trouver le répertoire 'Library' de l'utilisateur"
+    case directoryToDuplicateDoesNotExist = "Le répertoire à dupliquer n'est pas défini"
+    case failedToReadFile = "Echec de lecture du fichier"
+    case failedToCopyFile = "Echec de la copie du fichier"
+    case failedToDeleteFile = "Echec de la suppression du fichier"
+    case failedToDuplicateFiles = "Echec de la duplication des fichiers"
+    case templatesDossierNotInitialized = "Dossier 'templates' non initializé"
+    case failedToImportTemplates = "Echec de l'importation des templates depuis Bundle.Main vers 'Library'"
+    case failedToCheckCompatibility = "Impossible de vérifier la compatibilité avec la version de l'application"
 }
 
 public enum BddErrod: String, Error {
@@ -36,35 +38,36 @@ public enum BddErrod: String, Error {
 // MARK: - Extension de Folder
 
 public extension Folder {
-    // The current Application folder
+    /// The current Application folder
     static var application: Folder? {
         guard let resourcePath = Bundle.main.resourcePath else {
             return nil
         }
         return try? Folder(path: resourcePath)
     }
+
+    static var caches: Folder? {
+        return try? .matching(.cachesDirectory)
+    }
 }
 
 // MARK: - Gestion de la persistence
 
 public struct PersistenceManager {
-
     // MARK: - Methods
 
     /// Fournit la litse des URL des fichiers contenus dans le répertoir Document
     /// et qui contiennent `fileNames`dans leur nom de fichier.
-    /// - Parameter fileNames: critère de collecte (par exemple ".json")
-    public func collectedURLs(fileNames : [String]?  = nil) throws -> [URL] {
-        // vérifier l'existence du Folder Document
-        guard let documentsFolder = Folder.documents else {
-            let error = FileError.failedToResolveDocuments
-            customLog.log(level: .fault, "\(error.rawValue))")
-            throw error
-        }
-
+    /// - Parameters:
+    ///  - fromFolder: Dossier dans lequel rechercher
+    ///  - fileNames: Critère de collecte (par exemple ".json")
+    public func collectedURLs(
+        fromFolder: Folder,
+        fileNames: [String]? = nil
+    ) -> [URL] {
         var urls = [URL]()
         // collecte des URL des fichiers contenus dans le dossier Documents
-        documentsFolder.files.forEach { file in
+        fromFolder.files.forEach { file in
             if let fileNames {
                 fileNames.forEach { fileName in
                     if file.name.contains(fileName) {
@@ -97,10 +100,12 @@ public struct PersistenceManager {
 
         do {
             try fileExtensions.forEach { fileExtension in
-                try duplicateAllFiles(from        : originFolder,
-                                      to          : documentsFolder,
-                                      fileExt     : fileExtension,
-                                      forceUpdate : true)
+                try duplicateAllFiles(
+                    from: originFolder,
+                    to: documentsFolder,
+                    fileExt: fileExtension,
+                    forceUpdate: true
+                )
             }
         } catch {
             let error = FileError.failedToImportTemplates
@@ -120,10 +125,12 @@ public struct PersistenceManager {
     ///   - forceUpdate: si false alors ne copie pas les fichiers s'ils sont déjà présents dans le répertoire `targetFolder`
     ///   - fileExt: Extensions recherchée
     /// - Throws:`FileError.failedToDuplicateFiles`
-    fileprivate func duplicateAllFiles(from originFolder : Folder,
-                                       to targetFolder   : Folder,
-                                       fileExt           : String,
-                                       forceUpdate       : Bool = false) throws {
+    fileprivate func duplicateAllFiles(
+        from originFolder: Folder,
+        to targetFolder: Folder,
+        fileExt: String,
+        forceUpdate: Bool = false
+    ) throws {
         do {
             try originFolder.files.forEach { originFile in
                 if let ext = originFile.extension, ext == fileExt {
@@ -131,24 +138,27 @@ public struct PersistenceManager {
                     if !targetFolder.containsFile(named: originFile.name) || forceUpdate {
                         if originFile.name == AppVersion.fileName {
                             // enregister la version de l'app dans le directory targetFolder
-                            try targetFolder.saveAsJSON(AppVersion.shared,
-                                                        to                   : originFile.name,
-                                                        dateEncodingStrategy : .iso8601,
-                                                        keyEncodingStrategy  : .useDefaultKeys)
+                            try targetFolder.saveAsJSON(
+                                AppVersion.shared,
+                                to: originFile.name,
+                                dateEncodingStrategy: .iso8601,
+                                keyEncodingStrategy: .useDefaultKeys
+                            )
                         } else {
                             do {
                                 let targetFile = try targetFolder.file(named: originFile.name)
                                 try targetFile.delete()
-                            } catch {
-                            }
+                            } catch {}
                             try originFile.copy(to: targetFolder)
                         }
                     }
                 }
             }
         } catch {
-            customLog.log(level: .fault,
-                          "\(FileError.failedToDuplicateFiles.rawValue) de \(originFolder.name) vers \(targetFolder.name)")
+            customLog.log(
+                level: .fault,
+                "\(FileError.failedToDuplicateFiles.rawValue) de \(originFolder.name) vers \(targetFolder.name)"
+            )
             throw FileError.failedToDuplicateFiles
         }
     }
@@ -162,9 +172,9 @@ public struct PersistenceManager {
             do {
                 let targetMajorVersion = try targetFolder.loadFromJSON(
                     AppVersion.self,
-                    from                 : AppVersion.fileName,
-                    dateDecodingStrategy : .iso8601,
-                    keyDecodingStrategy  : .useDefaultKeys
+                    from: AppVersion.fileName,
+                    dateDecodingStrategy: .iso8601,
+                    keyDecodingStrategy: .useDefaultKeys
                 )
                 .version.major
                 return (appMajorVersion == targetMajorVersion)
@@ -179,21 +189,27 @@ public struct PersistenceManager {
                             return false
                         default:
                             // à cause d'une autre raison
-                            customLog.log(level: .fault,
-                                          "\(FileError.failedToCheckCompatibility.rawValue) de '\(AppVersion.fileName)'")
+                            customLog.log(
+                                level: .fault,
+                                "\(FileError.failedToCheckCompatibility.rawValue) de '\(AppVersion.fileName)'"
+                            )
                             throw FileError.failedToCheckCompatibility
                     }
                 } else {
                     // à cause d'une autre raison
-                    customLog.log(level: .fault,
-                                  "\(FileError.failedToCheckCompatibility.rawValue) de '\(AppVersion.fileName)'")
+                    customLog.log(
+                        level: .fault,
+                        "\(FileError.failedToCheckCompatibility.rawValue) de '\(AppVersion.fileName)'"
+                    )
                     throw FileError.failedToCheckCompatibility
                 }
             }
 
         } else {
-            customLog.log(level: .fault,
-                          "\(FileError.failedToCheckCompatibility.rawValue) de '\(AppVersion.fileName)'")
+            customLog.log(
+                level: .fault,
+                "\(FileError.failedToCheckCompatibility.rawValue) de '\(AppVersion.fileName)'"
+            )
             throw FileError.failedToCheckCompatibility
         }
     }
@@ -201,27 +217,29 @@ public struct PersistenceManager {
     /// Suprimer el fichier désigné par `url`.
     /// - Parameter url: URL du fichier à supprimer
     func deleteFile(withURL url: URL) throws {
-        guard url.startAccessingSecurityScopedResource() else { return }
+        guard url.startAccessingSecurityScopedResource() else {
+            return
+        }
 
         var file: File
 
-        /// Trouver le fichier correspondant à l'URL
+        // Trouver le fichier correspondant à l'URL
         do {
             file = try File(path: url.path)
 
-            /// Supprimer le fichier trouvé
+            // Supprimer le fichier trouvé
             do {
                 try file.delete()
             } catch {
                 url.stopAccessingSecurityScopedResource()
-                let errorStr = String(describing: (error as! LocationError))
+                let errorStr = String(describing: error as! LocationError)
                 customLog.log(level: .fault, "\(errorStr)")
                 throw FileError.failedToReadFile
             }
 
         } catch {
             url.stopAccessingSecurityScopedResource()
-            let errorStr = String(describing: (error as! LocationError))
+            let errorStr = String(describing: error as! LocationError)
             customLog.log(level: .fault, "\(errorStr)")
             throw FileError.failedToDeleteFile
         }

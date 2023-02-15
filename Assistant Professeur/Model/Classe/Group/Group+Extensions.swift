@@ -45,7 +45,7 @@ extension GroupEntity {
 
 // MARK: - Extension Core Data
 
-extension GroupEntity: ModelEntityP {
+extension GroupEntity {
 
     // MARK: - Type Properties
 
@@ -92,6 +92,18 @@ extension GroupEntity: ModelEntityP {
     }
 
     // MARK: - Type Methods
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
+    }
+
+    static func byId(id: UUID) -> Self? {
+        all().first { object in
+            object.id == id
+        }
+    }
 
     @discardableResult
     static func create(

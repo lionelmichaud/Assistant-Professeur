@@ -178,6 +178,16 @@ extension ClasseEntity {
         self.level = newLevel.rawValue
     }
 
+    /// Modifie l'attribut `room`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    func setRoom(_ newRoom: RoomEntity) {
+        guard let school = newRoom.school,
+              school == self.school else {
+            return
+        }
+        self.room = newRoom
+    }
+
     /// Toggle l'attribut `isFlagged` de la classe
     /// - Important: *Saves the context to the store after modification is done*
     func toggleFlag() {
@@ -195,7 +205,7 @@ extension ClasseEntity {
 
 // MARK: - Extension Core Data
 
-extension ClasseEntity: ModelEntityP {
+extension ClasseEntity {
     // MARK: - Type Properties
 
     @Preference(\.nameSortOrder)
@@ -322,15 +332,6 @@ extension ClasseEntity: ModelEntityP {
         filteredElevesSortedByName(searchString: "")
     }
 
-    // MARK: - Methods
-
-    override public func awakeFromInsert() {
-        super.awakeFromInsert()
-        // Set defaults here
-        // self.group = ""
-        self.id = UUID()
-    }
-
     // MARK: - Type Methods
 
     /// Créer une nouvelle instance et la sauvegarder dans le context
@@ -376,6 +377,14 @@ extension ClasseEntity: ModelEntityP {
                 return
             }
         }
+    }
+
+    // MARK: - Methods
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
     }
 
     // MARK: - Méthodes Groupes
@@ -619,7 +628,7 @@ public extension ClasseEntity {
         """
 
         CLASSE: \(displayString)
-           ID      : \(id)
+           ID      : \(String(describing: id))
            School  : \(String(describing: school?.displayString))
            Niveau  : \(levelString)
            Numéro  : \(numero)

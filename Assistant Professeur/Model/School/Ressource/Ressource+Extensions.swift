@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 21/12/2022.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 extension RessourceEntity {
     @objc
@@ -22,15 +22,14 @@ extension RessourceEntity {
 
 // MARK: - Extension Core Data
 
-extension RessourceEntity: ModelEntityP {
-
+extension RessourceEntity {
     // MARK: - Type Methods
 
     @discardableResult
     static func create(
-        dans school : SchoolEntity,
-        withName    : String = "",
-        quantity    : Int    = 1
+        dans school: SchoolEntity,
+        withName: String = "",
+        quantity: Int = 1
     ) -> RessourceEntity {
         let ressource = RessourceEntity.create()
         // Etablissement d'appartenance.
@@ -55,18 +54,17 @@ extension RessourceEntity: ModelEntityP {
 
     // MARK: - Methods
 
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
-        //Set defaults here
-        // self.date = Date.now
+        // Set defaults here
+        self.id = UUID()
     }
-
 }
 
 // MARK: - Extension Debug
 
-extension RessourceEntity {
-    public override var description: String {
+public extension RessourceEntity {
+    override var description: String {
         """
 
         RESSOURCE: \(viewName)

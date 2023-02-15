@@ -5,8 +5,10 @@
 //  Created by Lionel MICHAUD on 15/04/2022.
 //
 
+import AppFoundation
 import os
 import SwiftUI
+import UniformTypeIdentifiers
 
 // import Files
 // import FileAndFolder
@@ -16,6 +18,55 @@ private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
     category: "SchoolSidebarView"
 )
+
+enum FileImportOperation {
+    case importTrombines
+    case importModel
+    case none
+
+    var allowedContentTypes: [UTType] {
+        switch self {
+            case .importTrombines: return [.jpeg]
+            case .importModel: return [.json]
+            case .none: return []
+        }
+    }
+}
+
+enum FileExportOperation {
+    case exportJsonModel
+    case exportCsvEleveList
+    case exportCsvPrograms
+    case none
+
+    var urls: [URL] {
+        switch self {
+            case .exportJsonModel:
+                return ImportExportManager.cachesURLsToShare(
+                    fileNames: [
+                        JsonImportExportMng.schoolsFileName,
+                        JsonImportExportMng.programsFileName
+                    ]
+                )
+
+            case .exportCsvEleveList:
+                return ImportExportManager.cachesURLsToShare(
+                    fileNames: [
+                        CsvImportExportMng.csvEleveListFileName
+                    ]
+                )
+
+            case .exportCsvPrograms:
+                return ImportExportManager.cachesURLsToShare(
+                    fileNames: [
+                        CsvImportExportMng.csvProgramListFileName
+                    ]
+                )
+
+            case .none: return []
+        }
+    }
+}
 
 struct SchoolSidebarView: View {
     @EnvironmentObject
@@ -47,16 +98,25 @@ struct SchoolSidebarView: View {
     private var alertIsPresented = false
 
     @State
-    private var isShowingDeleteConfirmDialog = false
+    private var fileImportOperation = FileImportOperation.none
 
     @State
-    private var isShowingImportConfirmDialog = false
+    private var fileExportOperation = FileExportOperation.none
+
+    @State
+    private var isShowingDeleteConfirmDialog = false
+    @State
+    private var isShowingJsonImportConfirmDialog = false
+    @State
+    private var isShowingAppImportConfirmDialog = false
     @State
     private var isShowingImportTrombineDialog = false
     @State
     private var isShowingRepairDBDialog = false
     @State
-    private var isImportingJpegFile = false
+    private var isImportingFile = false
+    @State
+    private var isExportingModel = false
 
     // MARK: - Computed Properties
 
@@ -116,7 +176,9 @@ struct SchoolSidebarView: View {
                 }
             }
         }
+        #if os(iOS)
         .navigationTitle("Établissements")
+        #endif
         // .navigationViewStyle(.columns)
         .toolbar(content: myToolBarContent)
 
@@ -151,13 +213,43 @@ struct SchoolSidebarView: View {
             }
         }
 
-        // Importer des fichiers JPEG
+        // Importer des fichiers JPEG pour les trombines
+        // Importer des fichiers JSON pour le modèle
         .fileImporter(
-            isPresented: $isImportingJpegFile,
-            allowedContentTypes: [.jpeg],
+            isPresented: $isImportingFile,
+            allowedContentTypes: fileImportOperation.allowedContentTypes,
             allowsMultipleSelection: true
         ) { result in
-            importUserSelectedFiles(result: result)
+            switch fileImportOperation {
+                case .importModel:
+                    (
+                        alertTitle,
+                        alertMessage,
+                        alertIsPresented
+                    ) = JsonImportExportMng.importJsonData(
+                        result: result,
+                        resetNavigationData: { navigationModel.resetSelections() }
+                    )
+
+                case .importTrombines:
+                    (
+                        alertTitle,
+                        alertMessage,
+                        alertIsPresented
+                    ) = ImageImportExportMng.importTrombinesImages(
+                        result: result
+                    )
+
+                case .none:
+                    break
+            }
+        }
+
+        // Exporter des fichiers JSON pour le modèle
+        .fileMover(
+            isPresented: $isExportingModel,
+            files: isExportingModel ? fileExportOperation.urls : []
+        ) { _ in
         }
     }
 }
@@ -188,14 +280,20 @@ extension SchoolSidebarView {
                     Button {
                         isShowingAbout = true
                     } label: {
-                        Label("A propos", systemImage: "info.circle")
+                        Label(
+                            "A propos",
+                            systemImage: "info.circle"
+                        )
                     }
 
                     // Edition des préférences utilisateur
                     Button {
                         isEditingPreferences = true
                     } label: {
-                        Label("Préférences", systemImage: "gear")
+                        Label(
+                            "Préférences",
+                            systemImage: "gear"
+                        )
                     }
 
                     // Exporter les fichiers JSON utilisateurs
@@ -204,30 +302,91 @@ extension SchoolSidebarView {
                     Button {
                         checkAllUserData()
                     } label: {
-                        Label("Vérifier la base de donnée", systemImage: "checkmark.circle.trianglebadge.exclamationmark")
+                        Label(
+                            "Vérifier la base de donnée",
+                            systemImage: "checkmark.circle.trianglebadge.exclamationmark"
+                        )
                     }
                 }
 
-                Section {
+                Menu("Importer") {
                     // Importer des fichiers JPEG pour le trombinoscope
                     Button(role: .destructive) {
                         isShowingImportTrombineDialog.toggle()
                     } label: {
-                        Label("Importer des photos du trombinoscope", systemImage: "person.crop.rectangle.stack.fill")
+                        Label(
+                            "Importer des photos pour le trombinoscope",
+                            systemImage: "person.crop.rectangle.stack.fill"
+                        )
                     }
 
-                    // Importer les fichiers JSON depuis le Bundle Application
+                    // Importer les données depuis des fichiers au format JSON
                     Button(role: .destructive) {
-                        isShowingImportConfirmDialog.toggle()
+                        isShowingJsonImportConfirmDialog.toggle()
                     } label: {
-                        Label("Importer les données de l'App", systemImage: "square.and.arrow.down")
+                        Label(
+                            "Importer les données depuis une archive",
+                            systemImage: "square.and.arrow.down"
+                        )
                     }
 
+                    // Importer des fichiers depuis le Bundle Application
+                    Button(role: .destructive) {
+                        isShowingAppImportConfirmDialog.toggle()
+                    } label: {
+                        Label(
+                            "Importer les données contenues dans l'Application",
+                            systemImage: "square.and.arrow.down"
+                        )
+                    }
+                }
+
+                Menu("Exporter") {
+                    // Exporter les données dans des fichiers au format JSON
+                    Button {
+                        JsonImportExportMng.exportToJsonFiles()
+                        fileExportOperation = .exportJsonModel
+                        isExportingModel.toggle()
+                    } label: {
+                        Label(
+                            "Archiver vos données vers des fichiers",
+                            systemImage: "square.and.arrow.up"
+                        )
+                    }
+                    // Exporter les données dans des fichiers au format CSV
+                    Button {
+                        CsvImportExportMng.exportEleves()
+                        fileExportOperation = .exportCsvEleveList
+                        isExportingModel.toggle()
+                    } label: {
+                        Label(
+                            "Exporter les listes d'élèves au format CSV",
+                            systemImage: "square.and.arrow.up"
+                        )
+                    }
+                    if isPad() || isMac() {
+                        Button {
+                            CsvImportExportMng.exportPrograms()
+                            fileExportOperation = .exportCsvPrograms
+                            isExportingModel.toggle()
+                        } label: {
+                            Label(
+                                "Exporter les programmes en CSV",
+                                systemImage: "square.and.arrow.up"
+                            )
+                        }
+                    }
+                }
+
+                Section {
                     // Effacer toutes les données utilisateur
                     Button(role: .destructive) {
                         isShowingDeleteConfirmDialog.toggle()
                     } label: {
-                        Label("Supprimer toutes vos données", systemImage: "trash")
+                        Label(
+                            "Supprimer toutes vos données",
+                            systemImage: "trash"
+                        )
                     }
                 }
 
@@ -249,15 +408,32 @@ extension SchoolSidebarView {
                 Image(systemName: "ellipsis.circle")
             }
 
-            // Confirmation importation de tous les fichiers depuis l'App
+            // Confirmation importation du modèle depuis des fichiers au format JSON
             .confirmationDialog(
-                "Importation des fichiers de l'App",
-                isPresented: $isShowingImportConfirmDialog,
+                "Importation des données depuis une archive",
+                isPresented: $isShowingJsonImportConfirmDialog,
                 titleVisibility: .visible
             ) {
                 Button("Importer", role: .destructive) {
                     withAnimation {
-                        self.import()
+                        fileImportOperation = .importModel
+                        isImportingFile.toggle()
+                    }
+                }
+            } message: {
+                Text("L'importation va remplacer vos données actuelles par celles contenues dans les fichiers importés.\n") +
+                    Text("Cette action ne peut pas être annulée.")
+            }
+
+            // Confirmation importation de tous les fichiers depuis l'App
+            .confirmationDialog(
+                "Importation des données de l'Application",
+                isPresented: $isShowingAppImportConfirmDialog,
+                titleVisibility: .visible
+            ) {
+                Button("Importer", role: .destructive) {
+                    withAnimation {
+                        self.importFromApp()
                     }
                 }
             } message: {
@@ -273,7 +449,8 @@ extension SchoolSidebarView {
             ) {
                 Button("Importer") {
                     withAnimation {
-                        isImportingJpegFile = true
+                        fileImportOperation = .importModel
+                        isImportingFile.toggle()
                     }
                 }
             } message: {
@@ -321,13 +498,13 @@ extension SchoolSidebarView {
     //    }
 
     private func checkAllUserData() {
-        alertTitle = "Échec"
+        alertTitle = "Erreurs détectées"
         alertMessage = "La vérfication de la base de donnée a trouvé des erreurs"
 
         DataBaseManager.check(errorFound: &alertIsPresented)
 
         if alertIsPresented == false {
-            alertTitle = "Vérification terminée"
+            alertTitle = "Vérification terminée avec succès"
             alertMessage = "Aucune anomalie détectée."
             alertIsPresented.toggle()
         }
@@ -343,7 +520,7 @@ extension SchoolSidebarView {
     }
 
     /// Importer tous les fichiers JSON, JPEG et PNG depuis le Bundle Application
-    private func `import`() {
+    private func importFromApp() {
         // Copier les fichiers contenus dans le Bundle de l'application vers le répertoire Document de l'utilisateur
         do {
             //            try PersistenceManager().forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
@@ -371,35 +548,6 @@ extension SchoolSidebarView {
             }
         }
         // eleveStore.sort()
-    }
-
-    /// Copier les fichiers  sélectionnés dans le dossier Document de l'application.
-    /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
-    private func importUserSelectedFiles(result: Result<[URL], Error>) {
-        switch result {
-            case let .failure(error):
-                customLog.log(
-                    level: .fault,
-                    "Error selecting file: \(error.localizedDescription)"
-                )
-                alertTitle = "Échec"
-                alertMessage = "L'importation des fichiers a échouée!"
-                alertIsPresented.toggle()
-
-            case let .success(filesUrl):
-                do {
-                    try ImportExportManager.importTrombinesImages(filesUrl: filesUrl)
-
-                } catch {
-                    customLog.log(
-                        level: .fault,
-                        "L'importation des fichiers trombines a échouée: \(error.localizedDescription)"
-                    )
-                    alertTitle = "Échec"
-                    alertMessage = "L'importation des fichiers a échoué!"
-                    alertIsPresented.toggle()
-                }
-        }
     }
 }
 

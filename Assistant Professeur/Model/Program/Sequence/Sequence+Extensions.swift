@@ -60,7 +60,7 @@ extension SequenceEntity {
 
 // MARK: - Extension Core Data
 
-extension SequenceEntity: ModelEntityP {
+extension SequenceEntity {
 
     // MARK: - Computed properties
 
@@ -119,13 +119,13 @@ extension SequenceEntity: ModelEntityP {
             .sorted(using: sortComparators)
     }
 
+    // MARK: - Type Methods
+
     public override func awakeFromInsert() {
         super.awakeFromInsert()
         //Set defaults here
         self.id = UUID()
     }
-
-    // MARK: - Type Methods
 
     static func byId(id: UUID) -> Self? {
         all().first { object in

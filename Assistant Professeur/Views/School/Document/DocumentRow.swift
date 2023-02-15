@@ -28,16 +28,24 @@ struct DocumentRow: View {
             .buttonStyle(.bordered)
         }
         // Modal: visualisation du document PDF
-        .fullScreenCover(isPresented: $isViewing) {
+        #if os(macOS)
+        .sheet(isPresented: $isViewing) {
             NavigationStack {
                 PdfDocumentViewer(document: document)
             }
         }
+        #else
+                .fullScreenCover(isPresented: $isViewing) {
+                    NavigationStack {
+                        PdfDocumentViewer(document: document)
+                    }
+                }
+        #endif
     }
 }
 
-//struct DocumentRow_Previews: PreviewProvider {
+// struct DocumentRow_Previews: PreviewProvider {
 //    static var previews: some View {
 //        DocumentRow()
 //    }
-//}
+// }

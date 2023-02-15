@@ -11,7 +11,7 @@ import SwiftUI
 
 struct AppVersionView: View {
     @EnvironmentObject
-    private var cloudKitVM : CloudKitViewModel
+    private var cloudKitVM: CloudKitViewModel
 
     var body: some View {
         VStack(alignment: .center, spacing: 4) {
@@ -59,7 +59,9 @@ struct AppVersionView: View {
             }
         }
         .padding(.top)
-        .navigationBarHidden(true)
+        #if os(iOS)
+            .navigationBarHidden(true)
+        #endif
     }
 }
 

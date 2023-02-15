@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 24/09/2022.
 //
 
-import SwiftUI
 import AppFoundation
+import SwiftUI
 
 struct GroupsView: View {
     @ObservedObject
@@ -21,6 +21,9 @@ struct GroupsView: View {
     private var isShowingDeleteGroupsDialog = false
 
     @State
+    private var isExportingGroups = false
+
+    @State
     private var expanded = true
 
     @State
@@ -33,16 +36,27 @@ struct GroupsView: View {
         classe.groupOfUngroupedEleves.elevesSortedByName
     }
 
+    private var csvURLsToShare: [URL] {
+        ImportExportManager.cachesURLsToShare(
+            fileNames: [
+                CsvImportExportMng.csvFileName(classe: classe)
+            ]
+        )
+    }
+
     private var toolbarMenu: some View {
         Menu {
-            /// Exporter les groupes au format CSV
+            // Exporter les groupes au format CSV
             if classe.nbOfGroups > 1 {
-                Button("Exporter au format CSV") {
-                    ImportExportManager.exportGroupsToCSV(deClasse: classe)
+                Button {
+                    CsvImportExportMng.exportGroups(de: classe)
+                    isExportingGroups.toggle()
+                } label: {
+                    Label("Exporter au format CSV", systemImage: "square.and.arrow.up")
                 }
             }
 
-            /// Générer les groupes
+            // Générer les groupes
             Menu {
                 Menu {
                     Button("2 élèves") {
@@ -64,7 +78,7 @@ struct GroupsView: View {
                     Button("4 élèves") {
                         withAnimation {
                             GroupManager.formOrderedGroups(
-                                nbEleveParGroupe:4,
+                                nbEleveParGroupe: 4,
                                 dans: classe
                             )
                         }
@@ -122,7 +136,7 @@ struct GroupsView: View {
                 Label("Générer les groupes", systemImage: "person.line.dotted.person.fill")
             }
 
-            /// Supprimer tous les groupes
+            // Supprimer tous les groupes
             if classe.nbOfGroups > 1 {
                 Button(role: .destructive) {
                     isShowingDeleteGroupsDialog.toggle()
@@ -139,7 +153,7 @@ struct GroupsView: View {
     }
 
     var body: some View {
-        return Group {
+        Group {
             if classe.nbOfEleves == 0 {
                 VStack(alignment: .center, spacing: 10) {
                     Text("Aucun élèves dans cette classe.")
@@ -147,7 +161,7 @@ struct GroupsView: View {
 
             } else {
                 List {
-                    /// Ajout d'un nouveau groupe
+                    // Ajout d'un nouveau groupe
                     Button {
                         GroupManager.addGroup(dans: classe)
                     } label: {
@@ -155,7 +169,7 @@ struct GroupsView: View {
                     }
                     .buttonStyle(.borderless)
 
-                    /// Pour chaque Groupe
+                    // Pour chaque Groupe
                     ForEach(classe.allGroupsSortedByNumber) { groupe in
                         if show(groupe: groupe) {
                             DisclosureGroup(isExpanded: $expanded) {
@@ -185,15 +199,26 @@ struct GroupsView: View {
                         }
                     }
                 }
-                .searchable(text      : $searchString,
-                            placement : .navigationBarDrawer(displayMode : .automatic),
-                            prompt    : "Nom ou Prénom de l'élève")
+                .searchable(
+                    text: $searchString,
+//                            placement : .navigationBarDrawer(displayMode : .automatic),
+                    placement: .toolbar,
+                    prompt: "Nom ou Prénom de l'élève"
+                )
                 .autocorrectionDisabled()
             }
         }
         #if os(iOS)
         .navigationTitle("Groupes " + classe.displayString + " (\(classe.nbOfEleves))")
         #endif
+        // Exporter des fichiers JSON pour le modèle
+        .fileMover(
+            isPresented: $isExportingGroups,
+            files: isExportingGroups ?
+            csvURLsToShare :
+                []
+        ) { _ in
+        }
         .toolbar {
             ToolbarItemGroup(placement: .automatic) {
                 Picker("Présentation", selection: $presentation) {
@@ -203,36 +228,37 @@ struct GroupsView: View {
                 .pickerStyle(.segmented)
             }
 
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
+            ToolbarItemGroup(placement: .destructiveAction) {
                 toolbarMenu
-                /// Confirmation de suppresssion de tous les groupes
+                    // Confirmation de suppresssion de tous les groupes
                     .confirmationDialog(
                         "Supression de tous les groupes",
-                        isPresented     : $isShowingDeleteGroupsDialog,
-                        titleVisibility : .visible) {
-                            Button("Supprimer", role: .destructive) {
-                                withAnimation {
-                                    GroupManager.disolveGroups(dans: classe)
-                                }
+                        isPresented: $isShowingDeleteGroupsDialog,
+                        titleVisibility: .visible
+                    ) {
+                        Button("Supprimer", role: .destructive) {
+                            withAnimation {
+                                GroupManager.disolveGroups(dans: classe)
                             }
-                            Button("Annuler", role: .cancel) {
-                                isShowingDeleteGroupsDialog = false
-                            }
-                        } message: {
-                            Text("Cette opération est irréversible")
-                        }.keyboardShortcut(.defaultAction)
+                        }
+                        Button("Annuler", role: .cancel) {
+                            isShowingDeleteGroupsDialog = false
+                        }
+                    } message: {
+                        Text("Cette opération est irréversible")
+                    }.keyboardShortcut(.defaultAction)
             }
         }
     }
 
-    private func show(groupe: GroupEntity) -> Bool {
+    private func show(groupe _: GroupEntity) -> Bool {
         true
         // FIXME: - ne fonctionne pas
-        //groupe.number != 0 || (groupe.number == 0 && !groupe.isEmpty)
+        // groupe.number != 0 || (groupe.number == 0 && !groupe.isEmpty)
     }
 }
 
-//struct GroupsView_Previews: PreviewProvider {
+// struct GroupsView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -255,4 +281,4 @@ struct GroupsView: View {
 //                .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

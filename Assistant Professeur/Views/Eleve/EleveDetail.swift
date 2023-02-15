@@ -190,7 +190,7 @@ struct EleveDetail: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .confirmationAction) {
                 Button {
                     // Appliquer les modifications faites à l'élève
                     if isEditing {

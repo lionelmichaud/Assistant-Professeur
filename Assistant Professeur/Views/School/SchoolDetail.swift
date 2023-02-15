@@ -74,7 +74,7 @@ struct SchoolDetail: View {
             #endif
             //.onChange(of: schoolVM, perform: save)
         }
-        .onDisappear(perform: save)
+        //.onDisappear(perform: save)
     }
 
     private func save() {
