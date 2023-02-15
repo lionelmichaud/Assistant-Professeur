@@ -8,6 +8,7 @@
 import os
 import SwiftUI
 import UniformTypeIdentifiers
+import AppFoundation
 
 // import Files
 // import FileAndFolder
@@ -361,6 +362,18 @@ extension SchoolSidebarView {
                             systemImage: "square.and.arrow.up"
                         )
                     }
+                    if isPad() || isMac() {
+                        Button {
+                            CsvImportExportMng.exportPrograms()
+                            fileExportOperation = .exportCsvPrograms
+                            isExportingModel.toggle()
+                        } label: {
+                            Label(
+                                "Exporter les Programmes",
+                                systemImage: "square.and.arrow.up"
+                            )
+                        }
+                    }
                 }
 
                 Section {
@@ -481,15 +494,6 @@ extension SchoolSidebarView {
     //            }
     //        }
     //    }
-
-    private var jsonURLsToShare: [URL] {
-        ImportExportManager.cachesURLsToShare(
-            fileNames: [
-                JsonImportExportMng.schoolsFileName,
-                JsonImportExportMng.programsFileName
-            ]
-        )
-    }
 
     private func checkAllUserData() {
         alertTitle = "Erreurs détectées"

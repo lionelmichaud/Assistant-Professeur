@@ -371,46 +371,46 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
                 discipline: .snt,
                 level: .n0terminale,
                 segpa: false,
-                annotation: "Programme d'Histoire-Géographie de classe de Terminale"
+                annotation: "Programme de SNT de classe de Terminale"
             )
 
             // Séquences
             let progTechno5Seq1 = SequenceEntity.create(
-                name: "Séquence 1 du Programme de Technologie",
+                name: "Séquence 1 du Programme de Technologie de 5ième",
                 annotation: "Une annotation de séquence 1",
                 url: URL(string: "http://www.google.com"),
                 dans: progTechno5
             )
             let progTechno5Seq2 = SequenceEntity.create(
-                name: "Séquence 2 du Programme de Technologie",
+                name: "Séquence 2 du Programme de Technologie de 5ième",
                 annotation: "Une annotation de séquence 2",
                 dans: progTechno5
             )
             SequenceEntity.create(
-                name: "Séquence 3 du Programme de Technologie",
+                name: "Séquence 3 du Programme de Technologie de 5ième",
                 annotation: "Une annotation de séquence 3",
                 dans: progTechno5
             )
             SequenceEntity.create(
-                name: "Séquence 4 du Programme de Technologie",
+                name: "Séquence 4 du Programme de Technologie de 5ième",
                 annotation: "Une annotation de séquence 4",
                 dans: progTechno5
             )
             let progSntTermSeq1 = SequenceEntity.create(
                 name: "Séquence 1 du Programme de SNT",
-                annotation: "Une annotation de séquence 1",
+                annotation: "Une annotation de séquence 1 du Programme de SNT",
                 url: URL(string: "http://www.google.com"),
                 dans: progSntTerm
             )
             let progSntTermSeq2 = SequenceEntity.create(
                 name: "Séquence 2 du Programme de SNT",
-                annotation: "Une annotation de séquence 2",
+                annotation: "Une annotation de séquence 2 du Programme de SNT",
                 dans: progSntTerm
             )
 
             // Activités
             ActivityEntity.create(
-                name: "Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno",
+                name: "Activité 1 de Séquence 1 de Techno",
                 annotation: "Une annotation d'activité 1",
                 url: URL(string: "http://apple.fr"),
                 duration: 1.0,
@@ -441,8 +441,8 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
                 dans: progTechno5Seq1
             )
             ActivityEntity.create(
-                name: "Activité 3 de Séquence 1 de Techno",
-                annotation: "Une annotation d'activité 3",
+                name: "Activité 4 de Séquence 1 de Techno",
+                annotation: "Une annotation d'activité 4",
                 duration: 1.0,
                 isEvalSommative: true,
                 isEvalFormative: false,
@@ -452,7 +452,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             )
             ActivityEntity.create(
                 name: "Activité 1 de Séquence 2 de Techno",
-                annotation: "Une annotation d'activité 4",
+                annotation: "Une annotation d'activité 1",
                 duration: 3.0,
                 isEvalSommative: true,
                 isEvalFormative: false,
@@ -461,7 +461,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
                 dans: progTechno5Seq2
             )
             ActivityEntity.create(
-                name: "Activité 1 de Séquence 1 de SNT Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno",
+                name: "Activité 1 de Séquence 2 de SNT Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno",
                 annotation: "Une annotation d'activité 1",
                 url: URL(string: "http://apple.fr"),
                 duration: 1.0,
@@ -472,7 +472,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
                 dans: progSntTermSeq2
             )
             ActivityEntity.create(
-                name: "Activité 2 de Séquence 1 de SNT",
+                name: "Activité 2 de Séquence 2 de SNT",
                 annotation: "Une annotation d'activité 2",
                 duration: 2.0,
                 isEvalSommative: false,

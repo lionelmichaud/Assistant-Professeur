@@ -564,10 +564,10 @@
 		79213555297872320036A5EA /* Program */ = {
 			isa = PBXGroup;
 			children = (
+				79637202297D826400ECDBC3 /* ProgramManager.swift */,
 				79E40E832997DF43006BBE49 /* Program+CoreDataClass.swift */,
 				792135562978724C0036A5EA /* Program+Extensions.swift */,
 				79213558297872510036A5EA /* Sequence */,
-				79637202297D826400ECDBC3 /* ProgramManager.swift */,
 			);
 			path = Program;
 			sourceTree = "<group>";

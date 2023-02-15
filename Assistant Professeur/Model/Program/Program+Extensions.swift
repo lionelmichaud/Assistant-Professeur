@@ -223,6 +223,16 @@ extension ProgramEntity {
         self.id = UUID()
     }
 
+    static func allSortedbyDisciplineLevelSegpa() -> [ProgramEntity] {
+        do {
+            return try ProgramEntity
+                .viewContext
+                .fetch(ProgramEntity.requestAllSortedbyDisciplineLevelSegpa)
+        } catch {
+            return []
+        }
+    }
+
     static func byId(id: UUID) -> Self? {
         all().first { object in
             object.id == id

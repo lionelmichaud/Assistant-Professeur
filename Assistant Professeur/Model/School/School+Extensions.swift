@@ -133,6 +133,21 @@ extension SchoolEntity {
         return school
     }
 
+    /// Retourne tous les établissements triées.
+    ///
+    /// Ordre de tri:
+    ///   1. Type d'école
+    ///   2. Nom de l'école
+    static func allSortedByLevelName() -> [SchoolEntity] {
+        do {
+            return try SchoolEntity
+                .viewContext
+                .fetch(SchoolEntity.requestAllSortedByLevelName)
+        } catch {
+            return []
+        }
+    }
+
     // MARK: - Computed Properties
 
     /// Nombre de classes dans l'établissement

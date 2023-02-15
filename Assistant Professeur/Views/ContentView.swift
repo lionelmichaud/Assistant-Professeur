@@ -20,9 +20,6 @@ struct ContentView: View {
     @SceneStorage("navigation")
     private var navigationData: Data?
 
-    @Environment(\.horizontalSizeClass)
-    private var horizontalSizeClass
-
     @StateObject
     private var navigationModel = NavigationModel()
 
@@ -93,7 +90,7 @@ struct ContentView: View {
                 .tag(NavigationModel.Tab.colle)
                 .badge(ColleEntity.cardinal())
 
-            if horizontalSizeClass == .regular {
+            if isPad() || isMac() {
                 // Les programmes scolaires
                 ProgramSplitView()
                     .tabItem { Label("Programmes", systemImage: "books.vertical").symbolVariant(.none) }

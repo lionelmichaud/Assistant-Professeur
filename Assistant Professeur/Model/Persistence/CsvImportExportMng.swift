@@ -28,12 +28,198 @@ enum CsvImportExportMng {
         (classe.school?.displayString ?? "") + classe.displayString + "_groupes.csv"
     }
 
+    private static var csWritingOptions: CSVWritingOptions {
+        CSVWritingOptions(
+            includesHeader: true,
+            nilEncoding: "",
+            trueEncoding: "VRAI",
+            falseEncoding: "FAUX",
+            delimiter: ";"
+        )
+    }
+
+    /// Exporter la liste des élèves des groupes d'une classe
+    static func exportPrograms() {
+        var total = DataFrame()
+        ProgramEntity.allSortedbyDisciplineLevelSegpa()
+            .forEach { program in
+                let dataFrame = programDataFrame(de: program)
+                print(dataFrame)
+                if total.isEmpty {
+                    total = dataFrame
+                } else {
+                    total.append(rowsOf: dataFrame)
+                }
+            }
+
+        let cachesUrl = URL.cachesDirectory
+        let fileUrl = cachesUrl.appending(component: csvProgramListFileName)
+
+        try? total.writeCSV(
+            to: fileUrl,
+            options: csWritingOptions
+        )
+    }
+
+    /// Construit la table des séquences d'un programme
+    static func programDataFrame(de program: ProgramEntity) -> DataFrame {
+        // colonnes relatives au programme
+        func appendProgramToProgramColumns(program: ProgramEntity) {
+            disciplineColumn.append(program.disciplineString)
+            levelColumn.append(program.viewLevelEnum.pickerString)
+            segpaColumn.append(program.viewSegpa)
+            durationColumn.append(program.durationWithoutMargin)
+            durationWithMarginColumn.append(program.durationWithMargin)
+        }
+
+        // colonnes relatives à la séquence
+        func appendSequenceToSequenceColumns(sequence: SequenceEntity) {
+            seqNumColumn.append(sequence.viewNumber)
+            seqNameColumn.append(sequence.viewName)
+            seqDurationColumn.append(sequence.durationWithoutMargin)
+            seqDurationWithMarginColumn.append(sequence.durationWithMargin)
+        }
+
+        // colonnes relatives à l'activité
+        func appendActivityToActivityColumns(activity: ActivityEntity) {
+            actNumColumn.append(activity.viewNumber)
+            actNameColumn.append(activity.viewName)
+            actDurationColumn.append(activity.duration)
+            actIsEvalSommativeColumn.append(activity.viewIsEvalSommative)
+            actIsEvalFormativeColumn.append(activity.viewIsEvalFormative)
+            actIsTpColumn.append(activity.viewIsTP)
+            actIsProjectColumn.append(activity.isProject)
+        }
+
+        var dataFrame = DataFrame()
+
+        // colonnes relatives au programme
+        let disciplineColumnID = ColumnID("Discipline", String.self)
+        let levelColumnID = ColumnID("Niveau", String.self)
+        let segpaColumnID = ColumnID("SEGPA", Bool.self)
+        let durationColumnID = ColumnID("Durée", Double.self)
+        let durationWithMarginColumnID = ColumnID("Durée avec marge", Double.self)
+
+        var disciplineColumn = Column(disciplineColumnID, capacity: 4)
+        var levelColumn = Column(levelColumnID, capacity: 4)
+        var segpaColumn = Column(segpaColumnID, capacity: 4)
+        var durationColumn = Column(durationColumnID, capacity: 4)
+        var durationWithMarginColumn = Column(durationWithMarginColumnID, capacity: 4)
+
+        // colonnes relatives à la séquence
+        let seqNumColumnID = ColumnID("Séquence numéro", Int.self)
+        let seqNameColumnID = ColumnID("Séquence nom", String.self)
+        let seqDurationColumnID = ColumnID("Séquence Durée", Double.self)
+        let seqDurationWithMarginColumnID = ColumnID("Séquence Durée avec marge", Double.self)
+
+        var seqNumColumn = Column(seqNumColumnID, capacity: 4)
+        var seqNameColumn = Column(seqNameColumnID, capacity: 4)
+        var seqDurationColumn = Column(seqDurationColumnID, capacity: 4)
+        var seqDurationWithMarginColumn = Column(seqDurationWithMarginColumnID, capacity: 4)
+
+        // colonnes relatives à l'activité
+        let activityNumColumnID = ColumnID("Activité numéro", Int.self)
+        let actNameColumnID = ColumnID("Activité nom", String.self)
+        let actDurationColumnID = ColumnID("Activité Durée", Double.self)
+        let actIsEvalSommativeColumnID = ColumnID("Activité Eval Sommative", Bool.self)
+        let actIsEvalFormativeColumnID = ColumnID("Activité Eval Formative", Bool.self)
+        let actIsTpColumnID = ColumnID("Activité TP", Bool.self)
+        let actIsProjectColumnID = ColumnID("Activité Projet", Bool.self)
+
+        var actNumColumn = Column(activityNumColumnID, capacity: 4)
+        var actNameColumn = Column(actNameColumnID, capacity: 4)
+        var actDurationColumn = Column(actDurationColumnID, capacity: 4)
+        var actIsEvalSommativeColumn = Column(actIsEvalSommativeColumnID, capacity: 4)
+        var actIsEvalFormativeColumn = Column(actIsEvalFormativeColumnID, capacity: 4)
+        var actIsTpColumn = Column(actIsTpColumnID, capacity: 4)
+        var actIsProjectColumn = Column(actIsProjectColumnID, capacity: 4)
+
+        let sequences = program.sequencesSortedByNumber
+
+        if sequences.isNotEmpty {
+            sequences.forEach { sequence in
+                let activities = sequence.activitiesSortedByNumber
+
+                // colonnes relatives au programme
+                if activities.isNotEmpty {
+                    activities.forEach { activity in
+                        // colonnes relatives au programme
+                        appendProgramToProgramColumns(program: program)
+
+                        // colonnes relatives à la séquence
+                        appendSequenceToSequenceColumns(sequence: sequence)
+
+                        // colonnes relatives à l'activité
+                        appendActivityToActivityColumns(activity: activity)
+                    }
+                } else {
+                    // colonnes relatives au programme
+                    appendProgramToProgramColumns(program: program)
+
+                    // colonnes relatives à la séquence
+                    appendSequenceToSequenceColumns(sequence: sequence)
+
+                    // colonnes VIDES relatives à l'activité
+                    actNumColumn.append(0)
+                    actNameColumn.append("aucune")
+                    actDurationColumn.append(0.0)
+                    actIsEvalSommativeColumn.append(false)
+                    actIsEvalFormativeColumn.append(false)
+                    actIsTpColumn.append(false)
+                    actIsProjectColumn.append(false)
+                }
+            }
+        } else {
+            // colonnes relatives au programme
+            appendProgramToProgramColumns(program: program)
+
+            // colonnes VIDES relatives à la séquence
+            seqNumColumn.append(0)
+            seqNameColumn.append("aucune")
+            seqDurationColumn.append(0.0)
+            seqDurationWithMarginColumn.append(0.0)
+
+            // colonnes VIDES relatives à l'activité
+            actNumColumn.append(0)
+            actNameColumn.append("aucune")
+            actDurationColumn.append(0.0)
+            actIsEvalSommativeColumn.append(false)
+            actIsEvalFormativeColumn.append(false)
+            actIsTpColumn.append(false)
+            actIsProjectColumn.append(false)
+        }
+
+        // colonnes relatives au programme
+        dataFrame.append(column: disciplineColumn)
+        dataFrame.append(column: levelColumn)
+        dataFrame.append(column: segpaColumn)
+        dataFrame.append(column: durationColumn)
+        dataFrame.append(column: durationWithMarginColumn)
+
+        // colonnes relatives à la séquence
+        dataFrame.append(column: seqNumColumn)
+        dataFrame.append(column: seqNameColumn)
+        dataFrame.append(column: seqDurationColumn)
+        dataFrame.append(column: seqDurationWithMarginColumn)
+
+        // colonnes relatives à l'activité
+        dataFrame.append(column: actNumColumn)
+        dataFrame.append(column: actNameColumn)
+        dataFrame.append(column: actDurationColumn)
+        dataFrame.append(column: actIsEvalSommativeColumn)
+        dataFrame.append(column: actIsEvalFormativeColumn)
+        dataFrame.append(column: actIsTpColumn)
+        dataFrame.append(column: actIsProjectColumn)
+
+        return dataFrame
+    }
+
     /// Exporter la liste des élèves des groupes d'une classe
     static func exportEleves() {
         var total = DataFrame()
-        SchoolEntity.all()
+        SchoolEntity.allSortedByLevelName()
             .forEach { school in
-                school.allClasses
+                school.classesSortedByLevelNumber
                     .forEach { classe in
                         let dataFrame = classeGroupsDataFrame(de: classe)
                         print(dataFrame)
@@ -48,17 +234,9 @@ enum CsvImportExportMng {
         let cachesUrl = URL.cachesDirectory
         let fileUrl = cachesUrl.appending(component: csvEleveListFileName)
 
-        let options = CSVWritingOptions(
-            includesHeader: true,
-            nilEncoding: "",
-            trueEncoding: "true",
-            falseEncoding: "false",
-            delimiter: ";"
-        )
-        try?
-        total.writeCSV(
+        try? total.writeCSV(
             to: fileUrl,
-            options: options
+            options: csWritingOptions
         )
     }
 
@@ -70,23 +248,14 @@ enum CsvImportExportMng {
         let cachesUrl = URL.cachesDirectory
         let fileUrl = cachesUrl.appending(component: fileName)
 
-        let options = CSVWritingOptions(
-            includesHeader: true,
-            nilEncoding: "",
-            trueEncoding: "true",
-            falseEncoding: "false",
-            delimiter: ";"
+        try? groupsDataFrame.writeCSV(
+            to: fileUrl,
+            options: csWritingOptions
         )
-        try?
-            groupsDataFrame.writeCSV(
-                to: fileUrl,
-                options: options
-            )
     }
 
     /// Construit la table des élèves des groupes d'une classe
     static func classeGroupsDataFrame(de classe: ClasseEntity) -> DataFrame {
-        // TODO: - Exporter les groupes au format CSV
         var dataFrame = DataFrame()
 
         let schoolColumnID = ColumnID("Établissement", String.self)
