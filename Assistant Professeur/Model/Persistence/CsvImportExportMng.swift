@@ -73,22 +73,39 @@ enum CsvImportExportMng {
         }
 
         // colonnes relatives à la séquence
-        func appendSequenceToSequenceColumns(sequence: SequenceEntity) {
-            seqNumColumn.append(sequence.viewNumber)
-            seqNameColumn.append(sequence.viewName)
-            seqDurationColumn.append(sequence.durationWithoutMargin)
-            seqDurationWithMarginColumn.append(sequence.durationWithMargin)
+        func appendSequenceToSequenceColumns(sequence: SequenceEntity?) {
+            if let sequence {
+                seqNumColumn.append(sequence.viewNumber)
+                seqNameColumn.append(sequence.viewName)
+                seqDurationColumn.append(sequence.durationWithoutMargin)
+                seqDurationWithMarginColumn.append(sequence.durationWithMargin)
+            } else {
+                seqNumColumn.append(0)
+                seqNameColumn.append("aucune")
+                seqDurationColumn.append(0.0)
+                seqDurationWithMarginColumn.append(0.0)
+            }
         }
 
         // colonnes relatives à l'activité
-        func appendActivityToActivityColumns(activity: ActivityEntity) {
-            actNumColumn.append(activity.viewNumber)
-            actNameColumn.append(activity.viewName)
-            actDurationColumn.append(activity.duration)
-            actIsEvalSommativeColumn.append(activity.viewIsEvalSommative)
-            actIsEvalFormativeColumn.append(activity.viewIsEvalFormative)
-            actIsTpColumn.append(activity.viewIsTP)
-            actIsProjectColumn.append(activity.isProject)
+        func appendActivityToActivityColumns(activity: ActivityEntity?) {
+            if let activity {
+                actNumColumn.append(activity.viewNumber)
+                actNameColumn.append(activity.viewName)
+                actDurationColumn.append(activity.duration)
+                actIsEvalSommativeColumn.append(activity.viewIsEvalSommative)
+                actIsEvalFormativeColumn.append(activity.viewIsEvalFormative)
+                actIsTpColumn.append(activity.viewIsTP)
+                actIsProjectColumn.append(activity.isProject)
+            } else {
+                actNumColumn.append(0)
+                actNameColumn.append("aucune")
+                actDurationColumn.append(0.0)
+                actIsEvalSommativeColumn.append(false)
+                actIsEvalFormativeColumn.append(false)
+                actIsTpColumn.append(false)
+                actIsProjectColumn.append(false)
+            }
         }
 
         var dataFrame = DataFrame()
@@ -160,13 +177,7 @@ enum CsvImportExportMng {
                     appendSequenceToSequenceColumns(sequence: sequence)
 
                     // colonnes VIDES relatives à l'activité
-                    actNumColumn.append(0)
-                    actNameColumn.append("aucune")
-                    actDurationColumn.append(0.0)
-                    actIsEvalSommativeColumn.append(false)
-                    actIsEvalFormativeColumn.append(false)
-                    actIsTpColumn.append(false)
-                    actIsProjectColumn.append(false)
+                    appendActivityToActivityColumns(activity: nil)
                 }
             }
         } else {
@@ -174,19 +185,10 @@ enum CsvImportExportMng {
             appendProgramToProgramColumns(program: program)
 
             // colonnes VIDES relatives à la séquence
-            seqNumColumn.append(0)
-            seqNameColumn.append("aucune")
-            seqDurationColumn.append(0.0)
-            seqDurationWithMarginColumn.append(0.0)
+            appendSequenceToSequenceColumns(sequence: nil)
 
             // colonnes VIDES relatives à l'activité
-            actNumColumn.append(0)
-            actNameColumn.append("aucune")
-            actDurationColumn.append(0.0)
-            actIsEvalSommativeColumn.append(false)
-            actIsEvalFormativeColumn.append(false)
-            actIsTpColumn.append(false)
-            actIsProjectColumn.append(false)
+            appendActivityToActivityColumns(activity: nil)
         }
 
         // colonnes relatives au programme
