@@ -6,14 +6,22 @@
 //
 
 import SwiftUI
+import HelpersView
 
 struct ActivityProgressView: View {
     @ObservedObject
     var activity: ActivityEntity
 
+    var progresses: [ActivityProgressEntity] {
+        activity.allProgresses
+    }
+
     var body: some View {
-        ForEach(ProgramManager.classesAssociatedTo(thisActivity: activity)) { classe in
-            Text("**\(classe.school!.displayString)**: \(classe.displayString)")
+        ForEach(progresses) { progress in
+            Text("**\(progress.classe!.school!.displayString)**: \(progress.progress)")
+        }
+        .emptyListPlaceHolder(progresses) {
+            Text("Aucune classe")
         }
     }
 }

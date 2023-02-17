@@ -481,6 +481,8 @@ extension EleveEntity {
     }
 
     /// Créer un nouvel élève et l'ajouter à la `classe`
+    ///
+    /// Ajouter une note pour chaque évaluation de la classe
     /// - Parameters:
     ///   - familyName: Nom de famille
     ///   - givenName: Prénom
@@ -518,6 +520,11 @@ extension EleveEntity {
         eleve.annotation = annotation
         eleve.appreciation = appreciation
         eleve.bonus = bonus
+
+        // ajouter une note pour chaque évaluation de la classe
+        classe.allExams.forEach { exam in
+            MarkEntity.create(pourEleve: eleve, pourExam: exam)
+        }
 
         try? EleveEntity.saveIfContextHasChanged()
 

@@ -66,6 +66,7 @@
 		793D627B295F2A1400477932 /* ColleDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793D627A295F2A1400477932 /* ColleDetail.swift */; };
 		793D627D295F2A2900477932 /* ColleNotifIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793D627C295F2A2900477932 /* ColleNotifIcon.swift */; };
 		793D627F295F33D300477932 /* ColleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793D627E295F33D300477932 /* ColleViewModel.swift */; };
+		793EF8DD299D82A6002DDC64 /* ActivityProgress+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793EF8DC299D82A6002DDC64 /* ActivityProgress+Extensions.swift */; };
 		79401350295624EF007AD790 /* Dsicipline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7940134F295624EF007AD790 /* Dsicipline.swift */; };
 		794013522956598B007AD790 /* EleveCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794013512956598B007AD790 /* EleveCreatorModal.swift */; };
 		79401354295659B6007AD790 /* EleveNameGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79401353295659B6007AD790 /* EleveNameGroupBox.swift */; };
@@ -324,6 +325,7 @@
 		793D627A295F2A1400477932 /* ColleDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColleDetail.swift; sourceTree = "<group>"; };
 		793D627C295F2A2900477932 /* ColleNotifIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColleNotifIcon.swift; sourceTree = "<group>"; };
 		793D627E295F33D300477932 /* ColleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColleViewModel.swift; sourceTree = "<group>"; };
+		793EF8DC299D82A6002DDC64 /* ActivityProgress+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ActivityProgress+Extensions.swift"; sourceTree = "<group>"; };
 		7940134F295624EF007AD790 /* Dsicipline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dsicipline.swift; sourceTree = "<group>"; };
 		794013512956598B007AD790 /* EleveCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveCreatorModal.swift; sourceTree = "<group>"; };
 		79401353295659B6007AD790 /* EleveNameGroupBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveNameGroupBox.swift; sourceTree = "<group>"; };
@@ -587,6 +589,7 @@
 			children = (
 				79E40E872997E16B006BBE49 /* Activity+CoreDataClass.swift */,
 				7921355C2978728A0036A5EA /* Activity+Extensions.swift */,
+				793EF8DB299D81DB002DDC64 /* Progress */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -719,6 +722,14 @@
 				793D626E295DCBBC00477932 /* MotifEditor.swift */,
 			);
 			path = MotifView;
+			sourceTree = "<group>";
+		};
+		793EF8DB299D81DB002DDC64 /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				793EF8DC299D82A6002DDC64 /* ActivityProgress+Extensions.swift */,
+			);
+			path = Progress;
 			sourceTree = "<group>";
 		};
 		795C2C21296E2DCA00EDFF09 /* Room */ = {
@@ -1433,6 +1444,7 @@
 				79F41E6129549AE400EAAC52 /* AppreciationView.swift in Sources */,
 				79BF1DB32929104F005D6CF3 /* Document+Extensions.swift in Sources */,
 				79F41E592954903D00EAAC52 /* ClasseEditor.swift in Sources */,
+				793EF8DD299D82A6002DDC64 /* ActivityProgress+Extensions.swift in Sources */,
 				792381192960B04F009E51B7 /* GroupPicturesView.swift in Sources */,
 				7940135629565B48007AD790 /* EleveViewModel.swift in Sources */,
 				79FFF42D295122F60037A327 /* ColorOptions.swift in Sources */,

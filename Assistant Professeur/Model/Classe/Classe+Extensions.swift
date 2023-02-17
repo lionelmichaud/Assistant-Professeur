@@ -264,24 +264,6 @@ extension ClasseEntity {
         }
     }
 
-    /// Liste des évaluations de la classe non triées
-    var allExams: [ExamEntity] {
-        if let exams {
-            return (exams.allObjects as! [ExamEntity])
-        } else {
-            return []
-        }
-    }
-
-    /// Liste des évaluations de la classe triés par date
-    var examsSortedByDate: [ExamEntity] {
-        let sortComparators =
-            [
-                SortDescriptor(\ExamEntity.dateExecuted, order: .reverse)
-            ]
-        return allExams.sorted(using: sortComparators)
-    }
-
     /// Retourne la liste des groupes de la classe.
     /// Les groupes trouvés sont triés par numéro.
     ///
@@ -312,6 +294,26 @@ extension ClasseEntity {
         }
     }
 
+    // MARK: - Computed Properties Exams
+
+    /// Liste des évaluations de la classe non triées
+    var allExams: [ExamEntity] {
+        if let exams {
+            return (exams.allObjects as! [ExamEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Liste des évaluations de la classe triés par date
+    var examsSortedByDate: [ExamEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(\ExamEntity.dateExecuted, order: .reverse)
+            ]
+        return allExams.sorted(using: sortComparators)
+    }
+
     // MARK: - Computed Properties Elèves
 
     /// Liste des élèves de la classe non triées
@@ -334,7 +336,7 @@ extension ClasseEntity {
 
     // MARK: - Type Methods
 
-    /// Créer une nouvelle instance et la sauvegarder dans le context
+    /// Créer une nouvelle classe et l'ajouter à la `classe`
     @discardableResult
     static func create( // swiftlint:disable:this function_parameter_count
         level: LevelClasse,
@@ -365,6 +367,17 @@ extension ClasseEntity {
         classe.isFlagged = isFlagged
         classe.annotation = annotation
         classe.appreciation = appreciation
+
+        // Créer une progression pour chaque activité
+        ProgramManager
+            .activitiesAssociatedTo(thisClasse: classe)
+            .forEach { activity in
+                print("**\(activity.viewName)** pour \(classe.displayString)")
+                ActivityProgressEntity.create(
+                    forClasse: classe,
+                    forActivity: activity
+                )
+            }
 
         try? ClasseEntity.saveIfContextHasChanged()
         return classe

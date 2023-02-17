@@ -176,6 +176,8 @@ extension ExamEntity {
 // MARK: - Extension Notes Echelonnées
 
 extension ExamEntity {
+    // MARK: - Properties
+
     /// Wrapper of `steps`
     /// - Important: *Saves the context to the store after modification is done*
     var viewSteps: StepsArray {
@@ -243,6 +245,7 @@ extension ExamEntity {
         exam.setDateExecuted(dateExecuted)
         exam.maxMark = Int16(maxMark)
 
+        // Créer une note pour chaque élève auquel s'applique cette évaluation
         let eleves = classe.allEleves
         eleves.forEach { eleve in
             MarkEntity.create(pourEleve: eleve, pourExam: exam)

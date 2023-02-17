@@ -113,6 +113,48 @@ struct ProgramManager {
         ActivityEntity.viewContext.delete(orderedActivities[index])
     }
 
+    /// Retourne la liste des Activités qui doivent être suivies par la `classe`
+    /// - Returns: liste des Activités qui doivent être suivies
+    static func activitiesAssociatedTo(
+        thisClasse classe: ClasseEntity
+    ) -> [ActivityEntity] {
+        let (discipline, level, segpa) = (
+            classe.discipline,
+            classe.level,
+            classe.segpa
+        )
+
+        let request = ProgramEntity.requestAllSortedbyDisciplineLevelSegpa
+
+        let predicate = NSPredicate(
+            format: "%K = %@ AND %K = %@ AND %K = %@",
+            #keyPath(ProgramEntity.discipline),
+            discipline!,
+            #keyPath(ProgramEntity.level),
+            level!,
+            #keyPath(ProgramEntity.segpa),
+            segpa as NSNumber
+        )
+
+        request.predicate = predicate
+
+        do {
+            let programs = try ProgramEntity.viewContext.fetch(request)
+            print(programs)
+            let activities = programs
+                .flatMap { program in
+                    program.sequencesSortedByNumber
+                }
+                .flatMap { sequence in
+                    sequence.activitiesSortedByNumber
+                }
+            print(activities)
+            return activities
+        } catch {
+            return []
+        }
+    }
+
     /// Retourne la liste des Classes qui doivent suivre l'activité `activity`
     /// - Parameter activity: l'activité
     /// - Returns: liste des Classes qui doivent suivre l'activité
@@ -120,7 +162,7 @@ struct ProgramManager {
         thisActivity activity: ActivityEntity
     ) -> [ClasseEntity] {
         guard let program = activity.sequence?.program else {
-            return [ ]
+            return []
         }
 
         let (discipline, level, segpa) = (
@@ -144,7 +186,6 @@ struct ProgramManager {
 
         do {
             let classes = try ClasseEntity.viewContext.fetch(request)
-            print(classes)
             return classes
         } catch {
             return []

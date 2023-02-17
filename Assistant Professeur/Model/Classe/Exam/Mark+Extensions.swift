@@ -124,8 +124,6 @@ extension MarkEntity {
 // MARK: - Extension Core Data
 
 extension MarkEntity {
-    // MARK: - Type Computed Properties
-
     // MARK: - Type Methods
 
     static func checkConsistency(errorFound: inout Bool) {
