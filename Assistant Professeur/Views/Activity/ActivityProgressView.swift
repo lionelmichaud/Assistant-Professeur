@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 05/02/2023.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct ActivityProgressView: View {
     @ObservedObject
@@ -39,6 +39,7 @@ struct ActivityProgressView: View {
             DisclosureGroup {
                 ForEach(sortedProgressesIn(school)) { progress in
                     ClassProgressView(progress: progress)
+                        .listRowSeparatorTint(.secondary, edges: .bottom)
                 }
             } label: {
                 Text(school.displayString)
