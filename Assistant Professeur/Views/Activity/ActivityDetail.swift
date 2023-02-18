@@ -45,7 +45,7 @@ struct ActivityDetail: View {
                     Section {
                         ActivityProgressView(activity: selectedActivity!)
                     } header: {
-                        Text("Avancements des Classes")
+                        Text("Progression des Classes")
                             .font(.callout)
                             .foregroundColor(.secondary)
                             .fontWeight(.bold)

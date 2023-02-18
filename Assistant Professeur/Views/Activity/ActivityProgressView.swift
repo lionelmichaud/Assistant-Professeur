@@ -16,13 +16,60 @@ struct ActivityProgressView: View {
         activity.allProgresses
     }
 
+    /// Liste des établissements ayant des classes suivant cette activité
+    var schools: [SchoolEntity] {
+        let sortComparators = [
+            SortDescriptor(\SchoolEntity.level, order: .forward),
+            SortDescriptor(\SchoolEntity.name, order: .forward)
+        ]
+
+        var schools = [SchoolEntity]()
+
+        progresses.forEach { progress in
+            if let school = progress.classe?.school,
+               !schools.contains(school) {
+                schools.append(school)
+            }
+        }
+        return schools.sorted(using: sortComparators)
+    }
+
     var body: some View {
-        ForEach(progresses) { progress in
-            Text("**\(progress.classe!.school!.displayString)**: \(progress.progress)")
+        ForEach(schools) { school in
+            DisclosureGroup {
+                ForEach(sortedProgressesIn(school)) { progress in
+                    ClassProgressView(progress: progress)
+                }
+            } label: {
+                Text(school.displayString)
+                    .font(.callout)
+                    .foregroundColor(.secondary)
+                    .fontWeight(.bold)
+            }
         }
-        .emptyListPlaceHolder(progresses) {
-            Text("Aucune classe")
+        .emptyListPlaceHolder(schools) {
+            Text("Aucune classe susceptible de suivre cette activité")
         }
+    }
+
+    /// Retourne la liste des progresssions de classe triée pour l'activité et l'établissement sélectionnés
+    ///
+    /// Ordre de tri des progressions:
+    ///   1. Niveau de la Classe
+    ///   2. Classe SEGPA ou non
+    ///   3. Numéro de la Classe
+    private func sortedProgressesIn(_ school: SchoolEntity) -> [ActivityProgressEntity] {
+        let sortComparators = [
+            SortDescriptor(\ActivityProgressEntity.classe?.level, order: .forward),
+            SortDescriptor(\ActivityProgressEntity.classe?.segpa, order: .forward),
+            SortDescriptor(\ActivityProgressEntity.classe?.numero, order: .forward)
+        ]
+
+        return progresses
+            .filter { progress in
+                progress.classe?.school == school
+            }
+            .sorted(using: sortComparators)
     }
 }
 

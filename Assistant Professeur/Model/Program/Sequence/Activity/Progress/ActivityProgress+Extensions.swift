@@ -51,7 +51,52 @@ extension ActivityProgressEntity {
 // MARK: - Extension Core Data
 
 extension ActivityProgressEntity: ModelEntityP {
+    // MARK: - Type Computed Properties
+
+    static var byDisciplineLevelSegpaNSSortDescriptor: [NSSortDescriptor] =
+    [
+        NSSortDescriptor(
+            keyPath: \ActivityProgressEntity.classe?.school?.level,
+            ascending: false
+        ),
+        NSSortDescriptor(
+            keyPath: \ActivityProgressEntity.classe?.school?.name,
+            ascending: false
+        ),
+        NSSortDescriptor(
+            keyPath: \ActivityProgressEntity.classe?.level,
+            ascending: true
+        ),
+        NSSortDescriptor(
+            keyPath: \ActivityProgressEntity.classe?.segpa,
+            ascending: true
+        )
+    ]
+
+    /// Requête pour toutes les progressions de classes triées.
+    ///
+    /// Ordre de tri:
+    ///   1. Type d'établissement
+    ///   2. Nom d'établissement
+    ///   3. Niveau de la Classe
+    ///   4. SGPA ou non
+    static var requestAllSortedByDisciplineLevelSegpa: NSFetchRequest<ActivityProgressEntity> {
+        let request = ActivityProgressEntity.fetchRequest()
+        request.sortDescriptors = Self.byDisciplineLevelSegpaNSSortDescriptor
+        return request
+    }
+
     // MARK: - Type Methods
+
+    static func allSortedByDisciplineLevelSegpa() -> [ActivityProgressEntity] {
+        do {
+            return try ActivityProgressEntity
+                .viewContext
+                .fetch(requestAllSortedByDisciplineLevelSegpa)
+        } catch {
+            return []
+        }
+    }
 
     static func checkConsistency(errorFound: inout Bool) {
         all().forEach { progress in
