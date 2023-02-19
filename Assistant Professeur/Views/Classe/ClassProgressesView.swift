@@ -40,10 +40,8 @@ struct ClassProgressesView: View {
             ForEach(sequences) { sequence in
                 DisclosureGroup {
                     ForEach(sortedProgressesIn(sequence)) { progress in
-//                        DisclosureGroup("test") {
-                            ClassActivityProgressView(progress: progress)
-                                .listRowSeparatorTint(.secondary, edges: .bottom)
-//                        }
+                        ClassActivityProgressView(progress: progress)
+                            .listRowSeparatorTint(.secondary, edges: .bottom)
                     }
                 } label: {
                     LabeledSequenceView(sequence: sequence)

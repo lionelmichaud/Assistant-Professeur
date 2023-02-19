@@ -8,17 +8,49 @@
 import SwiftUI
 
 struct ClassActivityProgressView: View {
+    // MARK: - Initializer
+
+    init(progress: ActivityProgressEntity) {
+        self.progress = progress
+        self._isExpanded =
+            State(initialValue: progress.status == .inProgress)
+    }
+
+    // MARK: - Properties
+
     @ObservedObject
-    var progress: ActivityProgressEntity
+    private var progress: ActivityProgressEntity
 
     @Environment(\.horizontalSizeClass)
     private var hClass
 
     @State
+    private var isExpanded: Bool = false
+
+    @State
     private var progressValue: Double = 0
 
     var body: some View {
-        VStack(alignment: .leading) {
+        DisclosureGroup(isExpanded: $isExpanded) {
+            VStack(alignment: .leading) {
+                LabeledContent("Progression") {
+                    ActivityProgressSlider(progress: progress)
+                }
+
+                TextField(
+                    "",
+                    text: $progress.annotation.bound,
+                    prompt: Text("description")
+                )
+                .onSubmit {
+                    try? ActivityProgressEntity.saveIfContextHasChanged()
+                }
+                .lineLimit(5)
+                .textFieldStyle(.roundedBorder)
+            }
+            .font(hClass == .compact ? .callout : .body)
+
+        } label: {
             if let activity = progress.activity {
                 HStack {
                     CompletionSymbol(status: progress.status)
@@ -31,24 +63,10 @@ struct ClassActivityProgressView: View {
                         showTitle: false
                     )
                 }
+            } else {
+                Text("nil")
             }
-
-            LabeledContent("Progression") {
-                ActivityProgressSlider(progress: progress)
-            }
-
-            TextField(
-                "",
-                text: $progress.annotation.bound,
-                prompt: Text("description")
-            )
-            .onSubmit {
-                try? ActivityProgressEntity.saveIfContextHasChanged()
-            }
-            .lineLimit(5)
-            .textFieldStyle(.roundedBorder)
         }
-        .font(hClass == .compact ? .callout : .body)
     }
 }
 
