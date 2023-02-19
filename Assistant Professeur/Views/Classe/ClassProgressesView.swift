@@ -11,9 +11,6 @@ struct ClassProgressesView: View {
     @ObservedObject
     var classe: ClasseEntity
 
-    @Environment(\.horizontalSizeClass)
-    private var hClass
-
     var progresses: [ActivityProgressEntity] {
         classe.allProgresses
     }
@@ -38,16 +35,7 @@ struct ClassProgressesView: View {
     var body: some View {
         List {
             ForEach(sequences) { sequence in
-                DisclosureGroup {
-                    ForEach(sortedProgressesIn(sequence)) { progress in
-                        ClassActivityProgressView(progress: progress)
-                            .listRowSeparatorTint(.secondary, edges: .bottom)
-                    }
-                } label: {
-                    LabeledSequenceView(sequence: sequence)
-                        .font(hClass == .compact ? .callout : .title3)
-                        .bold()
-                }
+                ClassSequenceProgressView(sequence: sequence, classe: classe)
             }
             .emptyListPlaceHolder(sequences) {
                 Text("Aucune séquence suivie par cette classe")
@@ -57,22 +45,6 @@ struct ClassProgressesView: View {
         .navigationTitle("Progression")
         #endif
         .navigationBarTitleDisplayModeInline()
-    }
-
-    /// Retourne la liste des progresssions de classe triée pour l'activité et la séquence sélectionnées
-    ///
-    /// Ordre de tri des progressions:
-    ///   1. Numéro d'activité
-    private func sortedProgressesIn(_ sequence: SequenceEntity) -> [ActivityProgressEntity] {
-        let sortComparators = [
-            SortDescriptor(\ActivityProgressEntity.activity?.number, order: .forward)
-        ]
-
-        return progresses
-            .filter { progress in
-                progress.activity?.sequence == sequence
-            }
-            .sorted(using: sortComparators)
     }
 }
 

@@ -119,6 +119,7 @@
 		7989B4D929A288E900383F84 /* LabeledSequenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989B4D829A288E900383F84 /* LabeledSequenceView.swift */; };
 		7989B4DB29A28D0300383F84 /* ProgressState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989B4DA29A28D0300383F84 /* ProgressState.swift */; };
 		7989B4DD29A28F8E00383F84 /* CompletionSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989B4DC29A28F8E00383F84 /* CompletionSymbol.swift */; };
+		7989B4DF29A2A63000383F84 /* ClassSequenceProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989B4DE29A2A63000383F84 /* ClassSequenceProgressView.swift */; };
 		798B825E296C8DD5004A24A8 /* EleveNameStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */; };
 		798B8260296CAC84004A24A8 /* ImportExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B825F296CAC84004A24A8 /* ImportExportManager.swift */; };
 		798DD4D2298C318F00C47B2C /* ExamListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D1298C318F00C47B2C /* ExamListView.swift */; };
@@ -389,6 +390,7 @@
 		7989B4D829A288E900383F84 /* LabeledSequenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledSequenceView.swift; sourceTree = "<group>"; };
 		7989B4DA29A28D0300383F84 /* ProgressState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressState.swift; sourceTree = "<group>"; };
 		7989B4DC29A28F8E00383F84 /* CompletionSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionSymbol.swift; sourceTree = "<group>"; };
+		7989B4DE29A2A63000383F84 /* ClassSequenceProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassSequenceProgressView.swift; sourceTree = "<group>"; };
 		798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveNameStyling.swift; sourceTree = "<group>"; };
 		798B825F296CAC84004A24A8 /* ImportExportManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImportExportManager.swift; sourceTree = "<group>"; };
 		798DD4D1298C318F00C47B2C /* ExamListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListView.swift; sourceTree = "<group>"; };
@@ -1039,6 +1041,7 @@
 				796A242429A178DF009B2A6C /* ClassCurrentActivityView.swift */,
 				796A242629A17C16009B2A6C /* ClassProgressesView.swift */,
 				7989B4D229A2733D00383F84 /* ClassActivityProgressView.swift */,
+				7989B4DE29A2A63000383F84 /* ClassSequenceProgressView.swift */,
 			);
 			path = Classe;
 			sourceTree = "<group>";
@@ -1521,6 +1524,7 @@
 				79637208297D9B5B00ECDBC3 /* ActivitySideBar.swift in Sources */,
 				79DEDB2B2925996E00F508EF /* Preferences.swift in Sources */,
 				79637212297DBCE200ECDBC3 /* SettingsSequence.swift in Sources */,
+				7989B4DF29A2A63000383F84 /* ClassSequenceProgressView.swift in Sources */,
 				793D6279295F29DD00477932 /* ColleEditor.swift in Sources */,
 				7989B4DD29A28F8E00383F84 /* CompletionSymbol.swift in Sources */,
 				79DEDB042925902800F508EF /* SchoolSidebarView.swift in Sources */,

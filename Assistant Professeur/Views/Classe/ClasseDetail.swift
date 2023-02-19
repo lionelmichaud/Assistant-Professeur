@@ -125,8 +125,16 @@ struct ClasseDetail: View {
 
     private var currentActivityView: some View {
         NavigationLink(value: ClasseNavigationRoute.activity(classe)) {
-            Label("Activité en cours", systemImage: "book.fill")
-                .fontWeight(.bold)
+            HStack {
+                Label("Activité en cours", systemImage: "book.fill")
+                    .fontWeight(.bold)
+                if let activity = classe.currentActivity,
+                   let sequence = activity.sequence {
+                    Spacer()
+                    Text("Séquence \(sequence.viewNumber) - Activité \(activity.viewNumber)")
+                        .foregroundColor(.secondary)
+                }
+            }
         }
     }
 

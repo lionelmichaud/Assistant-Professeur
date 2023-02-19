@@ -253,6 +253,8 @@ extension ClasseEntity {
         return request
     }
 
+    // MARK: - Computed Properties Progresses
+
     /// Nombre de progression pour cette activité.
     var nbOfProgresses: Int {
         Int(progressCount)
@@ -265,6 +267,41 @@ extension ClasseEntity {
         } else {
             return []
         }
+    }
+
+    /// Retourne la liste des progressions de la classe.
+    /// Les progressions trouvées sont triées.
+    ///
+    /// Ordre de tri :
+    ///   1. Numéro de Séquence
+    ///   2. Numéro d'Activité
+    var allProgressesSortedBySequenceActivityNumber: [ActivityProgressEntity] {
+        let sortComparators = [
+            SortDescriptor(\ActivityProgressEntity.activity?.sequence?.number, order: .forward),
+            SortDescriptor(\ActivityProgressEntity.activity?.number, order: .forward)
+        ]
+
+        return allProgresses
+            .sorted(using: sortComparators)
+    }
+
+    /// Activité en cours
+    var currentActivity: ActivityEntity? {
+        let progresses = allProgressesSortedBySequenceActivityNumber
+        for idx in progresses.indices {
+            if progresses[idx].status == .inProgress {
+                return progresses[idx].activity
+
+            } else if idx > progresses.startIndex &&
+                progresses[idx - 1].status == .completed &&
+                progresses[idx].status == .notStarted {
+                return progresses[idx].activity
+            }
+        }
+        if progresses.allSatisfy({ $0.status == .notStarted }) {
+            return progresses.first?.activity
+        }
+        return nil
     }
 
     // MARK: - Computed Properties Groups
@@ -284,10 +321,9 @@ extension ClasseEntity {
     /// Ordre de tri :
     ///   1. Numéro de groupe
     var allGroupsSortedByNumber: [GroupEntity] {
-        let sortComparators =
-            [
-                SortDescriptor(\GroupEntity.number, order: .forward)
-            ]
+        let sortComparators = [
+            SortDescriptor(\GroupEntity.number, order: .forward)
+        ]
 
         return allGroups
             .sorted(using: sortComparators)

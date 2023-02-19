@@ -12,6 +12,11 @@ struct CompletionSymbol: View {
 
     var body: some View {
         switch status {
+            case .inProgress:
+                Image(systemName: "play.circle")
+                    .symbolVariant(.circle)
+                    .symbolRenderingMode(.palette)
+                    //.foregroundStyle(.primary, .gray)
             case .completed:
                 Image(systemName: "checkmark")
                     .symbolVariant(.circle)
