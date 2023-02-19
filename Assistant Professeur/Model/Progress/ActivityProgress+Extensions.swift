@@ -40,6 +40,19 @@ extension ActivityProgressEntity {
         }
     }
 
+    var status: ProgressState {
+        switch progress {
+            case 0.0:
+                return .notStarted
+            case 1.0:
+                return .completed
+            case ..<0.0, 1.0...:
+                return .invalid
+            default:
+                return .inProgress
+        }
+    }
+
     // MARK: - Methods
 
     /// Modifie l'attribut `progress`
@@ -50,7 +63,7 @@ extension ActivityProgressEntity {
 
 // MARK: - Extension Core Data
 
-extension ActivityProgressEntity: ModelEntityP {
+extension ActivityProgressEntity {
     // MARK: - Type Computed Properties
 
     static var byDisciplineLevelSegpaNSSortDescriptor: [NSSortDescriptor] =

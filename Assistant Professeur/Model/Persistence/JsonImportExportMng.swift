@@ -107,7 +107,6 @@ enum JsonImportExportMng {
                     fileUrl.stopAccessingSecurityScopedResource()
                 }
 
-                DataBaseManager.rebuildConnections()
                 try? SchoolEntity.saveIfContextHasChanged()
         }
 
@@ -124,7 +123,9 @@ enum JsonImportExportMng {
             [SchoolEntity].self,
             from: ""
         )
-        print(String(describing: schools))
+        #if DEBUG
+            print(String(describing: schools))
+        #endif
     }
 
     /// Importer les Programs depuis des fichiers au format JSON
@@ -133,6 +134,8 @@ enum JsonImportExportMng {
             [ProgramEntity].self,
             from: ""
         )
-        print(String(describing: programs))
+        #if DEBUG
+            print(String(describing: programs))
+        #endif
     }
 }

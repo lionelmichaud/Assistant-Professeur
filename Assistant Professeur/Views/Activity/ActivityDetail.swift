@@ -43,7 +43,7 @@ struct ActivityDetail: View {
 
                 List {
                     Section {
-                        ActivityProgressView(activity: selectedActivity!)
+                        ActivityProgressesView(activity: selectedActivity!)
                     } header: {
                         Text("Progression des Classes")
                             .font(.callout)

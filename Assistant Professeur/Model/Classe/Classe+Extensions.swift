@@ -253,6 +253,20 @@ extension ClasseEntity {
         return request
     }
 
+    /// Nombre de progression pour cette activité.
+    var nbOfProgresses: Int {
+        Int(progressCount)
+    }
+
+    /// Liste des progressions des classes pour cette activité non triées
+    var allProgresses: [ActivityProgressEntity] {
+        if let progresses {
+            return (progresses.allObjects as! [ActivityProgressEntity])
+        } else {
+            return []
+        }
+    }
+
     // MARK: - Computed Properties Groups
 
     /// Liste des élèves de la classe non triées
@@ -335,6 +349,12 @@ extension ClasseEntity {
     }
 
     // MARK: - Type Methods
+
+    static func byId(id: UUID) -> Self? {
+        all().first { object in
+            object.id == id
+        }
+    }
 
     /// Créer une nouvelle classe et l'ajouter à la `classe`
     @discardableResult

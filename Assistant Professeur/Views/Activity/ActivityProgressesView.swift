@@ -8,16 +8,16 @@
 import HelpersView
 import SwiftUI
 
-struct ActivityProgressView: View {
+struct ActivityProgressesView: View {
     @ObservedObject
     var activity: ActivityEntity
 
-    var progresses: [ActivityProgressEntity] {
+    private var progresses: [ActivityProgressEntity] {
         activity.allProgresses
     }
 
     /// Liste des établissements ayant des classes suivant cette activité
-    var schools: [SchoolEntity] {
+    private var schools: [SchoolEntity] {
         let sortComparators = [
             SortDescriptor(\SchoolEntity.level, order: .forward),
             SortDescriptor(\SchoolEntity.name, order: .forward)
@@ -38,7 +38,7 @@ struct ActivityProgressView: View {
         ForEach(schools) { school in
             DisclosureGroup {
                 ForEach(sortedProgressesIn(school)) { progress in
-                    ClassProgressView(progress: progress)
+                    ActivityClassProgressView(progress: progress)
                         .listRowSeparatorTint(.secondary, edges: .bottom)
                 }
             } label: {

@@ -17,8 +17,8 @@ struct SequenceBrowserRow: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Label(sequence.viewName,
-                  systemImage: "\(sequence.viewNumber).circle")
+            LabeledSequenceView(sequence: sequence)
+
             HStack {
                 DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
                 Spacer()
@@ -27,7 +27,7 @@ struct SequenceBrowserRow: View {
                 WebsiteView(url: sequence.url)
             }
         }
-        .font(hClass == .compact ? .subheadline : .callout)
+        .font(hClass == .compact ? .callout : .body)
     }
 }
 

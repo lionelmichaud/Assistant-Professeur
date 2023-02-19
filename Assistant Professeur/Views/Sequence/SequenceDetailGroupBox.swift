@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 25/01/2023.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct SequenceDetailGroupBox: View {
     @ObservedObject
@@ -20,20 +20,17 @@ struct SequenceDetailGroupBox: View {
 
     var body: some View {
         GroupBox {
-            Label {
-                Text(sequence.viewName)
-            } icon: {
-                Image(systemName: "\(sequence.viewNumber).circle")
-                    .font(.body)
-            }
-            .horizontallyAligned(.leading)
+            LabeledSequenceView(sequence: sequence)
+                .font(hClass == .compact ? .callout : .headline)
+                .bold()
+                .horizontallyAligned(.leading)
 
             // note sur le programme
             if annotationEnabled && sequence.viewAnnotation.isNotEmpty {
                 AnnotationView(
-                    annotation   : sequence.viewAnnotation,
-                    scrollable   : true,
-                    scrollHeight : 40
+                    annotation: sequence.viewAnnotation,
+                    scrollable: true,
+                    scrollHeight: 40
                 )
                 .horizontallyAligned(.leading)
             }
@@ -46,13 +43,13 @@ struct SequenceDetailGroupBox: View {
                 WebsiteView(url: sequence.url)
             }
         }
-        .font(hClass == .compact ? .subheadline : .callout)
+        .font(hClass == .compact ? .callout : .body)
         .padding(.horizontal)
     }
 }
 
-//struct SequenceDetailGroupBox_Previews: PreviewProvider {
+// struct SequenceDetailGroupBox_Previews: PreviewProvider {
 //    static var previews: some View {
 //        SequenceDetailGroupBox()
 //    }
-//}
+// }

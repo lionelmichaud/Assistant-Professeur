@@ -7,41 +7,22 @@
 
 import SwiftUI
 
-struct ClassProgressView: View {
+struct ActivityClassProgressView: View {
     @ObservedObject
     var progress: ActivityProgressEntity
 
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @State
-    private var progressValue: Double = 0
-
     var body: some View {
         LabeledContent {
             VStack {
-                Slider(
-                    value: $progress.progress,
-                    in: 0 ... 1,
-                    step: 0.25
-                ) {
-                    Text("Progression")
-                } minimumValueLabel: {
-                    Text("")
-                } maximumValueLabel: {
-                    Text("Fini")
-                } onEditingChanged: { editing in
-                    if !editing {
-                        try? ActivityProgressEntity.saveIfContextHasChanged()
-                    }
-                }
-                .padding(8)
-                .background(Capsule().stroke(Color.orange, lineWidth: 2))
+                ActivityProgressSlider(progress: progress)
 
                 TextField(
                     "",
                     text: $progress.annotation.bound,
-                    prompt: Text("progression")
+                    prompt: Text("description")
                 )
                 .onSubmit {
                     try? ActivityProgressEntity.saveIfContextHasChanged()
