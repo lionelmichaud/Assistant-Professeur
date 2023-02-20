@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Situation de la progression d'une classe par Séquence
 struct ClassSequenceProgressView: View {
     // MARK: - Initializer
 
@@ -34,15 +35,35 @@ struct ClassSequenceProgressView: View {
     @State
     private var isExpanded: Bool = false
 
-    var progresses: [ActivityProgressEntity] {
+    private var progresses: [ActivityProgressEntity] {
         classe.allProgresses
+    }
+
+    /// Retourne la liste des progresssions de classe triée pour l'activité et la séquence sélectionnées
+    ///
+    /// Ordre de tri des progressions:
+    ///   1. Numéro d'activité
+    private var sortedProgressesInSequence: [ActivityProgressEntity] {
+        let sortComparators = [
+            SortDescriptor(\ActivityProgressEntity.activity?.number, order: .forward)
+        ]
+
+        return progresses
+            .filter { progress in
+                progress.activity?.sequence == sequence
+            }
+            .sorted(using: sortComparators)
     }
 
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
-            ForEach(sortedProgressesIn(sequence)) { progress in
+            ForEach(sortedProgressesInSequence) { progress in
                 ClassActivityProgressView(progress: progress)
+                    .padding(.leading)
                     .listRowSeparatorTint(.secondary, edges: .bottom)
+            }
+            .emptyListPlaceHolder(sortedProgressesInSequence) {
+                Text("Aucune activité suivie par cette classe")
             }
         } label: {
             HStack {
@@ -55,22 +76,6 @@ struct ClassSequenceProgressView: View {
             .bold()
             .listRowSeparatorTint(.secondary, edges: .bottom)
         }
-    }
-
-    /// Retourne la liste des progresssions de classe triée pour l'activité et la séquence sélectionnées
-    ///
-    /// Ordre de tri des progressions:
-    ///   1. Numéro d'activité
-    private func sortedProgressesIn(_ sequence: SequenceEntity) -> [ActivityProgressEntity] {
-        let sortComparators = [
-            SortDescriptor(\ActivityProgressEntity.activity?.number, order: .forward)
-        ]
-
-        return progresses
-            .filter { progress in
-                progress.activity?.sequence == sequence
-            }
-            .sorted(using: sortComparators)
     }
 }
 

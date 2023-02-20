@@ -46,7 +46,7 @@ struct ActivityDetailGroupBox: View {
                 .padding(.top, 4)
             }
             .font(hClass == .compact ? .callout : .body)
-            //.horizontallyAligned(.leading)
+            .horizontallyAligned(.leading)
         }
         .padding(.horizontal)
     }

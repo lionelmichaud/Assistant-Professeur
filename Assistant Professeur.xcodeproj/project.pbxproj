@@ -1040,8 +1040,8 @@
 				79ECF1FA2959F915008F0282 /* ClasseObservLabel.swift */,
 				796A242429A178DF009B2A6C /* ClassCurrentActivityView.swift */,
 				796A242629A17C16009B2A6C /* ClassProgressesView.swift */,
-				7989B4D229A2733D00383F84 /* ClassActivityProgressView.swift */,
 				7989B4DE29A2A63000383F84 /* ClassSequenceProgressView.swift */,
+				7989B4D229A2733D00383F84 /* ClassActivityProgressView.swift */,
 			);
 			path = Classe;
 			sourceTree = "<group>";

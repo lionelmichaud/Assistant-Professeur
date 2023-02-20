@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Situation de la progression d'une classe par Séquence / Activité
 struct ClassProgressesView: View {
     @ObservedObject
     var classe: ClasseEntity

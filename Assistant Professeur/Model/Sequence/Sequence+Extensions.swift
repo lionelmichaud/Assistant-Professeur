@@ -86,7 +86,7 @@ extension SequenceEntity {
         }
     }
 
-    /// Liste des activités de la séquence triées par numéro d'activité
+    /// Liste des activités de la Séquence triées par numéro d'activité
     var activitiesSortedByNumber: [ActivityEntity] {
         let sortComparators =
             [
@@ -97,7 +97,7 @@ extension SequenceEntity {
 
     // MARK: - Méthodes
 
-    /// Liste des activités de la séquence filtrées et triées par numéro d'activité
+    /// Liste des activités de la Séquence filtrées et triées par numéro d'activité
     func filteredActivitiesSortedByNumber(
         searchString: String
     ) -> [ActivityEntity] {
@@ -117,47 +117,48 @@ extension SequenceEntity {
             .sorted(using: sortComparators)
     }
 
+    /// Retourne l'état d'avancement de la progression d'une `classe` pour cette Séquence
     func statusFor(classe: ClasseEntity) -> ProgressState {
-        let progresses = classe.allProgresses
+        let seqProgresses = classe.allProgresses.filter { progress in
+            progress.activity?.sequence == self
+        }
 
-        guard progresses.isNotEmpty else {
+        guard seqProgresses.isNotEmpty else {
             return .notStarted
         }
 
-        if progresses.allSatisfy({ progress in
-            progress.activity?.sequence != self ||
-                progress.status == .notStarted
+        if seqProgresses.allSatisfy({ progress in
+            // toutes les progressions pour cette séquence et cette classe sont .notStarted
+            progress.status == .notStarted
 
         }) {
-            print("Séquence \(self.viewNumber) pour classe \(classe.displayString): Non commencée")
             return .notStarted
 
-        } else if progresses.allSatisfy({ progress in
-            progress.activity?.sequence != self ||
-            progress.status == .completed
-
-        }) {
-            print("Séquence \(self.viewNumber) pour classe \(classe.displayString): Terminée")
+        } else if seqProgresses.allSatisfy({ $0.status == .completed }) {
+            // toutes les progressions pour cette séquence et cette classe sont .completed
             return .completed
 
-        } else if progresses.contains(where: { progress in
-            progress.activity?.sequence == self &&
-            progress.status == .inProgress
-
-        }) {
-            print("Séquence \(self.viewNumber) pour classe \(classe.displayString): En cours")
+        } else if seqProgresses.contains(where: { $0.status == .inProgress }) {
+            // une progression pour cette séquence et cette classe est .inProgress
             return .inProgress
 
-        } else if progresses.contains(where: { progress in
-            progress.activity?.sequence == self &&
-            progress.status == .invalid
+        } else if seqProgresses.contains(where: { $0.status == .completed }) &&
+            seqProgresses.contains(where: { $0.status == .notStarted }) {
+            // une progression pour cette séquence et cette classe est .completed
+            // et une autre est .notStarted
+            return .inProgress
 
-        }) {
-            print("Séquence \(self.viewNumber) pour classe \(classe.displayString): Invalide")
+        } else if seqProgresses.contains(where: { $0.status == .invalid }) {
+            // une progression pour cette séquence et cette classe est .invalid
+            #if DEBUG
+                print("Séquence \(self.viewNumber) pour classe \(classe.displayString): Invalide")
+            #endif
             return .invalid
 
         } else {
-            print("Séquence \(self.viewNumber) pour classe \(classe.displayString): Invalide")
+            #if DEBUG
+                print("Séquence \(self.viewNumber) pour classe \(classe.displayString): Invalide")
+            #endif
             return .invalid
         }
     }

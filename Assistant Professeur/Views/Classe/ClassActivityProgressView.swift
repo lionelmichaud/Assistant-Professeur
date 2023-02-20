@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Situation de la progression d'une classe par Activité d'une Séquence donnée
 struct ClassActivityProgressView: View {
     // MARK: - Initializer
 

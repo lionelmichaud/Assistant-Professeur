@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Symbol associé à un état d'avancement
 struct CompletionSymbol: View {
     var status: ProgressState
 
@@ -26,8 +27,12 @@ struct CompletionSymbol: View {
                 Image(systemName: "checkmark.circle.badge.xmark")
                     .symbolRenderingMode(.multicolor)
 
-            default:
-                EmptyView()
+            case .notStarted:
+                // Symbol caché (occupe de la place mais ne se voit pas)
+                Image(systemName: "play.circle")
+                    .symbolVariant(.circle)
+                    .symbolRenderingMode(.palette)
+                    .hidden()
         }
     }
 }
