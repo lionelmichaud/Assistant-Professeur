@@ -16,7 +16,7 @@
         <relationship name="sequence" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SequenceEntity" inverseName="activities" inverseEntity="SequenceEntity"/>
     </entity>
     <entity name="ActivityProgressEntity" representedClassName="ActivityProgressEntity" syncable="YES" codeGenerationType="category">
-        <attribute name="annotation" attributeType="String" defaultValueString=""/>
+        <attribute name="annotation" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="progress" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ActivityEntity" inverseName="progresses" inverseEntity="ActivityEntity"/>

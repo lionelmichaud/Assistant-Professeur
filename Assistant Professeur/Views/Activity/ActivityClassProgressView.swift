@@ -11,6 +11,9 @@ struct ActivityClassProgressView: View {
     @ObservedObject
     var progress: ActivityProgressEntity
 
+    @EnvironmentObject
+    private var navig : NavigationModel
+
     @Environment(\.horizontalSizeClass)
     private var hClass
 
@@ -32,14 +35,20 @@ struct ActivityClassProgressView: View {
                 .textFieldStyle(.roundedBorder)
             }
         } label: {
-            Text(progress.classe?.displayString ?? "nil")
-                .bold()
-                .padding(8)
-                .background {
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.primary)
-                        .foregroundColor(.gray)
-                }
+            Button {
+                navig.selectedTab = .classe
+                navig.selectedClasseId = progress.classe?.objectID
+            } label: {
+                Text(progress.classe?.displayString ?? "nil")
+                    .bold()
+                    .padding(4)
+//                    .background {
+//                        RoundedRectangle(cornerRadius: 8)
+//                            .stroke(Color.primary)
+//                            .foregroundColor(.gray)
+//                    }
+            }
+            .buttonStyle(.borderedProminent)
         }
     }
 }

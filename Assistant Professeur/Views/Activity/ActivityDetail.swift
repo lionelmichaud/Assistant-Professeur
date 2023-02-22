@@ -55,6 +55,7 @@ struct ActivityDetail: View {
                 VStack(alignment: .center) {
                     Text("Aucune Activité sélectionnée.")
                     Text("Sélectionner une Activité.")
+                        .padding(.top)
                 }
                 .foregroundStyle(.secondary)
                 .font(.title2)

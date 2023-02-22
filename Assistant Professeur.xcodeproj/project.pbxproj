@@ -71,6 +71,7 @@
 		794013522956598B007AD790 /* EleveCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794013512956598B007AD790 /* EleveCreatorModal.swift */; };
 		79401354295659B6007AD790 /* EleveNameGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79401353295659B6007AD790 /* EleveNameGroupBox.swift */; };
 		7940135629565B48007AD790 /* EleveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7940135529565B48007AD790 /* EleveViewModel.swift */; };
+		7942F23829A5612E007E3C3B /* StepperView in Frameworks */ = {isa = PBXBuildFile; productRef = 7942F23729A5612E007E3C3B /* StepperView */; };
 		794F6E0C295CDC3700042B95 /* ObservCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */; };
 		794F6E0E295CDC9100042B95 /* ColleCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */; };
 		794F6E11295CE1B700042B95 /* ObservDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0F295CE1B700042B95 /* ObservDetail.swift */; };
@@ -514,6 +515,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7921F54A292575B400173F39 /* AppFoundation in Frameworks */,
+				7942F23829A5612E007E3C3B /* StepperView in Frameworks */,
 				79DEDAE22925849600F508EF /* HelpersView in Frameworks */,
 				79DEDB1C292594ED00F508EF /* FileAndFolder in Frameworks */,
 			);
@@ -1195,6 +1197,7 @@
 				7921F549292575B400173F39 /* AppFoundation */,
 				79DEDAE12925849600F508EF /* HelpersView */,
 				79DEDB1B292594ED00F508EF /* FileAndFolder */,
+				7942F23729A5612E007E3C3B /* StepperView */,
 			);
 			productName = "Assistant Professeur";
 			productReference = 79B6630129244C3F007B1FBD /* Assistant Professeur.app */;
@@ -1268,6 +1271,9 @@
 				Base,
 			);
 			mainGroup = 79B662F829244C3F007B1FBD;
+			packageReferences = (
+				7942F23629A5612E007E3C3B /* XCRemoteSwiftPackageReference "StepperView" */,
+			);
 			productRefGroup = 79B6630229244C3F007B1FBD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1949,10 +1955,26 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		7942F23629A5612E007E3C3B /* XCRemoteSwiftPackageReference "StepperView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/badrinathvm/StepperView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		7921F549292575B400173F39 /* AppFoundation */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppFoundation;
+		};
+		7942F23729A5612E007E3C3B /* StepperView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7942F23629A5612E007E3C3B /* XCRemoteSwiftPackageReference "StepperView" */;
+			productName = StepperView;
 		};
 		79DEDAE12925849600F508EF /* HelpersView */ = {
 			isa = XCSwiftPackageProductDependency;

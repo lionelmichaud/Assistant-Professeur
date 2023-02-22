@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct SequenceSidebarView: View {
+    @Binding
+    var showProgramSteps: Bool
+
     @EnvironmentObject
     private var navig: NavigationModel
 
@@ -24,7 +27,12 @@ struct SequenceSidebarView: View {
 //                    NavigationLink(value: program) {
 //                        Label("Information sur le programme", systemImage: "books.vertical")
 //                    }
-                    ProgramDetailGroupBox(program: program)
+                    Button {
+                        showProgramSteps = true
+                    } label: {
+                        ProgramDetailGroupBox(program: program)
+                    }
+                    .buttonStyle(.borderless)
                     SequenceList(program: program)
 
                 } else {
@@ -110,6 +118,6 @@ extension SequenceSidebarView {
 
 struct SequenceSidebarView_Previews: PreviewProvider {
     static var previews: some View {
-        SequenceSidebarView()
+        SequenceSidebarView(showProgramSteps: .constant(true))
     }
 }

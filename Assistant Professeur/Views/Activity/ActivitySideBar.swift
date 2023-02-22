@@ -12,6 +12,9 @@ struct ActivitySideBar: View {
     @ObservedObject
     var sequence: SequenceEntity
 
+    @Binding
+    var showSequenceSteps: Bool
+
     @EnvironmentObject
     private var navig: NavigationModel
 
@@ -47,7 +50,12 @@ struct ActivitySideBar: View {
             if selectedASequenceExists {
                 if selectedSequence != nil {
                     if selectedSequence!.program != nil {
-                        SequenceDetailGroupBox(sequence: selectedSequence!)
+                        Button {
+                            showSequenceSteps = true
+                        } label: {
+                            SequenceDetailGroupBox(sequence: selectedSequence!)
+                        }
+                        .buttonStyle(.borderless)
                     } else {
                         Text("Programme associé introuvable")
                     }

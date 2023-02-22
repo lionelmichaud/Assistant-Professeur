@@ -22,6 +22,9 @@ struct ClassActivityProgressView: View {
     @ObservedObject
     private var progress: ActivityProgressEntity
 
+    @EnvironmentObject
+    private var navig : NavigationModel
+
     @Environment(\.horizontalSizeClass)
     private var hClass
 
@@ -33,23 +36,41 @@ struct ClassActivityProgressView: View {
 
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
-            VStack(alignment: .leading) {
-                LabeledContent("Progression") {
-                    ActivityProgressSlider(progress: progress)
+            HStack {
+                Button("Voir") {
+                    if let activity = progress.activity,
+                       let sequence = activity.sequence,
+                       let program = sequence.program {
+                        navig.selectedTab = .program
+                        navig.selectedProgramId = program.objectID
+                        navig.selectedSequenceId = sequence.objectID
+                        navig.selectedActivityId = activity.objectID
+//                        navig.programPath = NavigationPath()
+//                        navig.programPath.append(program)
+//                        navig.programPath.append(sequence)
+                    }
                 }
+                .buttonStyle(.borderedProminent)
+                
+                VStack(alignment: .leading) {
+                    LabeledContent("Progression") {
+                        ActivityProgressSlider(progress: progress)
+                    }
 
-                TextField(
-                    "",
-                    text: $progress.annotation.bound,
-                    prompt: Text("description")
-                )
-                .onSubmit {
-                    try? ActivityProgressEntity.saveIfContextHasChanged()
+                    TextField(
+                        "",
+                        text: $progress.annotation.bound,
+                        prompt: Text("description")
+                    )
+                    .onSubmit {
+                        try? ActivityProgressEntity.saveIfContextHasChanged()
+                    }
+                    .lineLimit(5)
+                    .textFieldStyle(.roundedBorder)
                 }
-                .lineLimit(5)
-                .textFieldStyle(.roundedBorder)
+                .font(hClass == .compact ? .callout : .body)
             }
-            .font(hClass == .compact ? .callout : .body)
+            .padding(.leading)
 
         } label: {
             if let activity = progress.activity {
