@@ -309,17 +309,28 @@ struct ProgramSplitView: View {
         sm.add(transition: transition31)
 
         let transition32 =
-            DetailColumnTransition(
-                with: .onSelectedProgramChanged,
-                from: .showProgramSteps,
-                to: .showNone,
-                postBlock: {
-                    navig.selectedSequenceId = nil
-                    navig.selectedActivityId = nil
-                    navig.columnVisibility = .all
-                }
-            )
+        DetailColumnTransition(
+            with: .onSelectedProgramChanged,
+            from: .showProgramSteps,
+            to: .showNone,
+            postBlock: {
+                navig.selectedSequenceId = nil
+                navig.selectedActivityId = nil
+                navig.columnVisibility = .all
+            }
+        )
         sm.add(transition: transition32)
+
+        let transition33 =
+        DetailColumnTransition(
+            with: .onShowSequenceStepsRequested,
+            from: .showProgramSteps,
+            to: .showSequenceSteps,
+            postBlock: {
+                navig.columnVisibility = .all
+            }
+        )
+        sm.add(transition: transition33)
 
         // A partir de showSequenceSteps
 
@@ -347,17 +358,30 @@ struct ProgramSplitView: View {
         sm.add(transition: transition41)
 
         let transition42 =
-            DetailColumnTransition(
-                with: .onSelectedProgramChanged,
-                from: .showSequenceSteps,
-                to: .showNone,
-                postBlock: {
-                    navig.selectedSequenceId = nil
-                    navig.selectedActivityId = nil
-                    navig.columnVisibility = .all
-                }
-            )
+        DetailColumnTransition(
+            with: .onSelectedProgramChanged,
+            from: .showSequenceSteps,
+            to: .showNone,
+            postBlock: {
+                navig.selectedSequenceId = nil
+                navig.selectedActivityId = nil
+                navig.columnVisibility = .all
+            }
+        )
         sm.add(transition: transition42)
+
+        let transition43 =
+        DetailColumnTransition(
+            with: .onShowSequenceStepsRequested,
+            from: .showSequenceSteps,
+            to: .showProgramSteps,
+            postBlock: {
+                navig.selectedSequenceId = nil
+                navig.selectedActivityId = nil
+                navig.columnVisibility = .all
+            }
+        )
+        sm.add(transition: transition43)
 
         #if DEBUG
             sm.enableLogging = true
