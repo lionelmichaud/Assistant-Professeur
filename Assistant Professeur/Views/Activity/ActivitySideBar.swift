@@ -55,7 +55,7 @@ struct ActivitySideBar: View {
                         } label: {
                             SequenceDetailGroupBox(sequence: selectedSequence!)
                         }
-                        .buttonStyle(.borderless)
+                        .buttonStyle(.plain)
                     } else {
                         Text("Programme associé introuvable")
                     }

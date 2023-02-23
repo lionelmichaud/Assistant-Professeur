@@ -32,7 +32,7 @@ struct SequenceSidebarView: View {
                     } label: {
                         ProgramDetailGroupBox(program: program)
                     }
-                    .buttonStyle(.borderless)
+                    .buttonStyle(.plain)
                     SequenceList(program: program)
 
                 } else {
