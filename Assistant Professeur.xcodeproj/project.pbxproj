@@ -111,6 +111,8 @@
 		797AD2B229902BCE00BE5D37 /* ActivityProgressesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797AD2B129902BCE00BE5D37 /* ActivityProgressesView.swift */; };
 		797AD2B429913B4C00BE5D37 /* School+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */; };
 		797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */; };
+		7981C22129A8054A0085986D /* ProgramTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981C22029A8054A0085986D /* ProgramTimeLine.swift */; };
+		7981C22329A807110085986D /* ProgramStepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981C22229A807110085986D /* ProgramStepperView.swift */; };
 		798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798458E92939529D00B74538 /* AnnotationEditView.swift */; };
 		7986A8572989B1A2007471BE /* GroupGlobalMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7986A8562989B1A2007471BE /* GroupGlobalMarkModal.swift */; };
 		7986A8592989CE73007471BE /* GroupSteppedlMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7986A8582989CE73007471BE /* GroupSteppedlMarkModal.swift */; };
@@ -384,6 +386,8 @@
 		797AD2B129902BCE00BE5D37 /* ActivityProgressesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityProgressesView.swift; sourceTree = "<group>"; };
 		797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "School+CoreDataClass.swift"; sourceTree = "<group>"; };
 		797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDisciplineLevel.swift; sourceTree = "<group>"; };
+		7981C22029A8054A0085986D /* ProgramTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramTimeLine.swift; sourceTree = "<group>"; };
+		7981C22229A807110085986D /* ProgramStepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramStepperView.swift; sourceTree = "<group>"; };
 		798458E92939529D00B74538 /* AnnotationEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationEditView.swift; sourceTree = "<group>"; };
 		7986A8562989B1A2007471BE /* GroupGlobalMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupGlobalMarkModal.swift; sourceTree = "<group>"; };
 		7986A8582989CE73007471BE /* GroupSteppedlMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSteppedlMarkModal.swift; sourceTree = "<group>"; };
@@ -862,6 +866,15 @@
 			name = Packages;
 			sourceTree = "<group>";
 		};
+		7981C21F29A805220085986D /* TimeLine */ = {
+			isa = PBXGroup;
+			children = (
+				7981C22029A8054A0085986D /* ProgramTimeLine.swift */,
+				7981C22229A807110085986D /* ProgramStepperView.swift */,
+			);
+			path = TimeLine;
+			sourceTree = "<group>";
+		};
 		798458E82939529D00B74538 /* Annotation */ = {
 			isa = PBXGroup;
 			children = (
@@ -883,6 +896,7 @@
 		79975314297B146600D1C66E /* Program */ = {
 			isa = PBXGroup;
 			children = (
+				7981C21F29A805220085986D /* TimeLine */,
 				7997531F297C3F9200D1C66E /* ProgramViewModel.swift */,
 				79975315297B148800D1C66E /* ProgramSplitView.swift */,
 				79975319297C17E300D1C66E /* ProgramSidebarView.swift */,
@@ -1528,6 +1542,7 @@
 				795C2C2F296E2DCA00EDFF09 /* SeatLabel.swift in Sources */,
 				79DEDAF2292586B500F508EF /* ObservSplitView.swift in Sources */,
 				79BA2D4A299C00CD006325CC /* CsvImportExportMng.swift in Sources */,
+				7981C22329A807110085986D /* ProgramStepperView.swift in Sources */,
 				79FFF42B295120100037A327 /* LevelClasse.swift in Sources */,
 				79DEDAFB2925897600F508EF /* ObservSidebarView.swift in Sources */,
 				798DD4D4298C352A00C47B2C /* StepsNotationView.swift in Sources */,
@@ -1535,6 +1550,7 @@
 				7989B4DB29A28D0300383F84 /* ProgressState.swift in Sources */,
 				7994E3242972F4E500952D08 /* DocumentList.swift in Sources */,
 				795C2C31296E2DCA00EDFF09 /* RoomElevePlacement.swift in Sources */,
+				7981C22129A8054A0085986D /* ProgramTimeLine.swift in Sources */,
 				79FFF42729511DF20037A327 /* ClassBrowserRow.swift in Sources */,
 				798B825E296C8DD5004A24A8 /* EleveNameStyling.swift in Sources */,
 				794F6E0C295CDC3700042B95 /* ObservCreatorModal.swift in Sources */,

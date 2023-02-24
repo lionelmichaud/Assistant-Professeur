@@ -16,10 +16,13 @@ struct SequenceStepperView: View {
         sequence
             .activitiesSortedByNumber
             .map { activity in
-                Text(activity.viewName)
-                    .bold()
-                    .foregroundColor(.teal)
-                    .eraseToAnyView()
+                VStack(alignment: .leading) {
+                    Text(activity.viewName)
+                        .bold()
+                        .foregroundColor(.teal)
+                    Text(activity.viewAnnotation)
+                }
+                .eraseToAnyView()
             }
     }
 
@@ -42,7 +45,7 @@ struct SequenceStepperView: View {
             .activitiesSortedByNumber
             .map { activity in
                 VStack(alignment: .leading) {
-                    Text("\(activity.viewDuration.formatted(.number.precision(.fractionLength(1)))) séances")
+                    DurationView(duration: activity.duration, withMargin: false)
                         .font(.callout)
                         .bold()
                         .padding(.bottom, 1)
@@ -78,13 +81,21 @@ struct SequenceStepperView: View {
 
     var headerView: some View {
         VStack(alignment: .leading) {
-            Text(sequence.viewName)
-                .foregroundColor(.teal)
-                .padding(.bottom, 6)
+            Label {
+                Text(sequence.viewName)
+            } icon: {
+                Text("S\(sequence.viewNumber)")
+                    .padding(6)
+                    .background(Circle().stroke(.teal, lineWidth: 1))
+            }
+            .foregroundColor(.teal)
+            .padding(.bottom, 6)
             Text("Problématique:")
                 .bold()
             Text(sequence.viewAnnotation)
                 .padding(.leading)
+                .padding(.bottom, 6)
+            DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
         }
         .padding(8)
         .background(RoundedRectangle(cornerRadius: 8).stroke(.teal, lineWidth: 1))
@@ -94,17 +105,19 @@ struct SequenceStepperView: View {
         ScrollView(Axis.Set.vertical, showsIndicators: false) {
             headerView
 
-            StepperView()
-                .addSteps(steps)
-                .indicators(indicators)
-                .addPitStops(pitStops)
-                .pitStopLineOptions(pitStopLineOptions)
-                .spacing(100)
-                .loadingAnimationTime(0.01)
-                // .autoSpacing(true)
-                // .lineOptions(StepperLineOptions.custom(1, Color.teal))
-                // .spacing(80) // auto calculates spacing between steps based on the content.
-                .padding()
+            if sequence.nbOfActivities > 0 {
+                StepperView()
+                    .addSteps(steps)
+                    .indicators(indicators)
+                    .addPitStops(pitStops)
+                    .pitStopLineOptions(pitStopLineOptions)
+                    .spacing(100)
+                    .loadingAnimationTime(0.01)
+                    // .autoSpacing(true)
+                    // .lineOptions(StepperLineOptions.custom(1, Color.teal))
+                    // .spacing(80) // auto calculates spacing between steps based on the content.
+                    .padding()
+            }
         }
     }
 }

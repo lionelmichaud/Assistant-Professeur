@@ -110,7 +110,7 @@ struct ProgramSplitView: View {
                     ActivityDetail()
 
                 case .showProgramSteps:
-                    Text("ProgramSteps")
+                    ProgramTimeLine()
 
                 case .showSequenceSteps:
                     SequenceTimeLine()
@@ -130,8 +130,10 @@ struct ProgramSplitView: View {
         }
 
         // désélectionner l'activité quand on change de séquence
-        .onChange(of: navig.selectedSequenceId) { _ in
-            vm.detailColumnSM.process(event: .onSelectedSequenceChanged)
+        .onChange(of: navig.selectedSequenceId) { [oldSequenceID = navig.selectedSequenceId] newSequenceID in
+            if oldSequenceID != nil {
+                vm.detailColumnSM.process(event: .onSelectedSequenceChanged)
+            }
         }
 
         // escamoter la 1ère colonne quand une activité est sélectionnée
@@ -300,10 +302,10 @@ struct ProgramSplitView: View {
             DetailColumnTransition(
                 with: .onSelectedSequenceChanged,
                 from: .showProgramSteps,
-                to: .showNone,
+                to: .showProgramSteps,
                 postBlock: {
                     navig.selectedActivityId = nil
-                    navig.columnVisibility = .all
+//                    navig.columnVisibility = .all
                 }
             )
         sm.add(transition: transition31)
@@ -327,7 +329,7 @@ struct ProgramSplitView: View {
             from: .showProgramSteps,
             to: .showSequenceSteps,
             postBlock: {
-                navig.columnVisibility = .all
+                navig.columnVisibility = .doubleColumn
             }
         )
         sm.add(transition: transition33)
@@ -349,10 +351,9 @@ struct ProgramSplitView: View {
             DetailColumnTransition(
                 with: .onSelectedSequenceChanged,
                 from: .showSequenceSteps,
-                to: .showNone,
+                to: .showSequenceSteps,
                 postBlock: {
                     navig.selectedActivityId = nil
-                    navig.columnVisibility = .all
                 }
             )
         sm.add(transition: transition41)
@@ -372,13 +373,11 @@ struct ProgramSplitView: View {
 
         let transition43 =
         DetailColumnTransition(
-            with: .onShowSequenceStepsRequested,
+            with: .onShowprogramStepsRequested,
             from: .showSequenceSteps,
             to: .showProgramSteps,
             postBlock: {
-                navig.selectedSequenceId = nil
-                navig.selectedActivityId = nil
-                navig.columnVisibility = .all
+                navig.columnVisibility = .doubleColumn
             }
         )
         sm.add(transition: transition43)
