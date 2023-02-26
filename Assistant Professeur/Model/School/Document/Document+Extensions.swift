@@ -58,6 +58,14 @@ extension DocumentEntity {
             return nil
         }
     }
+
+    /// Retourne le nom du fichier PDF associé
+    var fileName: String? {
+        guard let uuidString = id?.uuidString else {
+            return nil
+        }
+        return "doc_" + uuidString + ".pdf"
+    }
 }
 
 // MARK: - Extension Core Data

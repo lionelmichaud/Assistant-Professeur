@@ -21,9 +21,12 @@ enum JsonImportExportMng {
     // MARK: - Export
 
     /// Exporter les données vers des fichiers au format JSON
-    static func exportToJsonFiles() {
+    static func exportToJsonFiles() -> [String] {
         exportSchoolsToJson()
         exportProgramsToJson()
+
+        // Exporter les fichiers annexes (PDF, JPEG, PNG...) des autres entités
+        return exportedAnnexeFiles()
     }
 
     /// Exporter les School et leurs descendants vers un fichier au format JSON
@@ -42,6 +45,36 @@ enum JsonImportExportMng {
             ProgramEntity.all(),
             to: programsFileName
         )
+    }
+
+    /// Exporter les fichiers annexes (PDF, JPEG, PNG...) des autres entités
+    private static func exportedAnnexeFiles() -> [String] {
+        var exportedFileNames = [String]()
+
+        // Exporter les annexes PDF des Documnts associés aux Schools
+        exportedFileNames += exportedDocFiles()
+
+        return exportedFileNames
+    }
+
+    /// Exporter les annexes PDF des Documents associés aux Schools
+    private static func exportedDocFiles() -> [String] {
+        var exportedFileNames = [String]()
+        let cachesUrl = URL.cachesDirectory
+
+        DocumentEntity
+            .all()
+            .forEach { doc in
+                guard let fileName = doc.fileName else {
+                    return
+                }
+                let fileUrl = cachesUrl.appending(component: fileName)
+                do {
+                    try doc.pdfData?.write(to: fileUrl)
+                    exportedFileNames.append(fileName)
+                } catch {}
+            }
+        return exportedFileNames
     }
 
     // MARK: - Import
@@ -184,6 +217,7 @@ enum JsonImportExportMng {
         #endif
     }
 
+    /// Importer les fichiers annexes (PDF, JPEG, PNG...) des autres entités
     private static func importAnnexeFiles(filesUrl: [URL])
         -> (
             alertTitle: String,
@@ -215,7 +249,7 @@ enum JsonImportExportMng {
         )
     }
 
-    /// Importer les annexes PDF des Documnts associés aux Schools
+    /// Importer les annexes PDF des Documents associés aux Schools
     private static func importDocFiles(filesUrl: [URL])
         -> (
             alertTitle: String,
@@ -229,10 +263,10 @@ enum JsonImportExportMng {
         DocumentEntity
             .all()
             .forEach { doc in
-                guard let uuidString = doc.id?.uuidString else {
+                guard let fileName = doc.fileName else {
                     return
                 }
-                let fileName = "doc_" + uuidString + ".pdf"
+
                 if let fileUrlFound = filesUrl.first(where: { fileUrl in
                     fileUrl.lastPathComponent == fileName
                 }) {
@@ -242,7 +276,7 @@ enum JsonImportExportMng {
                     } catch {
                         customLog.log(
                             level: .error,
-                            "Error creating PDF data from file: \(error.localizedDescription)"
+                            "Error reading PDF data from file: \(error.localizedDescription)"
                         )
                         alertTitle = "Échec"
                         alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
