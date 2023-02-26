@@ -23,9 +23,15 @@ class CloudKitViewModel: ObservableObject {
     var userName: PersonNameComponents?
 
     init() {
+        #if DEBUG
+            print("CloudKitViewModel() initialization has started")
+        #endif
         getiCloudStatus()
         requestPermission()
         fetchicloudUserRecordID()
+        #if DEBUG
+            print("CloudKitViewModel() initialization has completed")
+        #endif
     }
 
     /// Détermine le status iCloud et consigne le status et l'erreur éventuelle
@@ -34,19 +40,19 @@ class CloudKitViewModel: ObservableObject {
             DispatchQueue.main.async { [weak self] in
                 if accountStatus != .available {
                     switch accountStatus {
-                    case .couldNotDetermine:
-                        self?.iCloudError = .couldNotDetermine
-                    case .available:
-                        self?.isSignedInToicloud = true
-                        return
-                    case .restricted:
-                        self?.iCloudError = .restricted
-                    case .noAccount:
-                        self?.iCloudError = .noAccount
-                    case .temporarilyUnavailable:
-                        self?.iCloudError = .temporarilyUnavailable
-                    @unknown default:
-                        self?.iCloudError = .unknown
+                        case .couldNotDetermine:
+                            self?.iCloudError = .couldNotDetermine
+                        case .available:
+                            self?.isSignedInToicloud = true
+                            return
+                        case .restricted:
+                            self?.iCloudError = .restricted
+                        case .noAccount:
+                            self?.iCloudError = .noAccount
+                        case .temporarilyUnavailable:
+                            self?.iCloudError = .temporarilyUnavailable
+                        @unknown default:
+                            self?.iCloudError = .unknown
                     }
                     self?.isSignedInToicloud = false
                 }

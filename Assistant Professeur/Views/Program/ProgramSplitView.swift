@@ -130,7 +130,7 @@ struct ProgramSplitView: View {
         }
 
         // désélectionner l'activité quand on change de séquence
-        .onChange(of: navig.selectedSequenceId) { [oldSequenceID = navig.selectedSequenceId] newSequenceID in
+        .onChange(of: navig.selectedSequenceId) { [oldSequenceID = navig.selectedSequenceId] _ in
             if oldSequenceID != nil {
                 vm.detailColumnSM.process(event: .onSelectedSequenceChanged)
             }

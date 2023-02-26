@@ -116,6 +116,9 @@ final class NavigationModel: ObservableObject, Codable {
         filterColle: Bool = false,
         filterFlag: Bool = false
     ) {
+        #if DEBUG
+            print("NavigationModel() initialization has started")
+        #endif
         self.columnVisibility = columnVisibility
         self.selectedTab = selectedTab
         self.selectedProgramId = selectedProgramId
@@ -129,6 +132,9 @@ final class NavigationModel: ObservableObject, Codable {
         self.filterObservation = filterObservation
         self.filterColle = filterColle
         self.filterFlag = filterFlag
+        #if DEBUG
+            print("NavigationModel() initialization has completed")
+        #endif
     }
 
     required init(from decoder: Decoder) throws {

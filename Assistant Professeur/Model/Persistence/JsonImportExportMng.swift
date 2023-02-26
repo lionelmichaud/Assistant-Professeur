@@ -95,6 +95,7 @@ enum JsonImportExportMng {
 
                     let urlFileNameWithExtension = fileUrl.lastPathComponent
 
+                    /// Les Programmes doivent être importés avant les Schools
                     if urlFileNameWithExtension.contains(String(describing: SchoolEntity.self)) {
                         // Importer les données des Schools et de leurs descendants
                         importSchoolsFromJson(fileUrl: fileUrl)

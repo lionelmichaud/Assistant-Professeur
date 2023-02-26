@@ -37,9 +37,9 @@ struct SequenceDetailGroupBox: View {
 
             HStack {
                 DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
-                Spacer()
+                padding(.trailing)
                 DurationView(duration: sequence.durationWithMargin, withMargin: true)
-                Spacer()
+                padding(.trailing)
                 WebsiteView(url: sequence.url)
             }
         }

@@ -32,8 +32,7 @@ struct MainScene: Scene {
         .onChange(of: scenePhase) { scenePhase in
             // The final step is optional, but recommended:
             // when your app moves to the background,
-            // you should call the save() method we wrote a moment ago so that Core Data saves your changes permanently.
-            try? coreDataController.saveIfContextHasChanged()
+            // you should call the save() method so that Core Data saves your changes permanently.
 
             switch scenePhase {
                 case .active:
@@ -48,7 +47,7 @@ struct MainScene: Scene {
 
                 case .background:
                     // Expect an app that enters the background phase to terminate.
-                    break
+                    try? coreDataController.saveIfContextHasChanged()
                     //                    print("Scene Phase = .background")
 
                 @unknown default:

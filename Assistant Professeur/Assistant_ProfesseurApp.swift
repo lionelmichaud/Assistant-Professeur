@@ -5,16 +5,17 @@
 //  Created by Lionel MICHAUD on 15/11/2022.
 //
 
-import SwiftUI
-import os
 import Files
+import os
+import SwiftUI
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
-                               category  : "Main")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "Main"
+)
 
 @main
 struct Assistant_ProfesseurApp: App {
-
     /// the managed object context for your Core Data container
     let coreDataController = CoreDataController.shared
 
@@ -28,20 +29,23 @@ struct Assistant_ProfesseurApp: App {
     /// Si l'application et les documents utilisateurs ne sont pas compatible alors
     /// importer les documents contenus dans le Bundle application.
     init() {
-        //URLCache.shared.memoryCapacity = 100_000_000 // ~100 MB memory space
+        #if DEBUG
+            print("Assistant_ProfesseurApp.init() initialization has started")
+        #endif
+        // URLCache.shared.memoryCapacity = 100_000_000 // ~100 MB memory space
 
-        /// vérifier l'existance du dossier `Documents`
+        // vérifier l'existance du dossier `Documents`
         guard let documentsFolder = Folder.documents else {
             let error = FileError.failedToResolveDocuments
             customLog.log(level: .fault, "\(error.rawValue))")
             fatalError()
         }
 
-        /// vérifier la compatibilité de version entre l'application et les documents utilisateurs
+        // vérifier la compatibilité de version entre l'application et les documents utilisateurs
         do {
             let documentsAreCompatibleWithAppVersion =
-            try PersistenceManager
-                .checkCompatibilityWithAppVersion(of: documentsFolder)
+                try PersistenceManager
+                    .checkCompatibilityWithAppVersion(of: documentsFolder)
             print("Compatibilité de versions entre Appli / Dossier Document : \(documentsAreCompatibleWithAppVersion.frenchString)")
             if !documentsAreCompatibleWithAppVersion {
                 do {
@@ -57,5 +61,8 @@ struct Assistant_ProfesseurApp: App {
             customLog.log(level: .fault, "\(error.rawValue))")
             AppState.shared.initError = .failedToCheckCompatibility
         }
+        #if DEBUG
+            print("Assistant_ProfesseurApp.init() initialization has completed")
+        #endif
     }
 }

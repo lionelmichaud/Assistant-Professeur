@@ -203,7 +203,7 @@ extension GroupEntity {
         """
 
         GROUPE: \(number)
-           ID        : \(id)
+           ID        : \(String(describing: id))
            Classe    : \(String(describing: classe?.displayString))
            Nb élèves : \(elevesCount)
         """

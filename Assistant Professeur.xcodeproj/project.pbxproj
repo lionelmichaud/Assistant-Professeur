@@ -780,6 +780,7 @@
 		795804B529A6969400AEB7DA /* Progress */ = {
 			isa = PBXGroup;
 			children = (
+				796A242429A178DF009B2A6C /* ClassCurrentActivityView.swift */,
 				796A242629A17C16009B2A6C /* ClassProgressesView.swift */,
 				7989B4DE29A2A63000383F84 /* ClassSequenceProgressView.swift */,
 				7989B4D229A2733D00383F84 /* ClassActivityProgressView.swift */,
@@ -1087,7 +1088,6 @@
 				79F41E5D2954987F00EAAC52 /* ClasseAcronym.swift */,
 				79ECF1F92959F915008F0282 /* ClasseColleLabel.swift */,
 				79ECF1FA2959F915008F0282 /* ClasseObservLabel.swift */,
-				796A242429A178DF009B2A6C /* ClassCurrentActivityView.swift */,
 			);
 			path = Classe;
 			sourceTree = "<group>";
@@ -1817,7 +1817,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.michaud.lionel.Assistant-Professeur";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1861,7 +1863,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.michaud.lionel.Assistant-Professeur";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
