@@ -7,9 +7,9 @@
 
 import CoreData
 import Foundation
+import HelpersView
 import os
 import SwiftUI
-import HelpersView
 #if canImport(UIKit)
     import UIKit
 #elseif canImport(AppKit)
@@ -106,10 +106,6 @@ extension RoomEntity {
         viewCapacity - nbSeatPositionned
     }
 
-    var fileName: String {
-        "Plan " + viewName + ".png"
-    }
-
     /// Retourne les dimensions de l'image
     var imageSize: CGSize? {
         if let image,
@@ -121,6 +117,14 @@ extension RoomEntity {
             return CGSize(width: pixelWidth, height: pixelHeight)
         }
         return nil
+    }
+
+    /// Retourne le nom du fichier PDF associé
+    var fileName: String? {
+        guard let uuidString = id?.uuidString else {
+            return nil
+        }
+        return "plan_" + uuidString + ".png"
     }
 
     // MARK: - Methods

@@ -16,23 +16,7 @@ private let customLog = Logger(
 
 /// Export/Import vers/depuis des fichiers Image
 enum ImageImportExportMng {
-    /// Loads image data from a `fileUrl`  and converts it as UIImage.
-    /// - Parameter fileUrl: fichier image
-    /// - Returns: An initialized UIImage object, or nil if the method could not initialize the image from the loaded data.
-    /// - Throws: si le contenu du fichier est ilisible
-    private static func loadNativeImage(from fileUrl: URL) throws -> NativeImage? {
-        guard fileUrl.startAccessingSecurityScopedResource() else {
-            return nil
-        }
-        do {
-            let data = try Data(contentsOf: fileUrl)
-            fileUrl.stopAccessingSecurityScopedResource()
-            return NativeImage(data: data)
-        } catch {
-            fileUrl.stopAccessingSecurityScopedResource()
-            throw error
-        }
-    }
+    // MARK: - IMPORT
 
     /// Importer un fichier image dans un format convertible en UIImage
     /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
@@ -120,7 +104,8 @@ enum ImageImportExportMng {
             case let .success(filesUrl):
                 filesUrl.forEach { fileUrl in
                     do {
-                        if let image = try ImageImportExportMng.loadNativeImage(from: fileUrl) {
+                        if let image = try ImageImportExportMng
+                            .loadNativeImage(from: fileUrl) {
                             let urlFileNameWithExtension = fileUrl.lastPathComponent
                             let eleves = EleveEntity.all()
 
@@ -157,5 +142,39 @@ enum ImageImportExportMng {
             alertMessage: alertMessage,
             alertIsPresented: alertIsPresented
         )
+    }
+
+    /// Loads image data from a `fileUrl`  and converts it as UIImage.
+    /// - Parameter fileUrl: fichier image
+    /// - Returns: An initialized UIImage object, or nil if the method could not initialize the image from the loaded data.
+    /// - Throws: si le contenu du fichier est ilisible
+    private static func loadNativeImage(from fileUrl: URL) throws -> NativeImage? {
+        guard fileUrl.startAccessingSecurityScopedResource() else {
+            return nil
+        }
+        do {
+            let data = try Data(contentsOf: fileUrl)
+            fileUrl.stopAccessingSecurityScopedResource()
+            return NativeImage(data: data)
+        } catch {
+            fileUrl.stopAccessingSecurityScopedResource()
+            throw error
+        }
+    }
+
+    // MARK: - EXPORT
+
+    /// Exports an image data to a `fileUrl`  and converts as PNG.
+    /// - Parameter fileUrl: fichier image
+    /// - Throws: si le contenu des data est impossible à enregistrer dans le fichier
+    static func writeNativeImage(
+        image: NativeImage,
+        to fileUrl: URL
+    ) throws {
+        guard let pngData = image.pngData() else {
+            return
+        }
+
+        try pngData.write(to: fileUrl)
     }
 }

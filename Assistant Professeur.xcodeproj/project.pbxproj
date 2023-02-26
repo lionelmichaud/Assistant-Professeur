@@ -804,11 +804,11 @@
 				795C2C26296E2DCA00EDFF09 /* RoomEditor.swift */,
 				795C2C25296E2DCA00EDFF09 /* RoomLayoutEditor.swift */,
 				795C2C22296E2DCA00EDFF09 /* RoomPlanEditView.swift */,
+				795A34122999476100E36959 /* LoadRoomPlanView.swift */,
 				795C2C24296E2DCA00EDFF09 /* DraggableSeatLabel.swift */,
 				795C2C27296E2DCA00EDFF09 /* SeatLabel.swift */,
 				795C2C29296E2DCA00EDFF09 /* RoomElevePlacement.swift */,
 				795C2C23296E2DCA00EDFF09 /* EditableSeatLabel.swift */,
-				795A34122999476100E36959 /* LoadRoomPlanView.swift */,
 			);
 			path = Room;
 			sourceTree = "<group>";

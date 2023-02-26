@@ -54,6 +54,9 @@ enum JsonImportExportMng {
         // Exporter les annexes PDF des Documnts associés aux Schools
         exportedFileNames += exportedDocFiles()
 
+        // Exporter les annexes PNG des plans de salle Rooms associés aux Schools
+        exportedFileNames += exportedRoomFiles()
+
         return exportedFileNames
     }
 
@@ -71,6 +74,30 @@ enum JsonImportExportMng {
                 let fileUrl = cachesUrl.appending(component: fileName)
                 do {
                     try doc.pdfData?.write(to: fileUrl)
+                    exportedFileNames.append(fileName)
+                } catch {}
+            }
+        return exportedFileNames
+    }
+
+    /// Exporter les annexes PNG des plans de salle Rooms associés aux Schools
+    private static func exportedRoomFiles() -> [String] {
+        var exportedFileNames = [String]()
+        let cachesUrl = URL.cachesDirectory
+
+        RoomEntity
+            .all()
+            .forEach { room in
+                guard let fileName = room.fileName else {
+                    return
+                }
+                let fileUrl = cachesUrl.appending(component: fileName)
+                do {
+                    try ImageImportExportMng
+                        .writeNativeImage(
+                            image: room.viewNativeImage,
+                            to: fileUrl
+                        )
                     exportedFileNames.append(fileName)
                 } catch {}
             }

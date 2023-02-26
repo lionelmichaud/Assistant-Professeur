@@ -38,6 +38,7 @@ struct LoadRoomPlanView: View {
                     systemImage: "square.and.arrow.down"
                 )
             }
+            .buttonStyle(.borderedProminent)
             // Importer un fichier PNG ou JPEG
             .fileImporter(
                 isPresented: $isImportingImageFile,

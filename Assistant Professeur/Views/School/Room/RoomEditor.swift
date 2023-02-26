@@ -74,7 +74,7 @@ struct RoomEditor: View {
             largeView
             compactView
         }
-        // Modal: ajout d'une nouvelle classe
+        // Modal: Définition du layout d'une nouvelle salle de classe
         .sheet(isPresented: $isPlacing) {
             NavigationStack {
                 RoomLayoutEditor(room: room)
