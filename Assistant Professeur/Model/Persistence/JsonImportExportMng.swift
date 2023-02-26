@@ -14,7 +14,7 @@ private let customLog = Logger(
 )
 
 /// Export/Import vers/depuis des fichiers JSON
-enum JsonImportExportMng {
+enum JsonImportExportMng { // swiftlint:disable:this type_body_length
     static let schoolsFileName = String(describing: SchoolEntity.self) + ".json"
     static let programsFileName = String(describing: ProgramEntity.self) + ".json"
 
