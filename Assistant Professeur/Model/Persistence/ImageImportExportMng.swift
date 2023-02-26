@@ -148,7 +148,7 @@ enum ImageImportExportMng {
     /// - Parameter fileUrl: fichier image
     /// - Returns: An initialized UIImage object, or nil if the method could not initialize the image from the loaded data.
     /// - Throws: si le contenu du fichier est ilisible
-    private static func loadNativeImage(from fileUrl: URL) throws -> NativeImage? {
+    static func loadNativeImage(from fileUrl: URL) throws -> NativeImage? {
         guard fileUrl.startAccessingSecurityScopedResource() else {
             return nil
         }
@@ -174,7 +174,6 @@ enum ImageImportExportMng {
         guard let pngData = image.pngData() else {
             return
         }
-
         try pngData.write(to: fileUrl)
     }
 }

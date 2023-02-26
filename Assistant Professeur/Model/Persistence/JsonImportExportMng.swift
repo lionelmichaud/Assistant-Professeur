@@ -255,7 +255,7 @@ enum JsonImportExportMng {
         var alertMessage = ""
         var alertIsPresented = false
 
-        // Importer les annexes PDF des Documnts associés aux Schools
+        // Importer les annexes PDF des Documents associés aux Schools
         let docFilesUrl = filesUrl.compactMap { fileUrl in
             if fileUrl.lastPathComponent.hasPrefix("doc_") {
                 return fileUrl
@@ -263,11 +263,37 @@ enum JsonImportExportMng {
                 return nil
             }
         }
-        (
-            alertTitle,
-            alertMessage,
-            alertIsPresented
-        ) = importDocFiles(filesUrl: docFilesUrl)
+        do {
+            try importDocFiles(filesUrl: docFilesUrl)
+        } catch {
+            customLog.log(
+                level: .error,
+                "Error reading PDF data from file: \(error.localizedDescription)"
+            )
+            alertTitle = "Échec"
+            alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
+            alertIsPresented = true
+        }
+
+        // Importer les annexes PNG des Rooms associés aux Schools
+        let roomFilesUrl = filesUrl.compactMap { fileUrl in
+            if fileUrl.lastPathComponent.hasPrefix("plan_") {
+                return fileUrl
+            } else {
+                return nil
+            }
+        }
+        do {
+            try importRoomFiles(filesUrl: roomFilesUrl)
+        } catch {
+            customLog.log(
+                level: .error,
+                "Error reading PNG data from file: \(error.localizedDescription)"
+            )
+            alertTitle = "Échec"
+            alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
+            alertIsPresented = true
+        }
 
         return (
             alertTitle: alertTitle,
@@ -277,17 +303,8 @@ enum JsonImportExportMng {
     }
 
     /// Importer les annexes PDF des Documents associés aux Schools
-    private static func importDocFiles(filesUrl: [URL])
-        -> (
-            alertTitle: String,
-            alertMessage: String,
-            alertIsPresented: Bool
-        ) {
-        var alertTitle = ""
-        var alertMessage = ""
-        var alertIsPresented = false
-
-        DocumentEntity
+    private static func importDocFiles(filesUrl: [URL]) throws {
+        try DocumentEntity
             .all()
             .forEach { doc in
                 guard let fileName = doc.fileName else {
@@ -301,21 +318,39 @@ enum JsonImportExportMng {
                         let data = try Data(contentsOf: fileUrlFound)
                         doc.setPdfData(to: data)
                     } catch {
-                        customLog.log(
-                            level: .error,
-                            "Error reading PDF data from file: \(error.localizedDescription)"
-                        )
-                        alertTitle = "Échec"
-                        alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
-                        alertIsPresented = true
+                        throw error
                     }
                 }
             }
+    }
 
-        return (
-            alertTitle: alertTitle,
-            alertMessage: alertMessage,
-            alertIsPresented: alertIsPresented
-        )
+    /// Importer les annexes PNG des Rooms associés aux Schools
+    private static func importRoomFiles(filesUrl: [URL]) throws {
+        try RoomEntity
+            .all()
+            .forEach { room in
+                guard let fileName = room.fileName else {
+                    return
+                }
+
+                if let fileUrlFound = filesUrl.first(where: { fileUrl in
+                    fileUrl.lastPathComponent == fileName
+                }) {
+                    do {
+                        if let image = try ImageImportExportMng
+                            .loadNativeImage(from: fileUrlFound) {
+                            room.viewNativeImage = image
+                        } else {
+                            customLog.log(
+                                level: .fault,
+                                "La convertion de certains plan de salle a échouée"
+                            )
+                            throw FileError.failedToReadFile
+                        }
+                    } catch {
+                        throw error
+                    }
+                }
+            }
     }
 }

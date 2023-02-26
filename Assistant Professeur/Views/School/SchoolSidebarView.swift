@@ -27,7 +27,7 @@ enum FileImportOperation {
     var allowedContentTypes: [UTType] {
         switch self {
             case .importTrombines: return [.jpeg]
-            case .importModel: return [.json, .pdf]
+            case .importModel: return [.json, .pdf, .png, .jpeg]
             case .none: return []
         }
     }
