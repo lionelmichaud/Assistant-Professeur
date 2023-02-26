@@ -56,30 +56,20 @@ class EleveViewModel: ObservableObject {
         self.bonus        = Int(eleve.bonus)
     }
 
-    func save(_ inClasse: ClasseEntity) {
-        let eleve = EleveEntity.create()
-
-        // classe d'appartenance.
-        // mandatory
-        eleve.classe = inClasse
-
-        // groupe d'appartenance.
-        // mandatory
-        eleve.group = inClasse.groupOfUngroupedEleves
-
-        eleve.setSex(sexEnum)
-        eleve.familyName   = familyName
-        eleve.givenName    = givenName
-        eleve.isFlagged    = isFlagged
-        eleve.annotation   = annotation
-        eleve.appreciation = appreciation
-        eleve.bonus        = Int16(bonus)
-
-        // ajouter une note pour chaque évaluation de la classe
-        inClasse.allExams.forEach { exam in
-            MarkEntity.create(pourEleve: eleve, pourExam: exam)
-        }
-
-        try? EleveEntity.saveIfContextHasChanged()
+    /// Créer une entité `EleveEntity` à partir du VM et
+    /// sauvegarder le viewContext.
+    ///
+    /// Ajouter une note pour chaque évaluation de la classe
+    func createAndSaveEntity(_ inClasse: ClasseEntity) {
+        EleveEntity.create(
+            familyName: familyName,
+            givenName: givenName,
+            sex: sexEnum,
+            isFlagged: isFlagged,
+            annotation: annotation,
+            appreciation: appreciation,
+            bonus: Int16(bonus),
+            dans: inClasse
+        )
     }
 }

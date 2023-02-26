@@ -110,6 +110,7 @@ extension ActivityEntity {
             try? ActivityEntity.saveIfContextHasChanged()
         }
     }
+
     /// True si l'activité fait partie d'un Projet
     /// Wrapper of `isProject`
     /// - Important: *Saves the context to the store after modification is done*
@@ -127,6 +128,54 @@ extension ActivityEntity {
 // MARK: - Extension Core Data
 
 extension ActivityEntity {
+    // MARK: - Type Computed Properties
+
+    static var byProgramSequenceNSSortDescriptor: [NSSortDescriptor] =
+    [
+        // discipline,
+        NSSortDescriptor(
+            keyPath: \ActivityEntity.sequence?.program?.disciplineString,
+            ascending: true
+        ),
+        NSSortDescriptor(
+            keyPath: \ActivityEntity.sequence?.program?.levelString,
+            ascending: true
+        ),
+        // sequence
+        NSSortDescriptor(
+            keyPath: \ActivityEntity.sequence?.viewNumber,
+            ascending: false
+        )
+    ]
+
+    /// Requête pour toutes les activités triées.
+    ///
+    /// Ordre de tri:
+    ///   1. Discipline
+    ///   2. Niveau de classe
+    ///   3. Numéro de séquence
+    static var requestAllSortedByProgramSequence: NSFetchRequest<ActivityEntity> {
+        let request = ActivityEntity.fetchRequest()
+        request.sortDescriptors = ActivityEntity.byProgramSequenceNSSortDescriptor
+        return request
+    }
+
+    // MARK: - Computed Properties
+
+    /// Nombre de progression pour cette activité.
+    var nbOfProgresses: Int {
+        Int(progressCount)
+    }
+
+    /// Liste des progressions des classes pour cette activité non triées
+    var allProgresses: [ActivityProgressEntity] {
+        if let progresses {
+            return (progresses.allObjects as! [ActivityProgressEntity])
+        } else {
+            return []
+        }
+    }
+
     // MARK: - Type Methods
 
     override public func awakeFromInsert() {
@@ -159,6 +208,17 @@ extension ActivityEntity {
         // mandatory
         activity.sequence = sequence
 
+        // Créer une progression par classe qui devra réaliser cette activité
+        ProgramManager
+            .classesAssociatedTo(thisActivity: activity)
+            .forEach { classe in
+                print("**\(classe.school!.displayString)**: \(activity.viewName)")
+                ActivityProgressEntity.create(
+                    forClasse: classe,
+                    forActivity: activity
+                )
+            }
+        
         activity.name = name
         activity.number = Int16(nbActInProgram + 1)
         activity.annotation = annotation

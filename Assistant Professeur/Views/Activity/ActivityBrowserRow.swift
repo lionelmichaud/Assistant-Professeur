@@ -17,10 +17,8 @@ struct ActivityBrowserRow: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Label(
-                activity.viewName,
-                systemImage: "\(activity.viewNumber).circle"
-            )
+            LabeledActivityView(activity: activity)
+
             HStack {
                 DurationView(duration: activity.duration, withMargin: false)
                 Spacer()
@@ -32,7 +30,7 @@ struct ActivityBrowserRow: View {
                 // WebsiteView(url: activity.url)
             }
         }
-        .font(hClass == .compact ? .subheadline : .callout)
+        .font(hClass == .compact ? .callout : .body)
     }
 }
 

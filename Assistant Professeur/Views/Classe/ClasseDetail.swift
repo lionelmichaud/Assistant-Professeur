@@ -15,6 +15,8 @@ enum ClasseNavigationRoute: Hashable {
     case trombinoscope(ClasseEntity)
     case groups(ClasseEntity)
     case exam(ClasseEntity, ExamEntity)
+    case activity(ClasseEntity)
+    case progress(ClasseEntity)
 
     static func == (lhs: ClasseNavigationRoute, rhs: ClasseNavigationRoute) -> Bool {
         switch (lhs, rhs) {
@@ -33,6 +35,12 @@ enum ClasseNavigationRoute: Hashable {
             case let (.exam(classel, examl), .exam(classer, examr)):
                 return (classel.id == classer.id) &&
                     (examl == examr)
+
+            case let (.activity(classel), .activity(classer)):
+                return classel.id == classer.id
+
+            case let (.progress(classel), .progress(classer)):
+                return classel.id == classer.id
 
             default: return false
         }
@@ -55,6 +63,12 @@ enum ClasseNavigationRoute: Hashable {
             case let .exam(classe, exam):
                 hasher.combine(classe.id)
                 hasher.combine(exam.id)
+            case let .activity(classe):
+                hasher.combine("activity")
+                hasher.combine(classe.id)
+            case let .progress(classe):
+                hasher.combine("progress")
+                hasher.combine(classe.id)
         }
     }
 }
@@ -96,7 +110,7 @@ struct ClasseDetail: View {
     // MARK: - Computed Properties
 
     private var roomView: some View {
-        return NavigationLink(value: ClasseNavigationRoute.room(classe)) {
+        NavigationLink(value: ClasseNavigationRoute.room(classe)) {
             HStack {
                 Label("Salle de classe", systemImage: "door.left.hand.open")
                     .fontWeight(.bold)
@@ -106,6 +120,28 @@ struct ClasseDetail: View {
                         .foregroundColor(.secondary)
                 }
             }
+        }
+    }
+
+    private var currentActivityView: some View {
+        NavigationLink(value: ClasseNavigationRoute.activity(classe)) {
+            HStack {
+                Label("Activité en cours", systemImage: "book.fill")
+                    .fontWeight(.bold)
+                if let activity = classe.currentActivity,
+                   let sequence = activity.sequence {
+                    Spacer()
+                    Text("Séquence \(sequence.viewNumber) - Activité \(activity.viewNumber)")
+                        .foregroundColor(.secondary)
+                }
+            }
+        }
+    }
+
+    private var progressView: some View {
+        NavigationLink(value: ClasseNavigationRoute.progress(classe)) {
+            Label("Progression", systemImage: "books.vertical.fill")
+                .fontWeight(.bold)
         }
     }
 
@@ -134,7 +170,7 @@ struct ClasseDetail: View {
         // TODO: - Remplacer par NavigationStack(path: $path) et garder la navigation vers les subview locale à cette View en utilisant @State private var path = NavigationPath()
         // https://swiftwithmajid.com/2022/10/05/mastering-navigationstack-in-swiftui-navigationpath/
         VStack {
-            // nom
+            // Groupe principal
             ClasseNameGroupBox(classe: classe)
 
             List {
@@ -149,6 +185,7 @@ struct ClasseDetail: View {
 
                 roomView
 
+                // Section élèves
                 Section {
                     // édition de la liste des élèves
                     elevesListView
@@ -167,7 +204,23 @@ struct ClasseDetail: View {
                         .fontWeight(.bold)
                 }
 
-                // édition de la liste des examens
+                // Section progression
+                if let progresses = classe.progresses, progresses.count != 0 {
+                    Section {
+                        // Activité actuelle
+                        currentActivityView
+
+                        // Progression glogale
+                        progressView
+                    } header: {
+                        Text("Progession")
+                            .font(.callout)
+                            .foregroundColor(.secondary)
+                            .fontWeight(.bold)
+                    }
+                }
+
+                // Section évaluations
                 Section {
                     ExamListView(classe: classe)
                 } header: {

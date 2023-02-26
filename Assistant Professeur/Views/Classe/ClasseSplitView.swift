@@ -46,6 +46,12 @@ struct ClasseSplitView: View {
 
                             case let.exam(classe, exam):
                                 ExamEditor(classe: classe, exam: exam)
+
+                            case let.activity(classe):
+                                ClassCurrentActivityView(classe: classe)
+
+                            case let.progress(classe):
+                                ClassProgressesView(classe: classe)
                         }
                     }
             }

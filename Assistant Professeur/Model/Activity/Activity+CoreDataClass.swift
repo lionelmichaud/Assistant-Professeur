@@ -14,6 +14,7 @@ public class ActivityEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, isEval, isEvalFormative, isProject, isTP
         case annotation, duration, name, number, url
+        case progresses
     }
 
     /// Conformance to Decodable
@@ -31,6 +32,8 @@ public class ActivityEntity: NSManagedObject, Codable, ModelEntityP {
         self.duration = try container.decode(Double.self, forKey: .duration)
         self.annotation = try container.decodeIfPresent(String.self, forKey: .annotation)
         self.url = try container.decodeIfPresent(URL.self, forKey: .url)
+
+        self.progresses = try container.decode(Set<ActivityProgressEntity>.self, forKey: .progresses) as NSSet
     }
 
     /// Conformance to Encodable
@@ -46,5 +49,7 @@ public class ActivityEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(duration, forKey: .duration)
         try container.encodeIfPresent(annotation, forKey: .annotation)
         try container.encodeIfPresent(url, forKey: .url)
+
+        try container.encode(progresses as! Set<ActivityProgressEntity>, forKey: .progresses)
     }
 }

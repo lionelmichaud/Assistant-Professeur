@@ -253,6 +253,57 @@ extension ClasseEntity {
         return request
     }
 
+    // MARK: - Computed Properties Progresses
+
+    /// Nombre de progression pour cette activité.
+    var nbOfProgresses: Int {
+        Int(progressCount)
+    }
+
+    /// Liste des progressions des classes pour cette activité non triées
+    var allProgresses: [ActivityProgressEntity] {
+        if let progresses {
+            return (progresses.allObjects as! [ActivityProgressEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Retourne la liste des progressions de la classe.
+    /// Les progressions trouvées sont triées.
+    ///
+    /// Ordre de tri :
+    ///   1. Numéro de Séquence
+    ///   2. Numéro d'Activité
+    var allProgressesSortedBySequenceActivityNumber: [ActivityProgressEntity] {
+        let sortComparators = [
+            SortDescriptor(\ActivityProgressEntity.activity?.sequence?.number, order: .forward),
+            SortDescriptor(\ActivityProgressEntity.activity?.number, order: .forward)
+        ]
+
+        return allProgresses
+            .sorted(using: sortComparators)
+    }
+
+    /// Activité en cours
+    var currentActivity: ActivityEntity? {
+        let progresses = allProgressesSortedBySequenceActivityNumber
+        for idx in progresses.indices {
+            if progresses[idx].status == .inProgress {
+                return progresses[idx].activity
+
+            } else if idx > progresses.startIndex &&
+                progresses[idx - 1].status == .completed &&
+                progresses[idx].status == .notStarted {
+                return progresses[idx].activity
+            }
+        }
+        if progresses.allSatisfy({ $0.status == .notStarted }) {
+            return progresses.first?.activity
+        }
+        return nil
+    }
+
     // MARK: - Computed Properties Groups
 
     /// Liste des élèves de la classe non triées
@@ -264,34 +315,15 @@ extension ClasseEntity {
         }
     }
 
-    /// Liste des évaluations de la classe non triées
-    var allExams: [ExamEntity] {
-        if let exams {
-            return (exams.allObjects as! [ExamEntity])
-        } else {
-            return []
-        }
-    }
-
-    /// Liste des évaluations de la classe triés par date
-    var examsSortedByDate: [ExamEntity] {
-        let sortComparators =
-            [
-                SortDescriptor(\ExamEntity.dateExecuted, order: .reverse)
-            ]
-        return allExams.sorted(using: sortComparators)
-    }
-
     /// Retourne la liste des groupes de la classe.
     /// Les groupes trouvés sont triés par numéro.
     ///
     /// Ordre de tri :
     ///   1. Numéro de groupe
     var allGroupsSortedByNumber: [GroupEntity] {
-        let sortComparators =
-            [
-                SortDescriptor(\GroupEntity.number, order: .forward)
-            ]
+        let sortComparators = [
+            SortDescriptor(\GroupEntity.number, order: .forward)
+        ]
 
         return allGroups
             .sorted(using: sortComparators)
@@ -310,6 +342,26 @@ extension ClasseEntity {
             )
             fatalError()
         }
+    }
+
+    // MARK: - Computed Properties Exams
+
+    /// Liste des évaluations de la classe non triées
+    var allExams: [ExamEntity] {
+        if let exams {
+            return (exams.allObjects as! [ExamEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Liste des évaluations de la classe triés par date
+    var examsSortedByDate: [ExamEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(\ExamEntity.dateExecuted, order: .reverse)
+            ]
+        return allExams.sorted(using: sortComparators)
     }
 
     // MARK: - Computed Properties Elèves
@@ -334,7 +386,13 @@ extension ClasseEntity {
 
     // MARK: - Type Methods
 
-    /// Créer une nouvelle instance et la sauvegarder dans le context
+    static func byId(id: UUID) -> Self? {
+        all().first { object in
+            object.id == id
+        }
+    }
+
+    /// Créer une nouvelle classe et l'ajouter à la `classe`
     @discardableResult
     static func create( // swiftlint:disable:this function_parameter_count
         level: LevelClasse,
@@ -365,6 +423,17 @@ extension ClasseEntity {
         classe.isFlagged = isFlagged
         classe.annotation = annotation
         classe.appreciation = appreciation
+
+        // Créer une progression pour chaque activité
+        ProgramManager
+            .activitiesAssociatedTo(thisClasse: classe)
+            .forEach { activity in
+                print("**\(activity.viewName)** pour \(classe.displayString)")
+                ActivityProgressEntity.create(
+                    forClasse: classe,
+                    forActivity: activity
+                )
+            }
 
         try? ClasseEntity.saveIfContextHasChanged()
         return classe

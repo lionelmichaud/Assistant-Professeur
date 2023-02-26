@@ -10,8 +10,17 @@
         <attribute name="isTP" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
         <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="progressCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="progresses.@count" usesScalarValueType="YES"/>
         <attribute name="url" optional="YES" attributeType="URI"/>
+        <relationship name="progresses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ActivityProgressEntity" inverseName="activity" inverseEntity="ActivityProgressEntity"/>
         <relationship name="sequence" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SequenceEntity" inverseName="activities" inverseEntity="SequenceEntity"/>
+    </entity>
+    <entity name="ActivityProgressEntity" representedClassName="ActivityProgressEntity" syncable="YES" codeGenerationType="category">
+        <attribute name="annotation" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="progress" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ActivityEntity" inverseName="progresses" inverseEntity="ActivityEntity"/>
+        <relationship name="classe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="progresses" inverseEntity="ClasseEntity"/>
     </entity>
     <entity name="ClasseEntity" representedClassName="ClasseEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" attributeType="String" defaultValueString=""/>
@@ -25,10 +34,12 @@
         <attribute name="isFlagged" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="level" attributeType="String" defaultValueString=""/>
         <attribute name="numero" attributeType="Integer 32" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="progressCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="progresses.@count" usesScalarValueType="YES"/>
         <attribute name="segpa" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <relationship name="eleves" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EleveEntity" inverseName="classe" inverseEntity="EleveEntity"/>
         <relationship name="exams" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ExamEntity" inverseName="classe" inverseEntity="ExamEntity"/>
         <relationship name="groups" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GroupEntity" inverseName="classe" inverseEntity="GroupEntity"/>
+        <relationship name="progresses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ActivityProgressEntity" inverseName="classe" inverseEntity="ActivityProgressEntity"/>
         <relationship name="room" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoomEntity" inverseName="classes" inverseEntity="RoomEntity"/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="classes" inverseEntity="SchoolEntity"/>
     </entity>

@@ -483,25 +483,4 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             )
         }
     }
-
-    /// Reconnecter les élèves avec les Groupes auquel ils appartiennent
-    private static func connectElevesToGroups() {
-        EleveEntity.all().forEach { eleve in
-            if let groupe = eleve.group {
-
-            }
-        }
-    }
-
-    /// Reconnecter les élèves avec le Seat sur lequel ils sont assis
-    private static func connectElevesToSeats() {}
-
-    /// Reconnecter les classes avec les Salles quelles utilisent
-    private static func connectClassesToRooms() {}
-
-    static func rebuildConnections() {
-        DataBaseManager.connectElevesToGroups()
-        DataBaseManager.connectElevesToSeats()
-        DataBaseManager.connectClassesToRooms()
-    }
 }

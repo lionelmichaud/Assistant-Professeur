@@ -66,33 +66,38 @@ class CoreDataController {
                         level: .fault,
                         "Failed to load the persistence store form Core Data: \(error.localizedDescription)"
                     )
+                } else {
+                    #if DEBUG
+                        print("Loading of the persistent stores has completed")
+                    #endif
                 }
             }
 
         // Only initialize the schema when building the app with the
         // Debug build configuration.
         #if DEBUG
-            do {
-                // Use the container to initialize the development schema.
-                try container.initializeCloudKitSchema(
-                    options: []
-                    // options: [.printSchema]
-                )
-            } catch {
-                // Handle any errors.
-                customLog.log(
-                    level: .error,
-                    "Failed to initialize the development schema in ClouKit: \(error.localizedDescription)"
-                )
-            }
-
-            /// TODO: - DEBUG
-            let directories = NSSearchPathForDirectoriesInDomains(
-                .documentDirectory,
-                .userDomainMask,
-                true
-            )
-            print(directories[0])
+//            do {
+//                // Use the container to initialize the development schema.
+//                try container.initializeCloudKitSchema(
+//                    options: []
+//                    // options: [.printSchema]
+//                )
+//                print("Initialization of the development schema completed")
+//            } catch {
+//                // Handle any errors.
+//                customLog.log(
+//                    level: .error,
+//                    "Failed to initialize the development schema in ClouKit: \(error.localizedDescription)"
+//                )
+//            }
+//
+//            /// TODO: - DEBUG
+//            let directories = NSSearchPathForDirectoriesInDomains(
+//                .documentDirectory,
+//                .userDomainMask,
+//                true
+//            )
+//            print("Document directory: \(directories[0])")
         #endif
     }
 

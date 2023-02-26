@@ -5,12 +5,11 @@
 //  Created by Lionel MICHAUD on 18/01/2023.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /// Une séquence d'un programme scolaire pour une dscipline et un niveau donnés
 extension SequenceEntity {
-
     // MARK: - Computed properties
 
     /// Wrapper of `name`
@@ -61,7 +60,6 @@ extension SequenceEntity {
 // MARK: - Extension Core Data
 
 extension SequenceEntity {
-
     // MARK: - Computed properties
 
     /// Somme des durées des activités
@@ -79,27 +77,27 @@ extension SequenceEntity {
         return durationWithoutMargin + Double(margeInterSequence)
     }
 
-   /// Liste des activités de la séquence non triées
+    /// Liste des activités de la séquence non triées
     var allActivities: [ActivityEntity] {
         if let activities {
             return (activities.allObjects as! [ActivityEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
-    /// Liste des activités de la séquence triées par numéro d'activité
+    /// Liste des activités de la Séquence triées par numéro d'activité
     var activitiesSortedByNumber: [ActivityEntity] {
         let sortComparators =
-        [
-            SortDescriptor(\ActivityEntity.number, order: .forward)
-        ]
+            [
+                SortDescriptor(\ActivityEntity.number, order: .forward)
+            ]
         return allActivities.sorted(using: sortComparators)
     }
 
     // MARK: - Méthodes
 
-    /// Liste des activités de la séquence filtrées et triées par numéro d'activité
+    /// Liste des activités de la Séquence filtrées et triées par numéro d'activité
     func filteredActivitiesSortedByNumber(
         searchString: String
     ) -> [ActivityEntity] {
@@ -108,9 +106,9 @@ extension SequenceEntity {
         }
 
         let sortComparators =
-        [
-            SortDescriptor(\ActivityEntity.number, order: .forward)
-        ]
+            [
+                SortDescriptor(\ActivityEntity.number, order: .forward)
+            ]
         return allActivities
             .filter { activity in
                 let string = searchString.lowercased()
@@ -119,11 +117,57 @@ extension SequenceEntity {
             .sorted(using: sortComparators)
     }
 
+    /// Retourne l'état d'avancement de la progression d'une `classe` pour cette Séquence
+    func statusFor(classe: ClasseEntity) -> ProgressState {
+        let seqProgresses = classe.allProgresses.filter { progress in
+            progress.activity?.sequence == self
+        }
+
+        guard seqProgresses.isNotEmpty else {
+            return .notStarted
+        }
+
+        if seqProgresses.allSatisfy({ progress in
+            // toutes les progressions pour cette séquence et cette classe sont .notStarted
+            progress.status == .notStarted
+
+        }) {
+            return .notStarted
+
+        } else if seqProgresses.allSatisfy({ $0.status == .completed }) {
+            // toutes les progressions pour cette séquence et cette classe sont .completed
+            return .completed
+
+        } else if seqProgresses.contains(where: { $0.status == .inProgress }) {
+            // une progression pour cette séquence et cette classe est .inProgress
+            return .inProgress
+
+        } else if seqProgresses.contains(where: { $0.status == .completed }) &&
+            seqProgresses.contains(where: { $0.status == .notStarted }) {
+            // une progression pour cette séquence et cette classe est .completed
+            // et une autre est .notStarted
+            return .inProgress
+
+        } else if seqProgresses.contains(where: { $0.status == .invalid }) {
+            // une progression pour cette séquence et cette classe est .invalid
+            #if DEBUG
+                print("Séquence \(self.viewNumber) pour classe \(classe.displayString): Invalide")
+            #endif
+            return .invalid
+
+        } else {
+            #if DEBUG
+                print("Séquence \(self.viewNumber) pour classe \(classe.displayString): Invalide")
+            #endif
+            return .invalid
+        }
+    }
+
     // MARK: - Type Methods
 
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
-        //Set defaults here
+        // Set defaults here
         self.id = UUID()
     }
 
@@ -135,10 +179,10 @@ extension SequenceEntity {
 
     /// Créer une nouvelle instance **SANS** la sauvegarder dans le context
     static func createWithoutSaving(
-        name         : String = "",
-        annotation   : String = "",
-        url          : URL?   = nil,
-        dans program : ProgramEntity
+        name: String = "",
+        annotation: String = "",
+        url: URL? = nil,
+        dans program: ProgramEntity
     ) -> SequenceEntity {
         let nbSeqInProgram = program.nbOfSequences
         let sequence = SequenceEntity.create()
@@ -146,20 +190,20 @@ extension SequenceEntity {
         // mandatory
         sequence.program = program
 
-        sequence.name       = name
-        sequence.number     = Int16(nbSeqInProgram + 1)
+        sequence.name = name
+        sequence.number = Int16(nbSeqInProgram + 1)
         sequence.annotation = annotation
-        sequence.url        = url
+        sequence.url = url
         return sequence
     }
 
     /// Créer une nouvelle instance et la sauvegarder dans le context
     @discardableResult
     static func create(
-        name         : String = "",
-        annotation   : String = "",
-        url          : URL?   = nil,
-        dans program : ProgramEntity
+        name: String = "",
+        annotation: String = "",
+        url: URL? = nil,
+        dans program: ProgramEntity
     ) -> SequenceEntity {
         let newSequence = createWithoutSaving(
             name: name,
@@ -184,8 +228,8 @@ extension SequenceEntity {
 
 // MARK: - Extension Debug
 
-extension SequenceEntity {
-    public override var description: String {
+public extension SequenceEntity {
+    override var description: String {
         """
 
         SEQUENCE:

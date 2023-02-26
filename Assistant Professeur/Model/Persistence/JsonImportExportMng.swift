@@ -95,6 +95,7 @@ enum JsonImportExportMng {
 
                     let urlFileNameWithExtension = fileUrl.lastPathComponent
 
+                    /// Les Programmes doivent être importés avant les Schools
                     if urlFileNameWithExtension.contains(String(describing: SchoolEntity.self)) {
                         // Importer les données des Schools et de leurs descendants
                         importSchoolsFromJson(fileUrl: fileUrl)
@@ -107,7 +108,6 @@ enum JsonImportExportMng {
                     fileUrl.stopAccessingSecurityScopedResource()
                 }
 
-                DataBaseManager.rebuildConnections()
                 try? SchoolEntity.saveIfContextHasChanged()
         }
 
@@ -124,7 +124,9 @@ enum JsonImportExportMng {
             [SchoolEntity].self,
             from: ""
         )
-        print(String(describing: schools))
+        #if DEBUG
+            print(String(describing: schools))
+        #endif
     }
 
     /// Importer les Programs depuis des fichiers au format JSON
@@ -133,6 +135,8 @@ enum JsonImportExportMng {
             [ProgramEntity].self,
             from: ""
         )
-        print(String(describing: programs))
+        #if DEBUG
+            print(String(describing: programs))
+        #endif
     }
 }

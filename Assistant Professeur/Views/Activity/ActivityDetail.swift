@@ -43,9 +43,9 @@ struct ActivityDetail: View {
 
                 List {
                     Section {
-                        ActivityProgressView(activity: selectedActivity!)
+                        ActivityProgressesView(activity: selectedActivity!)
                     } header: {
-                        Text("Avancements des Classes")
+                        Text("Progression des Classes")
                             .font(.callout)
                             .foregroundColor(.secondary)
                             .fontWeight(.bold)
@@ -55,6 +55,7 @@ struct ActivityDetail: View {
                 VStack(alignment: .center) {
                     Text("Aucune Activité sélectionnée.")
                     Text("Sélectionner une Activité.")
+                        .padding(.top)
                 }
                 .foregroundStyle(.secondary)
                 .font(.title2)

@@ -29,9 +29,7 @@ struct ActivityList: View {
                         sequence.filteredActivitiesSortedByNumber(searchString: searchString),
                         id: \.objectID
                     ) { activity in
-//                        NavigationLink(value: sequence) {
                         ActivityBrowserRow(activity: activity)
-//                        }
                     }
                     .onMove(perform: moveItems)
                     .onDelete(perform: deleteItems)

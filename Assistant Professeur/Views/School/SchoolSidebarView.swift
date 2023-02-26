@@ -222,6 +222,7 @@ struct SchoolSidebarView: View {
         ) { result in
             switch fileImportOperation {
                 case .importModel:
+                    // Importer des fichiers JSON pour le modèle
                     (
                         alertTitle,
                         alertMessage,
@@ -232,6 +233,7 @@ struct SchoolSidebarView: View {
                     )
 
                 case .importTrombines:
+                    // Importer des fichiers JPEG pour les trombines
                     (
                         alertTitle,
                         alertMessage,

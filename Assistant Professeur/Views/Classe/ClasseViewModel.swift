@@ -61,7 +61,7 @@ class ClasseViewModel: ObservableObject {
     }
 
     /// Créer une entité `ClasseEntity` à partir du VM et
-    /// sauvegarder le veiwContext.
+    /// sauvegarder le viewContext.
     ///
     /// Crée un Groupe 0 pour les élèves de la classe n'appartenant à aucun groupe
     func createAndSaveEntity(_ inSchool: SchoolEntity) {

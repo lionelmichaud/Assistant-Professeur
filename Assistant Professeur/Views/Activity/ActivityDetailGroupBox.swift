@@ -21,12 +21,9 @@ struct ActivityDetailGroupBox: View {
     var body: some View {
         GroupBox {
             Group {
-                Label {
-                    Text(activity.viewName)
-                } icon: {
-                    Image(systemName: "\(activity.viewNumber).circle")
-                        .font(.body)
-                }
+                LabeledActivityView(activity: activity)
+                    .font(hClass == .compact ? .callout : .headline)
+                    .bold()
 
                 // note sur le programme
                 if annotationEnabled && activity.viewAnnotation.isNotEmpty {
@@ -48,9 +45,9 @@ struct ActivityDetailGroupBox: View {
                 )
                 .padding(.top, 4)
             }
+            .font(hClass == .compact ? .callout : .body)
             .horizontallyAligned(.leading)
         }
-        .font(hClass == .compact ? .subheadline : .callout)
         .padding(.horizontal)
     }
 }

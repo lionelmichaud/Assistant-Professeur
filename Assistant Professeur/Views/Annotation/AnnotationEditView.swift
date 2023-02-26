@@ -18,6 +18,7 @@ struct AnnotationView: View {
             if scrollable {
                 ScrollView(.vertical, showsIndicators: true) {
                     Text(annotation)
+                        .multilineTextAlignment(.leading)
                 }
                 .frame(maxHeight: CGFloat(scrollHeight))
 

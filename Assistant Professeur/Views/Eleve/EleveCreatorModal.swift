@@ -119,7 +119,7 @@ struct EleveCreatorModal: View {
 
                     } else {
                         withAnimation {
-                            eleveVM.save(inClasse)
+                            eleveVM.createAndSaveEntity(inClasse)
                         }
                         dismiss()
                     }

@@ -102,4 +102,11 @@ extension DocumentEntity {
         // Set defaults here
         self.id = UUID()
     }
+
+    /// Rempalce les données PDF éventuellement présentes par de nouvelles
+    /// - Parameter newPdfData: les nouvelle données PDF
+    func setPdfData(to newPdfData: Data) {
+        pdfData = newPdfData
+        try? SchoolEntity.saveIfContextHasChanged()
+    }
 }

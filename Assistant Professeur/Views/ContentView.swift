@@ -92,7 +92,7 @@ struct ContentView: View {
 
             if isPad() || isMac() {
                 // Les programmes scolaires
-                ProgramSplitView()
+                ProgramSplitView(navig: navigationModel)
                     .tabItem { Label("Programmes", systemImage: "books.vertical").symbolVariant(.none) }
                     .tag(NavigationModel.Tab.program)
                     .badge(ProgramEntity.cardinal())

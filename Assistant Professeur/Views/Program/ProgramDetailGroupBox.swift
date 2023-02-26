@@ -22,6 +22,7 @@ struct ProgramDetailGroupBox: View {
         GroupBox {
             // Discipline - Niveau
             ProgramDisciplineLevel(program: program)
+                .bold()
                 .horizontallyAligned(.leading)
 
             // note sur le programme
