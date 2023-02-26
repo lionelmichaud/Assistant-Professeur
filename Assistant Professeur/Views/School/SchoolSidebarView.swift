@@ -449,7 +449,7 @@ extension SchoolSidebarView {
             ) {
                 Button("Importer") {
                     withAnimation {
-                        fileImportOperation = .importModel
+                        fileImportOperation = .importTrombines
                         isImportingFile.toggle()
                     }
                 }

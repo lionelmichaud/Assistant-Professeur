@@ -606,6 +606,14 @@ extension EleveEntity {
         }
     }
 
+    /// Retourne le nom du fichier PNG associé
+    var fileName: String? {
+        guard let uuidString = id?.uuidString else {
+            return nil
+        }
+        return "photo_" + uuidString + ".png"
+    }
+
     // MARK: - Methods
 
     override public func awakeFromInsert() {

@@ -57,6 +57,9 @@ enum JsonImportExportMng {
         // Exporter les annexes PNG des plans de salle Rooms associés aux Schools
         exportedFileNames += exportedRoomFiles()
 
+        // Exporter les annexes PNG des plans de salle Rooms associés aux Schools
+        exportedFileNames += exportedTrombineFiles()
+
         return exportedFileNames
     }
 
@@ -96,6 +99,30 @@ enum JsonImportExportMng {
                     try ImageImportExportMng
                         .writeNativeImage(
                             image: room.viewNativeImage,
+                            to: fileUrl
+                        )
+                    exportedFileNames.append(fileName)
+                } catch {}
+            }
+        return exportedFileNames
+    }
+
+    /// Exporter les  Photos des Elèves
+    private static func exportedTrombineFiles() -> [String] {
+        var exportedFileNames = [String]()
+        let cachesUrl = URL.cachesDirectory
+
+        EleveEntity
+            .all()
+            .forEach { eleve in
+                guard let fileName = eleve.fileName else {
+                    return
+                }
+                let fileUrl = cachesUrl.appending(component: fileName)
+                do {
+                    try ImageImportExportMng
+                        .writeNativeImage(
+                            image: eleve.viewNativeImageTrombine,
                             to: fileUrl
                         )
                     exportedFileNames.append(fileName)
@@ -275,25 +302,45 @@ enum JsonImportExportMng {
             alertIsPresented = true
         }
 
-        // Importer les annexes PNG des Rooms associés aux Schools
-        let roomFilesUrl = filesUrl.compactMap { fileUrl in
-            if fileUrl.lastPathComponent.hasPrefix("plan_") {
-                return fileUrl
-            } else {
-                return nil
+            // Importer les annexes PNG des Rooms associés aux Schools
+            let roomFilesUrl = filesUrl.compactMap { fileUrl in
+                if fileUrl.lastPathComponent.hasPrefix("plan_") {
+                    return fileUrl
+                } else {
+                    return nil
+                }
             }
-        }
-        do {
-            try importRoomFiles(filesUrl: roomFilesUrl)
-        } catch {
-            customLog.log(
-                level: .error,
-                "Error reading PNG data from file: \(error.localizedDescription)"
-            )
-            alertTitle = "Échec"
-            alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
-            alertIsPresented = true
-        }
+            do {
+                try importRoomFiles(filesUrl: roomFilesUrl)
+            } catch {
+                customLog.log(
+                    level: .error,
+                    "Error reading PNG data from file: \(error.localizedDescription)"
+                )
+                alertTitle = "Échec"
+                alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
+                alertIsPresented = true
+            }
+
+            // Importer les photos PNG des Elèves
+            let photoFilesUrl = filesUrl.compactMap { fileUrl in
+                if fileUrl.lastPathComponent.hasPrefix("photo_") {
+                    return fileUrl
+                } else {
+                    return nil
+                }
+            }
+            do {
+                try importPhotoFiles(filesUrl: photoFilesUrl)
+            } catch {
+                customLog.log(
+                    level: .error,
+                    "Error reading PNG data from file: \(error.localizedDescription)"
+                )
+                alertTitle = "Échec"
+                alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
+                alertIsPresented = true
+            }
 
         return (
             alertTitle: alertTitle,
@@ -340,6 +387,36 @@ enum JsonImportExportMng {
                         if let image = try ImageImportExportMng
                             .loadNativeImage(from: fileUrlFound) {
                             room.viewNativeImage = image
+                        } else {
+                            customLog.log(
+                                level: .fault,
+                                "La convertion de certains plan de salle a échouée"
+                            )
+                            throw FileError.failedToReadFile
+                        }
+                    } catch {
+                        throw error
+                    }
+                }
+            }
+    }
+
+    /// Importer les photos PNG des Elèves
+    private static func importPhotoFiles(filesUrl: [URL]) throws {
+        try EleveEntity
+            .all()
+            .forEach { eleve in
+                guard let fileName = eleve.fileName else {
+                    return
+                }
+
+                if let fileUrlFound = filesUrl.first(where: { fileUrl in
+                    fileUrl.lastPathComponent == fileName
+                }) {
+                    do {
+                        if let image = try ImageImportExportMng
+                            .loadNativeImage(from: fileUrlFound) {
+                            eleve.viewNativeImageTrombine = image
                         } else {
                             customLog.log(
                                 level: .fault,
