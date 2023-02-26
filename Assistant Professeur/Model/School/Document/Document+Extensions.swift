@@ -58,6 +58,14 @@ extension DocumentEntity {
             return nil
         }
     }
+
+    /// Retourne le nom du fichier PDF associé
+    var fileName: String? {
+        guard let uuidString = id?.uuidString else {
+            return nil
+        }
+        return "doc_" + uuidString + ".pdf"
+    }
 }
 
 // MARK: - Extension Core Data
@@ -107,6 +115,19 @@ extension DocumentEntity {
     /// - Parameter newPdfData: les nouvelle données PDF
     func setPdfData(to newPdfData: Data) {
         pdfData = newPdfData
-        try? SchoolEntity.saveIfContextHasChanged()
+        try? DocumentEntity.saveIfContextHasChanged()
+    }
+}
+
+// MARK: - Extension Debug
+
+public extension DocumentEntity {
+    override var description: String {
+        """
+
+        DOCUMENT:
+           ID         : \(String(describing: id))
+           Nom        : \(viewName)
+        """
     }
 }

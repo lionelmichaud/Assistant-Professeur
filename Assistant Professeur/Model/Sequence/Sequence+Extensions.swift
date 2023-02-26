@@ -237,7 +237,7 @@ public extension SequenceEntity {
            Nom    : \(viewName)
            URL    : \(String(describing: url))
            Nb d'activités : \(activitiesCount)
-           Activités : \(String(describing: allActivities).withPrefixedSplittedLines("     "))
+           Activités : \(String(describing: activitiesSortedByNumber).withPrefixedSplittedLines("     "))
         """
     }
 }

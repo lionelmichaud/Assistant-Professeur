@@ -316,12 +316,11 @@ public extension SchoolEntity {
            Nb documents  : \(nbOfDocuments)
            Nb événments  : \(nbOfEvents)
            Nb ressources : \(nbOfRessourceTypes)
+           Documents: \(String(describing: documentsSortedByName).withPrefixedSplittedLines("     "))
+           Evénements: \(String(describing: eventsSortedByDate).withPrefixedSplittedLines("     "))
+           Salles: \(String(describing: roomsSortedByName).withPrefixedSplittedLines("     "))
+           Ressources: \(String(describing: ressourcesSortedByName).withPrefixedSplittedLines("     "))
+           Classes: \(String(describing: classesSortedByLevelNumber).withPrefixedSplittedLines("     "))
         """
-//           ClassesID: \(String(describing: classesID).withPrefixedSplittedLines("     "))
-//           Evénements: \(String(describing: events).withPrefixedSplittedLines("     "))
-//           Documents: \(String(describing: documents).withPrefixedSplittedLines("     "))
-//           Salles: \(String(describing: rooms).withPrefixedSplittedLines("     "))
-//           Ressources: \(String(describing: ressources).withPrefixedSplittedLines("     "))
-//        """
     }
 }

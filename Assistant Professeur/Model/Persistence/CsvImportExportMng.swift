@@ -18,7 +18,7 @@ enum CsvImporterError: Error {
     case incompatibleColumnNames
 }
 
-enum CsvImportExportMng {
+enum CsvImportExportMng { // swiftlint:disable:this type_body_length
     // MARK: - Export
 
     static let csvEleveListFileName = "élèves.csv"

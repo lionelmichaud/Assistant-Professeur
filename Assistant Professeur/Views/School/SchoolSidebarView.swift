@@ -27,26 +27,26 @@ enum FileImportOperation {
     var allowedContentTypes: [UTType] {
         switch self {
             case .importTrombines: return [.jpeg]
-            case .importModel: return [.json]
+            case .importModel: return [.json, .pdf, .png, .jpeg]
             case .none: return []
         }
     }
 }
 
 enum FileExportOperation {
-    case exportJsonModel
+    case exportJsonModel(annexFileNames: [String])
     case exportCsvEleveList
     case exportCsvPrograms
     case none
 
     var urls: [URL] {
         switch self {
-            case .exportJsonModel:
+            case .exportJsonModel (let annexFileNames):
                 return ImportExportManager.cachesURLsToShare(
                     fileNames: [
                         JsonImportExportMng.schoolsFileName,
                         JsonImportExportMng.programsFileName
-                    ]
+                    ] + annexFileNames
                 )
 
             case .exportCsvEleveList:
@@ -298,8 +298,6 @@ extension SchoolSidebarView {
                         )
                     }
 
-                    // Exporter les fichiers JSON utilisateurs
-                    // shareMenuItem
                     // Vérifier la cohérence de la base de donnée
                     Button {
                         checkAllUserData()
@@ -346,8 +344,8 @@ extension SchoolSidebarView {
                 Menu("Exporter") {
                     // Exporter les données dans des fichiers au format JSON
                     Button {
-                        JsonImportExportMng.exportToJsonFiles()
-                        fileExportOperation = .exportJsonModel
+                        let exportedFilesUrl = JsonImportExportMng.exportToJsonFiles()
+                        fileExportOperation = .exportJsonModel(annexFileNames: exportedFilesUrl)
                         isExportingModel.toggle()
                     } label: {
                         Label(
@@ -451,7 +449,7 @@ extension SchoolSidebarView {
             ) {
                 Button("Importer") {
                     withAnimation {
-                        fileImportOperation = .importModel
+                        fileImportOperation = .importTrombines
                         isImportingFile.toggle()
                     }
                 }
