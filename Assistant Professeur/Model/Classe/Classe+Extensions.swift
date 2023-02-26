@@ -707,10 +707,10 @@ public extension ClasseEntity {
            Appréciation: '\(viewAppreciation)'
            Annotation  : '\(viewAnnotation)'
            Nb élèves   : \(elevesCount)
+           RoomID  : \(String(describing: room))
+           Examens : \(String(describing: examsSortedByDate).withPrefixedSplittedLines("     "))
+           Eleves  : \(String(describing: elevesSortedByName).withPrefixedSplittedLines("     "))
         """
-//           RoomID  : \(String(describing: roomId))
-//           Eleves  : \(String(describing: elevesID).withPrefixedSplittedLines("     "))
-//           Examens : \(String(describing: exams).withPrefixedSplittedLines("     "))
 //        """
     }
 }

@@ -88,22 +88,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "62519746-0477-437A-BD85-B681CCF86057"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/ActivityProgressEntity+CoreDataClass.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "init(from:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "A7081743-529F-440A-9CEF-4AD2841A8224"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -435,6 +419,54 @@
             endingLineNumber = "85"
             landmarkName = "discovericloudUser(id:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F77B5701-EAB3-465C-AEF7-62719C71CFEA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Assistant Professeur/Model/Persistence/JsonImportExportMng.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "198"
+            endingLineNumber = "198"
+            landmarkName = "JsonImportExportMng"
+            landmarkType = "13">
+            <Locations>
+               <Location
+                  uuid = "F77B5701-EAB3-465C-AEF7-62719C71CFEA - 4c0ec2b86b36e28f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Assistant_Professeur.JsonImportExportMng.importAnnexeFiles(filesUrl: Swift.Array&lt;Foundation.URL&gt;) -&gt; (alertTitle: Swift.String, alertMessage: Swift.String, alertIsPresented: Swift.Bool)"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Persistence/JsonImportExportMng.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "198"
+                  endingLineNumber = "198"
+                  offsetFromSymbolStart = "164">
+               </Location>
+               <Location
+                  uuid = "F77B5701-EAB3-465C-AEF7-62719C71CFEA - 1f18d0059e888674"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Foundation.URL) -&gt; Swift.Optional&lt;Foundation.URL&gt; in static Assistant_Professeur.JsonImportExportMng.importAnnexeFiles(filesUrl: Swift.Array&lt;Foundation.URL&gt;) -&gt; (alertTitle: Swift.String, alertMessage: Swift.String, alertIsPresented: Swift.Bool)"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Persistence/JsonImportExportMng.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "199"
+                  endingLineNumber = "199"
+                  offsetFromSymbolStart = "120">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -728,9 +728,8 @@ public extension EleveEntity {
            Bonus       : \(viewBonus)
            Nb observs  : \(nbOfObservs)
            Nb colles   : \(nbOfColles)
+           Observations: \(String(describing: allObservs).withPrefixedSplittedLines("     "))
+           Colles: \(String(describing: allColles).withPrefixedSplittedLines("     "))
         """
-//    Observations: \(String(describing: observs).withPrefixedSplittedLines("     "))
-//    Colles: \(String(describing: colles).withPrefixedSplittedLines("     "))
-//        """
     }
 }

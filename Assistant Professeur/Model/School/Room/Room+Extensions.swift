@@ -295,7 +295,7 @@ public extension RoomEntity {
 
         SALLE DE CLASSE : \(viewName)
            Capacité de la salle : \(capacity)
-           Places: \(String(describing: seats).withPrefixedSplittedLines("     "))
+           Places: \(String(describing: allSeats).withPrefixedSplittedLines("     "))
         """
     }
 }

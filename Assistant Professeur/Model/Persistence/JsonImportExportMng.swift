@@ -88,25 +88,69 @@ enum JsonImportExportMng {
                     )
                 }
 
-                filesUrl.forEach { fileUrl in
-                    guard fileUrl.startAccessingSecurityScopedResource() else {
-                        return
-                    }
-
-                    let urlFileNameWithExtension = fileUrl.lastPathComponent
-
-                    /// Les Programmes doivent être importés avant les Schools
-                    if urlFileNameWithExtension.contains(String(describing: SchoolEntity.self)) {
-                        // Importer les données des Schools et de leurs descendants
-                        importSchoolsFromJson(fileUrl: fileUrl)
-
-                    } else if urlFileNameWithExtension.contains(String(describing: ProgramEntity.self)) {
-                        // Importer les données des Programs et de leurs descendants
-                        importProgramsFromJson(fileUrl: fileUrl)
-                    }
-
-                    fileUrl.stopAccessingSecurityScopedResource()
+                /// Rechercher le fichier contenant la branche des Programmes du Modèle
+                guard let programJsonFile = filesUrl.first(where: { fileUrl in
+                    fileUrl.lastPathComponent == programsFileName
+                }) else {
+                    alertTitle = "Échec"
+                    alertMessage = "Le fichier **\(programsFileName)** n'a pas été trouvé"
+                    alertIsPresented = true
+                    return (
+                        alertTitle: alertTitle,
+                        alertMessage: alertMessage,
+                        alertIsPresented: alertIsPresented
+                    )
                 }
+                /// Rechercher le fichier contenant la branche des Schools du Modèle
+                guard let schoolJsonFile = filesUrl.first(where: { fileUrl in
+                    fileUrl.lastPathComponent == schoolsFileName
+                }) else {
+                    alertTitle = "Échec"
+                    alertMessage = "Le fichier **\(schoolsFileName)** n'a pas été trouvé"
+                    alertIsPresented = true
+                    return (
+                        alertTitle: alertTitle,
+                        alertMessage: alertMessage,
+                        alertIsPresented: alertIsPresented
+                    )
+                }
+
+                // Importer les données des Programs et de leurs descendants
+                guard programJsonFile.startAccessingSecurityScopedResource() else {
+                    alertTitle = "Échec"
+                    alertMessage = "L'importation du fichier **\(programsFileName)** a échouée!"
+                    alertIsPresented = true
+
+                    return (
+                        alertTitle: alertTitle,
+                        alertMessage: alertMessage,
+                        alertIsPresented: alertIsPresented
+                    )
+                }
+                importProgramsFromJson(fileUrl: programJsonFile)
+                programJsonFile.stopAccessingSecurityScopedResource()
+
+                // Importer les données des Schools et de leurs descendants
+                guard schoolJsonFile.startAccessingSecurityScopedResource() else {
+                    alertTitle = "Échec"
+                    alertMessage = "L'importation du fichier **\(schoolsFileName)** a échouée!"
+                    alertIsPresented = true
+
+                    return (
+                        alertTitle: alertTitle,
+                        alertMessage: alertMessage,
+                        alertIsPresented: alertIsPresented
+                    )
+                }
+                importSchoolsFromJson(fileUrl: schoolJsonFile)
+                schoolJsonFile.stopAccessingSecurityScopedResource()
+
+                // Importer les fichiers annexes (PDF, JPEG, PNG...)
+                (
+                    alertTitle,
+                    alertMessage,
+                    alertIsPresented
+                ) = importAnnexeFiles(filesUrl: filesUrl)
 
                 try? SchoolEntity.saveIfContextHasChanged()
         }
@@ -138,5 +182,79 @@ enum JsonImportExportMng {
         #if DEBUG
             print(String(describing: programs))
         #endif
+    }
+
+    private static func importAnnexeFiles(filesUrl: [URL])
+        -> (
+            alertTitle: String,
+            alertMessage: String,
+            alertIsPresented: Bool
+        ) {
+        var alertTitle = ""
+        var alertMessage = ""
+        var alertIsPresented = false
+
+        // Importer les annexes PDF des Documnts associés aux Schools
+        let docFilesUrl = filesUrl.compactMap { fileUrl in
+            if fileUrl.lastPathComponent.hasPrefix("doc_") {
+                return fileUrl
+            } else {
+                return nil
+            }
+        }
+        (
+            alertTitle,
+            alertMessage,
+            alertIsPresented
+        ) = importDocFiles(filesUrl: docFilesUrl)
+
+        return (
+            alertTitle: alertTitle,
+            alertMessage: alertMessage,
+            alertIsPresented: alertIsPresented
+        )
+    }
+
+    /// Importer les annexes PDF des Documnts associés aux Schools
+    private static func importDocFiles(filesUrl: [URL])
+        -> (
+            alertTitle: String,
+            alertMessage: String,
+            alertIsPresented: Bool
+        ) {
+        var alertTitle = ""
+        var alertMessage = ""
+        var alertIsPresented = false
+
+        DocumentEntity
+            .all()
+            .forEach { doc in
+                guard let uuidString = doc.id?.uuidString else {
+                    return
+                }
+                let fileName = "doc_" + uuidString + ".pdf"
+                if let fileUrlFound = filesUrl.first(where: { fileUrl in
+                    fileUrl.lastPathComponent == fileName
+                }) {
+                    do {
+                        let data = try Data(contentsOf: fileUrlFound)
+                        doc.setPdfData(to: data)
+                    } catch {
+                        customLog.log(
+                            level: .error,
+                            "Error creating PDF data from file: \(error.localizedDescription)"
+                        )
+                        alertTitle = "Échec"
+                        alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
+                        alertIsPresented = true
+                    }
+                }
+            }
+
+        return (
+            alertTitle: alertTitle,
+            alertMessage: alertMessage,
+            alertIsPresented: alertIsPresented
+        )
     }
 }

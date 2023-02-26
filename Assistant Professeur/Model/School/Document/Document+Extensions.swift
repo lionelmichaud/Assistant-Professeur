@@ -107,6 +107,19 @@ extension DocumentEntity {
     /// - Parameter newPdfData: les nouvelle données PDF
     func setPdfData(to newPdfData: Data) {
         pdfData = newPdfData
-        try? SchoolEntity.saveIfContextHasChanged()
+        try? DocumentEntity.saveIfContextHasChanged()
+    }
+}
+
+// MARK: - Extension Debug
+
+public extension DocumentEntity {
+    override var description: String {
+        """
+
+        DOCUMENT:
+           ID         : \(String(describing: id))
+           Nom        : \(viewName)
+        """
     }
 }
