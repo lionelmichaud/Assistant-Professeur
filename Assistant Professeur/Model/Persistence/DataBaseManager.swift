@@ -25,6 +25,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
         ProgramEntity.checkConsistency(errorFound: &errorFound)
         SequenceEntity.checkConsistency(errorFound: &errorFound)
         ActivityEntity.checkConsistency(errorFound: &errorFound)
+        ActivityProgressEntity.checkConsistency(errorFound: &errorFound)
     }
 
     static func isEmpty() -> Bool {
@@ -44,7 +45,8 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
 
             ProgramEntity.cardinal() == 0 &&
             SequenceEntity.cardinal() == 0 &&
-            ActivityEntity.cardinal() == 0
+            ActivityEntity.cardinal() == 0 &&
+            ActivityProgressEntity.cardinal() == 0
     }
 
     /// Effacer tout le contenu de la base de donnée Core Data
@@ -92,6 +94,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             try ProgramEntity.deleteAll()
             try SequenceEntity.deleteAll()
             try ActivityEntity.deleteAll()
+            try ActivityProgressEntity.deleteAll()
         } catch {
             failed = true
         }

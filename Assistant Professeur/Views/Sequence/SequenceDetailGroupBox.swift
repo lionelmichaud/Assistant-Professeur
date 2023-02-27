@@ -37,10 +37,11 @@ struct SequenceDetailGroupBox: View {
 
             HStack {
                 DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
-                padding(.trailing)
+                    .padding(.trailing)
                 DurationView(duration: sequence.durationWithMargin, withMargin: true)
-                padding(.trailing)
+                    .padding(.trailing)
                 WebsiteView(url: sequence.url)
+                Spacer()
             }
         }
         .font(hClass == .compact ? .callout : .body)
