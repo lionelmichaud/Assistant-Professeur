@@ -12,22 +12,29 @@ struct ClassCurrentActivityView: View {
     @ObservedObject
     var classe: ClasseEntity
 
+    @Environment(\.horizontalSizeClass)
+    private var hClass
+
     var body: some View {
-        VStack {
+        ScrollView(.vertical, showsIndicators: true) {
             if let activity = classe.currentActivity,
                let sequence = activity.sequence {
-                Text("Sequence \(sequence.viewNumber)")
-                    .font(.title2)
-                    .bold()
+                ClassRailwayProgressView(classe: classe)
                     .padding(.top)
+                
+                Text("Sequence en cours")
+                    .font(.headline)
+                    .bold()
+                    .padding([.top, .leading])
+                    .horizontallyAligned(.leading)
                 SequenceDetailGroupBox(sequence: sequence)
                 
-                Text("Activité \(activity.viewNumber)")
-                    .font(.title2)
+                Text("Activité en cours")
+                    .font(.headline)
                     .bold()
-                    .padding(.top)
-                ActivityDetailGroupBox(activity: activity)
+                    .padding([.top, .leading])
                     .horizontallyAligned(.leading)
+                ActivityDetailGroupBox(activity: activity)
             } else {
                 Text("Aucune activité en cours ni à venir")
             }

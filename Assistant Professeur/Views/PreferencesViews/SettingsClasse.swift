@@ -21,7 +21,7 @@ struct SettingsClasse: View {
             } header: {
                 Text("Champs")
             } footer: {
-                Text("Inclure des champs de saisie pour chaque classe")
+                Text("Inclure ces champs de saisie pour chaque classe")
             }
         }
         #if os(iOS)

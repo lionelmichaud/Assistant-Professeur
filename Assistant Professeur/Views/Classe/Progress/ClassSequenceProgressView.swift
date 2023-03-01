@@ -39,24 +39,18 @@ struct ClassSequenceProgressView: View {
         classe.allProgresses
     }
 
-    /// Retourne la liste des progresssions de classe triée pour l'activité et la séquence sélectionnées
+    /// Retourne la liste des progresssions d'activités de classe triée pour l'la classe et la séquence sélectionnées
     ///
     /// Ordre de tri des progressions:
     ///   1. Numéro d'activité
     private var sortedProgressesInSequence: [ActivityProgressEntity] {
-        let sortComparators = [
-            SortDescriptor(\ActivityProgressEntity.activity?.number, order: .forward)
-        ]
-
-        return progresses
-            .filter { progress in
-                progress.activity?.sequence == sequence
-            }
-            .sorted(using: sortComparators)
+        classe.sortedProgressesInSequence(sequence)
     }
 
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
+            ProgressView(value: classe.progressInSequence(sequence))
+                .tint(.mint)
             ForEach(sortedProgressesInSequence) { progress in
                 ClassActivityProgressView(progress: progress)
                     .padding(.leading)

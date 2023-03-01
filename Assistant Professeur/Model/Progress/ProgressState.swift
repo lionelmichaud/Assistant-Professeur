@@ -7,6 +7,22 @@
 
 import Foundation
 
-enum ProgressState {
-    case notStarted, inProgress, completed, invalid
+enum ProgressState: String {
+    case notStarted = "A venir"
+    case inProgress = "En cours"
+    case completed = "Terminé"
+    case invalid = "Invalide"
+
+    var imageName: String {
+        switch self {
+            case .notStarted:
+                return "record.circle.fill"
+            case .inProgress:
+                return "inProgress"
+            case .completed:
+                return "checkmark.circle.fill"
+            case .invalid:
+                return "questionmark.circle.fill"
+        }
+    }
 }

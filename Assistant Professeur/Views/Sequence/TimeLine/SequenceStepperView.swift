@@ -114,7 +114,7 @@ struct SequenceStepperView: View {
                     .spacing(100)
                     .loadingAnimationTime(0.01)
                     // .autoSpacing(true)
-                    // .lineOptions(StepperLineOptions.custom(1, Color.teal))
+                    // .lineOptions(StepperLineOptions.custom(2, Color.teal))
                     // .spacing(80) // auto calculates spacing between steps based on the content.
                     .padding()
             }

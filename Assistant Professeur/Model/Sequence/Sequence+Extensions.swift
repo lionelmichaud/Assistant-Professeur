@@ -68,6 +68,12 @@ extension SequenceEntity {
         allActivities.reduce(0) { $0 + $1.duration }
     }
 
+    var durationWithoutMarginString: String {
+        let remainder = durationWithoutMargin.remainder(dividingBy: 1.0)
+        return self.durationWithoutMargin
+            .formatted(.number.precision(.fractionLength(remainder == 0.0 ? 0 : 1)))
+    }
+
     /// Somme des durées des activités en nombre de séances
     /// + une marge d'une séance à la fin de la séquence
     var durationWithMargin: Double {
@@ -75,6 +81,12 @@ extension SequenceEntity {
         var margeInterSequence
 
         return durationWithoutMargin + Double(margeInterSequence)
+    }
+
+    var durationWithMarginString: String {
+        let remainder = durationWithMargin.remainder(dividingBy: 1.0)
+        return self.durationWithMargin
+            .formatted(.number.precision(.fractionLength(remainder == 0.0 ? 0 : 1)))
     }
 
     /// Liste des activités de la séquence non triées

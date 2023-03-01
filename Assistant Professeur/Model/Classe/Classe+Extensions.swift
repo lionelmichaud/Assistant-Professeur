@@ -269,6 +269,24 @@ extension ClasseEntity {
         }
     }
 
+    /// Retourne la liste des séquences suivies par une classe triée.
+    ///
+    /// Ordre de tri :
+    ///   1. Numéro de Séquence
+    var allFollowedSequencesSortedBySequenceNumber: [SequenceEntity] {
+        let sortComparators = [
+            SortDescriptor(\SequenceEntity.number, order: .forward)
+        ]
+        var seqSet = Set<SequenceEntity>()
+        allProgresses.forEach { progress in
+            if let seq = progress.activity?.sequence {
+                seqSet.update(with: seq)
+            }
+        }
+        return Array(seqSet)
+            .sorted(using: sortComparators)
+    }
+
     /// Retourne la liste des progressions de la classe.
     /// Les progressions trouvées sont triées.
     ///
@@ -285,7 +303,7 @@ extension ClasseEntity {
             .sorted(using: sortComparators)
     }
 
-    /// Activité en cours
+    /// Retourne l'activité en cours de cette classe
     var currentActivity: ActivityEntity? {
         let progresses = allProgressesSortedBySequenceActivityNumber
         for idx in progresses.indices {
@@ -454,6 +472,47 @@ extension ClasseEntity {
         super.awakeFromInsert()
         // Set defaults here
         self.id = UUID()
+    }
+
+    /// Retourne la liste des progresssions d'activités de la classe dans la séquence sélectionnée triée
+    ///
+    /// Ordre de tri des progressions:
+    ///   1. Numéro d'activité
+    func sortedProgressesInSequence(_ sequence: SequenceEntity) -> [ActivityProgressEntity] {
+        let sortComparators = [
+            SortDescriptor(\ActivityProgressEntity.activity?.number, order: .forward)
+        ]
+
+        return allProgressesSortedBySequenceActivityNumber
+            .filter { progress in
+                progress.activity?.sequence == sequence
+            }
+            .sorted(using: sortComparators)
+    }
+
+    /// Retourne la progression (en % de temps) de la classe pour la séquence sélectionnée.
+    func progressInSequence(_ sequence: SequenceEntity) -> Double {
+        let progressesInSequence = self.sortedProgressesInSequence(sequence)
+        let nbOfSeanceInSequence = sequence.durationWithoutMargin
+        let nbOfSeanceCompleted: Double = progressesInSequence.reduce(0.0) {
+            $0 + $1.progress * ($1.activity?.duration ?? 0)
+        }
+        return nbOfSeanceCompleted / nbOfSeanceInSequence
+    }
+
+    /// Retourne la progression (en % de temps) de la classe dans le programme annuel.
+    func progressInProgram() -> Double {
+        let sequencesInProgram = self.allFollowedSequencesSortedBySequenceNumber
+        let (nbOfSeanceInProgram, nbOfSeanceCompleted): (Double, Double) =
+            sequencesInProgram
+                .reduce((0.0, 0.0)) { nb, sequence in
+                    (
+                        nb.0 + sequence.durationWithoutMargin,
+                        nb.1 + progressInSequence(sequence) * sequence.durationWithoutMargin
+                    )
+                }
+        print(nbOfSeanceInProgram, nbOfSeanceCompleted)
+        return nbOfSeanceCompleted / nbOfSeanceInProgram
     }
 
     // MARK: - Méthodes Groupes

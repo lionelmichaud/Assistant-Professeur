@@ -12,8 +12,10 @@ struct DurationView: View {
     var withMargin: Bool
     
     var body: some View {
+        let remainder = duration.remainder(dividingBy: 1.0)
+
         Label {
-            Text("\(duration.formatted(.number.precision(.fractionLength(1)))) séances")
+            Text("\(duration.formatted(.number.precision(.fractionLength(remainder == 0.0 ? 0 : 1)))) séances")
         } icon: {
             if withMargin {
                 Image(systemName: "hourglass.badge.plus")

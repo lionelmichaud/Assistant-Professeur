@@ -27,8 +27,9 @@ struct ActivityProgressSlider: View {
                 try? ActivityProgressEntity.saveIfContextHasChanged()
             }
         }
+        .tint(.mint)
         .padding(6)
-        .background(Capsule().stroke(Color.orange, lineWidth: 2))
+        .background(Capsule().stroke(Color.mint, lineWidth: 2))
     }
 }
 

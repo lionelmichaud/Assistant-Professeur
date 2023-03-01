@@ -30,7 +30,7 @@ struct SettingsEleve: View {
             } header: {
                 Text("Champs")
             } footer: {
-                Text("Inclure des champs de saisie pour chaque classe")
+                Text("Inclure ces champs de saisie pour chaque élève")
             }
 
             Section("Bonus / Malus") {
@@ -42,7 +42,7 @@ struct SettingsEleve: View {
                         HStack {
                             Text("Limite")
                             Spacer()
-                            Text("+/-\(maxBonusMalus.formatted(.number.precision(.fractionLength(0))))")
+                            Text("+/-\(maxBonusMalus.formatted(.number.precision(.fractionLength(0)))) points")
                                 .foregroundColor(.secondary)
                         }
                     }
@@ -53,7 +53,7 @@ struct SettingsEleve: View {
                         HStack {
                             Text("Par incrément de")
                             Spacer()
-                            Text("\(maxBonusIncrement.formatted(.number.precision(.fractionLength(2))))")
+                            Text("\(maxBonusIncrement.formatted(.number.precision(.fractionLength(2)))) points")
                                 .foregroundColor(.secondary)
                         }
                     }

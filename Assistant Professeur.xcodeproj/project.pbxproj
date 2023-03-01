@@ -142,6 +142,9 @@
 		79975320297C3F9200D1C66E /* ProgramViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7997531F297C3F9200D1C66E /* ProgramViewModel.swift */; };
 		79975322297C4AEF00D1C66E /* ProgramBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */; };
 		79975324297C4ED900D1C66E /* ProgramDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */; };
+		79A8E7BC29AECE1B006D0EAA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79A8E7BB29AECE1B006D0EAA /* Images.xcassets */; };
+		79A8E7BE29AF6109006D0EAA /* IndicatorImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A8E7BD29AF6109006D0EAA /* IndicatorImageView.swift */; };
+		79ABF56329AD52FC00B8299B /* ClassRailwayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ABF56229AD52FC00B8299B /* ClassRailwayProgressView.swift */; };
 		79AEA0A929356DBA0053DDDD /* SchoolEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */; };
 		79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */; };
 		79AFBFB42981A4B0001576DD /* SequenceDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */; };
@@ -417,6 +420,9 @@
 		7997531F297C3F9200D1C66E /* ProgramViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramViewModel.swift; sourceTree = "<group>"; };
 		79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramBrowserRow.swift; sourceTree = "<group>"; };
 		79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailGroupBox.swift; sourceTree = "<group>"; };
+		79A8E7BB29AECE1B006D0EAA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		79A8E7BD29AF6109006D0EAA /* IndicatorImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorImageView.swift; sourceTree = "<group>"; };
+		79ABF56229AD52FC00B8299B /* ClassRailwayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassRailwayProgressView.swift; sourceTree = "<group>"; };
 		79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolEditor.swift; sourceTree = "<group>"; };
 		79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolDetail.swift; sourceTree = "<group>"; };
 		79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceDetailGroupBox.swift; sourceTree = "<group>"; };
@@ -772,7 +778,6 @@
 				797AD2B129902BCE00BE5D37 /* ActivityProgressesView.swift */,
 				796A242229A137E7009B2A6C /* ActivityClassProgressView.swift */,
 				7989B4D629A276F400383F84 /* ActivityProgressSlider.swift */,
-				7989B4DC29A28F8E00383F84 /* CompletionSymbol.swift */,
 			);
 			path = Progress;
 			sourceTree = "<group>";
@@ -784,6 +789,9 @@
 				796A242629A17C16009B2A6C /* ClassProgressesView.swift */,
 				7989B4DE29A2A63000383F84 /* ClassSequenceProgressView.swift */,
 				7989B4D229A2733D00383F84 /* ClassActivityProgressView.swift */,
+				79ABF56229AD52FC00B8299B /* ClassRailwayProgressView.swift */,
+				79A8E7BD29AF6109006D0EAA /* IndicatorImageView.swift */,
+				7989B4DC29A28F8E00383F84 /* CompletionSymbol.swift */,
 			);
 			path = Progress;
 			sourceTree = "<group>";
@@ -943,6 +951,7 @@
 				79388A4C29256E7D002AABB8 /* Model */,
 				79388A4D29256E92002AABB8 /* Views */,
 				79B6630829244C3F007B1FBD /* Assets.xcassets */,
+				79A8E7BB29AECE1B006D0EAA /* Images.xcassets */,
 				79B6630A29244C3F007B1FBD /* Assistant_Professeur.entitlements */,
 				79B6630B29244C3F007B1FBD /* Preview Content */,
 				79B6632F29244FC9007B1FBD /* AppModel.xcdatamodeld */,
@@ -1335,6 +1344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				79B6630D29244C3F007B1FBD /* Preview Assets.xcassets in Resources */,
+				79A8E7BC29AECE1B006D0EAA /* Images.xcassets in Resources */,
 				79135E132969E17000F95694 /* TROMBINOSCOPE personnel 2022-2023.pdf in Resources */,
 				79135E142969E17000F95694 /* COORDINATEURS MATIERES 2022.pdf in Resources */,
 				79135E1B2969E18200F95694 /* Plan Salle.png in Resources */,
@@ -1433,6 +1443,7 @@
 				79975320297C3F9200D1C66E /* ProgramViewModel.swift in Sources */,
 				7986A8592989CE73007471BE /* GroupSteppedlMarkModal.swift in Sources */,
 				79ECF1FC2959F915008F0282 /* ClasseObservLabel.swift in Sources */,
+				79A8E7BE29AF6109006D0EAA /* IndicatorImageView.swift in Sources */,
 				793D6277295DD9E600477932 /* ObservSignIcon.swift in Sources */,
 				793C29D52953C08100E7F65B /* RessourceEditor.swift in Sources */,
 				79F57E38298EB2D30014B73D /* ActivitySymbolViews.swift in Sources */,
@@ -1511,6 +1522,7 @@
 				79DEDAFE292589F400F508EF /* EleveSidebarView.swift in Sources */,
 				7963720A297DA2DB00ECDBC3 /* ActivityList.swift in Sources */,
 				79398D33296616850013564D /* ExamEditor.swift in Sources */,
+				79ABF56329AD52FC00B8299B /* ClassRailwayProgressView.swift in Sources */,
 				79F41E6D2954C83A00EAAC52 /* ClasseEleveRow.swift in Sources */,
 				79E40E842997DF43006BBE49 /* Program+CoreDataClass.swift in Sources */,
 				79975324297C4ED900D1C66E /* ProgramDetailGroupBox.swift in Sources */,

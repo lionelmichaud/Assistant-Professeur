@@ -72,6 +72,12 @@ extension ActivityEntity {
         }
     }
 
+    var viewDurationString: String {
+        let remainder = duration.remainder(dividingBy: 1.0)
+        return self.duration
+            .formatted(.number.precision(.fractionLength(remainder == 0.0 ? 0 : 1)))
+    }
+
     /// True si l'activité inclue une évaluation sommative
     /// Wrapper of `isEval`
     /// - Important: *Saves the context to the store after modification is done*
@@ -131,22 +137,22 @@ extension ActivityEntity {
     // MARK: - Type Computed Properties
 
     static var byProgramSequenceNSSortDescriptor: [NSSortDescriptor] =
-    [
-        // discipline,
-        NSSortDescriptor(
-            keyPath: \ActivityEntity.sequence?.program?.disciplineString,
-            ascending: true
-        ),
-        NSSortDescriptor(
-            keyPath: \ActivityEntity.sequence?.program?.levelString,
-            ascending: true
-        ),
-        // sequence
-        NSSortDescriptor(
-            keyPath: \ActivityEntity.sequence?.viewNumber,
-            ascending: false
-        )
-    ]
+        [
+            // discipline,
+            NSSortDescriptor(
+                keyPath: \ActivityEntity.sequence?.program?.disciplineString,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \ActivityEntity.sequence?.program?.levelString,
+                ascending: true
+            ),
+            // sequence
+            NSSortDescriptor(
+                keyPath: \ActivityEntity.sequence?.viewNumber,
+                ascending: false
+            )
+        ]
 
     /// Requête pour toutes les activités triées.
     ///
@@ -218,7 +224,7 @@ extension ActivityEntity {
                     forActivity: activity
                 )
             }
-        
+
         activity.name = name
         activity.number = Int16(nbActInProgram + 1)
         activity.annotation = annotation

@@ -35,6 +35,8 @@ struct ClassProgressesView: View {
 
     var body: some View {
         List {
+            ProgressView(value: classe.progressInProgram())
+                .tint(.mint)
             ForEach(sequences) { sequence in
                 ClassSequenceProgressView(sequence: sequence, classe: classe)
             }
@@ -43,7 +45,7 @@ struct ClassProgressesView: View {
             }
         }
         #if os(iOS)
-        .navigationTitle("Progression")
+        .navigationTitle("Progression en \(classe.discipline!)")
         #endif
         .navigationBarTitleDisplayModeInline()
     }
