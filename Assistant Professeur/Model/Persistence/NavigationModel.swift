@@ -14,12 +14,27 @@ final class NavigationModel: ObservableObject, Codable {
     // MARK: - Embeded Types
 
     enum Tab: Int, Hashable, Codable {
-        case userSettings, school, classe, eleve, colle, observation, program
+        case userSettings, school, classe, eleve, warning, program, competence
+    }
+
+    enum WarningSelection: String, Hashable, Codable, CaseIterable {
+        case observation = "Observations"
+        case colle = "Colles"
+
+        var imageName: String {
+            switch self {
+                case .observation:
+                    return "rectangle.and.text.magnifyingglass"
+                case .colle:
+                    return "lock"
+            }
+        }
     }
 
     enum CodingKeys: String, CodingKey {
         case columnVisibility
         case selectedTab
+        case selectedWarningType
         case selectedProgramId
         case selectedObservId
         case selectedColleId
@@ -37,6 +52,8 @@ final class NavigationModel: ObservableObject, Codable {
     var columnVisibility: NavigationSplitViewVisibility
     @Published
     var selectedTab: Tab
+    @Published
+    var selectedWarningType: WarningSelection?
     @Published
     var programPath = NavigationPath()
     /// TODO: - Trouver une autre solution
@@ -82,6 +99,7 @@ final class NavigationModel: ObservableObject, Codable {
             selectedSequenceId = model.selectedSequenceId
             selectedActivityId = model.selectedActivityId
             selectedTab = model.selectedTab
+            selectedWarningType = model.selectedWarningType
             selectedObservId = model.selectedObservId
             selectedColleId = model.selectedColleId
             selectedEleveId = model.selectedEleveId
@@ -104,6 +122,7 @@ final class NavigationModel: ObservableObject, Codable {
     init(
         columnVisibility: NavigationSplitViewVisibility = .all,
         selectedTab: Tab = .school,
+        selectedWarningType: WarningSelection = .observation,
         selectedProgramId: NSManagedObjectID? = nil,
         selectedSequenceId: NSManagedObjectID? = nil,
         selectedActivityId: NSManagedObjectID? = nil,
@@ -121,6 +140,7 @@ final class NavigationModel: ObservableObject, Codable {
         #endif
         self.columnVisibility = columnVisibility
         self.selectedTab = selectedTab
+        self.selectedWarningType = selectedWarningType
         self.selectedProgramId = selectedProgramId
         self.selectedSequenceId = selectedSequenceId
         self.selectedActivityId = selectedActivityId
@@ -141,6 +161,9 @@ final class NavigationModel: ObservableObject, Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.selectedTab = try container.decode(
             NavigationModel.Tab.self, forKey: .selectedTab
+        )
+        self.selectedWarningType = try container.decodeIfPresent(
+            NavigationModel.WarningSelection.self, forKey: .selectedWarningType
         )
 
 //        self.selectedProgramId = try container.decodeIfPresent(
@@ -182,6 +205,7 @@ final class NavigationModel: ObservableObject, Codable {
 
     func resetSelections() {
         selectedTab = .school
+        selectedWarningType = .observation
         selectedProgramId = nil
         selectedSequenceId = nil
         selectedActivityId = nil
@@ -195,6 +219,7 @@ final class NavigationModel: ObservableObject, Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(selectedTab, forKey: .selectedTab)
+        try container.encode(selectedWarningType, forKey: .selectedWarningType)
 //        try container.encodeIfPresent(selectedProgramId, forKey: .selectedProgramId)
 //        try container.encodeIfPresent(selectedObservId, forKey: .selectedObservId)
 //        try container.encodeIfPresent(selectedColleId,  forKey: .selectedColleId)

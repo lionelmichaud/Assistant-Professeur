@@ -79,16 +79,11 @@ struct ContentView: View {
                 .badge(EleveEntity.cardinal())
 
             // Les observations données aux élèves
-            ObservSplitView()
-                .tabItem { Label("Observations", systemImage: "rectangle.and.text.magnifyingglass").symbolVariant(.none) }
-                .tag(NavigationModel.Tab.observation)
-                .badge(ObservEntity.cardinal())
-
             // Les colles données aux élèves
-            ColleSplitView()
-                .tabItem { Label("Colles", systemImage: "lock").symbolVariant(.none) }
-                .tag(NavigationModel.Tab.colle)
-                .badge(ColleEntity.cardinal())
+            WarningSpliView()
+                .tabItem { Label("Avertissements", systemImage: "hand.raised").symbolVariant(.none) }
+                .tag(NavigationModel.Tab.warning)
+                .badge(ObservEntity.cardinal() + ColleEntity.cardinal())
 
             if isPad() || isMac() {
                 // Les programmes scolaires
@@ -121,14 +116,14 @@ struct ContentView: View {
     /// Afficher une alerte en cas de problème d'initialisation de l'App
     private func checkAppInitFailure() {
         switch AppState.shared.initError {
-        case .none:
-            break
+            case .none:
+                break
 
-        case .failedToLoadUserData,
-             .failedToInitialize,
-             .failedToLoadApplicationData,
-             .failedToCheckCompatibility:
-            initAlertIsPresented = true
+            case .failedToLoadUserData,
+                 .failedToInitialize,
+                 .failedToLoadApplicationData,
+                 .failedToCheckCompatibility:
+                initAlertIsPresented = true
         }
     }
 }

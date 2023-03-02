@@ -78,6 +78,8 @@
 		794F6E12295CE1B700042B95 /* ObservEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E10295CE1B700042B95 /* ObservEditor.swift */; };
 		794F6E14295CEC0C00042B95 /* ObservViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E13295CEC0C00042B95 /* ObservViewModel.swift */; };
 		7951063E294FD9520015AC5C /* ClassList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951063D294FD9520015AC5C /* ClassList.swift */; };
+		7951B6A029B13E6F006DC88D /* WarningSpliView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951B69F29B13E6F006DC88D /* WarningSpliView.swift */; };
+		7951B6A229B14012006DC88D /* WarningSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951B6A129B14012006DC88D /* WarningSidebarView.swift */; };
 		795804B729A696CC00AEB7DA /* SequenceTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795804B629A696CC00AEB7DA /* SequenceTimeLine.swift */; };
 		795804BA29A69CB800AEB7DA /* SequenceStepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795804B929A69CB800AEB7DA /* SequenceStepperView.swift */; };
 		79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79595C6E2934298300C81021 /* SchoolBrowserRow.swift */; };
@@ -355,6 +357,8 @@
 		794F6E10295CE1B700042B95 /* ObservEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservEditor.swift; sourceTree = "<group>"; };
 		794F6E13295CEC0C00042B95 /* ObservViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservViewModel.swift; sourceTree = "<group>"; };
 		7951063D294FD9520015AC5C /* ClassList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassList.swift; sourceTree = "<group>"; };
+		7951B69F29B13E6F006DC88D /* WarningSpliView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningSpliView.swift; sourceTree = "<group>"; };
+		7951B6A129B14012006DC88D /* WarningSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningSidebarView.swift; sourceTree = "<group>"; };
 		795804B629A696CC00AEB7DA /* SequenceTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceTimeLine.swift; sourceTree = "<group>"; };
 		795804B929A69CB800AEB7DA /* SequenceStepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceStepperView.swift; sourceTree = "<group>"; };
 		79595C6E2934298300C81021 /* SchoolBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolBrowserRow.swift; sourceTree = "<group>"; };
@@ -695,6 +699,7 @@
 				79DEDAE32925855B00F508EF /* School */,
 				79DEDAE42925857C00F508EF /* Classe */,
 				79DEDAE52925858900F508EF /* Eleve */,
+				7951B69E29B13E45006DC88D /* Warnings */,
 				79DEDAE6292585AE00F508EF /* Observation */,
 				79DEDAE7292585BD00F508EF /* Colle */,
 				793D626B295DCBBC00477932 /* MotifView */,
@@ -770,6 +775,15 @@
 				7989B4DA29A28D0300383F84 /* ProgressState.swift */,
 			);
 			path = Progress;
+			sourceTree = "<group>";
+		};
+		7951B69E29B13E45006DC88D /* Warnings */ = {
+			isa = PBXGroup;
+			children = (
+				7951B69F29B13E6F006DC88D /* WarningSpliView.swift */,
+				7951B6A129B14012006DC88D /* WarningSidebarView.swift */,
+			);
+			path = Warnings;
 			sourceTree = "<group>";
 		};
 		795804B429A6965B00AEB7DA /* Progress */ = {
@@ -1518,6 +1532,7 @@
 				79DEDAEC2925864A00F508EF /* ClasseSplitView.swift in Sources */,
 				79BF1DAD29290FBC005D6CF3 /* Observ+Extensions.swift in Sources */,
 				79637201297D707400ECDBC3 /* SequenceList.swift in Sources */,
+				7951B6A029B13E6F006DC88D /* WarningSpliView.swift in Sources */,
 				79388A4F29257025002AABB8 /* AppState.swift in Sources */,
 				79DEDAFE292589F400F508EF /* EleveSidebarView.swift in Sources */,
 				7963720A297DA2DB00ECDBC3 /* ActivityList.swift in Sources */,
@@ -1576,6 +1591,7 @@
 				79134557296B6C620092E7CD /* TrombineInteractivView.swift in Sources */,
 				795804BA29A69CB800AEB7DA /* SequenceStepperView.swift in Sources */,
 				79F60D0529969E2800981385 /* DocumentEntity+CoreDataClass.swift in Sources */,
+				7951B6A229B14012006DC88D /* WarningSidebarView.swift in Sources */,
 				79E40E752996BEED006BBE49 /* Seat+CoreDataClass.swift in Sources */,
 				79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */,
 				79E40E8A2997FD45006BBE49 /* Group+CoreDataClass.swift in Sources */,

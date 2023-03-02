@@ -92,7 +92,8 @@ struct EleveDetail: View {
 
                     .onTapGesture {
                         // Programatic Navigation
-                        navigationModel.selectedTab = .observation
+                        navigationModel.selectedTab = .warning
+                        navigationModel.selectedWarningType = .observation
                         navigationModel.selectedObservId = observ.objectID
                     }
 
@@ -135,7 +136,8 @@ struct EleveDetail: View {
 
                     .onTapGesture {
                         // Programatic Navigation
-                        navigationModel.selectedTab = .colle
+                        navigationModel.selectedTab = .warning
+                        navigationModel.selectedWarningType = .colle
                         navigationModel.selectedColleId = colle.objectID
                     }
 

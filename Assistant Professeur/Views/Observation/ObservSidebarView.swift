@@ -38,7 +38,7 @@ struct ObservSidebarView: View {
                                 .fontWeight(.bold)
                         }
                     } else {
-                        EmptyView()
+                        Text("Aucune observation actuellement")
                     }
                 }
             }
