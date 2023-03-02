@@ -37,7 +37,7 @@ struct ColleSidebarView: View {
                                 .fontWeight(.bold)
                         }
                     } else {
-                        EmptyView()
+                        Text("Aucune colle actuellement")
                     }
                 }
             }
