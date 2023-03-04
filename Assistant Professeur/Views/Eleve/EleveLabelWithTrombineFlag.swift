@@ -5,18 +5,18 @@
 ////  Created by Lionel MICHAUD on 17/06/2022.
 ////
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct EleveLabelWithTrombineFlag: View {
     @ObservedObject
-    var eleve : EleveEntity
+    var eleve: EleveEntity
 
-    var isEditable : Bool        = true
-    var font       : Font        = .title3
-    var fontWeight : Font.Weight = .semibold
-    var imageSize  : Image.Scale = .large
-    var flagSize   : Image.Scale = .medium
+    var isEditable: Bool = true
+    var font: Font = .title3
+    var fontWeight: Font.Weight = .semibold
+    var imageSize: Image.Scale = .large
+    var flagSize: Image.Scale = .medium
 
     @Preference(\.eleveTrombineEnabled)
     private var eleveTrombineEnabled
@@ -36,7 +36,7 @@ struct EleveLabelWithTrombineFlag: View {
         eleve.classe
     }
 
-    private var hasPAP : Binding<Bool> {
+    private var hasPAP: Binding<Bool> {
         Binding(
             get: {
                 eleve.hasTrouble
@@ -53,14 +53,16 @@ struct EleveLabelWithTrombineFlag: View {
 
     private var troubleEditView: some View {
         let layout = hClass == .compact ?
-        AnyLayout(VStackLayout()) : AnyLayout(HStackLayout())
+            AnyLayout(VStackLayout()) : AnyLayout(HStackLayout())
         return layout {
             HStack {
                 Image(systemName: "figure.and.child.holdinghands")
                     .imageScale(imageSize)
                     .foregroundStyle(.tint)
-                CasePicker(pickedCase: $eleve.troubleEnum,
-                           label: "Trouble")
+                CasePicker(
+                    pickedCase: $eleve.troubleEnum,
+                    label: "Trouble"
+                )
                 .pickerStyle(.menu)
             }
             .padding(.trailing)
@@ -100,13 +102,13 @@ struct EleveLabelWithTrombineFlag: View {
     var body: some View {
         return VStack {
             HStack {
-                /// Classe
+                // Classe
                 if let classe {
                     Text(classe.displayString)
                         .font(font)
                         .fontWeight(.semibold)
                 }
-                /// Trombine
+                // Trombine
                 Button {
                     withAnimation {
                         showTrombine.toggle()
@@ -119,7 +121,7 @@ struct EleveLabelWithTrombineFlag: View {
                 }
                 .disabled(!eleveTrombineEnabled)
 
-                /// Nom
+                // Nom
                 if hClass == .compact {
                     Text(eleve.displayName2lines(nameDisplayOrder))
                         .font(font)
@@ -128,7 +130,7 @@ struct EleveLabelWithTrombineFlag: View {
                     Text(eleve.displayName(nameDisplayOrder))
                 }
 
-                /// Flag
+                // Flag
                 Button {
                     eleve.toggleFlag()
                 } label: {
@@ -142,7 +144,7 @@ struct EleveLabelWithTrombineFlag: View {
                 }
                 .disabled(!isEditable)
 
-                /// PAP
+                // PAP
                 if isEditable {
                     Toggle(isOn: hasPAP.animation()) {
                         Text("PAP")
@@ -152,28 +154,27 @@ struct EleveLabelWithTrombineFlag: View {
                 }
             }
 
-            /// Trouble dys
+            // Trouble dys
             if eleve.hasTrouble {
                 if isEditable {
                     troubleEditView
-                    
+
                 } else {
                     troubleDisplayView
                 }
             }
 
-            /// Groupe
+            // Groupe
             if let group = eleve.group {
                 Text("\(group.displayString)")
             }
 
-            /// Trombine
-            //            if showTrombine, let trombine = Trombinoscope.eleveTrombineUrl(eleve: eleve) {
-            //                // TODO: - Gérer ici la mise à jour de la photo par drag and drop
-            //                LoadableImage(imageUrl: trombine,
-            //                              placeholderImage: .constant(Image(systemName: "person.fill.questionmark")))
-            //                .frame(height: 320)
-            //            }
+            // Trombine
+            if showTrombine && eleve.hasImageTrombine {
+                // TODO: - Gérer ici la mise à jour de la photo par drag and drop
+                Trombine(eleve: eleve)
+                    .frame(height: 320)
+            }
         }
         .onAppear {
             //            hasPAP = eleve.troubleDys != nil
@@ -181,7 +182,7 @@ struct EleveLabelWithTrombineFlag: View {
     }
 }
 
-//struct EleveLabelWithTrombineFlag_Previews: PreviewProvider {
+// struct EleveLabelWithTrombineFlag_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -204,4 +205,4 @@ struct EleveLabelWithTrombineFlag: View {
 //            .previewDevice("iPad mini (6th generation)")
 //        }
 //    }
-//}
+// }

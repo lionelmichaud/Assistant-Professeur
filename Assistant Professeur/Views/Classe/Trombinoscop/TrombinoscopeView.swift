@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Vue de tous les élèves de la classe en trombinoscope
 struct TrombinoscopeView: View {
     @ObservedObject
     var classe: ClasseEntity

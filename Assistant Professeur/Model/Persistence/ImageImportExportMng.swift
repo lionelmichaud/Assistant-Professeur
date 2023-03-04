@@ -69,6 +69,10 @@ enum ImageImportExportMng {
                         alertIsPresented = true
                     }
                 }
+
+                alertTitle = "Importation réussie"
+                alertMessage = ""
+                alertIsPresented = true
         }
 
         return (
@@ -135,6 +139,10 @@ enum ImageImportExportMng {
                         alertIsPresented = true
                     }
                 }
+                
+                alertTitle = "Importation terminée"
+                alertMessage = "\(filesUrl.count) fichiers importés"
+                alertIsPresented = true
         }
 
         return (

@@ -199,7 +199,7 @@ extension EleveEntity {
         guard var familyName = familyName, let givenName = givenName else {
             return nil
         }
-        familyName = familyName.replacing(" ", with: "_")
+        familyName = familyName.replacing(" ", with: "-")
         return familyName + "_" + givenName + ".jpg"
     }
 

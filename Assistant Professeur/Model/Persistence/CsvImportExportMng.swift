@@ -350,6 +350,11 @@ enum CsvImportExportMng { // swiftlint:disable:this type_body_length
                                         dans: classe
                                     )
                             }
+
+                            alertTitle = "Importation réussie"
+                            alertMessage = "\(classe.nbOfEleves) élèves importés"
+                            alertIsPresented = true
+
                         } catch {
                             customLog.log(
                                 level: .fault,
@@ -430,7 +435,7 @@ enum CsvImportExportMng { // swiftlint:disable:this type_body_length
                 if let nom = row["Élève", String.self]?.split(separator: " ") {
                     EleveEntity.create(
                         familyName: String(nom[0]),
-                        givenName: String(nom.last!),
+                        givenName: String(nom.last!).capitalized,
                         sex: (row["Sexe", String.self] == "male") ? .male : .female,
                         dans: classe
                     )
@@ -442,7 +447,7 @@ enum CsvImportExportMng { // swiftlint:disable:this type_body_length
     /// et les ajouter à la `classe`.
     ///
     /// Le format utilisé est proche de celui des exports depuis Ecole Directe:
-    ///   - Colonne nommée "Nom": nom et prénom séparés par un espace
+    ///   - Colonne nommée "Nom": nom (sans espace) et prénom séparés par un espace
     ///   - Colonne nommée "Sexe": 'G' pour garçon
     ///
     /// - Parameters:
@@ -480,7 +485,7 @@ enum CsvImportExportMng { // swiftlint:disable:this type_body_length
         }
 
         dataFrame.transformColumn("Sexe") { data in
-            data == "G" ? "male" : "female"
+            data == "M" ? "male" : "female"
         }
 
         return dataFrame
@@ -489,7 +494,7 @@ enum CsvImportExportMng { // swiftlint:disable:this type_body_length
                 if let nom = row["Nom", String.self]?.split(separator: " ") {
                     EleveEntity.create(
                         familyName: String(nom[0]),
-                        givenName: String(nom.last!),
+                        givenName: String(nom.last!.capitalized),
                         sex: (row["Sexe", String.self] == "male") ? .male : .female,
                         dans: classe
                     )

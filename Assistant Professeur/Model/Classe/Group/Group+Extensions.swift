@@ -5,12 +5,11 @@
 //  Created by Lionel MICHAUD on 31/12/2022.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 /// Une classe d'élève
 extension GroupEntity {
-
     // MARK: - Computed properties
 
     /// Wrapper of `number`
@@ -46,35 +45,40 @@ extension GroupEntity {
 // MARK: - Extension Core Data
 
 extension GroupEntity {
-
     // MARK: - Type Properties
 
     @Preference(\.nameSortOrder)
-    static private var nameSortOrder
+    private static var nameSortOrder
 
     // MARK: - Type Computed Properties
 
     static var byClasseThenNumberNSSortDescriptor: [NSSortDescriptor] =
-    [
-        NSSortDescriptor(
-            keyPath: \GroupEntity.classe?.school?.level,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \GroupEntity.classe?.school?.name,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \GroupEntity.classe?.level,
-            ascending: false),
-        NSSortDescriptor(
-            keyPath: \GroupEntity.classe?.numero,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \GroupEntity.classe?.segpa,
-            ascending: true),
-        NSSortDescriptor(
-            keyPath: \GroupEntity.number,
-            ascending: true)
-    ]
+        [
+            NSSortDescriptor(
+                keyPath: \GroupEntity.classe?.school?.level,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \GroupEntity.classe?.school?.name,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \GroupEntity.classe?.level,
+                ascending: false
+            ),
+            NSSortDescriptor(
+                keyPath: \GroupEntity.classe?.numero,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \GroupEntity.classe?.segpa,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \GroupEntity.number,
+                ascending: true
+            )
+        ]
 
     /// Requête pour tous les groupes triées.
     ///
@@ -107,8 +111,8 @@ extension GroupEntity {
 
     @discardableResult
     static func create(
-        numero       : Int16,
-        dans classe  : ClasseEntity?
+        numero: Int16,
+        dans classe: ClasseEntity?
     ) -> GroupEntity {
         let groupe = GroupEntity.create()
         // Classe d'appartenance.
@@ -136,7 +140,7 @@ extension GroupEntity {
         if let eleves {
             return (eleves.allObjects as! [EleveEntity])
         } else {
-            return [ ]
+            return []
         }
     }
 
@@ -163,30 +167,38 @@ extension GroupEntity {
     /// - Returns: Liste des élèves du groupe satisfaisant *au moins à l'un des critères* définis en paramètre
     func filteredElevesSortedByName(searchString: String) -> [EleveEntity] {
         let sortComparators = GroupEntity.nameSortOrder == .nomPrenom ?
-        [
-            SortDescriptor(\EleveEntity.familyName, order: .forward),
-            SortDescriptor(\EleveEntity.givenName, order: .forward)
-        ] :
-        [
-            SortDescriptor(\EleveEntity.givenName, order: .forward),
-            SortDescriptor(\EleveEntity.familyName, order: .forward)
-        ]
+            [
+                SortDescriptor(\EleveEntity.familyName, order: .forward),
+                SortDescriptor(\EleveEntity.givenName, order: .forward)
+            ] :
+            [
+                SortDescriptor(\EleveEntity.givenName, order: .forward),
+                SortDescriptor(\EleveEntity.familyName, order: .forward)
+            ]
 
-        return allEleves
-            .filter { eleve in
-                eleve.satisfiesTo(searchString: searchString)
-            }
-            .sorted(using: sortComparators)
+        if searchString.isEmpty {
+            return allEleves
+                .sorted(using: sortComparators)
+
+        } else {
+            return allEleves
+                .filter { eleve in
+                    eleve.satisfiesTo(searchString: searchString)
+                }
+                .sorted(using: sortComparators)
+        }
     }
 
     /// Retourne la liste des élèves du groupe dont les nom ou prénom contiennent `searchString`.
     ///
     /// Les élèves trouvés sont triés en utilisant `sortOrder`.
     func filteredSortedEleves(
-        searchString : String,
-        sortOrder    : [KeyPathComparator<EleveEntity>]
+        searchString: String,
+        sortOrder: [KeyPathComparator<EleveEntity>]
     ) -> [EleveEntity] {
-        guard searchString.isNotEmpty else { return allEleves.sorted(using: sortOrder) }
+        guard searchString.isNotEmpty else {
+            return allEleves.sorted(using: sortOrder)
+        }
 
         return allEleves
             .filter { eleve in
@@ -198,8 +210,8 @@ extension GroupEntity {
 
 // MARK: - Extension Debug
 
-extension GroupEntity {
-    public override var description: String {
+public extension GroupEntity {
+    override var description: String {
         """
 
         GROUPE: \(number)

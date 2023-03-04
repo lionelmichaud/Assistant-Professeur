@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Vignette de la trombine d'un élèves avec des boutons interactifs et un menu
 struct TrombineInteractivView: View {
     @ObservedObject
     var eleve: EleveEntity

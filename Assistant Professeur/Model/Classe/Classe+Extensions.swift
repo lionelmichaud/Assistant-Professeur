@@ -348,11 +348,8 @@ extension ClasseEntity {
     }
 
     var groupOfUngroupedEleves: GroupEntity {
-        let foundGroup = self.allGroups.filter { group in
-            group.number == 0
-        }
-        if foundGroup.isNotEmpty {
-            return foundGroup.first!
+        if let foundGroup = self.allGroups.first(where: { $0.number == 0 }) {
+            return foundGroup
         } else {
             customLog.log(
                 level: .fault,

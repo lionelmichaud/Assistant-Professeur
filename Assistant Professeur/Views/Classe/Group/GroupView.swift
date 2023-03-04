@@ -7,10 +7,13 @@
 
 import SwiftUI
 
-struct GroupListView: View {
-    /// Liste des élèves d'un groupe donné
+/// Liste des élèves d'un groupe donné
+struct GroupView: View {
     @ObservedObject
     var groupe: GroupEntity
+
+    @ObservedObject
+    var classe: ClasseEntity
 
     let searchString: String
 
@@ -23,9 +26,7 @@ struct GroupListView: View {
     @State
     private var isMovingEleve = false
 
-    private var classe: ClasseEntity {
-        groupe.classe!
-    }
+    // MARK: - Computed Properties
 
     private var groupIsEditable: Bool {
         groupe.number != 0
@@ -48,9 +49,9 @@ struct GroupListView: View {
     var body: some View {
         Group {
             if showAddEleveMenu {
-                // ajouter au groupe un élève parmis ceux qui ne sont  affectés à aucun groupe
+                // ajouter au groupe un élève parmis ceux qui ne sont affectés à aucun groupe
                 Menu {
-                    ForEach(ungroupedEleves) { eleve in
+                    ForEach(classe.elevesSortedByName) { eleve in
                         Button {
                             GroupManager.assign(
                                 eleve: eleve,
@@ -74,15 +75,16 @@ struct GroupListView: View {
             // pour chaque Elève du groupe
             ForEach(groupe.filteredElevesSortedByName(searchString: searchString), id: \.objectID) { eleve in
                 EleveLabel(eleve: eleve)
+                    // afficher la fiche de l'élève du groupe
                     .onTapGesture {
                         // Programatic Navigation
                         navigationModel.selectedTab = .eleve
                         navigationModel.selectedEleveId = eleve.objectID
                     }
 
+                    // retirer l'élève du groupe
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                         if groupIsEditable {
-                            // retirer l'élève du groupe
                             Button(role: .destructive) {
                                 withAnimation {
                                     GroupManager
@@ -94,9 +96,11 @@ struct GroupListView: View {
                         }
                     }
 
+                    // changer l'élève de groupe
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
                         // changer l'élève de groupe
-                        if true {
+                        // FIXME: Ne fonctionne pas correctement
+                        if false {
                             Button {
                                 isMovingEleve = true
                             } label: {
