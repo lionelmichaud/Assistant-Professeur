@@ -78,6 +78,9 @@ struct EleveCreatorModal: View {
         .onSubmit {
             focus?.moveToNext()
         }
+        .onAppear {
+            focus = .givenName
+        }
         .alert(
             alertTitle,
             isPresented : $alertIsPresented,
@@ -129,9 +132,6 @@ struct EleveCreatorModal: View {
         #if os(iOS)
         .navigationTitle("Nouvel élève")
         #endif
-        .onAppear {
-            focus = .givenName
-        }
     }
 }
 

@@ -9,38 +9,35 @@ import HelpersView
 import StepperView
 import SwiftUI
 
+/// Vue en chemin de fer d'un programme complet
 struct ProgramStepperView: View {
     @ObservedObject
     var program: ProgramEntity
 
-    private var steps: [AnyView] {
-        program
-            .sequencesSortedByNumber
-            .map { sequence in
-                VStack(alignment: .leading) {
-                    Text(sequence.viewName)
-                        .bold()
-                        .foregroundColor(.teal)
-                    Text(sequence.viewAnnotation)
-                }
-                .eraseToAnyView()
-            }
-    }
+    var body: some View {
+        ScrollView(Axis.Set.vertical, showsIndicators: false) {
+            headerView
 
-    private var indicators: [StepperIndicationType<AnyView>] {
-        program
-            .sequencesSortedByNumber
-            .map { sequence in
-                StepperIndicationType
-                    .custom(NumberedCircleView(
-                        text: "S\(sequence.viewNumber)",
-                        color: .teal,
-                        triggerAnimation: true
-                    )
-                    .eraseToAnyView())
+            if program.nbOfSequences > 0 {
+                StepperView()
+                    .addSteps(steps)
+                    .indicators(indicators)
+                    .addPitStops(pitStops)
+                    .pitStopLineOptions(pitStopLineOptions)
+                    .spacing(100)
+                    .loadingAnimationTime(0.01)
+                    // .autoSpacing(true)
+                    // .lineOptions(StepperLineOptions.custom(1, Color.teal))
+                    // .spacing(80) // auto calculates spacing between steps based on the content.
+                    .padding()
             }
+        }
     }
+}
 
+// MARK: - Subviews
+
+extension ProgramStepperView {
     var headerView: some View {
         VStack(alignment: .center) {
             HStack {
@@ -61,6 +58,36 @@ struct ProgramStepperView: View {
         }
         .padding(8)
         .background(RoundedRectangle(cornerRadius: 8).stroke(.teal, lineWidth: 1))
+    }
+
+    private var steps: [AnyView] {
+        program
+            .sequencesSortedByNumber
+            .map { sequence in
+                VStack(alignment: .leading) {
+                    Text(sequence.viewName)
+                        .bold()
+                        .foregroundColor(.teal)
+                        .textSelection(.enabled)
+                    Text(sequence.viewAnnotation)
+                        .textSelection(.enabled)
+                }
+                .eraseToAnyView()
+            }
+    }
+
+    private var indicators: [StepperIndicationType<AnyView>] {
+        program
+            .sequencesSortedByNumber
+            .map { sequence in
+                StepperIndicationType
+                    .custom(NumberedCircleView(
+                        text: "S\(sequence.viewNumber)",
+                        color: .teal,
+                        triggerAnimation: true
+                    )
+                    .eraseToAnyView())
+            }
     }
 
     private var pitStops: [AnyView] {
@@ -88,26 +115,6 @@ struct ProgramStepperView: View {
             .map { _ in
                 StepperLineOptions.custom(1, Color.teal)
             }
-    }
-
-    var body: some View {
-        ScrollView(Axis.Set.vertical, showsIndicators: false) {
-            headerView
-
-            if program.nbOfSequences > 0 {
-                StepperView()
-                    .addSteps(steps)
-                    .indicators(indicators)
-                    .addPitStops(pitStops)
-                    .pitStopLineOptions(pitStopLineOptions)
-                    .spacing(100)
-                    .loadingAnimationTime(0.01)
-                    // .autoSpacing(true)
-                    // .lineOptions(StepperLineOptions.custom(1, Color.teal))
-                    // .spacing(80) // auto calculates spacing between steps based on the content.
-                    .padding()
-            }
-        }
     }
 }
 

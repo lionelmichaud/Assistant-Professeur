@@ -67,24 +67,24 @@ extension ActivityProgressEntity {
     // MARK: - Type Computed Properties
 
     static var byDisciplineLevelSegpaNSSortDescriptor: [NSSortDescriptor] =
-    [
-        NSSortDescriptor(
-            keyPath: \ActivityProgressEntity.classe?.school?.level,
-            ascending: false
-        ),
-        NSSortDescriptor(
-            keyPath: \ActivityProgressEntity.classe?.school?.name,
-            ascending: false
-        ),
-        NSSortDescriptor(
-            keyPath: \ActivityProgressEntity.classe?.level,
-            ascending: true
-        ),
-        NSSortDescriptor(
-            keyPath: \ActivityProgressEntity.classe?.segpa,
-            ascending: true
-        )
-    ]
+        [
+            NSSortDescriptor(
+                keyPath: \ActivityProgressEntity.classe?.school?.level,
+                ascending: false
+            ),
+            NSSortDescriptor(
+                keyPath: \ActivityProgressEntity.classe?.school?.name,
+                ascending: false
+            ),
+            NSSortDescriptor(
+                keyPath: \ActivityProgressEntity.classe?.level,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \ActivityProgressEntity.classe?.segpa,
+                ascending: true
+            )
+        ]
 
     /// Requête pour toutes les progressions de classes triées.
     ///
@@ -145,6 +145,29 @@ extension ActivityProgressEntity {
         super.awakeFromInsert()
         // Set defaults here
         self.id = UUID()
+    }
+
+    /// Tente de réparer le lien brisé.
+    /// - Returns: true si la réparation a réussie
+    /// - Warning: NA VA PAS FONCTIONNER
+    func repairBrokenLinkToClass() -> Bool {
+        var success = false
+
+        guard let activity else {
+            return false
+        }
+
+        ProgramManager
+            .classesAssociatedTo(thisActivity: activity)
+            .forEach { classe in
+                #if DEBUG
+                    print("**\(classe.school!.displayString)**: \(activity.viewName)")
+                #endif
+                self.classe = classe
+                success = true
+            }
+
+        return success
     }
 }
 

@@ -14,6 +14,7 @@ struct LabeledActivityView: View {
     var body: some View {
         Label {
             Text(activity.viewName)
+                .textSelection(.enabled)
         } icon: {
             Image(systemName: "\(activity.viewNumber).circle")
         }

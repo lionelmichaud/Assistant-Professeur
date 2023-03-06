@@ -218,7 +218,9 @@ extension ActivityEntity {
         ProgramManager
             .classesAssociatedTo(thisActivity: activity)
             .forEach { classe in
-                print("**\(classe.school!.displayString)**: \(activity.viewName)")
+                #if DEBUG
+                    print("**\(classe.school!.displayString)**: \(activity.viewName)")
+                #endif
                 ActivityProgressEntity.create(
                     forClasse: classe,
                     forActivity: activity

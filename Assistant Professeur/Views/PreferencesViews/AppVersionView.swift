@@ -124,7 +124,8 @@ struct DirectoriesListView: View {
                 VStack(alignment: .leading) {
                     Text("Documents:").font(.headline)
                         .padding(.bottom, 2)
-                    Text(Folder.documents?.path ?? "introuvable").textSelection(.enabled)
+                    Text(Folder.documents?.path ?? "introuvable")
+                        .textSelection(.enabled)
                 }
                 Text("Library: \n").font(.headline) + Text(Folder.library?.path ?? "introuvable")
                 Text("temporary: \n").font(.headline) + Text(Folder.temporary.path)

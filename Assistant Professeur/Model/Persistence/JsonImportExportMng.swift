@@ -202,6 +202,24 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
                     )
                 }
 
+                // Importer les données des Schools et de leurs descendants
+                // WARNING: Il faut que les Schools soient chargées AVANT
+                // les Programmes pour que les entités des Programmes puissent
+                // établir la connection avec les entités des Schools
+                guard schoolJsonFile.startAccessingSecurityScopedResource() else {
+                    alertTitle = "Échec"
+                    alertMessage = "L'importation du fichier **\(schoolsFileName)** a échouée!"
+                    alertIsPresented = true
+
+                    return (
+                        alertTitle: alertTitle,
+                        alertMessage: alertMessage,
+                        alertIsPresented: alertIsPresented
+                    )
+                }
+                importSchoolsFromJson(fileUrl: schoolJsonFile)
+                schoolJsonFile.stopAccessingSecurityScopedResource()
+
                 // Importer les données des Programs et de leurs descendants
                 guard programJsonFile.startAccessingSecurityScopedResource() else {
                     alertTitle = "Échec"
@@ -216,21 +234,6 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
                 }
                 importProgramsFromJson(fileUrl: programJsonFile)
                 programJsonFile.stopAccessingSecurityScopedResource()
-
-                // Importer les données des Schools et de leurs descendants
-                guard schoolJsonFile.startAccessingSecurityScopedResource() else {
-                    alertTitle = "Échec"
-                    alertMessage = "L'importation du fichier **\(schoolsFileName)** a échouée!"
-                    alertIsPresented = true
-
-                    return (
-                        alertTitle: alertTitle,
-                        alertMessage: alertMessage,
-                        alertIsPresented: alertIsPresented
-                    )
-                }
-                importSchoolsFromJson(fileUrl: schoolJsonFile)
-                schoolJsonFile.stopAccessingSecurityScopedResource()
 
                 // Importer les fichiers annexes (PDF, JPEG, PNG...)
                 (

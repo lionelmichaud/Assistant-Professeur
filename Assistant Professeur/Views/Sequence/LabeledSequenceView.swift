@@ -14,6 +14,7 @@ struct LabeledSequenceView: View {
     var body: some View {
         Label {
             Text(sequence.viewName)
+                .textSelection(.enabled)
         } icon: {
             Image(systemName: "\(sequence.viewNumber).circle")
         }

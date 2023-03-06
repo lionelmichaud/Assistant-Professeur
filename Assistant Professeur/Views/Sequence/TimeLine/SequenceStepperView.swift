@@ -8,10 +8,35 @@
 import StepperView
 import SwiftUI
 
+/// Vue en chemin de fer d'une séquence complète
 struct SequenceStepperView: View {
     @ObservedObject
     var sequence: SequenceEntity
 
+    var body: some View {
+        ScrollView(Axis.Set.vertical, showsIndicators: false) {
+            headerView
+
+            if sequence.nbOfActivities > 0 {
+                StepperView()
+                    .addSteps(steps)
+                    .indicators(indicators)
+                    .addPitStops(pitStops)
+                    .pitStopLineOptions(pitStopLineOptions)
+                    .spacing(100)
+                    .loadingAnimationTime(0.01)
+                    // .autoSpacing(true)
+                    // .lineOptions(StepperLineOptions.custom(2, Color.teal))
+                    // .spacing(80) // auto calculates spacing between steps based on the content.
+                    .padding()
+            }
+        }
+    }
+}
+
+// MARK: - Subviews
+
+extension SequenceStepperView {
     private var steps: [AnyView] {
         sequence
             .activitiesSortedByNumber
@@ -20,7 +45,9 @@ struct SequenceStepperView: View {
                     Text(activity.viewName)
                         .bold()
                         .foregroundColor(.teal)
+                        .textSelection(.enabled)
                     Text(activity.viewAnnotation)
+                        .textSelection(.enabled)
                 }
                 .eraseToAnyView()
             }
@@ -97,28 +124,9 @@ struct SequenceStepperView: View {
                 .padding(.bottom, 6)
             DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
         }
+        .textSelection(.enabled)
         .padding(8)
         .background(RoundedRectangle(cornerRadius: 8).stroke(.teal, lineWidth: 1))
-    }
-
-    var body: some View {
-        ScrollView(Axis.Set.vertical, showsIndicators: false) {
-            headerView
-
-            if sequence.nbOfActivities > 0 {
-                StepperView()
-                    .addSteps(steps)
-                    .indicators(indicators)
-                    .addPitStops(pitStops)
-                    .pitStopLineOptions(pitStopLineOptions)
-                    .spacing(100)
-                    .loadingAnimationTime(0.01)
-                    // .autoSpacing(true)
-                    // .lineOptions(StepperLineOptions.custom(2, Color.teal))
-                    // .spacing(80) // auto calculates spacing between steps based on the content.
-                    .padding()
-            }
-        }
     }
 }
 

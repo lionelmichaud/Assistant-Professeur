@@ -165,7 +165,7 @@ struct DocumentList: View {
                         customLog.log(level: .error,
                                       "Error creating PDF data from file: \(error.localizedDescription)")
                         DispatchQueue.main.async {
-                            alertTitle = "Échec"
+                            alertTitle = "Échec de l'importation"
                             alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
                             alertIsPresented.toggle()
                         }

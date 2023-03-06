@@ -21,6 +21,27 @@ struct SequenceEditorModal: View {
     @Preference(\.programAnnotationEnabled)
     private var annotationEnabled
 
+    /// Focused filed manager
+    enum FocusableField: Hashable {
+        case title
+        case annotation
+        case none
+
+        mutating func moveToNext() {
+            switch self {
+                case .title:
+                    self = .annotation
+                case .annotation:
+                    self = .none
+                case .none:
+                    self = .none
+            }
+        }
+    }
+
+    @FocusState
+    private var focus: FocusableField?
+
     @State
     private var alertTitle = ""
 
@@ -40,6 +61,7 @@ struct SequenceEditorModal: View {
             .lineLimit(5)
             .font(hClass == .compact ? .callout : .body)
             .textFieldStyle(.roundedBorder)
+            .focused($focus, equals: .title)
 
             if annotationEnabled {
                 TextField(
@@ -50,8 +72,15 @@ struct SequenceEditorModal: View {
                 .lineLimit(5)
                 .font(hClass == .compact ? .callout : .body)
                 .textFieldStyle(.roundedBorder)
+                .focused($focus, equals: .annotation)
             }
             WebsiteEditView(website: $sequence.url)
+        }
+        .onSubmit {
+            focus?.moveToNext()
+        }
+        .onAppear {
+            focus = .title
         }
         .alert(
             alertTitle,

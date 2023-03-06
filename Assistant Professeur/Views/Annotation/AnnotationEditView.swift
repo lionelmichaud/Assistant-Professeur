@@ -19,6 +19,7 @@ struct AnnotationView: View {
                 ScrollView(.vertical, showsIndicators: true) {
                     Text(annotation)
                         .multilineTextAlignment(.leading)
+                        .textSelection(.enabled)
                 }
                 .frame(maxHeight: CGFloat(scrollHeight))
 
@@ -26,6 +27,7 @@ struct AnnotationView: View {
                 Text(annotation)
                     .lineLimit(5)
                     .textFieldStyle(.roundedBorder)
+                    .textSelection(.enabled)
             }
         }
     }
