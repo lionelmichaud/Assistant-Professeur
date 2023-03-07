@@ -11,6 +11,32 @@ struct ExamDetail: View {
     @ObservedObject
     var exam: ExamEntity
 
+    var body: some View {
+        // nom
+        nameEditView
+            .listRowSeparator(.hidden)
+
+        // date
+        dateEditView
+            .listRowSeparator(.hidden)
+
+        // coefficient
+        coefEditView
+
+        // barême / étapes
+        switch exam.examTypeEnum {
+            case .global:
+                globalBaremeEditView
+
+            case .multiStep:
+                StepsListView(exam: exam)
+        }
+    }
+}
+
+// MARK: - Subviews
+
+extension ExamDetail {
     private var nameEditView: some View {
         HStack {
             Image(systemName: "doc.plaintext")
@@ -65,28 +91,6 @@ struct ExamDetail: View {
             }
         }
         .listRowSeparator(.hidden)
-    }
-
-    var body: some View {
-        // nom
-        nameEditView
-            .listRowSeparator(.hidden)
-
-        // date
-        dateEditView
-            .listRowSeparator(.hidden)
-
-        // coefficient
-        coefEditView
-
-        // barême / étapes
-        switch exam.examTypeEnum {
-            case .global:
-                globalBaremeEditView
-
-            case .multiStep:
-                StepsListView(exam: exam)
-        }
     }
 }
 

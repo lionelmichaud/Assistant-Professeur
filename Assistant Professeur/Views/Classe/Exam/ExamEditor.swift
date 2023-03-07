@@ -5,15 +5,15 @@
 //  Created by Lionel MICHAUD on 13/05/2022.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct ExamEditor: View {
     @ObservedObject
-    var classe : ClasseEntity
+    var classe: ClasseEntity
 
     @ObservedObject
-    var exam : ExamEntity
+    var exam: ExamEntity
 
     @State
     private var searchString: String = ""
@@ -26,14 +26,19 @@ struct ExamEditor: View {
                 }
 
                 // notes
-                MarkListView(exam         : exam,
-                             searchString : searchString)
+                MarkListView(
+                    exam: exam,
+                    searchString: searchString
+                )
             }
-            .searchable(text      : $searchString,
+            .searchable(
+                text: $searchString,
 //                        placement : .navigationBarDrawer(displayMode : .automatic),
-                        placement : .toolbar,
-                        prompt    : "Nom, Prénom ou n° de groupe")
+                placement: .toolbar,
+                prompt: "Nom, Prénom ou n° de groupe"
+            )
             .autocorrectionDisabled()
+            .toolbar(content: myToolBarContent)
 //            .onChange(of: exam) { _ in
 //                if let idx = classe.exams.firstIndex(where: { $0.id == examId }) {
 //                    classe.exams[idx] = exam
@@ -52,7 +57,54 @@ struct ExamEditor: View {
     }
 }
 
-//struct ExamEditor_Previews: PreviewProvider {
+extension ExamEditor {
+    @ToolbarContentBuilder
+    private func myToolBarContent() -> some ToolbarContent {
+        ToolbarItemGroup(placement: .secondaryAction) {
+            // Dupliquer l'exam pour toutes les classes de même niveau
+            Button {
+                // récupérer la liste des classes de même niveau
+                let otherClassesOfSameLevel = ClasseEntity
+                    .all()
+                    .filter { otherClasse in
+                        otherClasse.viewSegpa == classe.viewSegpa &&
+                        otherClasse.levelEnum == classe.levelEnum &&
+                        otherClasse.objectID != classe.objectID
+                    }
+                print(otherClassesOfSameLevel)
+
+                // dupliquer l'exam pour chacune des autres classes
+                otherClassesOfSameLevel.forEach { classe in
+                    switch exam.examTypeEnum {
+                        case .global:
+                            ExamEntity.createGlobalExam(
+                                sujet: exam.viewSujet,
+                                coef: exam.viewCoef,
+                                maxMark: exam.viewMaxMark,
+                                dateExecuted: exam.viewDateExecuted,
+                                pour: classe
+                            )
+                        case .multiStep:
+                            ExamEntity.createSteppedExam(
+                                sujet: exam.viewSujet,
+                                coef: exam.viewCoef,
+                                examSteps: exam.viewSteps,
+                                dateExecuted: exam.viewDateExecuted,
+                                pour: classe
+                            )
+                    }
+                }
+            } label: {
+                Label(
+                    "Dupliquer pour toutes les classes de même niveau",
+                    systemImage: "doc.on.doc.fill"
+                )
+            }
+        }
+    }
+}
+
+// struct ExamEditor_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -81,4 +133,4 @@ struct ExamEditor: View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }
