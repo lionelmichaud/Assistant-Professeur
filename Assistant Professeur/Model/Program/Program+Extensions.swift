@@ -278,9 +278,16 @@ extension ProgramEntity {
         return program
     }
 
-    static func checkConsistency(errorFound _: inout Bool) {
-        all().forEach { _ in
-            // TODO: - Compléter
+    static func checkConsistency(errorFound: inout Bool) {
+        all().forEach { program in
+            guard program.discipline != nil else {
+                errorFound = true
+                return
+            }
+            guard program.level != nil else {
+                errorFound = true
+                return
+            }
         }
     }
 }

@@ -96,6 +96,11 @@ struct ClasseDetail: View {
     private var isShowingImportListeDialog = false
 
     @State
+    private var isShowingRandomNameDialog = false
+    @State
+    private var randomEleve: EleveEntity?
+
+    @State
     private var importCsvFile = false
 
     @State
@@ -108,63 +113,6 @@ struct ClasseDetail: View {
     private var alertIsPresented = false
 
     // MARK: - Computed Properties
-
-    private var roomView: some View {
-        NavigationLink(value: ClasseNavigationRoute.room(classe)) {
-            HStack {
-                Label("Salle de classe", systemImage: "door.left.hand.open")
-                    .fontWeight(.bold)
-                if classe.hasAssociatedRoom {
-                    Spacer()
-                    Text(classe.room!.viewName)
-                        .foregroundColor(.secondary)
-                }
-            }
-        }
-    }
-
-    private var currentActivityView: some View {
-        NavigationLink(value: ClasseNavigationRoute.activity(classe)) {
-            HStack {
-                Label("Activité en cours", systemImage: "book.fill")
-                    .fontWeight(.bold)
-                if let activity = classe.currentActivity,
-                   let sequence = activity.sequence {
-                    Spacer()
-                    Text("Séquence \(sequence.viewNumber) - Activité \(activity.viewNumber)")
-                        .foregroundColor(.secondary)
-                }
-            }
-        }
-    }
-
-    private var progressView: some View {
-        NavigationLink(value: ClasseNavigationRoute.progress(classe)) {
-            Label("Progression", systemImage: "books.vertical.fill")
-                .fontWeight(.bold)
-        }
-    }
-
-    private var elevesListView: some View {
-        NavigationLink(value: ClasseNavigationRoute.liste(classe)) {
-            Label("Liste", systemImage: "list.bullet")
-                .fontWeight(.bold)
-        }
-    }
-
-    private var trombinoscopeView: some View {
-        NavigationLink(value: ClasseNavigationRoute.trombinoscope(classe)) {
-            Label("Trombinoscope", systemImage: "person.crop.square.fill")
-                .fontWeight(.bold)
-        }
-    }
-
-    private var groupsView: some View {
-        NavigationLink(value: ClasseNavigationRoute.groups(classe)) {
-            Label("Groupes", systemImage: "person.line.dotted.person.fill")
-                .fontWeight(.bold)
-        }
-    }
 
     var body: some View {
         // TODO: - Remplacer par NavigationStack(path: $path) et garder la navigation vers les subview locale à cette View en utilisant @State private var path = NavigationPath()
@@ -231,41 +179,7 @@ struct ClasseDetail: View {
                 }
             }
         }
-        .toolbar {
-            ToolbarItemGroup(placement: .primaryAction) {
-                // Importation des données
-                // Importer une liste d'élèves d'une classe depuis un fichier CSV au format PRONOTE
-                Button {
-                    isShowingImportListeDialog.toggle()
-                } label: {
-                    Image(systemName: "square.and.arrow.down")
-                        .imageScale(.large)
-                }
-                // Confirmation de l'importation d'une liste d'élèves d'une classe
-                .confirmationDialog(
-                    "Importer une liste d'élèves",
-                    isPresented: $isShowingImportListeDialog,
-                    titleVisibility: .visible
-                ) {
-                    Button("Importer et ajouter") {
-                        withAnimation {
-                            importCsvFile = true
-                        }
-                    }
-                    Button("Importer et remplacer", role: .destructive) {
-                        withAnimation {
-                            classe.allEleves.forEach { eleve in
-                                try? eleve.delete()
-                            }
-                        }
-                        importCsvFile = true
-                    }
-                } message: {
-                    Text("La liste des élèves importée doit être au format CSV de \(interoperability == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
-                        Text("Cette action ne peut pas être annulée.")
-                }
-            }
-        }
+        .toolbar(content: myToolBarContent)
         .alert(
             alertTitle,
             isPresented: $alertIsPresented,
@@ -295,6 +209,126 @@ struct ClasseDetail: View {
         #endif
         .onDisappear {
             try? ClasseEntity.saveIfContextHasChanged()
+        }
+    }
+}
+
+// MARK: - Toolbar
+
+extension ClasseDetail {
+    @ToolbarContentBuilder
+    private func myToolBarContent() -> some ToolbarContent {
+        ToolbarItemGroup(placement: .primaryAction) {
+            Button {
+                randomEleve = classe.elevesSortedByName.randomElement()
+                isShowingRandomNameDialog = true
+            } label: {
+                Image(systemName: "person.fill.questionmark")
+                    .imageScale(.large)
+            }
+            .popover(item: $randomEleve) { eleve in
+                TrombineView(eleve: eleve)
+                    .scaledToFit()
+                    .frame(minWidth: 200, minHeight: 250)
+                Text(eleve.displayName2lines(.prenomNom))
+                    .font(.title3)
+                    .multilineTextAlignment(.center)
+                    .bold()
+                    .padding()
+            }
+            // Importation des données
+            // Importer une liste d'élèves d'une classe depuis un fichier CSV au format PRONOTE
+            Button {
+                isShowingImportListeDialog.toggle()
+            } label: {
+                Image(systemName: "square.and.arrow.down")
+                    .imageScale(.large)
+            }
+            // Confirmation de l'importation d'une liste d'élèves d'une classe
+            .confirmationDialog(
+                "Importer une liste d'élèves",
+                isPresented: $isShowingImportListeDialog,
+                titleVisibility: .visible
+            ) {
+                Button("Importer et ajouter") {
+                    withAnimation {
+                        importCsvFile = true
+                    }
+                }
+                Button("Importer et remplacer", role: .destructive) {
+                    withAnimation {
+                        classe.allEleves.forEach { eleve in
+                            try? eleve.delete()
+                        }
+                    }
+                    importCsvFile = true
+                }
+            } message: {
+                Text("La liste des élèves importée doit être au format CSV de \(interoperability == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
+                Text("Cette action ne peut pas être annulée.")
+            }
+        }
+
+    }
+}
+
+// MARK: - Subviews
+
+extension ClasseDetail {
+    private var roomView: some View {
+        NavigationLink(value: ClasseNavigationRoute.room(classe)) {
+            HStack {
+                Label("Salle de classe", systemImage: "door.left.hand.open")
+                    .fontWeight(.bold)
+                if classe.hasAssociatedRoom {
+                    Spacer()
+                    Text(classe.room!.viewName)
+                        .foregroundColor(.secondary)
+                }
+            }
+        }
+    }
+
+    private var currentActivityView: some View {
+        NavigationLink(value: ClasseNavigationRoute.activity(classe)) {
+            HStack {
+                Label("Activité en cours", systemImage: "book.fill")
+                    .fontWeight(.bold)
+                if let activity = classe.currentActivity,
+                   let sequence = activity.sequence {
+                    Spacer()
+                    Text("Séquence \(sequence.viewNumber) - Activité \(activity.viewNumber)")
+                        .foregroundColor(.secondary)
+                }
+            }
+        }
+    }
+
+    private var progressView: some View {
+        NavigationLink(value: ClasseNavigationRoute.progress(classe)) {
+            Label("Progression", systemImage: "books.vertical.fill")
+                .fontWeight(.bold)
+        }
+    }
+
+    private var elevesListView: some View {
+        NavigationLink(value: ClasseNavigationRoute.liste(classe)) {
+            Label("Liste", systemImage: "list.bullet")
+                .fontWeight(.bold)
+        }
+    }
+
+    private var trombinoscopeView: some View {
+        NavigationLink(value: ClasseNavigationRoute.trombinoscope(classe)) {
+            Label("Trombinoscope", systemImage: "person.crop.square.fill")
+                .fontWeight(.bold)
+        }
+    }
+
+    private var groupsView: some View {
+        NavigationLink(value: ClasseNavigationRoute.groups(classe)) {
+            Label("Groupes", systemImage: "person.line.dotted.person.fill")
+                .fontWeight(.bold)
         }
     }
 }

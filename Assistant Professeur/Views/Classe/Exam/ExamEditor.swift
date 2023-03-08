@@ -57,6 +57,8 @@ struct ExamEditor: View {
     }
 }
 
+// MARK: - Toolbar
+
 extension ExamEditor {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
