@@ -26,7 +26,7 @@ struct ProgramDetailGroupBox: View {
                 .horizontallyAligned(.leading)
 
             // note sur le programme
-            if annotationEnabled {
+            if annotationEnabled && program.viewAnnotation.isNotEmpty {
                 AnnotationView(
                     annotation   : program.viewAnnotation,
                     scrollable   : true,
@@ -43,6 +43,7 @@ struct ProgramDetailGroupBox: View {
                 Spacer()
                 WebsiteView(url: program.url)
             }
+            .padding(.top, 4)
         }
         .font(hClass == .compact ? .subheadline : .callout)
         .padding(.horizontal)

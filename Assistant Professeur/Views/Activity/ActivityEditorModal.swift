@@ -144,6 +144,7 @@ extension ActivityEditorModal {
 
         ToolbarItem(placement: .confirmationAction) {
             Button("Ok") {
+                print(String(describing: activity))
                 withAnimation {
                     try? ActivityEntity.saveIfContextHasChanged()
                 }

@@ -51,7 +51,7 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
     private static func exportedAnnexeFiles() -> [String] {
         var exportedFileNames = [String]()
 
-        // Exporter les annexes PDF des Documnts associés aux Schools
+        // Exporter les annexes PDF des Documents associés aux Schools
         exportedFileNames += exportedDocFiles()
 
         // Exporter les annexes PNG des plans de salle Rooms associés aux Schools

@@ -245,11 +245,12 @@ public extension SequenceEntity {
         """
 
         SEQUENCE:
-           Numéro : \(viewNumber)
-           Nom    : \(viewName)
-           URL    : \(String(describing: url))
+           Numéro     : \(viewNumber)
+           Nom        : \(String(describing: self.name))
+           Annotation : \(String(describing: self.annotation))
+           URL        : \(String(describing: url))
            Nb d'activités : \(activitiesCount)
-           Activités : \(String(describing: activitiesSortedByNumber).withPrefixedSplittedLines("     "))
+           Activités  : \(String(describing: activitiesSortedByNumber).withPrefixedSplittedLines("     "))
         """
     }
 }

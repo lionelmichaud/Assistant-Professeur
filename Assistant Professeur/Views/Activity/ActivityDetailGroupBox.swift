@@ -35,6 +35,7 @@ struct ActivityDetailGroupBox: View {
                 }
 
                 DurationView(duration: activity.duration, withMargin: false)
+                    .padding(.top, 4)
 
                 WebsiteView(url: activity.url, showURL: true)
                     .padding(.top, 4)

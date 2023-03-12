@@ -41,7 +41,7 @@ public class MarkEntity: NSManagedObject, Codable, ModelEntityP {
             } else {
                 customLog.log(
                     level: .error,
-                    "Eleve associé à la note \(String(describing: self)) introuvable!"
+                    "Erreur: Eleve associé à la note \(String(describing: self)) introuvable!"
                 )
             }
         }

@@ -286,11 +286,12 @@ public extension ActivityEntity {
         """
 
         ACTIVITÉ:
-           Numéro : \(self.viewNumber)
-           Nom    : \(self.viewName)
-           Durée  : \(self.viewDuration) séances
-           Eval   : \(isEval.frenchString)
-           URL    : \(String(describing: url))
+           Numéro     : \(self.viewNumber)
+           Nom        : \(String(describing: self.name))
+           Annotation : \(String(describing: self.annotation))
+           Durée      : \(self.viewDuration) séances
+           Eval       : \(isEval.frenchString)
+           URL        : \(String(describing: url))
         """
     }
 }
