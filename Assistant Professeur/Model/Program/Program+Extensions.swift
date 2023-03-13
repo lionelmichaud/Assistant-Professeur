@@ -303,6 +303,7 @@ public extension ProgramEntity {
            Discipline   : \(disciplineString)
            Niveau       : \(levelString)
            SEGPA        : \(segpa.frenchString)
+           Annotation   : \(String(describing: self.annotation))
            URL          : \(String(describing: url))
            Nb séquences : \(sequencesCount)
            Séquences : \(String(describing: sequencesSortedByNumber).withPrefixedSplittedLines("     "))

@@ -169,4 +169,69 @@ enum ImportExportManager {
             fileUrl.stopAccessingSecurityScopedResource()
         }
     }
+
+    /// Ajouter un document à l'établissement pour chaque fichier importé.
+    /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
+    static func importUserSelectedFiles(
+        result: Result<[URL], Error>,
+        creatDocument: (Data, String) -> Void
+    ) -> (
+        alertTitle: String,
+        alertMessage: String,
+        alertIsPresented: Bool
+    ) {
+        var alertTitle = ""
+        var alertMessage = ""
+        var alertIsPresented = false
+
+        switch result {
+            case let .failure(error):
+                customLog.log(
+                    level: .error,
+                    "Error selecting PDF file: \(error.localizedDescription)"
+                )
+                return (
+                    alertTitle: "Échec de l'importation",
+                    alertMessage: "L'importation des fichiers a échouée",
+                    alertIsPresented: true
+                )
+
+            case let .success(filesUrl):
+                guard filesUrl.isNotEmpty else {
+                    customLog.log(
+                        level: .error,
+                        "Error creating PDF data from file"
+                    )
+                    return (
+                        alertTitle: "Échec de l'importation",
+                        alertMessage: "L'importation des fichiers a échouée",
+                        alertIsPresented: true
+                    )
+                }
+
+                // créer le document et l'associer à l'établissement
+                filesUrl.forEach { url in
+                    do {
+                        let data = try Data(contentsOf: url)
+                        let fileName = url.lastPathComponent
+                        creatDocument(data, fileName)
+
+                    } catch {
+                        customLog.log(
+                            level: .error,
+                            "Error creating PDF data from file: \(error.localizedDescription)"
+                        )
+                        alertTitle = "Échec de l'importation"
+                        alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
+                        alertIsPresented = true
+                    }
+                }
+
+                return (
+                    alertTitle: alertTitle,
+                    alertMessage: alertMessage,
+                    alertIsPresented: alertIsPresented
+                )
+        }
+    }
 }

@@ -83,6 +83,7 @@ struct ProgramCreatorModal: View {
                     }
                 }
             }
+
             if annotationEnabled {
                 TextField(
                     "Annotation",
@@ -93,6 +94,7 @@ struct ProgramCreatorModal: View {
                 .font(hClass == .compact ? .callout : .body)
                 .textFieldStyle(.roundedBorder)
             }
+
             WebsiteEditView(website: $programVM.url)
         }
         .alert(

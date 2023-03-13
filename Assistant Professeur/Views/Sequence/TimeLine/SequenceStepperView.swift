@@ -117,11 +117,13 @@ extension SequenceStepperView {
             }
             .foregroundColor(.teal)
             .padding(.bottom, 6)
-            Text("Problématique:")
-                .bold()
-            Text(sequence.viewAnnotation)
-                .padding(.leading)
-                .padding(.bottom, 6)
+            if sequence.viewAnnotation.isNotEmpty {
+                Text("Problématique:")
+                    .bold()
+                Text(sequence.viewAnnotation)
+                    .padding(.leading)
+                    .padding(.bottom, 6)
+            }
             DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
         }
         .textSelection(.enabled)

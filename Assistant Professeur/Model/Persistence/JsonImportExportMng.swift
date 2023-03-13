@@ -51,7 +51,7 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
     private static func exportedAnnexeFiles() -> [String] {
         var exportedFileNames = [String]()
 
-        // Exporter les annexes PDF des Documnts associés aux Schools
+        // Exporter les annexes PDF des Documents associés aux Schools
         exportedFileNames += exportedDocFiles()
 
         // Exporter les annexes PNG des plans de salle Rooms associés aux Schools
@@ -138,12 +138,11 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
     static func importJsonData(
         result: Result<[URL], Error>,
         resetNavigationData: () -> Void
-    )
-        -> (
-            alertTitle: String,
-            alertMessage: String,
-            alertIsPresented: Bool
-        ) {
+    ) -> (
+        alertTitle: String,
+        alertMessage: String,
+        alertIsPresented: Bool
+    ) {
         var alertTitle = ""
         var alertMessage = ""
         var alertIsPresented = false
@@ -305,45 +304,45 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
             alertIsPresented = true
         }
 
-            // Importer les annexes PNG des Rooms associés aux Schools
-            let roomFilesUrl = filesUrl.compactMap { fileUrl in
-                if fileUrl.lastPathComponent.hasPrefix("plan_") {
-                    return fileUrl
-                } else {
-                    return nil
-                }
+        // Importer les annexes PNG des Rooms associés aux Schools
+        let roomFilesUrl = filesUrl.compactMap { fileUrl in
+            if fileUrl.lastPathComponent.hasPrefix("plan_") {
+                return fileUrl
+            } else {
+                return nil
             }
-            do {
-                try importRoomFiles(filesUrl: roomFilesUrl)
-            } catch {
-                customLog.log(
-                    level: .error,
-                    "Error reading PNG data from file: \(error.localizedDescription)"
-                )
-                alertTitle = "Échec"
-                alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
-                alertIsPresented = true
-            }
+        }
+        do {
+            try importRoomFiles(filesUrl: roomFilesUrl)
+        } catch {
+            customLog.log(
+                level: .error,
+                "Error reading PNG data from file: \(error.localizedDescription)"
+            )
+            alertTitle = "Échec"
+            alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
+            alertIsPresented = true
+        }
 
-            // Importer les photos PNG des Elèves
-            let photoFilesUrl = filesUrl.compactMap { fileUrl in
-                if fileUrl.lastPathComponent.hasPrefix("photo_") {
-                    return fileUrl
-                } else {
-                    return nil
-                }
+        // Importer les photos PNG des Elèves
+        let photoFilesUrl = filesUrl.compactMap { fileUrl in
+            if fileUrl.lastPathComponent.hasPrefix("photo_") {
+                return fileUrl
+            } else {
+                return nil
             }
-            do {
-                try importPhotoFiles(filesUrl: photoFilesUrl)
-            } catch {
-                customLog.log(
-                    level: .error,
-                    "Error reading PNG data from file: \(error.localizedDescription)"
-                )
-                alertTitle = "Échec"
-                alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
-                alertIsPresented = true
-            }
+        }
+        do {
+            try importPhotoFiles(filesUrl: photoFilesUrl)
+        } catch {
+            customLog.log(
+                level: .error,
+                "Error reading PNG data from file: \(error.localizedDescription)"
+            )
+            alertTitle = "Échec"
+            alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
+            alertIsPresented = true
+        }
 
         return (
             alertTitle: alertTitle,

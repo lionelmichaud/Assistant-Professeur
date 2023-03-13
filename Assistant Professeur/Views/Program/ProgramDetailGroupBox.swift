@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 21/01/2023.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct ProgramDetailGroupBox: View {
     @ObservedObject
@@ -17,7 +17,10 @@ struct ProgramDetailGroupBox: View {
 
     @Preference(\.programAnnotationEnabled)
     private var annotationEnabled
-    
+
+    @State
+    private var isViewing = false
+
     var body: some View {
         GroupBox {
             // Discipline - Niveau
@@ -26,13 +29,24 @@ struct ProgramDetailGroupBox: View {
                 .horizontallyAligned(.leading)
 
             // note sur le programme
-            if annotationEnabled {
+            if annotationEnabled && program.viewAnnotation.isNotEmpty {
                 AnnotationView(
-                    annotation   : program.viewAnnotation,
-                    scrollable   : true,
-                    scrollHeight : 40
+                    annotation: program.viewAnnotation,
+                    scrollable: true,
+                    scrollHeight: 40
                 )
                 .horizontallyAligned(.leading)
+            }
+
+            // Document
+            if let document = program.document {
+                Button {
+                    isViewing.toggle()
+                } label: {
+                    Label(document.viewName, systemImage: "doc.richtext")
+                }
+                .horizontallyAligned(.leading)
+                .padding(.top, 4)
             }
 
             // Durées / url
@@ -43,14 +57,28 @@ struct ProgramDetailGroupBox: View {
                 Spacer()
                 WebsiteView(url: program.url)
             }
+            .padding(.top, 4)
         }
         .font(hClass == .compact ? .subheadline : .callout)
         .padding(.horizontal)
+        #if os(macOS)
+        .sheet(isPresented: $isViewing) {
+            NavigationStack {
+                PdfDocumentViewer(document: program.document!)
+            }
+        }
+        #else
+        .fullScreenCover(isPresented: $isViewing) {
+            NavigationStack {
+                PdfDocumentViewer(document: program.document!)
+            }
+        }
+        #endif
     }
 }
 
-//struct ProgramDetail_Previews: PreviewProvider {
+// struct ProgramDetail_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ProgramDetail()
 //    }
-//}
+// }

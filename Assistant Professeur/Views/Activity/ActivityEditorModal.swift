@@ -43,6 +43,9 @@ struct ActivityEditorModal: View {
     private var focus: FocusableField?
 
     @State
+    private var isImportingPdfFile = false
+
+    @State
     private var alertTitle = ""
 
     @State
@@ -73,6 +76,35 @@ struct ActivityEditorModal: View {
                 .font(hClass == .compact ? .callout : .body)
                 .textFieldStyle(.roundedBorder)
                 .focused($focus, equals: .annotation)
+            }
+
+            if let document = activity.document {
+                HStack(spacing: 5) {
+                    // afficher le nom du document
+                    DocumentRow(
+                        document: document,
+                        saveChanges: false
+                    )
+
+                    // supprimer le document
+                    Button(role: .destructive) {
+                        DocumentEntity.viewContext.delete(document)
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                    .buttonStyle(.bordered)
+                }
+            } else {
+                // ajouter un document
+                Button {
+                    isImportingPdfFile.toggle()
+                } label: {
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                        Text("Ajouter un document")
+                    }
+                }
+                .buttonStyle(.borderless)
             }
 
             WebsiteEditView(website: $activity.url)
@@ -116,6 +148,26 @@ struct ActivityEditorModal: View {
         .onAppear {
             focus = .title
         }
+        // Importer des fichiers PDF
+        .fileImporter(
+            isPresented: $isImportingPdfFile,
+            allowedContentTypes: [.pdf],
+            allowsMultipleSelection: false
+        ) { result in
+            (
+                alertTitle,
+                alertMessage,
+                alertIsPresented
+            ) = ImportExportManager.importUserSelectedFiles(
+                result: result
+            ) { data, fileName in
+                DocumentEntity.create(
+                    forActivity: activity,
+                    withData: data,
+                    withName: fileName
+                )
+            }
+        }
         .alert(
             alertTitle,
             isPresented: $alertIsPresented,
@@ -144,6 +196,7 @@ extension ActivityEditorModal {
 
         ToolbarItem(placement: .confirmationAction) {
             Button("Ok") {
+                print(String(describing: activity))
                 withAnimation {
                     try? ActivityEntity.saveIfContextHasChanged()
                 }

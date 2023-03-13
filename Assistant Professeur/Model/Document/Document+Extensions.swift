@@ -73,6 +73,12 @@ extension DocumentEntity {
 extension DocumentEntity {
     // MARK: - Type Methods
 
+    static func byId(id: UUID) -> Self? {
+        all().first { object in
+            object.id == id
+        }
+    }
+
     @discardableResult
     static func create(
         dans school: SchoolEntity,
@@ -90,6 +96,69 @@ extension DocumentEntity {
         doc.docName = name
 
         try? SchoolEntity.saveIfContextHasChanged()
+
+        return doc
+    }
+
+    @discardableResult
+    static func create(
+        forProgram program: ProgramEntity,
+        withData data: Data?,
+        withName name: String
+    ) -> DocumentEntity {
+        let doc = DocumentEntity.create()
+        // établissement d'appartenance.
+        // mandatory
+        doc.program = program
+
+        if let data {
+            doc.pdfData = data
+        }
+        doc.docName = name
+
+        try? ProgramEntity.saveIfContextHasChanged()
+
+        return doc
+    }
+
+    @discardableResult
+    static func create(
+        forSequence sequence: SequenceEntity,
+        withData data: Data?,
+        withName name: String
+    ) -> DocumentEntity {
+        let doc = DocumentEntity.create()
+        // établissement d'appartenance.
+        // mandatory
+        doc.sequence = sequence
+
+        if let data {
+            doc.pdfData = data
+        }
+        doc.docName = name
+
+        try? SequenceEntity.saveIfContextHasChanged()
+
+        return doc
+    }
+
+    @discardableResult
+    static func create(
+        forActivity activity: ActivityEntity,
+        withData data: Data?,
+        withName name: String
+    ) -> DocumentEntity {
+        let doc = DocumentEntity.create()
+        // établissement d'appartenance.
+        // mandatory
+        doc.activity = activity
+
+        if let data {
+            doc.pdfData = data
+        }
+        doc.docName = name
+
+        try? SequenceEntity.saveIfContextHasChanged()
 
         return doc
     }

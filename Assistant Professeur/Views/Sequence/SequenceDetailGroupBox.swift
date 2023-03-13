@@ -18,34 +18,62 @@ struct SequenceDetailGroupBox: View {
     @Preference(\.programAnnotationEnabled)
     private var annotationEnabled
 
+    @State
+    private var isViewing = false
+
     var body: some View {
         GroupBox {
-            LabeledSequenceView(sequence: sequence)
-                .font(hClass == .compact ? .callout : .headline)
-                .bold()
-                .horizontallyAligned(.leading)
+            Group {
+                LabeledSequenceView(sequence: sequence)
+                    .font(hClass == .compact ? .callout : .headline)
+                    .bold()
 
-            // note sur le programme
-            if annotationEnabled && sequence.viewAnnotation.isNotEmpty {
-                AnnotationView(
-                    annotation: sequence.viewAnnotation,
-                    scrollable: true,
-                    scrollHeight: 40
-                )
-                .horizontallyAligned(.leading)
+                // note sur le programme
+                if annotationEnabled && sequence.viewAnnotation.isNotEmpty {
+                    AnnotationView(
+                        annotation: sequence.viewAnnotation,
+                        scrollable: true,
+                        scrollHeight: 40
+                    )
+                }
+
+                // Document
+                if let document = sequence.document {
+                    Button {
+                        isViewing.toggle()
+                    } label: {
+                        Label(document.viewName, systemImage: "doc.richtext")
+                    }
+                    .padding(.top, 4)
+                }
+
+                // Durées / url
+                HStack {
+                    DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
+                        .padding(.trailing)
+                    DurationView(duration: sequence.durationWithMargin, withMargin: true)
+                        .padding(.trailing)
+                    WebsiteView(url: sequence.url)
+                    Spacer()
+                }
             }
-
-            HStack {
-                DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
-                    .padding(.trailing)
-                DurationView(duration: sequence.durationWithMargin, withMargin: true)
-                    .padding(.trailing)
-                WebsiteView(url: sequence.url)
-                Spacer()
+            .font(hClass == .compact ? .callout : .body)
+            .horizontallyAligned(.leading)
+        }
+        .padding(.horizontal)
+        #if os(macOS)
+        .sheet(isPresented: $isViewing) {
+            NavigationStack {
+                PdfDocumentViewer(document: sequence.document!)
             }
         }
-        .font(hClass == .compact ? .callout : .body)
-        .padding(.horizontal)
+        #else
+        .fullScreenCover(isPresented: $isViewing) {
+            NavigationStack {
+                PdfDocumentViewer(document: sequence.document!)
+            }
+        }
+        #endif
     }
 }
 

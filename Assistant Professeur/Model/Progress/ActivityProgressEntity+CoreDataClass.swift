@@ -38,7 +38,7 @@ public class ActivityProgressEntity: NSManagedObject, Codable, ModelEntityP {
             } else {
                 customLog.log(
                     level: .error,
-                    "Classe associée à la progression \(String(describing: self)) introuvable!"
+                    "Erreur: Classe associée à la progression \(String(describing: self)) introuvable!"
                 )
             }
         }

@@ -46,8 +46,10 @@ extension ProgramStepperView {
             }
             .foregroundColor(.teal)
             .padding(.bottom, 6)
-            Text(program.viewAnnotation)
-                .padding(.bottom, 6)
+            if program.viewAnnotation.isNotEmpty {
+                Text(program.viewAnnotation)
+                    .padding(.bottom, 6)
+            }
             HStack {
                 DurationView(duration: program.durationWithoutMargin, withMargin: false)
                     .padding(.trailing)

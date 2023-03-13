@@ -56,7 +56,7 @@ public class ClasseEntity: NSManagedObject, Codable, ModelEntityP {
             } else {
                 customLog.log(
                     level: .error,
-                    "Salle de classe de la classe \(self.displayString) introuvable!"
+                    "Erreur: Salle de classe de la classe \(self.displayString) introuvable!"
                 )
             }
         }

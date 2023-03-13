@@ -8,13 +8,19 @@
 
 import CoreData
 import Foundation
+import os
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "SequenceEntity.Codable"
+)
 
 @objc(SequenceEntity)
 public class SequenceEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, annotation
         case name, number, url
-        case activities
+        case activities, documentID
     }
 
     /// Conformance to Decodable
@@ -28,6 +34,19 @@ public class SequenceEntity: NSManagedObject, Codable, ModelEntityP {
         self.annotation = try container.decodeIfPresent(String.self, forKey: .annotation)
         self.url = try container.decodeIfPresent(URL.self, forKey: .url)
 
+        // Les Documents doivent être chargés AVANT les Séquences pour pouvoir
+        // établir la connection avec le document éventuellement associé à la séquence.
+        if let documentID = try container.decodeIfPresent(UUID.self, forKey: .documentID) {
+            if let document = DocumentEntity.byId(id: documentID) {
+                self.document = document
+            } else {
+                customLog.log(
+                    level: .error,
+                    "Document associé à la séquence \(String(describing: self)) introuvable!"
+                )
+            }
+        }
+
         self.activities = try container.decode(Set<ActivityEntity>.self, forKey: .activities) as NSSet
     }
 
@@ -39,6 +58,8 @@ public class SequenceEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(number, forKey: .number)
         try container.encodeIfPresent(annotation, forKey: .annotation)
         try container.encodeIfPresent(url, forKey: .url)
+
+        try container.encodeIfPresent(document?.id, forKey: .documentID)
 
         try container.encode(activities as! Set<ActivityEntity>, forKey: .activities)
     }
