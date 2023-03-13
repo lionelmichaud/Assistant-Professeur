@@ -11,6 +11,8 @@ struct DocumentRow: View {
     @ObservedObject
     var document: DocumentEntity
 
+    let saveChanges: Bool
+
     @State
     private var isViewing = false
 
@@ -19,11 +21,16 @@ struct DocumentRow: View {
             Image(systemName: "doc.richtext")
                 .sfSymbolStyling()
                 .foregroundColor(.accentColor)
-            TextField("Nom du document", text: $document.viewName)
-                .textFieldStyle(.roundedBorder)
+            TextField(
+                "Nom du document",
+                text: saveChanges ? $document.viewName : $document.docName.bound
+            )
+            .textFieldStyle(.roundedBorder)
             Spacer(minLength: 12)
-            Button("Voir") {
+            Button {
                 isViewing.toggle()
+            } label: {
+                Image(systemName: "eye")
             }
             .buttonStyle(.bordered)
         }

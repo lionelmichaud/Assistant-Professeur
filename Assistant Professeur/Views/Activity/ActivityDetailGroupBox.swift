@@ -18,6 +18,9 @@ struct ActivityDetailGroupBox: View {
     @Preference(\.programAnnotationEnabled)
     private var annotationEnabled
 
+    @State
+    private var isViewing = false
+
     var body: some View {
         GroupBox {
             Group {
@@ -32,6 +35,16 @@ struct ActivityDetailGroupBox: View {
                         scrollable: true,
                         scrollHeight: 40
                     )
+                }
+
+                // Document
+                if let document = activity.document {
+                    Button {
+                        isViewing.toggle()
+                    } label: {
+                        Label(document.viewName, systemImage: "doc.richtext")
+                    }
+                    .padding(.top, 4)
                 }
 
                 DurationView(duration: activity.duration, withMargin: false)
@@ -50,6 +63,19 @@ struct ActivityDetailGroupBox: View {
             .horizontallyAligned(.leading)
         }
         .padding(.horizontal)
+        #if os(macOS)
+        .sheet(isPresented: $isViewing) {
+            NavigationStack {
+                PdfDocumentViewer(document: activity.document!)
+            }
+        }
+        #else
+        .fullScreenCover(isPresented: $isViewing) {
+            NavigationStack {
+                PdfDocumentViewer(document: activity.document!)
+            }
+        }
+        #endif
     }
 }
 

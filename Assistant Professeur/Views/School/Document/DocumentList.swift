@@ -5,13 +5,15 @@
 //  Created by Lionel MICHAUD on 02/11/2022.
 //
 
-import SwiftUI
-import os
 import Files
 import HelpersView
+import os
+import SwiftUI
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Cahier-du-Professeur",
-                               category  : "DocumentList")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Cahier-du-Professeur",
+    category: "DocumentList"
+)
 
 /// Vue de la liste des documents importants de l'établissement
 struct DocumentList: View {
@@ -38,7 +40,7 @@ struct DocumentList: View {
 
     var body: some View {
         Section {
-            /// ajouter un ou plusieurs documents utiles
+            // ajouter un ou plusieurs documents utiles
             Button {
                 isImportingPdfFile.toggle()
             } label: {
@@ -48,32 +50,49 @@ struct DocumentList: View {
                 }
             }
             .buttonStyle(.borderless)
-            /// Importer des fichiers PDF
-            .fileImporter(isPresented             : $isImportingPdfFile,
-                          allowedContentTypes     : [.pdf],
-                          allowsMultipleSelection : true) { result in
-                importUserSelectedFiles(result: result)
+            // Importer des fichiers PDF
+            .fileImporter(
+                isPresented: $isImportingPdfFile,
+                allowedContentTypes: [.pdf],
+                allowsMultipleSelection: true
+            ) { result in
+                (
+                    alertTitle,
+                    alertMessage,
+                    alertIsPresented
+                ) = ImportExportManager.importUserSelectedFiles(
+                    result: result
+                ) { data, fileName in
+                    DocumentEntity.create(
+                        dans: school,
+                        withData: data,
+                        withName: fileName
+                    )
+                }
             }
             .alert(
                 alertTitle,
-                isPresented : $alertIsPresented,
-                actions     : {
+                isPresented: $alertIsPresented,
+                actions: {
                     Button("Supprimer", role: .destructive, action: deleteItems)
                 }
             )
 
-            /// Visualisation de la liste des événements
+            // Visualisation de la liste des événements
             ForEach(school.documentsSortedByName, id: \.objectID) { document in
-                DocumentRow(document: document)
+                DocumentRow(
+                    document: document,
+                    saveChanges: true
+                )
             }
             .onDelete { indexSet in
                 DispatchQueue.main.async {
                     self.indexSet = indexSet
                     alertTitle = "Supprimer ce document?"
                     alertMessage =
-                    """
-                    Cette action ne peut pas être annulée.
-                    """
+                        """
+                        Cette action ne peut pas être annulée.
+                        """
                     alertIsPresented.toggle()
                 }
             }
@@ -123,14 +142,15 @@ struct DocumentList: View {
         //                school.documents.remove(atOffsets: indexSet)
     }
 
-    /// Copier les fichiers  sélectionnés dans le dossier Document de l'application.
     /// Ajouter un document à l'établissement pour chaque fichier importé.
     /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
     private func importUserSelectedFiles(result: Result<[URL], Error>) {
         switch result {
-            case .failure(let error):
-                customLog.log(level: .error,
-                              "Error selecting PDF file: \(error.localizedDescription)")
+            case let .failure(error):
+                customLog.log(
+                    level: .error,
+                    "Error selecting PDF file: \(error.localizedDescription)"
+                )
                 DispatchQueue.main.async {
                     alertTitle = "Échec"
                     alertMessage = "L'importation des fichiers a échouée"
@@ -138,10 +158,12 @@ struct DocumentList: View {
                 }
                 return
 
-            case .success(let filesUrl):
+            case let .success(filesUrl):
                 guard filesUrl.isNotEmpty else {
-                    customLog.log(level: .error,
-                                  "Error creating PDF data from file")
+                    customLog.log(
+                        level: .error,
+                        "Error creating PDF data from file"
+                    )
                     DispatchQueue.main.async {
                         alertTitle = "Échec"
                         alertMessage = "L'importation des fichiers a échouée"
@@ -162,8 +184,10 @@ struct DocumentList: View {
                         )
 
                     } catch {
-                        customLog.log(level: .error,
-                                      "Error creating PDF data from file: \(error.localizedDescription)")
+                        customLog.log(
+                            level: .error,
+                            "Error creating PDF data from file: \(error.localizedDescription)"
+                        )
                         DispatchQueue.main.async {
                             alertTitle = "Échec de l'importation"
                             alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
@@ -175,8 +199,8 @@ struct DocumentList: View {
     }
 }
 
-//struct DocumentList_Previews: PreviewProvider {
+// struct DocumentList_Previews: PreviewProvider {
 //    static var previews: some View {
 //        DocumentList()
 //    }
-//}
+// }
