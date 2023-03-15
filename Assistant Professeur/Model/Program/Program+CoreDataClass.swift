@@ -19,7 +19,7 @@ private let customLog = Logger(
 public class ProgramEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, discipline, level, segpa, url, annotation
-        case sequences, documentID
+        case sequences, document
     }
 
     /// Conformance to Decodable
@@ -34,19 +34,20 @@ public class ProgramEntity: NSManagedObject, Codable, ModelEntityP {
         self.annotation = try container.decodeIfPresent(String.self, forKey: .annotation)
         self.url = try container.decodeIfPresent(URL.self, forKey: .url)
 
-        // Les Documents doivent être chargés AVANT les Programmes pour pouvoir
-        // établir la connection avec le document éventuellement associé au programme.
-        if let documentID = try container.decodeIfPresent(UUID.self, forKey: .documentID) {
-            if let document = DocumentEntity.byId(id: documentID) {
-                self.document = document
-            } else {
-                customLog.log(
-                    level: .error,
-                    "Erreur: Document associé au programme \(String(describing: self)) introuvable!"
-                )
-            }
-        }
+//        // Les Documents doivent être chargés AVANT les Programmes pour pouvoir
+//        // établir la connection avec le document éventuellement associé au programme.
+//        if let documentID = try container.decodeIfPresent(UUID.self, forKey: .documentID) {
+//            if let document = DocumentEntity.byId(id: documentID) {
+//                self.document = document
+//            } else {
+//                customLog.log(
+//                    level: .error,
+//                    "Erreur: Document associé au programme \(String(describing: self)) introuvable!"
+//                )
+//            }
+//        }
 
+        self.document = try container.decode(DocumentEntity.self, forKey: .document)
         self.sequences = try container.decode(Set<SequenceEntity>.self, forKey: .sequences) as NSSet
     }
 
@@ -60,8 +61,9 @@ public class ProgramEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encodeIfPresent(annotation, forKey: .annotation)
         try container.encodeIfPresent(url, forKey: .url)
 
-        try container.encodeIfPresent(document?.id, forKey: .documentID)
+//        try container.encodeIfPresent(document?.id, forKey: .documentID)
 
+        try container.encodeIfPresent(document, forKey: .document)
         try container.encode(sequences as! Set<SequenceEntity>, forKey: .sequences)
     }
 }

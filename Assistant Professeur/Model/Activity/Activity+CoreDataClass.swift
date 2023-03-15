@@ -20,7 +20,7 @@ public class ActivityEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, isEval, isEvalFormative, isProject, isTP
         case annotation, duration, name, number, url
-        case progresses, documentID
+        case progresses, document
     }
 
     /// Conformance to Decodable
@@ -39,19 +39,20 @@ public class ActivityEntity: NSManagedObject, Codable, ModelEntityP {
         self.annotation = try container.decodeIfPresent(String.self, forKey: .annotation)
         self.url = try container.decodeIfPresent(URL.self, forKey: .url)
 
-        // Les Documents doivent être chargés AVANT les Activity pour pouvoir
-        // établir la connection avec le document éventuellement associé à l'activité.
-        if let documentID = try container.decodeIfPresent(UUID.self, forKey: .documentID) {
-            if let document = DocumentEntity.byId(id: documentID) {
-                self.document = document
-            } else {
-                customLog.log(
-                    level: .error,
-                    "Erreur: Document associé à l'activité \(String(describing: self)) introuvable!"
-                )
-            }
-        }
+//        // Les Documents doivent être chargés AVANT les Activity pour pouvoir
+//        // établir la connection avec le document éventuellement associé à l'activité.
+//        if let documentID = try container.decodeIfPresent(UUID.self, forKey: .documentID) {
+//            if let document = DocumentEntity.byId(id: documentID) {
+//                self.document = document
+//            } else {
+//                customLog.log(
+//                    level: .error,
+//                    "Erreur: Document associé à l'activité \(String(describing: self)) introuvable!"
+//                )
+//            }
+//        }
 
+        self.document = try container.decode(DocumentEntity.self, forKey: .document)
         self.progresses = try container.decode(Set<ActivityProgressEntity>.self, forKey: .progresses) as NSSet
     }
 
@@ -69,8 +70,9 @@ public class ActivityEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encodeIfPresent(annotation, forKey: .annotation)
         try container.encodeIfPresent(url, forKey: .url)
 
-        try container.encodeIfPresent(document?.id, forKey: .documentID)
+//        try container.encodeIfPresent(document?.id, forKey: .documentID)
 
+        try container.encodeIfPresent(document, forKey: .document)
         try container.encode(progresses as! Set<ActivityProgressEntity>, forKey: .progresses)
     }
 }

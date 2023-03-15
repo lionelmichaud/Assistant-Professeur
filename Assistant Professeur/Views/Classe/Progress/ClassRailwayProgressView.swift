@@ -30,7 +30,13 @@ struct ClassRailwayProgressView: View {
                         color: .teal,
                         triggerAnimation: false
                     )
-                    Text(progress.activity!.viewDurationString)
+                    VStack {
+                        Text(progress.activity!.viewDurationString)
+                        if 0 < progress.progress && progress.progress < 1 {
+                            Text(progress.progress, format: .percent)
+                                .font(.footnote)
+                        }
+                    }
                 }
                 .eraseToAnyView()
             }
@@ -100,7 +106,8 @@ struct ClassRailwayProgressView: View {
                             // .alignments(alignments(sequence: sequence))
                             .lineOptions(StepperLineOptions.custom(4, Color.teal))
                             // .stepLifeCycles(stepLifeCycles(sequence: sequence))
-                            .autoSpacing(true)
+                            // .autoSpacing(true)
+                            .spacing(75)
                             // .loadingAnimationTime(0.01)
                             .padding([.top, .leading])
                     }
