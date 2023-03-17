@@ -296,8 +296,12 @@ extension ClasseDetail {
                     .fontWeight(.bold)
                 if let activity = classe.currentActivity,
                    let sequence = activity.sequence {
+                    let currentActivityProgress =
+                    classe
+                        .sortedProgressesInSequence(sequence)
+                        .first(where: { $0.activity == activity })
                     Spacer()
-                    Text("Séquence \(sequence.viewNumber) - Activité \(activity.viewNumber)")
+                    Text("Séquence \(sequence.viewNumber) - Activité \(activity.viewNumber) (\(currentActivityProgress!.progress, format: .percent))")
                         .foregroundColor(.secondary)
                 }
             }
