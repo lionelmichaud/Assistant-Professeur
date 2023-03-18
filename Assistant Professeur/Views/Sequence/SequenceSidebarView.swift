@@ -44,8 +44,12 @@ struct SequenceSidebarView: View {
             } else {
                 VStack(alignment: .center) {
                     Text("Aucun programme sélectionné.")
-                    Text("Sélectionner un programme.")
+                    Text("Sélectionner un programme pour en visualiser les séquences.")
+                        .font(.callout)
+                        .padding(.top)
+                        .multilineTextAlignment(.center)
                 }
+                .padding()
                 .foregroundStyle(.secondary)
                 .font(.title2)
             }

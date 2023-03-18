@@ -81,9 +81,6 @@ struct ProgramSplitView: View {
             // 2nde colonne
             NavigationStack(path: $navig.programPath) {
                 SequenceSidebarView(showProgramSteps: $showProgramSteps)
-                    .navigationDestination(for: ProgramEntity.self) { program in
-                        ProgramDetailGroupBox(program: program)
-                    }
                     .navigationDestination(for: SequenceEntity.self) { sequence in
                         ActivitySideBar(
                             sequence: sequence,
@@ -232,7 +229,9 @@ struct ProgramSplitView: View {
                 with: .onActivityDeselected,
                 from: .showActivityDetail,
                 to: .showNone,
-                postBlock: { navig.columnVisibility = .all }
+                postBlock: {
+                    navig.columnVisibility = .all
+                }
             )
         sm.add(transition: transition20)
 

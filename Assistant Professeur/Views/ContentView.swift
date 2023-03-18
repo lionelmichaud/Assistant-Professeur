@@ -85,13 +85,13 @@ struct ContentView: View {
                 .tag(NavigationModel.Tab.warning)
                 .badge(ObservEntity.cardinal() + ColleEntity.cardinal())
 
-            if isPad() || isMac() {
+//            if isPad() || isMac() {
                 // Les programmes scolaires
                 ProgramSplitView(navig: navigationModel)
                     .tabItem { Label("Programmes", systemImage: "books.vertical").symbolVariant(.none) }
                     .tag(NavigationModel.Tab.program)
                     .badge(ProgramEntity.cardinal())
-            }
+//            }
         }
         .environmentObject(navigationModel)
 

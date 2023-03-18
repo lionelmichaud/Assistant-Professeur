@@ -26,53 +26,23 @@ struct ActivitySideBar: View {
 
     // MARK: - Computed Properties
 
-    private var selectedSequenceId: NSManagedObjectID? {
-        navig.selectedSequenceId
-    }
-
-    private var selectedSequence: SequenceEntity? {
-        guard let selectedSequenceId else {
-            return nil
-        }
-        return SequenceEntity.byObjectId(id: selectedSequenceId)
-    }
-
-    private var selectedASequenceExists: Bool {
-        selectedSequence != nil
-    }
-
     private var selectedSequenceNumber: String {
-        selectedSequence?.viewNumber.formatted() ?? ""
+        sequence.viewNumber.formatted()
     }
 
     var body: some View {
         VStack {
-            if selectedASequenceExists {
-                if selectedSequence != nil {
-                    if selectedSequence!.program != nil {
-                        Button {
-                            showSequenceSteps = true
-                        } label: {
-                            SequenceDetailGroupBox(sequence: selectedSequence!)
-                        }
-                        .buttonStyle(.plain)
-                    } else {
-                        Text("Programme associé introuvable")
-                    }
-                    ActivityList(sequence: selectedSequence!)
-                } else {
-                    Text("Séquence introuvable")
-                        .foregroundStyle(.secondary)
-                        .font(.title2)
+            if sequence.program != nil {
+                Button {
+                    showSequenceSteps = true
+                } label: {
+                    SequenceDetailGroupBox(sequence: sequence)
                 }
+                .buttonStyle(.plain)
             } else {
-                VStack(alignment: .center) {
-                    Text("Aucune séquence sélectionnée.")
-                    Text("Sélectionner une séquence.")
-                }
-                .foregroundStyle(.secondary)
-                .font(.title2)
+                Text("Programme associé introuvable")
             }
+            ActivityList(sequence: sequence)
         }
         #if os(iOS)
         .navigationTitle("Séquence " + selectedSequenceNumber)
