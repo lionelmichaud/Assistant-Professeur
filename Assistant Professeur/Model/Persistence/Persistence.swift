@@ -56,7 +56,7 @@ public extension Folder {
 public struct PersistenceManager {
     // MARK: - Methods
 
-    /// Fournit la litse des URL des fichiers contenus dans le répertoir Document
+    /// Fournit la litse des URL des fichiers contenus dans le répertoir `fromFolder`
     /// et qui contiennent `fileNames`dans leur nom de fichier.
     /// - Parameters:
     ///  - fromFolder: Dossier dans lequel rechercher
@@ -66,7 +66,7 @@ public struct PersistenceManager {
         fileNames: [String]? = nil
     ) -> [URL] {
         var urls = [URL]()
-        // collecte des URL des fichiers contenus dans le dossier Documents
+        // collecte des URL des fichiers contenus dans le dossier 'fromFolder'
         fromFolder.files.forEach { file in
             if let fileNames {
                 fileNames.forEach { fileName in
@@ -75,6 +75,7 @@ public struct PersistenceManager {
                     }
                 }
             } else {
+                // prendre tous les fichiers contenus dans le dossier 'fromFolder'
                 urls.append(file.url)
             }
         }

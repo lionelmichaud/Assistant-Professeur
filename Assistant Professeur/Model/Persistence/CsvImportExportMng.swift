@@ -24,8 +24,8 @@ enum CsvImportExportMng { // swiftlint:disable:this type_body_length
     static let csvEleveListFileName = "élèves.csv"
     static let csvProgramListFileName = "programmes.csv"
 
-    static func csvFileName(classe: ClasseEntity) -> String {
-        (classe.school?.displayString ?? "") + classe.displayString + "_groupes.csv"
+    static func csvClasseGroupFileName(classe: ClasseEntity) -> String {
+        (classe.school?.displayString ?? "") + "_" + classe.displayString + "_groupes.csv"
     }
 
     private static var csWritingOptions: CSVWritingOptions {
@@ -38,7 +38,7 @@ enum CsvImportExportMng { // swiftlint:disable:this type_body_length
         )
     }
 
-    /// Exporter la liste des élèves des groupes d'une classe
+    /// Exporter la liste des Programmes
     static func exportPrograms() {
         var total = DataFrame()
         ProgramEntity.allSortedbyDisciplineLevelSegpa()
@@ -218,7 +218,7 @@ enum CsvImportExportMng { // swiftlint:disable:this type_body_length
         return dataFrame
     }
 
-    /// Exporter la liste des élèves des groupes d'une classe
+    /// Exporter la liste des élèves de tous les établissemenets par classe et par groupe
     static func exportEleves() {
         var total = DataFrame()
         SchoolEntity.allSortedByLevelName()
@@ -250,7 +250,7 @@ enum CsvImportExportMng { // swiftlint:disable:this type_body_length
     static func exportGroups(de classe: ClasseEntity) {
         let groupsDataFrame = classeGroupsDataFrame(de: classe)
 
-        let fileName = csvFileName(classe: classe)
+        let fileName = csvClasseGroupFileName(classe: classe)
         let cachesUrl = URL.cachesDirectory
         let fileUrl = cachesUrl.appending(component: fileName)
 

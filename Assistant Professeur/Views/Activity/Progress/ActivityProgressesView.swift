@@ -12,6 +12,9 @@ struct ActivityProgressesView: View {
     @ObservedObject
     var activity: ActivityEntity
 
+    @State
+    private var isExpanded = true
+
     private var progresses: [ActivityProgressEntity] {
         activity.allProgresses
     }
@@ -36,7 +39,7 @@ struct ActivityProgressesView: View {
 
     var body: some View {
         ForEach(schools) { school in
-            DisclosureGroup {
+            DisclosureGroup(isExpanded: $isExpanded) {
                 ForEach(sortedProgressesIn(school)) { progress in
                     ActivityClassProgressView(progress: progress)
                         .listRowSeparatorTint(.secondary, edges: .bottom)

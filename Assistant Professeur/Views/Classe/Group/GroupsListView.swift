@@ -25,7 +25,10 @@ struct GroupsListView: View {
     private var isExportingGroups = false
 
     @State
-    private var expanded = true
+    private var isExpanded = true
+
+    @State
+    private var isEditing = false
 
     @State
     private var searchString: String = ""
@@ -33,14 +36,10 @@ struct GroupsListView: View {
     @State
     private var presentation: ViewMode = .list
 
-    private var unGroupedEleve: [EleveEntity] {
-        classe.groupOfUngroupedEleves.elevesSortedByName
-    }
-
     private var csvURLsToShare: [URL] {
         ImportExportManager.cachesURLsToShare(
             fileNames: [
-                CsvImportExportMng.csvFileName(classe: classe)
+                CsvImportExportMng.csvClasseGroupFileName(classe: classe)
             ]
         )
     }
@@ -54,23 +53,16 @@ struct GroupsListView: View {
 
             } else {
                 List {
-                    // Ajout d'un nouveau groupe
-                    Button {
-                        GroupManager.addGroup(dans: classe)
-                    } label: {
-                        Label("Ajouter un groupe", systemImage: "plus.circle.fill")
-                    }
-                    .buttonStyle(.borderless)
-
                     // Pour chaque Groupe
                     ForEach(classe.allGroupsSortedByNumber) { groupe in
                         if show(groupe: groupe) {
-                            DisclosureGroup(isExpanded: $expanded) {
+                            DisclosureGroup(isExpanded: $isExpanded) {
                                 switch presentation {
                                     case .list:
                                         GroupView(
                                             groupe: groupe,
                                             classe: classe,
+                                            isEditing: $isEditing,
                                             searchString: searchString
                                         )
                                     case .picture:
@@ -105,7 +97,7 @@ struct GroupsListView: View {
         #if os(iOS)
         .navigationTitle("Groupes " + classe.displayString + " (\(classe.nbOfEleves))")
         #endif
-        // Exporter des fichiers JSON pour le modèle
+        // Exporter des fichiers CSV pour les Groupes
         .fileMover(
             isPresented: $isExportingGroups,
             files: isExportingGroups ?
@@ -138,9 +130,19 @@ extension GroupsListView {
             .pickerStyle(.segmented)
         }
 
+        if presentation == .list {
+            ToolbarItemGroup(placement: .bottomBar) {
+                // Modifier manuellement la composition des groupes
+                Button(isEditing ? "OK" : "Modifier la composition") {
+                    isEditing.toggle()
+                }
+                .buttonStyle(.bordered)
+            }
+        }
+
         ToolbarItemGroup(placement: .destructiveAction) {
             Menu {
-                // Exporter les groupes au format CSV
+                // Exporter les groupes de la classe au format CSV
                 if classe.nbOfGroups > 1 {
                     Button {
                         CsvImportExportMng.exportGroups(de: classe)
@@ -230,12 +232,19 @@ extension GroupsListView {
                     Label("Générer les groupes", systemImage: "person.line.dotted.person.fill")
                 }
 
-                // Supprimer tous les groupes
                 if classe.nbOfGroups > 1 {
+                    // Ajout d'un nouveau groupe
+                    Button {
+                        GroupManager.addGroup(dans: classe)
+                    } label: {
+                        Label("Ajouter un groupe", systemImage: "plus.circle.fill")
+                    }
+
+                    // Supprimer tous les groupes
                     Button(role: .destructive) {
                         isShowingDeleteGroupsDialog.toggle()
                     } label: {
-                        Label("Suprimer les groupes", systemImage: "trash")
+                        Label("Suprimer tous les groupes", systemImage: "trash")
                     }
                 }
 

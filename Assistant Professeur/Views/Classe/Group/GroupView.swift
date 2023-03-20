@@ -15,6 +15,9 @@ struct GroupView: View {
     @ObservedObject
     var classe: ClasseEntity
 
+    @Binding
+    var isEditing: Bool
+
     let searchString: String
 
     @EnvironmentObject
@@ -32,31 +35,21 @@ struct GroupView: View {
         groupe.number != 0
     }
 
-    private var allElevesAssigned: Bool {
-        ungroupedEleves.isEmpty
-    }
-
-    private var showAddEleveMenu: Bool {
-        groupIsEditable && !allElevesAssigned
-    }
-
-    private var ungroupedEleves: [EleveEntity] {
-        classe.groupOfUngroupedEleves.elevesSortedByName
-    }
-
     // MARK: - Compute Properties
 
     var body: some View {
         Group {
-            if showAddEleveMenu {
+            if groupIsEditable && isEditing {
                 // ajouter au groupe un élève parmis ceux qui ne sont affectés à aucun groupe
                 Menu {
                     ForEach(classe.elevesSortedByName) { eleve in
                         Button {
-                            GroupManager.assign(
-                                eleve: eleve,
-                                toGroupNumber: groupe.viewNumber
-                            )
+                            withAnimation {
+                                GroupManager.assign(
+                                    eleve: eleve,
+                                    toGroupNumber: groupe.viewNumber
+                                )
+                            }
                         } label: {
                             Label(
                                 eleve.displayName,
@@ -84,7 +77,7 @@ struct GroupView: View {
 
                     // retirer l'élève du groupe
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        if groupIsEditable {
+                        if groupIsEditable && isEditing {
                             Button(role: .destructive) {
                                 withAnimation {
                                     GroupManager
@@ -166,6 +159,7 @@ struct MoveEleveDialog: View {
                     dismiss()
                 }
             }
+
             ToolbarItem {
                 Button("Déplacer") {
                     withAnimation {
