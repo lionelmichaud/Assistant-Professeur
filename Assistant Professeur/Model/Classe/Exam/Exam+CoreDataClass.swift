@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 @objc(ExamEntity)
-public class ExamEntity: NSManagedObject, Codable, ModelEntityP {
+public final class ExamEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, coef, dateExecuted, examType
         case maxMark, steps, sujet

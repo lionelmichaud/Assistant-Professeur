@@ -16,7 +16,7 @@ private let customLog = Logger(
 )
 
 @objc(SequenceEntity)
-public class SequenceEntity: NSManagedObject, Codable, ModelEntityP {
+public final class SequenceEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, annotation
         case name, number, url

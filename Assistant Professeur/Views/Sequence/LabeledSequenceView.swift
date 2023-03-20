@@ -17,6 +17,7 @@ struct LabeledSequenceView: View {
                 .textSelection(.enabled)
         } icon: {
             Image(systemName: "\(sequence.viewNumber).circle")
+                .imageScale(.large)
         }
     }
 }

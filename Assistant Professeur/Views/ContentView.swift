@@ -29,6 +29,9 @@ struct ContentView: View {
     @State
     private var initAlertIsPresented = false
 
+    @State
+    private var iCloudAlertIsPresented = false
+
     var body: some View {
         TabView(selection: $navigationModel.selectedTab) {
             // Les établissements scolaires
@@ -36,20 +39,6 @@ struct ContentView: View {
                 .tabItem { Label("Etablissement", systemImage: "building.2").symbolVariant(.none) }
                 .tag(NavigationModel.Tab.school)
                 .badge(SchoolEntity.cardinal())
-
-                // Alerte en cas d'erreur d'initilisation de l'App
-                .alert(
-                    isPresented: $initAlertIsPresented,
-                    error: AppState.shared.initError
-                ) { _ in
-                    Button("Quiter", role: .cancel) {}
-                } message: { error in
-                    Text(error.failureReason ?? "Raison inconue.")
-                    if let recoverySuggestion = error.recoverySuggestion {
-                        Text(recoverySuggestion)
-                    }
-                }
-
                 // passer les infos CloudKit pour les Infos
                 .environmentObject(cloudKitVM)
 
@@ -58,19 +47,6 @@ struct ContentView: View {
                 .tabItem { Label("Classes", systemImage: "person.3.sequence").symbolVariant(.none) }
                 .tag(NavigationModel.Tab.classe)
                 .badge(ClasseEntity.cardinal())
-
-                // Alerte en cas d'erreur de connection iCloud
-                .alert(
-                    isPresented: $cloudKitVM.isSignedInToicloud,
-                    error: cloudKitVM.iCloudError
-                ) { error in
-                    Button("Quitter", role: .cancel) {
-                        customLog.log(level: .fault, "\(error.failureReason ?? "Raison inconue.")")
-                        fatalError()
-                    }
-                } message: { error in
-                    Text(error.failureReason ?? "Raison inconue.")
-                }
 
             // Les élèves
             EleveSplitView()
@@ -86,15 +62,50 @@ struct ContentView: View {
                 .badge(ObservEntity.cardinal() + ColleEntity.cardinal())
 
 //            if isPad() || isMac() {
-                // Les programmes scolaires
-                ProgramSplitView(navig: navigationModel)
-                    .tabItem { Label("Programmes", systemImage: "books.vertical").symbolVariant(.none) }
-                    .tag(NavigationModel.Tab.program)
-                    .badge(ProgramEntity.cardinal())
+            // Les programmes scolaires
+            ProgramSplitView(navig: navigationModel)
+                .tabItem { Label("Programmes", systemImage: "books.vertical").symbolVariant(.none) }
+                .tag(NavigationModel.Tab.program)
+                .badge(ProgramEntity.cardinal())
 //            }
         }
         .environmentObject(navigationModel)
 
+        // Alerte en cas d'erreur d'initilisation de l'App
+        .alert(
+            isPresented: $initAlertIsPresented,
+            error: AppState.shared.initError
+        ) { error in
+            Button("OK", role: .cancel) {
+                customLog.log(level: .error, "\(error.failureReason ?? "Raison inconue.")")
+            }
+        } message: { error in
+            let failureReason = error.failureReason ?? "Raison inconnue."
+            let recoverySuggestion = error.recoverySuggestion ?? ""
+            let message = failureReason + (recoverySuggestion == "" ? "" : "\n\(recoverySuggestion)")
+            Text(message)
+        }
+
+        // Alerte en cas d'erreur de connection iCloud
+        .alert(
+            isPresented: $iCloudAlertIsPresented,
+            error: cloudKitVM.iCloudError
+        ) { error in
+            Button("OK", role: .cancel) {
+                customLog.log(level: .error, "\(error.failureReason ?? "Raison inconue.")")
+            }
+        } message: { error in
+            let failureReason = error.failureReason ?? "Raison inconnue."
+            let recoverySuggestion = error.recoverySuggestion ?? ""
+            let message = failureReason + (recoverySuggestion == "" ? "" : "\n\(recoverySuggestion)")
+            Text(message)
+        }
+
+        .onChange(of: cloudKitVM.iCloudError) { value in
+            if value != .available {
+                iCloudAlertIsPresented.toggle()
+            }
+        }
         // Synchronous initializaing of the View
         .onAppear {
             // Afficher une alerte en cas de problème d'initialisation de l'App
@@ -117,12 +128,14 @@ struct ContentView: View {
     private func checkAppInitFailure() {
         switch AppState.shared.initError {
             case .none:
-                break
+                initAlertIsPresented = false
 
             case .failedToLoadUserData,
                  .failedToInitialize,
                  .failedToLoadApplicationData,
-                 .failedToCheckCompatibility:
+                 .failedToCheckCompatibility,
+                 .failedToLoadPersistentStores,
+                 .failedToInitializeCloudKitSchema:
                 initAlertIsPresented = true
         }
     }

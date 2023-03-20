@@ -9,25 +9,25 @@ import SwiftUI
 
 /// Defines the main scene of the App
 struct MainScene: Scene {
+    /// object that you want to use throughout your views and that will be specific to each scene
+    /// @StateObject private var uiState = UIState()
+    let coreDataController: CoreDataManager
 
     // MARK: - Environment Properties
 
-    @Environment(\.scenePhase) var scenePhase
+    @Environment(\.scenePhase)
+    var scenePhase
 
     // MARK: - Properties
 
-    /// object that you want to use throughout your views and that will be specific to each scene
-    //@StateObject private var uiState = UIState()
-    let coreDataController: CoreDataController
-
     var body: some Scene {
         WindowGroup {
-            /// defines the views hierachy of the scene
+            // defines the views hierachy of the scene
             ContentView()
                 .environment(\.managedObjectContext, coreDataController.viewContext)
-                #if os(macOS)
+            #if os(macOS)
                 .frame(minWidth: 800, minHeight: 600)
-                #endif
+            #endif
         }
         .onChange(of: scenePhase) { scenePhase in
             // The final step is optional, but recommended:

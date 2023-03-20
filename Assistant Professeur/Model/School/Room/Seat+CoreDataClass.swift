@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 @objc(SeatEntity)
-public class SeatEntity: NSManagedObject, Codable, ModelEntityP {
+public final class SeatEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, numero, x, y
     }

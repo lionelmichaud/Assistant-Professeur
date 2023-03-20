@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 @objc(RoomEntity)
-public class RoomEntity: NSManagedObject, Codable, ModelEntityP {
+public final class RoomEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, name, capacity, seats
     }

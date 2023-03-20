@@ -15,7 +15,7 @@ struct CompletionSymbol: View {
     var body: some View {
         IndicatorImageView(
             name: status.imageName,
-            size: 24
+            size: 30
         )
     }
 }

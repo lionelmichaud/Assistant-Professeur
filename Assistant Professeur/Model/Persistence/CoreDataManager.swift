@@ -12,15 +12,15 @@ import SwiftUI
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
-    category: "CoreDataController"
+    category: "CoreDataManager"
 )
 
 /// Class to hold all the Persistence methods
-class CoreDataController {
+class CoreDataManager {
     // MARK: - SINGLETON
 
     /// A singleton for our entire app to use
-    static let shared = CoreDataController()
+    static let shared = CoreDataManager()
 
     // MARK: - Type Poperties
 
@@ -38,6 +38,9 @@ class CoreDataController {
 
     /// An initializer to load Core Data
     private init() {
+        #if DEBUG
+            print(">> CoreDataManager.init() initialization has started")
+        #endif
         // Register value transformers
 //        ValueTransformer.setValueTransformer(
 //            ExamStepsTransformer(),
@@ -62,13 +65,14 @@ class CoreDataController {
         container
             .loadPersistentStores { _, error in
                 if let error {
+                    AppState.shared.initError = .failedToLoadPersistentStores
                     customLog.log(
                         level: .fault,
-                        "Failed to load the persistence store form Core Data: \(error.localizedDescription)"
+                        "Failed to load the persistence store from Core Data: \(error.localizedDescription)"
                     )
                 } else {
                     #if DEBUG
-                        print("Loading of the persistent stores has completed")
+                        print(">> Loading of the persistent stores has completed")
                     #endif
                 }
             }
@@ -82,12 +86,13 @@ class CoreDataController {
                     options: []
                     // options: [.printSchema]
                 )
-                print("Initialization of the development schema completed")
+                print(">> Initialization of the development schema completed")
             } catch {
                 // Handle any errors.
+                AppState.shared.initError = .failedToInitializeCloudKitSchema
                 customLog.log(
                     level: .error,
-                    "Failed to initialize the development schema in ClouKit: \(error.localizedDescription)"
+                    ">> Failed to initialize the development schema in ClouKit: \(error.localizedDescription)"
                 )
             }
 
@@ -97,7 +102,11 @@ class CoreDataController {
                 .userDomainMask,
                 true
             )
-            print("Document directory: \(directories[0])")
+            print(">> Document directory: \(directories[0])")
+        #endif
+
+        #if DEBUG
+            print(">> CoreDataManager.init() initialization has completed")
         #endif
     }
 

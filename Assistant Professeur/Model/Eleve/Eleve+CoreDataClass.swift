@@ -16,7 +16,7 @@ private let customLog = Logger(
 )
 
 @objc(EleveEntity)
-public class EleveEntity: NSManagedObject, Codable, ModelEntityP {
+public final class EleveEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, familyName, givenName, sex, trouble, isFlagged
         case annotation, appreciation, bonus, hasAddTime

@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 @objc(DocumentEntity)
-public class DocumentEntity: NSManagedObject, Codable, ModelEntityP {
+public final class DocumentEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, docName
     }

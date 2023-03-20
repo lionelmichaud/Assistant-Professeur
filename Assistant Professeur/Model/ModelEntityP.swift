@@ -42,7 +42,7 @@ protocol ModelEntityP: NSManagedObject {
 
 extension ModelEntityP {
     static var viewContext: NSManagedObjectContext {
-        CoreDataController.shared.viewContext
+        CoreDataManager.shared.viewContext
     }
 
     // MARK: - Type Methods

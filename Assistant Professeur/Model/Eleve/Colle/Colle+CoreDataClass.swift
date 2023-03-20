@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 @objc(ColleEntity)
-public class ColleEntity: NSManagedObject, Codable, ModelEntityP {
+public final class ColleEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, descriptionMotif, date
         case isConsignee, isVerified, motif, duree

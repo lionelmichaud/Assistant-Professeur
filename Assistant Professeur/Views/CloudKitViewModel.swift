@@ -24,13 +24,13 @@ class CloudKitViewModel: ObservableObject {
 
     init() {
         #if DEBUG
-            print("CloudKitViewModel() initialization has started")
+            print(">> CloudKitViewModel() initialization has started")
         #endif
         getiCloudStatus()
         requestPermission()
         fetchicloudUserRecordID()
         #if DEBUG
-            print("CloudKitViewModel() initialization has completed")
+            print(">> CloudKitViewModel() initialization has completed")
         #endif
     }
 
@@ -38,24 +38,22 @@ class CloudKitViewModel: ObservableObject {
     private func getiCloudStatus() {
         CKContainer.default().accountStatus { [weak self] accountStatus, _ in
             DispatchQueue.main.async { [weak self] in
-                if accountStatus != .available {
-                    switch accountStatus {
-                        case .couldNotDetermine:
-                            self?.iCloudError = .couldNotDetermine
-                        case .available:
-                            self?.isSignedInToicloud = true
-                            return
-                        case .restricted:
-                            self?.iCloudError = .restricted
-                        case .noAccount:
-                            self?.iCloudError = .noAccount
-                        case .temporarilyUnavailable:
-                            self?.iCloudError = .temporarilyUnavailable
-                        @unknown default:
-                            self?.iCloudError = .unknown
-                    }
-                    self?.isSignedInToicloud = false
+                switch accountStatus {
+                    case .couldNotDetermine:
+                        self?.iCloudError = .couldNotDetermine
+                    case .available:
+                        self?.isSignedInToicloud = true
+                        return
+                    case .restricted:
+                        self?.iCloudError = .restricted
+                    case .noAccount:
+                        self?.iCloudError = .noAccount
+                    case .temporarilyUnavailable:
+                        self?.iCloudError = .temporarilyUnavailable
+                    @unknown default:
+                        self?.iCloudError = .unknown
                 }
+                self?.isSignedInToicloud = false
             }
         }
     }

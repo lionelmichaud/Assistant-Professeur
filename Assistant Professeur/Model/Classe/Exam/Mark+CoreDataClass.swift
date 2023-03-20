@@ -16,7 +16,7 @@ private let customLog = Logger(
 )
 
 @objc(MarkEntity)
-public class MarkEntity: NSManagedObject, Codable, ModelEntityP {
+public final class MarkEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, examType, mark, markType, steps
         case eleveID

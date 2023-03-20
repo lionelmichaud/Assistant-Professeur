@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 @objc(EventEntity)
-public class EventEntity: NSManagedObject, Codable, ModelEntityP {
+public final class EventEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, name, date
     }

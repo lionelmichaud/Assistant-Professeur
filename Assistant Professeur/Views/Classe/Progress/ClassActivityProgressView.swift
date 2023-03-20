@@ -74,7 +74,7 @@ struct ClassActivityProgressView: View {
 
         } label: {
             if let activity = progress.activity {
-                HStack {
+                HStack(alignment: .top) {
                     CompletionSymbol(status: progress.status)
                     LabeledActivityView(activity: activity)
                         .font(hClass == .compact ? .callout : .headline)

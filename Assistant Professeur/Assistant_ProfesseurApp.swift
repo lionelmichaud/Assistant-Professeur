@@ -17,7 +17,7 @@ private let customLog = Logger(
 @main
 struct Assistant_ProfesseurApp: App {
     /// the managed object context for your Core Data container
-    let coreDataController = CoreDataController.shared
+    let coreDataController = CoreDataManager.shared
 
     var body: some Scene {
         MainScene(coreDataController: coreDataController)
@@ -30,15 +30,16 @@ struct Assistant_ProfesseurApp: App {
     /// importer les documents contenus dans le Bundle application.
     init() {
         #if DEBUG
-            print("Assistant_ProfesseurApp.init() initialization has started")
+            print(">> Assistant_ProfesseurApp.init() initialization has started")
         #endif
         // URLCache.shared.memoryCapacity = 100_000_000 // ~100 MB memory space
 
         // vérifier l'existance du dossier `Documents`
         guard let documentsFolder = Folder.documents else {
             let error = FileError.failedToResolveDocuments
-            customLog.log(level: .fault, "\(error.rawValue))")
-            fatalError()
+            customLog.log(level: .error, "\(error.rawValue))")
+            AppState.shared.initError = .failedToInitialize
+            return
         }
 
         // vérifier la compatibilité de version entre l'application et les documents utilisateurs
@@ -46,9 +47,12 @@ struct Assistant_ProfesseurApp: App {
             let documentsAreCompatibleWithAppVersion =
                 try PersistenceManager
                     .checkCompatibilityWithAppVersion(of: documentsFolder)
-            print("Compatibilité de versions entre Appli / Dossier Document : \(documentsAreCompatibleWithAppVersion.frenchString)")
+            #if DEBUG
+                print(">> Compatibilité de versions entre Appli / Dossier Document : \(documentsAreCompatibleWithAppVersion.frenchString)")
+            #endif
             if !documentsAreCompatibleWithAppVersion {
                 do {
+                    // charger tous les documents de l'appli pour rétablir la compatibilité
                     try PersistenceManager()
                         .forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
 
@@ -62,7 +66,7 @@ struct Assistant_ProfesseurApp: App {
             AppState.shared.initError = .failedToCheckCompatibility
         }
         #if DEBUG
-            print("Assistant_ProfesseurApp.init() initialization has completed")
+            print(">> Assistant_ProfesseurApp.init() initialization has completed")
         #endif
     }
 }

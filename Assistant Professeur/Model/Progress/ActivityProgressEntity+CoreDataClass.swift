@@ -16,7 +16,7 @@ private let customLog = Logger(
 )
 
 @objc(ActivityProgressEntity)
-public class ActivityProgressEntity: NSManagedObject, Codable, ModelEntityP {
+public final class ActivityProgressEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, annotation, progress, classeID
     }

@@ -92,6 +92,9 @@ struct ClasseDetail: View {
     @Preference(\.eleveTrombineEnabled)
     private var eleveTrombineEnabled
 
+    @Environment(\.horizontalSizeClass)
+    private var hClass
+
     @State
     private var isShowingImportListeDialog = false
 
@@ -292,7 +295,7 @@ extension ClasseDetail {
     private var currentActivityView: some View {
         NavigationLink(value: ClasseNavigationRoute.activity(classe)) {
             HStack {
-                Label("Activité en cours", systemImage: "book.fill")
+                Label(hClass == .compact ? "Activité" : "Activité en cours", systemImage: "book.fill")
                     .fontWeight(.bold)
                 if let activity = classe.currentActivity,
                    let sequence = activity.sequence {
@@ -301,8 +304,13 @@ extension ClasseDetail {
                         .sortedProgressesInSequence(sequence)
                         .first(where: { $0.activity == activity })
                     Spacer()
-                    Text("Séquence \(sequence.viewNumber) - Activité \(activity.viewNumber) (\(currentActivityProgress!.progress, format: .percent))")
-                        .foregroundColor(.secondary)
+                    if hClass == .compact {
+                        Text("Seq \(sequence.viewNumber) - Act \(activity.viewNumber) (\(currentActivityProgress!.progress, format: .percent))")
+                            .foregroundColor(.secondary)
+                    } else {
+                        Text("Séquence \(sequence.viewNumber) - Activité \(activity.viewNumber) (\(currentActivityProgress!.progress, format: .percent))")
+                            .foregroundColor(.secondary)
+                    }
                 }
             }
         }

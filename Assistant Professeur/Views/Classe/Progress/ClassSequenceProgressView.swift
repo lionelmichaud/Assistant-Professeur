@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// Situation de la progression d'une classe par Séquence
+/// Situation de la progression d'une Classe pour une Séquence donnée
 struct ClassSequenceProgressView: View {
     // MARK: - Initializer
 
@@ -60,7 +60,7 @@ struct ClassSequenceProgressView: View {
                 Text("Aucune activité suivie par cette classe")
             }
         } label: {
-            HStack {
+            HStack(alignment: .top) {
                 CompletionSymbol(
                     status: sequence.statusFor(classe: classe)
                 )

@@ -16,18 +16,24 @@ struct ActivityBrowserRow: View {
     private var hClass
 
     var body: some View {
-        VStack(alignment: .leading) {
-            LabeledActivityView(activity: activity)
+        HStack {
+            Image(systemName: "\(activity.viewNumber).circle")
+                .imageScale(.large)
 
-            HStack {
-                DurationView(duration: activity.duration, withMargin: false)
-                Spacer()
-                ActivityAllSymbols(
-                    activity: activity,
-                    showTitle: false
-                )
-                .tint(.primary)
-                // WebsiteView(url: activity.url)
+            VStack(alignment: .leading) {
+                Text(activity.viewName)
+                    .textSelection(.enabled)
+
+                HStack {
+                    DurationView(duration: activity.duration, withMargin: false)
+                    Spacer()
+                    ActivityAllSymbols(
+                        activity: activity,
+                        showTitle: false
+                    )
+                    .tint(.primary)
+                    // WebsiteView(url: activity.url)
+                }
             }
         }
         .font(hClass == .compact ? .callout : .body)

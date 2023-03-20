@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 @objc(GroupEntity)
-public class GroupEntity: NSManagedObject, Codable, ModelEntityP {
+public final class GroupEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, number
     }

@@ -36,8 +36,8 @@
 		7937A2462986C57D00D0ED59 /* ExamTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */; };
 		7937A2492987F7B400D0ED59 /* StepsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2482987F7B400D0ED59 /* StepsListView.swift */; };
 		7937A24B298830CC00D0ED59 /* StepEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A24A298830CC00D0ED59 /* StepEditor.swift */; };
-		79388A4529256819002AABB8 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4429256819002AABB8 /* CoreDataController.swift */; };
-		79388A4629256819002AABB8 /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4429256819002AABB8 /* CoreDataController.swift */; };
+		79388A4529256819002AABB8 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4429256819002AABB8 /* CoreDataManager.swift */; };
+		79388A4629256819002AABB8 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4429256819002AABB8 /* CoreDataManager.swift */; };
 		79388A4929256E13002AABB8 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4829256E13002AABB8 /* MainScene.swift */; };
 		79388A4A29256E13002AABB8 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4829256E13002AABB8 /* MainScene.swift */; };
 		79388A4B29256E13002AABB8 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4829256E13002AABB8 /* MainScene.swift */; };
@@ -321,7 +321,7 @@
 		7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamTypeEnum.swift; sourceTree = "<group>"; };
 		7937A2482987F7B400D0ED59 /* StepsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsListView.swift; sourceTree = "<group>"; };
 		7937A24A298830CC00D0ED59 /* StepEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepEditor.swift; sourceTree = "<group>"; };
-		79388A4429256819002AABB8 /* CoreDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
+		79388A4429256819002AABB8 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		79388A4829256E13002AABB8 /* MainScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		79388A4E29257025002AABB8 /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		79388A5229257045002AABB8 /* NavigationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationModel.swift; sourceTree = "<group>"; };
@@ -1186,7 +1186,7 @@
 		79DEDB1D292598BE00F508EF /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
-				79388A4429256819002AABB8 /* CoreDataController.swift */,
+				79388A4429256819002AABB8 /* CoreDataManager.swift */,
 				79DEDB212925991100F508EF /* Persistence.swift */,
 				79DEDB242925996E00F508EF /* Interoperability.swift */,
 				79DEDB262925996E00F508EF /* Preferences.swift */,
@@ -1505,7 +1505,7 @@
 				79F41E6F2954C83A00EAAC52 /* ElevesTableView.swift in Sources */,
 				795804B729A696CC00AEB7DA /* SequenceTimeLine.swift in Sources */,
 				79AFBFB42981A4B0001576DD /* SequenceDetailGroupBox.swift in Sources */,
-				79388A4529256819002AABB8 /* CoreDataController.swift in Sources */,
+				79388A4529256819002AABB8 /* CoreDataManager.swift in Sources */,
 				795CB1952958F668006EF060 /* Motif.swift in Sources */,
 				79F41E662954B1DC00EAAC52 /* Sexe.swift in Sources */,
 				79E524BE295376EA00DA99A7 /* EventEditor.swift in Sources */,
@@ -1632,7 +1632,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				79388A4A29256E13002AABB8 /* MainScene.swift in Sources */,
-				79388A4629256819002AABB8 /* CoreDataController.swift in Sources */,
+				79388A4629256819002AABB8 /* CoreDataManager.swift in Sources */,
 				79388A5429257045002AABB8 /* NavigationModel.swift in Sources */,
 				79DEDB232925991100F508EF /* Persistence.swift in Sources */,
 				79DEDB282925996E00F508EF /* Interoperability.swift in Sources */,

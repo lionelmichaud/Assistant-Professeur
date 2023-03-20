@@ -17,6 +17,7 @@ struct LabeledActivityView: View {
                 .textSelection(.enabled)
         } icon: {
             Image(systemName: "\(activity.viewNumber).circle")
+                .imageScale(.large)
         }
     }
 }

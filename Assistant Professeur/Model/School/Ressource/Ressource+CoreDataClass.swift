@@ -10,7 +10,7 @@ import CoreData
 import Foundation
 
 @objc(RessourceEntity)
-public class RessourceEntity: NSManagedObject, Codable, ModelEntityP {
+public final class RessourceEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, name, quantity
     }

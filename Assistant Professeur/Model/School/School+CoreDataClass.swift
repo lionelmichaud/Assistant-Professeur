@@ -9,7 +9,7 @@ import CoreData
 import Foundation
 
 @objc(SchoolEntity)
-public class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
+public final class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, name, level, annotation
         case classes, documents, ressources, events, rooms
