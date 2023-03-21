@@ -79,30 +79,31 @@ class CoreDataManager {
 
         // Only initialize the schema when building the app with the
         // Debug build configuration.
+        /// À DESACTIVER sous la cible "My Mac (Designed for iPad)"
         #if DEBUG
-            do {
-                // Use the container to initialize the development schema.
-                try container.initializeCloudKitSchema(
-                    options: []
-                    // options: [.printSchema]
-                )
-                print(">> Initialization of the development schema completed")
-            } catch {
-                // Handle any errors.
-                AppState.shared.initError = .failedToInitializeCloudKitSchema
-                customLog.log(
-                    level: .error,
-                    ">> Failed to initialize the development schema in ClouKit: \(error.localizedDescription)"
-                )
-            }
-
-            /// TODO: - DEBUG
-            let directories = NSSearchPathForDirectoriesInDomains(
-                .documentDirectory,
-                .userDomainMask,
-                true
-            )
-            print(">> Document directory: \(directories[0])")
+//            do {
+//                // Use the container to initialize the development schema.
+//                try container.initializeCloudKitSchema(
+//                    options: []
+//                    // options: [.printSchema]
+//                )
+//                print(">> Initialization of the development schema completed")
+//            } catch {
+//                // Handle any errors.
+//                AppState.shared.initError = .failedToInitializeCloudKitSchema
+//                customLog.log(
+//                    level: .error,
+//                    ">> Failed to initialize the development schema in ClouKit: \(error.localizedDescription)"
+//                )
+//            }
+//
+//            /// TODO: - DEBUG
+//            let directories = NSSearchPathForDirectoriesInDomains(
+//                .documentDirectory,
+//                .userDomainMask,
+//                true
+//            )
+//            print(">> Document directory: \(directories[0])")
         #endif
 
         #if DEBUG

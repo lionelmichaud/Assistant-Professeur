@@ -69,6 +69,21 @@
                   endingLineNumber = "71"
                   offsetFromSymbolStart = "2972">
                </Location>
+               <Location
+                  uuid = "99556B03-2970-40BC-B87D-72BA5A81BC36 - dce06847e3d67b59"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Assistant_Professeur.ModelEntityP.byObjectId(id: __C.NSManagedObjectID) -&gt; Swift.Optional&lt;&#x3c4;_0_0&gt;"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/ModelEntityP.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "71"
+                  endingLineNumber = "71"
+                  offsetFromSymbolStart = "6500">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -129,6 +144,21 @@
                   startingLineNumber = "104"
                   endingLineNumber = "104"
                   offsetFromSymbolStart = "492">
+               </Location>
+               <Location
+                  uuid = "11A93097-6806-4ABC-8856-B54DBDB72E7F - 4414bd58fd46c77a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Assistant_Professeur.ModelEntityP.saveIfContextHasChanged() throws -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/ModelEntityP.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "104"
+                  endingLineNumber = "104"
+                  offsetFromSymbolStart = "1936">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -210,53 +240,20 @@
                   endingLineNumber = "551"
                   offsetFromSymbolStart = "12">
                </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "23768BCF-DF92-4C56-B297-484EE49FA5E1"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Persistence/DataBaseManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "check(errorFound:)"
-            landmarkType = "7">
-            <Locations>
                <Location
-                  uuid = "23768BCF-DF92-4C56-B297-484EE49FA5E1 - 70732ff3b518a806"
+                  uuid = "1ADE21B3-6300-489F-8EFE-4BFD9B2B45A3 - bb6981ced71f471c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "static Assistant_Professeur.DataBaseManager.check(errorFound: inout Swift.Bool) -&gt; ()"
+                  symbolName = "Assistant_Professeur.SchoolSidebarView.importFromApp() -&gt; ()"
                   moduleName = "Assistant Professeur"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Persistence/DataBaseManager.swift"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/School/SchoolSidebarView.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "28"
-                  endingLineNumber = "28"
-                  offsetFromSymbolStart = "728">
-               </Location>
-               <Location
-                  uuid = "23768BCF-DF92-4C56-B297-484EE49FA5E1 - 70732ff3b518a806"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static Assistant_Professeur.DataBaseManager.check(errorFound: inout Swift.Bool) -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Persistence/DataBaseManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "28"
-                  endingLineNumber = "28"
-                  offsetFromSymbolStart = "336">
+                  startingLineNumber = "551"
+                  endingLineNumber = "551"
+                  offsetFromSymbolStart = "360">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -322,6 +319,21 @@
                   endingLineNumber = "57"
                   offsetFromSymbolStart = "3564">
                </Location>
+               <Location
+                  uuid = "1CB73EDC-C7DD-4D22-BAAD-E06CBD2F3CF7 - 5cd2cbf152226fb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.ClasseEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.ClasseEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Classe/Classe+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "6796">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -369,6 +381,21 @@
                   startingLineNumber = "64"
                   endingLineNumber = "64"
                   offsetFromSymbolStart = "6204">
+               </Location>
+               <Location
+                  uuid = "056424E1-A327-4F02-886E-B483462664DE - 8a77f35c8ad25c5c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.EleveEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.EleveEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Eleve/Eleve+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "10812">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -418,6 +445,21 @@
                   endingLineNumber = "51"
                   offsetFromSymbolStart = "4036">
                </Location>
+               <Location
+                  uuid = "67FE157E-C920-48C0-9B1A-FF60A947EC26 - 8a77f35c8ad25e09"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.EleveEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.EleveEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Eleve/Eleve+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "7388">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -465,6 +507,21 @@
                   startingLineNumber = "42"
                   endingLineNumber = "42"
                   offsetFromSymbolStart = "1864">
+               </Location>
+               <Location
+                  uuid = "7F0ABC3C-AA30-48A2-9A70-9226A0B25075 - e0fc264aae32e5e3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.MarkEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.MarkEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Classe/Exam/Mark+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "4300">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -514,6 +571,21 @@
                   endingLineNumber = "121"
                   offsetFromSymbolStart = "440">
                </Location>
+               <Location
+                  uuid = "5B898746-3564-4189-8409-3B9C5E1D5DB9 - 32c35206e219372f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Assistant_Professeur.ActivityProgressEntity) -&gt; () in static Assistant_Professeur.ActivityProgressEntity.checkConsistency(errorFound: inout Swift.Bool) -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Progress/ActivityProgress+Extensions.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "121"
+                  endingLineNumber = "121"
+                  offsetFromSymbolStart = "1328">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -561,6 +633,21 @@
                   startingLineNumber = "125"
                   endingLineNumber = "125"
                   offsetFromSymbolStart = "424">
+               </Location>
+               <Location
+                  uuid = "E2132AE9-ACF0-4E14-998C-23017459301D - 32c35206e21936ab"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Assistant_Professeur.ActivityProgressEntity) -&gt; () in static Assistant_Professeur.ActivityProgressEntity.checkConsistency(errorFound: inout Swift.Bool) -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Progress/ActivityProgress+Extensions.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "125"
+                  endingLineNumber = "125"
+                  offsetFromSymbolStart = "1228">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -610,6 +697,21 @@
                   endingLineNumber = "117"
                   offsetFromSymbolStart = "456">
                </Location>
+               <Location
+                  uuid = "F0DBBA73-AE40-4808-BB49-35BE552D576A - 32c35206e2193453"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Assistant_Professeur.ActivityProgressEntity) -&gt; () in static Assistant_Professeur.ActivityProgressEntity.checkConsistency(errorFound: inout Swift.Bool) -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Progress/ActivityProgress+Extensions.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "117"
+                  endingLineNumber = "117"
+                  offsetFromSymbolStart = "1428">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -657,6 +759,21 @@
                   startingLineNumber = "39"
                   endingLineNumber = "39"
                   offsetFromSymbolStart = "1684">
+               </Location>
+               <Location
+                  uuid = "4CBF58DA-AE84-4091-8E99-B5BD6408F045 - b65bf336aa7219a0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.ActivityProgressEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.ActivityProgressEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Progress/ActivityProgressEntity+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "39"
+                  endingLineNumber = "39"
+                  offsetFromSymbolStart = "3848">
                </Location>
             </Locations>
          </BreakpointContent>

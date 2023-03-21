@@ -26,9 +26,6 @@ struct GroupView: View {
     @Preference(\.nameDisplayOrder)
     private var nameDisplayOrder
 
-    @State
-    private var isMovingEleve = false
-
     // MARK: - Computed Properties
 
     private var groupIsEditable: Bool {
@@ -86,30 +83,6 @@ struct GroupView: View {
                             } label: {
                                 Text("Retirer")
                             }
-                        }
-                    }
-
-                    // changer l'élève de groupe
-                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                        // changer l'élève de groupe
-                        // FIXME: Ne fonctionne pas correctement
-                        if false {
-                            Button {
-                                isMovingEleve = true
-                            } label: {
-                                Text("Déplacer")
-                                    .popover(isPresented: $isMovingEleve) {
-                                        Text("test")
-                                        // MoveEleveDialog(eleve: eleve)
-                                    }
-                            }
-                        }
-                    }
-
-                    .sheet(isPresented: $isMovingEleve) {
-                        NavigationStack {
-                            MoveEleveDialog(eleve: eleve)
-                                .presentationDetents([.large])
                         }
                     }
             }

@@ -165,7 +165,10 @@ extension DocumentEntity {
 
     static func checkConsistency(errorFound: inout Bool) {
         all().forEach { doc in
-            guard doc.school != nil else {
+            guard doc.school != nil ||
+                    doc.program != nil ||
+                    doc.sequence != nil ||
+                    doc.activity != nil else {
                 errorFound = true
                 return
             }
