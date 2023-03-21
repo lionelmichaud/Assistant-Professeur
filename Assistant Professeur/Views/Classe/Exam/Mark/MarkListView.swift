@@ -56,25 +56,23 @@ struct MarkListView: View {
                 }
 
                 // affecter la même note à tous les membres d'un même groupe
-                if let classe = exam.classe {
-                    if classe.nbOfGroups > 1 {
-                        Button {
-                            isAddingGroupMark = true
-                        } label: {
-                            Image(systemName: "person.line.dotted.person.fill")
-                        }
-                        .sheet(isPresented: $isAddingGroupMark) {
-                            NavigationStack {
-                                switch exam.examTypeEnum {
-                                    case .global:
-                                        // Note globale
-                                        GroupGlobalMarkModal(exam: exam)
-                                            .presentationDetents([.medium])
-                                    case .multiStep:
-                                        // Notes échelonnées
-                                        GroupSteppedlMarkModal(exam: exam)
-                                            .presentationDetents([.medium])
-                                }
+                if let classe = exam.classe, classe.nbOfGroups > 1 {
+                    Button {
+                        isAddingGroupMark = true
+                    } label: {
+                        Image(systemName: "person.line.dotted.person.fill")
+                    }
+                    .sheet(isPresented: $isAddingGroupMark) {
+                        NavigationStack {
+                            switch exam.examTypeEnum {
+                                case .global:
+                                    // Note globale
+                                    GroupGlobalMarkModal(exam: exam)
+                                        .presentationDetents([.medium])
+                                case .multiStep:
+                                    // Notes échelonnées
+                                    GroupSteppedlMarkModal(exam: exam)
+                                        .presentationDetents([.medium])
                             }
                         }
                     }

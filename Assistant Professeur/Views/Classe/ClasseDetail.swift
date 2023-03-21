@@ -99,8 +99,6 @@ struct ClasseDetail: View {
     private var isShowingImportListeDialog = false
 
     @State
-    private var isShowingRandomNameDialog = false
-    @State
     private var randomEleve: EleveEntity?
 
     @State
@@ -224,11 +222,11 @@ extension ClasseDetail {
         ToolbarItemGroup(placement: .primaryAction) {
             Button {
                 randomEleve = classe.elevesSortedByName.randomElement()
-                isShowingRandomNameDialog = true
             } label: {
                 Image(systemName: "person.fill.questionmark")
                     .imageScale(.large)
             }
+            .disabled(!eleveTrombineEnabled)
             .popover(item: $randomEleve) { eleve in
                 TrombineView(eleve: eleve)
                     .scaledToFit()
