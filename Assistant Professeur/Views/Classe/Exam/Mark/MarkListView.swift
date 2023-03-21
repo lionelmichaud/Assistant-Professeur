@@ -34,12 +34,13 @@ struct MarkListView: View {
                 Text("Notes")
                 Spacer()
 
-                // reset de toutes les notes de la classe
+                // Bouton reset de toutes les notes de la classe
                 Button(role: .destructive) {
                     isShowingResetConfirmDialog = true
                 } label: {
                     Image(systemName: "eraser.fill")
                 }
+                .buttonStyle(.borderedProminent)
                 // Confirmation de Suppression de toutes vos données
                 .confirmationDialog(
                     "Remettre toutes les notes à \"Non noté\" ?",
@@ -55,13 +56,14 @@ struct MarkListView: View {
                     Text("Cette action ne peut pas être annulée.")
                 }
 
-                // affecter la même note à tous les membres d'un même groupe
+                // Bouton affecter la même note à tous les membres d'un même groupe
                 if let classe = exam.classe, classe.nbOfGroups > 1 {
                     Button {
                         isAddingGroupMark = true
                     } label: {
                         Image(systemName: "person.line.dotted.person.fill")
                     }
+                    .buttonStyle(.borderedProminent)
                     .sheet(isPresented: $isAddingGroupMark) {
                         NavigationStack {
                             switch exam.examTypeEnum {
@@ -78,6 +80,7 @@ struct MarkListView: View {
                     }
                 }
             }
+            .padding(.trailing)
         }
         .headerProminence(.increased)
     }
