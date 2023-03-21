@@ -95,7 +95,7 @@
 		795C2C31296E2DCA00EDFF09 /* RoomElevePlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C29296E2DCA00EDFF09 /* RoomElevePlacement.swift */; };
 		795CB1952958F668006EF060 /* Motif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795CB1942958F668006EF060 /* Motif.swift */; };
 		795EED0529673B88009AA6F4 /* Mark+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0429673B88009AA6F4 /* Mark+Extensions.swift */; };
-		795EED0B29677C76009AA6F4 /* MarkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0929677C76009AA6F4 /* MarkRow.swift */; };
+		795EED0B29677C76009AA6F4 /* EleveMarkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0929677C76009AA6F4 /* EleveMarkRow.swift */; };
 		795EED0C29677C76009AA6F4 /* MarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0A29677C76009AA6F4 /* MarkListView.swift */; };
 		796371FF297D575800ECDBC3 /* SequenceSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796371FE297D575800ECDBC3 /* SequenceSidebarView.swift */; };
 		79637201297D707400ECDBC3 /* SequenceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637200297D707400ECDBC3 /* SequenceList.swift */; };
@@ -373,7 +373,7 @@
 		795C2C29296E2DCA00EDFF09 /* RoomElevePlacement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomElevePlacement.swift; sourceTree = "<group>"; };
 		795CB1942958F668006EF060 /* Motif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Motif.swift; sourceTree = "<group>"; };
 		795EED0429673B88009AA6F4 /* Mark+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mark+Extensions.swift"; sourceTree = "<group>"; };
-		795EED0929677C76009AA6F4 /* MarkRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkRow.swift; sourceTree = "<group>"; };
+		795EED0929677C76009AA6F4 /* EleveMarkRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveMarkRow.swift; sourceTree = "<group>"; };
 		795EED0A29677C76009AA6F4 /* MarkListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkListView.swift; sourceTree = "<group>"; };
 		796371FE297D575800ECDBC3 /* SequenceSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceSidebarView.swift; sourceTree = "<group>"; };
 		79637200297D707400ECDBC3 /* SequenceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceList.swift; sourceTree = "<group>"; };
@@ -838,7 +838,7 @@
 		795EED0829677C76009AA6F4 /* Mark */ = {
 			isa = PBXGroup;
 			children = (
-				795EED0929677C76009AA6F4 /* MarkRow.swift */,
+				795EED0929677C76009AA6F4 /* EleveMarkRow.swift */,
 				795EED0A29677C76009AA6F4 /* MarkListView.swift */,
 				7986A8562989B1A2007471BE /* GroupGlobalMarkModal.swift */,
 				7986A8582989CE73007471BE /* GroupSteppedlMarkModal.swift */,
@@ -1469,7 +1469,7 @@
 				79F41E642954B08A00EAAC52 /* Eleve+Extensions.swift in Sources */,
 				7937A24B298830CC00D0ED59 /* StepEditor.swift in Sources */,
 				79AFBFB82981D264001576DD /* ActivityEditorModal.swift in Sources */,
-				795EED0B29677C76009AA6F4 /* MarkRow.swift in Sources */,
+				795EED0B29677C76009AA6F4 /* EleveMarkRow.swift in Sources */,
 				794F6E14295CEC0C00042B95 /* ObservViewModel.swift in Sources */,
 				795EED0529673B88009AA6F4 /* Mark+Extensions.swift in Sources */,
 				79401350295624EF007AD790 /* Dsicipline.swift in Sources */,
