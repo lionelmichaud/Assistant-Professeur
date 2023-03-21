@@ -8,7 +8,7 @@
 import HelpersView
 import SwiftUI
 
-struct MarkRow: View {
+struct EleveMarkRow: View {
     @ObservedObject
     var mark: MarkEntity
 
@@ -96,7 +96,7 @@ struct MarkRow: View {
 
 // MARK: - Subviews
 
-extension MarkRow {
+extension EleveMarkRow {
     private var regularMarkView: some View {
         HStack {
             switch examType {
@@ -134,6 +134,7 @@ extension MarkRow {
                     Button("Modifier") {
                         isEditing.toggle()
                     }
+                    .buttonStyle(.bordered)
             }
         }
     }
@@ -161,6 +162,7 @@ extension MarkRow {
                     } label: {
                         Text("Modifier")
                     }
+                    .buttonStyle(.bordered)
             }
             if examType == .global {
                 Stepper(
@@ -190,6 +192,7 @@ extension MarkRow {
                 .symbolRenderingMode(.monochrome)
                 .foregroundColor(mark.eleve!.sexEnum.color)
         }
+        .buttonStyle(.borderless)
         .disabled(!eleveTrombineEnabled)
         .popover(item: $selectedEleve) { eleve in
             TrombineView(eleve: eleve)

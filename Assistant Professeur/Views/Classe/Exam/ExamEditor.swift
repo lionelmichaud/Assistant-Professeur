@@ -19,41 +19,33 @@ struct ExamEditor: View {
     private var searchString: String = ""
 
     var body: some View {
-        Group {
-            List {
-                if searchString.isEmpty {
-                    ExamDetail(exam: exam)
-                }
-
-                // notes
-                MarkListView(
-                    exam: exam,
-                    searchString: searchString
-                )
+        List {
+            if searchString.isEmpty {
+                ExamDetail(exam: exam)
             }
-            .searchable(
-                text: $searchString,
-//                        placement : .navigationBarDrawer(displayMode : .automatic),
-                placement: .toolbar,
-                prompt: "Nom, Prénom ou n° de groupe"
+
+            // notes
+            MarkListView(
+                exam: exam,
+                searchString: searchString
             )
-            .autocorrectionDisabled()
-            .toolbar(content: myToolBarContent)
+        }
+        .searchable(
+            text: $searchString,
+//                        placement : .navigationBarDrawer(displayMode : .automatic),
+            placement: .toolbar,
+            prompt: "Nom, Prénom ou n° de groupe"
+        )
+        .autocorrectionDisabled()
+        .toolbar(content: myToolBarContent)
 //            .onChange(of: exam) { _ in
 //                if let idx = classe.exams.firstIndex(where: { $0.id == examId }) {
 //                    classe.exams[idx] = exam
 //                }
 //            }
-        }
         #if os(iOS)
         .navigationTitle("Évaluation")
         #endif
-        .task {
-//            if let exam = classe.exams.first(where: { $0.id == examId }) {
-//                examFound = true
-//                self.exam = exam
-//            }
-        }
     }
 }
 
@@ -70,8 +62,8 @@ extension ExamEditor {
                     .all()
                     .filter { otherClasse in
                         otherClasse.viewSegpa == classe.viewSegpa &&
-                        otherClasse.levelEnum == classe.levelEnum &&
-                        otherClasse.objectID != classe.objectID
+                            otherClasse.levelEnum == classe.levelEnum &&
+                            otherClasse.objectID != classe.objectID
                     }
                 print(otherClassesOfSameLevel)
 
