@@ -75,6 +75,9 @@ struct DocumentList: View {
                 isPresented: $alertIsPresented,
                 actions: {
                     Button("Supprimer", role: .destructive, action: deleteItems)
+                },
+                message: {
+                    Text(alertMessage)
                 }
             )
 
@@ -114,87 +117,6 @@ struct DocumentList: View {
                 .forEach(managedObjectContext.delete)
 
             try? DocumentEntity.saveIfContextHasChanged()
-        }
-        //                indexSet.forEach { index in
-        //                    let doc = school.documents[index]
-        //                    let name = doc.fileName
-        //
-        //                    // vérifier l'existence du Folder Document
-        //                    guard let documentsFolder = Folder.documents else {
-        //                        self.alertItem = AlertItem(title         : Text("Échec"),
-        //                                                   message       : Text("La suppression du fichier a échouée"),
-        //                                                   dismissButton : .default(Text("OK")))
-        //                        let error = FileError.failedToResolveDocuments
-        //                        customLog.log(level: .fault, "\(error.rawValue))")
-        //                        return
-        //                    }
-        //
-        //                    do {
-        //                        let file = try documentsFolder.file(named: name)
-        //                        try file.delete()
-        //                    } catch {
-        //                        self.alertItem = AlertItem(title         : Text("Échec"),
-        //                                                   message       : Text("La suppression du fichier a échouée"),
-        //                                                   dismissButton : .default(Text("OK")))
-        //                        customLog.log(level: .fault, "\(error))")
-        //                    }
-        //                }
-        //                school.documents.remove(atOffsets: indexSet)
-    }
-
-    /// Ajouter un document à l'établissement pour chaque fichier importé.
-    /// - Parameter result: résultat de la sélection des fichiers issue de fileImporter.
-    private func importUserSelectedFiles(result: Result<[URL], Error>) {
-        switch result {
-            case let .failure(error):
-                customLog.log(
-                    level: .error,
-                    "Error selecting PDF file: \(error.localizedDescription)"
-                )
-                DispatchQueue.main.async {
-                    alertTitle = "Échec"
-                    alertMessage = "L'importation des fichiers a échouée"
-                    alertIsPresented.toggle()
-                }
-                return
-
-            case let .success(filesUrl):
-                guard filesUrl.isNotEmpty else {
-                    customLog.log(
-                        level: .error,
-                        "Error creating PDF data from file"
-                    )
-                    DispatchQueue.main.async {
-                        alertTitle = "Échec"
-                        alertMessage = "L'importation des fichiers a échouée"
-                        alertIsPresented.toggle()
-                    }
-                    return
-                }
-
-                // créer le document et l'associer à l'établissement
-                filesUrl.forEach { url in
-                    do {
-                        let data = try Data(contentsOf: url)
-                        let fileName = url.lastPathComponent
-                        DocumentEntity.create(
-                            dans: school,
-                            withData: data,
-                            withName: fileName
-                        )
-
-                    } catch {
-                        customLog.log(
-                            level: .error,
-                            "Error creating PDF data from file: \(error.localizedDescription)"
-                        )
-                        DispatchQueue.main.async {
-                            alertTitle = "Échec de l'importation"
-                            alertMessage = "L'importation du fichier \(error.localizedDescription) a échouée"
-                            alertIsPresented.toggle()
-                        }
-                    }
-                }
         }
     }
 }

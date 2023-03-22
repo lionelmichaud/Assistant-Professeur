@@ -9,6 +9,11 @@ import PDFKit
 import SwiftUI
 
 struct PdfDocumentViewer: View {
+    init(document: DocumentEntity) {
+        self.document = document
+        self._pdfImages = State(initialValue: getPdfImages())
+    }
+
     @ObservedObject
     var document: DocumentEntity
 
@@ -20,6 +25,18 @@ struct PdfDocumentViewer: View {
 
     @State
     private var pdfImages = [Image]()
+
+    @State
+    private var alertTitle = ""
+
+    @State
+    private var alertMessage = ""
+
+    @State
+    private var alertIsPresented = false
+
+    @State
+    private var isImportingPdfFile = false
 
     // MARK: - Computed Properties
 
@@ -33,18 +50,49 @@ struct PdfDocumentViewer: View {
                     pdfImages[pgNumber]
                 }
             } else {
-                Text(pdfImages.isEmpty ? "Aucune document PDF trouvé" : "Chargement")
-                    .font(.title)
-                    .fontWeight(.heavy)
+                VStack(alignment: .center) {
+                    Text(pdfImages.isEmpty ? "Document PDF introuvable." : "Chargement")
+                        .font(.title2)
+                        .foregroundColor(.secondary)
+                    // ajouter un document PDF
+                    Button("Ajouter un document") {
+                        isImportingPdfFile = true
+                    }
+                    .buttonStyle(.borderless)
+                    .padding(.top)
+                    // Importer un fichier PDF
+                }
             }
         }
         #if os(iOS)
         .navigationTitle("\(document.viewName)")
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .onAppear {
-            pdfImages = getPdfImages()
+        .fileImporter(
+            isPresented: $isImportingPdfFile,
+            allowedContentTypes: [.pdf],
+            allowsMultipleSelection: false
+        ) { result in
+            (
+                alertTitle,
+                alertMessage,
+                alertIsPresented
+            ) = ImportExportManager.importUserSelectedFiles(
+                result: result
+            ) { data, _ in
+                document.pdfData = data
+                try? DocumentEntity.saveIfContextHasChanged()
+            }
         }
+        .alert(
+            alertTitle,
+            isPresented: $alertIsPresented,
+            actions: {},
+            message: {
+                Text(alertMessage)
+            }
+        )
+
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Button("OK") {
