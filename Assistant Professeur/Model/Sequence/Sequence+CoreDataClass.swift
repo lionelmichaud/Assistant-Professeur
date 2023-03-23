@@ -20,7 +20,7 @@ public final class SequenceEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, annotation
         case name, number, url
-        case activities, document
+        case activities, documents
     }
 
     /// Conformance to Decodable
@@ -47,7 +47,7 @@ public final class SequenceEntity: NSManagedObject, Codable, ModelEntityP {
 //            }
 //        }
 
-        self.document = try container.decode(DocumentEntity.self, forKey: .document)
+        self.documents = try container.decode(Set<DocumentEntity>.self, forKey: .documents) as NSSet
         self.activities = try container.decode(Set<ActivityEntity>.self, forKey: .activities) as NSSet
     }
 
@@ -62,7 +62,7 @@ public final class SequenceEntity: NSManagedObject, Codable, ModelEntityP {
 
 //        try container.encodeIfPresent(document?.id, forKey: .documentID)
 
-        try container.encodeIfPresent(document, forKey: .document)
+        try container.encode(documents as! Set<DocumentEntity>, forKey: .documents)
         try container.encode(activities as! Set<ActivityEntity>, forKey: .activities)
     }
 }

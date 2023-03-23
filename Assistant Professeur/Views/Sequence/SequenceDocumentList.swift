@@ -1,8 +1,8 @@
 //
-//  SchoolDocumentList.swift
-//  Cahier du Professeur
+//  SequenceDocumentList.swift
+//  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 02/11/2022.
+//  Created by Lionel MICHAUD on 23/03/2023.
 //
 
 import Files
@@ -12,13 +12,13 @@ import SwiftUI
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
-    category: "SchoolDocumentList"
+    category: "SequenceDocumentList"
 )
 
-/// Vue de la liste des documents importants de l'établissement
-struct SchoolDocumentList: View {
+/// Vue de la liste des documents importants de la sequence
+struct SequenceDocumentList: View {
     @ObservedObject
-    var school: SchoolEntity
+    var sequence: SequenceEntity
 
     @Environment(\.managedObjectContext)
     private var managedObjectContext
@@ -64,44 +64,23 @@ struct SchoolDocumentList: View {
                     result: result
                 ) { data, fileName in
                     DocumentEntity.create(
-                        dans: school,
+                        forSequence: sequence,
                         withData: data,
                         withName: fileName
                     )
                 }
             }
-            .alert(
-                alertTitle,
-                isPresented: $alertIsPresented,
-                actions: {
-                    Button("Supprimer", role: .destructive, action: deleteItems)
-                },
-                message: {
-                    Text(alertMessage)
-                }
-            )
-
             // Visualisation de la liste des documents
-            ForEach(school.documentsSortedByName, id: \.objectID) { document in
+            ForEach(sequence.documentsSortedByName, id: \.objectID) { document in
                 DocumentRow(
                     document: document,
                     saveChanges: true
                 )
             }
-            .onDelete { indexSet in
-                DispatchQueue.main.async {
-                    self.indexSet = indexSet
-                    alertTitle = "Supprimer ce document?"
-                    alertMessage =
-                        """
-                        Cette action ne peut pas être annulée.
-                        """
-                    alertIsPresented.toggle()
-                }
-            }
+            .onDelete(perform: deleteItems)
 
         } header: {
-            Text("Documents (\(school.nbOfDocuments))")
+            Text("Documents (\(sequence.nbOfDocuments))")
                 .font(.callout)
                 .foregroundColor(.secondary)
                 .fontWeight(.bold)
@@ -110,19 +89,11 @@ struct SchoolDocumentList: View {
 
     // MARK: - Methods
 
-    private func deleteItems() {
+    private func deleteItems(indexSet: IndexSet) {
         withAnimation {
             indexSet
-                .map { school.documentsSortedByName[$0] }
+                .map { sequence.documentsSortedByName[$0] }
                 .forEach(managedObjectContext.delete)
-
-            try? DocumentEntity.saveIfContextHasChanged()
         }
     }
 }
-
-// struct DocumentList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DocumentList()
-//    }
-// }

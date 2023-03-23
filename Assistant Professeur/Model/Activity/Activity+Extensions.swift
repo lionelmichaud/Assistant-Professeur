@@ -187,7 +187,7 @@ extension ActivityEntity {
         }
     }
 
-    /// Liste des documents importants de l'établissement non triées
+    /// Liste des documents non triées
     var allDocuments: [DocumentEntity] {
         if let documents {
             return (documents.allObjects as! [DocumentEntity])
@@ -196,7 +196,7 @@ extension ActivityEntity {
         }
     }
 
-    /// Liste des documents importants de l'établissement triées par ordre alphabétique
+    /// Liste des documents importants triées par ordre alphabétique
     var documentsSortedByName: [DocumentEntity] {
         let sortComparators =
             [

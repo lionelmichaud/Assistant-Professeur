@@ -19,13 +19,12 @@ struct SequenceDetailGroupBox: View {
     private var annotationEnabled
 
     @State
-    private var isViewing = false
+    private var documentToBeViewed: DocumentEntity?
 
     var body: some View {
         GroupBox {
             Group {
                 LabeledSequenceView(sequence: sequence)
-                    .font(hClass == .compact ? .callout : .headline)
                     .bold()
 
                 // note sur le programme
@@ -38,9 +37,9 @@ struct SequenceDetailGroupBox: View {
                 }
 
                 // Document
-                if let document = sequence.document {
+                ForEach(sequence.documentsSortedByName) { document in
                     Button {
-                        isViewing.toggle()
+                        documentToBeViewed = document
                     } label: {
                         Label(document.viewName, systemImage: "doc.richtext")
                     }
@@ -56,21 +55,22 @@ struct SequenceDetailGroupBox: View {
                     WebsiteView(url: sequence.url)
                     Spacer()
                 }
+                .padding(.top, 4)
             }
             .font(hClass == .compact ? .callout : .body)
             .horizontallyAligned(.leading)
         }
         .padding(.horizontal)
         #if os(macOS)
-        .sheet(isPresented: $isViewing) {
+        .sheet(item: $documentToBeViewed) { doc in
             NavigationStack {
-                PdfDocumentViewer(document: sequence.document!)
+                PdfDocumentViewer(document: doc)
             }
         }
         #else
-        .fullScreenCover(isPresented: $isViewing) {
+        .fullScreenCover(item: $documentToBeViewed) { doc in
             NavigationStack {
-                PdfDocumentViewer(document: sequence.document!)
+                PdfDocumentViewer(document: doc)
             }
         }
         #endif

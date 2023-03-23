@@ -72,7 +72,7 @@ public final class ActivityEntity: NSManagedObject, Codable, ModelEntityP {
 
 //        try container.encodeIfPresent(document?.id, forKey: .documentID)
 
-        try container.encode(documents as! Set<ActivityProgressEntity>, forKey: .documents)
+        try container.encode(documents as! Set<DocumentEntity>, forKey: .documents)
         try container.encode(progresses as! Set<ActivityProgressEntity>, forKey: .progresses)
     }
 }
