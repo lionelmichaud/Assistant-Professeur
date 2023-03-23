@@ -133,7 +133,7 @@
 		798DD4D4298C352A00C47B2C /* StepsNotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D3298C352A00C47B2C /* StepsNotationView.swift */; };
 		798DD4D6298C366300C47B2C /* TrombineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D5298C366300C47B2C /* TrombineView.swift */; };
 		7994E31F2972DE8400952D08 /* RoomSeatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E31E2972DE8400952D08 /* RoomSeatManager.swift */; };
-		7994E3242972F4E500952D08 /* DocumentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E3212972F4E500952D08 /* DocumentList.swift */; };
+		7994E3242972F4E500952D08 /* SchoolDocumentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E3212972F4E500952D08 /* SchoolDocumentList.swift */; };
 		7994E3252972F4E500952D08 /* DocumentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E3222972F4E500952D08 /* DocumentRow.swift */; };
 		7994E3262972F4E500952D08 /* PdfDocumentViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E3232972F4E500952D08 /* PdfDocumentViewer.swift */; };
 		79975316297B148800D1C66E /* ProgramSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975315297B148800D1C66E /* ProgramSplitView.swift */; };
@@ -144,6 +144,7 @@
 		79975320297C3F9200D1C66E /* ProgramViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7997531F297C3F9200D1C66E /* ProgramViewModel.swift */; };
 		79975322297C4AEF00D1C66E /* ProgramBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */; };
 		79975324297C4ED900D1C66E /* ProgramDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */; };
+		799D2C7729CBADE2009C6336 /* ActivityDocumentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799D2C7629CBADE2009C6336 /* ActivityDocumentList.swift */; };
 		79A5737329BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A5737229BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift */; };
 		79A5737529BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A5737429BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift */; };
 		79A8E7BC29AECE1B006D0EAA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79A8E7BB29AECE1B006D0EAA /* Images.xcassets */; };
@@ -412,7 +413,7 @@
 		798DD4D3298C352A00C47B2C /* StepsNotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsNotationView.swift; sourceTree = "<group>"; };
 		798DD4D5298C366300C47B2C /* TrombineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrombineView.swift; sourceTree = "<group>"; };
 		7994E31E2972DE8400952D08 /* RoomSeatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSeatManager.swift; sourceTree = "<group>"; };
-		7994E3212972F4E500952D08 /* DocumentList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentList.swift; sourceTree = "<group>"; };
+		7994E3212972F4E500952D08 /* SchoolDocumentList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolDocumentList.swift; sourceTree = "<group>"; };
 		7994E3222972F4E500952D08 /* DocumentRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentRow.swift; sourceTree = "<group>"; };
 		7994E3232972F4E500952D08 /* PdfDocumentViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PdfDocumentViewer.swift; sourceTree = "<group>"; };
 		79975315297B148800D1C66E /* ProgramSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramSplitView.swift; sourceTree = "<group>"; };
@@ -423,6 +424,7 @@
 		7997531F297C3F9200D1C66E /* ProgramViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramViewModel.swift; sourceTree = "<group>"; };
 		79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramBrowserRow.swift; sourceTree = "<group>"; };
 		79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailGroupBox.swift; sourceTree = "<group>"; };
+		799D2C7629CBADE2009C6336 /* ActivityDocumentList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDocumentList.swift; sourceTree = "<group>"; };
 		79A5737229BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DocumentEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79A5737429BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ActivityProgressEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79A8E7BB29AECE1B006D0EAA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -875,6 +877,7 @@
 				7963720F297DA91200ECDBC3 /* ActivityDetail.swift */,
 				79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */,
 				7989B4D429A2752800383F84 /* LabeledActivityView.swift */,
+				799D2C7629CBADE2009C6336 /* ActivityDocumentList.swift */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -909,7 +912,7 @@
 		7994E3202972F4E500952D08 /* Document */ = {
 			isa = PBXGroup;
 			children = (
-				7994E3212972F4E500952D08 /* DocumentList.swift */,
+				7994E3212972F4E500952D08 /* SchoolDocumentList.swift */,
 				7994E3222972F4E500952D08 /* DocumentRow.swift */,
 				7994E3232972F4E500952D08 /* PdfDocumentViewer.swift */,
 			);
@@ -1413,6 +1416,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				79975316297B148800D1C66E /* ProgramSplitView.swift in Sources */,
+				799D2C7729CBADE2009C6336 /* ActivityDocumentList.swift in Sources */,
 				7986A8572989B1A2007471BE /* GroupGlobalMarkModal.swift in Sources */,
 				798B8260296CAC84004A24A8 /* ImportExportManager.swift in Sources */,
 				79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */,
@@ -1575,7 +1579,7 @@
 				798DD4D4298C352A00C47B2C /* StepsNotationView.swift in Sources */,
 				79AFBFB62981C9DA001576DD /* ActivityCreatorModal.swift in Sources */,
 				7989B4DB29A28D0300383F84 /* ProgressState.swift in Sources */,
-				7994E3242972F4E500952D08 /* DocumentList.swift in Sources */,
+				7994E3242972F4E500952D08 /* SchoolDocumentList.swift in Sources */,
 				795C2C31296E2DCA00EDFF09 /* RoomElevePlacement.swift in Sources */,
 				7981C22129A8054A0085986D /* ProgramTimeLine.swift in Sources */,
 				79FFF42729511DF20037A327 /* ClassBrowserRow.swift in Sources */,

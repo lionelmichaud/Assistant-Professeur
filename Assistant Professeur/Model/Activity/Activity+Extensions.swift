@@ -173,6 +173,11 @@ extension ActivityEntity {
         Int(progressCount)
     }
 
+    /// Nombre de documents liés à l'activité
+    var nbOfDocuments: Int {
+        Int(self.documentCount)
+    }
+
     /// Liste des progressions des classes pour cette activité non triées
     var allProgresses: [ActivityProgressEntity] {
         if let progresses {
@@ -180,6 +185,24 @@ extension ActivityEntity {
         } else {
             return []
         }
+    }
+
+    /// Liste des documents importants de l'établissement non triées
+    var allDocuments: [DocumentEntity] {
+        if let documents {
+            return (documents.allObjects as! [DocumentEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Liste des documents importants de l'établissement triées par ordre alphabétique
+    var documentsSortedByName: [DocumentEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(\DocumentEntity.docName, order: .forward)
+            ]
+        return allDocuments.sorted(using: sortComparators)
     }
 
     // MARK: - Type Methods

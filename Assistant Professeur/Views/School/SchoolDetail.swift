@@ -60,7 +60,7 @@ struct SchoolDetail: View {
                 EventList(school: school)
 
                 // édition de la liste des documents utiles
-                DocumentList(school: school)
+                SchoolDocumentList(school: school)
 
                 // édition de la liste des salles de classe
                 RoomList(school: school)
