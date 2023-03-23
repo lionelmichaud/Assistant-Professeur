@@ -19,7 +19,7 @@ struct ActivityDetailGroupBox: View {
     private var annotationEnabled
 
     @State
-    private var isViewing = false
+    private var documentToBeViewed: DocumentEntity?
 
     var body: some View {
         GroupBox {
@@ -38,9 +38,9 @@ struct ActivityDetailGroupBox: View {
                 }
 
                 // Document
-                if let document = activity.document {
+                ForEach(activity.documentsSortedByName) { document in
                     Button {
-                        isViewing.toggle()
+                        documentToBeViewed = document
                     } label: {
                         Label(document.viewName, systemImage: "doc.richtext")
                     }
@@ -64,15 +64,15 @@ struct ActivityDetailGroupBox: View {
         }
         .padding(.horizontal)
         #if os(macOS)
-        .sheet(isPresented: $isViewing) {
+        .sheet(item: $documentToBeViewed) { doc in
             NavigationStack {
-                PdfDocumentViewer(document: activity.document!)
+                PdfDocumentViewer(document: doc)
             }
         }
         #else
-        .fullScreenCover(isPresented: $isViewing) {
+        .fullScreenCover(item: $documentToBeViewed) { doc in
             NavigationStack {
-                PdfDocumentViewer(document: activity.document!)
+                PdfDocumentViewer(document: doc)
             }
         }
         #endif

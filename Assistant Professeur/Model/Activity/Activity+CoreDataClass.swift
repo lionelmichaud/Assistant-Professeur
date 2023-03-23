@@ -20,7 +20,7 @@ public final class ActivityEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, isEval, isEvalFormative, isProject, isTP
         case annotation, duration, name, number, url
-        case progresses, document
+        case progresses, documents
     }
 
     /// Conformance to Decodable
@@ -52,7 +52,7 @@ public final class ActivityEntity: NSManagedObject, Codable, ModelEntityP {
 //            }
 //        }
 
-        self.document = try container.decode(DocumentEntity.self, forKey: .document)
+        self.documents = try container.decode(Set<DocumentEntity>.self, forKey: .documents) as NSSet
         self.progresses = try container.decode(Set<ActivityProgressEntity>.self, forKey: .progresses) as NSSet
     }
 
@@ -72,7 +72,7 @@ public final class ActivityEntity: NSManagedObject, Codable, ModelEntityP {
 
 //        try container.encodeIfPresent(document?.id, forKey: .documentID)
 
-        try container.encodeIfPresent(document, forKey: .document)
+        try container.encode(documents as! Set<ActivityProgressEntity>, forKey: .documents)
         try container.encode(progresses as! Set<ActivityProgressEntity>, forKey: .progresses)
     }
 }
