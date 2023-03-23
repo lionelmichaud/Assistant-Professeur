@@ -62,7 +62,7 @@
         <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ActivityEntity" inverseName="documents" inverseEntity="ActivityEntity"/>
         <relationship name="program" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProgramEntity" inverseName="document" inverseEntity="ProgramEntity"/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="documents" inverseEntity="SchoolEntity"/>
-        <relationship name="sequence" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SequenceEntity" inverseName="document" inverseEntity="SequenceEntity"/>
+        <relationship name="sequence" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SequenceEntity" inverseName="documents" inverseEntity="SequenceEntity"/>
     </entity>
     <entity name="EleveEntity" representedClassName="EleveEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" optional="YES" attributeType="String" defaultValueString=""/>
@@ -183,12 +183,13 @@
     <entity name="SequenceEntity" representedClassName="SequenceEntity" syncable="YES" codeGenerationType="category">
         <attribute name="activitiesCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="activities.@count" usesScalarValueType="YES"/>
         <attribute name="annotation" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="documentCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="documents.@count" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String" defaultValueString=""/>
         <attribute name="number" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="url" optional="YES" attributeType="URI"/>
         <relationship name="activities" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ActivityEntity" inverseName="sequence" inverseEntity="ActivityEntity"/>
-        <relationship name="document" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DocumentEntity" inverseName="sequence" inverseEntity="DocumentEntity"/>
+        <relationship name="documents" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DocumentEntity" inverseName="sequence" inverseEntity="DocumentEntity"/>
         <relationship name="program" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProgramEntity" inverseName="sequences" inverseEntity="ProgramEntity"/>
     </entity>
 </model>

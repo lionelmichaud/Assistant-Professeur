@@ -25,7 +25,6 @@ struct ActivityDetailGroupBox: View {
         GroupBox {
             Group {
                 LabeledActivityView(activity: activity)
-//                    .font(hClass == .compact ? .callout : .headline)
                     .bold()
 
                 // note sur le programme

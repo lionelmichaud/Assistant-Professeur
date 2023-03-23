@@ -11,11 +11,11 @@ import os
 import SwiftUI
 
 private let customLog = Logger(
-    subsystem: "com.michaud.lionel.Cahier-du-Professeur",
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
     category: "ActivityDocumentList"
 )
 
-/// Vue de la liste des documents importants de l'établissement
+/// Vue de la liste des documents importants de l'activité
 struct ActivityDocumentList: View {
     @ObservedObject
     var activity: ActivityEntity
@@ -70,21 +70,6 @@ struct ActivityDocumentList: View {
                     )
                 }
             }
-            .alert(
-                alertTitle,
-                isPresented: $alertIsPresented,
-                actions: {
-                    Button(
-                        "Supprimer",
-                        role: .destructive,
-                        action: deleteItems
-                    )
-                },
-                message: {
-                    Text(alertMessage)
-                }
-            )
-
             // Visualisation de la liste des documents
             ForEach(activity.documentsSortedByName, id: \.objectID) { document in
                 DocumentRow(
@@ -92,17 +77,7 @@ struct ActivityDocumentList: View {
                     saveChanges: true
                 )
             }
-            .onDelete { indexSet in
-                DispatchQueue.main.async {
-                    self.indexSet = indexSet
-                    alertTitle = "Supprimer ce document?"
-                    alertMessage =
-                        """
-                        Cette action ne peut pas être annulée.
-                        """
-                    alertIsPresented.toggle()
-                }
-            }
+            .onDelete(perform: deleteItems)
 
         } header: {
             Text("Documents (\(activity.nbOfDocuments))")
@@ -114,7 +89,7 @@ struct ActivityDocumentList: View {
 
     // MARK: - Methods
 
-    private func deleteItems() {
+    private func deleteItems(indexSet: IndexSet) {
         withAnimation {
             indexSet
                 .map { activity.documentsSortedByName[$0] }

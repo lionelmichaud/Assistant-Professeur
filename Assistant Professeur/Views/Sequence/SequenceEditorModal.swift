@@ -45,15 +45,6 @@ struct SequenceEditorModal: View {
     @State
     private var isImportingPdfFile = false
 
-    @State
-    private var alertTitle = ""
-
-    @State
-    private var alertMessage = ""
-
-    @State
-    private var alertIsPresented = false
-
     var body: some View {
         Form {
             TextField(
@@ -78,34 +69,8 @@ struct SequenceEditorModal: View {
                 .focused($focus, equals: .annotation)
             }
 
-            if let document = sequence.document {
-                HStack(spacing: 5) {
-                    // afficher le nom du document
-                    DocumentRow(
-                        document: document,
-                        saveChanges: false
-                    )
-
-                    // supprimer le document
-                    Button(role: .destructive) {
-                        DocumentEntity.viewContext.delete(document)
-                    } label: {
-                        Image(systemName: "trash")
-                    }
-                    .buttonStyle(.bordered)
-                }
-            } else {
-                // ajouter un document
-                Button {
-                    isImportingPdfFile.toggle()
-                } label: {
-                    HStack {
-                        Image(systemName: "plus.circle.fill")
-                        Text("Ajouter un document")
-                    }
-                }
-                .buttonStyle(.borderless)
-            }
+            // édition de la liste des documents utiles
+            SequenceDocumentList(sequence: sequence)
 
             WebsiteEditView(website: $sequence.url)
         }
@@ -115,32 +80,6 @@ struct SequenceEditorModal: View {
         .onAppear {
             focus = .title
         }
-        // Importer des fichiers PDF
-        .fileImporter(
-            isPresented: $isImportingPdfFile,
-            allowedContentTypes: [.pdf],
-            allowsMultipleSelection: false
-        ) { result in
-            (
-                alertTitle,
-                alertMessage,
-                alertIsPresented
-            ) = ImportExportManager.importUserSelectedFiles(
-                result: result
-            ) { data, fileName in
-                DocumentEntity.create(
-                    forSequence: sequence,
-                    withData: data,
-                    withName: fileName
-                )
-            }
-        }
-        .alert(
-            alertTitle,
-            isPresented: $alertIsPresented,
-            actions: { },
-            message: { Text(alertMessage) }
-        )
         #if os(iOS)
         .navigationTitle("Séquence")
         #endif

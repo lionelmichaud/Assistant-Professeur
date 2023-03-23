@@ -145,6 +145,7 @@
 		79975322297C4AEF00D1C66E /* ProgramBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */; };
 		79975324297C4ED900D1C66E /* ProgramDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */; };
 		799D2C7729CBADE2009C6336 /* ActivityDocumentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799D2C7629CBADE2009C6336 /* ActivityDocumentList.swift */; };
+		799D2C7929CCD226009C6336 /* SequenceDocumentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */; };
 		79A5737329BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A5737229BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift */; };
 		79A5737529BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A5737429BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift */; };
 		79A8E7BC29AECE1B006D0EAA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79A8E7BB29AECE1B006D0EAA /* Images.xcassets */; };
@@ -425,6 +426,7 @@
 		79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramBrowserRow.swift; sourceTree = "<group>"; };
 		79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailGroupBox.swift; sourceTree = "<group>"; };
 		799D2C7629CBADE2009C6336 /* ActivityDocumentList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDocumentList.swift; sourceTree = "<group>"; };
+		799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceDocumentList.swift; sourceTree = "<group>"; };
 		79A5737229BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DocumentEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79A5737429BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ActivityProgressEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79A8E7BB29AECE1B006D0EAA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -860,6 +862,7 @@
 				7927E6C72980A12F007002CE /* SequenceEditorModal.swift */,
 				79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */,
 				7989B4D829A288E900383F84 /* LabeledSequenceView.swift */,
+				799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */,
 			);
 			path = Sequence;
 			sourceTree = "<group>";
@@ -1564,6 +1567,7 @@
 				795C2C2C296E2DCA00EDFF09 /* DraggableSeatLabel.swift in Sources */,
 				79F41E6129549AE400EAAC52 /* AppreciationView.swift in Sources */,
 				79A5737329BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift in Sources */,
+				799D2C7929CCD226009C6336 /* SequenceDocumentList.swift in Sources */,
 				79BF1DB32929104F005D6CF3 /* Document+Extensions.swift in Sources */,
 				79F41E592954903D00EAAC52 /* ClasseEditor.swift in Sources */,
 				793EF8DD299D82A6002DDC64 /* ActivityProgress+Extensions.swift in Sources */,
