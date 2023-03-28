@@ -70,6 +70,12 @@ struct SequenceDocumentList: View {
                     )
                 }
             }
+            .alert(
+                alertTitle,
+                isPresented: $alertIsPresented,
+                actions: {},
+                message: { Text(alertMessage) }
+            )
             // Visualisation de la liste des documents
             ForEach(sequence.documentsSortedByName, id: \.objectID) { document in
                 DocumentRow(

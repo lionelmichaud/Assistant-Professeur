@@ -70,7 +70,7 @@ struct SequenceSidebarView: View {
                 NavigationStack {
                     SequenceCreatorModal(program: program)
                 }
-                .presentationDetents([.medium])
+                .presentationDetents([.large])
             }
         }
 
@@ -120,8 +120,8 @@ extension SequenceSidebarView {
     }
 }
 
-struct SequenceSidebarView_Previews: PreviewProvider {
-    static var previews: some View {
-        SequenceSidebarView(showProgramSteps: .constant(true))
-    }
-}
+//struct SequenceSidebarView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SequenceSidebarView(showProgramSteps: .constant(true))
+//    }
+//}

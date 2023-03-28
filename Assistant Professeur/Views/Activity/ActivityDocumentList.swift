@@ -70,6 +70,12 @@ struct ActivityDocumentList: View {
                     )
                 }
             }
+            .alert(
+                alertTitle,
+                isPresented: $alertIsPresented,
+                actions: {},
+                message: { Text(alertMessage) }
+            )
             // Visualisation de la liste des documents
             ForEach(activity.documentsSortedByName, id: \.objectID) { document in
                 DocumentRow(

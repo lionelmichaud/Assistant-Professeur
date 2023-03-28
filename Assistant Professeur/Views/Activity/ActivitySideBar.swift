@@ -74,7 +74,7 @@ struct ActivitySideBar: View {
                 NavigationStack {
                     SequenceEditorModal(sequence: sequence)
                 }
-                .presentationDetents([.medium])
+                .presentationDetents([.large])
             }
         }
     }
