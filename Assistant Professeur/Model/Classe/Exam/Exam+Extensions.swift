@@ -186,26 +186,26 @@ extension ExamEntity {
                 case .global:
                     return []
                 case .multiStep:
-                    if let steps {
-                        let data = Data(steps.utf8)
-                        return (try? JSONDecoder().decode(StepsArray.self, from: data)) ?? []
-                    } else {
-                        return []
-                    }
+                    return getSteps(fromString: steps)
             }
         }
         set {
-            guard let data = try? JSONEncoder().encode(newValue),
-                  let string = String(data: data, encoding: .utf8) else {
-                self.steps = ""
-                return
-            }
-            self.steps = string
+            setSteps(newValue)
             try? ExamEntity.saveIfContextHasChanged()
         }
     }
 
-    /// Modifie l'attribut `steps`
+    /// Décode l'attribut `steps` à partir d'une String `fromString`au format JSON.
+    func getSteps(fromString stepString: String?) -> StepsArray {
+        if let stepString {
+            let data = Data(stepString.utf8)
+            return (try? JSONDecoder().decode(StepsArray.self, from: data)) ?? []
+        } else {
+            return []
+        }
+    }
+
+    /// Modifie l'attribut `steps` en encodant les étapes au format JSON.
     /// - Important: *Does NOT save the context to the store after modification is done*
     func setSteps(_ steps: StepsArray) {
         guard let data = try? JSONEncoder().encode(steps),

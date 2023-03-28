@@ -40,7 +40,7 @@ extension MarkEnum: PickableEnumP {
     }
 }
 
-/// Une note d'évaluation
+/// Une note d'évaluation globale ou par étape
 extension MarkEntity {
     // MARK: - Computed properties
 
@@ -203,6 +203,8 @@ extension MarkEntity {
 // MARK: - Extension Notes Echelonnées
 
 extension MarkEntity {
+    // MARK: - Properties
+
     /// Wrapper of `steps`: [note] avec note dans [0.0, exam.step.points]
     /// - Important: *Saves the context to the store after modification is done*
     var viewStepsMarks: [Double] {
@@ -211,22 +213,22 @@ extension MarkEntity {
                 case .global:
                     return []
                 case .multiStep:
-                    if let steps {
-                        let data = Data(steps.utf8)
-                        return (try? JSONDecoder().decode([Double].self, from: data)) ?? []
-                    } else {
-                        return []
-                    }
+                    return getStepsMarks(fromString: steps)
             }
         }
         set {
-            guard let data = try? JSONEncoder().encode(newValue),
-                  let string = String(data: data, encoding: .utf8) else {
-                self.steps = ""
-                return
-            }
-            self.steps = string
+            setStepsMarks(newValue)
             try? MarkEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Décode l'attribut `steps`: [note] à partir d'une String `fromString`au format JSON.
+    func getStepsMarks(fromString stepString: String?) -> [Double] {
+        if let stepString {
+            let data = Data(stepString.utf8)
+            return (try? JSONDecoder().decode([Double].self, from: data)) ?? []
+        } else {
+            return []
         }
     }
 

@@ -722,9 +722,9 @@
 				79398D342966224A0013564D /* ExamViewModel.swift */,
 				79398D2F296616250013564D /* ExamCreatorModal.swift */,
 				79398D32296616850013564D /* ExamEditor.swift */,
+				798DD4D1298C318F00C47B2C /* ExamListView.swift */,
 				79398D36296632D60013564D /* ExamDetail.swift */,
 				79398D2E296616250013564D /* ClasseExamRow.swift */,
-				798DD4D1298C318F00C47B2C /* ExamListView.swift */,
 			);
 			path = Exam;
 			sourceTree = "<group>";
