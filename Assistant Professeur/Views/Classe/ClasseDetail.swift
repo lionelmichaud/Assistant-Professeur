@@ -232,10 +232,18 @@ extension ClasseDetail {
                     .scaledToFit()
                     .frame(minWidth: 200, minHeight: 250)
                 Text(eleve.displayName2lines(.prenomNom))
-                    .font(.title3)
+                    .font(.headline)
                     .multilineTextAlignment(.center)
                     .bold()
-                    .padding()
+                    .padding(4)
+                if let group = eleve.group {
+                    Text("\(group.displayString)")
+                        .filledCapsuleStyling(
+                            withBackground: true,
+                            withBorder: true
+                        )
+                        .padding(.bottom)
+                }
             }
             // Importation des données
             // Importer une liste d'élèves d'une classe depuis un fichier CSV au format PRONOTE

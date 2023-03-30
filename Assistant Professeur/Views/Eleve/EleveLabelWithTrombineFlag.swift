@@ -167,6 +167,10 @@ struct EleveLabelWithTrombineFlag: View {
             // Groupe
             if let group = eleve.group {
                 Text("\(group.displayString)")
+                    .filledCapsuleStyling(
+                        withBackground: true,
+                        withBorder: true
+                    )
             }
 
             // Trombine

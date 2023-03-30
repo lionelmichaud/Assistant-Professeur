@@ -78,8 +78,8 @@ extension MarkEntity {
         }
     }
 
-    /// Retourne la note obtenue par un élève `mark.eleve` à
-    /// un examen `mark.exam`.
+    /// Retourne la note obtenue par un élève `self.eleve` à
+    /// un examen `self.exam`.
     ///
     /// Si la note est **échelonnée**, retourne la somme des notes obtenues
     /// à chaque étape.
