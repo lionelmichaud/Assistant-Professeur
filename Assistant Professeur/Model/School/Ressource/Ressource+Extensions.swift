@@ -18,6 +18,16 @@ extension RessourceEntity {
             self.name = newValue
         }
     }
+
+    @objc
+    var viewQuantity: Int {
+        get {
+            Int(self.quantity)
+        }
+        set {
+            self.quantity = Int16(newValue)
+        }
+    }
 }
 
 // MARK: - Extension Core Data
@@ -43,11 +53,25 @@ extension RessourceEntity {
         return ressource
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(errorList: inout DataBaseErrorList) {
         all().forEach { ressource in
-            guard ressource.school != nil else {
-                errorFound = true
-                return
+            if ressource.school == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: ressource.viewName,
+                    id: ressource.id
+                ))
+            }
+            if ressource.viewQuantity.isNOZ {
+                errorList.append(DataBaseError.outOfBound(
+                    entity: Self.entity().name!,
+                    name: ressource.viewName,
+                    attribute: "quantity",
+                    id: ressource.id
+                ))
             }
         }
     }

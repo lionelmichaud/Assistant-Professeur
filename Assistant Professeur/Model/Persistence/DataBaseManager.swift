@@ -7,25 +7,113 @@
 
 import Foundation
 
-enum DataBaseManager { // swiftlint:disable:this type_body_length
-    static func check(errorFound: inout Bool) {
-        RoomEntity.checkConsistency(errorFound: &errorFound)
-        SeatEntity.checkConsistency(errorFound: &errorFound)
-        DocumentEntity.checkConsistency(errorFound: &errorFound)
-        EventEntity.checkConsistency(errorFound: &errorFound)
-        RessourceEntity.checkConsistency(errorFound: &errorFound)
-        ClasseEntity.checkConsistency(errorFound: &errorFound)
-        GroupEntity.checkConsistency(errorFound: &errorFound)
-        ExamEntity.checkConsistency(errorFound: &errorFound)
-        MarkEntity.checkConsistency(errorFound: &errorFound)
-        EleveEntity.checkConsistency(errorFound: &errorFound)
-        ColleEntity.checkConsistency(errorFound: &errorFound)
-        ObservEntity.checkConsistency(errorFound: &errorFound)
+/// Erreur dans la base de donnée
+enum DataBaseError: LocalizedError {
+    case some(entity: String, name: String, id: UUID?)
+    case noOwner(entity: String, name: String, id: UUID?)
+    case outOfBound(entity: String, name: String, attribute: String, id: UUID?)
+    case internalInconsistency(entity: String, name: String, attribute1: String, attribute2: String, id: UUID?)
 
-        ProgramEntity.checkConsistency(errorFound: &errorFound)
-        SequenceEntity.checkConsistency(errorFound: &errorFound)
-        ActivityEntity.checkConsistency(errorFound: &errorFound)
-        ActivityProgressEntity.checkConsistency(errorFound: &errorFound)
+    public var errorDescription: String? {
+        switch self {
+            case let .some(entity, name, _):
+                return "L'objet de type \(entity) '\(name)' présente une erreur."
+
+            case let .noOwner(entity, name, _):
+                return "L'objet de type \(entity) '\(name)' est orphelin."
+
+            case let .outOfBound( entity, name, attribute, _):
+                return "L'objet de type \(entity) '\(name)' possède un attribut '\(attribute)' hors limites."
+
+            case let .internalInconsistency( entity, name, attribute1, attribute2, _):
+                return "L'objet de type \(entity) '\(name)' possède une valeur d'attribut '\(attribute1)' incompatible de la valeur de l'attribut '\(attribute2)'."
+        }
+    }
+
+    public var failureReason: String? {
+        switch self {
+            default: return ""
+        }
+    }
+
+    public var recoverySuggestion: String? {
+        switch self {
+            case .some:
+                return ""
+
+            case let .noOwner(entity, name, _):
+                return "Supprimer l'objet de type \(entity) '\(name)'."
+
+            case let .outOfBound(entity, name, attribute, _):
+                return "Modifier la valeur de l'attribut'\(attribute)' hors limites pour \(entity) '\(name)'."
+
+            case let .internalInconsistency(entity, name, attribute1, attribute2, _):
+                return "Modifier une des valeurs des attributs '\(attribute1)' ou '\(attribute2)' pour \(entity) '\(name)'."
+        }
+    }
+}
+
+extension DataBaseError: CustomStringConvertible {
+    var description: String {
+        localizedDescription
+    }
+}
+
+typealias DataBaseErrorList = [DataBaseError]
+
+enum DataBaseManager { // swiftlint:disable:this type_body_length
+    static func check(
+        errorList: inout DataBaseErrorList
+    ) {
+        RoomEntity.checkConsistency(
+            errorList: &errorList
+        )
+        SeatEntity.checkConsistency(
+            errorList: &errorList
+        )
+        DocumentEntity.checkConsistency(
+            errorList: &errorList
+        )
+        EventEntity.checkConsistency(
+            errorList: &errorList
+        )
+        RessourceEntity.checkConsistency(
+            errorList: &errorList
+        )
+        ClasseEntity.checkConsistency(
+            errorList: &errorList
+        )
+        GroupEntity.checkConsistency(
+            errorList: &errorList
+        )
+        ExamEntity.checkConsistency(
+            errorList: &errorList
+        )
+        MarkEntity.checkConsistency(
+            errorList: &errorList
+        )
+        EleveEntity.checkConsistency(
+            errorList: &errorList
+        )
+        ColleEntity.checkConsistency(
+            errorList: &errorList
+        )
+        ObservEntity.checkConsistency(
+            errorList: &errorList
+        )
+
+        ProgramEntity.checkConsistency(
+            errorList: &errorList
+        )
+        SequenceEntity.checkConsistency(
+            errorList: &errorList
+        )
+        ActivityEntity.checkConsistency(
+            errorList: &errorList
+        )
+        ActivityProgressEntity.checkConsistency(
+            errorList: &errorList
+        )
     }
 
     static func isEmpty() -> Bool {
@@ -100,9 +188,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
         }
 
         // Vérifier que le contenu de la base est vide
-        if !failed {
-            failed = !isEmpty()
-        }
+        failed = failed || !isEmpty()
     }
 
     /// Peupler la base de donnée apr!ès en avoir complètement effacé le contenu

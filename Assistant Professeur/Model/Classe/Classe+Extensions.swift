@@ -454,11 +454,28 @@ extension ClasseEntity {
         return classe
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { classe in
-            guard classe.school != nil else {
-                errorFound = true
-                return
+            if classe.school == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: classe.displayString,
+                    id: classe.id
+                ))
+            }
+            if classe.segpa && classe.school?.levelEnum != .college {
+                errorList.append(DataBaseError.internalInconsistency(
+                    entity: Self.entity().name!,
+                    name: classe.displayString,
+                    attribute1: "segpa",
+                    attribute2: "school",
+                    id: classe.id
+                ))
             }
         }
     }

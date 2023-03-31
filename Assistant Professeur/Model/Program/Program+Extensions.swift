@@ -278,15 +278,28 @@ extension ProgramEntity {
         return program
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { program in
-            guard program.discipline != nil else {
-                errorFound = true
-                return
+            if program.discipline == nil {
+                errorList.append(DataBaseError.outOfBound(
+                    entity: Self.entity().name!,
+                    name: "\(program.disciplineString) - \(program.levelString)",
+                    attribute: "discipline",
+                    id: program.id
+                ))
             }
-            guard program.level != nil else {
-                errorFound = true
-                return
+            if program.level == nil {
+                errorList.append(DataBaseError.outOfBound(
+                    entity: Self.entity().name!,
+                    name: "\(program.disciplineString) - \(program.levelString)",
+                    attribute: "level",
+                    id: program.id
+                ))
             }
         }
     }

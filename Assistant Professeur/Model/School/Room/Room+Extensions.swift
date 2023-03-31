@@ -202,11 +202,35 @@ extension RoomEntity {
         return room
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { room in
-            guard room.school != nil else {
-                errorFound = true
-                return
+            if room.school == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: room.viewName,
+                    id: room.id
+                ))
+            }
+            if room.viewCapacity.isNOZ {
+                errorList.append(DataBaseError.outOfBound(
+                    entity: Self.entity().name!,
+                    name: room.viewName,
+                    attribute: "capacity",
+                    id: room.id
+                ))
+            }
+            if room.seatsCount < 0 && room.seatsCount > room.viewCapacity {
+                errorList.append(DataBaseError.outOfBound(
+                    entity: Self.entity().name!,
+                    name: room.viewName,
+                    attribute: "seatsCount",
+                    id: room.id
+                ))
             }
         }
     }

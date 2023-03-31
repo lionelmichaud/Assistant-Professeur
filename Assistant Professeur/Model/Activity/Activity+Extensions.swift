@@ -292,11 +292,19 @@ extension ActivityEntity {
         return newActivity
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { activity in
-            guard activity.sequence != nil else {
-                errorFound = true
-                return
+            if activity.sequence == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: activity.viewName,
+                    id: activity.id
+                ))
             }
         }
     }

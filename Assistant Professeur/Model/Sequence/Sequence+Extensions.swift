@@ -192,9 +192,9 @@ extension SequenceEntity {
     /// Liste des documents importants triées par ordre alphabétique
     var documentsSortedByName: [DocumentEntity] {
         let sortComparators =
-        [
-            SortDescriptor(\DocumentEntity.docName, order: .forward)
-        ]
+            [
+                SortDescriptor(\DocumentEntity.docName, order: .forward)
+            ]
         return allDocuments.sorted(using: sortComparators)
     }
 
@@ -251,11 +251,19 @@ extension SequenceEntity {
         return newSequence
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { sequence in
-            guard sequence.program != nil else {
-                errorFound = true
-                return
+            if sequence.program == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: sequence.viewName,
+                    id: sequence.id
+                ))
             }
         }
     }

@@ -55,6 +55,7 @@ extension ExamEntity {
     }
 
     /// Wrapper of `maxMark`
+    /// - Warning: > 0
     /// - Important: *Saves the context to the store after modification is done*
     @objc
     var viewMaxMark: Int {
@@ -73,6 +74,7 @@ extension ExamEntity {
     }
 
     /// Wrapper of `coef`
+    /// - Warning: > 0
     /// - Important: *Saves the context to the store after modification is done*
     @objc
     var viewCoef: Double {
@@ -303,11 +305,35 @@ extension ExamEntity {
 
     // MARK: - Type Methods
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { exam in
-            guard exam.classe != nil else {
-                errorFound = true
-                return
+            if exam.classe == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: exam.viewSujet,
+                    id: exam.id
+                ))
+            }
+            if exam.viewMaxMark.isNOZ {
+                errorList.append(DataBaseError.outOfBound(
+                    entity: Self.entity().name!,
+                    name: exam.viewSujet,
+                    attribute: "maxMark",
+                    id: exam.id
+                ))
+            }
+            if exam.viewCoef.isNOZ {
+                errorList.append(DataBaseError.outOfBound(
+                    entity: Self.entity().name!,
+                    name: exam.viewSujet,
+                    attribute: "coef",
+                    id: exam.id
+                ))
             }
         }
     }

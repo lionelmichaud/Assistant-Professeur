@@ -126,25 +126,39 @@ extension MarkEntity {
 extension MarkEntity {
     // MARK: - Type Methods
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { mark in
-            guard mark.eleve != nil else {
-                errorFound = true
-                return
-            }
-            guard mark.exam != nil else {
-                errorFound = true
-                return
+            if mark.eleve == nil || mark.exam == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: "",
+                    id: mark.id
+                ))
             }
             // note échelonnée si exam échelonné
-            guard mark.examTypeEnum == mark.exam?.examTypeEnum else {
-                errorFound = true
-                return
+            if mark.examTypeEnum != mark.exam?.examTypeEnum {
+                errorList.append(DataBaseError.internalInconsistency(
+                    entity: Self.entity().name!,
+                    name: "",
+                    attribute1: "examType",
+                    attribute2: "exam",
+                    id: mark.id
+                ))
             }
             // si note échelonnée alors une note pour un step
-            guard mark.nbOfSteps == mark.exam?.nbOfSteps else {
-                errorFound = true
-                return
+            if mark.nbOfSteps != mark.exam?.nbOfSteps {
+                errorList.append(DataBaseError.internalInconsistency(
+                    entity: Self.entity().name!,
+                    name: "",
+                    attribute1: "nbOfSteps",
+                    attribute2: "exam",
+                    id: mark.id
+                ))
             }
         }
     }

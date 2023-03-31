@@ -101,17 +101,17 @@ extension ColleEntity {
         isVerified: Bool? = nil
     ) -> Bool {
         switch (isConsignee, isVerified) {
-        case (nil, nil):
-            return true
+            case (nil, nil):
+                return true
 
-        case (.some(let c), nil):
-            return self.isConsignee == c
+            case (.some(let c), nil):
+                return self.isConsignee == c
 
-        case (nil, let .some(v)):
-            return self.isVerified == v
+            case (nil, let .some(v)):
+                return self.isVerified == v
 
-        case let (.some(c), .some(v)):
-            return self.isConsignee == c || self.isVerified == v
+            case let (.some(c), .some(v)):
+                return self.isConsignee == c || self.isVerified == v
         }
     }
 }
@@ -157,11 +157,19 @@ extension ColleEntity {
         return colle
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { colle in
-            guard colle.eleve != nil else {
-                errorFound = true
-                return
+            if colle.eleve == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: colle.viewDate.stringMediumDate,
+                    id: colle.id
+                ))
             }
         }
     }

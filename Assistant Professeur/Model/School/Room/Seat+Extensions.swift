@@ -21,6 +21,10 @@ extension SeatEntity {
             try? SeatEntity.saveIfContextHasChanged()
         }
     }
+
+    var viewNumber: Int {
+        Int(numero)
+    }
 }
 
 // MARK: - Extension Core Data
@@ -65,6 +69,7 @@ extension SeatEntity {
 
         seat.x = x
         seat.y = y
+        seat.numero = Int16(Self.all().count + 1)
         //        seat.numero = Int16(numero)
 
         try? SeatEntity.saveIfContextHasChanged()
@@ -94,11 +99,19 @@ extension SeatEntity {
         return create(x: locInRoom.x, y: locInRoom.y, dans: room)
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { seat in
-            guard seat.room != nil else {
-                errorFound = true
-                return
+            if seat.room == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: String(seat.viewNumber),
+                    id: seat.id
+                ))
             }
         }
     }

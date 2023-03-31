@@ -111,19 +111,34 @@ extension ActivityProgressEntity {
         }
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { progress in
-            guard progress.classe != nil else {
-                errorFound = true
-                return
+            if progress.classe == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: "",
+                    id: progress.id
+                ))
             }
-            guard progress.activity != nil else {
-                errorFound = true
-                return
+            if progress.activity == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: "",
+                    id: progress.id
+                ))
             }
-            guard 0 <= progress.progress && progress.progress <= 1 else {
-                errorFound = true
-                return
+            if !(0.0 ... 1.0).contains(progress.progress) {
+                errorList.append(DataBaseError.outOfBound(
+                    entity: Self.entity().name!,
+                    name: "",
+                    attribute: "progress",
+                    id: progress.id
+                ))
             }
         }
     }

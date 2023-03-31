@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 21/06/2022.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct ClassCreatorModal: View {
     let inSchool: SchoolEntity
@@ -28,56 +28,6 @@ struct ClassCreatorModal: View {
 
     @State
     private var alertIsPresented = false
-
-    var niveauView: some View {
-        HStack {
-            // niveau de cette classe
-            Image(systemName: "person.3.sequence.fill")
-                .sfSymbolStyling()
-                .foregroundColor(classeVM.levelEnum.color)
-
-            CasePicker(pickedCase: $classeVM.levelEnum,
-                       label: "")
-            .pickerStyle(.menu)
-        }
-    }
-
-    var numeroView: some View {
-        Picker("", selection: $classeVM.numero) {
-            ForEach(1...10, id: \.self) { num in
-                Text(String(num))
-            }
-        }
-        .pickerStyle(.menu)
-    }
-
-    var segpaView: some View {
-        Toggle(isOn: $classeVM.segpa.animation()) {
-            Text("SEGPA")
-        }
-        .toggleStyle(.button)
-        .controlSize(.small)
-    }
-
-    var disciplineView: some View {
-        CasePicker(pickedCase: $classeVM.disciplineEnum,
-                   label: "Discipline")
-        .pickerStyle(.menu)
-        .frame(width: 300)
-    }
-
-    var hoursView: some View {
-        AmountEditView(
-            label: "Nombre d'heures de cours par semaine",
-            amount: $classeVM.heures,
-            validity: .poz,
-            currency: false
-        )
-        .submitLabel(.done)
-        .focused($isHoursFocused)
-        .frame(width: 300)
-
-    }
 
     var body: some View {
         Form {
@@ -132,7 +82,7 @@ struct ClassCreatorModal: View {
         .alert(
             alertTitle,
             isPresented: $alertIsPresented,
-            actions: { },
+            actions: {},
             message: { Text(alertMessage) }
         )
         .toolbar {
@@ -143,14 +93,14 @@ struct ClassCreatorModal: View {
             }
             ToolbarItem(placement: .confirmationAction) {
                 Button("Ajouter") {
-                    /// Ajouter une nouvelle classe
+                    // Ajouter une nouvelle classe
                     if inSchool.exists(
                         classeLevel: classeVM.levelEnum,
                         classeNumero: classeVM.numero,
                         classeIsSegpa: classeVM.segpa
                     ) {
                         // doublon
-                        alertTitle   = "Ajout impossible"
+                        alertTitle = "Ajout impossible"
                         alertMessage = "Cette classe existe déjà dans cet établissement"
                         alertIsPresented.toggle()
 
@@ -159,7 +109,7 @@ struct ClassCreatorModal: View {
                         withSchool: inSchool
                     ) {
                         // niveau de classe incompatble avec l'école
-                        alertTitle   = "Ajout impossible"
+                        alertTitle = "Ajout impossible"
                         alertMessage = "Ce niveau de classe n'existe pas dans ce type d'établissement"
                         alertIsPresented.toggle()
 
@@ -182,8 +132,8 @@ struct ClassCreatorModal: View {
     }
 
     private func isCompatible(
-        classeLevel : LevelClasse,
-        withSchool  : SchoolEntity
+        classeLevel: LevelClasse,
+        withSchool: SchoolEntity
     ) -> Bool {
         switch classeLevel {
             case .n6ieme, .n5ieme, .n4ieme, .n3ieme:
@@ -195,7 +145,70 @@ struct ClassCreatorModal: View {
     }
 }
 
-//struct ClassCreator_Previews: PreviewProvider {
+// MARK: - Subviews
+
+extension ClassCreatorModal {
+    var niveauView: some View {
+        HStack {
+            // niveau de cette classe
+            Image(systemName: "person.3.sequence.fill")
+                .sfSymbolStyling()
+                .foregroundColor(classeVM.levelEnum.color)
+
+            CasePicker(
+                pickedCase: $classeVM.levelEnum,
+                label: ""
+            )
+            .pickerStyle(.menu)
+        }
+    }
+
+    var numeroView: some View {
+        Picker("", selection: $classeVM.numero) {
+            ForEach(1 ... 10, id: \.self) { num in
+                Text(String(num))
+            }
+        }
+        .pickerStyle(.menu)
+    }
+
+    var segpaView: some View {
+        Group {
+            if inSchool.levelEnum == .college {
+                Toggle(isOn: $classeVM.segpa.animation()) {
+                    Text("SEGPA")
+                }
+                .toggleStyle(.button)
+                .controlSize(.small)
+            } else {
+                EmptyView()
+            }
+        }
+    }
+
+    var disciplineView: some View {
+        CasePicker(
+            pickedCase: $classeVM.disciplineEnum,
+            label: "Discipline"
+        )
+        .pickerStyle(.menu)
+        .frame(width: 300)
+    }
+
+    var hoursView: some View {
+        AmountEditView(
+            label: "Nombre d'heures de cours par semaine",
+            amount: $classeVM.heures,
+            validity: .poz,
+            currency: false
+        )
+        .submitLabel(.done)
+        .focused($isHoursFocused)
+        .frame(width: 300)
+    }
+}
+
+// struct ClassCreator_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -222,4 +235,4 @@ struct ClassCreatorModal: View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

@@ -41,7 +41,7 @@ enum FileExportOperation {
 
     var urls: [URL] {
         switch self {
-            case .exportJsonModel (let annexFileNames):
+            case let .exportJsonModel(annexFileNames):
                 return ImportExportManager.cachesURLsToShare(
                     fileNames: [
                         JsonImportExportMng.schoolsFileName,
@@ -498,15 +498,26 @@ extension SchoolSidebarView {
     //    }
 
     private func checkAllUserData() {
-        alertTitle = "Erreurs détectées"
-        alertMessage = "La vérfication de la base de donnée a trouvé des erreurs"
+        var dataBaseErrorList = DataBaseErrorList()
 
-        DataBaseManager.check(errorFound: &alertIsPresented)
+        DataBaseManager.check(errorList: &dataBaseErrorList)
+        #if DEBUG
+            if dataBaseErrorList.isNotEmpty {
+                print("Liste des \(dataBaseErrorList.count) erreurs trouvées:")
+                dataBaseErrorList.forEach { error in
+                    print(String(describing: error).withPrefix("   "))
+                }
+            }
+        #endif
 
-        if alertIsPresented == false {
+        if dataBaseErrorList.isNotEmpty {
+            alertTitle = "Erreurs détectées"
+            alertMessage = "La vérification de la base de donnée a trouvé \(dataBaseErrorList.count) erreurs"
+            alertIsPresented = true
+        } else {
             alertTitle = "Vérification terminée avec succès"
             alertMessage = "Aucune anomalie détectée."
-            alertIsPresented.toggle()
+            alertIsPresented = true
         }
     }
 

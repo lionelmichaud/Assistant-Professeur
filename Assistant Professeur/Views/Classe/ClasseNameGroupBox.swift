@@ -32,11 +32,13 @@ struct ClasseNameGroupBox: View {
             }
 
             /// SEGPA ou pas
-            Toggle(isOn: $classe.viewSegpa.animation()) {
-                Text("SEGPA")
+            if classe.school!.levelEnum == .college {
+                Toggle(isOn: $classe.viewSegpa.animation()) {
+                    Text("SEGPA")
+                }
+                .toggleStyle(.button)
+                .controlSize(.small)
             }
-            .toggleStyle(.button)
-            .controlSize(.small)
         }
     }
 

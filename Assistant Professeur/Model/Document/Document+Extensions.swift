@@ -163,14 +163,23 @@ extension DocumentEntity {
         return doc
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { doc in
-            guard doc.school != nil ||
-                    doc.program != nil ||
-                    doc.sequence != nil ||
-                    doc.activity != nil else {
-                errorFound = true
-                return
+            if doc.school == nil &&
+                doc.program == nil &&
+                doc.sequence == nil &&
+                doc.activity == nil {
+                errorList
+                    .append(DataBaseError.noOwner(
+                        entity: Self.entity().name!,
+                        name: doc.viewName,
+                        id: doc.id
+                    ))
             }
         }
     }
@@ -195,11 +204,24 @@ extension DocumentEntity {
 
 public extension DocumentEntity {
     override var description: String {
-        """
+        var owner = "nil"
+        let top =
+            """
 
-        DOCUMENT:
-           ID         : \(String(describing: id))
-           Nom        : \(viewName)
-        """
+            DOCUMENT:
+               ID         : \(String(describing: id))
+               Nom        : \(viewName)
+
+            """
+        if let school {
+            owner = "school: \(school.displayString)"
+        } else if let program {
+            owner = "program: \(program.disciplineString)"
+        } else if let sequence {
+            owner = "sequence: \(sequence.viewName)"
+        } else if let activity {
+            owner = "activity: \(activity.viewName)"
+        }
+        return top + owner
     }
 }

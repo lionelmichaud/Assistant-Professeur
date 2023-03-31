@@ -124,11 +124,27 @@ extension GroupEntity {
         return groupe
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { groupe in
-            guard groupe.classe != nil else {
-                errorFound = true
-                return
+            if groupe.classe == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: groupe.displayString,
+                    id: groupe.id
+                ))
+            }
+            if groupe.viewNumber.isNegative {
+                errorList.append(DataBaseError.outOfBound(
+                    entity: Self.entity().name!,
+                    name: groupe.displayString,
+                    attribute: "number",
+                    id: groupe.id
+                ))
             }
         }
     }

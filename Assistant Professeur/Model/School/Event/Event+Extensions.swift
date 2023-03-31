@@ -54,11 +54,19 @@ extension EventEntity {
         return event
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { event in
-            guard event.school != nil else {
-                errorFound = true
-                return
+            if event.school == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: event.viewName,
+                    id: event.id
+                ))
             }
         }
     }

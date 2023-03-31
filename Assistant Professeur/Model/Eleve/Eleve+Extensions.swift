@@ -7,8 +7,8 @@
 
 import CoreData
 import Foundation
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 // import UIKit
 
@@ -531,11 +531,28 @@ extension EleveEntity {
         return eleve
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { eleve in
-            guard eleve.classe != nil else {
-                errorFound = true
-                return
+            if eleve.classe == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: eleve.displayName,
+                    id: eleve.id
+                ))
+            }
+            if eleve.hasAddTime && !eleve.hasTrouble {
+                errorList.append(DataBaseError.internalInconsistency(
+                    entity: Self.entity().name!,
+                    name: eleve.displayName,
+                    attribute1: "hasAddTime",
+                    attribute2: "trouble",
+                    id: eleve.id
+                ))
             }
         }
     }

@@ -5,12 +5,11 @@
 //  Created by Lionel MICHAUD on 19/11/2022.
 //
 
-import Foundation
 import CoreData
+import Foundation
 import SwiftUI
 
 extension ObservEntity {
-
     // MARK: - Computed properties
 
     /// Wrapper of `motif`
@@ -84,8 +83,10 @@ extension ObservEntity {
     /// - Parameters:
     ///   - isConsignee: si `nil`, le critère n'est pas pris en compe
     ///   - isVerified: si `nil`, le critère n'est pas pris en compe
-    func satisfies(isConsignee : Bool?  = nil,
-                   isVerified  : Bool?  = nil) -> Bool {
+    func satisfies(
+        isConsignee: Bool? = nil,
+        isVerified: Bool? = nil
+    ) -> Bool {
         switch (isConsignee, isVerified) {
             case (nil, nil):
                 return true
@@ -93,10 +94,10 @@ extension ObservEntity {
             case (.some(let c), nil):
                 return self.isConsignee == c
 
-            case (nil, .some(let v)):
+            case (nil, let .some(v)):
                 return self.isVerified == v
 
-            case (.some(let c), .some(let v)):
+            case let (.some(c), .some(v)):
                 return self.isConsignee == c || self.isVerified == v
         }
     }
@@ -105,12 +106,11 @@ extension ObservEntity {
 // MARK: - Extension Core Data
 
 extension ObservEntity {
-
     // MARK: - Type Computed Properties
 
-    public override func awakeFromInsert() {
+    override public func awakeFromInsert() {
         super.awakeFromInsert()
-        //Set defaults here
+        // Set defaults here
         //        self.fileName = ""
         self.date = Date.now
         self.id = UUID()
@@ -120,12 +120,12 @@ extension ObservEntity {
 
     @discardableResult
     static func create(
-        pour eleve       : EleveEntity,
-        date             : Date = Date.now,
-        motifEnum        : MotifEnum ,
-        descriptionMotif : String,
-        isConsignee      : Bool = false,
-        isVerified       : Bool = false
+        pour eleve: EleveEntity,
+        date: Date = Date.now,
+        motifEnum: MotifEnum,
+        descriptionMotif: String,
+        isConsignee: Bool = false,
+        isVerified: Bool = false
     ) -> ObservEntity {
         let observ = ObservEntity.create()
         // Eleve d'appartenance.
@@ -133,30 +133,37 @@ extension ObservEntity {
         observ.eleve = eleve
 
         observ.setMotif(motifEnum)
-        observ.date             = date
+        observ.date = date
         observ.descriptionMotif = descriptionMotif
-        observ.isConsignee      = isConsignee
-        observ.isVerified       = isVerified
+        observ.isConsignee = isConsignee
+        observ.isVerified = isVerified
 
         try? ObservEntity.saveIfContextHasChanged()
         return observ
     }
 
-    static func checkConsistency(errorFound: inout Bool) {
+    /// Check the correctness and consistency of all database entities of this type.
+    /// - Parameters:
+    ///   - errorList: Liste des erreurs trouvées.
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList
+    ) {
         all().forEach { observ in
-            guard observ.eleve != nil else {
-                errorFound = true
-                return
+            if observ.eleve == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: observ.viewDate.stringMediumDate,
+                    id: observ.id
+                ))
             }
         }
     }
-
 }
 
 // MARK: - Extension Debug
 
-extension ObservEntity {
-    public override var description: String {
+public extension ObservEntity {
+    override var description: String {
         """
 
         OBSERVATION:
