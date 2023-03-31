@@ -187,7 +187,20 @@ extension ActivityEntity {
         }
     }
 
-    /// Liste des documents non triées
+    /// Liste des progressions des classes pour cette activité non triées
+    var progressesSortedBySchoolLevelSegpaNumber: [ActivityProgressEntity] {
+        let sortComparators = [
+            SortDescriptor(\ActivityProgressEntity.classe?.school?.level, order: .forward),
+            SortDescriptor(\ActivityProgressEntity.classe?.school?.name, order: .forward),
+            SortDescriptor(\ActivityProgressEntity.classe?.level, order: .forward),
+            SortDescriptor(\ActivityProgressEntity.classe?.segpa, order: .forward),
+            SortDescriptor(\ActivityProgressEntity.classe?.numero, order: .forward)
+        ]
+        return allProgresses
+            .sorted(using: sortComparators)
+    }
+
+   /// Liste des documents non triées
     var allDocuments: [DocumentEntity] {
         if let documents {
             return (documents.allObjects as! [DocumentEntity])

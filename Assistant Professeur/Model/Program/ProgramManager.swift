@@ -155,6 +155,43 @@ struct ProgramManager {
         }
     }
 
+    /// Retourne la liste des Classes qui doivent suivre l'activité `sequence`
+    /// - Parameter sequence: la séquence
+    /// - Returns: liste des Classes qui doivent suivre la séquence
+    static func classesAssociatedTo(
+        thisSequence sequence: SequenceEntity
+    ) -> [ClasseEntity] {
+        guard let program = sequence.program else {
+            return []
+        }
+
+        let (discipline, level, segpa) = (
+            program.discipline,
+            program.level,
+            program.segpa
+        )
+        let request = ClasseEntity.requestAllSortedbySchoolThenClasseLevelNumber
+
+        let predicate = NSPredicate(
+            format: "%K = %@ AND %K = %@ AND %K = %@",
+            #keyPath(ClasseEntity.discipline),
+            discipline!,
+            #keyPath(ClasseEntity.level),
+            level!,
+            #keyPath(ClasseEntity.segpa),
+            segpa as NSNumber
+        )
+
+        request.predicate = predicate
+
+        do {
+            let classes = try ClasseEntity.viewContext.fetch(request)
+            return classes
+        } catch {
+            return []
+        }
+    }
+
     /// Retourne la liste des Classes qui doivent suivre l'activité `activity`
     /// - Parameter activity: l'activité
     /// - Returns: liste des Classes qui doivent suivre l'activité

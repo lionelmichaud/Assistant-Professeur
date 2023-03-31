@@ -255,12 +255,12 @@ extension ClasseEntity {
 
     // MARK: - Computed Properties Progresses
 
-    /// Nombre de progression pour cette activité.
+    /// Nombre de progression pour cette classe.
     var nbOfProgresses: Int {
         Int(progressCount)
     }
 
-    /// Liste des progressions des classes pour cette activité non triées
+    /// Liste des progressions des classes pour cette classe non triées
     var allProgresses: [ActivityProgressEntity] {
         if let progresses {
             return (progresses.allObjects as! [ActivityProgressEntity])

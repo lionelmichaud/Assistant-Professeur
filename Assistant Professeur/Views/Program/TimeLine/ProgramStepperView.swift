@@ -66,11 +66,21 @@ extension ProgramStepperView {
         program
             .sequencesSortedByNumber
             .map { sequence in
-                VStack(alignment: .leading) {
-                    Text(sequence.viewName)
-                        .bold()
-                        .foregroundColor(.teal)
-                        .textSelection(.enabled)
+                let allClasses = ProgramManager.classesAssociatedTo(thisSequence: sequence)
+                let classes = allClasses.filter { classe in
+                    sequence.statusFor(classe: classe) == .inProgress
+                }
+
+                return VStack(alignment: .leading) {
+                    HStack {
+                        Text(sequence.viewName)
+                            .bold()
+                            .foregroundColor(.teal)
+                            .textSelection(.enabled)
+                        ForEach(classes) { classe in
+                            ClassCapsule(classe: classe)
+                        }
+                    }
                     Text(sequence.viewAnnotation)
                         .textSelection(.enabled)
                 }

@@ -237,11 +237,7 @@ extension ClasseDetail {
                     .bold()
                     .padding(4)
                 if let group = eleve.group {
-                    Text("\(group.displayString)")
-                        .filledCapsuleStyling(
-                            withBackground: true,
-                            withBorder: true
-                        )
+                    GroupCapsule(group: group)
                         .padding(.bottom)
                 }
             }

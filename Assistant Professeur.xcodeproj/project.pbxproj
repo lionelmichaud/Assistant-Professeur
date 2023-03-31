@@ -251,6 +251,9 @@
 		79ED5AAA2998030A00D536BF /* Exam+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ED5AA92998030A00D536BF /* Exam+CoreDataClass.swift */; };
 		79ED5AAD2998100E00D536BF /* Mark+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ED5AAB2998100E00D536BF /* Mark+CoreDataClass.swift */; };
 		79EE3EA4296F6CF20075E9BD /* EleveTrombineStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE3EA3296F6CF20075E9BD /* EleveTrombineStyling.swift */; };
+		79F38D0829D747D9006C9B35 /* Palettes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F38D0729D747D9006C9B35 /* Palettes.swift */; };
+		79F38D0A29D7495D006C9B35 /* GroupCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F38D0929D7495D006C9B35 /* GroupCapsule.swift */; };
+		79F38D0C29D74B17006C9B35 /* ClassCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F38D0B29D74B17006C9B35 /* ClassCapsule.swift */; };
 		79F41E592954903D00EAAC52 /* ClasseEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E572954903D00EAAC52 /* ClasseEditor.swift */; };
 		79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E582954903D00EAAC52 /* ClasseDetail.swift */; };
 		79F41E5C2954983100EAAC52 /* ClasseNameGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E5B2954983100EAAC52 /* ClasseNameGroupBox.swift */; };
@@ -506,6 +509,9 @@
 		79ED5AA92998030A00D536BF /* Exam+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Exam+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Classe/Exam/Exam+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		79ED5AAB2998100E00D536BF /* Mark+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mark+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79EE3EA3296F6CF20075E9BD /* EleveTrombineStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveTrombineStyling.swift; sourceTree = "<group>"; };
+		79F38D0729D747D9006C9B35 /* Palettes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palettes.swift; sourceTree = "<group>"; };
+		79F38D0929D7495D006C9B35 /* GroupCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCapsule.swift; sourceTree = "<group>"; };
+		79F38D0B29D74B17006C9B35 /* ClassCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassCapsule.swift; sourceTree = "<group>"; };
 		79F41E572954903D00EAAC52 /* ClasseEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseEditor.swift; sourceTree = "<group>"; };
 		79F41E582954903D00EAAC52 /* ClasseDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseDetail.swift; sourceTree = "<group>"; };
 		79F41E5B2954983100EAAC52 /* ClasseNameGroupBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseNameGroupBox.swift; sourceTree = "<group>"; };
@@ -659,6 +665,7 @@
 				792381182960B04F009E51B7 /* GroupsListView.swift */,
 				792381172960B04F009E51B7 /* GroupView.swift */,
 				792381162960B04F009E51B7 /* GroupPicturesView.swift */,
+				79F38D0929D7495D006C9B35 /* GroupCapsule.swift */,
 			);
 			path = Group;
 			sourceTree = "<group>";
@@ -695,6 +702,7 @@
 		79388A4D29256E92002AABB8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				79F38D0729D747D9006C9B35 /* Palettes.swift */,
 				7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */,
 				79B6630629244C3F007B1FBD /* ContentView.swift */,
 				79DEDB06292593C200F508EF /* PreferencesViews */,
@@ -1116,6 +1124,7 @@
 				79F41E5D2954987F00EAAC52 /* ClasseAcronym.swift */,
 				79ECF1F92959F915008F0282 /* ClasseColleLabel.swift */,
 				79ECF1FA2959F915008F0282 /* ClasseObservLabel.swift */,
+				79F38D0B29D74B17006C9B35 /* ClassCapsule.swift */,
 			);
 			path = Classe;
 			sourceTree = "<group>";
@@ -1427,6 +1436,7 @@
 				7937A2442986AD9100D0ED59 /* CloudKitViewModel.swift in Sources */,
 				7997531E297C3D5B00D1C66E /* ProgramCreatorModal.swift in Sources */,
 				7963720C297DA37E00ECDBC3 /* ActivityBrowserRow.swift in Sources */,
+				79F38D0829D747D9006C9B35 /* Palettes.swift in Sources */,
 				79ED5AAA2998030A00D536BF /* Exam+CoreDataClass.swift in Sources */,
 				795C2C20296E24E900EDFF09 /* Seat+Extensions.swift in Sources */,
 				79DEDB17292593C200F508EF /* SettingsSchool.swift in Sources */,
@@ -1462,6 +1472,7 @@
 				79ECF1FB2959F915008F0282 /* ClasseColleLabel.swift in Sources */,
 				792135572978724C0036A5EA /* Program+Extensions.swift in Sources */,
 				79975320297C3F9200D1C66E /* ProgramViewModel.swift in Sources */,
+				79F38D0C29D74B17006C9B35 /* ClassCapsule.swift in Sources */,
 				7986A8592989CE73007471BE /* GroupSteppedlMarkModal.swift in Sources */,
 				79ECF1FC2959F915008F0282 /* ClasseObservLabel.swift in Sources */,
 				79A8E7BE29AF6109006D0EAA /* IndicatorImageView.swift in Sources */,
@@ -1520,6 +1531,7 @@
 				79DEDB0F292593C200F508EF /* SettingsView.swift in Sources */,
 				79E923C52961E94D00EDB7CA /* GroupManager.swift in Sources */,
 				79401354295659B6007AD790 /* EleveNameGroupBox.swift in Sources */,
+				79F38D0A29D7495D006C9B35 /* GroupCapsule.swift in Sources */,
 				7989B4D929A288E900383F84 /* LabeledSequenceView.swift in Sources */,
 				79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */,
 				798DD4D2298C318F00C47B2C /* ExamListView.swift in Sources */,

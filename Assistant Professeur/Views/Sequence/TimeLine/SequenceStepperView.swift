@@ -41,11 +41,19 @@ extension SequenceStepperView {
         sequence
             .activitiesSortedByNumber
             .map { activity in
-                VStack(alignment: .leading) {
-                    Text(activity.viewName)
-                        .bold()
-                        .foregroundColor(.teal)
-                        .textSelection(.enabled)
+                let classes = ProgramManager.classesAssociatedTo(thisActivity: activity)
+                return VStack(alignment: .leading) {
+                    HStack {
+                        Text(activity.viewName)
+                            .bold()
+                            .foregroundColor(.teal)
+                            .textSelection(.enabled)
+                        ForEach(classes) { classe in
+                            if classe.currentActivity == activity {
+                                ClassCapsule(classe: classe)
+                            }
+                        }
+                    }
                     Text(activity.viewAnnotation)
                         .textSelection(.enabled)
                 }
