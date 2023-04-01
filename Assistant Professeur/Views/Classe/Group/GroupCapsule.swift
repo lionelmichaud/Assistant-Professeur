@@ -16,7 +16,7 @@ struct GroupCapsule: View {
             .filledCapsuleStyling(
                 withBackground: true,
                 withBorder: true,
-                fillColor: .blue1
+                fillColor: .blue4
             )
     }
 }

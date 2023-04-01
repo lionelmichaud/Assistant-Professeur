@@ -28,7 +28,8 @@ struct SequenceStepperView: View {
                     // .autoSpacing(true)
                     // .lineOptions(StepperLineOptions.custom(2, Color.teal))
                     // .spacing(80) // auto calculates spacing between steps based on the content.
-                    .padding()
+                    .padding([.horizontal, .top])
+                    .padding(.bottom, 50)
             }
         }
     }
@@ -105,7 +106,10 @@ extension SequenceStepperView {
             .activitiesSortedByNumber
             .map { activity in
                 VStack(alignment: .leading) {
-                    DurationView(duration: activity.duration, withMargin: false)
+                    DurationSquareView(
+                        duration: activity.duration,
+                        withMargin: false
+                    )
                         .font(.callout)
                         .bold()
                         .padding(.bottom, 1)

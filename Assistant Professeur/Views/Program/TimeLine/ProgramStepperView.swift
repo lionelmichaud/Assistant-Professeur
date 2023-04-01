@@ -29,7 +29,8 @@ struct ProgramStepperView: View {
                     // .autoSpacing(true)
                     // .lineOptions(StepperLineOptions.custom(1, Color.teal))
                     // .spacing(80) // auto calculates spacing between steps based on the content.
-                    .padding()
+                    .padding([.horizontal, .top])
+                    .padding(.bottom, 50)
             }
         }
     }
@@ -105,9 +106,10 @@ extension ProgramStepperView {
             .map { sequence in
                 VStack(alignment: .leading) {
                     HStack {
-                        DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
-                        Spacer()
-                        DurationView(duration: sequence.durationWithMargin, withMargin: true)
+                        DurationSquareView(
+                            duration: sequence.durationWithoutMargin,
+                            withMargin: true
+                        )
                         Spacer()
                         WebsiteView(url: sequence.url)
                     }

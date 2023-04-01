@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 22/01/2023.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct SequenceBrowserRow: View {
     @ObservedObject
@@ -19,15 +19,16 @@ struct SequenceBrowserRow: View {
         HStack {
             Image(systemName: "\(sequence.viewNumber).circle")
                 .imageScale(.large)
-            
+
             VStack(alignment: .leading) {
                 Text(sequence.viewName)
                     .textSelection(.enabled)
 
                 HStack {
-                    DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
-                    Spacer()
-                    DurationView(duration: sequence.durationWithMargin, withMargin: true)
+                    DurationSquareView(
+                        duration: sequence.durationWithoutMargin,
+                        withMargin: true
+                    )
                     Spacer()
                     WebsiteView(url: sequence.url)
                 }
@@ -37,8 +38,8 @@ struct SequenceBrowserRow: View {
     }
 }
 
-//struct SequenceBrowserRow_Previews: PreviewProvider {
+// struct SequenceBrowserRow_Previews: PreviewProvider {
 //    static var previews: some View {
 //        SequenceBrowserRow()
 //    }
-//}
+// }

@@ -25,7 +25,10 @@ struct ActivityBrowserRow: View {
                     .textSelection(.enabled)
 
                 HStack {
-                    DurationView(duration: activity.duration, withMargin: false)
+                    DurationSquareView(
+                        duration: activity.duration,
+                        withMargin: false
+                    )
                     Spacer()
                     ActivityAllSymbols(
                         activity: activity,

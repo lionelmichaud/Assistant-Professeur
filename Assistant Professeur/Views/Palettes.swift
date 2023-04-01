@@ -10,9 +10,13 @@ import SwiftUI
 extension Color {
     static let launchScreenBackground = Color("Launch-Screen-Color")
 
-    static let blue1 = Color("Blue-1")
-    static let blue2 = Color("Blue-2")
-    static let blue3 = Color("Blue-3")
-    static let blue4 = Color("Blue-4")
-    static let blue5 = Color("Blue-5")
+    static let blue0 = Color("Blue0")
+    static let blue1 = Color("Blue1")
+    static let blue2 = Color("Blue2")
+    static let blue3 = Color("Blue3")
+    static let blue4 = Color("Blue4")
+    static let blue5 = Color("Blue5")
+    static let blue6 = Color("Blue6")
+    static let blue7 = Color("Blue7")
+    static let blue8 = Color("Blue8")
 }
