@@ -90,7 +90,7 @@ struct ProgramSidebarView: View {
         // Modal Sheet de création d'un nouveau programme
         .sheet(
             isPresented: $isAddingNewProgram
-            // onDismiss: {}
+//            onDismiss: ProgramEntity.rollback()
         ) {
             NavigationStack {
                 ProgramCreatorModal()
@@ -112,18 +112,6 @@ struct ProgramSidebarView: View {
 extension ProgramSidebarView {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
-        // Ajouter un établissement
-        ToolbarItemGroup(placement: .status) {
-            Button {
-                isAddingNewProgram = true
-            } label: {
-                HStack {
-                    Image(systemName: "plus.circle.fill")
-                    Text("Ajouter un programme")
-                    Spacer()
-                }
-            }
-        }
         // Menu
         ToolbarItemGroup(placement: .automatic) {
             Menu {
@@ -141,6 +129,18 @@ extension ProgramSidebarView {
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")
+            }
+        }
+        // Ajouter un établissement
+        ToolbarItemGroup(placement: .status) {
+            Button {
+                isAddingNewProgram = true
+            } label: {
+                HStack {
+                    Image(systemName: "plus.circle.fill")
+                    Text("Ajouter un programme")
+                    Spacer()
+                }
             }
         }
     }

@@ -258,6 +258,7 @@ extension ProgramEntity {
     }
 
     /// Créer une nouvelle instance et la sauvegarder dans le context
+    /// - Important: Saves the context
     @discardableResult
     static func create(
         discipline: Discipline,

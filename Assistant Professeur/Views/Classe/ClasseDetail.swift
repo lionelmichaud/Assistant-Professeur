@@ -223,7 +223,7 @@ extension ClasseDetail {
             Button {
                 randomEleve = classe.elevesSortedByName.randomElement()
             } label: {
-                Image(systemName: "person.fill.questionmark")
+                Image(systemName: "dice")
                     .imageScale(.large)
             }
             .disabled(!eleveTrombineEnabled)

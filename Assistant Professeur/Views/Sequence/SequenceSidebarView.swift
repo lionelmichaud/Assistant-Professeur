@@ -14,8 +14,8 @@ struct SequenceSidebarView: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @State
-    private var isAddingNewSequence = false
+//    @State
+//    private var isAddingNewSequence = false
 
     @State
     private var isEditing = false
@@ -61,18 +61,18 @@ struct SequenceSidebarView: View {
         .toolbar(content: myToolBarContent)
 
         // Modal Sheet de création d'une nouvelle séquence
-        .sheet(
-            isPresented: $isAddingNewSequence,
-            onDismiss: ProgramEntity.rollback
-        ) {
-            if let programId = navig.selectedProgramId,
-               let program = ProgramEntity.byObjectId(id: programId) {
-                NavigationStack {
-                    SequenceCreatorModal(program: program)
-                }
-                .presentationDetents([.large])
-            }
-        }
+//        .sheet(
+//            isPresented: $isAddingNewSequence,
+//            onDismiss: ProgramEntity.rollback
+//        ) {
+//            if let programId = navig.selectedProgramId,
+//               let program = ProgramEntity.byObjectId(id: programId) {
+//                NavigationStack {
+//                    SequenceCreatorModal(program: program)
+//                }
+//                .presentationDetents([.large])
+//            }
+//        }
 
         // Modal Sheet de modification du programme
         .sheet(
@@ -107,7 +107,17 @@ extension SequenceSidebarView {
             // Ajouter une Séquence
             ToolbarItemGroup(placement: .status) {
                 Button {
-                    isAddingNewSequence.toggle()
+                    if let programId = navig.selectedProgramId {
+                        if let program = ProgramEntity.byObjectId(id: programId) {
+                            withAnimation {
+                                _ = SequenceEntity.create(
+                                    name: "Nouvelle séquence",
+                                    dans: program
+                                )
+                            }
+                        }
+                    }
+//                    isAddingNewSequence.toggle()
                 } label: {
                     HStack {
                         Image(systemName: "plus.circle.fill")
@@ -120,8 +130,8 @@ extension SequenceSidebarView {
     }
 }
 
-//struct SequenceSidebarView_Previews: PreviewProvider {
+// struct SequenceSidebarView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        SequenceSidebarView(showProgramSteps: .constant(true))
 //    }
-//}
+// }

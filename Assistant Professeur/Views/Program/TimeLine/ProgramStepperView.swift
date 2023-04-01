@@ -40,12 +40,9 @@ struct ProgramStepperView: View {
 extension ProgramStepperView {
     var headerView: some View {
         VStack(alignment: .center) {
-            HStack {
-                Text("Programme de")
-                ProgramDisciplineLevel(program: program)
-            }
-            .foregroundColor(.teal)
-            .padding(.bottom, 6)
+            ProgramDisciplineLevel(program: program)
+                .foregroundColor(.teal)
+                .padding(.bottom, 6)
             if program.viewAnnotation.isNotEmpty {
                 Text(program.viewAnnotation)
                     .padding(.bottom, 6)

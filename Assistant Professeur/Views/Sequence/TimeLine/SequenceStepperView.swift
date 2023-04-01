@@ -37,6 +37,31 @@ struct SequenceStepperView: View {
 // MARK: - Subviews
 
 extension SequenceStepperView {
+    var headerView: some View {
+        VStack(alignment: .leading) {
+            Label {
+                Text(sequence.viewName)
+            } icon: {
+                Text("S\(sequence.viewNumber)")
+                    .padding(6)
+                    .background(Circle().stroke(.teal, lineWidth: 1))
+            }
+            .foregroundColor(.teal)
+            .padding(.bottom, 6)
+            if sequence.viewAnnotation.isNotEmpty {
+                Text("Problématique:")
+                    .bold()
+                Text(sequence.viewAnnotation)
+                    .padding(.leading)
+                    .padding(.bottom, 6)
+            }
+            DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
+        }
+        .textSelection(.enabled)
+        .padding(8)
+        .background(RoundedRectangle(cornerRadius: 8).stroke(.teal, lineWidth: 1))
+    }
+
     private var steps: [AnyView] {
         sequence
             .activitiesSortedByNumber
@@ -112,31 +137,6 @@ extension SequenceStepperView {
             .map { _ in
                 StepperLineOptions.custom(1, Color.teal)
             }
-    }
-
-    var headerView: some View {
-        VStack(alignment: .leading) {
-            Label {
-                Text(sequence.viewName)
-            } icon: {
-                Text("S\(sequence.viewNumber)")
-                    .padding(6)
-                    .background(Circle().stroke(.teal, lineWidth: 1))
-            }
-            .foregroundColor(.teal)
-            .padding(.bottom, 6)
-            if sequence.viewAnnotation.isNotEmpty {
-                Text("Problématique:")
-                    .bold()
-                Text(sequence.viewAnnotation)
-                    .padding(.leading)
-                    .padding(.bottom, 6)
-            }
-            DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
-        }
-        .textSelection(.enabled)
-        .padding(8)
-        .background(RoundedRectangle(cornerRadius: 8).stroke(.teal, lineWidth: 1))
     }
 }
 

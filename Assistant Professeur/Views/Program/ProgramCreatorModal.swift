@@ -31,34 +31,6 @@ struct ProgramCreatorModal: View {
     @State
     private var alertIsPresented = false
 
-    var niveauView: some View {
-        HStack {
-            // niveau de cette classe
-            Image(systemName: "person.3.sequence.fill")
-                .sfSymbolStyling()
-                .foregroundColor(programVM.levelEnum.color)
-
-            CasePicker(pickedCase: $programVM.levelEnum,
-                       label: "")
-            .pickerStyle(.menu)
-        }
-    }
-
-    var segpaView: some View {
-        Toggle(isOn: $programVM.segpa.animation()) {
-            Text("SEGPA")
-        }
-        .toggleStyle(.button)
-        .controlSize(.small)
-    }
-
-    var disciplineView: some View {
-        CasePicker(pickedCase: $programVM.disciplineEnum,
-                   label: "Discipline")
-        .pickerStyle(.menu)
-        .frame(width: 300)
-    }
-
     var body: some View {
         Form {
             ViewThatFits(in: .horizontal) {
@@ -110,6 +82,39 @@ struct ProgramCreatorModal: View {
     }
 }
 
+// MARK: - Subviews
+
+extension ProgramCreatorModal {
+    var niveauView: some View {
+        HStack {
+            // niveau de cette classe
+            Image(systemName: "person.3.sequence.fill")
+                .sfSymbolStyling()
+                .foregroundColor(programVM.levelEnum.color)
+
+            CasePicker(pickedCase: $programVM.levelEnum,
+                       label: "")
+            .pickerStyle(.menu)
+        }
+    }
+
+    var segpaView: some View {
+        Toggle(isOn: $programVM.segpa.animation()) {
+            Text("SEGPA")
+        }
+        .toggleStyle(.button)
+        .controlSize(.small)
+    }
+
+    var disciplineView: some View {
+        CasePicker(pickedCase: $programVM.disciplineEnum,
+                   label: "Discipline")
+        .pickerStyle(.menu)
+        .frame(width: 300)
+    }
+
+}
+
 // MARK: Toolbar Content
 
 extension ProgramCreatorModal {
@@ -117,6 +122,7 @@ extension ProgramCreatorModal {
     private func myToolBarContent() -> some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
             Button("Annuler") {
+                ProgramEntity.rollback()
                 dismiss()
             }
         }

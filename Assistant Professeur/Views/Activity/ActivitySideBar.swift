@@ -18,8 +18,8 @@ struct ActivitySideBar: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @State
-    private var isAddingNewActivity = false
+//    @State
+//    private var isAddingNewActivity = false
 
     @State
     private var isEditing = false
@@ -51,18 +51,18 @@ struct ActivitySideBar: View {
         .toolbar(content: myToolBarContent)
 
         // Modal Sheet de création d'une nouvelle activité
-        .sheet(
-            isPresented: $isAddingNewActivity,
-            onDismiss: SequenceEntity.rollback
-        ) {
-            if let sequenceId = navig.selectedSequenceId,
-               let sequence = SequenceEntity.byObjectId(id: sequenceId) {
-                NavigationStack {
-                    ActivityCreatorModal(sequence: sequence)
-                }
-                .presentationDetents([.medium])
-            }
-        }
+//        .sheet(
+//            isPresented: $isAddingNewActivity,
+//            onDismiss: SequenceEntity.rollback
+//        ) {
+//            if let sequenceId = navig.selectedSequenceId,
+//               let sequence = SequenceEntity.byObjectId(id: sequenceId) {
+//                NavigationStack {
+//                    ActivityCreatorModal(sequence: sequence)
+//                }
+//                .presentationDetents([.medium])
+//            }
+//        }
 
         // Modal Sheet de modification de la séquence
         .sheet(
@@ -97,7 +97,14 @@ extension ActivitySideBar {
             // Ajouter une Activité
             ToolbarItemGroup(placement: .status) {
                 Button {
-                    isAddingNewActivity.toggle()
+                    withAnimation {
+                        _ = ActivityEntity.create(
+                            name: "Nouvelle activité",
+                            duration: 1.0,
+                            dans: sequence
+                        )
+                    }
+//                    isAddingNewActivity = true
                 } label: {
                     HStack {
                         Image(systemName: "plus.circle.fill")
