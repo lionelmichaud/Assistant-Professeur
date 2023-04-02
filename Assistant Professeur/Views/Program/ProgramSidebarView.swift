@@ -36,18 +36,6 @@ struct ProgramSidebarView: View {
 
     var body: some View {
         List(selection: $navigationModel.selectedProgramId) {
-            if ProgramEntity.all().isEmpty {
-                GroupBox {
-                    Text("Aucun programme")
-                        .bold()
-                    Text("Les programmes ajoutés apparaîtront ici.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .padding(.top, 2)
-                }
-                .verticallyAligned(.top)
-            }
-
             // pour chaque Discipline
             ForEach(programsSections) { section in
                 if section.isNotEmpty {
@@ -80,6 +68,13 @@ struct ProgramSidebarView: View {
                             .fontWeight(.bold)
                     }
                 }
+            }
+            .emptyListPlaceHolder(programsSections) {
+                EmptyListMessage(
+                    symbolName: "books.vertical",
+                    title: "Aucun programme actuellement.",
+                    message: "Les programmes ajoutés apparaîtront ici."
+                )
             }
         }
         #if os(iOS)

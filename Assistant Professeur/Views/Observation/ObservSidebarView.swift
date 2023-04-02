@@ -9,46 +9,56 @@ import SwiftUI
 
 struct ObservSidebarView: View {
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     @State
     private var filterTodoObservation = true
 
     @FetchRequest<SchoolEntity>(
-        fetchRequest : SchoolEntity.requestAllSortedByLevelName,
-        animation    : .default
+        fetchRequest: SchoolEntity.requestAllSortedByLevelName,
+        animation: .default
     )
     private var schools: FetchedResults<SchoolEntity>
 
     var body: some View {
         List(selection: $navigationModel.selectedObservId) {
             if ObservEntity.all().isEmpty {
-                Text("Aucune observation actuellement")
+                EmptyListMessage(
+                    symbolName: "magnifyingglass",
+                    title: "Aucune observation actuellement.",
+                    message: "Les observations ajoutées apparaîtront ici."
+                )
             } else {
-                /// pour chaque Etablissement
+                // pour chaque Etablissement
                 ForEach(schools) { school in
-                    if school.nbOfClasses != 0 {
-                        Section {
-                            /// pour chaque Classe
-                            ObservSidebarSchoolSubview(school: school,
-                                                       filterObservation: filterTodoObservation)
-                        } header: {
-                            Text(school.displayString)
-                                .foregroundColor(.primary)
-                                .fontWeight(.bold)
-                        }
-                    } else {
-                        Text("Aucune observation actuellement")
+                    Section {
+                        // pour chaque Classe
+                        ObservSidebarSchoolSubview(
+                            school: school,
+                            filterObservation: filterTodoObservation
+                        )
+                    } header: {
+                        Text(school.displayString)
+                            .foregroundColor(.primary)
+                            .fontWeight(.bold)
                     }
+                }
+                .emptyListPlaceHolder(schools) {
+                    EmptyListMessage(
+                        symbolName: "building",
+                        title: "Aucun établissement actuellement."
+                    )
                 }
             }
         }
         .toolbar {
             ToolbarItemGroup(placement: .status) {
-                Toggle(isOn: $filterTodoObservation.animation(),
-                       label: {
-                    Text("A faire")
-                })
+                Toggle(
+                    isOn: $filterTodoObservation.animation(),
+                    label: {
+                        Text("A faire")
+                    }
+                )
                 .toggleStyle(.button)
             }
         }
@@ -56,21 +66,21 @@ struct ObservSidebarView: View {
     }
 }
 
-struct ObservSidebarSchoolSubview : View {
+struct ObservSidebarSchoolSubview: View {
     @ObservedObject
     var school: SchoolEntity
 
-    var filterObservation : Bool
+    var filterObservation: Bool
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     var body: some View {
-        /// pour chaque Classe
+        // pour chaque Classe
         ForEach(school.classesSortedByLevelNumber) { classe in
             if someFilteredObservations(dans: classe) {
                 DisclosureGroup {
-                    /// pour chaque Observation
+                    // pour chaque Observation
                     ForEach(filteredSortedObservs(dans: classe), id: \.objectID) { observ in
                         ObservBrowserRow(observ: observ)
                             .swipeActions {
@@ -98,22 +108,33 @@ struct ObservSidebarSchoolSubview : View {
                 EmptyView()
             }
         }
+        .emptyListPlaceHolder(school.classesSortedByLevelNumber) {
+            EmptyListMessage(
+                symbolName: "person.3.sequence.fill",
+                title: "Aucune classe dans cet établissement actuellement.",
+                message: "Les classes ajoutées apparaîtront ici."
+            )
+        }
     }
 
     // MARK: - Methods
 
-    private func someFilteredObservations(dans classe : ClasseEntity) -> Bool {
-        classe.nbOfObservations(isConsignee: filterObservation ? false : nil,
-                                isVerified: filterObservation ? false : nil) > 0
+    private func someFilteredObservations(dans classe: ClasseEntity) -> Bool {
+        classe.nbOfObservations(
+            isConsignee: filterObservation ? false : nil,
+            isVerified: filterObservation ? false : nil
+        ) > 0
     }
 
     private func filteredSortedObservs(dans classe: ClasseEntity) -> [ObservEntity] {
-        classe.filteredSortedObservations(isConsignee: filterObservation ? false : nil,
-                                          isVerified: filterObservation ? false : nil)
+        classe.filteredSortedObservations(
+            isConsignee: filterObservation ? false : nil,
+            isVerified: filterObservation ? false : nil
+        )
     }
 }
 
-//struct ObservBrowserView_Previews: PreviewProvider {
+// struct ObservBrowserView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -126,4 +147,4 @@ struct ObservSidebarSchoolSubview : View {
 //                .environmentObject(TestEnvir.observStore)
 //        }
 //    }
-//}
+// }

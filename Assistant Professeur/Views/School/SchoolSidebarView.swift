@@ -122,9 +122,6 @@ struct SchoolSidebarView: View {
 
     var body: some View {
         List(selection: $navigationModel.selectedSchoolId) {
-            if SchoolEntity.all().isEmpty {
-                Text("Aucun établissement actuellement")
-            }
             // pour chaque Type d'établissement
             ForEach(schoolsSections) { section in
                 if section.isNotEmpty {
@@ -174,6 +171,13 @@ struct SchoolSidebarView: View {
                             .fontWeight(.bold)
                     }
                 }
+            }
+            .emptyListPlaceHolder(schoolsSections) {
+                EmptyListMessage(
+                    symbolName: "building",
+                    title: "Aucun établissement actuellement.",
+                    message: "Les établissements ajoutés apparaîtront ici."
+                )
             }
         }
         #if os(iOS)

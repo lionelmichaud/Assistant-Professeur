@@ -15,8 +15,11 @@ struct SchoolSplitView: View {
         NavigationSplitView(
             columnVisibility: $navigationModel.columnVisibility
         ) {
+            // 1ère colonne
             SchoolSidebarView()
+
         } detail: {
+            // Détail dans la 2ième colonne
             SchoolEditor()
         }
     }

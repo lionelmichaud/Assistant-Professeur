@@ -20,23 +20,26 @@ struct ClasseSidebarView: View {
 
     var body: some View {
         List(selection: $navigationModel.selectedClasseId) {
-            if ClasseEntity.all().isEmpty {
-                Text("Aucune classe actuellement")
-            } else {
-                // pour chaque Etablissement
-                ForEach(classesSections) { section in
-                    if section.isNotEmpty {
-                        Section {
-                            // pour chaque Classe
-                            ClasseSidebarSchoolSubview(schoolSection: section)
-                        } header: {
-                            Text(section.id)
-                                .font(.callout)
-                                .foregroundColor(.secondary)
-                                .fontWeight(.bold)
-                        }
+            // pour chaque Etablissement
+            ForEach(classesSections) { section in
+                if section.isNotEmpty {
+                    Section {
+                        // pour chaque Classe
+                        ClasseSidebarSchoolSubview(schoolSection: section)
+                    } header: {
+                        Text(section.id)
+                            .font(.callout)
+                            .foregroundColor(.secondary)
+                            .fontWeight(.bold)
                     }
                 }
+            }
+            .emptyListPlaceHolder(classesSections) {
+                EmptyListMessage(
+                    symbolName: "person.3.sequence.fill",
+                    title: "Aucune classe actuellement.",
+                    message: "Les classes ajoutées apparaîtront ici."
+                )
             }
         }
         #if os(iOS)

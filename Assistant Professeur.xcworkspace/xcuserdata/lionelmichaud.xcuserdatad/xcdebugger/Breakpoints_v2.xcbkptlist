@@ -157,8 +157,8 @@
             filePath = "Assistant Professeur/Views/School/SchoolSidebarView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "537"
-            endingLineNumber = "537"
+            startingLineNumber = "541"
+            endingLineNumber = "541"
             landmarkName = "importFromApp()"
             landmarkType = "7">
             <Locations>
@@ -190,6 +190,21 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "562"
                   endingLineNumber = "562"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  uuid = "1ADE21B3-6300-489F-8EFE-4BFD9B2B45A3 - bb6981ced71f450d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.SchoolSidebarView.importFromApp() -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/School/SchoolSidebarView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "566"
+                  endingLineNumber = "566"
                   offsetFromSymbolStart = "12">
                </Location>
             </Locations>

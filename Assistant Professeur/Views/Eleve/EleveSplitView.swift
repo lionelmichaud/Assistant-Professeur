@@ -15,8 +15,11 @@ struct EleveSplitView: View {
         NavigationSplitView(
             columnVisibility: $navigationModel.columnVisibility
         ) {
+            // 1ère colonne
             EleveSidebarView()
+
         } detail: {
+            // Détail dans la 2ième colonne
             EleveEditor()
         }
     }

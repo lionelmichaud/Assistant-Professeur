@@ -74,13 +74,17 @@ struct ProgramSplitView: View {
         ) {
             // 1ère colonne
             ProgramSidebarView()
-//                .navigationSplitViewColumnWidth(min: 200,
-//                                                ideal: 250,
-//                                                max: 500)
+                .navigationSplitViewColumnWidth(min: 200,
+                                                ideal: 250,
+                                                max: 500)
+            
         } content: {
             // 2nde colonne
             NavigationStack(path: $navig.programPath) {
                 SequenceSidebarView(showProgramSteps: $showProgramSteps)
+                    .navigationSplitViewColumnWidth(min: 300,
+                                                    ideal: 400,
+                                                    max: 500)
                     .navigationDestination(for: SequenceEntity.self) { sequence in
                         ActivitySideBar(
                             sequence: sequence,
@@ -88,17 +92,16 @@ struct ProgramSplitView: View {
                         )
                     }
             }
+
         } detail: {
             // Détail dans la 3ième colonne
             switch vm.detailColumnContent {
                 case .showNone:
-                    VStack(alignment: .center) {
-                        Text("Aucune Activité sélectionnée.")
-                        Text("Sélectionner une Activité pour en visualiser le détail ou le Programme/Séquence pour en visualiser le déroulement.")
-                            .font(.callout)
-                            .padding(.top)
-                            .multilineTextAlignment(.center)
-                    }
+                    EmptyListMessage(
+                        title: "Aucune activité sélectionnée.",
+                        message: "Sélectionner une activité pour en visualiser le contenu.",
+                        showAsGroupBox: true
+                    )
                     .padding()
                     .foregroundStyle(.secondary)
                     .font(.title2)

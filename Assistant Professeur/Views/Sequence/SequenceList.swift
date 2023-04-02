@@ -36,6 +36,11 @@ struct SequenceList: View {
                     .onMove(perform: moveItems)
                     .onDelete(perform: deleteItems)
                     .listRowSeparatorTint(.secondary)
+                    .emptyListPlaceHolder(program.filteredSequencesSortedByNumber(searchString: searchString)) {
+                        EmptyListMessage(
+                            title: "Aucune séquence trouvée."
+                        )
+                    }
                 }
                 .searchable(
                     text: $searchString,
@@ -45,15 +50,10 @@ struct SequenceList: View {
                 )
 
             } else {
-                GroupBox {
-                    Text("Aucune séquence")
-                        .bold()
-                    Text("Les séquences ajoutées apparaîtront ici.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .padding(.top, 2)
-                }
-                .verticallyAligned(.top)
+                EmptyListMessage(
+                    title: "Aucune séquence actuellement dans ce programme.",
+                    message: "Les séquences ajoutées apparaîtront ici."
+                )
             }
         } header: {
             HStack {
