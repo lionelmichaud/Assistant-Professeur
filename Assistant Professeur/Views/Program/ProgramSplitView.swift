@@ -74,8 +74,8 @@ struct ProgramSplitView: View {
         ) {
             // 1ère colonne
             ProgramSidebarView()
-                .navigationSplitViewColumnWidth(min: 200,
-                                                ideal: 250,
+                .navigationSplitViewColumnWidth(min: 250,
+                                                ideal: 300,
                                                 max: 500)
 
         } content: {

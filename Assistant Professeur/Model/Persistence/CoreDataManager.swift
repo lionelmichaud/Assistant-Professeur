@@ -83,10 +83,6 @@ class CoreDataManager {
         initializeInMemoryContainer()
         initializePersitentContainer()
 
-//        if loadMockData {
-//            DataBaseManager.populateWithMockData()
-//        }
-
         // Debug build configuration.
         #if DEBUG
             print(">> CoreDataManager.init() initialization has completed")
@@ -130,7 +126,7 @@ class CoreDataManager {
         // Debug build configuration.
         #if DEBUG
             // LIGNE À DESACTIVER sous la cible "My Mac (Designed for iPad)"
-            // initializeCloudKitSchema()
+             initializeCloudKitSchema()
         #endif
     }
 

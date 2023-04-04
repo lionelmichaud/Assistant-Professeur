@@ -23,6 +23,9 @@ struct ClasseSplitView: View {
         ) {
             // 1ère colonne
             ClasseSidebarView()
+                .navigationSplitViewColumnWidth(min: 250,
+                                                ideal: 350,
+                                                max: 500)
 
         } detail: {
             // Détail dans la 2ième colonne

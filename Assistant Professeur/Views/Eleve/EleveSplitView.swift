@@ -17,6 +17,9 @@ struct EleveSplitView: View {
         ) {
             // 1ère colonne
             EleveSidebarView()
+                .navigationSplitViewColumnWidth(min: 250,
+                                                ideal: 350,
+                                                max: 500)
 
         } detail: {
             // Détail dans la 2ième colonne

@@ -17,6 +17,9 @@ struct WarningSpliView: View {
         ) {
             // 1ère colonne
             WarningSidebarView()
+                .navigationSplitViewColumnWidth(min: 250,
+                                                ideal: 350,
+                                                max: 500)
 
         } content: {
             // 2nde colonne

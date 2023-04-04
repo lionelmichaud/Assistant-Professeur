@@ -286,7 +286,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
 
         // Eleves
         let eleve5E1_1 = EleveEntity.create(
-            familyName: "MICHAUD",
+            familyName: "SAINT-Truc de MICHAUD",
             givenName: "Lionel",
             sex: .male,
             isFlagged: true,
