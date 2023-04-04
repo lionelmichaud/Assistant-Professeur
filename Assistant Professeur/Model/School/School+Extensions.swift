@@ -141,7 +141,7 @@ extension SchoolEntity {
     static func allSortedByLevelName() -> [SchoolEntity] {
         do {
             return try SchoolEntity
-                .viewContext
+                .context
                 .fetch(SchoolEntity.requestAllSortedByLevelName)
         } catch {
             return []
@@ -153,6 +153,11 @@ extension SchoolEntity {
     /// Nombre de classes dans l'établissement
     var nbOfClasses: Int {
         Int(self.classesCount)
+    }
+
+    /// Nombre d'élèves dans l'établissement
+    var nbOfEleves: Int {
+        allClasses.sum(for: \.nbOfEleves)
     }
 
     /// Nombre d'événements dans l'établissement

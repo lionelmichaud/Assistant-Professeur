@@ -26,35 +26,31 @@ struct EleveBrowserRow: View {
     }
 }
 
-//struct EleveBrowserRow_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            List {
-//                DisclosureGroup("Group", isExpanded: .constant(true)) {
-//                    EleveBrowserRow(eleve: Eleve.exemple)
-//                        .environmentObject(NavigationModel())
-//                        .environmentObject(TestEnvir.schoolStore)
-//                        .environmentObject(TestEnvir.classeStore)
-//                        .environmentObject(TestEnvir.eleveStore)
-//                        .environmentObject(TestEnvir.colleStore)
-//                        .environmentObject(TestEnvir.observStore)
-//                }
-//            }
-//            .previewDevice("iPad mini (6th generation)")
-//
-//            List {
-//                DisclosureGroup("Group", isExpanded: .constant(true)) {
-//                    EleveBrowserRow(eleve: Eleve.exemple)
-//                        .environmentObject(NavigationModel())
-//                        .environmentObject(TestEnvir.schoolStore)
-//                        .environmentObject(TestEnvir.classeStore)
-//                        .environmentObject(TestEnvir.eleveStore)
-//                        .environmentObject(TestEnvir.colleStore)
-//                        .environmentObject(TestEnvir.observStore)
-//                }
-//            }
-//            .previewDevice("iPhone 13")
-//        }
-//    }
-//}
+struct EleveBrowserRow_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            List {
+                DisclosureGroup("Group", isExpanded: .constant(true)) {
+                    EleveBrowserRow(eleve: EleveEntity.all().first!)
+                        .environmentObject(NavigationModel())
+                        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                }
+            }
+            .previewDevice("iPad mini (6th generation)")
+
+            List {
+                DisclosureGroup("Group", isExpanded: .constant(true)) {
+                    EleveBrowserRow(eleve: EleveEntity.all().first!)
+                        .environmentObject(NavigationModel())
+                        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                }
+            }
+            .previewDevice("iPhone 13")
+        }
+    }
+}

@@ -24,7 +24,7 @@ public final class ProgramEntity: NSManagedObject, Codable, ModelEntityP {
 
     /// Conformance to Decodable
     public required convenience init(from decoder: Decoder) throws {
-        self.init(context: Self.viewContext)
+        self.init(context: Self.context)
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)

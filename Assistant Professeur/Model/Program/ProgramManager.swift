@@ -39,7 +39,6 @@ struct ProgramManager {
 
     /// Supprimer la `sequence` du `program` et
     /// re-numéroter les séquences restantes en conséquence.
-    ///
     /// - Warning: Les modifications ne sont pas auvegardées dans le contexte.
     static func delete(
         sequence: SequenceEntity,
@@ -58,7 +57,7 @@ struct ProgramManager {
         }
 
         // Supprimer l'élément
-        SequenceEntity.viewContext.delete(orderedSequences[index])
+        SequenceEntity.context.delete(orderedSequences[index])
     }
 
     /// Déplacer `activity` à l'intérieur de la liste des activités de la `sequence`
@@ -91,7 +90,6 @@ struct ProgramManager {
 
     /// Supprimer l'`activity` de la `sequence` et
     /// re-numéroter les activités restantes en conséquence.
-    ///
     /// - Warning: Les modifications ne sont pas auvegardées dans le contexte.
     static func delete(
         activity: ActivityEntity,
@@ -110,10 +108,11 @@ struct ProgramManager {
         }
 
         // Supprimer l'élément
-        ActivityEntity.viewContext.delete(orderedActivities[index])
+        ActivityEntity.context.delete(orderedActivities[index])
     }
 
     /// Retourne la liste des Activités qui doivent être suivies par la `classe`
+    /// - Warning: Les modifications ne sont pas auvegardées dans le contexte.
     /// - Returns: liste des Activités qui doivent être suivies
     static func activitiesAssociatedTo(
         thisClasse classe: ClasseEntity
@@ -139,7 +138,7 @@ struct ProgramManager {
         request.predicate = predicate
 
         do {
-            let programs = try ProgramEntity.viewContext.fetch(request)
+            let programs = try ProgramEntity.context.fetch(request)
             print(programs)
             let activities = programs
                 .flatMap { program in
@@ -156,6 +155,7 @@ struct ProgramManager {
     }
 
     /// Retourne la liste des Classes qui doivent suivre l'activité `sequence`
+    /// - Warning: Les modifications ne sont pas auvegardées dans le contexte.
     /// - Parameter sequence: la séquence
     /// - Returns: liste des Classes qui doivent suivre la séquence
     static func classesAssociatedTo(
@@ -185,7 +185,7 @@ struct ProgramManager {
         request.predicate = predicate
 
         do {
-            let classes = try ClasseEntity.viewContext.fetch(request)
+            let classes = try ClasseEntity.context.fetch(request)
             return classes
         } catch {
             return []
@@ -193,6 +193,7 @@ struct ProgramManager {
     }
 
     /// Retourne la liste des Classes qui doivent suivre l'activité `activity`
+    /// - Warning: Les modifications ne sont pas auvegardées dans le contexte.
     /// - Parameter activity: l'activité
     /// - Returns: liste des Classes qui doivent suivre l'activité
     static func classesAssociatedTo(
@@ -222,7 +223,7 @@ struct ProgramManager {
         request.predicate = predicate
 
         do {
-            let classes = try ClasseEntity.viewContext.fetch(request)
+            let classes = try ClasseEntity.context.fetch(request)
             return classes
         } catch {
             return []

@@ -22,7 +22,12 @@ struct GroupGlobalMarkModal: View {
     private var nameDisplayOrder
 
     private let fontWeight: Font.Weight = .semibold
-    private let smallColumns = [GridItem(.adaptive(minimum: 120, maximum: 200))]
+    private let smallColumns = [
+        GridItem(
+            .adaptive(minimum: 120, maximum: 200),
+            alignment: .top
+        )
+    ]
 
     enum OperationType: PickableEnumP {
         case attribuer
@@ -49,14 +54,6 @@ struct GroupGlobalMarkModal: View {
 
     // MARK: - Computed Properties
 
-    private var oprationPickerView: some View {
-        CasePicker(
-            pickedCase: $operationType,
-            label: "Opération"
-        )
-        .pickerStyle(.segmented)
-    }
-
     private var groupsNb: [Int] {
         var array = [Int]()
         exam.classe?.allGroupsSortedByNumber
@@ -68,101 +65,12 @@ struct GroupGlobalMarkModal: View {
         return array
     }
 
-    private var groupPickerView: some View {
-        Picker(selection: $selectedGroupeNb) {
-            ForEach(groupsNb, id: \.self) { grp in
-                Text("Groupe \(grp)")
-            }
-        } label: {
-            Image(systemName: "person.line.dotted.person.fill")
-        }
-        .pickerStyle(.menu)
-    }
-
-    private var noteEditorView: some View {
-        HStack {
-            switch operationType {
-                case .attribuer:
-                    AmountEditView(
-                        label: "Note",
-                        amount: $mark,
-                        validity: .within(range: 0.0 ... Double(exam.viewMaxMark)),
-                        currency: false
-                    )
-                    Stepper(
-                        "",
-                        value: $mark,
-                        in: 0 ... Double(exam.viewMaxMark),
-                        step: 0.5
-                    )
-                case .modifier:
-                    AmountEditView(
-                        label: "+/-",
-                        amount: $mark,
-                        validity: .within(range: Double(-exam.viewMaxMark) ... Double(exam.viewMaxMark)),
-                        currency: false
-                    )
-                    Stepper(
-                        "",
-                        value: $mark,
-                        in: Double(-exam.viewMaxMark) ... Double(exam.viewMaxMark),
-                        step: 0.5
-                    )
-            }
-        }
-    }
-
-    private var regulartForm: some View {
-        HStack {
-            groupPickerView
-                .frame(maxWidth: 200)
-
-            Spacer()
-
-            noteEditorView
-                .frame(maxWidth: 300)
-        }
-    }
-
-    private var compactForm: some View {
-        VStack {
-            groupPickerView
-            noteEditorView
-        }
-    }
-
     /// Liste des élèves appartenant au groupe
     private var elevesInGroupID: [NSManagedObjectID]? {
         exam.classe?
             .groupe(number: selectedGroupeNb)
             .allEleves
             .map { $0.objectID }
-    }
-
-    /// Vue des trombines des élèves appartenant au groupe
-    private var listeElevesView: some View {
-        LazyVGrid(
-            columns: smallColumns,
-            spacing: 4
-        ) {
-            ForEach(
-                exam.classe?
-                    .groupe(number: selectedGroupeNb)
-                    .elevesSortedByName ?? []) { eleve in
-                VStack {
-                    TrombineView(eleve: eleve)
-
-                    // Nom de l'élève
-                    Text(eleve.displayName2lines(nameDisplayOrder))
-                        .multilineTextAlignment(.center)
-                        .fontWeight(fontWeight)
-                        .elevNameStyling(
-                            hasTrouble: eleve.hasTrouble,
-                            hasAddTime: eleve.hasAddTime
-                        )
-                }
-            }
-        }
     }
 
     var body: some View {
@@ -240,6 +148,105 @@ struct GroupGlobalMarkModal: View {
                     }
                 }
             try? MarkEntity.saveIfContextHasChanged()
+        }
+    }
+}
+
+// MARK: - Subviews
+
+extension GroupGlobalMarkModal {
+    private var oprationPickerView: some View {
+        CasePicker(
+            pickedCase: $operationType,
+            label: "Opération"
+        )
+        .pickerStyle(.segmented)
+    }
+
+    private var groupPickerView: some View {
+        Picker(selection: $selectedGroupeNb) {
+            ForEach(groupsNb, id: \.self) { grp in
+                Text("Groupe \(grp)")
+            }
+        } label: {
+            Image(systemName: "person.line.dotted.person.fill")
+        }
+        .pickerStyle(.menu)
+    }
+
+    private var noteEditorView: some View {
+        HStack {
+            switch operationType {
+                case .attribuer:
+                    AmountEditView(
+                        label: "Note",
+                        amount: $mark,
+                        validity: .within(range: 0.0 ... Double(exam.viewMaxMark)),
+                        currency: false
+                    )
+                    Stepper(
+                        "",
+                        value: $mark,
+                        in: 0 ... Double(exam.viewMaxMark),
+                        step: 0.5
+                    )
+                case .modifier:
+                    AmountEditView(
+                        label: "+/-",
+                        amount: $mark,
+                        validity: .within(range: Double(-exam.viewMaxMark) ... Double(exam.viewMaxMark)),
+                        currency: false
+                    )
+                    Stepper(
+                        "",
+                        value: $mark,
+                        in: Double(-exam.viewMaxMark) ... Double(exam.viewMaxMark),
+                        step: 0.5
+                    )
+            }
+        }
+    }
+
+    private var regulartForm: some View {
+        HStack {
+            groupPickerView
+                .frame(maxWidth: 200)
+
+            Spacer()
+
+            noteEditorView
+                .frame(maxWidth: 300)
+        }
+    }
+
+    private var compactForm: some View {
+        VStack {
+            groupPickerView
+            noteEditorView
+        }
+    }
+
+    /// Vue des trombines des élèves appartenant au groupe
+    private var listeElevesView: some View {
+        LazyVGrid(
+            columns: smallColumns,
+            spacing: 4
+        ) {
+            ForEach(
+                exam.classe?
+                    .groupe(number: selectedGroupeNb)
+                    .elevesSortedByName ?? []) { eleve in
+                VStack {
+                    TrombineView(eleve: eleve)
+
+                    // Nom de l'élève
+                    EleveTextName(
+                        eleve: eleve,
+                        fontWeight: fontWeight
+                    )
+                    .multilineTextAlignment(.center)
+                }
+            }
         }
     }
 }

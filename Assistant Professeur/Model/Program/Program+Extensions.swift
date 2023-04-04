@@ -226,7 +226,7 @@ extension ProgramEntity {
     static func allSortedbyDisciplineLevelSegpa() -> [ProgramEntity] {
         do {
             return try ProgramEntity
-                .viewContext
+                .context
                 .fetch(ProgramEntity.requestAllSortedbyDisciplineLevelSegpa)
         } catch {
             return []

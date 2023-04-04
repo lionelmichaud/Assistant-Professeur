@@ -401,7 +401,7 @@ extension SchoolSidebarView {
                             alertMessage = "L'effacement complet de la base de donnée a échoué"
 
                             withAnimation {
-                                DataBaseManager.populate(failed: &alertIsPresented)
+                                DataBaseManager.populateWithMockData(storeType: .inMemory)
                             }
                         } label: {
                             Text("Dev - Peupler la BDD").foregroundColor(.primary)

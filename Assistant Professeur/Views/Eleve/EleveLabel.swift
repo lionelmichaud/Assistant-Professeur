@@ -5,19 +5,16 @@
 //  Created by Lionel MICHAUD on 02/05/2022.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct EleveLabel: View {
     @ObservedObject
     var eleve: EleveEntity
 
-    var fontWeight : Font.Weight = .semibold
-    var imageSize  : Image.Scale = .large
-    var flagSize   : Image.Scale = .medium
-
-    @Preference(\.nameDisplayOrder)
-    private var nameDisplayOrder
+    var fontWeight: Font.Weight = .bold
+    var imageSize: Image.Scale = .large
+    var flagSize: Image.Scale = .large
 
     var body: some View {
         HStack {
@@ -26,10 +23,11 @@ struct EleveLabel: View {
                 .symbolRenderingMode(.monochrome)
                 .foregroundColor(eleve.sexEnum.color)
 
-            Text(eleve.displayName(nameDisplayOrder))
-                .fontWeight(fontWeight)
-                .elevNameStyling(hasTrouble: eleve.hasTrouble,
-                                 hasAddTime: eleve.hasAddTime)
+            EleveTextName(
+                eleve: eleve,
+                fontWeight: fontWeight
+            )
+
             if eleve.isFlagged {
                 Image(systemName: "flag.fill")
                     .imageScale(flagSize)
@@ -39,16 +37,26 @@ struct EleveLabel: View {
     }
 }
 
-//struct EleveLabel_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//            EleveLabel(eleve      : Eleve.exemple,
-//                       fontWeight : .regular,
-//                       imageSize  : .large)
-//            .previewLayout(.sizeThatFits)
-//
-//            EleveLabel(eleve: Eleve.exemple)
-//                .previewLayout(.sizeThatFits)
-//        }
-//    }
-//}
+struct EleveLabel_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            EleveLabel(eleve: EleveEntity.all().first!)
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewLayout(.sizeThatFits)
+
+            EleveLabel(
+                eleve: EleveEntity.all().first!,
+                fontWeight: .regular,
+                imageSize: .medium,
+                flagSize: .medium
+            )
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewLayout(.sizeThatFits)
+        }
+    }
+}

@@ -27,10 +27,14 @@ struct ClasseSidebarView: View {
                         // pour chaque Classe
                         ClasseSidebarSchoolSubview(schoolSection: section)
                     } header: {
-                        Text(section.id)
-                            .font(.callout)
-                            .foregroundColor(.secondary)
-                            .fontWeight(.bold)
+                        HStack {
+                            Text(section.id)
+                                .font(.callout)
+                                .foregroundColor(.secondary)
+                                .fontWeight(.bold)
+                            Spacer()
+                            Text("\(section.count)")
+                        }
                     }
                 }
             }
@@ -91,27 +95,23 @@ struct ClasseSidebarSchoolSubview: View {
     }
 }
 
-// struct ClasseSidebarView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            ClasseSidebarView()
-//                .environmentObject(NavigationModel(selectedClasseId: TestEnvir.classeStore.items.first!.id))
-//                .environmentObject(TestEnvir.schoolStore)
-//                .environmentObject(TestEnvir.classeStore)
-//                .environmentObject(TestEnvir.eleveStore)
-//                .environmentObject(TestEnvir.colleStore)
-//                .environmentObject(TestEnvir.observStore)
-//                .previewDevice("iPad mini (6th generation)")
-//
-//            ClasseSidebarView()
-//                .environmentObject(NavigationModel(selectedClasseId: TestEnvir.classeStore.items.first!.id))
-//                .environmentObject(TestEnvir.schoolStore)
-//                .environmentObject(TestEnvir.classeStore)
-//                .environmentObject(TestEnvir.eleveStore)
-//                .environmentObject(TestEnvir.colleStore)
-//                .environmentObject(TestEnvir.observStore)
-//                .previewDevice("iPhone 13")
-//        }
-//    }
-// }
+ struct ClasseSidebarView_Previews: PreviewProvider {
+     static func initialize() {
+         DataBaseManager.populateWithMockData(storeType: .inMemory)
+     }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            ClasseSidebarView()
+                .environmentObject(NavigationModel(selectedClasseId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+
+            ClasseSidebarView()
+                .environmentObject(NavigationModel(selectedClasseId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+ }

@@ -142,8 +142,14 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
     static var previews: some View {
-        ContentView()
+        initialize()
+        return ContentView()
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
             .previewDevice("iPad mini (6th generation)")
     }
 }

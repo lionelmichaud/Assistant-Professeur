@@ -7,25 +7,32 @@
 
 import SwiftUI
 
-struct GroupPicturesView : View {
+struct GroupPicturesView: View {
     @ObservedObject
-    var groupe : GroupEntity
+    var groupe: GroupEntity
 
-    let searchString : String
+    let searchString: String
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     @Preference(\.nameDisplayOrder)
     private var nameDisplayOrder
 
-    let smallColumns = [GridItem(.adaptive(minimum: 120, maximum: 200))]
-    let font       : Font        = .title3
-    let fontWeight : Font.Weight = .semibold
+    let smallColumns = [
+        GridItem(
+            .adaptive(minimum: 120, maximum: 200),
+            alignment: .top
+        )
+    ]
+    let font: Font = .title3
+    let fontWeight: Font.Weight = .semibold
 
     var body: some View {
-        LazyVGrid(columns: smallColumns,
-                  spacing: 4) {
+        LazyVGrid(
+            columns: smallColumns,
+            spacing: 4
+        ) {
             ForEach(groupe.filteredElevesSortedByName(searchString: searchString), id: \.objectID) { eleve in
                 VStack {
                     if eleve.hasImageTrombine {
@@ -34,17 +41,17 @@ struct GroupPicturesView : View {
                         Trombine(eleve: eleve)
                             .foregroundColor(.secondary)
                     }
-                    
-                    /// Nom de l'élève
-                    Text(eleve.displayName2lines(nameDisplayOrder))
-                        .multilineTextAlignment(.center)
-                        .fontWeight(fontWeight)
-                        .elevNameStyling(hasTrouble: eleve.hasTrouble,
-                                         hasAddTime: eleve.hasAddTime)
+
+                    // Nom de l'élève
+                    EleveTextName(
+                        eleve: eleve,
+                        fontWeight: fontWeight
+                    )
+                    .multilineTextAlignment(.center)
                 }
                 .onTapGesture {
                     // Programatic Navigation
-                    navigationModel.selectedTab     = .eleve
+                    navigationModel.selectedTab = .eleve
                     navigationModel.selectedEleveId = eleve.objectID
                 }
             }
@@ -52,7 +59,7 @@ struct GroupPicturesView : View {
     }
 }
 
-//struct GroupPicturesView_Previews: PreviewProvider {
+// struct GroupPicturesView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -79,4 +86,4 @@ struct GroupPicturesView : View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

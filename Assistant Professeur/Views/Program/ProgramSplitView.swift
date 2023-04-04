@@ -77,7 +77,7 @@ struct ProgramSplitView: View {
                 .navigationSplitViewColumnWidth(min: 200,
                                                 ideal: 250,
                                                 max: 500)
-            
+
         } content: {
             // 2nde colonne
             NavigationStack(path: $navig.programPath) {

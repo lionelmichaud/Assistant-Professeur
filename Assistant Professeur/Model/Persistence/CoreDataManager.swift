@@ -15,42 +15,92 @@ private let customLog = Logger(
     category: "CoreDataManager"
 )
 
+enum StoreType {
+    case inMemory, persisted
+}
+
 /// Class to hold all the Persistence methods
 class CoreDataManager {
     // MARK: - SINGLETON
 
+    /// Nom du model de données Core Data de l'appli
+    private static let modelName = "AppModel"
+
     /// A singleton for our entire app to use
     static let shared = CoreDataManager()
 
-    // MARK: - Type Poperties
+    static var storeType: StoreType = .persisted
 
-    /// Storage for Core Data
-    private let container: NSPersistentCloudKitContainer
+    // MARK: - Stored Poperties
+
+    /// Persitent storage for Core Data synchronized with CloudKit
+    private var persistentCloudKitContainer: NSPersistentCloudKitContainer
+
+    /// In memory storage for Previews and Tests Core Data
+    private var inMemoryContainer: NSPersistentContainer
 
     // MARK: - Computed Properties
 
-    /// The main queue’s managed object context
+    /// The main queue’s managed object context for View only
     var viewContext: NSManagedObjectContext {
-        return container.viewContext
+        return persistentCloudKitContainer.viewContext
+    }
+
+    /// The main queue’s managed object context for Previews and Tests only
+    var previewContext: NSManagedObjectContext {
+        return inMemoryContainer.viewContext
+    }
+
+    var context: NSManagedObjectContext {
+        switch CoreDataManager.storeType {
+            case .inMemory:
+                return previewContext
+
+            case .persisted:
+                return viewContext
+        }
     }
 
     // MARK: - Initilializer
 
-    /// An initializer to load Core Data
+    /// An initializer to create containers and load Core Data
     private init() {
+        // ---------------------------------------------
+
         #if DEBUG
             print(">> CoreDataManager.init() initialization has started")
         #endif
+
         // Register value transformers
-//        ValueTransformer.setValueTransformer(
-//            ExamStepsTransformer(),
-//            forName: .examStepsTransformer
-//        )
+        //        ValueTransformer.setValueTransformer(
+        //            ExamStepsTransformer(),
+        //            forName: .examStepsTransformer
+        //        )
 
-        container = NSPersistentCloudKitContainer(name: "AppModel")
+        inMemoryContainer = NSPersistentContainer(name: CoreDataManager.modelName)
+        persistentCloudKitContainer = NSPersistentCloudKitContainer(name: CoreDataManager.modelName)
 
+        initializeInMemoryContainer()
+        initializePersitentContainer()
+
+//        if loadMockData {
+//            DataBaseManager.populateWithMockData()
+//        }
+
+        // Debug build configuration.
+        #if DEBUG
+            print(">> CoreDataManager.init() initialization has completed")
+        #endif
+    }
+
+    private func initializeInMemoryContainer() {
+        inMemoryContainer.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+        inMemoryContainer.loadPersistentStores { _, _ in }
+    }
+
+    private func initializePersitentContainer() {
         // set History Tracking
-        container
+        persistentCloudKitContainer
             .persistentStoreDescriptions
             .first!
             .setOption(
@@ -59,38 +109,35 @@ class CoreDataManager {
             )
 
         // set merge policy
-        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        container.viewContext.automaticallyMergesChangesFromParent = true
+        persistentCloudKitContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        persistentCloudKitContainer.viewContext.automaticallyMergesChangesFromParent = true
 
-        container
-            .loadPersistentStores { _, error in
-                if let error {
-                    AppState.shared.initError = .failedToLoadPersistentStores
-                    customLog.log(
-                        level: .fault,
-                        "Failed to load the persistence store from Core Data: \(error.localizedDescription)"
-                    )
-                } else {
-                    #if DEBUG
-                        print(">> Loading of the persistent stores has completed")
-                    #endif
-                }
+        // load the content of the persistent store (empty if .inMemory)
+        persistentCloudKitContainer.loadPersistentStores { _, error in
+            if let error {
+                AppState.shared.initError = .failedToLoadPersistentStores
+                customLog.log(
+                    level: .fault,
+                    "Failed to load the persistence store from Core Data: \(error.localizedDescription)"
+                )
+            } else {
+                #if DEBUG
+                    print(">> Loading of the persistent stores has completed")
+                #endif
             }
-
+        }
         // Only initialize the schema when building the app with the
         // Debug build configuration.
         #if DEBUG
             // LIGNE À DESACTIVER sous la cible "My Mac (Designed for iPad)"
-//            initializeCloudKitSchema()
-
-            print(">> CoreDataManager.init() initialization has completed")
+            // initializeCloudKitSchema()
         #endif
     }
 
     private func initializeCloudKitSchema() {
         do {
             // Use the container to initialize the development schema.
-            try container.initializeCloudKitSchema(
+            try persistentCloudKitContainer.initializeCloudKitSchema(
                 options: []
                 // options: [.printSchema]
             )

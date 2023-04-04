@@ -104,7 +104,7 @@ extension ActivityProgressEntity {
     static func allSortedByDisciplineLevelSegpa() -> [ActivityProgressEntity] {
         do {
             return try ActivityProgressEntity
-                .viewContext
+                .context
                 .fetch(requestAllSortedByDisciplineLevelSegpa)
         } catch {
             return []
