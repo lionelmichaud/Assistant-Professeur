@@ -141,8 +141,8 @@ extension ProgramSidebarView {
     }
 }
 
-struct ProgramSidebarView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProgramSidebarView()
-    }
-}
+//struct ProgramSidebarView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProgramSidebarView()
+//    }
+//}

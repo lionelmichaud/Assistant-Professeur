@@ -26,11 +26,16 @@ protocol ModelEntityP: NSManagedObject {
     /// - Returns: Array of all items in the persistent store
     static func all() -> [Self]
 
+    /// Retourne l'entité dont le ManagedObjectID est `MngObjID`.
+    /// - Parameter MngObjID: ManagedObjectID de l'entité recherchée
     static func byObjectId(MngObjID: NSManagedObjectID) -> Self?
 
+    /// Retourne l'entité dont le UUID est `id`.
+    /// - Parameter id: UUID de l'entité recherchée
     static func byId(id: UUID) -> Self?
 
     static func managedObjectID(id: UUID?) -> NSManagedObjectID?
+    static func id(MngObjID: NSManagedObjectID?) -> UUID?
 
     /// Creates a sample Object in the Context
     static func create() -> Self
@@ -98,6 +103,14 @@ extension ModelEntityP {
             return nil
         }
         return objectFound.objectID
+    }
+
+    static func id(MngObjID: NSManagedObjectID?) -> UUID? {
+        guard let MngObjID,
+              let objectFound = byObjectId(MngObjID: MngObjID) else {
+            return nil
+        }
+        return objectFound.id
     }
 
     /// Creates a sample Object in the Context

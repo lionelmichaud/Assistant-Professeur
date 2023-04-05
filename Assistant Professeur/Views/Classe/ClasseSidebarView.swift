@@ -104,12 +104,12 @@ struct ClasseSidebarSchoolSubview: View {
         initialize()
         return Group {
             ClasseSidebarView()
-                .environmentObject(NavigationModel(selectedClasseId: ClasseEntity.all().first!.objectID))
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
                 .previewDevice("iPad mini (6th generation)")
 
             ClasseSidebarView()
-                .environmentObject(NavigationModel(selectedClasseId: ClasseEntity.all().first!.objectID))
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
                 .previewDevice("iPhone 13")
         }

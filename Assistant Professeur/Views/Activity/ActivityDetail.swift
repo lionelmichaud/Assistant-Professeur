@@ -36,6 +36,10 @@ struct ActivityDetail: View {
         selectedActivity?.viewNumber.formatted() ?? ""
     }
 
+    private var selectedSequenceNumber: String {
+        selectedActivity?.sequence?.viewNumber.formatted() ?? ""
+    }
+
     var body: some View {
         VStack {
             if selectedActivityExists {
@@ -62,7 +66,7 @@ struct ActivityDetail: View {
             }
         }
         #if os(iOS)
-        .navigationTitle("Activité " + selectedActivityNumber)
+        .navigationTitle("Séquence \(selectedSequenceNumber) - Activité " + selectedActivityNumber)
         #endif
         .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)

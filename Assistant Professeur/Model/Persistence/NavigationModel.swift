@@ -61,6 +61,8 @@ final class NavigationModel: ObservableObject, Codable {
         case selectedTab
         case selectedWarningType
         case selectedProgramId
+        case selectedSequenceId
+        case selectedActivityId
         case selectedObservId
         case selectedColleId
         case selectedEleveId
@@ -85,31 +87,83 @@ final class NavigationModel: ObservableObject, Codable {
     /// TODO: - Trouver une autre solution
     @Published
     var selectedProgramMngObjId: NSManagedObjectID? {
-        didSet {
-            selectedProgramId = UUID()
+        willSet(newValue) {
+            selectedProgramId =
+                ProgramEntity.id(MngObjID: newValue)
         }
     }
 
-    var selectedProgramId: UUID? {
-        didSet {
-            // selectedProgramMngObjId = 
+    var selectedProgramId: UUID?
+
+    @Published
+    var selectedSequenceMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedSequenceId =
+                SequenceEntity.id(MngObjID: newValue)
         }
     }
 
+    var selectedSequenceId: UUID?
+
     @Published
-    var selectedSequenceMngObjId: NSManagedObjectID?
+    var selectedActivityMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedActivityId =
+                ActivityEntity.id(MngObjID: newValue)
+        }
+    }
+
+    var selectedActivityId: UUID?
+
     @Published
-    var selectedActivityMngObjId: NSManagedObjectID?
+    var selectedObservMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedObservId =
+                ObservEntity.id(MngObjID: newValue)
+        }
+    }
+
+    var selectedObservId: UUID?
+
     @Published
-    var selectedObservMngObjId: NSManagedObjectID?
+    var selectedColleMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedColleId =
+                ColleEntity.id(MngObjID: newValue)
+        }
+    }
+
+    var selectedColleId: UUID?
+
     @Published
-    var selectedColleMngObjId: NSManagedObjectID?
+    var selectedEleveMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedEleveId =
+                EleveEntity.id(MngObjID: newValue)
+        }
+    }
+
+    var selectedEleveId: UUID?
+
     @Published
-    var selectedEleveMngObjId: NSManagedObjectID?
+    var selectedClasseMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedClasseId =
+                ClasseEntity.id(MngObjID: newValue)
+        }
+    }
+
+    var selectedClasseId: UUID?
+
     @Published
-    var selectedClasseMngObjId: NSManagedObjectID?
-    @Published
-    var selectedSchoolMngObjId: NSManagedObjectID?
+    var selectedSchoolMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedSchoolId =
+                SchoolEntity.id(MngObjID: newValue)
+        }
+    }
+
+    var selectedSchoolId: UUID?
 
     @Published
     var filterObservation: Bool
@@ -137,16 +191,18 @@ final class NavigationModel: ObservableObject, Codable {
             }
             // initialize l'état de navigation en conséquence
             columnVisibility = model.columnVisibility
+            selectedTab = model.selectedTab
+            selectedWarningType = model.selectedWarningType
+
             selectedProgramMngObjId = model.selectedProgramMngObjId
             selectedSequenceMngObjId = model.selectedSequenceMngObjId
             selectedActivityMngObjId = model.selectedActivityMngObjId
-            selectedTab = model.selectedTab
-            selectedWarningType = model.selectedWarningType
             selectedObservMngObjId = model.selectedObservMngObjId
             selectedColleMngObjId = model.selectedColleMngObjId
             selectedEleveMngObjId = model.selectedEleveMngObjId
             selectedClasseMngObjId = model.selectedClasseMngObjId
             selectedSchoolMngObjId = model.selectedSchoolMngObjId
+
             filterObservation = model.filterObservation
             filterColle = model.filterColle
             filterFlag = model.filterFlag
@@ -165,14 +221,14 @@ final class NavigationModel: ObservableObject, Codable {
         columnVisibility: NavigationSplitViewVisibility = .all,
         selectedTab: TabSelection = .school,
         selectedWarningType: WarningSelection? = nil,
-        selectedProgramId: NSManagedObjectID? = nil,
-        selectedSequenceId: NSManagedObjectID? = nil,
-        selectedActivityId: NSManagedObjectID? = nil,
-        selectedObservId: NSManagedObjectID? = nil,
-        selectedColleId: NSManagedObjectID? = nil,
-        selectedEleveId: NSManagedObjectID? = nil,
-        selectedClasseId: NSManagedObjectID? = nil,
-        selectedSchoolId: NSManagedObjectID? = nil,
+        selectedProgramMngObjId: NSManagedObjectID? = nil,
+        selectedSequenceMngObjId: NSManagedObjectID? = nil,
+        selectedActivityMngObjId: NSManagedObjectID? = nil,
+        selectedObservMngObjId: NSManagedObjectID? = nil,
+        selectedColleMngObjId: NSManagedObjectID? = nil,
+        selectedEleveMngObjId: NSManagedObjectID? = nil,
+        selectedClasseMngObjId: NSManagedObjectID? = nil,
+        selectedSchoolMngObjId: NSManagedObjectID? = nil,
         filterObservation: Bool = false,
         filterColle: Bool = false,
         filterFlag: Bool = false
@@ -183,14 +239,16 @@ final class NavigationModel: ObservableObject, Codable {
         self.columnVisibility = columnVisibility
         self.selectedTab = selectedTab
         self.selectedWarningType = selectedWarningType
-        self.selectedProgramMngObjId = selectedProgramId
-        self.selectedSequenceMngObjId = selectedSequenceId
-        self.selectedActivityMngObjId = selectedActivityId
-        self.selectedObservMngObjId = selectedObservId
-        self.selectedColleMngObjId = selectedColleId
-        self.selectedEleveMngObjId = selectedEleveId
-        self.selectedClasseMngObjId = selectedClasseId
-        self.selectedSchoolMngObjId = selectedSchoolId
+
+        self.selectedProgramMngObjId = selectedProgramMngObjId
+        self.selectedSequenceMngObjId = selectedSequenceMngObjId
+        self.selectedActivityMngObjId = selectedActivityMngObjId
+        self.selectedObservMngObjId = selectedObservMngObjId
+        self.selectedColleMngObjId = selectedColleMngObjId
+        self.selectedEleveMngObjId = selectedEleveMngObjId
+        self.selectedClasseMngObjId = selectedClasseMngObjId
+        self.selectedSchoolMngObjId = selectedSchoolMngObjId
+        
         self.filterObservation = filterObservation
         self.filterColle = filterColle
         self.filterFlag = filterFlag
@@ -208,23 +266,53 @@ final class NavigationModel: ObservableObject, Codable {
             NavigationModel.WarningSelection.self, forKey: .selectedWarningType
         )
 
-//        self.selectedProgramId = try container.decodeIfPresent(
-//            UUID.self, forKey: .selectedProgramId)
+        self.selectedProgramId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedProgramId
+        )
+        selectedProgramMngObjId =
+            ProgramEntity.managedObjectID(id: selectedProgramId)
 
-        //        self.selectedObservId = try container.decodeIfPresent(
-//            Observation.ID.self, forKey: .selectedObservId)
-//
-//        self.selectedColleId = try container.decodeIfPresent(
-//            Colle.ID.self, forKey: .selectedColleId)
-//
-//        self.selectedEleveId = try container.decodeIfPresent(
-//            NSManagedObjectID.self, forKey: .selectedEleveId)
-//
-//        self.selectedClasseId = try container.decodeIfPresent(
-//            Classe.ID.self, forKey: .selectedClasseId)
-//
-//        self.selectedSchoolId = try container.decodeIfPresent(
-//            SchoolEntity.ID.self, forKey: .selectedSchoolId)
+        self.selectedSequenceId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedSequenceId
+        )
+        selectedSequenceMngObjId =
+            SequenceEntity.managedObjectID(id: selectedSequenceId)
+
+        self.selectedActivityId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedActivityId
+        )
+        selectedActivityMngObjId =
+            ActivityEntity.managedObjectID(id: selectedActivityId)
+
+        self.selectedObservId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedObservId
+        )
+        selectedObservMngObjId =
+            ObservEntity.managedObjectID(id: selectedObservId)
+
+        self.selectedColleId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedColleId
+        )
+        selectedColleMngObjId =
+            ColleEntity.managedObjectID(id: selectedColleId)
+
+        self.selectedEleveId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedEleveId
+        )
+        selectedEleveMngObjId =
+            EleveEntity.managedObjectID(id: selectedEleveId)
+
+        self.selectedClasseId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedClasseId
+        )
+        selectedClasseMngObjId =
+            ClasseEntity.managedObjectID(id: selectedClasseId)
+
+        self.selectedSchoolId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedSchoolId
+        )
+        selectedSchoolMngObjId =
+            SchoolEntity.managedObjectID(id: selectedSchoolId)
 
         self.filterObservation = try container.decode(
             Bool.self, forKey: .filterObservation
@@ -248,6 +336,7 @@ final class NavigationModel: ObservableObject, Codable {
     func resetSelections() {
         selectedTab = .school
         selectedWarningType = .observation
+
         selectedProgramMngObjId = nil
         selectedSequenceMngObjId = nil
         selectedActivityMngObjId = nil
@@ -262,12 +351,16 @@ final class NavigationModel: ObservableObject, Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(selectedTab, forKey: .selectedTab)
         try container.encode(selectedWarningType, forKey: .selectedWarningType)
-//        try container.encodeIfPresent(selectedProgramId, forKey: .selectedProgramId)
-//        try container.encodeIfPresent(selectedObservId, forKey: .selectedObservId)
-//        try container.encodeIfPresent(selectedColleId,  forKey: .selectedColleId)
-//        try container.encodeIfPresent(selectedEleveId,  forKey: .selectedEleveId)
-//        try container.encodeIfPresent(selectedClasseId, forKey: .selectedClasseId)
-//        try container.encodeIfPresent(selectedSchoolId, forKey: .selectedSchoolId)
+
+        try container.encodeIfPresent(selectedProgramId, forKey: .selectedProgramId)
+        try container.encodeIfPresent(selectedSequenceId, forKey: .selectedSequenceId)
+        try container.encodeIfPresent(selectedActivityId, forKey: .selectedSequenceId)
+        try container.encodeIfPresent(selectedObservId, forKey: .selectedObservId)
+        try container.encodeIfPresent(selectedColleId, forKey: .selectedColleId)
+        try container.encodeIfPresent(selectedEleveId, forKey: .selectedEleveId)
+        try container.encodeIfPresent(selectedClasseId, forKey: .selectedClasseId)
+        try container.encodeIfPresent(selectedSchoolId, forKey: .selectedSchoolId)
+
         try container.encode(filterObservation, forKey: .filterObservation)
         try container.encode(filterColle, forKey: .filterColle)
         try container.encode(filterFlag, forKey: .filterFlag)
