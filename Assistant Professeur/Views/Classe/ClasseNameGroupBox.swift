@@ -95,16 +95,23 @@ struct ClasseNameGroupBox: View {
     }
 }
 
-//struct ClasseNameGroupBox_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//            ClasseNameGroupBox(classe: .constant(Classe.exemple))
-//                .previewDisplayName("Editable")
-//                .previewDevice("iPhone 13")
-//
-//            ClasseNameGroupBox(classe: .constant(Classe.exemple))
-//                .previewDisplayName("Non Editable")
-//                .previewDevice("iPhone 13")
-//        }
-//    }
-//}
+struct ClasseNameGroupBox_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            ClasseNameGroupBox(classe: ClasseEntity.all().first!)
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+
+            ClasseNameGroupBox(classe: ClasseEntity.all().first!)
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

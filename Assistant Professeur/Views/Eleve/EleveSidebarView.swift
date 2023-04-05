@@ -171,27 +171,21 @@ struct EleveSidebarSchoolSubview: View {
     }
 }
 
-// struct EleveBrowserView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            EleveSidebarView()
-//                .environmentObject(NavigationModel(selectedEleveId: TestEnvir.eleveStore.items.first!.id))
-//                .environmentObject(TestEnvir.schoolStore)
-//                .environmentObject(TestEnvir.classeStore)
-//                .environmentObject(TestEnvir.eleveStore)
-//                .environmentObject(TestEnvir.colleStore)
-//                .environmentObject(TestEnvir.observStore)
-//                .previewDevice("iPad mini (6th generation)")
-//
-//            EleveSidebarView()
-//                .environmentObject(NavigationModel(selectedEleveId: TestEnvir.eleveStore.items.first!.id))
-//                .environmentObject(TestEnvir.schoolStore)
-//                .environmentObject(TestEnvir.classeStore)
-//                .environmentObject(TestEnvir.eleveStore)
-//                .environmentObject(TestEnvir.colleStore)
-//                .environmentObject(TestEnvir.observStore)
-//                .previewDevice("iPiPhone 13")
-//        }
-//    }
-// }
+ struct EleveBrowserView_Previews: PreviewProvider {
+     static func initialize() {
+         DataBaseManager.populateWithMockData(storeType: .inMemory)
+     }
+
+     static var previews: some View {
+         initialize()
+         return Group {
+             EleveSidebarView()
+                 .previewDevice("iPad mini (6th generation)")
+
+             EleveSidebarView()
+                 .previewDevice("iPhone 13")
+         }
+         .environmentObject(NavigationModel(selectedEleveMngObjId: EleveEntity.all().first!.objectID))
+         .environment(\.managedObjectContext, CoreDataManager.shared.context)
+     }
+ }

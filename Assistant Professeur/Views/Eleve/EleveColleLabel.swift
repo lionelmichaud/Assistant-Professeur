@@ -31,24 +31,21 @@ struct EleveColleLabel : View {
     }
 }
 
-//struct EleveColleLabel_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            EleveColleLabel(eleve: TestEnvir.eleveStore.items.first!,
-//                            scale: .large)
-//                .previewLayout(.sizeThatFits)
-//                .environmentObject(TestEnvir.colleStore)
-//
-//            EleveColleLabel(eleve: TestEnvir.eleveStore.items.first!,
-//                            scale: .medium)
-//                .previewLayout(.sizeThatFits)
-//                .environmentObject(TestEnvir.colleStore)
-//
-//            EleveColleLabel(eleve: TestEnvir.eleveStore.items.first!,
-//                            scale: .small)
-//            .previewLayout(.sizeThatFits)
-//            .environmentObject(TestEnvir.colleStore)
-//       }
-//    }
-//}
+struct EleveColleLabel_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            EleveColleLabel(eleve: EleveEntity.all().first!, scale: .large)
+                .previewDevice("iPad mini (6th generation)")
+
+            EleveColleLabel(eleve: EleveEntity.all().first!, scale: .large)
+                .previewDevice("iPhone 13")
+        }
+        .environmentObject(NavigationModel(selectedEleveMngObjId: EleveEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+    }
+}

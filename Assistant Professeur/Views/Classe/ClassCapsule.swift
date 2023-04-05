@@ -20,8 +20,23 @@ struct ClassCapsule: View {
     }
 }
 
-//struct ClassCapsule_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ClassCapsule()
-//    }
-//}
+struct ClassCapsule_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            ClassCapsule(classe: ClasseEntity.all().first!)
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+
+            ClassCapsule(classe: ClasseEntity.all().first!)
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

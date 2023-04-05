@@ -23,8 +23,23 @@ struct ClasseAcronym: View {
     }
 }
 
-//struct ClasseAcronym_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ClasseAcronym(classe: Classe.exemple)
-//    }
-//}
+struct ClasseAcronym_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            ClasseAcronym(classe: ClasseEntity.all().first!)
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+
+            ClasseAcronym(classe: ClasseEntity.all().first!)
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

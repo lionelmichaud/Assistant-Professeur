@@ -54,20 +54,25 @@ struct EventEditor: View {
     }
 }
 
-//struct EventEditor_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//            List {
-//                EventEditor(event: .constant(Event.exemple))
-//                EventEditor(event: .constant(Event.exemple))
-//            }
-//            .previewDevice("iPad mini (6th generation)")
-//
-//            List {
-//                EventEditor(event: .constant(Event.exemple))
-//                EventEditor(event: .constant(Event.exemple))
-//            }
-//            .previewDevice("iPhone 13")
-//        }
-//    }
-//}
+struct EventEditor_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+                EventEditor(event: EventEntity.all().first!)
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPad mini (6th generation)")
+
+                EventEditor(event: EventEntity.all().first!)
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPhone 13")
+        }
+    }
+}

@@ -52,8 +52,29 @@ struct RessourceList: View {
     }
 }
 
-//struct RessourceList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RessourceList()
-//    }
-//}
+struct RessourceList_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            List {
+                RessourceList(school: SchoolEntity.all().first!)
+            }
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPad mini (6th generation)")
+            
+            List {
+                RessourceList(school: SchoolEntity.all().first!)
+            }
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPhone 13")
+        }
+    }
+}

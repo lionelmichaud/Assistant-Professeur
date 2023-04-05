@@ -77,8 +77,24 @@ struct ProgramDetailGroupBox: View {
     }
 }
 
-// struct ProgramDetail_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProgramDetail()
-//    }
-// }
+ struct ProgramDetail_Previews: PreviewProvider {
+     static func initialize() {
+         DataBaseManager.populateWithMockData(storeType: .inMemory)
+     }
+
+     static var previews: some View {
+         initialize()
+         return Group {
+             ProgramDetailGroupBox(program: ProgramEntity.all().first!)
+                 .padding()
+                 .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
+                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                 .previewDevice("iPad mini (6th generation)")
+             ProgramDetailGroupBox(program: ProgramEntity.all().first!)
+                 .padding()
+                 .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
+                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                 .previewDevice("iPhone 13")
+         }
+     }
+ }

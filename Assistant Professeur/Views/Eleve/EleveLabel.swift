@@ -46,8 +46,6 @@ struct EleveLabel_Previews: PreviewProvider {
         initialize()
         return Group {
             EleveLabel(eleve: EleveEntity.all().first!)
-                .environment(\.managedObjectContext, CoreDataManager.shared.context)
-                .previewLayout(.sizeThatFits)
 
             EleveLabel(
                 eleve: EleveEntity.all().first!,
@@ -55,8 +53,8 @@ struct EleveLabel_Previews: PreviewProvider {
                 imageSize: .medium,
                 flagSize: .medium
             )
-            .environment(\.managedObjectContext, CoreDataManager.shared.context)
-            .previewLayout(.sizeThatFits)
         }
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+        .previewLayout(.sizeThatFits)
     }
 }

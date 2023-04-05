@@ -65,27 +65,25 @@ struct ClasseSplitView: View {
     }
 }
 
-//struct ClasseSplitView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            ClasseSplitView()
-//                .environmentObject(NavigationModel())
-//                .environmentObject(TestEnvir.schoolStore)
-//                .environmentObject(TestEnvir.classeStore)
-//                .environmentObject(TestEnvir.eleveStore)
-//                .environmentObject(TestEnvir.colleStore)
-//                .environmentObject(TestEnvir.observStore)
-//                .previewDevice("iPad mini (6th generation)")
-//
-//            ClasseSplitView()
-//                .environmentObject(NavigationModel())
-//                .environmentObject(TestEnvir.schoolStore)
-//                .environmentObject(TestEnvir.classeStore)
-//                .environmentObject(TestEnvir.eleveStore)
-//                .environmentObject(TestEnvir.colleStore)
-//                .environmentObject(TestEnvir.observStore)
-//                .previewDevice("iPhone 13")
-//        }
-//    }
-//}
+struct ClasseSplitView_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            ClasseSplitView()
+                .padding()
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+
+            ClasseSplitView()
+                .padding()
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

@@ -270,10 +270,9 @@ extension ClasseDetail {
                 }
             } message: {
                 Text("La liste des élèves importée doit être au format CSV de \(interoperability == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
-                Text("Cette action ne peut pas être annulée.")
+                    Text("Cette action ne peut pas être annulée.")
             }
         }
-
     }
 }
 
@@ -302,9 +301,9 @@ extension ClasseDetail {
                 if let activity = classe.currentActivity,
                    let sequence = activity.sequence {
                     let currentActivityProgress =
-                    classe
-                        .sortedProgressesInSequence(sequence)
-                        .first(where: { $0.activity == activity })
+                        classe
+                            .sortedProgressesInSequence(sequence)
+                            .first(where: { $0.activity == activity })
                     Spacer()
                     if hClass == .compact {
                         Text("Seq \(sequence.viewNumber) - Act \(activity.viewNumber) (\(currentActivityProgress!.progress, format: .percent))")
@@ -347,31 +346,23 @@ extension ClasseDetail {
     }
 }
 
-// struct ClassDetail_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            NavigationStack {
-//                ClasseDetail(classe: .constant(TestEnvir.classeStore.items.first!))
-//                    .environmentObject(NavigationModel(selectedClasseId: TestEnvir.classeStore.items.first!.id))
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPad mini (6th generation)")
-//
-//            NavigationStack {
-//                ClasseDetail(classe: .constant(TestEnvir.classeStore.items.first!))
-//                    .environmentObject(NavigationModel(selectedClasseId: TestEnvir.classeStore.items.first!.id))
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPhone 13")
-//        }
-//    }
-// }
+struct ClassDetail_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            ClasseDetail(classe: ClasseEntity.all().first!)
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+
+            ClasseDetail(classe: ClasseEntity.all().first!)
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

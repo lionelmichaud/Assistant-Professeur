@@ -77,8 +77,22 @@ struct SequenceDetailGroupBox: View {
     }
 }
 
-// struct SequenceDetailGroupBox_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SequenceDetailGroupBox()
-//    }
-// }
+ struct SequenceDetailGroupBox_Previews: PreviewProvider {
+     static func initialize() {
+         DataBaseManager.populateWithMockData(storeType: .inMemory)
+     }
+
+     static var previews: some View {
+         initialize()
+         return Group {
+             SequenceDetailGroupBox(sequence: SequenceEntity.all().first!)
+                 .environmentObject(NavigationModel(selectedSequenceMngObjId: SequenceEntity.all().first!.objectID))
+                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                 .previewDevice("iPad mini (6th generation)")
+             SequenceDetailGroupBox(sequence: SequenceEntity.all().first!)
+                 .environmentObject(NavigationModel(selectedSequenceMngObjId: SequenceEntity.all().first!.objectID))
+                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                 .previewDevice("iPhone 13")
+         }
+     }
+ }

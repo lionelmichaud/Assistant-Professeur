@@ -17,9 +17,11 @@ struct WarningSpliView: View {
         ) {
             // 1ère colonne
             WarningSidebarView()
-                .navigationSplitViewColumnWidth(min: 250,
-                                                ideal: 350,
-                                                max: 500)
+                .navigationSplitViewColumnWidth(
+                    min: 250,
+                    ideal: 350,
+                    max: 500
+                )
 
         } content: {
             // 2nde colonne
@@ -48,7 +50,25 @@ struct WarningSpliView: View {
 }
 
 struct WarningSpliView_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
     static var previews: some View {
-        WarningSpliView()
+        initialize()
+
+        return Group {
+            WarningSpliView()
+                .padding()
+                .environmentObject(NavigationModel(selectedWarningType: .colle))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+
+            WarningSpliView()
+                .padding()
+                .environmentObject(NavigationModel(selectedWarningType: .colle))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
     }
 }

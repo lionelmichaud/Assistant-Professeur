@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 15/04/2022.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct SchoolBrowserRow: View {
     @ObservedObject
@@ -28,7 +28,7 @@ struct SchoolBrowserRow: View {
                     Text(school.classesLabel)
                     Spacer()
                     Text(school.heures == 0 ?
-                         "Aucune heure" : "\(school.heures.formatted(.number.precision(.fractionLength(1)))) heures")
+                        "Aucune heure" : "\(school.heures.formatted(.number.precision(.fractionLength(1)))) heures")
                 }
                 .font(.footnote)
                 .foregroundStyle(.secondary)
@@ -38,15 +38,29 @@ struct SchoolBrowserRow: View {
     }
 }
 
-//struct SchoolRow_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return SchoolBrowserRow(school: TestEnvir.schoolStore.items.first!)
-//            .environmentObject(TestEnvir.schoolStore)
-//            .environmentObject(TestEnvir.classeStore)
-//            .environmentObject(TestEnvir.eleveStore)
-//            .environmentObject(TestEnvir.colleStore)
-//            .environmentObject(TestEnvir.observStore)
-//
-//    }
-//}
+struct SchoolRow_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            List {
+                SchoolBrowserRow(school: SchoolEntity.all().first!)
+            }
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPad mini (6th generation)")
+
+            List {
+                SchoolBrowserRow(school: SchoolEntity.all().first!)
+            }
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPhone 13")
+        }
+    }
+}

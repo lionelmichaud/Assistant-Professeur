@@ -200,15 +200,13 @@ struct EleveLabelWithTrombineFlag: View {
         return Group {
             EleveLabelWithTrombineFlag(eleve      : EleveEntity.all().first!,
                                        isEditable : false)
-            .environmentObject(NavigationModel())
-            .environment(\.managedObjectContext, CoreDataManager.shared.context)
             .previewDevice("iPhone 13")
 
             EleveLabelWithTrombineFlag(eleve      : EleveEntity.all().first!,
                                        isEditable : true)
-            .environmentObject(NavigationModel())
-            .environment(\.managedObjectContext, CoreDataManager.shared.context)
             .previewDevice("iPad mini (6th generation)")
         }
+        .environmentObject(NavigationModel())
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
     }
  }

@@ -38,8 +38,24 @@ struct SequenceBrowserRow: View {
     }
 }
 
-// struct SequenceBrowserRow_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SequenceBrowserRow()
-//    }
-// }
+ struct SequenceBrowserRow_Previews: PreviewProvider {
+     static func initialize() {
+         DataBaseManager.populateWithMockData(storeType: .inMemory)
+     }
+
+     static var previews: some View {
+         initialize()
+         return Group {
+             SequenceBrowserRow(sequence: SequenceEntity.all().first!)
+                 .padding()
+                 .environmentObject(NavigationModel(selectedSequenceMngObjId: SequenceEntity.all().first!.objectID))
+                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                 .previewDevice("iPad mini (6th generation)")
+             SequenceBrowserRow(sequence: SequenceEntity.all().first!)
+                 .padding()
+                 .environmentObject(NavigationModel(selectedSequenceMngObjId: SequenceEntity.all().first!.objectID))
+                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                 .previewDevice("iPhone 13")
+         }
+     }
+ }

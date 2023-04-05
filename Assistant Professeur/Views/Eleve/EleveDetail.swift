@@ -230,31 +230,21 @@ struct EleveDetail: View {
     }
 }
 
-// struct EleveDetail_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            NavigationStack {
-//                EleveDetail(eleve: .constant(TestEnvir.eleveStore.items.first!))
-//                    .environmentObject(NavigationModel(selectedEleveId: TestEnvir.eleveStore.items.first!.id))
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPad mini (6th generation)")
-//
-//            NavigationStack {
-//                EleveDetail(eleve: .constant(TestEnvir.eleveStore.items.first!))
-//                    .environmentObject(NavigationModel(selectedEleveId: TestEnvir.eleveStore.items.first!.id))
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPhone 13")
-//        }
-//    }
-// }
+ struct EleveDetail_Previews: PreviewProvider {
+     static func initialize() {
+         DataBaseManager.populateWithMockData(storeType: .inMemory)
+     }
+
+     static var previews: some View {
+         initialize()
+         return Group {
+             EleveDetail(eleve: EleveEntity.all().first!)
+                 .previewDevice("iPad mini (6th generation)")
+
+             EleveDetail(eleve: EleveEntity.all().first!)
+                 .previewDevice("iPhone 13")
+         }
+         .environmentObject(NavigationModel(selectedEleveMngObjId: EleveEntity.all().first!.objectID))
+         .environment(\.managedObjectContext, CoreDataManager.shared.context)
+     }
+ }

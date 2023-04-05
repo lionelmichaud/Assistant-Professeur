@@ -22,8 +22,24 @@ struct ProgramBrowserRow: View {
     }
 }
 
-//struct ProgramBrowserRow_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProgramBrowserRow()
-//    }
-//}
+struct ProgramBrowserRow_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            ProgramBrowserRow(program: ProgramEntity.all().first!)
+                .padding()
+                .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+            ProgramBrowserRow(program: ProgramEntity.all().first!)
+                .padding()
+                .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

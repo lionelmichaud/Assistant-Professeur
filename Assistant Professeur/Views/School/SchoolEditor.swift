@@ -5,12 +5,12 @@
 //  Created by Lionel MICHAUD on 15/04/2022.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct SchoolEditor: View {
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     // MARK: - Computed Properties
 
@@ -19,7 +19,9 @@ struct SchoolEditor: View {
     }
 
     private var selectedSchool: SchoolEntity? {
-        guard let selectedSchoolId else { return nil }
+        guard let selectedSchoolId else {
+            return nil
+        }
         return SchoolEntity.byObjectId(MngObjID: selectedSchoolId)
     }
 
@@ -41,31 +43,25 @@ struct SchoolEditor: View {
     }
 }
 
-//struct SchoolEditor_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            NavigationStack {
-//                SchoolEditor()
-//                    .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPad mini (6th generation)")
-//
-//            NavigationStack {
-//                SchoolEditor()
-//                    .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPhone 13")
-//        }
-//    }
-//}
+struct SchoolEditor_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            SchoolEditor()
+                .padding()
+                .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+
+            SchoolEditor()
+                .padding()
+                .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

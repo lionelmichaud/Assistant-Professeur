@@ -46,27 +46,23 @@ struct ClasseObservLabel: View {
     }
 }
 
-//struct ClasseObservLabel_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            ClasseObservLabel(classe: TestEnvir.classeStore.items.first!,
-//                              scale: .large)
-//            .environmentObject(TestEnvir.eleveStore)
-//            .environmentObject(TestEnvir.observStore)
-//            .previewLayout(.sizeThatFits)
-//
-//            ClasseObservLabel(classe: TestEnvir.classeStore.items.first!,
-//                              scale: .medium)
-//            .environmentObject(TestEnvir.eleveStore)
-//            .environmentObject(TestEnvir.observStore)
-//            .previewLayout(.sizeThatFits)
-//
-//            ClasseObservLabel(classe: TestEnvir.classeStore.items.first!,
-//                              scale: .small)
-//            .environmentObject(TestEnvir.eleveStore)
-//            .environmentObject(TestEnvir.observStore)
-//            .previewLayout(.sizeThatFits)
-//        }
-//    }
-//}
+struct ClasseObservLabel_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            ClasseObservLabel(classe: ClasseEntity.all().first!, scale: .large)
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+
+            ClasseObservLabel(classe: ClasseEntity.all().first!, scale: .large)
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

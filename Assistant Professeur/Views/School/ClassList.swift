@@ -90,31 +90,29 @@ struct ClassList: View {
     }
 }
 
-// struct ClassList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            List {
-//                ClassList(school: .constant(TestEnvir.schoolStore.items.first!))
-//                    .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPad mini (6th generation)")
-//
-//            List {
-//                ClassList(school: .constant(TestEnvir.schoolStore.items.first!))
-//                    .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPhone 13")
-//        }
-//    }
-// }
+ struct ClassList_Previews: PreviewProvider {
+     static func initialize() {
+         DataBaseManager.populateWithMockData(storeType: .inMemory)
+     }
+
+     static var previews: some View {
+         initialize()
+         return Group {
+             List {
+                 ClassList(school: SchoolEntity.all().first!)
+             }
+             .padding()
+             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+             .environment(\.managedObjectContext, CoreDataManager.shared.context)
+             .previewDevice("iPad mini (6th generation)")
+
+             List {
+                 ClassList(school: SchoolEntity.all().first!)
+             }
+             .padding()
+             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+             .environment(\.managedObjectContext, CoreDataManager.shared.context)
+             .previewDevice("iPhone 13")
+         }
+     }
+ }

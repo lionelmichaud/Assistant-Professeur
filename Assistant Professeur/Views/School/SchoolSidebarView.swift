@@ -566,27 +566,25 @@ extension SchoolSidebarView {
     }
 }
 
-// struct SchoolSidebarView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            SchoolSidebarView()
-//                .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
-//                .environmentObject(TestEnvir.schoolStore)
-//                .environmentObject(TestEnvir.classeStore)
-//                .environmentObject(TestEnvir.eleveStore)
-//                .environmentObject(TestEnvir.colleStore)
-//                .environmentObject(TestEnvir.observStore)
-//                .previewDevice("iPad mini (6th generation)")
-//
-//            SchoolSidebarView()
-//                .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
-//                .environmentObject(TestEnvir.schoolStore)
-//                .environmentObject(TestEnvir.classeStore)
-//                .environmentObject(TestEnvir.eleveStore)
-//                .environmentObject(TestEnvir.colleStore)
-//                .environmentObject(TestEnvir.observStore)
-//                .previewDevice("iPhone 13")
-//        }
-//    }
-// }
+struct SchoolSidebarView_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            SchoolSidebarView()
+                .padding()
+                .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+
+            SchoolSidebarView()
+                .padding()
+                .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

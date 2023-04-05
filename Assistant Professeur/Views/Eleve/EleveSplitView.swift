@@ -28,27 +28,25 @@ struct EleveSplitView: View {
     }
 }
 
-//struct EleveSplitView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            EleveSplitView()
-//                .environmentObject(NavigationModel())
-//                .environmentObject(TestEnvir.schoolStore)
-//                .environmentObject(TestEnvir.classeStore)
-//                .environmentObject(TestEnvir.eleveStore)
-//                .environmentObject(TestEnvir.colleStore)
-//                .environmentObject(TestEnvir.observStore)
-//                .previewDevice("iPad mini (6th generation)")
-//
-//            EleveSplitView()
-//                .environmentObject(NavigationModel())
-//                .environmentObject(TestEnvir.schoolStore)
-//                .environmentObject(TestEnvir.classeStore)
-//                .environmentObject(TestEnvir.eleveStore)
-//                .environmentObject(TestEnvir.colleStore)
-//                .environmentObject(TestEnvir.observStore)
-//                .previewDevice("iPhone 13")
-//        }
-//    }
-//}
+struct EleveSplitView_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            EleveSplitView()
+                .padding()
+                .environmentObject(NavigationModel(selectedEleveMngObjId: EleveEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+
+            EleveSplitView()
+                .padding()
+                .environmentObject(NavigationModel(selectedEleveMngObjId: EleveEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

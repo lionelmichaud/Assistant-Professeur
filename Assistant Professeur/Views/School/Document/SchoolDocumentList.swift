@@ -46,7 +46,7 @@ struct SchoolDocumentList: View {
             } label: {
                 HStack {
                     Image(systemName: "plus.circle.fill")
-                    Text("Ajouter un ou plusieurs documents")
+                    Text("Ajouter des documents")
                 }
             }
             .buttonStyle(.borderless)
@@ -121,8 +121,29 @@ struct SchoolDocumentList: View {
     }
 }
 
-// struct DocumentList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DocumentList()
-//    }
-// }
+ struct DocumentList_Previews: PreviewProvider {
+     static func initialize() {
+         DataBaseManager.populateWithMockData(storeType: .inMemory)
+     }
+
+     static var previews: some View {
+         initialize()
+         return Group {
+             List {
+                 SchoolDocumentList(school: SchoolEntity.all().first!)
+             }
+             .padding()
+             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+             .environment(\.managedObjectContext, CoreDataManager.shared.context)
+             .previewDevice("iPad mini (6th generation)")
+
+             List {
+                 SchoolDocumentList(school: SchoolEntity.all().first!)
+             }
+             .padding()
+             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+             .environment(\.managedObjectContext, CoreDataManager.shared.context)
+             .previewDevice("iPhone 13")
+         }
+     }
+ }

@@ -55,8 +55,29 @@ struct EventList: View {
     }
 }
 
-//struct EventList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EventList()
-//    }
-//}
+struct EventList_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            List {
+                EventList(school: SchoolEntity.all().first!)
+            }
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPad mini (6th generation)")
+
+            List {
+                EventList(school: SchoolEntity.all().first!)
+            }
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPhone 13")
+        }
+    }
+}

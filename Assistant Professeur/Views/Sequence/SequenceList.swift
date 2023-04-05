@@ -106,8 +106,28 @@ struct SequenceList: View {
     }
 }
 
-// struct SequenceList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SequenceList()
-//    }
-// }
+struct SequenceList_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            VStack {
+                SequenceList(program: ProgramEntity.all().first!)
+                    .padding()
+                    .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
+                    .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            }
+            .previewDevice("iPad mini (6th generation)")
+            VStack {
+                SequenceList(program: ProgramEntity.all().first!)
+                    .padding()
+                    .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
+                    .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            }
+            .previewDevice("iPhone 13")
+        }
+    }
+}

@@ -151,8 +151,11 @@ extension ProgramCreatorModal {
     }
 }
 
-//struct ProgramCreatorModal_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProgramCreatorModal()
-//    }
-//}
+struct ProgramCreatorModal_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationStack {
+            EmptyView()
+            ProgramCreatorModal()
+        }
+    }
+}

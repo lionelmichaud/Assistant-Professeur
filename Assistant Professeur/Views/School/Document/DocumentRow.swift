@@ -51,8 +51,31 @@ struct DocumentRow: View {
     }
 }
 
-// struct DocumentRow_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DocumentRow()
-//    }
-// }
+struct DocumentRow_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            DocumentRow(
+                document: DocumentEntity.all().first!,
+                saveChanges: false
+            )
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPad mini (6th generation)")
+
+            DocumentRow(
+                document: DocumentEntity.all().first!,
+                saveChanges: false
+            )
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPhone 13")
+        }
+    }
+}

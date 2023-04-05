@@ -445,18 +445,18 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
         )
 
         // Programmes
+        let progTechno5 = ProgramEntity.create(
+            discipline: .technologie,
+            level: .n5ieme,
+            segpa: true,
+            annotation: "Programme de technologie de classe de 5ième SEGPA"
+        )
         ProgramEntity.create(
             discipline: .technologie,
             level: .n6ieme,
             segpa: false,
             annotation: "Programme de technologie de classe de 6ième",
             url: URL(string: "http://www.apple.com")
-        )
-        let progTechno5 = ProgramEntity.create(
-            discipline: .technologie,
-            level: .n5ieme,
-            segpa: true,
-            annotation: "Programme de technologie de classe de 5ième SEGPA"
         )
         let progSntTerm = ProgramEntity.create(
             discipline: .snt,

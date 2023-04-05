@@ -111,8 +111,24 @@ extension SequenceEditorModal {
     }
 }
 
-//struct SequenceEditorModal_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SequenceEditorModal()
-//    }
-//}
+struct SequenceEditorModal_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            SequenceEditorModal(sequence: SequenceEntity.all().first!)
+                .padding()
+                .environmentObject(NavigationModel(selectedSequenceMngObjId: SequenceEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+            SequenceEditorModal(sequence: SequenceEntity.all().first!)
+                .padding()
+                .environmentObject(NavigationModel(selectedSequenceMngObjId: SequenceEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

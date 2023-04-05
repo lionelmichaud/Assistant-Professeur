@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 21/04/2022.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct ClassBrowserRow: View {
     @ObservedObject
@@ -87,25 +87,29 @@ struct ClassBrowserRow: View {
     }
 }
 
-//struct ClassRow_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            List {
-//                ClassBrowserRow(classe: TestEnvir.classeStore.items.first!)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.observStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//            }
-//            .previewDevice("iPad mini (6th generation)")
-//
-//            List {
-//                ClassBrowserRow(classe: TestEnvir.classeStore.items.first!)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.observStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//            }
-//            .previewDevice("iPhone 13")
-//        }
-//    }
-//}
+struct ClassRow_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            List {
+                ClassBrowserRow(classe: ClasseEntity.all().first!)
+            }
+            .padding()
+            .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPad mini (6th generation)")
+
+            List {
+                ClassBrowserRow(classe: ClasseEntity.all().first!)
+            }
+            .padding()
+            .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPhone 13")
+        }
+    }
+}

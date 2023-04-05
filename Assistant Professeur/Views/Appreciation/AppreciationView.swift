@@ -35,7 +35,7 @@ struct AppreciationView: View {
                     .font(.headline)
                     .fontWeight(.bold)
                 Spacer()
-                Text(appreciation.truncate(to: 20, addEllipsis: true))
+                Text(hClass == .compact ? "..." : appreciation.truncate(to: 20, addEllipsis: true))
                     .foregroundColor(.secondary)
             }
         }
@@ -48,6 +48,16 @@ struct AppreciationView: View {
 
 struct AppreciationView_Previews: PreviewProvider {
     static var previews: some View {
-        AppreciationView(appreciation: .constant("Ceci est une appréciation"))
+        Group {
+            List {
+                AppreciationView(appreciation: .constant("Ceci est une appréciation"))
+            }
+            .previewDevice("iPad mini (6th generation)")
+
+            List {
+                AppreciationView(appreciation: .constant("Ceci est une appréciation"))
+            }
+            .previewDevice("iPhone 13")
+        }
     }
 }

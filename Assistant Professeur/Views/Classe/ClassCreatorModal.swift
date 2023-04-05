@@ -208,31 +208,27 @@ extension ClassCreatorModal {
     }
 }
 
-// struct ClassCreator_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            NavigationStack {
-//                ClassCreatorModal(inSchool: .constant(TestEnvir.schoolStore.items.first!))
-//                    .environmentObject(NavigationModel(selectedClasseId: TestEnvir.classeStore.items.first!.id))
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPad mini (6th generation)")
-//
-//            NavigationStack {
-//                ClassCreatorModal(inSchool: .constant(TestEnvir.schoolStore.items.first!))
-//                    .environmentObject(NavigationModel(selectedClasseId: TestEnvir.classeStore.items.first!.id))
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPhone 13")
-//        }
-//    }
-// }
+struct ClassCreator_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            NavigationStack {
+                EmptyView()
+                ClassCreatorModal(inSchool: SchoolEntity.all().first!)
+            }
+            .previewDevice("iPad mini (6th generation)")
+            NavigationStack {
+                EmptyView()
+                ClassCreatorModal(inSchool: SchoolEntity.all().first!)
+            }
+            .previewDevice("iPhone 13)")
+        }
+        .padding()
+        .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+    }
+}

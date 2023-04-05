@@ -39,7 +39,6 @@ struct EleveTextName_Previews: PreviewProvider {
         initialize()
         return Group {
             EleveTextName(eleve: EleveEntity.all().first!)
-                .environment(\.managedObjectContext, CoreDataManager.shared.context)
 
             EleveTextName(
                 eleve: EleveEntity.all().first!,
@@ -47,7 +46,7 @@ struct EleveTextName_Previews: PreviewProvider {
                 fontWidth: .standard,
                 fontWeight: .regular
             )
-            .environment(\.managedObjectContext, CoreDataManager.shared.context)
         }
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
     }
 }

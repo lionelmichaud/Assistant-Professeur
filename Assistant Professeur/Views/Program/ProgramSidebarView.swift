@@ -141,8 +141,24 @@ extension ProgramSidebarView {
     }
 }
 
-//struct ProgramSidebarView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProgramSidebarView()
-//    }
-//}
+struct ProgramSidebarView_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            ProgramSidebarView()
+                .padding()
+                .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+            ProgramSidebarView()
+                .padding()
+                .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

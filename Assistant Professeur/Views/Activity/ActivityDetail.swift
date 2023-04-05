@@ -102,8 +102,22 @@ extension ActivityDetail {
     }
 }
 
-// struct ActivityDetail_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ActivityDetail()
-//    }
-// }
+ struct ActivityDetail_Previews: PreviewProvider {
+     static func initialize() {
+         DataBaseManager.populateWithMockData(storeType: .inMemory)
+     }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            ActivityDetail()
+                .environmentObject(NavigationModel(selectedActivityMngObjId: ActivityEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+            ActivityDetail()
+                .environmentObject(NavigationModel(selectedActivityMngObjId: ActivityEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+ }

@@ -135,31 +135,27 @@ struct EleveCreatorModal: View {
     }
 }
 
-//struct EleveCreator_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            NavigationStack {
-//                EleveCreatorModal(classe: .constant(TestEnvir.classeStore.items.first!))
-//                    .environmentObject(NavigationModel())
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPad mini (6th generation)")
-//
-//            NavigationStack {
-//                EleveCreatorModal(classe: .constant(TestEnvir.classeStore.items.first!))
-//                    .environmentObject(NavigationModel(selectedEleveId: TestEnvir.eleveStore.items.first!.id))
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPhone 13")
-//        }
-//    }
-//}
+struct EleveCreator_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            NavigationStack {
+                EmptyView()
+                EleveCreatorModal(inClasse: ClasseEntity.all().first!)
+            }
+            .previewDevice("iPad mini (6th generation)")
+            NavigationStack {
+                EmptyView()
+                EleveCreatorModal(inClasse: ClasseEntity.all().first!)
+            }
+            .previewDevice("iPhone 13)")
+        }
+        .padding()
+        .environmentObject(NavigationModel(selectedEleveMngObjId: EleveEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+    }
+}

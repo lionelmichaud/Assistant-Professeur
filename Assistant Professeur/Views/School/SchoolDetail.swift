@@ -5,20 +5,22 @@
 //  Created by Lionel MICHAUD on 09/10/2022.
 //
 
-import SwiftUI
-import os
-import HelpersView
 import Files
+import HelpersView
+import os
+import SwiftUI
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
-                               category  : "SchoolDetail")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "SchoolDetail"
+)
 
 struct SchoolDetail: View {
     @ObservedObject
     var school: SchoolEntity
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     @Preference(\.schoolAnnotationEnabled)
     private var schoolAnnotation
@@ -50,7 +52,7 @@ struct SchoolDetail: View {
             List {
                 // note sur la classe
                 if schoolAnnotation {
-                     AnnotationEditView(annotation: $school.viewAnnotation)
+                    AnnotationEditView(annotation: $school.viewAnnotation)
                 }
 
                 // édition de la liste des classes
@@ -72,42 +74,36 @@ struct SchoolDetail: View {
             .navigationTitle("Etablissement")
             .navigationBarTitleDisplayMode(.inline)
             #endif
-            //.onChange(of: schoolVM, perform: save)
+            // .onChange(of: schoolVM, perform: save)
         }
-        //.onDisappear(perform: save)
+        // .onDisappear(perform: save)
     }
 
     private func save() {
         try? SchoolEntity.saveIfContextHasChanged()
-        //school.refresh()
+        // school.refresh()
     }
 }
 
-//struct SchoolDetail_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            NavigationStack {
-//                SchoolDetail(school: .constant(TestEnvir.schoolStore.items.first!))
-//                    .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPad mini (6th generation)")
-//
-//            NavigationStack {
-//                SchoolDetail(school: .constant(TestEnvir.schoolStore.items.first!))
-//                    .environmentObject(NavigationModel(selectedSchoolId: TestEnvir.schoolStore.items.first!.id))
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPhone 13")
-//        }
-//    }
-//}
+struct SchoolDetail_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            SchoolDetail(school: SchoolEntity.all().first!)
+                .padding()
+                .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+
+            SchoolDetail(school: SchoolEntity.all().first!)
+                .padding()
+                .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

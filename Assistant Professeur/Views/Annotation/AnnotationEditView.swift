@@ -72,7 +72,7 @@ struct AnnotationEditView: View {
                     .font(.headline)
                     .fontWeight(.bold)
                 Spacer()
-                Text(annotation.truncate(to: 20, addEllipsis: true))
+                Text(hClass == .compact ? "..." : annotation.truncate(to: 20, addEllipsis: true))
                     .foregroundColor(.secondary)
             }
         }
@@ -85,6 +85,16 @@ struct AnnotationEditView: View {
 
 struct AnnotationEditView_Previews: PreviewProvider {
     static var previews: some View {
-        AnnotationEditView(annotation: .constant("Ceci est une annotation"))
+        Group {
+            List {
+                AnnotationEditView(annotation: .constant("Ceci est une annotation"))
+            }
+            .previewDevice("iPad mini (6th generation)")
+
+            List {
+                AnnotationEditView(annotation: .constant("Ceci est une annotation"))
+            }
+            .previewDevice("iPhone 13")
+        }
     }
 }

@@ -37,8 +37,6 @@ struct EleveBrowserRow_Previews: PreviewProvider {
             List {
                 DisclosureGroup("Group", isExpanded: .constant(true)) {
                     EleveBrowserRow(eleve: EleveEntity.all().first!)
-                        .environmentObject(NavigationModel())
-                        .environment(\.managedObjectContext, CoreDataManager.shared.context)
                 }
             }
             .previewDevice("iPad mini (6th generation)")
@@ -46,11 +44,11 @@ struct EleveBrowserRow_Previews: PreviewProvider {
             List {
                 DisclosureGroup("Group", isExpanded: .constant(true)) {
                     EleveBrowserRow(eleve: EleveEntity.all().first!)
-                        .environmentObject(NavigationModel())
-                        .environment(\.managedObjectContext, CoreDataManager.shared.context)
                 }
             }
             .previewDevice("iPhone 13")
         }
+        .environmentObject(NavigationModel(selectedEleveMngObjId: EleveEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
     }
 }

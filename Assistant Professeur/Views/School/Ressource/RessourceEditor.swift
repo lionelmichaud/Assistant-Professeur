@@ -60,9 +60,25 @@ struct RessourceEditor: View {
     }
 }
 
-//struct RessourceEditor_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RessourceEditor(ressource: .constant(Ressource(name: "Kit robot",
-//                                                       maxNumber: 12)))
-//    }
-//}
+struct RessourceEditor_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            RessourceEditor(ressource: RessourceEntity.all().first!)
+                .padding()
+                .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+
+            RessourceEditor(ressource: RessourceEntity.all().first!)
+                .padding()
+                .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}
