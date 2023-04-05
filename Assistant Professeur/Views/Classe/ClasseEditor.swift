@@ -16,12 +16,12 @@ struct ClasseEditor: View {
     // MARK: - Computed Properties
 
     private var selectedClasseId: NSManagedObjectID? {
-        navigationModel.selectedClasseId
+        navigationModel.selectedClasseMngObjId
     }
 
     private var selectedClasse: ClasseEntity? {
         guard let selectedClasseId else { return nil }
-        return ClasseEntity.byObjectId(id: selectedClasseId)
+        return ClasseEntity.byObjectId(MngObjID: selectedClasseId)
     }
 
     private var selectedClasseExists: Bool {

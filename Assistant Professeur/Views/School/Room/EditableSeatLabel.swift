@@ -49,7 +49,7 @@ struct EditableSeatLabel: View {
                     Button {
                         // Programatic Navigation
                         navigationModel.selectedTab = .eleve
-                        navigationModel.selectedEleveId = eleveOnSeat.objectID
+                        navigationModel.selectedEleveMngObjId = eleveOnSeat.objectID
                     } label: {
                         Label("Fiche élève", systemImage: "info.circle")
                     }

@@ -24,7 +24,7 @@ struct ActivityList: View {
     var body: some View {
         Section {
             if sequence.activitiesSortedByNumber.isNotEmpty {
-                List(selection: $navig.selectedActivityId) {
+                List(selection: $navig.selectedActivityMngObjId) {
                     ForEach(
                         sequence.filteredActivitiesSortedByNumber(searchString: searchString),
                         id: \.objectID

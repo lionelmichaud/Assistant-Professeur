@@ -13,8 +13,8 @@ struct ProgramTimeLine: View {
 
     var body: some View {
         VStack {
-            if let programId = navig.selectedProgramId {
-                if let program = ProgramEntity.byObjectId(id: programId) {
+            if let programId = navig.selectedProgramMngObjId {
+                if let program = ProgramEntity.byObjectId(MngObjID: programId) {
                     ProgramStepperView(program: program)
                 } else {
                     Text("Programme introuvable")

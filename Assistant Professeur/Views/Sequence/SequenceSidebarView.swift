@@ -22,8 +22,8 @@ struct SequenceSidebarView: View {
 
     var body: some View {
         VStack {
-            if let programId = navig.selectedProgramId {
-                if let program = ProgramEntity.byObjectId(id: programId) {
+            if let programId = navig.selectedProgramMngObjId {
+                if let program = ProgramEntity.byObjectId(MngObjID: programId) {
 //                    NavigationLink(value: program) {
 //                        Label("Information sur le programme", systemImage: "books.vertical")
 //                    }
@@ -75,8 +75,8 @@ struct SequenceSidebarView: View {
             isPresented: $isEditing,
             onDismiss: ProgramEntity.rollback
         ) {
-            if let programId = navig.selectedProgramId,
-               let program = ProgramEntity.byObjectId(id: programId) {
+            if let programId = navig.selectedProgramMngObjId,
+               let program = ProgramEntity.byObjectId(MngObjID: programId) {
                 NavigationStack {
                     ProgramEditorModal(program: program)
                 }
@@ -91,8 +91,8 @@ struct SequenceSidebarView: View {
 extension SequenceSidebarView {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
-        if let programId = navig.selectedProgramId,
-           ProgramEntity.byObjectId(id: programId) != nil {
+        if let programId = navig.selectedProgramMngObjId,
+           ProgramEntity.byObjectId(MngObjID: programId) != nil {
             // Editer le Programme
             ToolbarItemGroup(placement: .automatic) {
                 Button("Modifier") {
@@ -103,8 +103,8 @@ extension SequenceSidebarView {
             // Ajouter une Séquence
             ToolbarItemGroup(placement: .status) {
                 Button {
-                    if let programId = navig.selectedProgramId {
-                        if let program = ProgramEntity.byObjectId(id: programId) {
+                    if let programId = navig.selectedProgramMngObjId {
+                        if let program = ProgramEntity.byObjectId(MngObjID: programId) {
                             withAnimation {
                                 _ = SequenceEntity.create(
                                     name: "Nouvelle séquence",

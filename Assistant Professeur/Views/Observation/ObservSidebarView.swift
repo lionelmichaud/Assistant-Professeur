@@ -21,7 +21,7 @@ struct ObservSidebarView: View {
     private var schools: FetchedResults<SchoolEntity>
 
     var body: some View {
-        List(selection: $navigationModel.selectedObservId) {
+        List(selection: $navigationModel.selectedObservMngObjId) {
             if ObservEntity.all().isEmpty {
                 EmptyListMessage(
                     symbolName: "magnifyingglass",
@@ -88,8 +88,8 @@ struct ObservSidebarSchoolSubview: View {
                                 Button(role: .destructive) {
                                     withAnimation {
                                         try? observ.delete()
-                                        if navigationModel.selectedObservId == observ.objectID {
-                                            navigationModel.selectedObservId = nil
+                                        if navigationModel.selectedObservMngObjId == observ.objectID {
+                                            navigationModel.selectedObservMngObjId = nil
                                         }
                                     }
                                 } label: {

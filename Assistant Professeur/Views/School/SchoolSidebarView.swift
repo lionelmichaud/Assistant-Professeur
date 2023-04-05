@@ -121,7 +121,7 @@ struct SchoolSidebarView: View {
     // MARK: - Computed Properties
 
     var body: some View {
-        List(selection: $navigationModel.selectedSchoolId) {
+        List(selection: $navigationModel.selectedSchoolMngObjId) {
             // pour chaque Type d'établissement
             ForEach(schoolsSections) { section in
                 if section.isNotEmpty {
@@ -136,8 +136,8 @@ struct SchoolSidebarView: View {
                                     Button(role: .destructive) {
                                         withAnimation {
                                             try? school.delete()
-                                            if navigationModel.selectedSchoolId == school.objectID {
-                                                navigationModel.selectedSchoolId = nil
+                                            if navigationModel.selectedSchoolMngObjId == school.objectID {
+                                                navigationModel.selectedSchoolMngObjId = nil
                                             }
                                         }
                                     } label: {

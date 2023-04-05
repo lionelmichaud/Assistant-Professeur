@@ -69,7 +69,7 @@ struct GroupView: View {
                     .onTapGesture {
                         // Programatic Navigation
                         navigationModel.selectedTab = .eleve
-                        navigationModel.selectedEleveId = eleve.objectID
+                        navigationModel.selectedEleveMngObjId = eleve.objectID
                     }
 
                     // retirer l'élève du groupe

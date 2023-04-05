@@ -15,12 +15,12 @@ struct ColleEditor: View {
     // MARK: - Computed properties
 
     private var selectedColleId: NSManagedObjectID? {
-        navigationModel.selectedColleId
+        navigationModel.selectedColleMngObjId
     }
 
     private var selectedColle: ColleEntity? {
         guard let selectedColleId else { return nil }
-        return ColleEntity.byObjectId(id: selectedColleId)
+        return ColleEntity.byObjectId(MngObjID: selectedColleId)
     }
 
     private var selectedColleExists: Bool {

@@ -15,6 +15,8 @@ private let customLog = Logger(
 )
 
 protocol ModelEntityP: NSManagedObject {
+    var id: UUID? { get set }
+
     // MARK: - Type Methods
 
     /// Returns the Managed Object Context depending on the storage location
@@ -24,7 +26,11 @@ protocol ModelEntityP: NSManagedObject {
     /// - Returns: Array of all items in the persistent store
     static func all() -> [Self]
 
-    static func byObjectId(id: NSManagedObjectID) -> Self?
+    static func byObjectId(MngObjID: NSManagedObjectID) -> Self?
+
+    static func byId(id: UUID) -> Self?
+
+    static func managedObjectID(id: UUID?) -> NSManagedObjectID?
 
     /// Creates a sample Object in the Context
     static func create() -> Self
@@ -71,13 +77,27 @@ extension ModelEntityP {
         }
     }
 
-    static func byObjectId(id: NSManagedObjectID) -> Self? {
+    static func byObjectId(MngObjID: NSManagedObjectID) -> Self? {
         do {
-            return try context.existingObject(with: id) as? Self
+            return try context.existingObject(with: MngObjID) as? Self
         } catch {
             customLog.log(level: .error, "Objet \(Self.self) non trouvé: \(error.localizedDescription)")
             return nil
         }
+    }
+
+    static func byId(id: UUID) -> Self? {
+        all().first { object in
+            object.id == id
+        }
+    }
+
+    static func managedObjectID(id: UUID?) -> NSManagedObjectID? {
+        guard let id,
+              let objectFound = byId(id: id) else {
+            return nil
+        }
+        return objectFound.objectID
     }
 
     /// Creates a sample Object in the Context

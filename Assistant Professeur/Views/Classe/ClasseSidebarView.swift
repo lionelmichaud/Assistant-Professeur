@@ -19,7 +19,7 @@ struct ClasseSidebarView: View {
     private var classesSections: SectionedFetchResults<String, ClasseEntity>
 
     var body: some View {
-        List(selection: $navigationModel.selectedClasseId) {
+        List(selection: $navigationModel.selectedClasseMngObjId) {
             // pour chaque Etablissement
             ForEach(classesSections) { section in
                 if section.isNotEmpty {
@@ -68,8 +68,8 @@ struct ClasseSidebarSchoolSubview: View {
                     Button(role: .destructive) {
                         withAnimation {
                             try? classe.delete()
-                            if navigationModel.selectedClasseId == classe.objectID {
-                                navigationModel.selectedClasseId = nil
+                            if navigationModel.selectedClasseMngObjId == classe.objectID {
+                                navigationModel.selectedClasseMngObjId = nil
                             }
                         }
                     } label: {

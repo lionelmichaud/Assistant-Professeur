@@ -24,7 +24,7 @@ struct SequenceList: View {
     var body: some View {
         Section {
             if program.sequencesSortedByNumber.isNotEmpty {
-                List(selection: $navig.selectedSequenceId) {
+                List(selection: $navig.selectedSequenceMngObjId) {
                     ForEach(
                         program.filteredSequencesSortedByNumber(searchString: searchString),
                         id: \.objectID

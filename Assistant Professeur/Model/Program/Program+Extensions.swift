@@ -233,12 +233,6 @@ extension ProgramEntity {
         }
     }
 
-    static func byId(id: UUID) -> Self? {
-        all().first { object in
-            object.id == id
-        }
-    }
-
     /// Retourne true si un object équivalent existe déjà dans le context.
     ///
     /// Si `objectID` != `nil` alors on retourne true seulement

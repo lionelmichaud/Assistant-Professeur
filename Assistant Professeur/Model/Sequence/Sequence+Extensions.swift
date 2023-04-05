@@ -206,12 +206,6 @@ extension SequenceEntity {
         self.id = UUID()
     }
 
-    static func byId(id: UUID) -> Self? {
-        all().first { object in
-            object.id == id
-        }
-    }
-
     /// Créer une nouvelle instance **SANS** la sauvegarder dans le context
     static func createWithoutSaving(
         name: String = "",

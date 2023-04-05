@@ -24,7 +24,7 @@ struct EleveSidebarView: View {
     private var schools: FetchedResults<SchoolEntity>
 
     var body: some View {
-        List(selection: $navigationModel.selectedEleveId) {
+        List(selection: $navigationModel.selectedEleveMngObjId) {
             // pour chaque Etablissement
             ForEach(schools) { school in
                 if school.nbOfClasses != 0 {
@@ -128,8 +128,8 @@ struct EleveSidebarSchoolSubview: View {
                                     withAnimation {
                                         // supprimer l'élève et tous ses descendants
                                         try? eleve.delete()
-                                        if navigationModel.selectedEleveId == eleve.objectID {
-                                            navigationModel.selectedEleveId = nil
+                                        if navigationModel.selectedEleveMngObjId == eleve.objectID {
+                                            navigationModel.selectedEleveMngObjId = nil
                                         }
                                     }
                                 } label: {

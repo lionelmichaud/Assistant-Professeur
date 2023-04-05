@@ -37,7 +37,7 @@ struct ActivityClassProgressView: View {
         } label: {
             Button {
                 navig.selectedTab = .classe
-                navig.selectedClasseId = progress.classe?.objectID
+                navig.selectedClasseMngObjId = progress.classe?.objectID
             } label: {
                 Text(progress.classe?.displayString ?? "nil")
                     .bold()

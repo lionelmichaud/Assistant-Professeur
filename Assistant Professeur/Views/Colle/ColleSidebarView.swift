@@ -22,7 +22,7 @@ struct ColleSidebarView: View {
     private var schools: FetchedResults<SchoolEntity>
 
     var body: some View {
-        List(selection: $navigationModel.selectedColleId) {
+        List(selection: $navigationModel.selectedColleMngObjId) {
             if ColleEntity.all().isEmpty {
                 EmptyListMessage(
                     symbolName: "lock",
@@ -89,8 +89,8 @@ struct ColleSidebarSchoolSubview: View {
                                 Button(role: .destructive) {
                                     withAnimation {
                                         try? colle.delete()
-                                        if navigationModel.selectedColleId == colle.objectID {
-                                            navigationModel.selectedColleId = nil
+                                        if navigationModel.selectedColleMngObjId == colle.objectID {
+                                            navigationModel.selectedColleMngObjId = nil
                                         }
                                     }
                                 } label: {

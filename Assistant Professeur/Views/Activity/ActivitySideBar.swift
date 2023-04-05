@@ -69,8 +69,8 @@ struct ActivitySideBar: View {
             isPresented: $isEditing,
             onDismiss: SequenceEntity.rollback
         ) {
-            if let sequenceId = navig.selectedSequenceId,
-               let sequence = SequenceEntity.byObjectId(id: sequenceId) {
+            if let sequenceId = navig.selectedSequenceMngObjId,
+               let sequence = SequenceEntity.byObjectId(MngObjID: sequenceId) {
                 NavigationStack {
                     SequenceEditorModal(sequence: sequence)
                 }
@@ -85,8 +85,8 @@ struct ActivitySideBar: View {
 extension ActivitySideBar {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
-        if let sequenceId = navig.selectedSequenceId,
-           SequenceEntity.byObjectId(id: sequenceId) != nil {
+        if let sequenceId = navig.selectedSequenceMngObjId,
+           SequenceEntity.byObjectId(MngObjID: sequenceId) != nil {
             // Editer la Séquence
             ToolbarItemGroup(placement: .automatic) {
                 Button("Modifier") {

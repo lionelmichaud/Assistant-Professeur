@@ -15,12 +15,12 @@ struct ObservEditor: View {
     // MARK: - Computed properties
 
     private var selectedObservId: NSManagedObjectID? {
-        navigationModel.selectedObservId
+        navigationModel.selectedObservMngObjId
     }
 
     private var selectedObserv: ObservEntity? {
         guard let selectedObservId else { return nil }
-        return ObservEntity.byObjectId(id: selectedObservId)
+        return ObservEntity.byObjectId(MngObjID: selectedObservId)
     }
 
     private var selectedObservExists: Bool {

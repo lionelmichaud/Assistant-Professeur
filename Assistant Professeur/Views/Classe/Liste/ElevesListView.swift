@@ -41,7 +41,7 @@ struct ElevesListView: View {
                     .onTapGesture {
                         // Programatic Navigation
                         navigationModel.selectedTab = .eleve
-                        navigationModel.selectedEleveId = eleve.objectID
+                        navigationModel.selectedEleveMngObjId = eleve.objectID
                     }
 
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -50,8 +50,8 @@ struct ElevesListView: View {
                             withAnimation {
                                 // supprimer l'élève et tous ses descendants
                                 try? eleve.delete()
-                                if navigationModel.selectedEleveId == eleve.objectID {
-                                    navigationModel.selectedEleveId = nil
+                                if navigationModel.selectedEleveMngObjId == eleve.objectID {
+                                    navigationModel.selectedEleveMngObjId = nil
                                 }
                             }
                         } label: {

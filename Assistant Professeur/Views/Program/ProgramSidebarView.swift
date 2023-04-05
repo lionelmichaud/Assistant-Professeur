@@ -35,7 +35,7 @@ struct ProgramSidebarView: View {
     private var programsSections: SectionedFetchResults<String, ProgramEntity>
 
     var body: some View {
-        List(selection: $navigationModel.selectedProgramId) {
+        List(selection: $navigationModel.selectedProgramMngObjId) {
             // pour chaque Discipline
             ForEach(programsSections) { section in
                 if section.isNotEmpty {
@@ -50,8 +50,8 @@ struct ProgramSidebarView: View {
                                     // supprimer le programme et tous ses descendants
                                     Button(role: .destructive) {
                                         withAnimation {
-                                            if navigationModel.selectedProgramId == program.objectID {
-                                                navigationModel.selectedProgramId = nil
+                                            if navigationModel.selectedProgramMngObjId == program.objectID {
+                                                navigationModel.selectedProgramMngObjId = nil
                                             }
                                             try? program.delete()
                                         }

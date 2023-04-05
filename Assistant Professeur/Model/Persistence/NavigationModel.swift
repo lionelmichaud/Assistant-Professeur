@@ -81,23 +81,35 @@ final class NavigationModel: ObservableObject, Codable {
     var selectedWarningType: WarningSelection?
     @Published
     var programPath = NavigationPath()
+
     /// TODO: - Trouver une autre solution
     @Published
-    var selectedProgramId: NSManagedObjectID?
+    var selectedProgramMngObjId: NSManagedObjectID? {
+        didSet {
+            selectedProgramId = UUID()
+        }
+    }
+
+    var selectedProgramId: UUID? {
+        didSet {
+            // selectedProgramMngObjId = 
+        }
+    }
+
     @Published
-    var selectedSequenceId: NSManagedObjectID?
+    var selectedSequenceMngObjId: NSManagedObjectID?
     @Published
-    var selectedActivityId: NSManagedObjectID?
+    var selectedActivityMngObjId: NSManagedObjectID?
     @Published
-    var selectedObservId: NSManagedObjectID?
+    var selectedObservMngObjId: NSManagedObjectID?
     @Published
-    var selectedColleId: NSManagedObjectID?
+    var selectedColleMngObjId: NSManagedObjectID?
     @Published
-    var selectedEleveId: NSManagedObjectID?
+    var selectedEleveMngObjId: NSManagedObjectID?
     @Published
-    var selectedClasseId: NSManagedObjectID?
+    var selectedClasseMngObjId: NSManagedObjectID?
     @Published
-    var selectedSchoolId: NSManagedObjectID?
+    var selectedSchoolMngObjId: NSManagedObjectID?
 
     @Published
     var filterObservation: Bool
@@ -125,16 +137,16 @@ final class NavigationModel: ObservableObject, Codable {
             }
             // initialize l'état de navigation en conséquence
             columnVisibility = model.columnVisibility
-            selectedProgramId = model.selectedProgramId
-            selectedSequenceId = model.selectedSequenceId
-            selectedActivityId = model.selectedActivityId
+            selectedProgramMngObjId = model.selectedProgramMngObjId
+            selectedSequenceMngObjId = model.selectedSequenceMngObjId
+            selectedActivityMngObjId = model.selectedActivityMngObjId
             selectedTab = model.selectedTab
             selectedWarningType = model.selectedWarningType
-            selectedObservId = model.selectedObservId
-            selectedColleId = model.selectedColleId
-            selectedEleveId = model.selectedEleveId
-            selectedClasseId = model.selectedClasseId
-            selectedSchoolId = model.selectedSchoolId
+            selectedObservMngObjId = model.selectedObservMngObjId
+            selectedColleMngObjId = model.selectedColleMngObjId
+            selectedEleveMngObjId = model.selectedEleveMngObjId
+            selectedClasseMngObjId = model.selectedClasseMngObjId
+            selectedSchoolMngObjId = model.selectedSchoolMngObjId
             filterObservation = model.filterObservation
             filterColle = model.filterColle
             filterFlag = model.filterFlag
@@ -171,14 +183,14 @@ final class NavigationModel: ObservableObject, Codable {
         self.columnVisibility = columnVisibility
         self.selectedTab = selectedTab
         self.selectedWarningType = selectedWarningType
-        self.selectedProgramId = selectedProgramId
-        self.selectedSequenceId = selectedSequenceId
-        self.selectedActivityId = selectedActivityId
-        self.selectedObservId = selectedObservId
-        self.selectedColleId = selectedColleId
-        self.selectedEleveId = selectedEleveId
-        self.selectedClasseId = selectedClasseId
-        self.selectedSchoolId = selectedSchoolId
+        self.selectedProgramMngObjId = selectedProgramId
+        self.selectedSequenceMngObjId = selectedSequenceId
+        self.selectedActivityMngObjId = selectedActivityId
+        self.selectedObservMngObjId = selectedObservId
+        self.selectedColleMngObjId = selectedColleId
+        self.selectedEleveMngObjId = selectedEleveId
+        self.selectedClasseMngObjId = selectedClasseId
+        self.selectedSchoolMngObjId = selectedSchoolId
         self.filterObservation = filterObservation
         self.filterColle = filterColle
         self.filterFlag = filterFlag
@@ -236,14 +248,14 @@ final class NavigationModel: ObservableObject, Codable {
     func resetSelections() {
         selectedTab = .school
         selectedWarningType = .observation
-        selectedProgramId = nil
-        selectedSequenceId = nil
-        selectedActivityId = nil
-        selectedObservId = nil
-        selectedColleId = nil
-        selectedEleveId = nil
-        selectedClasseId = nil
-        selectedSchoolId = nil
+        selectedProgramMngObjId = nil
+        selectedSequenceMngObjId = nil
+        selectedActivityMngObjId = nil
+        selectedObservMngObjId = nil
+        selectedColleMngObjId = nil
+        selectedEleveMngObjId = nil
+        selectedClasseMngObjId = nil
+        selectedSchoolMngObjId = nil
     }
 
     func encode(to encoder: Encoder) throws {
