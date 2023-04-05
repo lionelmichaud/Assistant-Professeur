@@ -21,8 +21,15 @@ struct GroupCapsule: View {
     }
 }
 
-// struct GroupCapsule_Previews: PreviewProvider {
-//    static var previews: some View {
-//        GroupCapsule()
-//    }
-// }
+struct GroupCapsule_Previews: PreviewProvider {
+    static func initialize() {
+        CoreDataManager.storeType = .inMemory
+        GroupEntity.create(numero: 16, dans: nil)
+    }
+
+    static var previews: some View {
+        initialize()
+        return GroupCapsule(group: GroupEntity.all().first!)
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+    }
+}

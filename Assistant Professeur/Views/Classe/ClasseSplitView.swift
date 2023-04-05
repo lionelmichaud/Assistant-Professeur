@@ -21,8 +21,14 @@ struct ClasseSplitView: View {
         NavigationSplitView(
             columnVisibility: $navigationModel.columnVisibility
         ) {
+            // 1ère colonne
             ClasseSidebarView()
+                .navigationSplitViewColumnWidth(min: 250,
+                                                ideal: 350,
+                                                max: 500)
+
         } detail: {
+            // Détail dans la 2ième colonne
             NavigationStack(path: $path) {
                 ClasseEditor()
                     .navigationDestination(for: ClasseNavigationRoute.self) { route in

@@ -121,10 +121,7 @@ struct SchoolSidebarView: View {
     // MARK: - Computed Properties
 
     var body: some View {
-        List(selection: $navigationModel.selectedSchoolId) {
-            if SchoolEntity.all().isEmpty {
-                Text("Aucun établissement actuellement")
-            }
+        List(selection: $navigationModel.selectedSchoolMngObjId) {
             // pour chaque Type d'établissement
             ForEach(schoolsSections) { section in
                 if section.isNotEmpty {
@@ -139,8 +136,8 @@ struct SchoolSidebarView: View {
                                     Button(role: .destructive) {
                                         withAnimation {
                                             try? school.delete()
-                                            if navigationModel.selectedSchoolId == school.objectID {
-                                                navigationModel.selectedSchoolId = nil
+                                            if navigationModel.selectedSchoolMngObjId == school.objectID {
+                                                navigationModel.selectedSchoolMngObjId = nil
                                             }
                                         }
                                     } label: {
@@ -174,6 +171,13 @@ struct SchoolSidebarView: View {
                             .fontWeight(.bold)
                     }
                 }
+            }
+            .emptyListPlaceHolder(schoolsSections) {
+                EmptyListMessage(
+                    symbolName: "building",
+                    title: "Aucun établissement actuellement.",
+                    message: "Les établissements ajoutés apparaîtront ici."
+                )
             }
         }
         #if os(iOS)
@@ -397,7 +401,7 @@ extension SchoolSidebarView {
                             alertMessage = "L'effacement complet de la base de donnée a échoué"
 
                             withAnimation {
-                                DataBaseManager.populate(failed: &alertIsPresented)
+                                DataBaseManager.populateWithMockData(storeType: .inMemory)
                             }
                         } label: {
                             Text("Dev - Peupler la BDD").foregroundColor(.primary)

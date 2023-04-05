@@ -19,24 +19,31 @@ struct ClasseSidebarView: View {
     private var classesSections: SectionedFetchResults<String, ClasseEntity>
 
     var body: some View {
-        List(selection: $navigationModel.selectedClasseId) {
-            if ClasseEntity.all().isEmpty {
-                Text("Aucune classe actuellement")
-            } else {
-                // pour chaque Etablissement
-                ForEach(classesSections) { section in
-                    if section.isNotEmpty {
-                        Section {
-                            // pour chaque Classe
-                            ClasseSidebarSchoolSubview(schoolSection: section)
-                        } header: {
+        List(selection: $navigationModel.selectedClasseMngObjId) {
+            // pour chaque Etablissement
+            ForEach(classesSections) { section in
+                if section.isNotEmpty {
+                    Section {
+                        // pour chaque Classe
+                        ClasseSidebarSchoolSubview(schoolSection: section)
+                    } header: {
+                        HStack {
                             Text(section.id)
                                 .font(.callout)
                                 .foregroundColor(.secondary)
                                 .fontWeight(.bold)
+                            Spacer()
+                            Text("\(section.count)")
                         }
                     }
                 }
+            }
+            .emptyListPlaceHolder(classesSections) {
+                EmptyListMessage(
+                    symbolName: "person.3.sequence.fill",
+                    title: "Aucune classe actuellement.",
+                    message: "Les classes ajoutées apparaîtront ici."
+                )
             }
         }
         #if os(iOS)
@@ -61,8 +68,8 @@ struct ClasseSidebarSchoolSubview: View {
                     Button(role: .destructive) {
                         withAnimation {
                             try? classe.delete()
-                            if navigationModel.selectedClasseId == classe.objectID {
-                                navigationModel.selectedClasseId = nil
+                            if navigationModel.selectedClasseMngObjId == classe.objectID {
+                                navigationModel.selectedClasseMngObjId = nil
                             }
                         }
                     } label: {
@@ -88,27 +95,23 @@ struct ClasseSidebarSchoolSubview: View {
     }
 }
 
-// struct ClasseSidebarView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            ClasseSidebarView()
-//                .environmentObject(NavigationModel(selectedClasseId: TestEnvir.classeStore.items.first!.id))
-//                .environmentObject(TestEnvir.schoolStore)
-//                .environmentObject(TestEnvir.classeStore)
-//                .environmentObject(TestEnvir.eleveStore)
-//                .environmentObject(TestEnvir.colleStore)
-//                .environmentObject(TestEnvir.observStore)
-//                .previewDevice("iPad mini (6th generation)")
-//
-//            ClasseSidebarView()
-//                .environmentObject(NavigationModel(selectedClasseId: TestEnvir.classeStore.items.first!.id))
-//                .environmentObject(TestEnvir.schoolStore)
-//                .environmentObject(TestEnvir.classeStore)
-//                .environmentObject(TestEnvir.eleveStore)
-//                .environmentObject(TestEnvir.colleStore)
-//                .environmentObject(TestEnvir.observStore)
-//                .previewDevice("iPhone 13")
-//        }
-//    }
-// }
+ struct ClasseSidebarView_Previews: PreviewProvider {
+     static func initialize() {
+         DataBaseManager.populateWithMockData(storeType: .inMemory)
+     }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            ClasseSidebarView()
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+
+            ClasseSidebarView()
+                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+ }

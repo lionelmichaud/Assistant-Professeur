@@ -79,7 +79,7 @@ struct ProgramEditorModal: View {
 
                     // supprimer le document
                     Button(role: .destructive) {
-                        DocumentEntity.viewContext.delete(document)
+                        DocumentEntity.context.delete(document)
                     } label: {
                         Image(systemName: "trash")
                     }

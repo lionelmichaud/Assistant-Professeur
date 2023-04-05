@@ -42,9 +42,9 @@ struct ClassActivityProgressView: View {
                        let sequence = activity.sequence,
                        let program = sequence.program {
                         navig.selectedTab = .program
-                        navig.selectedProgramId = program.objectID
-                        navig.selectedSequenceId = sequence.objectID
-                        navig.selectedActivityId = activity.objectID
+                        navig.selectedProgramMngObjId = program.objectID
+                        navig.selectedSequenceMngObjId = sequence.objectID
+                        navig.selectedActivityMngObjId = activity.objectID
 //                        navig.programPath = NavigationPath()
 //                        navig.programPath.append(program)
 //                        navig.programPath.append(sequence)

@@ -35,19 +35,7 @@ struct ProgramSidebarView: View {
     private var programsSections: SectionedFetchResults<String, ProgramEntity>
 
     var body: some View {
-        List(selection: $navigationModel.selectedProgramId) {
-            if ProgramEntity.all().isEmpty {
-                GroupBox {
-                    Text("Aucun programme")
-                        .bold()
-                    Text("Les programmes ajoutés apparaîtront ici.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .padding(.top, 2)
-                }
-                .verticallyAligned(.top)
-            }
-
+        List(selection: $navigationModel.selectedProgramMngObjId) {
             // pour chaque Discipline
             ForEach(programsSections) { section in
                 if section.isNotEmpty {
@@ -62,8 +50,8 @@ struct ProgramSidebarView: View {
                                     // supprimer le programme et tous ses descendants
                                     Button(role: .destructive) {
                                         withAnimation {
-                                            if navigationModel.selectedProgramId == program.objectID {
-                                                navigationModel.selectedProgramId = nil
+                                            if navigationModel.selectedProgramMngObjId == program.objectID {
+                                                navigationModel.selectedProgramMngObjId = nil
                                             }
                                             try? program.delete()
                                         }
@@ -80,6 +68,13 @@ struct ProgramSidebarView: View {
                             .fontWeight(.bold)
                     }
                 }
+            }
+            .emptyListPlaceHolder(programsSections) {
+                EmptyListMessage(
+                    symbolName: "books.vertical",
+                    title: "Aucun programme actuellement.",
+                    message: "Les programmes ajoutés apparaîtront ici."
+                )
             }
         }
         #if os(iOS)
@@ -146,8 +141,8 @@ extension ProgramSidebarView {
     }
 }
 
-struct ProgramSidebarView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProgramSidebarView()
-    }
-}
+//struct ProgramSidebarView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProgramSidebarView()
+//    }
+//}

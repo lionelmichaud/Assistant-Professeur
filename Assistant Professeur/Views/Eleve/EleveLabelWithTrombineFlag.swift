@@ -123,11 +123,19 @@ struct EleveLabelWithTrombineFlag: View {
 
                 // Nom
                 if hClass == .compact {
-                    Text(eleve.displayName2lines(nameDisplayOrder))
-                        .font(font)
-                        .fontWeight(fontWeight)
+                    EleveTextName(
+                        eleve: eleve,
+                        fontSize: font,
+                        fontWidth: .condensed,
+                        fontWeight: fontWeight
+                    )
                 } else {
-                    Text(eleve.displayName(nameDisplayOrder))
+                    EleveTextName(
+                        eleve: eleve,
+                        fontSize: font,
+                        fontWidth: .standard,
+                        fontWeight: fontWeight
+                    )
                 }
 
                 // Flag
@@ -182,27 +190,25 @@ struct EleveLabelWithTrombineFlag: View {
     }
 }
 
-// struct EleveLabelWithTrombineFlag_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            EleveLabelWithTrombineFlag(eleve      : .constant(TestEnvir.eleveStore.items.first!),
-//                                       isEditable : false)
-//            .environmentObject(NavigationModel())
-//            .environmentObject(TestEnvir.classeStore)
-//            .environmentObject(TestEnvir.eleveStore)
-//            .environmentObject(TestEnvir.colleStore)
-//            .environmentObject(TestEnvir.observStore)
-//            .previewDevice("iPhone 13")
-//
-//            EleveLabelWithTrombineFlag(eleve      : .constant(TestEnvir.eleveStore.items.first!),
-//                                       isEditable : true)
-//            .environmentObject(NavigationModel())
-//            .environmentObject(TestEnvir.classeStore)
-//            .environmentObject(TestEnvir.eleveStore)
-//            .environmentObject(TestEnvir.colleStore)
-//            .environmentObject(TestEnvir.observStore)
-//            .previewDevice("iPad mini (6th generation)")
-//        }
-//    }
-// }
+ struct EleveLabelWithTrombineFlag_Previews: PreviewProvider {
+     static func initialize() {
+         DataBaseManager.populateWithMockData(storeType: .inMemory)
+     }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            EleveLabelWithTrombineFlag(eleve      : EleveEntity.all().first!,
+                                       isEditable : false)
+            .environmentObject(NavigationModel())
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPhone 13")
+
+            EleveLabelWithTrombineFlag(eleve      : EleveEntity.all().first!,
+                                       isEditable : true)
+            .environmentObject(NavigationModel())
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPad mini (6th generation)")
+        }
+    }
+ }

@@ -16,12 +16,12 @@ struct EleveEditor: View {
     // MARK: - Computed Properties
 
     private var selectedEleveId: NSManagedObjectID? {
-        navigationModel.selectedEleveId
+        navigationModel.selectedEleveMngObjId
     }
 
     private var selectedEleve: EleveEntity? {
         guard let selectedEleveId else { return nil }
-        return EleveEntity.byObjectId(id: selectedEleveId)
+        return EleveEntity.byObjectId(MngObjID: selectedEleveId)
     }
 
     private var selectedEleveExists: Bool {

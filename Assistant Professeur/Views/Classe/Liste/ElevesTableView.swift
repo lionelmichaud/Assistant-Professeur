@@ -180,7 +180,7 @@ extension ElevesTableView {
             Button {
                 // Programatic Navigation
                 navigationModel.selectedTab = .eleve
-                navigationModel.selectedEleveId =
+                navigationModel.selectedEleveMngObjId =
                 EleveEntity
                     .byObjectIdentifier(objectID: selection.first!)!
                     .objectID
@@ -201,8 +201,8 @@ extension ElevesTableView {
                             .forEach { eleve in
                                 // supprimer l'élève et tous ses descendants
                                 try? eleve.delete()
-                                if navigationModel.selectedEleveId == eleve.objectID {
-                                    navigationModel.selectedEleveId = nil
+                                if navigationModel.selectedEleveMngObjId == eleve.objectID {
+                                    navigationModel.selectedEleveMngObjId = nil
                                 }
                             }
                     }

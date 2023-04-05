@@ -17,6 +17,10 @@ struct WarningSpliView: View {
         ) {
             // 1ère colonne
             WarningSidebarView()
+                .navigationSplitViewColumnWidth(min: 250,
+                                                ideal: 350,
+                                                max: 500)
+
         } content: {
             // 2nde colonne
             switch navig.selectedWarningType {
@@ -27,7 +31,9 @@ struct WarningSpliView: View {
                 case .none:
                     Text("Sélectionner un type d'avertissement")
             }
+
         } detail: {
+            // Détail dans la 3ième colonne
             switch navig.selectedWarningType {
                 case .colle:
                     ColleEditor()

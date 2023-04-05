@@ -57,9 +57,9 @@ class EleveViewModel: ObservableObject {
     }
 
     /// Créer une entité `EleveEntity` à partir du VM et
-    /// sauvegarder le viewContext.
     ///
     /// Ajouter une note pour chaque évaluation de la classe
+    /// - Important: Saves the context
     func createAndSaveEntity(_ inClasse: ClasseEntity) {
         EleveEntity.create(
             familyName: familyName,

@@ -13,8 +13,8 @@ struct SequenceTimeLine: View {
 
     var body: some View {
         VStack {
-            if let sequenceId = navig.selectedSequenceId {
-                if let sequence = SequenceEntity.byObjectId(id: sequenceId) {
+            if let sequenceId = navig.selectedSequenceMngObjId {
+                if let sequence = SequenceEntity.byObjectId(MngObjID: sequenceId) {
                     SequenceStepperView(sequence: sequence)
                 } else {
                     Text("Séquence introuvable")

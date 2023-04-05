@@ -36,7 +36,7 @@ struct ClassList: View {
                     .onTapGesture {
                         // Programatic Navigation
                         navigationModel.selectedTab = .classe
-                        navigationModel.selectedClasseId = classe.objectID
+                        navigationModel.selectedClasseMngObjId = classe.objectID
                     }
 
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -45,8 +45,8 @@ struct ClassList: View {
                             withAnimation {
                                 // supprimer la classe et tous ses descendants
                                 try? classe.delete()
-                                if navigationModel.selectedClasseId == classe.objectID {
-                                    navigationModel.selectedClasseId = nil
+                                if navigationModel.selectedClasseMngObjId == classe.objectID {
+                                    navigationModel.selectedClasseMngObjId = nil
                                 }
                             }
                         } label: {

@@ -74,13 +74,17 @@ struct ProgramSplitView: View {
         ) {
             // 1ère colonne
             ProgramSidebarView()
-//                .navigationSplitViewColumnWidth(min: 200,
-//                                                ideal: 250,
-//                                                max: 500)
+                .navigationSplitViewColumnWidth(min: 250,
+                                                ideal: 300,
+                                                max: 500)
+
         } content: {
             // 2nde colonne
             NavigationStack(path: $navig.programPath) {
                 SequenceSidebarView(showProgramSteps: $showProgramSteps)
+                    .navigationSplitViewColumnWidth(min: 300,
+                                                    ideal: 400,
+                                                    max: 500)
                     .navigationDestination(for: SequenceEntity.self) { sequence in
                         ActivitySideBar(
                             sequence: sequence,
@@ -88,17 +92,16 @@ struct ProgramSplitView: View {
                         )
                     }
             }
+
         } detail: {
             // Détail dans la 3ième colonne
             switch vm.detailColumnContent {
                 case .showNone:
-                    VStack(alignment: .center) {
-                        Text("Aucune Activité sélectionnée.")
-                        Text("Sélectionner une Activité pour en visualiser le détail ou le Programme/Séquence pour en visualiser le déroulement.")
-                            .font(.callout)
-                            .padding(.top)
-                            .multilineTextAlignment(.center)
-                    }
+                    EmptyListMessage(
+                        title: "Aucune activité sélectionnée.",
+                        message: "Sélectionner une activité pour en visualiser le contenu.",
+                        showAsGroupBox: true
+                    )
                     .padding()
                     .foregroundStyle(.secondary)
                     .font(.title2)
@@ -116,25 +119,25 @@ struct ProgramSplitView: View {
         .navigationSplitViewStyle(.balanced)
 
         .onAppear {
-            if navig.selectedSequenceId == nil {
+            if navig.selectedSequenceMngObjId == nil {
                 navig.columnVisibility = .all
             }
         }
 
         // désélectionner la séquence et l'activité quand on change de programme
-        .onChange(of: navig.selectedProgramId) { _ in
+        .onChange(of: navig.selectedProgramMngObjId) { _ in
             vm.detailColumnSM.process(event: .onSelectedProgramChanged)
         }
 
         // désélectionner l'activité quand on change de séquence
-        .onChange(of: navig.selectedSequenceId) { [oldSequenceID = navig.selectedSequenceId] _ in
+        .onChange(of: navig.selectedSequenceMngObjId) { [oldSequenceID = navig.selectedSequenceMngObjId] _ in
             if oldSequenceID != nil {
                 vm.detailColumnSM.process(event: .onSelectedSequenceChanged)
             }
         }
 
         // escamoter la 1ère colonne quand une activité est sélectionnée
-        .onChange(of: navig.selectedActivityId) { newActivityId in
+        .onChange(of: navig.selectedActivityMngObjId) { newActivityId in
             if newActivityId == nil {
                 vm.detailColumnSM.process(event: .onActivityDeselected)
             } else {
@@ -180,7 +183,7 @@ struct ProgramSplitView: View {
                 from: .showNone,
                 to: .showNone,
                 postBlock: {
-                    navig.selectedActivityId = nil
+                    navig.selectedActivityMngObjId = nil
                     navig.columnVisibility = .all
                 }
             )
@@ -192,8 +195,8 @@ struct ProgramSplitView: View {
                 from: .showNone,
                 to: .showNone,
                 postBlock: {
-                    navig.selectedSequenceId = nil
-                    navig.selectedActivityId = nil
+                    navig.selectedSequenceMngObjId = nil
+                    navig.selectedActivityMngObjId = nil
                     navig.columnVisibility = .all
                 }
             )
@@ -205,7 +208,7 @@ struct ProgramSplitView: View {
                 from: .showNone,
                 to: .showSequenceSteps,
                 postBlock: {
-                    navig.selectedActivityId = nil
+                    navig.selectedActivityMngObjId = nil
                     navig.columnVisibility = .doubleColumn
                 }
             )
@@ -217,7 +220,7 @@ struct ProgramSplitView: View {
                 from: .showNone,
                 to: .showProgramSteps,
                 postBlock: {
-                    navig.selectedActivityId = nil
+                    navig.selectedActivityMngObjId = nil
                     navig.columnVisibility = .doubleColumn
                 }
             )
@@ -241,7 +244,7 @@ struct ProgramSplitView: View {
                 from: .showActivityDetail,
                 to: .showNone,
                 postBlock: {
-                    navig.selectedActivityId = nil
+                    navig.selectedActivityMngObjId = nil
                     navig.columnVisibility = .all
                 }
             )
@@ -253,8 +256,8 @@ struct ProgramSplitView: View {
                 from: .showActivityDetail,
                 to: .showNone,
                 postBlock: {
-                    navig.selectedSequenceId = nil
-                    navig.selectedActivityId = nil
+                    navig.selectedSequenceMngObjId = nil
+                    navig.selectedActivityMngObjId = nil
                     navig.columnVisibility = .all
                 }
             )
@@ -266,7 +269,7 @@ struct ProgramSplitView: View {
                 from: .showActivityDetail,
                 to: .showSequenceSteps,
                 postBlock: {
-                    navig.selectedActivityId = nil
+                    navig.selectedActivityMngObjId = nil
                     navig.columnVisibility = .doubleColumn
                 }
             )
@@ -278,7 +281,7 @@ struct ProgramSplitView: View {
                 from: .showActivityDetail,
                 to: .showProgramSteps,
                 postBlock: {
-                    navig.selectedActivityId = nil
+                    navig.selectedActivityMngObjId = nil
                     navig.columnVisibility = .doubleColumn
                 }
             )
@@ -303,7 +306,7 @@ struct ProgramSplitView: View {
                 from: .showProgramSteps,
                 to: .showProgramSteps,
                 postBlock: {
-                    navig.selectedActivityId = nil
+                    navig.selectedActivityMngObjId = nil
 //                    navig.columnVisibility = .all
                 }
             )
@@ -315,8 +318,8 @@ struct ProgramSplitView: View {
             from: .showProgramSteps,
             to: .showNone,
             postBlock: {
-                navig.selectedSequenceId = nil
-                navig.selectedActivityId = nil
+                navig.selectedSequenceMngObjId = nil
+                navig.selectedActivityMngObjId = nil
                 navig.columnVisibility = .all
             }
         )
@@ -352,7 +355,7 @@ struct ProgramSplitView: View {
                 from: .showSequenceSteps,
                 to: .showSequenceSteps,
                 postBlock: {
-                    navig.selectedActivityId = nil
+                    navig.selectedActivityMngObjId = nil
                 }
             )
         sm.add(transition: transition41)
@@ -363,8 +366,8 @@ struct ProgramSplitView: View {
             from: .showSequenceSteps,
             to: .showNone,
             postBlock: {
-                navig.selectedSequenceId = nil
-                navig.selectedActivityId = nil
+                navig.selectedSequenceMngObjId = nil
+                navig.selectedActivityMngObjId = nil
                 navig.columnVisibility = .all
             }
         )

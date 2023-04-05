@@ -103,12 +103,6 @@ extension GroupEntity {
         self.id = UUID()
     }
 
-    static func byId(id: UUID) -> Self? {
-        all().first { object in
-            object.id == id
-        }
-    }
-
     @discardableResult
     static func create(
         numero: Int16,

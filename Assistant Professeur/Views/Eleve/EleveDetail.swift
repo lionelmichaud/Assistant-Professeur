@@ -94,7 +94,7 @@ struct EleveDetail: View {
                         // Programatic Navigation
                         navigationModel.selectedTab = .warning
                         navigationModel.selectedWarningType = .observation
-                        navigationModel.selectedObservId = observ.objectID
+                        navigationModel.selectedObservMngObjId = observ.objectID
                     }
 
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -102,8 +102,8 @@ struct EleveDetail: View {
                         Button(role: .destructive) {
                             withAnimation {
                                 try? observ.delete()
-                                if navigationModel.selectedObservId == observ.objectID {
-                                    navigationModel.selectedObservId = nil
+                                if navigationModel.selectedObservMngObjId == observ.objectID {
+                                    navigationModel.selectedObservMngObjId = nil
                                 }
                             }
                         } label: {
@@ -138,7 +138,7 @@ struct EleveDetail: View {
                         // Programatic Navigation
                         navigationModel.selectedTab = .warning
                         navigationModel.selectedWarningType = .colle
-                        navigationModel.selectedColleId = colle.objectID
+                        navigationModel.selectedColleMngObjId = colle.objectID
                     }
 
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -146,8 +146,8 @@ struct EleveDetail: View {
                         Button(role: .destructive) {
                             withAnimation {
                                 try? colle.delete()
-                                if navigationModel.selectedColleId == colle.objectID {
-                                    navigationModel.selectedColleId = nil
+                                if navigationModel.selectedColleMngObjId == colle.objectID {
+                                    navigationModel.selectedColleMngObjId = nil
                                 }
                             }
                         } label: {

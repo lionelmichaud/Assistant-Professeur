@@ -15,12 +15,12 @@ struct SchoolEditor: View {
     // MARK: - Computed Properties
 
     private var selectedSchoolId: NSManagedObjectID? {
-        navigationModel.selectedSchoolId
+        navigationModel.selectedSchoolMngObjId
     }
 
     private var selectedSchool: SchoolEntity? {
         guard let selectedSchoolId else { return nil }
-        return SchoolEntity.byObjectId(id: selectedSchoolId)
+        return SchoolEntity.byObjectId(MngObjID: selectedSchoolId)
     }
 
     private var selectedSchoolExists: Bool {

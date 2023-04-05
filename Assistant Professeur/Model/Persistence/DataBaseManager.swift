@@ -61,10 +61,12 @@ extension DataBaseError: CustomStringConvertible {
 
 typealias DataBaseErrorList = [DataBaseError]
 
+/// Gestion de la base de donnée Core Data
 enum DataBaseManager { // swiftlint:disable:this type_body_length
-    static func check(
-        errorList: inout DataBaseErrorList
-    ) {
+    /// Vérifier l'état de la base de données Core Data.
+    /// Les erreur éventuelles sont remontée sous forme de liste.
+    /// - Parameter errorList: Les des errerus éventuelles
+    static func check( errorList: inout DataBaseErrorList) {
         RoomEntity.checkConsistency(
             errorList: &errorList
         )
@@ -116,6 +118,8 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
         )
     }
 
+    /// Retourne `true` si la BDD Core Data est vide.
+    /// - Returns: `true` si la BDD Core Data est vide
     static func isEmpty() -> Bool {
         SchoolEntity.cardinal() == 0 &&
             DocumentEntity.cardinal() == 0 &&
@@ -137,7 +141,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             ActivityProgressEntity.cardinal() == 0
     }
 
-    /// Effacer tout le contenu de la base de donnée Core Data
+    /// Efface tout le contenu de la base de donnée Core Data
     /// - Parameter failed: true si l'opération à échouée
     static func clear(failed: inout Bool) {
         // Suppression des Etablissements
@@ -191,385 +195,382 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
         failed = failed || !isEmpty()
     }
 
-    /// Peupler la base de donnée apr!ès en avoir complètement effacé le contenu
-    static func populate(failed: inout Bool) {
-        // Effacer le contenu de la DB
-//        var isFailed = false
-//        clear(failed: &isFailed)
+    /// Peupler la base de donnée.
+    /// - Parameter failed: true si l'opération à échouée
+    static func populateWithMockData(storeType: StoreType) {
+        CoreDataManager.storeType = storeType
 
-        if !failed {
-            // Etablissement
-            let college = SchoolEntity.create(
-                name: "Caousou",
-                level: .college,
-                annotation: "Ceci est une annotation"
-            )
+        // Etablissement
+        let college = SchoolEntity.create(
+            name: "Un collège",
+            level: .college,
+            annotation: "Ceci est une annotation"
+        )
 
-            let lycee = SchoolEntity.create(
-                name: "Caousou",
-                level: .lycee,
-                annotation: "Ceci est une annotation 2"
-            )
+        let lycee = SchoolEntity.create(
+            name: "Un Lycée",
+            level: .lycee,
+            annotation: "Ceci est une annotation 2"
+        )
 
-            // Evenements
-            EventEntity.create(
-                dans: college,
-                withName: "Un événement important"
-            )
+        // Evenements
+        EventEntity.create(
+            dans: college,
+            withName: "Un événement important"
+        )
 
-            // Ressources
-            RessourceEntity.create(
-                dans: college,
-                withName: "Une ressource de l'établissement",
-                quantity: 2
-            )
+        // Ressources
+        RessourceEntity.create(
+            dans: college,
+            withName: "Une ressource de l'établissement",
+            quantity: 2
+        )
 
-            // Documents
-            DocumentEntity.create(
-                dans: college,
-                withData: nil,
-                withName: "Un document important"
-            )
+        // Documents
+        DocumentEntity.create(
+            dans: college,
+            withData: nil,
+            withName: "Un document important"
+        )
 
-            // Salles de classe
-            let roomForClasse5E1 = RoomEntity.create(
-                withName: "TECHNO-2",
-                withCapacity: 16,
-                dans: college
-            )
+        // Salles de classe
+        let roomForClasse5E1 = RoomEntity.create(
+            withName: "TECHNO-2",
+            withCapacity: 16,
+            dans: college
+        )
 
-            // Chaises de la salle de classe
-            let classe5E1TopLeftSeat = roomForClasse5E1
-                .addSeatToPlan(x: 0.25, y: 0.25)
-            let classe5E1BotRightSeat = roomForClasse5E1
-                .addSeatToPlan(x: 0.75, y: 0.75)
+        // Chaises de la salle de classe
+        let classe5E1TopLeftSeat = roomForClasse5E1
+            .addSeatToPlan(x: 0.25, y: 0.25)
+        let classe5E1BotRightSeat = roomForClasse5E1
+            .addSeatToPlan(x: 0.75, y: 0.75)
 
-            // Classes
-            let classe5E1 = ClasseEntity.create(
-                level: .n5ieme,
-                numero: 1,
-                segpa: true,
-                discipline: .technologie,
-                heures: 1.5,
-                isFlagged: true,
-                annotation: "Ceci est une annotation de classe",
-                appreciation: "Ceci est une appreciation de classe",
-                dans: college
-            )
-            classe5E1.setRoom(roomForClasse5E1)
+        // Classes
+        let classe5E1 = ClasseEntity.create(
+            level: .n5ieme,
+            numero: 1,
+            segpa: true,
+            discipline: .technologie,
+            heures: 1.5,
+            isFlagged: true,
+            annotation: "Ceci est une annotation de classe",
+            appreciation: "Ceci est une appreciation de classe",
+            dans: college
+        )
+        classe5E1.setRoom(roomForClasse5E1)
 
-            let classe3E2 = ClasseEntity.create(
-                level: .n3ieme,
-                numero: 2,
-                segpa: true,
-                discipline: .mathematiques,
-                heures: 4.0,
-                isFlagged: false,
-                annotation: "Ceci est une annotation de classe 2",
-                appreciation: "Ceci est une appreciation de classe 2",
-                dans: college
-            )
+        let classe3E2 = ClasseEntity.create(
+            level: .n3ieme,
+            numero: 2,
+            segpa: true,
+            discipline: .mathematiques,
+            heures: 4.0,
+            isFlagged: false,
+            annotation: "Ceci est une annotation de classe 2",
+            appreciation: "Ceci est une appreciation de classe 2",
+            dans: college
+        )
 
-            let classeTerm = ClasseEntity.create(
-                level: .n0terminale,
-                numero: 5,
-                segpa: false,
-                discipline: .snt,
-                heures: 1.5,
-                isFlagged: false,
-                annotation: "Ceci est une annotation de classe 3",
-                appreciation: "Ceci est une appreciation de classe 3",
-                dans: lycee
-            )
+        let classeTerm = ClasseEntity.create(
+            level: .n0terminale,
+            numero: 5,
+            segpa: false,
+            discipline: .snt,
+            heures: 1.5,
+            isFlagged: false,
+            annotation: "Ceci est une annotation de classe 3",
+            appreciation: "Ceci est une appreciation de classe 3",
+            dans: lycee
+        )
 
-            // Eleves
-            let eleve5E1_1 = EleveEntity.create(
-                familyName: "MICHAUD",
-                givenName: "Lionel",
-                sex: .male,
-                isFlagged: true,
-                trouble: .begaiement,
-                hasAddTime: true,
-                annotation: "Ceci est une annotation d'élève",
-                appreciation: "Ceci est une appreciation d'élève",
-                bonus: 2,
-                dans: classe5E1
-            )
-            eleve5E1_1.setSeat(classe5E1TopLeftSeat!)
+        // Eleves
+        let eleve5E1_1 = EleveEntity.create(
+            familyName: "SAINT-Truc de MICHAUD",
+            givenName: "Lionel",
+            sex: .male,
+            isFlagged: true,
+            trouble: .begaiement,
+            hasAddTime: true,
+            annotation: "Ceci est une annotation d'élève",
+            appreciation: "Ceci est une appreciation d'élève",
+            bonus: 2,
+            dans: classe5E1
+        )
+        eleve5E1_1.setSeat(classe5E1TopLeftSeat!)
 
-            let eleve5E1_2 = EleveEntity.create(
-                familyName: "DUPONT",
-                givenName: "Mathilde",
-                sex: .female,
-                isFlagged: false,
-                trouble: .none,
-                hasAddTime: true,
-                annotation: "Ceci est une annotation d'élève 2",
-                appreciation: "Ceci est une appreciation d'élève 2",
-                bonus: -2,
-                dans: classe5E1
-            )
-            eleve5E1_2.setSeat(classe5E1BotRightSeat!)
+        let eleve5E1_2 = EleveEntity.create(
+            familyName: "DUPONT",
+            givenName: "Mathilde",
+            sex: .female,
+            isFlagged: false,
+            trouble: .none,
+            hasAddTime: true,
+            annotation: "Ceci est une annotation d'élève 2",
+            appreciation: "Ceci est une appreciation d'élève 2",
+            bonus: -2,
+            dans: classe5E1
+        )
+        eleve5E1_2.setSeat(classe5E1BotRightSeat!)
 
-            let eleve5E1_3 = EleveEntity.create(
-                familyName: "GOBIN",
-                givenName: "Bertrans",
-                sex: .male,
-                isFlagged: false,
-                trouble: .none,
-                hasAddTime: false,
-                annotation: "Ceci est une annotation d'élève 3",
-                appreciation: "Ceci est une appreciation d'élève 3",
-                bonus: -2,
-                dans: classe5E1
-            )
+        let eleve5E1_3 = EleveEntity.create(
+            familyName: "GOBIN",
+            givenName: "Bertrans",
+            sex: .male,
+            isFlagged: false,
+            trouble: .none,
+            hasAddTime: false,
+            annotation: "Ceci est une annotation d'élève 3",
+            appreciation: "Ceci est une appreciation d'élève 3",
+            bonus: -2,
+            dans: classe5E1
+        )
 
-            let eleve3E2_3 = EleveEntity.create(
-                familyName: "BIDULE",
-                givenName: "Françine",
-                sex: .female,
-                isFlagged: false,
-                trouble: .none,
-                hasAddTime: false,
-                bonus: 0,
-                dans: classe3E2
-            )
+        let eleve3E2_3 = EleveEntity.create(
+            familyName: "BIDULE",
+            givenName: "Françine",
+            sex: .female,
+            isFlagged: false,
+            trouble: .none,
+            hasAddTime: false,
+            bonus: 0,
+            dans: classe3E2
+        )
 
-            let eleveTerm = EleveEntity.create(
-                familyName: "LEGENDRE",
-                givenName: "Frédérick",
-                sex: .male,
-                isFlagged: false,
-                trouble: .none,
-                hasAddTime: false,
-                bonus: 0,
-                dans: classeTerm
-            )
+        let eleveTerm = EleveEntity.create(
+            familyName: "LEGENDRE",
+            givenName: "Frédérick",
+            sex: .male,
+            isFlagged: false,
+            trouble: .none,
+            hasAddTime: false,
+            bonus: 0,
+            dans: classeTerm
+        )
 
-            // Examen
-            let globalExam = ExamEntity.createGlobalExam(
-                sujet: "Le sujet de l'évaluation Globale",
-                coef: 0.5,
-                maxMark: 10,
-                pour: classe5E1
-            )
+        // Examen
+        let globalExam = ExamEntity.createGlobalExam(
+            sujet: "Le sujet de l'évaluation Globale",
+            coef: 0.5,
+            maxMark: 10,
+            pour: classe5E1
+        )
 
-            // Examen
-            let setppedExam = ExamEntity.createSteppedExam(
-                sujet: "Le sujet de l'évaluation Échelonnée",
-                coef: 0.5,
-                examSteps: [
-                    ExamStep(name: "1.1", points: 1),
-                    ExamStep(name: "1.2", points: 2),
-                    ExamStep(name: "2.1", points: 3)
-                ],
-                pour: classe5E1
-            )
+        // Examen
+        let setppedExam = ExamEntity.createSteppedExam(
+            sujet: "Le sujet de l'évaluation Échelonnée",
+            coef: 0.5,
+            examSteps: [
+                ExamStep(name: "1.1", points: 1),
+                ExamStep(name: "1.2", points: 2),
+                ExamStep(name: "2.1", points: 3)
+            ],
+            pour: classe5E1
+        )
 
-            // Notes
-            globalExam.setGlobalMark(
-                of: eleve5E1_1,
-                markType: .absent
-            )
-            globalExam.setGlobalMark(
-                of: eleve5E1_2,
-                markType: .note,
-                mark: 6.5
-            )
+        // Notes
+        globalExam.setGlobalMark(
+            of: eleve5E1_1,
+            markType: .absent
+        )
+        globalExam.setGlobalMark(
+            of: eleve5E1_2,
+            markType: .note,
+            mark: 6.5
+        )
 
-            setppedExam.setSteppedMark(
-                of: eleve5E1_2,
-                markType: .nonRendu
-            )
-            setppedExam.setSteppedMark(
-                of: eleve5E1_3,
-                markType: .note,
-                marks: [0.5, 1.5, 2.5]
-            )
+        setppedExam.setSteppedMark(
+            of: eleve5E1_2,
+            markType: .nonRendu
+        )
+        setppedExam.setSteppedMark(
+            of: eleve5E1_3,
+            markType: .note,
+            marks: [0.5, 1.5, 2.5]
+        )
 
-            // Groupes
-            GroupManager.formOrderedGroups(
-                nbEleveParGroupe: 2,
-                dans: classe5E1
-            )
+        // Groupes
+        GroupManager.formOrderedGroups(
+            nbEleveParGroupe: 2,
+            dans: classe5E1
+        )
 
-            // Observations
-            ObservEntity.create(
-                pour: eleve5E1_1,
-                motifEnum: .autre,
-                descriptionMotif: "Comportement innacceptable",
-                isConsignee: true,
-                isVerified: false
-            )
-            ObservEntity.create(
-                pour: eleve5E1_2,
-                motifEnum: .bavardage,
-                descriptionMotif: "Trop de bavardages",
-                isConsignee: false,
-                isVerified: true
-            )
-            ObservEntity.create(
-                pour: eleve5E1_3,
-                motifEnum: .attitudeIndaptee,
-                descriptionMotif: "Description de l'attitude de l'élève",
-                isConsignee: true,
-                isVerified: true
-            )
+        // Observations
+        ObservEntity.create(
+            pour: eleve5E1_1,
+            motifEnum: .autre,
+            descriptionMotif: "Comportement innacceptable",
+            isConsignee: true,
+            isVerified: false
+        )
+        ObservEntity.create(
+            pour: eleve5E1_2,
+            motifEnum: .bavardage,
+            descriptionMotif: "Trop de bavardages",
+            isConsignee: false,
+            isVerified: true
+        )
+        ObservEntity.create(
+            pour: eleve5E1_3,
+            motifEnum: .attitudeIndaptee,
+            descriptionMotif: "Description de l'attitude de l'élève",
+            isConsignee: true,
+            isVerified: true
+        )
 
-            // Colles
-            ColleEntity.create(
-                pour: eleve5E1_1,
-                motifEnum: .autre,
-                descriptionMotif: "Comportement innacceptable",
-                isConsignee: false,
-                isVerified: false,
-                duree: 2
-            )
-            ColleEntity.create(
-                pour: eleve5E1_1,
-                motifEnum: .bavardage,
-                descriptionMotif: "Trop de bavardages",
-                isConsignee: true,
-                isVerified: false,
-                duree: 1
-            )
-            ColleEntity.create(
-                pour: eleve5E1_1,
-                motifEnum: .attitudeIndaptee,
-                descriptionMotif: "Description de l'attitude de l'élève",
-                isConsignee: true,
-                isVerified: true,
-                duree: 2
-            )
+        // Colles
+        ColleEntity.create(
+            pour: eleve5E1_1,
+            motifEnum: .autre,
+            descriptionMotif: "Comportement innacceptable",
+            isConsignee: false,
+            isVerified: false,
+            duree: 2
+        )
+        ColleEntity.create(
+            pour: eleve5E1_1,
+            motifEnum: .bavardage,
+            descriptionMotif: "Trop de bavardages",
+            isConsignee: true,
+            isVerified: false,
+            duree: 1
+        )
+        ColleEntity.create(
+            pour: eleve5E1_1,
+            motifEnum: .attitudeIndaptee,
+            descriptionMotif: "Description de l'attitude de l'élève",
+            isConsignee: true,
+            isVerified: true,
+            duree: 2
+        )
 
-            // Programmes
-            ProgramEntity.create(
-                discipline: .technologie,
-                level: .n6ieme,
-                segpa: false,
-                annotation: "Programme de technologie de classe de 6ième",
-                url: URL(string: "http://www.apple.com")
-            )
-            let progTechno5 = ProgramEntity.create(
-                discipline: .technologie,
-                level: .n5ieme,
-                segpa: true,
-                annotation: "Programme de technologie de classe de 5ième SEGPA"
-            )
-            let progSntTerm = ProgramEntity.create(
-                discipline: .snt,
-                level: .n0terminale,
-                segpa: false,
-                annotation: "Programme de SNT de classe de Terminale"
-            )
+        // Programmes
+        ProgramEntity.create(
+            discipline: .technologie,
+            level: .n6ieme,
+            segpa: false,
+            annotation: "Programme de technologie de classe de 6ième",
+            url: URL(string: "http://www.apple.com")
+        )
+        let progTechno5 = ProgramEntity.create(
+            discipline: .technologie,
+            level: .n5ieme,
+            segpa: true,
+            annotation: "Programme de technologie de classe de 5ième SEGPA"
+        )
+        let progSntTerm = ProgramEntity.create(
+            discipline: .snt,
+            level: .n0terminale,
+            segpa: false,
+            annotation: "Programme de SNT de classe de Terminale"
+        )
 
-            // Séquences
-            let progTechno5Seq1 = SequenceEntity.create(
-                name: "Séquence 1 du Programme de Technologie de 5ième",
-                annotation: "Une annotation de séquence 1",
-                url: URL(string: "http://www.google.com"),
-                dans: progTechno5
-            )
-            let progTechno5Seq2 = SequenceEntity.create(
-                name: "Séquence 2 du Programme de Technologie de 5ième",
-                annotation: "Une annotation de séquence 2",
-                dans: progTechno5
-            )
-            SequenceEntity.create(
-                name: "Séquence 3 du Programme de Technologie de 5ième",
-                annotation: "Une annotation de séquence 3",
-                dans: progTechno5
-            )
-            SequenceEntity.create(
-                name: "Séquence 4 du Programme de Technologie de 5ième",
-                annotation: "Une annotation de séquence 4",
-                dans: progTechno5
-            )
-            let progSntTermSeq1 = SequenceEntity.create(
-                name: "Séquence 1 du Programme de SNT",
-                annotation: "Une annotation de séquence 1 du Programme de SNT",
-                url: URL(string: "http://www.google.com"),
-                dans: progSntTerm
-            )
-            let progSntTermSeq2 = SequenceEntity.create(
-                name: "Séquence 2 du Programme de SNT",
-                annotation: "Une annotation de séquence 2 du Programme de SNT",
-                dans: progSntTerm
-            )
+        // Séquences
+        let progTechno5Seq1 = SequenceEntity.create(
+            name: "Séquence 1 du Programme de Technologie de 5ième",
+            annotation: "Une annotation de séquence 1",
+            url: URL(string: "http://www.google.com"),
+            dans: progTechno5
+        )
+        let progTechno5Seq2 = SequenceEntity.create(
+            name: "Séquence 2 du Programme de Technologie de 5ième",
+            annotation: "Une annotation de séquence 2",
+            dans: progTechno5
+        )
+        SequenceEntity.create(
+            name: "Séquence 3 du Programme de Technologie de 5ième",
+            annotation: "Une annotation de séquence 3",
+            dans: progTechno5
+        )
+        SequenceEntity.create(
+            name: "Séquence 4 du Programme de Technologie de 5ième",
+            annotation: "Une annotation de séquence 4",
+            dans: progTechno5
+        )
+        let progSntTermSeq1 = SequenceEntity.create(
+            name: "Séquence 1 du Programme de SNT",
+            annotation: "Une annotation de séquence 1 du Programme de SNT",
+            url: URL(string: "http://www.google.com"),
+            dans: progSntTerm
+        )
+        let progSntTermSeq2 = SequenceEntity.create(
+            name: "Séquence 2 du Programme de SNT",
+            annotation: "Une annotation de séquence 2 du Programme de SNT",
+            dans: progSntTerm
+        )
 
-            // Activités
-            ActivityEntity.create(
-                name: "Activité 1 de Séquence 1 de Techno",
-                annotation: "Une annotation d'activité 1",
-                url: URL(string: "http://apple.fr"),
-                duration: 1.0,
-                isEvalSommative: false,
-                isEvalFormative: false,
-                isTP: false,
-                isProject: false,
-                dans: progTechno5Seq1
-            )
-            ActivityEntity.create(
-                name: "Activité 2 de Séquence 1 de Techno",
-                annotation: "Une annotation d'activité 2",
-                duration: 2.0,
-                isEvalSommative: false,
-                isEvalFormative: true,
-                isTP: false,
-                isProject: true,
-                dans: progTechno5Seq1
-            )
-            ActivityEntity.create(
-                name: "Activité 3 de Séquence 1 de Techno",
-                annotation: "Une annotation d'activité 3",
-                duration: 1.0,
-                isEvalSommative: false,
-                isEvalFormative: true,
-                isTP: true,
-                isProject: true,
-                dans: progTechno5Seq1
-            )
-            ActivityEntity.create(
-                name: "Activité 4 de Séquence 1 de Techno",
-                annotation: "Une annotation d'activité 4",
-                duration: 1.0,
-                isEvalSommative: true,
-                isEvalFormative: false,
-                isTP: false,
-                isProject: false,
-                dans: progTechno5Seq1
-            )
-            ActivityEntity.create(
-                name: "Activité 1 de Séquence 2 de Techno",
-                annotation: "Une annotation d'activité 1",
-                duration: 3.0,
-                isEvalSommative: true,
-                isEvalFormative: false,
-                isTP: false,
-                isProject: false,
-                dans: progTechno5Seq2
-            )
-            ActivityEntity.create(
-                name: "Activité 1 de Séquence 2 de SNT Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno",
-                annotation: "Une annotation d'activité 1",
-                url: URL(string: "http://apple.fr"),
-                duration: 1.0,
-                isEvalSommative: false,
-                isEvalFormative: false,
-                isTP: false,
-                isProject: false,
-                dans: progSntTermSeq2
-            )
-            ActivityEntity.create(
-                name: "Activité 2 de Séquence 2 de SNT",
-                annotation: "Une annotation d'activité 2",
-                duration: 2.0,
-                isEvalSommative: false,
-                isEvalFormative: true,
-                isTP: false,
-                isProject: true,
-                dans: progSntTermSeq2
-            )
-        }
+        // Activités
+        ActivityEntity.create(
+            name: "Activité 1 de Séquence 1 de Techno",
+            annotation: "Une annotation d'activité 1",
+            url: URL(string: "http://apple.fr"),
+            duration: 1.0,
+            isEvalSommative: false,
+            isEvalFormative: false,
+            isTP: false,
+            isProject: false,
+            dans: progTechno5Seq1
+        )
+        ActivityEntity.create(
+            name: "Activité 2 de Séquence 1 de Techno",
+            annotation: "Une annotation d'activité 2",
+            duration: 2.0,
+            isEvalSommative: false,
+            isEvalFormative: true,
+            isTP: false,
+            isProject: true,
+            dans: progTechno5Seq1
+        )
+        ActivityEntity.create(
+            name: "Activité 3 de Séquence 1 de Techno",
+            annotation: "Une annotation d'activité 3",
+            duration: 1.0,
+            isEvalSommative: false,
+            isEvalFormative: true,
+            isTP: true,
+            isProject: true,
+            dans: progTechno5Seq1
+        )
+        ActivityEntity.create(
+            name: "Activité 4 de Séquence 1 de Techno",
+            annotation: "Une annotation d'activité 4",
+            duration: 1.0,
+            isEvalSommative: true,
+            isEvalFormative: false,
+            isTP: false,
+            isProject: false,
+            dans: progTechno5Seq1
+        )
+        ActivityEntity.create(
+            name: "Activité 1 de Séquence 2 de Techno",
+            annotation: "Une annotation d'activité 1",
+            duration: 3.0,
+            isEvalSommative: true,
+            isEvalFormative: false,
+            isTP: false,
+            isProject: false,
+            dans: progTechno5Seq2
+        )
+        ActivityEntity.create(
+            name: "Activité 1 de Séquence 2 de SNT Activité 1 de Séquence 1 de Techno Activité 1 de Séquence 1 de Techno",
+            annotation: "Une annotation d'activité 1",
+            url: URL(string: "http://apple.fr"),
+            duration: 1.0,
+            isEvalSommative: false,
+            isEvalFormative: false,
+            isTP: false,
+            isProject: false,
+            dans: progSntTermSeq2
+        )
+        ActivityEntity.create(
+            name: "Activité 2 de Séquence 2 de SNT",
+            annotation: "Une annotation d'activité 2",
+            duration: 2.0,
+            isEvalSommative: false,
+            isEvalFormative: true,
+            isTP: false,
+            isProject: true,
+            dans: progSntTermSeq2
+        )
     }
 }

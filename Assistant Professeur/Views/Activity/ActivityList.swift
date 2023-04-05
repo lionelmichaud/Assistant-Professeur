@@ -24,7 +24,7 @@ struct ActivityList: View {
     var body: some View {
         Section {
             if sequence.activitiesSortedByNumber.isNotEmpty {
-                List(selection: $navig.selectedActivityId) {
+                List(selection: $navig.selectedActivityMngObjId) {
                     ForEach(
                         sequence.filteredActivitiesSortedByNumber(searchString: searchString),
                         id: \.objectID
@@ -34,6 +34,11 @@ struct ActivityList: View {
                     .onMove(perform: moveItems)
                     .onDelete(perform: deleteItems)
                     .listRowSeparatorTint(.secondary)
+                    .emptyListPlaceHolder(sequence.filteredActivitiesSortedByNumber(searchString: searchString)) {
+                        EmptyListMessage(
+                            title: "Aucune activité trouvée."
+                        )
+                    }
                 }
                 .searchable(
                     text: $searchString,
@@ -43,15 +48,10 @@ struct ActivityList: View {
                 )
 
             } else {
-                GroupBox {
-                    Text("Aucune activité")
-                        .bold()
-                    Text("Les activités ajoutées apparaîtront ici.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .padding(.top, 2)
-                }
-                .verticallyAligned(.top)
+                EmptyListMessage(
+                    title: "Aucune acytivitée actuellement dans cette séquence.",
+                    message: "Les activitées ajoutées apparaîtront ici."
+                )
             }
         } header: {
             HStack {

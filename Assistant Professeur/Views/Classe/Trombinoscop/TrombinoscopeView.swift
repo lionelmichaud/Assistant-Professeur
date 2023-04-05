@@ -12,14 +12,24 @@ struct TrombinoscopeView: View {
     @ObservedObject
     var classe: ClasseEntity
 
-    private let smallColumns = [GridItem(.adaptive(minimum: 120, maximum: 200))]
-    private let largeColumns = [GridItem(.adaptive(minimum: 180, maximum: 300))]
+    private let smallColumns = [
+        GridItem(
+            .adaptive(minimum: 120, maximum: 200),
+            alignment: .top
+        )
+    ]
+    private let largeColumns = [
+        GridItem(
+            .adaptive(minimum: 180, maximum: 300),
+            alignment: .top
+        )
+    ]
 
     @Preference(\.nameDisplayOrder)
     private var nameDisplayOrder
 
-    let font       : Font        = .title3
-    let fontWeight : Font.Weight = .semibold
+    let font: Font = .title3
+    let fontWeight: Font.Weight = .semibold
 
     @State
     private var isShowingResetBonuConfirmDialog: Bool = false
@@ -32,18 +42,20 @@ struct TrombinoscopeView: View {
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
-            LazyVGrid(columns: pictureSize == "Small picture" ? smallColumns : largeColumns,
-                      spacing: 4) {
+            LazyVGrid(
+                columns: pictureSize == "Small picture" ? smallColumns : largeColumns,
+                spacing: 4
+            ) {
                 ForEach(classe.filteredElevesSortedByName(searchString: searchString)) { eleve in
-                    VStack {
+                    VStack(alignment: .center) {
                         TrombineInteractivView(eleve: eleve)
 
-                        /// Nom de l'élève
-                        Text(eleve.displayName2lines(nameDisplayOrder))
-                            .multilineTextAlignment(.center)
-                            .fontWeight(fontWeight)
-                            .elevNameStyling(hasTrouble: eleve.hasTrouble,
-                                             hasAddTime: eleve.hasAddTime)
+                        // Nom de l'élève
+                        EleveTextName(
+                            eleve: eleve,
+                            fontWeight: fontWeight
+                        )
+                        .multilineTextAlignment(.center)
                     }
                 }
             }
@@ -57,10 +69,12 @@ struct TrombinoscopeView: View {
                     Image(systemName: "eraser.fill")
                         .tint(.red)
                 }
-                /// Confirmation de Reset des Bonus / Malus de tous les élèves
-                .confirmationDialog("Effacement des Bonus / Malus",
-                                    isPresented: $isShowingResetBonuConfirmDialog,
-                                    titleVisibility : .visible) {
+                // Confirmation de Reset des Bonus / Malus de tous les élèves
+                .confirmationDialog(
+                    "Effacement des Bonus / Malus",
+                    isPresented: $isShowingResetBonuConfirmDialog,
+                    titleVisibility: .visible
+                ) {
                     Button("Effacer", role: .destructive) {
                         withAnimation {
                             resetBonusMalus()
@@ -84,10 +98,12 @@ struct TrombinoscopeView: View {
         .navigationTitle("Trombines \(classe.displayString) (\(classe.nbOfEleves))")
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .searchable(text: $searchString,
+        .searchable(
+            text: $searchString,
 //                    placement : .navigationBarDrawer(displayMode : .automatic),
-                    placement: .toolbar,
-                    prompt: "Nom, Prénom ou n° de groupe")
+            placement: .toolbar,
+            prompt: "Nom, Prénom ou n° de groupe"
+        )
         .autocorrectionDisabled()
     }
 
@@ -99,31 +115,27 @@ struct TrombinoscopeView: View {
     }
 }
 
-//struct TrombinoscopeView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TestEnvir.createFakes()
-//        return Group {
-//            NavigationStack {
-//                TrombinoscopeView(classe: .constant(TestEnvir.classeStore.items.first!))
-//                    .environmentObject(NavigationModel())
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPad mini (6th generation)")
-//
-//            NavigationStack {
-//                TrombinoscopeView(classe: .constant(TestEnvir.classeStore.items.first!))
-//                    .environmentObject(NavigationModel())
-//                    .environmentObject(TestEnvir.schoolStore)
-//                    .environmentObject(TestEnvir.classeStore)
-//                    .environmentObject(TestEnvir.eleveStore)
-//                    .environmentObject(TestEnvir.colleStore)
-//                    .environmentObject(TestEnvir.observStore)
-//            }
-//            .previewDevice("iPhone 13")
-//        }
-//    }
-//}
+ struct TrombinoscopeView_Previews: PreviewProvider {
+     static func initialize() {
+         DataBaseManager.populateWithMockData(storeType: .inMemory)
+     }
+
+    static var previews: some View {
+        initialize()
+        return Group {
+            NavigationStack {
+                TrombinoscopeView(classe: ClasseEntity.all().first!)
+                    .environmentObject(NavigationModel())
+                    .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            }
+            .previewDevice("iPad mini (6th generation)")
+
+            NavigationStack {
+                TrombinoscopeView(classe: ClasseEntity.all().first!)
+                    .environmentObject(NavigationModel())
+                    .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            }
+            .previewDevice("iPhone 13")
+        }
+    }
+ }

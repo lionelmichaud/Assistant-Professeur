@@ -5,49 +5,61 @@
 //  Created by Lionel MICHAUD on 02/05/2022.
 //
 
+import HelpersView
 import SwiftUI
 
 struct ColleSidebarView: View {
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
-    @State private var filterTodoColle = true
+    @State
+    private var filterTodoColle = true
 
     @FetchRequest<SchoolEntity>(
-        fetchRequest : SchoolEntity.requestAllSortedByLevelName,
-        animation    : .default
+        fetchRequest: SchoolEntity.requestAllSortedByLevelName,
+        animation: .default
     )
     private var schools: FetchedResults<SchoolEntity>
 
     var body: some View {
-        List(selection: $navigationModel.selectedColleId) {
+        List(selection: $navigationModel.selectedColleMngObjId) {
             if ColleEntity.all().isEmpty {
-                Text("Aucune colle actuellement")
+                EmptyListMessage(
+                    symbolName: "lock",
+                    title: "Aucune colle actuellement.",
+                    message: "Les colles ajoutées apparaîtront ici."
+                )
             } else {
-                /// pour chaque Etablissement
+                // pour chaque Etablissement
                 ForEach(schools) { school in
-                    if school.nbOfClasses != 0 {
-                        Section {
-                            /// pour chaque Classe
-                            ColleSidebarSchoolSubview(school: school,
-                                                      filterColle: filterTodoColle)
-                        } header: {
-                            Text(school.displayString)
-                                .foregroundColor(.primary)
-                                .fontWeight(.bold)
-                        }
-                    } else {
-                        Text("Aucune colle actuellement")
+                    Section {
+                        // pour chaque Classe
+                        ColleSidebarSchoolSubview(
+                            school: school,
+                            filterColle: filterTodoColle
+                        )
+                    } header: {
+                        Text(school.displayString)
+                            .foregroundColor(.primary)
+                            .fontWeight(.bold)
                     }
+                }
+                .emptyListPlaceHolder(schools) {
+                    EmptyListMessage(
+                        symbolName: "building",
+                        title: "Aucun établissement actuellement."
+                    )
                 }
             }
         }
         .toolbar {
             ToolbarItemGroup(placement: .status) {
-                Toggle(isOn: $filterTodoColle.animation(),
-                       label: {
-                    Text("A faire")
-                })
+                Toggle(
+                    isOn: $filterTodoColle.animation(),
+                    label: {
+                        Text("A faire")
+                    }
+                )
                 .toggleStyle(.button)
             }
         }
@@ -55,30 +67,30 @@ struct ColleSidebarView: View {
     }
 }
 
-struct ColleSidebarSchoolSubview : View {
+struct ColleSidebarSchoolSubview: View {
     @ObservedObject
     var school: SchoolEntity
 
-    var filterColle : Bool
+    var filterColle: Bool
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     var body: some View {
-        /// pour chaque Classe
+        // pour chaque Classe
         ForEach(school.classesSortedByLevelNumber) { classe in
             if someFilteredColles(dans: classe) {
                 DisclosureGroup {
-                    /// pour chaque Colle
+                    // pour chaque Colle
                     ForEach(filteredSortedColles(dans: classe), id: \.objectID) { colle in
                         ColleBrowserRow(colle: colle)
                             .swipeActions {
-                                // supprimer l'Colle
+                                // supprimer la Colle
                                 Button(role: .destructive) {
                                     withAnimation {
                                         try? colle.delete()
-                                        if navigationModel.selectedColleId == colle.objectID {
-                                            navigationModel.selectedColleId = nil
+                                        if navigationModel.selectedColleMngObjId == colle.objectID {
+                                            navigationModel.selectedColleMngObjId = nil
                                         }
                                     }
                                 } label: {
@@ -97,11 +109,18 @@ struct ColleSidebarSchoolSubview : View {
                 EmptyView()
             }
         }
+        .emptyListPlaceHolder(school.classesSortedByLevelNumber) {
+            EmptyListMessage(
+                symbolName: "person.3.sequence.fill",
+                title: "Aucune classe dans cet établissement actuellement.",
+                message: "Les classes ajoutées apparaîtront ici."
+            )
+        }
     }
 
     // MARK: - Methods
 
-    private func someFilteredColles(dans classe : ClasseEntity) -> Bool {
+    private func someFilteredColles(dans classe: ClasseEntity) -> Bool {
         classe.nbOfColles(isConsignee: filterColle ? false : nil) > 0
     }
 
@@ -110,7 +129,7 @@ struct ColleSidebarSchoolSubview : View {
     }
 }
 
-//struct ColleBrowserView_Previews: PreviewProvider {
+// struct ColleBrowserView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -123,4 +142,4 @@ struct ColleSidebarSchoolSubview : View {
 //                .environmentObject(TestEnvir.observStore)
 //        }
 //    }
-//}
+// }

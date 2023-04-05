@@ -6,50 +6,55 @@
 //
 
 import SwiftUI
+import HelpersView
 
 struct EleveSidebarView: View {
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     @State
     private var searchString: String = ""
-    //@Environment(\.isSearching) var isSearching
-    //@Environment(\.dismissSearch) var dismissSearch
+    // @Environment(\.isSearching) var isSearching
+    // @Environment(\.dismissSearch) var dismissSearch
 
     @FetchRequest<SchoolEntity>(
-        fetchRequest : SchoolEntity.requestAllSortedByLevelName,
-        animation    : .default
+        fetchRequest: SchoolEntity.requestAllSortedByLevelName,
+        animation: .default
     )
     private var schools: FetchedResults<SchoolEntity>
 
     var body: some View {
-        List(selection: $navigationModel.selectedEleveId) {
-            if EleveEntity.all().isEmpty {
-                Text("Aucun élève actuellement")
-            } else {
-                /// pour chaque Etablissement
-                ForEach(schools) { school in
-                    if school.nbOfClasses != 0 {
-                        Section {
-                            /// pour chaque Classe
-                            EleveSidebarSchoolSubview(school       : school,
-                                                      searchString : searchString)
-                        } header: {
-                            Text(school.displayString)
-                                .foregroundColor(.primary)
-                                .fontWeight(.bold)
-                        }
-                    } else {
-                        EmptyView()
+        List(selection: $navigationModel.selectedEleveMngObjId) {
+            // pour chaque Etablissement
+            ForEach(schools) { school in
+                if school.nbOfClasses != 0 {
+                    Section {
+                        // pour chaque Classe
+                        EleveSidebarSchoolSubview(
+                            school: school,
+                            searchString: searchString
+                        )
+                    } header: {
+                        Text(school.displayString)
+                            .foregroundColor(.primary)
+                            .fontWeight(.bold)
                     }
+                } else {
+                    EmptyView()
                 }
+            }
+            .emptyListPlaceHolder(schools) {
+                EmptyListMessage(
+                    symbolName: "building",
+                    title: "Aucun établissement actuellement."
+                )
             }
         }
         .searchable(
-            text      : $searchString,
+            text: $searchString,
 //            placement : .navigationBarDrawer(displayMode : .automatic),
-            placement : .toolbar,
-            prompt    : "Nom ou Prénom de l'élève"
+            placement: .toolbar,
+            prompt: "Nom ou Prénom de l'élève"
         )
         .autocorrectionDisabled()
         .toolbar {
@@ -57,24 +62,30 @@ struct EleveSidebarView: View {
                 Text("Filtrer")
                     .foregroundColor(.secondary)
                     .padding(.trailing, 4)
-                Toggle(isOn: $navigationModel.filterObservation.animation(),
-                       label: {
-                    Image(systemName: "magnifyingglass")
-                })
+                Toggle(
+                    isOn: $navigationModel.filterObservation.animation(),
+                    label: {
+                        Image(systemName: "magnifyingglass")
+                    }
+                )
                 .toggleStyle(.button)
                 .padding(.trailing, 4)
 
-                Toggle(isOn: $navigationModel.filterColle.animation(),
-                       label: {
-                    Image(systemName: "lock")
-                })
+                Toggle(
+                    isOn: $navigationModel.filterColle.animation(),
+                    label: {
+                        Image(systemName: "lock")
+                    }
+                )
                 .toggleStyle(.button)
                 .padding(.trailing, 4)
 
-                Toggle(isOn: $navigationModel.filterFlag.animation(),
-                       label: {
-                    Image(systemName: "flag")
-                })
+                Toggle(
+                    isOn: $navigationModel.filterFlag.animation(),
+                    label: {
+                        Image(systemName: "flag")
+                    }
+                )
                 .toggleStyle(.button)
             }
         }
@@ -82,33 +93,34 @@ struct EleveSidebarView: View {
     }
 }
 
-struct EleveSidebarSchoolSubview : View {
+struct EleveSidebarSchoolSubview: View {
     @ObservedObject
     var school: SchoolEntity
 
-    let searchString : String
+    let searchString: String
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     @State
     private var isClasseExpanded = true
 
+    private func eleveInClasse(_ classe: ClasseEntity) -> [EleveEntity] {
+        classe.filteredElevesSortedByName(
+            searchString: searchString,
+            filterObservation: navigationModel.filterObservation,
+            filterColle: navigationModel.filterColle,
+            filterFlag: navigationModel.filterFlag
+        )
+    }
+
     var body: some View {
-        /// pour chaque Classe
+        // pour chaque Classe
         ForEach(school.classesSortedByLevelNumber) { classe in
             if classe.nbOfEleves != 0 {
                 DisclosureGroup {
-                    /// pour chaque Elève
-                    ForEach(
-                        classe.filteredElevesSortedByName(
-                            searchString      : searchString,
-                            filterObservation : navigationModel.filterObservation,
-                            filterColle       : navigationModel.filterColle,
-                            filterFlag        : navigationModel.filterFlag
-                        ),
-                        id: \.objectID
-                    ) { eleve in
+                    // pour chaque Elève
+                    ForEach(eleveInClasse(classe), id: \.objectID) { eleve in
                         EleveBrowserRow(eleve: eleve)
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 // supprimer un élève
@@ -116,8 +128,8 @@ struct EleveSidebarSchoolSubview : View {
                                     withAnimation {
                                         // supprimer l'élève et tous ses descendants
                                         try? eleve.delete()
-                                        if navigationModel.selectedEleveId == eleve.objectID {
-                                            navigationModel.selectedEleveId = nil
+                                        if navigationModel.selectedEleveMngObjId == eleve.objectID {
+                                            navigationModel.selectedEleveMngObjId = nil
                                         }
                                     }
                                 } label: {
@@ -140,6 +152,7 @@ struct EleveSidebarSchoolSubview : View {
                                 }.tint(.orange)
                             }
                     }
+                    
                 } label: {
                     Text(classe.displayString)
                         .font(.callout)
@@ -148,13 +161,17 @@ struct EleveSidebarSchoolSubview : View {
                 }
                 .padding(.leading, 4)
             } else {
-                EmptyView()
+                EmptyListMessage(
+                    symbolName: "graduationcap",
+                    title: "Aucun élève actuellement.",
+                    message: "Les élèves ajoutés apparaîtront ici."
+                )
             }
         }
     }
 }
 
-//struct EleveBrowserView_Previews: PreviewProvider {
+// struct EleveBrowserView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -177,4 +194,4 @@ struct EleveSidebarSchoolSubview : View {
 //                .previewDevice("iPiPhone 13")
 //        }
 //    }
-//}
+// }

@@ -18,14 +18,14 @@ struct ActivityDetail: View {
     // MARK: - Computed Properties
 
     private var selectedActivityId: NSManagedObjectID? {
-        navig.selectedActivityId
+        navig.selectedActivityMngObjId
     }
 
     private var selectedActivity: ActivityEntity? {
         guard let selectedActivityId else {
             return nil
         }
-        return ActivityEntity.byObjectId(id: selectedActivityId)
+        return ActivityEntity.byObjectId(MngObjID: selectedActivityId)
     }
 
     private var selectedActivityExists: Bool {
@@ -34,6 +34,10 @@ struct ActivityDetail: View {
 
     private var selectedActivityNumber: String {
         selectedActivity?.viewNumber.formatted() ?? ""
+    }
+
+    private var selectedSequenceNumber: String {
+        selectedActivity?.sequence?.viewNumber.formatted() ?? ""
     }
 
     var body: some View {
@@ -62,7 +66,7 @@ struct ActivityDetail: View {
             }
         }
         #if os(iOS)
-        .navigationTitle("Activité " + selectedActivityNumber)
+        .navigationTitle("Séquence \(selectedSequenceNumber) - Activité " + selectedActivityNumber)
         #endif
         .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)

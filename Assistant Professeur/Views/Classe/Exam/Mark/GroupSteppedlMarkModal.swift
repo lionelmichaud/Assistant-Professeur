@@ -50,7 +50,10 @@ struct GroupSteppedlMarkModal: View {
     private var nameDisplayOrder
 
     private let fontWeight: Font.Weight = .regular
-    private let smallColumns = [GridItem(.adaptive(minimum: 80, maximum: 120))]
+    private let smallColumns = [GridItem(
+        .adaptive(minimum: 80, maximum: 120),
+        alignment: .top
+    )]
 
     @State
     private var selectedGroupeNb: Int = initialGroupNumber
@@ -110,14 +113,11 @@ struct GroupSteppedlMarkModal: View {
                     TrombineView(eleve: eleve)
 
                     // Nom de l'élève
-                    Text(eleve.displayName2lines(nameDisplayOrder))
-                        .multilineTextAlignment(.center)
-                        .fontWeight(fontWeight)
-                        .font(.body)
-                        .elevNameStyling(
-                            hasTrouble: eleve.hasTrouble,
-                            hasAddTime: eleve.hasAddTime
-                        )
+                    EleveTextName(
+                        eleve: eleve,
+                        fontWeight: fontWeight
+                    )
+                    .multilineTextAlignment(.center)
                 }
             }
         }

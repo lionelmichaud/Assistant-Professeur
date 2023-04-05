@@ -17,10 +17,10 @@ private let customLog = Logger(
 @main
 struct Assistant_ProfesseurApp: App {
     /// the managed object context for your Core Data container
-    let coreDataController = CoreDataManager.shared
+    let coreDataManager = CoreDataManager.shared
 
     var body: some Scene {
-        MainScene(coreDataController: coreDataController)
+        MainScene(coreDataManager: coreDataManager)
     }
 
     /// Vérifier l'existance du dossier `Documents`.

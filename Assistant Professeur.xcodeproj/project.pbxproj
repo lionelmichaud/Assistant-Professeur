@@ -180,6 +180,8 @@
 		79BF1DB72929105D005D6CF3 /* Event+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DB52929105D005D6CF3 /* Event+Extensions.swift */; };
 		79BF1DB929291069005D6CF3 /* Room+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DB829291069005D6CF3 /* Room+Extensions.swift */; };
 		79BF1DBA29291069005D6CF3 /* Room+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DB829291069005D6CF3 /* Room+Extensions.swift */; };
+		79C2E47029DC22C2008DF730 /* EleveTextName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C2E46F29DC22C2008DF730 /* EleveTextName.swift */; };
+		79CD363929D989C900BF5ADC /* EmptyListMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CD363829D989C900BF5ADC /* EmptyListMessage.swift */; };
 		79D573472927EEDE00B0B7B8 /* SchoolViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D573462927EEDE00B0B7B8 /* SchoolViewModel.swift */; };
 		79D573492927F16B00B0B7B8 /* LevelSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D573482927F16B00B0B7B8 /* LevelSchool.swift */; };
 		79D5734A2927F16B00B0B7B8 /* LevelSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D573482927F16B00B0B7B8 /* LevelSchool.swift */; };
@@ -251,7 +253,7 @@
 		79ED5AAA2998030A00D536BF /* Exam+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ED5AA92998030A00D536BF /* Exam+CoreDataClass.swift */; };
 		79ED5AAD2998100E00D536BF /* Mark+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ED5AAB2998100E00D536BF /* Mark+CoreDataClass.swift */; };
 		79EE3EA4296F6CF20075E9BD /* EleveTrombineStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE3EA3296F6CF20075E9BD /* EleveTrombineStyling.swift */; };
-		79F38D0829D747D9006C9B35 /* Palettes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F38D0729D747D9006C9B35 /* Palettes.swift */; };
+		79F38D0829D747D9006C9B35 /* ColorPalettes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F38D0729D747D9006C9B35 /* ColorPalettes.swift */; };
 		79F38D0A29D7495D006C9B35 /* GroupCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F38D0929D7495D006C9B35 /* GroupCapsule.swift */; };
 		79F38D0C29D74B17006C9B35 /* ClassCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F38D0B29D74B17006C9B35 /* ClassCapsule.swift */; };
 		79F41E592954903D00EAAC52 /* ClasseEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E572954903D00EAAC52 /* ClasseEditor.swift */; };
@@ -462,6 +464,8 @@
 		79BF1DB22929104F005D6CF3 /* Document+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Document+Extensions.swift"; sourceTree = "<group>"; };
 		79BF1DB52929105D005D6CF3 /* Event+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+Extensions.swift"; sourceTree = "<group>"; };
 		79BF1DB829291069005D6CF3 /* Room+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Room+Extensions.swift"; sourceTree = "<group>"; };
+		79C2E46F29DC22C2008DF730 /* EleveTextName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveTextName.swift; sourceTree = "<group>"; };
+		79CD363829D989C900BF5ADC /* EmptyListMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyListMessage.swift; sourceTree = "<group>"; };
 		79D573462927EEDE00B0B7B8 /* SchoolViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolViewModel.swift; sourceTree = "<group>"; };
 		79D573482927F16B00B0B7B8 /* LevelSchool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSchool.swift; sourceTree = "<group>"; };
 		79DEDAE8292585E300F508EF /* SchoolSplitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolSplitView.swift; sourceTree = "<group>"; };
@@ -509,7 +513,7 @@
 		79ED5AA92998030A00D536BF /* Exam+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Exam+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Classe/Exam/Exam+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		79ED5AAB2998100E00D536BF /* Mark+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mark+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79EE3EA3296F6CF20075E9BD /* EleveTrombineStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveTrombineStyling.swift; sourceTree = "<group>"; };
-		79F38D0729D747D9006C9B35 /* Palettes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Palettes.swift; sourceTree = "<group>"; };
+		79F38D0729D747D9006C9B35 /* ColorPalettes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalettes.swift; sourceTree = "<group>"; };
 		79F38D0929D7495D006C9B35 /* GroupCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCapsule.swift; sourceTree = "<group>"; };
 		79F38D0B29D74B17006C9B35 /* ClassCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassCapsule.swift; sourceTree = "<group>"; };
 		79F41E572954903D00EAAC52 /* ClasseEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseEditor.swift; sourceTree = "<group>"; };
@@ -702,7 +706,7 @@
 		79388A4D29256E92002AABB8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				79F38D0729D747D9006C9B35 /* Palettes.swift */,
+				79F38D0729D747D9006C9B35 /* ColorPalettes.swift */,
 				7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */,
 				79B6630629244C3F007B1FBD /* ContentView.swift */,
 				79DEDB06292593C200F508EF /* PreferencesViews */,
@@ -718,6 +722,7 @@
 				79975314297B146600D1C66E /* Program */,
 				796371FD297D574B00ECDBC3 /* Sequence */,
 				79637206297D879100ECDBC3 /* Activity */,
+				79CD363829D989C900BF5ADC /* EmptyListMessage.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -972,17 +977,17 @@
 		79B6630329244C3F007B1FBD /* Assistant Professeur */ = {
 			isa = PBXGroup;
 			children = (
+				79B6630829244C3F007B1FBD /* Assets.xcassets */,
+				79A8E7BB29AECE1B006D0EAA /* Images.xcassets */,
 				79135E1C296B0D7800F95694 /* Assistant-Professeur-Info.plist */,
+				79B6630A29244C3F007B1FBD /* Assistant_Professeur.entitlements */,
+				79B6632F29244FC9007B1FBD /* AppModel.xcdatamodeld */,
 				79135E0B2969E14C00F95694 /* AppData */,
 				79B6630429244C3F007B1FBD /* Assistant_ProfesseurApp.swift */,
 				79388A4829256E13002AABB8 /* MainScene.swift */,
 				79388A4C29256E7D002AABB8 /* Model */,
 				79388A4D29256E92002AABB8 /* Views */,
-				79B6630829244C3F007B1FBD /* Assets.xcassets */,
-				79A8E7BB29AECE1B006D0EAA /* Images.xcassets */,
-				79B6630A29244C3F007B1FBD /* Assistant_Professeur.entitlements */,
 				79B6630B29244C3F007B1FBD /* Preview Content */,
-				79B6632F29244FC9007B1FBD /* AppModel.xcdatamodeld */,
 			);
 			path = "Assistant Professeur";
 			sourceTree = "<group>";
@@ -1145,6 +1150,7 @@
 				79ECF1F62959F6CA008F0282 /* EleveColleLabel.swift */,
 				79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */,
 				798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */,
+				79C2E46F29DC22C2008DF730 /* EleveTextName.swift */,
 			);
 			path = Eleve;
 			sourceTree = "<group>";
@@ -1436,7 +1442,7 @@
 				7937A2442986AD9100D0ED59 /* CloudKitViewModel.swift in Sources */,
 				7997531E297C3D5B00D1C66E /* ProgramCreatorModal.swift in Sources */,
 				7963720C297DA37E00ECDBC3 /* ActivityBrowserRow.swift in Sources */,
-				79F38D0829D747D9006C9B35 /* Palettes.swift in Sources */,
+				79F38D0829D747D9006C9B35 /* ColorPalettes.swift in Sources */,
 				79ED5AAA2998030A00D536BF /* Exam+CoreDataClass.swift in Sources */,
 				795C2C20296E24E900EDFF09 /* Seat+Extensions.swift in Sources */,
 				79DEDB17292593C200F508EF /* SettingsSchool.swift in Sources */,
@@ -1464,6 +1470,7 @@
 				79398D31296616250013564D /* ExamCreatorModal.swift in Sources */,
 				79ECF206295A16E2008F0282 /* EleveColleRow.swift in Sources */,
 				79BA2D48299C0084006325CC /* JsonImportExportMng.swift in Sources */,
+				79CD363929D989C900BF5ADC /* EmptyListMessage.swift in Sources */,
 				79975322297C4AEF00D1C66E /* ProgramBrowserRow.swift in Sources */,
 				7989B4D329A2733D00383F84 /* ClassActivityProgressView.swift in Sources */,
 				7989B4D729A276F400383F84 /* ActivityProgressSlider.swift in Sources */,
@@ -1505,6 +1512,7 @@
 				79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */,
 				795C2C2E296E2DCA00EDFF09 /* RoomEditor.swift in Sources */,
 				793D6276295DD9E600477932 /* ObservNotifIcon.swift in Sources */,
+				79C2E47029DC22C2008DF730 /* EleveTextName.swift in Sources */,
 				793D6273295DD96600477932 /* ObservBrowserRow.swift in Sources */,
 				79FBB4D72991C2CC00B47484 /* Classe+CoreDataClass.swift in Sources */,
 				796A242329A137E7009B2A6C /* ActivityClassProgressView.swift in Sources */,

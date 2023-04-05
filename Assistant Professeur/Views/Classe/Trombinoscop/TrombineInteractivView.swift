@@ -27,7 +27,7 @@ struct TrombineInteractivView: View {
             Button {
                 // Programatic Navigation
                 navigationModel.selectedTab = .eleve
-                navigationModel.selectedEleveId = eleve.objectID
+                navigationModel.selectedEleveMngObjId = eleve.objectID
             } label: {
                 Label("Fiche élève", systemImage: "info.circle")
             }

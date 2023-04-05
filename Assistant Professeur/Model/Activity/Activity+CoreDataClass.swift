@@ -17,6 +17,7 @@ private let customLog = Logger(
 
 @objc(ActivityEntity)
 public final class ActivityEntity: NSManagedObject, Codable, ModelEntityP {
+
     enum CodingKeys: CodingKey {
         case id, isEval, isEvalFormative, isProject, isTP
         case annotation, duration, name, number, url
@@ -25,7 +26,7 @@ public final class ActivityEntity: NSManagedObject, Codable, ModelEntityP {
 
     /// Conformance to Decodable
     public required convenience init(from decoder: Decoder) throws {
-        self.init(context: Self.viewContext)
+        self.init(context: Self.context)
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)

@@ -11,7 +11,7 @@ import SwiftUI
 struct MainScene: Scene {
     /// object that you want to use throughout your views and that will be specific to each scene
     /// @StateObject private var uiState = UIState()
-    let coreDataController: CoreDataManager
+    let coreDataManager: CoreDataManager
 
     // MARK: - Environment Properties
 
@@ -24,7 +24,7 @@ struct MainScene: Scene {
         WindowGroup {
             // defines the views hierachy of the scene
             ContentView()
-                .environment(\.managedObjectContext, coreDataController.viewContext)
+                .environment(\.managedObjectContext, coreDataManager.context)
             #if os(macOS)
                 .frame(minWidth: 800, minHeight: 600)
             #endif
@@ -47,7 +47,7 @@ struct MainScene: Scene {
 
                 case .background:
                     // Expect an app that enters the background phase to terminate.
-                    try? coreDataController.saveIfContextHasChanged()
+                    try? coreDataManager.saveIfContextHasChanged()
                     //                    print("Scene Phase = .background")
 
                 @unknown default:
