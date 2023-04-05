@@ -480,9 +480,10 @@ extension EleveEntity {
         }
     }
 
-    /// Créer un nouvel élève et l'ajouter à la `classe`
+    /// Créer un nouvel élève et l'ajouter à la `classe`.
+    /// Sauvegarder le Context.
     ///
-    /// Ajouter une note pour chaque évaluation de la classe
+    /// Ajouter une note pour chaque évaluation de la classe.
     /// - Parameters:
     ///   - familyName: Nom de famille
     ///   - givenName: Prénom

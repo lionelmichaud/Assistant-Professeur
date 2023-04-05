@@ -13,8 +13,33 @@ import SwiftUI
 final class NavigationModel: ObservableObject, Codable {
     // MARK: - Embeded Types
 
-    enum Tab: Int, Hashable, Codable {
-        case userSettings, school, classe, eleve, warning, program, competence
+    enum TabSelection: String, Hashable, Codable {
+        case userSettings = "Réglages"
+        case school = "Etablissement"
+        case classe = "Classes"
+        case eleve = "Elèves"
+        case warning = "Avertissements"
+        case program = "Programmes"
+        case competence = "Compétences"
+
+        var imageName: String {
+            switch self {
+                case .userSettings:
+                    return ""
+                case .school:
+                    return "building.2"
+                case .classe:
+                    return "person.3.sequence"
+                case .eleve:
+                    return "graduationcap"
+                case .warning:
+                    return "hand.raised"
+                case .program:
+                    return "books.vertical"
+                case .competence:
+                    return ""
+            }
+        }
     }
 
     enum WarningSelection: String, Hashable, Codable, CaseIterable {
@@ -51,7 +76,7 @@ final class NavigationModel: ObservableObject, Codable {
     @Published
     var columnVisibility: NavigationSplitViewVisibility
     @Published
-    var selectedTab: Tab
+    var selectedTab: TabSelection
     @Published
     var selectedWarningType: WarningSelection?
     @Published
@@ -87,13 +112,18 @@ final class NavigationModel: ObservableObject, Codable {
     // MARK: - Computed Properties
 
     var jsonData: Data? {
-        get { try? encoder.encode(self) }
+        get {
+            // retourne l'état de navigation encodé JSON
+            try? encoder.encode(self)
+        }
         set {
+            // décode l'état de navigation à partir des données fournies au format JSON
             guard let data = newValue,
                   let model = try? decoder.decode(Self.self, from: data)
             else {
                 return
             }
+            // initialize l'état de navigation en conséquence
             columnVisibility = model.columnVisibility
             selectedProgramId = model.selectedProgramId
             selectedSequenceId = model.selectedSequenceId
@@ -121,8 +151,8 @@ final class NavigationModel: ObservableObject, Codable {
 
     init(
         columnVisibility: NavigationSplitViewVisibility = .all,
-        selectedTab: Tab = .school,
-        selectedWarningType: WarningSelection = .observation,
+        selectedTab: TabSelection = .school,
+        selectedWarningType: WarningSelection? = nil,
         selectedProgramId: NSManagedObjectID? = nil,
         selectedSequenceId: NSManagedObjectID? = nil,
         selectedActivityId: NSManagedObjectID? = nil,
@@ -136,7 +166,7 @@ final class NavigationModel: ObservableObject, Codable {
         filterFlag: Bool = false
     ) {
         #if DEBUG
-            print("NavigationModel() initialization has started")
+            print(">> NavigationModel() initialization has started")
         #endif
         self.columnVisibility = columnVisibility
         self.selectedTab = selectedTab
@@ -153,14 +183,14 @@ final class NavigationModel: ObservableObject, Codable {
         self.filterColle = filterColle
         self.filterFlag = filterFlag
         #if DEBUG
-            print("NavigationModel() initialization has completed")
+            print(">> NavigationModel() initialization has completed")
         #endif
     }
 
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.selectedTab = try container.decode(
-            NavigationModel.Tab.self, forKey: .selectedTab
+            NavigationModel.TabSelection.self, forKey: .selectedTab
         )
         self.selectedWarningType = try container.decodeIfPresent(
             NavigationModel.WarningSelection.self, forKey: .selectedWarningType

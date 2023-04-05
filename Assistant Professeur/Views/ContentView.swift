@@ -36,36 +36,61 @@ struct ContentView: View {
         TabView(selection: $navigationModel.selectedTab) {
             // Les établissements scolaires
             SchoolSplitView()
-                .tabItem { Label("Etablissement", systemImage: "building.2").symbolVariant(.none) }
-                .tag(NavigationModel.Tab.school)
+                .tabItem {
+                    Label(
+                        NavigationModel.TabSelection.school.rawValue,
+                        systemImage: NavigationModel.TabSelection.school.imageName
+                    ).symbolVariant(.none)
+                }
+                .tag(NavigationModel.TabSelection.school)
                 .badge(SchoolEntity.cardinal())
                 // passer les infos CloudKit pour les Infos
                 .environmentObject(cloudKitVM)
 
             // Les classes
             ClasseSplitView()
-                .tabItem { Label("Classes", systemImage: "person.3.sequence").symbolVariant(.none) }
-                .tag(NavigationModel.Tab.classe)
+                .tabItem {
+                    Label(
+                        NavigationModel.TabSelection.classe.rawValue,
+                        systemImage: NavigationModel.TabSelection.classe.imageName
+                    ).symbolVariant(.none)
+                }
+                .tag(NavigationModel.TabSelection.classe)
                 .badge(ClasseEntity.cardinal())
 
             // Les élèves
             EleveSplitView()
-                .tabItem { Label("Elèves", systemImage: "graduationcap").symbolVariant(.none) }
-                .tag(NavigationModel.Tab.eleve)
+                .tabItem {
+                    Label(
+                        NavigationModel.TabSelection.eleve.rawValue,
+                        systemImage: NavigationModel.TabSelection.eleve.imageName
+                    ).symbolVariant(.none)
+                }
+                .tag(NavigationModel.TabSelection.eleve)
                 .badge(EleveEntity.cardinal())
 
             // Les observations données aux élèves
             // Les colles données aux élèves
             WarningSpliView()
-                .tabItem { Label("Avertissements", systemImage: "hand.raised").symbolVariant(.none) }
-                .tag(NavigationModel.Tab.warning)
+                .tabItem {
+                    Label(
+                        NavigationModel.TabSelection.warning.rawValue,
+                        systemImage: NavigationModel.TabSelection.warning.imageName
+                    ).symbolVariant(.none)
+                }
+                .tag(NavigationModel.TabSelection.warning)
                 .badge(ObservEntity.cardinal() + ColleEntity.cardinal())
 
 //            if isPad() || isMac() {
             // Les programmes scolaires
             ProgramSplitView(navig: navigationModel)
-                .tabItem { Label("Programmes", systemImage: "books.vertical").symbolVariant(.none) }
-                .tag(NavigationModel.Tab.program)
+                .tabItem {
+                    Label(
+                        NavigationModel.TabSelection.program.rawValue,
+                        systemImage: NavigationModel.TabSelection.program.imageName
+                    ).symbolVariant(.none)
+                }
+                .tag(NavigationModel.TabSelection.program)
                 .badge(ProgramEntity.cardinal())
 //            }
         }
@@ -114,10 +139,12 @@ struct ContentView: View {
 
         // Asynchronous initializaing of the View
         .task {
-            // décoder le dernier status de navigation dans l'App
             if let navigationData {
+                // Remplacer l'état de navigation initial par celui récupéré à partir
+                // du décodage de l'état antérieur de navigation stocké dans SceneStorage
                 navigationModel.jsonData = navigationData
             }
+            // Encoder l'état de navigation (qui vient de changer) dans SceneStorage
             for await _ in navigationModel.objectWillChangeSequence {
                 navigationData = navigationModel.jsonData
             }
