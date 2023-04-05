@@ -16,7 +16,8 @@ private let customLog = Logger(
 )
 
 enum StoreType {
-    case inMemory, persisted
+    case inMemory
+    case persisted
 }
 
 /// Class to hold all the Persistence methods
@@ -31,56 +32,94 @@ class CoreDataManager {
 
     static var storeType: StoreType = .persisted
 
+    static var managedObjectModel: NSManagedObjectModel = {
+        let bundle = Bundle(for: CoreDataManager.self)
+
+        guard let url = bundle.url(
+            forResource: modelName,
+            withExtension: "momd"
+        ) else {
+            fatalError("Failed to locate momd file for \(modelName)")
+        }
+
+        guard let model = NSManagedObjectModel(contentsOf: url) else {
+            fatalError("Failed to load momd file for \(modelName)")
+        }
+
+        return model
+    }()
+
     // MARK: - Stored Poperties
 
-    /// Persitent storage for Core Data synchronized with CloudKit
-    private var persistentCloudKitContainer: NSPersistentCloudKitContainer
-
-    /// In memory storage for Previews and Tests Core Data
-    private var inMemoryContainer: NSPersistentContainer
-
-    // MARK: - Computed Properties
-
-    /// The main queue’s managed object context for View only
-    var viewContext: NSManagedObjectContext {
-        return persistentCloudKitContainer.viewContext
-    }
-
-    /// The main queue’s managed object context for Previews and Tests only
-    var previewContext: NSManagedObjectContext {
-        return inMemoryContainer.viewContext
-    }
-
+    /// The main queue’s managed object context.
+    ///
+    /// Which context is returned depends on the value of the attribute `storeType`:
+    ///  - either for Views
+    ///  - or for Previews and Tests
     var context: NSManagedObjectContext {
         switch CoreDataManager.storeType {
             case .inMemory:
-                return previewContext
+                #if DEBUG
+                    return previewContext
+                #else
+                    fatalError()
+                #endif
 
             case .persisted:
                 return viewContext
         }
     }
 
+    /// Persitent storage for Core Data synchronized with CloudKit
+    private var persistentCloudKitContainer: NSPersistentCloudKitContainer
+
+    #if DEBUG
+        /// In memory storage for Previews and Tests Core Data
+        private var inMemoryContainer: NSPersistentContainer
+    #endif
+
+    // MARK: - Computed Properties
+
+    /// The main queue’s managed object context for Views only
+    private var viewContext: NSManagedObjectContext {
+        return persistentCloudKitContainer.viewContext
+    }
+
+    #if DEBUG
+        /// The main queue’s managed object context for Previews and Tests only
+        private var previewContext: NSManagedObjectContext {
+            return inMemoryContainer.viewContext
+        }
+    #endif
+
     // MARK: - Initilializer
 
-    /// An initializer to create containers and load Core Data
+    /// An initializer to create containers and load Core Data.
     private init() {
-        // ---------------------------------------------
-
         #if DEBUG
             print(">> CoreDataManager.init() initialization has started")
         #endif
 
-        // Register value transformers
-        //        ValueTransformer.setValueTransformer(
-        //            ExamStepsTransformer(),
-        //            forName: .examStepsTransformer
-        //        )
+        #if DEBUG
+            inMemoryContainer =
+                NSPersistentContainer(
+                    name: CoreDataManager.modelName,
+                    managedObjectModel: Self.managedObjectModel
+                )
+        #endif
 
-        inMemoryContainer = NSPersistentContainer(name: CoreDataManager.modelName)
-        persistentCloudKitContainer = NSPersistentCloudKitContainer(name: CoreDataManager.modelName)
+        persistentCloudKitContainer =
+            NSPersistentCloudKitContainer(
+                name: CoreDataManager.modelName,
+                managedObjectModel: Self.managedObjectModel
+            )
 
-        initializeInMemoryContainer()
+        initializeTransformers()
+
+        #if DEBUG
+            initializeInMemoryContainer()
+        #endif
+
         initializePersitentContainer()
 
         // Debug build configuration.
@@ -89,11 +128,28 @@ class CoreDataManager {
         #endif
     }
 
-    private func initializeInMemoryContainer() {
-        inMemoryContainer.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
-        inMemoryContainer.loadPersistentStores { _, _ in }
+    /// Initialization of the transformers used on the CoreData entities.
+    func initializeTransformers() {
+        // Register value transformers
+        //        ValueTransformer.setValueTransformer(
+        //            ExamStepsTransformer(),
+        //            forName: .examStepsTransformer
+        //        )
     }
 
+    #if DEBUG
+        /// Initialization of the 'in memory' Container for Previews and Tests.
+        ///
+        /// Shall be done in development build only.
+        private func initializeInMemoryContainer() {
+            inMemoryContainer.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+            inMemoryContainer.loadPersistentStores { _, _ in }
+        }
+    #endif
+
+    /// Initialization of the 'persitent' Container for Views.
+    ///
+    /// This container is synchronized with CloudKit.
     private func initializePersitentContainer() {
         // set History Tracking
         persistentCloudKitContainer
@@ -126,10 +182,14 @@ class CoreDataManager {
         // Debug build configuration.
         #if DEBUG
             // LIGNE À DESACTIVER sous la cible "My Mac (Designed for iPad)"
-             initializeCloudKitSchema()
+            // initializeCloudKitSchema()
         #endif
     }
 
+    /// Initialization of the the CloudKit Schema from the App Schema.
+    ///
+    /// Shall be done in development build only.
+    /// - Warning: Shall NOT BE DONE on MacOs (crashes).
     private func initializeCloudKitSchema() {
         do {
             // Use the container to initialize the development schema.
