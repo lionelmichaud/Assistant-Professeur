@@ -175,8 +175,13 @@ struct ContentView_Previews: PreviewProvider {
 
     static var previews: some View {
         initialize()
-        return ContentView()
-            .environment(\.managedObjectContext, CoreDataManager.shared.context)
-            .previewDevice("iPad mini (6th generation)")
+        return Group {
+            ContentView()
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+            ContentView()
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
     }
 }
