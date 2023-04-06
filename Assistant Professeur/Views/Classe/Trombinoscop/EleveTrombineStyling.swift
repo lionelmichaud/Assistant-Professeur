@@ -42,5 +42,10 @@ struct Trombine: View {
         eleve.viewImageTrombine
             .resizable()
             .elevTrombineStyling()
+            .dropDestination(for: Data.self) { items, _ in
+                guard let item = items.first else { return false }
+                eleve.trombine = item
+                return true
+            }
     }
 }
