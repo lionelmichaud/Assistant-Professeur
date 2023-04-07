@@ -46,7 +46,7 @@ struct ExamListView: View {
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             offsets
-                .map { classe.allExams[$0] }
+                .map { classe.examsSortedByDate[$0] }
                 .forEach(managedObjectContext.delete)
 
             try? ExamEntity.saveIfContextHasChanged()
