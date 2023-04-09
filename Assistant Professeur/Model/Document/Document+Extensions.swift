@@ -74,6 +74,13 @@ extension DocumentEntity {
     // MARK: - Type Methods
 
     @discardableResult
+    /// Créer et ajouter un nouveau document PDF à l'établissement.
+    /// - Parameters:
+    ///   - school: établissement
+    ///   - data: contenu du document PDF
+    ///   - name: nom du document
+    /// - Returns: Document créé.
+    /// - Important: *Saves the context to the store after modification is done*
     static func create(
         dans school: SchoolEntity,
         withData data: Data?,
@@ -95,6 +102,13 @@ extension DocumentEntity {
     }
 
     @discardableResult
+    /// Créer et ajouter un nouveau document PDF au programme scolaire.
+    /// - Parameters:
+    ///   - program: programme scolaire
+    ///   - data: contenu du document PDF
+    ///   - name: nom du document
+    /// - Returns: Document créé.
+    /// - Important: *Does NOT save the context to the store after modification is done*
     static func create(
         forProgram program: ProgramEntity,
         withData data: Data?,
@@ -110,12 +124,19 @@ extension DocumentEntity {
         }
         doc.docName = name
 
-        try? ProgramEntity.saveIfContextHasChanged()
+//        try? ProgramEntity.saveIfContextHasChanged()
 
         return doc
     }
 
     @discardableResult
+    /// Créer et ajouter un nouveau document PDF à la séquence pédagogique.
+    /// - Parameters:
+    ///   - sequence: séquence pédagogique
+    ///   - data: contenu du document PDF
+    ///   - name: nom du document
+    /// - Returns: Document créé.
+    /// - Important: *Does NOT save the context to the store after modification is done*
     static func create(
         forSequence sequence: SequenceEntity,
         withData data: Data?,
@@ -131,12 +152,19 @@ extension DocumentEntity {
         }
         doc.docName = name
 
-        try? SequenceEntity.saveIfContextHasChanged()
+//        try? SequenceEntity.saveIfContextHasChanged()
 
         return doc
     }
 
     @discardableResult
+    /// Créer et ajouter un nouveau document PDF à l'activité pédagogique.
+    /// - Parameters:
+    ///   - activity: activité pédagogique
+    ///   - data: contenu du document PDF
+    ///   - name: nom du document
+    /// - Returns: Document créé.
+    /// - Important: *Does NOT save the context to the store after modification is done*
     static func create(
         forActivity activity: ActivityEntity,
         withData data: Data?,
@@ -152,7 +180,7 @@ extension DocumentEntity {
         }
         doc.docName = name
 
-        try? SequenceEntity.saveIfContextHasChanged()
+//        try? ActivityEntity.saveIfContextHasChanged()
 
         return doc
     }

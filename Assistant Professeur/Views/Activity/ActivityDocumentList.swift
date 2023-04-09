@@ -9,6 +9,7 @@ import Files
 import HelpersView
 import os
 import SwiftUI
+import PDFKit
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -50,6 +51,21 @@ struct ActivityDocumentList: View {
                 }
             }
             .buttonStyle(.borderless)
+            .dropDestination(for: Data.self) { items, _ in
+                guard let item = items.first else {
+                    return false
+                }
+                if PDFDocument(data: item) != nil {
+                    DocumentEntity.create(
+                        forActivity: activity,
+                        withData: item,
+                        withName: "Nouveau document"
+                    )
+                    return true
+                } else {
+                    return false
+                }
+            }
             // Importer des fichiers PDF
             .fileImporter(
                 isPresented: $isImportingPdfFile,

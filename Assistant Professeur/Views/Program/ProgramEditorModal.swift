@@ -6,6 +6,7 @@
 //
 
 import HelpersView
+import PDFKit
 import SwiftUI
 
 struct ProgramEditorModal: View {
@@ -96,6 +97,21 @@ struct ProgramEditorModal: View {
                     }
                 }
                 .buttonStyle(.borderless)
+                .dropDestination(for: Data.self) { items, _ in
+                    guard let item = items.first else {
+                        return false
+                    }
+                    if PDFDocument(data: item) != nil {
+                        DocumentEntity.create(
+                            forProgram: program,
+                            withData: item,
+                            withName: "Nouveau document"
+                        )
+                        return true
+                    } else {
+                        return false
+                    }
+                }
             }
 
             WebsiteEditView(website: $program.url)
@@ -205,24 +221,24 @@ extension ProgramEditorModal {
     }
 }
 
- struct ProgramEditor_Previews: PreviewProvider {
-     static func initialize() {
-         DataBaseManager.populateWithMockData(storeType: .inMemory)
-     }
+struct ProgramEditor_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
 
-     static var previews: some View {
-         initialize()
-         return Group {
-             ProgramEditorModal(program: ProgramEntity.all().first!)
-                 .padding()
-                 .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
-                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
-                 .previewDevice("iPad mini (6th generation)")
-             ProgramEditorModal(program: ProgramEntity.all().first!)
-                 .padding()
-                 .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
-                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
-                 .previewDevice("iPhone 13")
-         }
-     }
- }
+    static var previews: some View {
+        initialize()
+        return Group {
+            ProgramEditorModal(program: ProgramEntity.all().first!)
+                .padding()
+                .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+            ProgramEditorModal(program: ProgramEntity.all().first!)
+                .padding()
+                .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

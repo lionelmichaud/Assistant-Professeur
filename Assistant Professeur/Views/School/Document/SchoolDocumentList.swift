@@ -8,6 +8,7 @@
 import Files
 import HelpersView
 import os
+import PDFKit
 import SwiftUI
 
 private let customLog = Logger(
@@ -50,6 +51,21 @@ struct SchoolDocumentList: View {
                 }
             }
             .buttonStyle(.borderless)
+            .dropDestination(for: Data.self) { items, _ in
+                guard let item = items.first else {
+                    return false
+                }
+                if let pdfDocument = PDFDocument(data: item) {
+                    DocumentEntity.create(
+                        dans: school,
+                        withData: item,
+                        withName: "Nouveau document"
+                    )
+                    return true
+                } else {
+                    return false
+                }
+            }
             // Importer des fichiers PDF
             .fileImporter(
                 isPresented: $isImportingPdfFile,
@@ -121,29 +137,29 @@ struct SchoolDocumentList: View {
     }
 }
 
- struct DocumentList_Previews: PreviewProvider {
-     static func initialize() {
-         DataBaseManager.populateWithMockData(storeType: .inMemory)
-     }
+struct DocumentList_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
 
-     static var previews: some View {
-         initialize()
-         return Group {
-             List {
-                 SchoolDocumentList(school: SchoolEntity.all().first!)
-             }
-             .padding()
-             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
-             .environment(\.managedObjectContext, CoreDataManager.shared.context)
-             .previewDevice("iPad mini (6th generation)")
+    static var previews: some View {
+        initialize()
+        return Group {
+            List {
+                SchoolDocumentList(school: SchoolEntity.all().first!)
+            }
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPad mini (6th generation)")
 
-             List {
-                 SchoolDocumentList(school: SchoolEntity.all().first!)
-             }
-             .padding()
-             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
-             .environment(\.managedObjectContext, CoreDataManager.shared.context)
-             .previewDevice("iPhone 13")
-         }
-     }
- }
+            List {
+                SchoolDocumentList(school: SchoolEntity.all().first!)
+            }
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPhone 13")
+        }
+    }
+}

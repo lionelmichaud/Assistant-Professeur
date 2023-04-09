@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 11/01/2023.
 //
 
+import HelpersView
 import SwiftUI
 
 struct EleveTrombineStyling: ViewModifier {
@@ -43,9 +44,15 @@ struct Trombine: View {
             .resizable()
             .elevTrombineStyling()
             .dropDestination(for: Data.self) { items, _ in
-                guard let item = items.first else { return false }
-                eleve.trombine = item
-                return true
+                guard let item = items.first else {
+                    return false
+                }
+                if let image = NativeImage(data: item) {
+                    eleve.viewNativeImageTrombine = image
+                    return true
+                } else {
+                    return false
+                }
             }
     }
 }

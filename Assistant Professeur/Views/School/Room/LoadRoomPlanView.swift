@@ -26,8 +26,31 @@ struct LoadRoomPlanView: View {
 
     var body: some View {
         VStack {
-            Text("Pas de plan disponible pour la salle \"\(room.viewName)\"")
+            Text("Pas de plan disponible pour la salle \"\(room.viewName)\".")
+                .font(.title2)
+                .foregroundColor(.secondary)
                 .padding()
+
+            Text("Déposer ici un fichier 'PNG' ou 'JPEG'")
+                .padding(25)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [10]))
+                        .background(.tertiary)
+                )
+                .dropDestination(for: Data.self) { items, _ in
+                    guard let item = items.first else {
+                        return false
+                    }
+                    if let image = NativeImage(data: item) {
+                        room.viewNativeImage = image
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+
+            Text("ou")
 
             // Télécharger un plan au format PNG
             Button {
