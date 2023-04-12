@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// Situation de la progression d'une Classe pour une Séquence donnée
-struct ClassSequenceProgressView: View {
+struct ClassSequenceProgressEditView: View {
     // MARK: - Initializer
 
     init(
@@ -35,11 +35,7 @@ struct ClassSequenceProgressView: View {
     @State
     private var isExpanded: Bool = false
 
-    private var progresses: [ActivityProgressEntity] {
-        classe.allProgresses
-    }
-
-    /// Retourne la liste des progresssions d'activités de classe triée pour l'la classe et la séquence sélectionnées
+    /// Retourne la liste des progresssions d'activités de classe triée pour la classe et la séquence sélectionnées
     ///
     /// Ordre de tri des progressions:
     ///   1. Numéro d'activité
@@ -52,7 +48,7 @@ struct ClassSequenceProgressView: View {
             ProgressView(value: classe.progressInSequence(sequence))
                 .tint(.mint)
             ForEach(sortedProgressesInSequence) { progress in
-                ClassActivityProgressView(progress: progress)
+                ClassActivityProgressEditView(progress: progress)
                     .padding(.leading)
                     .listRowSeparatorTint(.secondary, edges: .bottom)
             }

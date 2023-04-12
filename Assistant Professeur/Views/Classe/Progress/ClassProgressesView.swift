@@ -12,12 +12,15 @@ struct ClassProgressesView: View {
     @ObservedObject
     var classe: ClasseEntity
 
-    var progresses: [ActivityProgressEntity] {
+    private var progresses: [ActivityProgressEntity] {
         classe.allProgresses
     }
 
-    /// Liste des activités suivies par cette classe
-    var sequences: [SequenceEntity] {
+    /// Liste des séquences suivies par cette classe triées
+    ///
+    /// Ordre de tri des séquences:
+    ///   1. Numéro de séquences
+    private var sequences: [SequenceEntity] {
         let sortComparators = [
             SortDescriptor(\SequenceEntity.viewNumber, order: .forward)
         ]
@@ -38,7 +41,10 @@ struct ClassProgressesView: View {
             ProgressView(value: classe.progressInProgram())
                 .tint(.mint)
             ForEach(sequences) { sequence in
-                ClassSequenceProgressView(sequence: sequence, classe: classe)
+                ClassSequenceProgressEditView(
+                    sequence: sequence,
+                    classe: classe
+                )
             }
             .emptyListPlaceHolder(sequences) {
                 Text("Aucune séquence suivie par cette classe")
@@ -51,8 +57,30 @@ struct ClassProgressesView: View {
     }
 }
 
-// struct ClassGlobalProgress_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ClassGlobalProgress()
-//    }
-// }
+struct ClassProgressesView_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        let classe = ClasseEntity.all().first { classe in
+            classe.levelEnum == .n5ieme
+        }!
+        print(classe)
+        return Group {
+            List {
+                ClassProgressesView(classe: classe)
+            }
+            .padding()
+            .previewDevice("iPad mini (6th generation)")
+            List {
+                ClassProgressesView(classe: classe)
+            }
+            .padding()
+            .previewDevice("iPhone 13")
+        }
+        .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+    }
+}

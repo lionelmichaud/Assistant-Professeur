@@ -524,7 +524,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
         ActivityEntity.create(
             name: "Activité 3 de Séquence 1 de Techno",
             annotation: "Une annotation d'activité 3",
-            duration: 1.0,
+            duration: 3.0,
             isEvalSommative: false,
             isEvalFormative: true,
             isTP: true,
@@ -534,7 +534,27 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
         ActivityEntity.create(
             name: "Activité 4 de Séquence 1 de Techno",
             annotation: "Une annotation d'activité 4",
-            duration: 1.0,
+            duration: 4.0,
+            isEvalSommative: true,
+            isEvalFormative: false,
+            isTP: false,
+            isProject: false,
+            dans: progTechno5Seq1
+        )
+        ActivityEntity.create(
+            name: "Activité 5 de Séquence 1 de Techno",
+            annotation: "Une annotation d'activité 4",
+            duration: 5.0,
+            isEvalSommative: true,
+            isEvalFormative: false,
+            isTP: false,
+            isProject: false,
+            dans: progTechno5Seq1
+        )
+        ActivityEntity.create(
+            name: "Activité 6 de Séquence 1 de Techno",
+            annotation: "Une annotation d'activité 4",
+            duration: 6.0,
             isEvalSommative: true,
             isEvalFormative: false,
             isTP: false,
@@ -572,5 +592,9 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             isProject: true,
             dans: progSntTermSeq2
         )
+
+        let allProgresses5E1 = classe5E1.allProgresses
+        let progress5E1 = allProgresses5E1.first!
+        progress5E1.viewProgress = 0.75
     }
 }

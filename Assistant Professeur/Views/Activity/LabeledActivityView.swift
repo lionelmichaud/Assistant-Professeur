@@ -22,8 +22,21 @@ struct LabeledActivityView: View {
     }
 }
 
-// struct LabeledActivityView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        LabeledActivityView()
-//    }
-// }
+struct LabeledActivityView_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        let activity = ActivityEntity.all().first!
+        return Group {
+            LabeledActivityView(activity: activity)
+                .previewDevice("iPad mini (6th generation)")
+            LabeledActivityView(activity: activity)
+                .previewDevice("iPhone 13")
+        }
+        .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+    }
+}
