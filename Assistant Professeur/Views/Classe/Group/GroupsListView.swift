@@ -8,6 +8,33 @@
 import AppFoundation
 import SwiftUI
 
+struct FocusTodoView: View {
+    // 1
+    //    @EnvironmentObject private var todoList: TodoList
+    //    var focusId: Int?
+
+    var body: some View {
+        VStack {
+            //            if let id = focusId, let item = todoList.items[id] {
+            //                // 2
+            //                Text("Current Focus")
+            //                TodoItemView(item: item)
+            //            } else {
+            // 3
+            Text("Drag Current Focus Here")
+            //            }
+        }
+        // 4
+        .frame(maxWidth: .infinity)
+        .padding()
+        // 5
+        .background(
+            RoundedRectangle(cornerRadius: 15)
+                .strokeBorder(Color.gray, style: StrokeStyle(dash: [10]))
+        )
+    }
+}
+
 /// Liste des groupes d'une classe présentant la liste des élèves de chaque groupe
 struct GroupsListView: View {
     @ObservedObject
@@ -84,6 +111,22 @@ struct GroupsListView: View {
                             EmptyView()
                         }
                     }
+//                        .onDrop(of: [EleveEntity.typeIdentifier], isTargeted: nil) { itemProviders in
+//                            // 2
+//                            for itemProvider in itemProviders {
+//                                itemProvider.loadObject(ofClass: EleveEntity.self) { eleve, _ in
+//                                    // 3
+//                                    guard eleve is EleveEntity else {
+//                                        return
+//                                    }
+//                                    DispatchQueue.main.async {
+//                                        print("dropped")
+//                                    }
+//                                }
+//                            }
+//                            // 4
+//                            return true
+//                        }
                 }
                 .searchable(
                     text: $searchString,
@@ -108,6 +151,17 @@ struct GroupsListView: View {
         .toolbar {
             myToolBarContent()
         }
+    }
+
+    private func drop(at _: Int, _: [NSItemProvider]) {
+//        for item in items {
+//            _ = item.loadObject(ofClass: EleveEntity.self) { eleve, _ in
+//                DispatchQueue.main.async {
+        print("eleve dropped")
+//                    url.map { self.links.insert($0, at: index) }
+//                }
+//            }
+//        }
     }
 
     private func show(groupe _: GroupEntity) -> Bool {

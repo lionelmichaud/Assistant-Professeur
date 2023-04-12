@@ -31,6 +31,7 @@
 		7923811B2960B04F009E51B7 /* GroupsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792381182960B04F009E51B7 /* GroupsListView.swift */; };
 		7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7927E6C72980A12F007002CE /* SequenceEditorModal.swift */; };
 		792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */; };
+		7934D8A129E49D740031C8AA /* Eleve+ItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7934D8A029E49D740031C8AA /* Eleve+ItemProvider.swift */; };
 		7937A24229859A5500D0ED59 /* ExamStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A24129859A5500D0ED59 /* ExamStep.swift */; };
 		7937A2442986AD9100D0ED59 /* CloudKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */; };
 		7937A2462986C57D00D0ED59 /* ExamTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */; };
@@ -319,6 +320,7 @@
 		792381182960B04F009E51B7 /* GroupsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsListView.swift; sourceTree = "<group>"; };
 		7927E6C72980A12F007002CE /* SequenceEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceEditorModal.swift; sourceTree = "<group>"; };
 		792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailGroupBox.swift; sourceTree = "<group>"; };
+		7934D8A029E49D740031C8AA /* Eleve+ItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Eleve+ItemProvider.swift"; sourceTree = "<group>"; };
 		7937A24129859A5500D0ED59 /* ExamStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamStep.swift; sourceTree = "<group>"; };
 		7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitViewModel.swift; sourceTree = "<group>"; };
 		7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamTypeEnum.swift; sourceTree = "<group>"; };
@@ -1238,6 +1240,7 @@
 				79BF1DAB29290F8C005D6CF3 /* Colle */,
 				79E40E792997D7FD006BBE49 /* Eleve+CoreDataClass.swift */,
 				79F41E632954B08900EAAC52 /* Eleve+Extensions.swift */,
+				7934D8A029E49D740031C8AA /* Eleve+ItemProvider.swift */,
 				79F41E652954B1DB00EAAC52 /* Sexe.swift */,
 				79F41E672954B1E500EAAC52 /* TroubleDys.swift */,
 				795CB1942958F668006EF060 /* Motif.swift */,
@@ -1572,6 +1575,7 @@
 				79BF1DA42928E37B005D6CF3 /* SchoolCreatorModal.swift in Sources */,
 				795C2C2D296E2DCA00EDFF09 /* RoomLayoutEditor.swift in Sources */,
 				79E40E7A2997D7FD006BBE49 /* Eleve+CoreDataClass.swift in Sources */,
+				7934D8A129E49D740031C8AA /* Eleve+ItemProvider.swift in Sources */,
 				79BF1DB929291069005D6CF3 /* Room+Extensions.swift in Sources */,
 				79388A4929256E13002AABB8 /* MainScene.swift in Sources */,
 				79DEDB0129258D4000F508EF /* ClasseSidebarView.swift in Sources */,
