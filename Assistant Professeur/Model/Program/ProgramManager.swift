@@ -111,12 +111,13 @@ struct ProgramManager {
         ActivityEntity.context.delete(orderedActivities[index])
     }
 
-    /// Retourne la liste des Activités qui doivent être suivies par la `classe`
-    /// - Warning: Les modifications ne sont pas auvegardées dans le contexte.
-    /// - Returns: liste des Activités qui doivent être suivies
-    static func activitiesAssociatedTo(
+    /// Retourne la liste des Séquences qui doivent être suivies par la `classe`.
+    ///
+    /// Les séquences sont triées
+    /// - Returns: liste des Séquences qui doivent être suivies
+    static func sequencesAssociatedTo(
         thisClasse classe: ClasseEntity
-    ) -> [ActivityEntity] {
+    ) -> [SequenceEntity] {
         let (discipline, level, segpa) = (
             classe.discipline,
             classe.level,
@@ -139,19 +140,28 @@ struct ProgramManager {
 
         do {
             let programs = try ProgramEntity.context.fetch(request)
-            print(programs)
-            let activities = programs
-                .flatMap { program in
-                    program.sequencesSortedByNumber
-                }
-                .flatMap { sequence in
-                    sequence.activitiesSortedByNumber
-                }
-            print(activities)
-            return activities
+            let sequences =
+                programs
+                    .flatMap { program in
+                        program.sequencesSortedByNumber
+                    }
+            return sequences
         } catch {
             return []
         }
+    }
+
+    /// Retourne la liste des Activités qui doivent être suivies par la `classe`.
+    ///
+    /// Les activités sont triées
+    /// - Returns: liste des Activités qui doivent être suivies
+    static func activitiesAssociatedTo(
+        thisClasse classe: ClasseEntity
+    ) -> [ActivityEntity] {
+        sequencesAssociatedTo(thisClasse: classe)
+            .flatMap { sequence in
+                sequence.activitiesSortedByNumber
+            }
     }
 
     /// Retourne la liste des Classes qui doivent suivre l'activité `sequence`

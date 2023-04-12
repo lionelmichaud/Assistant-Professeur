@@ -49,7 +49,7 @@ struct ActivityList: View {
 
             } else {
                 EmptyListMessage(
-                    title: "Aucune acytivitée actuellement dans cette séquence.",
+                    title: "Aucune activitée actuellement dans cette séquence.",
                     message: "Les activitées ajoutées apparaîtront ici."
                 )
             }

@@ -33,8 +33,45 @@ struct ActivityProgressSlider: View {
     }
 }
 
-//struct ActivityProgressSlider_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ActivityProgressSlider()
-//    }
-//}
+struct ActivityProgressSlider_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    /// Liste des activités suivies par cette classe
+    static func sequences(classe: ClasseEntity) -> [SequenceEntity] {
+        let sortComparators = [
+            SortDescriptor(\SequenceEntity.viewNumber, order: .forward)
+        ]
+
+        var sequences = [SequenceEntity]()
+
+        classe.allProgresses.forEach { progress in
+            if let sequence = progress.activity?.sequence,
+               !sequences.contains(sequence) {
+                sequences.append(sequence)
+            }
+        }
+        return sequences.sorted(using: sortComparators)
+    }
+
+    static var previews: some View {
+        initialize()
+        let classe = ClasseEntity.all().first!
+        let progress = classe.allProgresses.first!
+        return Group {
+            List {
+                ActivityProgressSlider(progress: progress)
+            }
+            .padding()
+            .previewDevice("iPad mini (6th generation)")
+            List {
+                ActivityProgressSlider(progress: progress)
+            }
+            .padding()
+            .previewDevice("iPhone 13")
+        }
+        .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+    }
+}

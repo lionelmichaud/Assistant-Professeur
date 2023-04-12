@@ -12,6 +12,9 @@ struct ClassRailwayProgressView: View {
     @ObservedObject
     var classe: ClasseEntity
 
+    @Environment(\.horizontalSizeClass)
+    private var hClass
+
     // MARK: - Properties
 
     private var classeSequences: [SequenceEntity] {
@@ -20,6 +23,37 @@ struct ClassRailwayProgressView: View {
 
     // MARK: - Methods
 
+    var body: some View {
+        ForEach(classeSequences) { sequence in
+            if sequence.nbOfActivities > 0 {
+                GroupBox {
+                    sequenceTitleView(sequence: sequence)
+                        .padding(.bottom)
+                        .frame(maxWidth: .infinity)
+                    if sequence.statusFor(classe: classe) == .inProgress {
+                        StepperView()
+                            .addSteps(steps(sequence: sequence))
+                            .indicators(indicators(sequence: sequence))
+                            .stepIndicatorMode(.horizontal)
+                            // .alignments(alignments(sequence: sequence))
+                            .lineOptions(StepperLineOptions.custom(4, Color.teal))
+                            // .stepLifeCycles(stepLifeCycles(sequence: sequence))
+                            // .autoSpacing(true)
+                            .spacing(hClass == .compact ? 35 : 75)
+                            // .loadingAnimationTime(0.01)
+                            .padding([.top, .leading])
+                    }
+                }
+                .padding(.horizontal)
+                .horizontallyAligned(.leading)
+            }
+        }
+    }
+}
+
+// MARK: - Subviews
+
+extension ClassRailwayProgressView {
     private func steps(sequence: SequenceEntity) -> [AnyView] {
         classe
             .sortedProgressesInSequence(sequence)
@@ -30,9 +64,9 @@ struct ClassRailwayProgressView: View {
                         color: .teal,
                         triggerAnimation: false
                     )
-                    VStack {
+                    VStack(alignment: .leading) {
                         Text(progress.activity!.viewDurationString)
-                        if 0 < progress.progress && progress.progress < 1 {
+                        if progress.progress > 0 && progress.progress < 1 {
                             Text(progress.progress, format: .percent)
                                 .font(.footnote)
                         }
@@ -68,15 +102,15 @@ struct ClassRailwayProgressView: View {
             }
     }
 
-//    private func alignments(sequence: SequenceEntity) -> [StepperAlignment] {
-//        classe
-//            .sortedProgressesInSequence(sequence)
-//            .map { _ in
-//                StepperAlignment.bottom
-//            }
-//    }
+    //    private func alignments(sequence: SequenceEntity) -> [StepperAlignment] {
+    //        classe
+    //            .sortedProgressesInSequence(sequence)
+    //            .map { _ in
+    //                StepperAlignment.bottom
+    //            }
+    //    }
 
-    func sequenceTitleView(sequence: SequenceEntity) -> some View {
+    private func sequenceTitleView(sequence: SequenceEntity) -> some View {
         HStack(alignment: .center) {
             IndicatorImageView(
                 name: sequence.statusFor(classe: classe).imageName,
@@ -90,37 +124,27 @@ struct ClassRailwayProgressView: View {
             Text(sequence.viewName)
         }
     }
-
-    var body: some View {
-        ForEach(classeSequences) { sequence in
-            if sequence.nbOfActivities > 0 {
-                GroupBox {
-                    sequenceTitleView(sequence: sequence)
-                        .padding(.bottom)
-                        .frame(maxWidth: .infinity)
-                    if sequence.statusFor(classe: classe) == .inProgress {
-                        StepperView()
-                            .addSteps(steps(sequence: sequence))
-                            .indicators(indicators(sequence: sequence))
-                            .stepIndicatorMode(.horizontal)
-                            // .alignments(alignments(sequence: sequence))
-                            .lineOptions(StepperLineOptions.custom(4, Color.teal))
-                            // .stepLifeCycles(stepLifeCycles(sequence: sequence))
-                            // .autoSpacing(true)
-                            .spacing(75)
-                            // .loadingAnimationTime(0.01)
-                            .padding([.top, .leading])
-                    }
-                }
-                .padding(.horizontal)
-                .horizontallyAligned(.leading)
-            }
-        }
-    }
 }
 
-// struct RailwayView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RailwayView()
-//    }
-// }
+struct ClassRailwayProgressView_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        let classe = ClasseEntity.all().first!
+        return Group {
+            List {
+                ClassRailwayProgressView(classe: classe)
+            }
+            .previewDevice("iPad mini (6th generation)")
+            List {
+                ClassRailwayProgressView(classe: classe)
+            }
+            .previewDevice("iPhone 13")
+        }
+        .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+    }
+}

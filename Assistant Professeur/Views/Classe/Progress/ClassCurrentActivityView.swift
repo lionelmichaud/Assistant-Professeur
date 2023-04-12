@@ -19,16 +19,18 @@ struct ClassCurrentActivityView: View {
         ScrollView(.vertical, showsIndicators: true) {
             if let activity = classe.currentActivity,
                let sequence = activity.sequence {
-                ClassRailwayProgressView(classe: classe)
-                    .padding(.top)
-                
+                ScrollView(.horizontal, showsIndicators: true) {
+                    ClassRailwayProgressView(classe: classe)
+                        .padding(.top)
+                }
+
                 Text("Sequence en cours")
                     .font(.headline)
                     .bold()
                     .padding([.top, .leading])
                     .horizontallyAligned(.leading)
                 SequenceDetailGroupBox(sequence: sequence)
-                
+
                 Text("Activité en cours")
                     .font(.headline)
                     .bold()
@@ -41,15 +43,27 @@ struct ClassCurrentActivityView: View {
         }
         .verticallyAligned(.top)
         #if os(iOS)
-        .navigationTitle("Activité en cours")
+            .navigationTitle("Activité en cours")
         #endif
-        .navigationBarTitleDisplayModeInline()
+            .navigationBarTitleDisplayModeInline()
     }
-
 }
 
-// struct ClassCurrentActivityView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ClassCurrentActivityView()
-//    }
-// }
+struct ClassCurrentActivityView_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
+    static var previews: some View {
+        initialize()
+        let classe = ClasseEntity.all().first!
+        return Group {
+            ClassCurrentActivityView(classe: classe)
+                .previewDevice("iPad mini (6th generation)")
+            ClassCurrentActivityView(classe: classe)
+                .previewDevice("iPhone 13")
+        }
+        .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+    }
+}
