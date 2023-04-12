@@ -5,7 +5,7 @@
 //  Created by Lionel MICHAUD on 22/01/2023.
 //
 
-import CoreData
+import HelpersView
 import SwiftUI
 
 struct ActivitySideBar: View {
@@ -41,6 +41,8 @@ struct ActivitySideBar: View {
                 .buttonStyle(.plain)
             } else {
                 Text("Programme associé introuvable")
+                    .foregroundStyle(.secondary)
+                    .font(.title2)
             }
             ActivityList(sequence: sequence)
         }
@@ -69,13 +71,10 @@ struct ActivitySideBar: View {
             isPresented: $isEditing,
             onDismiss: SequenceEntity.rollback
         ) {
-            if let sequenceId = navig.selectedSequenceMngObjId,
-               let sequence = SequenceEntity.byObjectId(MngObjID: sequenceId) {
-                NavigationStack {
-                    SequenceEditorModal(sequence: sequence)
-                }
-                .presentationDetents([.large])
+            NavigationStack {
+                SequenceEditorModal(sequence: sequence)
             }
+            .presentationDetents([.medium])
         }
     }
 }
@@ -85,32 +84,29 @@ struct ActivitySideBar: View {
 extension ActivitySideBar {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
-        if let sequenceId = navig.selectedSequenceMngObjId,
-           SequenceEntity.byObjectId(MngObjID: sequenceId) != nil {
-            // Editer la Séquence
-            ToolbarItemGroup(placement: .automatic) {
-                Button("Modifier") {
-                    isEditing.toggle()
-                }
+        // Editer la Séquence
+        ToolbarItemGroup(placement: .automatic) {
+            Button("Modifier") {
+                isEditing.toggle()
             }
+        }
 
-            // Ajouter une Activité
-            ToolbarItemGroup(placement: .status) {
-                Button {
-                    withAnimation {
-                        _ = ActivityEntity.create(
-                            name: "Nouvelle activité",
-                            duration: 1.0,
-                            dans: sequence
-                        )
-                    }
+        // Ajouter une Activité
+        ToolbarItemGroup(placement: .status) {
+            Button {
+                withAnimation {
+                    _ = ActivityEntity.create(
+                        name: "Nouvelle activité",
+                        duration: 1.0,
+                        dans: sequence
+                    )
+                }
 //                    isAddingNewActivity = true
-                } label: {
-                    HStack {
-                        Image(systemName: "plus.circle.fill")
-                        Text("Ajouter une activité")
-                        Spacer()
-                    }
+            } label: {
+                HStack {
+                    Image(systemName: "plus.circle.fill")
+                    Text("Ajouter une activité")
+                    Spacer()
                 }
             }
         }

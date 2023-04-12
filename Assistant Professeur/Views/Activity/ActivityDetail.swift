@@ -80,7 +80,9 @@ struct ActivityDetail: View {
                 NavigationStack {
                     ActivityEditorModal(activity: selectedActivity!)
                 }
-                .presentationDetents([.medium])
+                .presentationDetents([.large])
+            } else {
+                Text("Activité introuvable.")
             }
         }
     }

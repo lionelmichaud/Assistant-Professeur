@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HelpersView
 
 struct SequenceSidebarView: View {
     @Binding
@@ -24,9 +25,6 @@ struct SequenceSidebarView: View {
         VStack {
             if let programId = navig.selectedProgramMngObjId {
                 if let program = ProgramEntity.byObjectId(MngObjID: programId) {
-//                    NavigationLink(value: program) {
-//                        Label("Information sur le programme", systemImage: "books.vertical")
-//                    }
                     Button {
                         showProgramSteps = true
                     } label: {
@@ -81,6 +79,8 @@ struct SequenceSidebarView: View {
                     ProgramEditorModal(program: program)
                 }
                 .presentationDetents([.medium])
+            } else {
+                Text("Aucun programme sélectionné")
             }
         }
     }
