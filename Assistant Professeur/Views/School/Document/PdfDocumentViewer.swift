@@ -38,6 +38,12 @@ struct PdfDocumentViewer: View {
     @State
     private var isImportingPdfFile = false
 
+    @State
+    private var isExportingPdfFile = false
+
+    @State
+    private var exportedDocURL: URL?
+
     // MARK: - Computed Properties
 
     var body: some View {
@@ -93,12 +99,20 @@ struct PdfDocumentViewer: View {
             }
         )
 
+        // Exporter le fichier PDF
+        .fileMover(
+            isPresented: $isExportingPdfFile,
+            files: exportedDocURL != nil ? [exportedDocURL!] : []
+        ) { _ in
+        }
+
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Button("OK") {
                     dismiss()
                 }
             }
+
             if pdfImages.count > 1 {
                 ToolbarItemGroup(placement: .automatic) {
                     Button {
@@ -114,6 +128,15 @@ struct PdfDocumentViewer: View {
                         Image(systemName: "arrow.forward.circle", variableValue: 0)
                     }
                     .disabled(pgNumber == pdfImages.endIndex - 1)
+                }
+            }
+
+            ToolbarItem(placement: .automatic) {
+                Button {
+                    exportedDocURL = document.exportDocFile()
+                    isExportingPdfFile.toggle()
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
                 }
             }
         }

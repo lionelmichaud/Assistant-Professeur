@@ -59,8 +59,8 @@ extension DocumentEntity {
         }
     }
 
-    /// Retourne le nom du fichier PDF associé
-    var fileName: String? {
+    /// Retourne le nom du fichier PDF associé pour les archivages / désarchivage JSON
+    var uuidFileName: String? {
         guard let uuidString = id?.uuidString else {
             return nil
         }
@@ -180,8 +180,6 @@ extension DocumentEntity {
         }
         doc.docName = name
 
-//        try? ActivityEntity.saveIfContextHasChanged()
-
         return doc
     }
 
@@ -214,11 +212,28 @@ extension DocumentEntity {
         self.id = UUID()
     }
 
-    /// Rempalce les données PDF éventuellement présentes par de nouvelles
+    /// Remplace les données PDF éventuellement présentes par de nouvelles
     /// - Parameter newPdfData: les nouvelle données PDF
     func setPdfData(to newPdfData: Data) {
         pdfData = newPdfData
         try? DocumentEntity.saveIfContextHasChanged()
+    }
+
+    /// Exporter le document PDF vers le directory Cache.
+    /// - Returns: URL du fichier enregistré ou nil si l'opération a échoué.
+    func exportDocFile() -> URL? {
+        let cachesUrl = URL.cachesDirectory
+        guard var fileName = self.docName else {
+            return nil
+        }
+        fileName += ".pdf"
+        let fileUrl = cachesUrl.appending(component: fileName)
+        do {
+            try self.pdfData?.write(to: fileUrl)
+            return fileUrl
+        } catch {
+            return nil
+        }
     }
 }
 

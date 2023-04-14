@@ -20,7 +20,8 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
 
     // MARK: - Export
 
-    /// Exporter les données vers des fichiers au format JSON
+    /// Exporter les données du Model vers des fichiers au format JSON.
+    /// Exporter les fichiers annexes (PDF, JPEG, PNG...) des autres entités.
     static func exportToJsonFiles() -> [String] {
         exportSchoolsToJson()
         exportProgramsToJson()
@@ -71,7 +72,7 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
         DocumentEntity
             .all()
             .forEach { doc in
-                guard let fileName = doc.fileName else {
+                guard let fileName = doc.uuidFileName else {
                     return
                 }
                 let fileUrl = cachesUrl.appending(component: fileName)
@@ -356,7 +357,7 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
         try DocumentEntity
             .all()
             .forEach { doc in
-                guard let fileName = doc.fileName else {
+                guard let fileName = doc.uuidFileName else {
                     return
                 }
 

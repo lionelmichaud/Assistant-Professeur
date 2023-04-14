@@ -12,6 +12,7 @@ private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
     category: "GroupManager"
 )
+
 /// Gestionnaire de groupe d'élèves au sein d'une classe
 enum GroupManager {
     /// Affecte un `eleve`au groupe n°`toGroupNumber`de sa classe

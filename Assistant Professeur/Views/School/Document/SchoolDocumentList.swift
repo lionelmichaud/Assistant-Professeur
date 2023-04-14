@@ -55,7 +55,7 @@ struct SchoolDocumentList: View {
                 guard let item = items.first else {
                     return false
                 }
-                if let pdfDocument = PDFDocument(data: item) {
+                if PDFDocument(data: item) != nil {
                     DocumentEntity.create(
                         dans: school,
                         withData: item,
