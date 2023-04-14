@@ -176,6 +176,7 @@ struct GroupsListView: View {
 extension GroupsListView {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
+        // Choix du style de présentation
         ToolbarItemGroup(placement: .automatic) {
             Picker("Présentation", selection: $presentation) {
                 Image(systemName: "list.bullet").tag(ViewMode.list)
@@ -185,8 +186,8 @@ extension GroupsListView {
         }
 
         if presentation == .list {
+            // Modifier manuellement la composition des groupes
             ToolbarItemGroup(placement: .bottomBar) {
-                // Modifier manuellement la composition des groupes
                 Button(isEditing ? "OK" : "Modifier la composition") {
                     isEditing.toggle()
                 }
@@ -287,7 +288,7 @@ extension GroupsListView {
                 }
 
                 if classe.nbOfGroups > 1 {
-                    // Ajout d'un nouveau groupe
+                    // Ajout d'un nouveau groupe à la suite du dernier groupe
                     Button {
                         GroupManager.addGroup(dans: classe)
                     } label: {

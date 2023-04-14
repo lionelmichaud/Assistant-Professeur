@@ -65,9 +65,9 @@ struct GroupView: View {
             // pour chaque Elève du groupe
             ForEach(groupe.filteredElevesSortedByName(searchString: searchString), id: \.objectID) { eleve in
                 EleveLabel(eleve: eleve)
-//                    .onDrag {
-//                        NSItemProvider(object: eleve)
-//                    }
+                    //                    .onDrag {
+                    //                        NSItemProvider(object: eleve)
+                    //                    }
 
                     // afficher la fiche de l'élève du groupe
                     .onTapGesture {
@@ -89,6 +89,20 @@ struct GroupView: View {
                             }
                         }
                     }
+            }
+
+            if groupIsEditable && isEditing {
+                // dissoudre le groupe et supprimer le groupe
+                Button(role: .destructive) {
+                    withAnimation {
+                        GroupManager.disolveAndRemove(group: groupe)
+                    }
+                } label: {
+                    Label(
+                        "Supprimer le groupe",
+                        systemImage: "trash"
+                    ).tint(.red)
+                }
             }
         }
     }

@@ -5,19 +5,22 @@
 //  Created by Lionel MICHAUD on 27/09/2022.
 //
 
-import SwiftUI
 import os
+import SwiftUI
 
-private let customLog = Logger(subsystem : "com.michaud.lionel.Assistant-Professeur",
-                               category  : "GroupManager")
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "GroupManager"
+)
 /// Gestionnaire de groupe d'élèves au sein d'une classe
-struct GroupManager {
-
+enum GroupManager {
     /// Affecte un `eleve`au groupe n°`toGroupNumber`de sa classe
     /// - Parameters:
     ///   - toGroupNumber: groupe d'affectation
-    static func assign(eleve         : EleveEntity,
-                       toGroupNumber : Int) {
+    static func assign(
+        eleve: EleveEntity,
+        toGroupNumber: Int
+    ) {
         eleve.group = eleve.classe!.groupe(number: toGroupNumber)
         try? EleveEntity.saveIfContextHasChanged()
     }
@@ -28,20 +31,21 @@ struct GroupManager {
         try? EleveEntity.saveIfContextHasChanged()
     }
 
-   /// Former les groupes par ordre alphabétique dans la `classe`.
+    /// Former les groupes par ordre alphabétique dans la `classe`.
     /// - Parameters:
     ///   - nbEleveParGroupe: nombre d'élève idéal par groupe
     ///   - classe: dans cette classe
     /// - Important: The context has changes and **is commited**
-    static func formOrderedGroups(nbEleveParGroupe : Int,
-                                  dans classe      : ClasseEntity) {
-
+    static func formOrderedGroups(
+        nbEleveParGroupe: Int,
+        dans classe: ClasseEntity
+    ) {
         func formRegularGroups(nbOfGroups: Int) {
             for idx in eleves.indices {
                 let (q, _) = idx.quotientAndRemainder(dividingBy: nbEleveParGroupe)
                 // ajouter l'élève au groupe n°(q+1)
-                if q+1 <= nbOfGroups {
-                    let groupe = classe.groupe(number: q+1)
+                if q + 1 <= nbOfGroups {
+                    let groupe = classe.groupe(number: q + 1)
                     eleves[idx].group = groupe
                 }
             }
@@ -49,7 +53,9 @@ struct GroupManager {
 
         let eleves = classe.elevesSortedByName
         let nbEleves = eleves.count
-        guard nbEleves > 0 else { return }
+        guard nbEleves > 0 else {
+            return
+        }
         let (nbGroupes, reste) = nbEleves.quotientAndRemainder(dividingBy: nbEleveParGroupe)
         let distributeRemainder = reste > 0 && (reste.double() < nbEleveParGroupe.double() / 2.0)
 
@@ -75,7 +81,7 @@ struct GroupManager {
             // le dernier groupe est laissé incomplet
             recreate(nbOfGroups: nbGroupes + 1, dans: classe)
             formRegularGroups(nbOfGroups: nbGroupes)
-            for idx in (eleves.endIndex-reste) ... eleves.endIndex-1 {
+            for idx in (eleves.endIndex - reste) ... eleves.endIndex - 1 {
                 eleves[idx].group = classe.groupe(number: nbGroupes + 1)
             }
         }
@@ -87,11 +93,14 @@ struct GroupManager {
     /// - Parameters:
     ///   - nbEleveParGroupe: nombre d'élève idéal par groupe
     ///   - classe: dans cette classe
-    static func formRandomGroups(nbEleveParGroupe : Int,
-                                 dans classe      : ClasseEntity) {
-
-        func nextGroupe(num        : inout Int,
-                        nbOfGroups : Int) {
+    static func formRandomGroups(
+        nbEleveParGroupe: Int,
+        dans classe: ClasseEntity
+    ) {
+        func nextGroupe(
+            num: inout Int,
+            nbOfGroups: Int
+        ) {
             if num == nbOfGroups {
                 num = 1
             } else {
@@ -104,7 +113,9 @@ struct GroupManager {
 
             while eleves.isNotEmpty {
                 // prendre un élève au hazard dans la classe
-                guard let eleve = eleves.randomElement() else { break }
+                guard let eleve = eleves.randomElement() else {
+                    break
+                }
                 // le retirer de la liste des élèves
                 eleves = eleves.filter { $0 != eleve }
 
@@ -116,7 +127,9 @@ struct GroupManager {
 
         var eleves = classe.elevesSortedByName
         let nbEleves = eleves.count
-        guard nbEleves > 0 else { return }
+        guard nbEleves > 0 else {
+            return
+        }
         let (nbGroupes, reste) = nbEleves.quotientAndRemainder(dividingBy: nbEleveParGroupe)
 
         if reste == 0 {
@@ -124,8 +137,8 @@ struct GroupManager {
             recreate(nbOfGroups: nbGroupes, dans: classe)
             formRandomGroups(nbOfGroups: nbGroupes)
         } else {
-            recreate(nbOfGroups: nbGroupes+1, dans: classe)
-            formRandomGroups(nbOfGroups: nbGroupes+1)
+            recreate(nbOfGroups: nbGroupes + 1, dans: classe)
+            formRandomGroups(nbOfGroups: nbGroupes + 1)
         }
     }
 
@@ -143,19 +156,38 @@ struct GroupManager {
     /// Supprime au préalable les groupes existants.
     /// - Parameter nbOfGroups: nombre de groupes à ajouter
     /// - Important: The context has changes and **is commited**
-    private static func recreate(nbOfGroups  : Int,
-                                 dans classe : ClasseEntity) {
+    private static func recreate(
+        nbOfGroups: Int,
+        dans classe: ClasseEntity
+    ) {
         // Supprimer au préalable les groupes existants
         disolveGroups(dans: classe)
 
-        guard nbOfGroups > 0 else { return }
+        guard nbOfGroups > 0 else {
+            return
+        }
 
         // Ajouter `nbOfGroups`aux groupe 0 dans la `classe`.
-        (1...nbOfGroups).forEach { n in
+        (1 ... nbOfGroups).forEach { n in
             let groupe = GroupEntity.create()
             groupe.classe = classe
             groupe.number = Int16(n)
         }
+        try? GroupEntity.saveIfContextHasChanged()
+    }
+
+    /// Dissoudre le `group` et le supprimer.
+    ///
+    /// Tous les élèves du groupe dissout deviennent "sans groupe".
+    /// - Parameter group: groupe à dissoudre et supprimer
+    static func disolveAndRemove(group: GroupEntity) {
+        // dissoudre le groupe
+        group.allEleves.forEach { eleve in
+            GroupManager.unassignFromItsGroup(eleve: eleve)
+        }
+
+        // supprimer le groupe
+        try? group.delete()
         try? GroupEntity.saveIfContextHasChanged()
     }
 
@@ -164,7 +196,7 @@ struct GroupManager {
     /// - Parameters:
     ///   - classe: dans cette classe
     /// - Important: The context has changes and **is commited**
-    static func disolveGroups(dans classe : ClasseEntity) {
+    static func disolveGroups(dans classe: ClasseEntity) {
         // Affecter tous les élèves au groupe zéro
         let group0 = classe.groupOfUngroupedEleves
         classe.allEleves.forEach { eleve in
