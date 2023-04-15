@@ -303,15 +303,29 @@ extension ActivityEntity {
     /// - Parameters:
     ///   - errorList: Liste des erreurs trouvées.
     static func checkConsistency(
-        errorList: inout DataBaseErrorList
+        errorList: inout DataBaseErrorList,
+        tryToRepair: Bool
     ) {
         all().forEach { activity in
             if activity.sequence == nil {
-                errorList.append(DataBaseError.noOwner(
-                    entity: Self.entity().name!,
-                    name: activity.viewName,
-                    id: activity.id
-                ))
+                if tryToRepair {
+                    do {
+                        // la destruction est sauvegardée
+                        try activity.delete()
+                    } catch {
+                        errorList.append(DataBaseError.noOwner(
+                            entity: Self.entity().name!,
+                            name: activity.viewName,
+                            id: activity.id
+                        ))
+                    }
+                } else {
+                    errorList.append(DataBaseError.noOwner(
+                        entity: Self.entity().name!,
+                        name: activity.viewName,
+                        id: activity.id
+                    ))
+                }
             }
         }
     }
@@ -323,7 +337,7 @@ public extension ActivityEntity {
     override var description: String {
         """
 
-        ACTIVITÉ:
+        ACTIVITÉ\(sequence == nil ? " (ERREUR : ORPHELIN)" : ""):
            Numéro     : \(self.viewNumber)
            Nom        : \(String(describing: self.name))
            Annotation : \(String(describing: self.annotation))

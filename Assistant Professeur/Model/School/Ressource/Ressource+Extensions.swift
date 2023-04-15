@@ -56,15 +56,32 @@ extension RessourceEntity {
     /// Check the correctness and consistency of all database entities of this type.
     /// - Parameters:
     ///   - errorList: Liste des erreurs trouvées.
-    static func checkConsistency(errorList: inout DataBaseErrorList) {
+    static func checkConsistency(
+        errorList: inout DataBaseErrorList,
+        tryToRepair: Bool
+    ) {
         all().forEach { ressource in
             if ressource.school == nil {
-                errorList.append(DataBaseError.noOwner(
-                    entity: Self.entity().name!,
-                    name: ressource.viewName,
-                    id: ressource.id
-                ))
+                if tryToRepair {
+                    do {
+                        // la destruction est sauvegardée
+                        try ressource.delete()
+                    } catch {
+                        errorList.append(DataBaseError.noOwner(
+                            entity: Self.entity().name!,
+                            name: ressource.viewName,
+                            id: ressource.id
+                        ))
+                    }
+                } else {
+                    errorList.append(DataBaseError.noOwner(
+                        entity: Self.entity().name!,
+                        name: ressource.viewName,
+                        id: ressource.id
+                    ))
+                }
             }
+            
             if ressource.viewQuantity.isNOZ {
                 errorList.append(DataBaseError.outOfBound(
                     entity: Self.entity().name!,

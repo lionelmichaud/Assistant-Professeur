@@ -66,56 +66,68 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
     /// Vérifier l'état de la base de données Core Data.
     /// Les erreur éventuelles sont remontée sous forme de liste.
     /// - Parameter errorList: Les des errerus éventuelles
-    static func check( errorList: inout DataBaseErrorList) {
+    static func check(
+        errorList: inout DataBaseErrorList,
+        tryToRepair: Bool
+    ) {
         RoomEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
         SeatEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
         DocumentEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
         EventEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
         RessourceEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
         ClasseEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
         GroupEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
         ExamEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
         MarkEntity.checkConsistency(
             errorList: &errorList
         )
         EleveEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
         ColleEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
         ObservEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
 
         ProgramEntity.checkConsistency(
             errorList: &errorList
         )
         SequenceEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
         ActivityEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
         ActivityProgressEntity.checkConsistency(
             errorList: &errorList
         )
+
+        #if DEBUG
+            if errorList.isNotEmpty {
+                print("Liste des \(errorList.count) erreurs trouvées:")
+                errorList.forEach { error in
+                    print(String(describing: error).withPrefix("   "))
+                }
+            }
+        #endif
     }
 
     /// Retourne `true` si la BDD Core Data est vide.

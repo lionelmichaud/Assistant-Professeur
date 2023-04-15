@@ -31,7 +31,6 @@ private typealias DetailColumnStateMachine = StateMachine<DetailColumnState, Det
 private final class ProgramSplitViewModel: ObservableObject {
     // MARK: - Properties
 
-    ///    private var navig: NavigationModel
     var detailColumnSM: DetailColumnStateMachine
 
     // MARK: - Computed Properties

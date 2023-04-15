@@ -530,16 +530,31 @@ extension EleveEntity {
     /// - Parameters:
     ///   - errorList: Liste des erreurs trouvées.
     static func checkConsistency(
-        errorList: inout DataBaseErrorList
+        errorList: inout DataBaseErrorList,
+        tryToRepair: Bool
     ) {
         all().forEach { eleve in
             if eleve.classe == nil {
-                errorList.append(DataBaseError.noOwner(
-                    entity: Self.entity().name!,
-                    name: eleve.displayName,
-                    id: eleve.id
-                ))
+                if tryToRepair {
+                    do {
+                        // la destruction est sauvegardée
+                        try eleve.delete()
+                    } catch {
+                        errorList.append(DataBaseError.noOwner(
+                            entity: Self.entity().name!,
+                            name: eleve.displayName,
+                            id: eleve.id
+                        ))
+                    }
+                } else {
+                    errorList.append(DataBaseError.noOwner(
+                        entity: Self.entity().name!,
+                        name: eleve.displayName,
+                        id: eleve.id
+                    ))
+                }
             }
+
             if eleve.hasAddTime && !eleve.hasTrouble {
                 errorList.append(DataBaseError.internalInconsistency(
                     entity: Self.entity().name!,

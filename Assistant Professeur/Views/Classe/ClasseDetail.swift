@@ -9,7 +9,7 @@ import AppFoundation
 import HelpersView
 import SwiftUI
 
-enum ClasseNavigationRoute: Hashable {
+enum ClasseNavigationRoute: Hashable, Codable {
     case room(ClasseEntity)
     case liste(ClasseEntity)
     case trombinoscope(ClasseEntity)
@@ -132,6 +132,7 @@ struct ClasseDetail: View {
                     AnnotationEditView(annotation: $classe.viewAnnotation)
                 }
 
+                // Salle de classe utilisée
                 roomView
 
                 // Section élèves
@@ -326,7 +327,7 @@ extension ClasseDetail {
 
     private var elevesListView: some View {
         NavigationLink(value: ClasseNavigationRoute.liste(classe)) {
-            Label("Liste", systemImage: "list.bullet")
+            Label("Liste d'appel", systemImage: "list.bullet")
                 .fontWeight(.bold)
         }
     }

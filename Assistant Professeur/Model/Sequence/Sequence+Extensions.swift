@@ -249,15 +249,29 @@ extension SequenceEntity {
     /// - Parameters:
     ///   - errorList: Liste des erreurs trouvées.
     static func checkConsistency(
-        errorList: inout DataBaseErrorList
+        errorList: inout DataBaseErrorList,
+        tryToRepair: Bool
     ) {
         all().forEach { sequence in
             if sequence.program == nil {
-                errorList.append(DataBaseError.noOwner(
-                    entity: Self.entity().name!,
-                    name: sequence.viewName,
-                    id: sequence.id
-                ))
+                if tryToRepair {
+                    do {
+                        // la destruction est sauvegardée
+                        try sequence.delete()
+                    } catch {
+                        errorList.append(DataBaseError.noOwner(
+                            entity: Self.entity().name!,
+                            name: sequence.viewName,
+                            id: sequence.id
+                        ))
+                    }
+                } else {
+                    errorList.append(DataBaseError.noOwner(
+                        entity: Self.entity().name!,
+                        name: sequence.viewName,
+                        id: sequence.id
+                    ))
+                }
             }
         }
     }
@@ -269,7 +283,7 @@ public extension SequenceEntity {
     override var description: String {
         """
 
-        SEQUENCE:
+        SEQUENCE\(program == nil ? " (ERREUR : ORPHELIN)" : ""):
            Numéro     : \(viewNumber)
            Nom        : \(String(describing: self.name))
            Annotation : \(String(describing: self.annotation))

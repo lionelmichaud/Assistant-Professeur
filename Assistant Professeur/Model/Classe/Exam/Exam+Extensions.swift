@@ -309,16 +309,31 @@ extension ExamEntity {
     /// - Parameters:
     ///   - errorList: Liste des erreurs trouvées.
     static func checkConsistency(
-        errorList: inout DataBaseErrorList
+        errorList: inout DataBaseErrorList,
+        tryToRepair: Bool
     ) {
         all().forEach { exam in
             if exam.classe == nil {
-                errorList.append(DataBaseError.noOwner(
-                    entity: Self.entity().name!,
-                    name: exam.viewSujet,
-                    id: exam.id
-                ))
+                if tryToRepair {
+                    do {
+                        // la destruction est sauvegardée
+                        try exam.delete()
+                    } catch {
+                        errorList.append(DataBaseError.noOwner(
+                            entity: Self.entity().name!,
+                            name: exam.viewSujet,
+                            id: exam.id
+                        ))
+                    }
+                } else {
+                    errorList.append(DataBaseError.noOwner(
+                        entity: Self.entity().name!,
+                        name: exam.viewSujet,
+                        id: exam.id
+                    ))
+                }
             }
+
             if exam.viewMaxMark.isNOZ {
                 errorList.append(DataBaseError.outOfBound(
                     entity: Self.entity().name!,

@@ -200,16 +200,31 @@ extension RoomEntity {
     /// - Parameters:
     ///   - errorList: Liste des erreurs trouvées.
     static func checkConsistency(
-        errorList: inout DataBaseErrorList
+        errorList: inout DataBaseErrorList,
+        tryToRepair: Bool
     ) {
         all().forEach { room in
             if room.school == nil {
-                errorList.append(DataBaseError.noOwner(
-                    entity: Self.entity().name!,
-                    name: room.viewName,
-                    id: room.id
-                ))
+                if tryToRepair {
+                    do {
+                        // la destruction est sauvegardée
+                        try room.delete()
+                    } catch {
+                        errorList.append(DataBaseError.noOwner(
+                            entity: Self.entity().name!,
+                            name: room.viewName,
+                            id: room.id
+                        ))
+                    }
+                } else {
+                    errorList.append(DataBaseError.noOwner(
+                        entity: Self.entity().name!,
+                        name: room.viewName,
+                        id: room.id
+                    ))
+                }
             }
+
             if room.viewCapacity.isNOZ {
                 errorList.append(DataBaseError.outOfBound(
                     entity: Self.entity().name!,
@@ -218,6 +233,7 @@ extension RoomEntity {
                     id: room.id
                 ))
             }
+
             if room.seatsCount < 0 && room.seatsCount > room.viewCapacity {
                 errorList.append(DataBaseError.outOfBound(
                     entity: Self.entity().name!,

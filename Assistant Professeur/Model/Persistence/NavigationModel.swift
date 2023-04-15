@@ -71,6 +71,8 @@ final class NavigationModel: ObservableObject, Codable {
         case filterObservation
         case filterColle
         case filterFlag
+        case classPath
+        case programPath
     }
 
     // MARK: - Properties
@@ -81,6 +83,8 @@ final class NavigationModel: ObservableObject, Codable {
     var selectedTab: TabSelection
     @Published
     var selectedWarningType: WarningSelection?
+    @Published
+    var classPath = [ClasseNavigationRoute]()
     @Published
     var programPath = NavigationPath()
 
@@ -206,6 +210,9 @@ final class NavigationModel: ObservableObject, Codable {
             filterObservation = model.filterObservation
             filterColle = model.filterColle
             filterFlag = model.filterFlag
+
+            classPath = model.classPath
+            programPath = model.programPath
         }
     }
 
@@ -248,10 +255,14 @@ final class NavigationModel: ObservableObject, Codable {
         self.selectedEleveMngObjId = selectedEleveMngObjId
         self.selectedClasseMngObjId = selectedClasseMngObjId
         self.selectedSchoolMngObjId = selectedSchoolMngObjId
-        
+
         self.filterObservation = filterObservation
         self.filterColle = filterColle
         self.filterFlag = filterFlag
+
+        self.classPath = []
+        self.programPath = NavigationPath()
+
         #if DEBUG
             print(">> NavigationModel() initialization has completed")
         #endif
@@ -265,6 +276,17 @@ final class NavigationModel: ObservableObject, Codable {
         self.selectedWarningType = try container.decodeIfPresent(
             NavigationModel.WarningSelection.self, forKey: .selectedWarningType
         )
+        // FIXME: Plante dans ClasseSideBar si on décode ici
+//        self.classPath = try container.decode(
+//            [ClasseNavigationRoute].self, forKey: .classPath
+//        )
+//        do {
+//            let representation = try container.decode(
+//                NavigationPath.CodableRepresentation.self, forKey: .programPath)
+//            self.programPath = NavigationPath(representation)
+//        } catch {
+//            self.programPath = NavigationPath()
+//        }
 
         self.selectedProgramId = try container.decodeIfPresent(
             UUID.self, forKey: .selectedProgramId
@@ -345,6 +367,9 @@ final class NavigationModel: ObservableObject, Codable {
         selectedEleveMngObjId = nil
         selectedClasseMngObjId = nil
         selectedSchoolMngObjId = nil
+
+        classPath = []
+        programPath = NavigationPath()
     }
 
     func encode(to encoder: Encoder) throws {
@@ -365,5 +390,11 @@ final class NavigationModel: ObservableObject, Codable {
         try container.encode(filterColle, forKey: .filterColle)
         try container.encode(filterFlag, forKey: .filterFlag)
         try container.encode(columnVisibility, forKey: .columnVisibility)
+
+        try container.encode(classPath, forKey: .classPath)
+
+        if let representation = programPath.codable {
+            try container.encode(representation, forKey: .programPath)
+        }
     }
 }

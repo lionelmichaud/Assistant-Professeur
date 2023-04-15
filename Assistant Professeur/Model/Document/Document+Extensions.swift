@@ -187,19 +187,34 @@ extension DocumentEntity {
     /// - Parameters:
     ///   - errorList: Liste des erreurs trouvées.
     static func checkConsistency(
-        errorList: inout DataBaseErrorList
+        errorList: inout DataBaseErrorList,
+        tryToRepair: Bool
     ) {
         all().forEach { doc in
             if doc.school == nil &&
                 doc.program == nil &&
                 doc.sequence == nil &&
                 doc.activity == nil {
-                errorList
-                    .append(DataBaseError.noOwner(
-                        entity: Self.entity().name!,
-                        name: doc.viewName,
-                        id: doc.id
-                    ))
+                if tryToRepair {
+                    do {
+                        // la destruction est sauvegardée
+                        try doc.delete()
+                    } catch {
+                        errorList
+                            .append(DataBaseError.noOwner(
+                                entity: Self.entity().name!,
+                                name: doc.viewName,
+                                id: doc.id
+                            ))
+                    }
+                } else {
+                    errorList
+                        .append(DataBaseError.noOwner(
+                            entity: Self.entity().name!,
+                            name: doc.viewName,
+                            id: doc.id
+                        ))
+                }
             }
         }
     }
@@ -251,13 +266,13 @@ public extension DocumentEntity {
 
             """
         if let school {
-            owner = "school: \(school.displayString)"
+            owner = "   school: \(school.displayString)"
         } else if let program {
-            owner = "program: \(program.disciplineString)"
+            owner = "   program: \(program.disciplineString)"
         } else if let sequence {
-            owner = "sequence: \(sequence.viewName)"
+            owner = "   sequence: \(sequence.viewName)"
         } else if let activity {
-            owner = "activity: \(activity.viewName)"
+            owner = "   activity: \(activity.viewName)"
         }
         return top + owner
     }

@@ -6,13 +6,10 @@
 //
 
 import AppFoundation
+import HelpersView
 import os
 import SwiftUI
 import UniformTypeIdentifiers
-
-// import Files
-// import FileAndFolder
-import HelpersView
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -118,6 +115,9 @@ struct SchoolSidebarView: View {
     @State
     private var isExportingModel = false
 
+    @State
+    private var dataBaseErrorList = DataBaseErrorList()
+
     // MARK: - Computed Properties
 
     var body: some View {
@@ -189,7 +189,15 @@ struct SchoolSidebarView: View {
         .alert(
             alertTitle,
             isPresented: $alertIsPresented,
-            actions: {},
+            actions: {
+                if dataBaseErrorList.isNotEmpty {
+                    Button(role: .destructive) {
+                        isShowingRepairDBDialog.toggle()
+                    } label: {
+                        Text("Tenter de réparer")
+                    }
+                }
+            },
             message: { Text(alertMessage) }
         )
 
@@ -477,6 +485,21 @@ extension SchoolSidebarView {
             } message: {
                 Text("Cette action ne peut pas être annulée.")
             }
+
+            // Confirmation de tentative de réparation de la BDD
+            .confirmationDialog(
+                "Tentative de réparation de la base de donnée",
+                isPresented: $isShowingRepairDBDialog,
+                titleVisibility: .visible
+            ) {
+                Button("Réparer", role: .destructive) {
+                    self.tryToRepairUserData()
+                }
+            } message: {
+                Text("Cette action ne peut pas être annulée.") +
+                    Text("Certaines erreurs ne seront peut-être pas réparées.") +
+                    Text("Cela peut endommager un peu plus la base de données.")
+            }
         }
     }
 }
@@ -501,25 +524,40 @@ extension SchoolSidebarView {
     //        }
     //    }
 
+    /// Vérifier la cohérence de la base de données utilisateur
     private func checkAllUserData() {
-        var dataBaseErrorList = DataBaseErrorList()
-
-        DataBaseManager.check(errorList: &dataBaseErrorList)
-        #if DEBUG
-            if dataBaseErrorList.isNotEmpty {
-                print("Liste des \(dataBaseErrorList.count) erreurs trouvées:")
-                dataBaseErrorList.forEach { error in
-                    print(String(describing: error).withPrefix("   "))
-                }
-            }
-        #endif
-
+        dataBaseErrorList = DataBaseErrorList()
+        DataBaseManager.check(
+            errorList: &dataBaseErrorList,
+            tryToRepair: false
+        )
         if dataBaseErrorList.isNotEmpty {
             alertTitle = "Erreurs détectées"
-            alertMessage = "La vérification de la base de donnée a trouvé \(dataBaseErrorList.count) erreurs"
+            alertMessage = "La vérification de la base de donnée a trouvé \(dataBaseErrorList.count) erreurs."
             alertIsPresented = true
         } else {
             alertTitle = "Vérification terminée avec succès"
+            alertMessage = "Aucune anomalie détectée."
+            alertIsPresented = true
+        }
+    }
+
+    /// Tenter de réparer la base de données utilisateur
+    private func tryToRepairUserData() {
+        let countBefore = dataBaseErrorList.count
+        dataBaseErrorList = DataBaseErrorList()
+        DataBaseManager.check(
+            errorList: &dataBaseErrorList,
+            tryToRepair: true
+        )
+        let countAfter = dataBaseErrorList.count
+
+        if dataBaseErrorList.isNotEmpty {
+            alertTitle = "Erreurs détectées"
+            alertMessage = "Il reste \(countAfter) erreurs.\n\(countAfter - countBefore) erreurs réparées."
+            alertIsPresented = true
+        } else {
+            alertTitle = "Réparation terminée avec succès"
             alertMessage = "Aucune anomalie détectée."
             alertIsPresented = true
         }

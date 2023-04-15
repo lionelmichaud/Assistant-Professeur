@@ -12,14 +12,11 @@ struct ClasseSplitView: View {
     var horizontalSizeClass
 
     @EnvironmentObject
-    private var navigationModel : NavigationModel
-
-    @State
-    private var path = NavigationPath()
+    private var navig : NavigationModel
 
     var body: some View {
         NavigationSplitView(
-            columnVisibility: $navigationModel.columnVisibility
+            columnVisibility: $navig.columnVisibility
         ) {
             // 1ère colonne
             ClasseSidebarView()
@@ -29,7 +26,7 @@ struct ClasseSplitView: View {
 
         } detail: {
             // Détail dans la 2ième colonne
-            NavigationStack(path: $path) {
+            NavigationStack(path: $navig.classPath) {
                 ClasseEditor()
                     .navigationDestination(for: ClasseNavigationRoute.self) { route in
                         switch route {

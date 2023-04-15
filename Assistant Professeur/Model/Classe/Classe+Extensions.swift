@@ -453,16 +453,31 @@ extension ClasseEntity {
     /// - Parameters:
     ///   - errorList: Liste des erreurs trouvées.
     static func checkConsistency(
-        errorList: inout DataBaseErrorList
+        errorList: inout DataBaseErrorList,
+        tryToRepair: Bool
     ) {
         all().forEach { classe in
             if classe.school == nil {
-                errorList.append(DataBaseError.noOwner(
-                    entity: Self.entity().name!,
-                    name: classe.displayString,
-                    id: classe.id
-                ))
+                if tryToRepair {
+                    do {
+                        // la destruction est sauvegardée
+                        try classe.delete()
+                    } catch {
+                        errorList.append(DataBaseError.noOwner(
+                            entity: Self.entity().name!,
+                            name: classe.displayString,
+                            id: classe.id
+                        ))
+                    }
+                } else {
+                    errorList.append(DataBaseError.noOwner(
+                        entity: Self.entity().name!,
+                        name: classe.displayString,
+                        id: classe.id
+                    ))
+                }
             }
+
             if classe.segpa && classe.school?.levelEnum != .college {
                 errorList.append(DataBaseError.internalInconsistency(
                     entity: Self.entity().name!,
