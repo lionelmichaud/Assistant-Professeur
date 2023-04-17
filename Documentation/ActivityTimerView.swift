@@ -1,30 +1,22 @@
 //
-//  LabeledActivityView.swift
+//  ActivityTimerView.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 19/02/2023.
+//  Created by Lionel MICHAUD on 16/04/2023.
 //
 
 import SwiftUI
 
-struct LabeledActivityView: View {
+struct ActivityTimerView: View {
     @ObservedObject
     var activity: ActivityEntity
-    var font: Font = .body
 
     var body: some View {
-        Label {
-            Text(activity.viewName)
-                .font(font)
-                .textSelection(.enabled)
-        } icon: {
-            Image(systemName: "\(activity.viewNumber).circle")
-                .imageScale(.large)
-        }
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
-struct LabeledActivityView_Previews: PreviewProvider {
+struct ActivityTimerView_Previews: PreviewProvider {
     static func initialize() {
         DataBaseManager.populateWithMockData(storeType: .inMemory)
     }
@@ -33,9 +25,9 @@ struct LabeledActivityView_Previews: PreviewProvider {
         initialize()
         let activity = ActivityEntity.all().first!
         return Group {
-            LabeledActivityView(activity: activity)
+            ActivityTimerView(activity: activity)
                 .previewDevice("iPad mini (6th generation)")
-            LabeledActivityView(activity: activity)
+            ActivityTimerView(activity: activity)
                 .previewDevice("iPhone 13")
         }
         .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))

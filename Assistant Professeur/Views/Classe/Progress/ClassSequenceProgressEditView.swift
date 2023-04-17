@@ -61,9 +61,9 @@ struct ClassSequenceProgressEditView: View {
                     status: sequence.statusFor(classe: classe)
                 )
                 LabeledSequenceView(sequence: sequence)
+                    .bold()
             }
-            .font(hClass == .compact ? .callout : .title3)
-            .bold()
+            .font(hClass == .compact ? .body : .title3)
             .listRowSeparatorTint(.secondary, edges: .bottom)
         }
     }

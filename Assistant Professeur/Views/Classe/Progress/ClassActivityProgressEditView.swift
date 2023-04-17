@@ -32,13 +32,16 @@ struct ClassActivityProgressEditView: View {
     private var isExpanded: Bool = false
 
     @State
+    private var isShowingActivityTimer: Bool = false
+
+    @State
     private var progressValue: Double = 0
 
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
             ViewThatFits(in: .horizontal) {
                 // priorité 1
-                regulartView
+                regularView
                 // priorité 2
                 compactView
             }
@@ -57,13 +60,15 @@ extension ClassActivityProgressEditView {
             if let activity = progress.activity {
                 HStack(alignment: .top) {
                     CompletionSymbol(status: progress.status)
-                    LabeledActivityView(activity: activity)
-                        .font(hClass == .compact ? .callout : .headline)
-                        .bold()
-                    Spacer()
+
+                    LabeledActivityView(activity: activity, font: .body)
+                        .bold(hClass == .regular)
+                    Spacer(minLength: 2)
+                    
                     ActivityAllSymbols(
                         activity: activity,
-                        showTitle: false
+                        showTitle: false,
+                        axis: hClass == .regular ? .horizontal : .vertical
                     )
                 }
             } else {
@@ -73,66 +78,84 @@ extension ClassActivityProgressEditView {
     }
 
     private var voirButton: some View {
-        Button("Voir") {
+        Button {
             if let activity = progress.activity,
                let sequence = activity.sequence,
                let program = sequence.program {
                 navig.selectedTab = .program
                 navig.selectedProgramMngObjId = program.objectID
-                navig.selectedSequenceMngObjId = sequence.objectID
-                navig.selectedActivityMngObjId = activity.objectID
-                //                        navig.programPath = NavigationPath()
-                //                        navig.programPath.append(program)
-                //                        navig.programPath.append(sequence)
+//                navig.selectedSequenceMngObjId = sequence.objectID
+//                navig.selectedActivityMngObjId = activity.objectID
+//                navig.programPath = NavigationPath()
+//                navig.programPath.append(program)
+//                navig.programPath.append(sequence)
             }
+        } label: {
+            Text("Voir l'activité")
         }
         .buttonStyle(.borderedProminent)
     }
 
-    private var regulartView: some View {
-        HStack {
-            voirButton
-            VStack(alignment: .leading) {
-                LabeledContent("Progression") {
-                    ActivityProgressSlider(progress: progress)
-                        .frame(minWidth: 150)
-                }
+    @ViewBuilder
+    private func stopWatchButton(for _: ActivityEntity) -> some View {
+        Button {
+            isShowingActivityTimer.toggle()
+        } label: {
+            Text("Chrono")
+            Image(systemName: "stopwatch")
+        }
+        .buttonStyle(.borderedProminent)
+    }
 
-                TextField(
-                    "",
-                    text: $progress.annotation.bound,
-                    prompt: Text("description")
-                )
-                .onSubmit {
-                    try? ActivityProgressEntity.saveIfContextHasChanged()
-                }
-                .lineLimit(5)
-                .textFieldStyle(.roundedBorder)
+    private var buttons: some View {
+        HStack {
+            Spacer()
+            if let activity = progress.activity,
+               activity.isTP || activity.isProject {
+                stopWatchButton(for: activity)
+                Spacer()
             }
-            .font(hClass == .compact ? .callout : .body)
+            voirButton
+            Spacer()
+        }
+    }
+
+    private var description: some View {
+        TextField(
+            "",
+            text: $progress.annotation.bound,
+            prompt: Text("description"),
+            axis: .vertical
+        )
+        .multilineTextAlignment(.leading)
+        .lineLimit(5)
+        .textFieldStyle(.roundedBorder)
+        .onSubmit {
+            try? ActivityProgressEntity.saveIfContextHasChanged()
+        }
+    }
+
+    private var regularView: some View {
+        VStack(alignment: .leading) {
+            LabeledContent("Progression") {
+                ActivityProgressSlider(progress: progress)
+                    .frame(minWidth: 250)
+            }
+
+            description
+
+            buttons
         }
         .padding(.leading)
     }
 
     private var compactView: some View {
         VStack(alignment: .leading) {
-            LabeledContent("Progrès") {
-                ActivityProgressSlider(progress: progress)
-            }
-            HStack {
-                voirButton
-                TextField(
-                    "",
-                    text: $progress.annotation.bound,
-                    prompt: Text("description")
-                )
-                .onSubmit {
-                    try? ActivityProgressEntity.saveIfContextHasChanged()
-                }
-                .lineLimit(5)
-                .textFieldStyle(.roundedBorder)
-            }
-            .font(hClass == .compact ? .callout : .body)
+            ActivityProgressSlider(progress: progress)
+
+            description
+
+            buttons
         }
     }
 }

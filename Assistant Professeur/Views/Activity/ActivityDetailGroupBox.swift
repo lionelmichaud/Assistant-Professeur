@@ -46,11 +46,17 @@ struct ActivityDetailGroupBox: View {
                     .padding(.top, 4)
                 }
 
-                DurationView(duration: activity.duration, withMargin: false)
+                // Durées / url
+                HStack {
+                    DurationSquareView(
+                        duration: activity.duration,
+                        withMargin: false
+                    )
                     .padding(.top, 4)
-
-                WebsiteView(url: activity.url, showURL: true)
-                    .padding(.top, 4)
+                    Spacer()
+                    WebsiteView(url: activity.url, showURL: true)
+                        .padding(.top, 4)
+                }
 
                 ActivityAllSymbols(
                     activity: activity,
@@ -63,17 +69,17 @@ struct ActivityDetailGroupBox: View {
         }
         .padding(.horizontal)
         #if os(macOS)
-        .sheet(item: $documentToBeViewed) { doc in
-            NavigationStack {
-                PdfDocumentViewer(document: doc)
+            .sheet(item: $documentToBeViewed) { doc in
+                NavigationStack {
+                    PdfDocumentViewer(document: doc)
+                }
             }
-        }
         #else
-        .fullScreenCover(item: $documentToBeViewed) { doc in
-            NavigationStack {
-                PdfDocumentViewer(document: doc)
-            }
-        }
+                .fullScreenCover(item: $documentToBeViewed) { doc in
+                    NavigationStack {
+                        PdfDocumentViewer(document: doc)
+                    }
+                }
         #endif
     }
 }

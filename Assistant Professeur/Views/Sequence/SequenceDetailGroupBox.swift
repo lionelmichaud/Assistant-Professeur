@@ -48,12 +48,12 @@ struct SequenceDetailGroupBox: View {
 
                 // Durées / url
                 HStack {
-                    DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
-                        .padding(.trailing)
-                    DurationView(duration: sequence.durationWithMargin, withMargin: true)
-                        .padding(.trailing)
-                    WebsiteView(url: sequence.url)
+                    DurationSquareView(
+                        duration: sequence.durationWithoutMargin,
+                        withMargin: true
+                    )
                     Spacer()
+                    WebsiteView(url: sequence.url)
                 }
                 .padding(.top, 4)
             }

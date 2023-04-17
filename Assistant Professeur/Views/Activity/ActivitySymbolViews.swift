@@ -107,25 +107,50 @@ struct ActivityAllSymbols: View {
     @ObservedObject
     var activity: ActivityEntity
     var showTitle: Bool
+    var axis: Axis = .horizontal
 
     var body: some View {
-        HStack {
-            ActivitySymbolProject(
-                activity: activity,
-                showTitle: showTitle
-            )
-            ActivitySymbolTP(
-                activity: activity,
-                showTitle: showTitle
-            )
-            ActivitySymbolEvalFormmative(
-                activity: activity,
-                showTitle: showTitle
-            )
-            ActivitySymbolEvalSommative(
-                activity: activity,
-                showTitle: showTitle
-            )
+        if axis == .horizontal {
+            HStack {
+                ActivitySymbolProject(
+                    activity: activity,
+                    showTitle: showTitle
+                )
+                ActivitySymbolTP(
+                    activity: activity,
+                    showTitle: showTitle
+                )
+                ActivitySymbolEvalFormmative(
+                    activity: activity,
+                    showTitle: showTitle
+                )
+                ActivitySymbolEvalSommative(
+                    activity: activity,
+                    showTitle: showTitle
+                )
+            }
+        } else {
+            VStack {
+                ActivitySymbolProject(
+                    activity: activity,
+                    showTitle: showTitle
+                )
+                .padding(activity.isProject ? 2 : 0)
+                ActivitySymbolTP(
+                    activity: activity,
+                    showTitle: showTitle
+                )
+                .padding(activity.isTP ? 2 : 0)
+                ActivitySymbolEvalFormmative(
+                    activity: activity,
+                    showTitle: showTitle
+                )
+                .padding(activity.isEvalFormative ? 2 : 0)
+                ActivitySymbolEvalSommative(
+                    activity: activity,
+                    showTitle: showTitle
+                )
+            }
         }
     }
 }

@@ -560,7 +560,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             isEvalSommative: true,
             isEvalFormative: false,
             isTP: false,
-            isProject: false,
+            isProject: true,
             dans: progTechno5Seq1
         )
         ActivityEntity.create(
@@ -580,7 +580,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             isEvalSommative: true,
             isEvalFormative: false,
             isTP: false,
-            isProject: false,
+            isProject: true,
             dans: progTechno5Seq2
         )
         ActivityEntity.create(
@@ -590,8 +590,8 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             duration: 1.0,
             isEvalSommative: false,
             isEvalFormative: false,
-            isTP: false,
-            isProject: false,
+            isTP: true,
+            isProject: true,
             dans: progSntTermSeq2
         )
         ActivityEntity.create(
