@@ -29,12 +29,12 @@ struct ClasseSidebarView: View {
                     } header: {
                         HStack {
                             Text(section.id)
-                                .font(.callout)
-                                .foregroundColor(.secondary)
-                                .fontWeight(.bold)
                             Spacer()
                             Text("\(section.count)")
                         }
+                        .font(.callout)
+                        .foregroundColor(.secondary)
+                        .fontWeight(.bold)
                     }
                 }
             }

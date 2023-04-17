@@ -40,7 +40,7 @@ struct ProgramSidebarView: View {
             ForEach(programsSections) { section in
                 if section.isNotEmpty {
                     Section {
-                        // pour chaque Discipline
+                        // pour chaque Niveau
                         ForEach(section, id: \.objectID) { program in
 //                            NavigationLink(value: program.objectID) {
                             ProgramBrowserRow(program: program)

@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 23/04/2022.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct EleveSidebarView: View {
     @EnvironmentObject
@@ -152,12 +152,16 @@ struct EleveSidebarSchoolSubview: View {
                                 }.tint(.orange)
                             }
                     }
-                    
+
                 } label: {
-                    Text(classe.displayString)
-                        .font(.callout)
-                        .foregroundColor(.secondary)
-                        .fontWeight(.bold)
+                    HStack {
+                        Text(classe.displayString)
+                        Spacer()
+                        Text("\(classe.nbOfEleves) élèves")
+                    }
+                    .font(.callout)
+                    .foregroundColor(.secondary)
+                    .fontWeight(.bold)
                 }
                 .padding(.leading, 4)
             } else {
@@ -171,21 +175,21 @@ struct EleveSidebarSchoolSubview: View {
     }
 }
 
- struct EleveBrowserView_Previews: PreviewProvider {
-     static func initialize() {
-         DataBaseManager.populateWithMockData(storeType: .inMemory)
-     }
+struct EleveBrowserView_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
 
-     static var previews: some View {
-         initialize()
-         return Group {
-             EleveSidebarView()
-                 .previewDevice("iPad mini (6th generation)")
+    static var previews: some View {
+        initialize()
+        return Group {
+            EleveSidebarView()
+                .previewDevice("iPad mini (6th generation)")
 
-             EleveSidebarView()
-                 .previewDevice("iPhone 13")
-         }
-         .environmentObject(NavigationModel(selectedEleveMngObjId: EleveEntity.all().first!.objectID))
-         .environment(\.managedObjectContext, CoreDataManager.shared.context)
-     }
- }
+            EleveSidebarView()
+                .previewDevice("iPhone 13")
+        }
+        .environmentObject(NavigationModel(selectedEleveMngObjId: EleveEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+    }
+}

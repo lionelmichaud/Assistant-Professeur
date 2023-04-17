@@ -17,17 +17,31 @@ struct WarningSidebarView: View {
             id: \.self,
             selection: $navig.selectedWarningType
         ) { warningType in
-            Label(
-                title: {
-                    Text(warningType.rawValue)
-                        .fontWeight(.bold)
-                },
-                icon: {
-                    Image(systemName: warningType.imageName)
-                }
-            )
+            HStack {
+                Label(
+                    title: {
+                        Text(warningType.rawValue)
+                            .fontWeight(.bold)
+                    },
+                    icon: {
+                        Image(systemName: warningType.imageName)
+                    }
+                )
+                Spacer()
+                Text("\(cardinal(warningType))")
+                    .foregroundColor(.secondary)
+           }
         }
         .navigationTitle("Avertissements")
+    }
+
+    private func cardinal(_ warningType: NavigationModel.WarningSelection) -> Int {
+        switch warningType {
+            case .observation:
+                return ObservEntity.cardinal()
+            case .colle:
+                return ColleEntity.cardinal()
+        }
     }
 }
 
