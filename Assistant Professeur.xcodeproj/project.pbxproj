@@ -18,6 +18,7 @@
 		79135E162969E17000F95694 /* Doc Prof Caousou.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 79135E122969E17000F95694 /* Doc Prof Caousou.pdf */; };
 		79135E1A2969E18200F95694 /* Plan TECHNO-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 79135E182969E18200F95694 /* Plan TECHNO-2.png */; };
 		79135E1B2969E18200F95694 /* Plan Salle.png in Resources */ = {isa = PBXBuildFile; fileRef = 79135E192969E18200F95694 /* Plan Salle.png */; };
+		7913B58829EF15C700FBB478 /* ActivityTimerModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7913B58729EF15C700FBB478 /* ActivityTimerModal.swift */; };
 		791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791A0CDC29746A31004CA543 /* DataBaseManager.swift */; };
 		7920A5242957345A0092A7DD /* EleveLabelWithTrombineFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A5232957345A0092A7DD /* EleveLabelWithTrombineFlag.swift */; };
 		792135572978724C0036A5EA /* Program+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792135562978724C0036A5EA /* Program+Extensions.swift */; };
@@ -114,6 +115,7 @@
 		797AD2B229902BCE00BE5D37 /* ActivityProgressesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797AD2B129902BCE00BE5D37 /* ActivityProgressesView.swift */; };
 		797AD2B429913B4C00BE5D37 /* School+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */; };
 		797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */; };
+		7981280629F1CB3500A3817E /* AgendaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981280529F1CB3500A3817E /* AgendaManager.swift */; };
 		7981C22129A8054A0085986D /* ProgramTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981C22029A8054A0085986D /* ProgramTimeLine.swift */; };
 		7981C22329A807110085986D /* ProgramStepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981C22229A807110085986D /* ProgramStepperView.swift */; };
 		798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798458E92939529D00B74538 /* AnnotationEditView.swift */; };
@@ -158,6 +160,7 @@
 		79AFBFB62981C9DA001576DD /* ActivityCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AFBFB52981C9DA001576DD /* ActivityCreatorModal.swift */; };
 		79AFBFB82981D264001576DD /* ActivityEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AFBFB72981D264001576DD /* ActivityEditorModal.swift */; };
 		79B298E829EC5F2C008BAF50 /* ActivityTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B298E729EC5F2C008BAF50 /* ActivityTimerView.swift */; };
+		79B3083A29EE115300C69C79 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 79B3083929EE115300C69C79 /* Documentation.docc */; };
 		79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B6630429244C3F007B1FBD /* Assistant_ProfesseurApp.swift */; };
 		79B6630729244C3F007B1FBD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B6630629244C3F007B1FBD /* ContentView.swift */; };
 		79B6630929244C3F007B1FBD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79B6630829244C3F007B1FBD /* Assets.xcassets */; };
@@ -269,6 +272,7 @@
 		79F41E732954D30F00EAAC52 /* EleveBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E722954D30F00EAAC52 /* EleveBrowserRow.swift */; };
 		79F57E38298EB2D30014B73D /* ActivitySymbolViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */; };
 		79F60D092996A02200981385 /* Ressource+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F60D072996A02200981385 /* Ressource+CoreDataClass.swift */; };
+		79F8773229F425A300AB38C3 /* DigitalClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F8773129F425A300AB38C3 /* DigitalClockView.swift */; };
 		79FBB4D72991C2CC00B47484 /* Classe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */; };
 		79FC04E5298DCC240093BC8B /* IndividualSteppedlMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FC04E4298DCC240093BC8B /* IndividualSteppedlMarkModal.swift */; };
 		79FFF42729511DF20037A327 /* ClassBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42629511DF20037A327 /* ClassBrowserRow.swift */; };
@@ -308,6 +312,7 @@
 		79135E182969E18200F95694 /* Plan TECHNO-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Plan TECHNO-2.png"; sourceTree = "<group>"; };
 		79135E192969E18200F95694 /* Plan Salle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Plan Salle.png"; sourceTree = "<group>"; };
 		79135E1C296B0D7800F95694 /* Assistant-Professeur-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Assistant-Professeur-Info.plist"; sourceTree = SOURCE_ROOT; };
+		7913B58729EF15C700FBB478 /* ActivityTimerModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTimerModal.swift; sourceTree = "<group>"; };
 		791A0CDC29746A31004CA543 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
 		7920A5232957345A0092A7DD /* EleveLabelWithTrombineFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveLabelWithTrombineFlag.swift; sourceTree = "<group>"; };
 		792135562978724C0036A5EA /* Program+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Program+Extensions.swift"; sourceTree = "<group>"; };
@@ -398,6 +403,7 @@
 		797AD2B129902BCE00BE5D37 /* ActivityProgressesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityProgressesView.swift; sourceTree = "<group>"; };
 		797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "School+CoreDataClass.swift"; sourceTree = "<group>"; };
 		797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDisciplineLevel.swift; sourceTree = "<group>"; };
+		7981280529F1CB3500A3817E /* AgendaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AgendaManager.swift; path = "Assistant Professeur/Views/Classe/Progress/ActivityTimer/AgendaManager.swift"; sourceTree = SOURCE_ROOT; };
 		7981C22029A8054A0085986D /* ProgramTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramTimeLine.swift; sourceTree = "<group>"; };
 		7981C22229A807110085986D /* ProgramStepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramStepperView.swift; sourceTree = "<group>"; };
 		798458E92939529D00B74538 /* AnnotationEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationEditView.swift; sourceTree = "<group>"; };
@@ -442,6 +448,7 @@
 		79AFBFB52981C9DA001576DD /* ActivityCreatorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCreatorModal.swift; sourceTree = "<group>"; };
 		79AFBFB72981D264001576DD /* ActivityEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityEditorModal.swift; sourceTree = "<group>"; };
 		79B298E729EC5F2C008BAF50 /* ActivityTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ActivityTimerView.swift; path = Documentation/ActivityTimerView.swift; sourceTree = SOURCE_ROOT; };
+		79B3083929EE115300C69C79 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		79B6630129244C3F007B1FBD /* Assistant Professeur.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Assistant Professeur.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		79B6630429244C3F007B1FBD /* Assistant_ProfesseurApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assistant_ProfesseurApp.swift; sourceTree = "<group>"; };
 		79B6630629244C3F007B1FBD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -529,6 +536,7 @@
 		79F41E722954D30F00EAAC52 /* EleveBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveBrowserRow.swift; sourceTree = "<group>"; };
 		79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySymbolViews.swift; sourceTree = "<group>"; };
 		79F60D072996A02200981385 /* Ressource+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Ressource+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/School/Ressource/Ressource+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		79F8773129F425A300AB38C3 /* DigitalClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalClockView.swift; sourceTree = "<group>"; };
 		79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Classe+CoreDataClass.swift"; path = "Assistant Professeur/Model/Classe/Classe+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		79FC04E4298DCC240093BC8B /* IndividualSteppedlMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualSteppedlMarkModal.swift; sourceTree = "<group>"; };
 		79FFF42629511DF20037A327 /* ClassBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassBrowserRow.swift; sourceTree = "<group>"; };
@@ -688,6 +696,7 @@
 				7921F54B2925825800173F39 /* ModelEntityP.swift */,
 				79388A4E29257025002AABB8 /* AppState.swift */,
 				79FFF42C295122F60037A327 /* ColorOptions.swift */,
+				7981280429F1CB1300A3817E /* Agenda */,
 				79DEDB1D292598BE00F508EF /* Persistence */,
 				79BF1DAF29291005005D6CF3 /* Document */,
 				79213555297872320036A5EA /* Program */,
@@ -907,6 +916,14 @@
 			name = Packages;
 			sourceTree = "<group>";
 		};
+		7981280429F1CB1300A3817E /* Agenda */ = {
+			isa = PBXGroup;
+			children = (
+				7981280529F1CB3500A3817E /* AgendaManager.swift */,
+			);
+			path = Agenda;
+			sourceTree = "<group>";
+		};
 		7981C21F29A805220085986D /* TimeLine */ = {
 			isa = PBXGroup;
 			children = (
@@ -954,7 +971,9 @@
 		79B298E629EC5F10008BAF50 /* ActivityTimer */ = {
 			isa = PBXGroup;
 			children = (
+				7913B58729EF15C700FBB478 /* ActivityTimerModal.swift */,
 				79B298E729EC5F2C008BAF50 /* ActivityTimerView.swift */,
+				79F8773129F425A300AB38C3 /* DigitalClockView.swift */,
 			);
 			path = ActivityTimer;
 			sourceTree = "<group>";
@@ -962,6 +981,7 @@
 		79B662F829244C3F007B1FBD = {
 			isa = PBXGroup;
 			children = (
+				79B3083929EE115300C69C79 /* Documentation.docc */,
 				7966DCF7292573A1001D6C7F /* Packages */,
 				79B6630329244C3F007B1FBD /* Assistant Professeur */,
 				79B6631529244C3F007B1FBD /* Assistant ProfesseurTests */,
@@ -1496,6 +1516,7 @@
 				798DD4D6298C366300C47B2C /* TrombineView.swift in Sources */,
 				7994E3262972F4E500952D08 /* PdfDocumentViewer.swift in Sources */,
 				79D573472927EEDE00B0B7B8 /* SchoolViewModel.swift in Sources */,
+				7981280629F1CB3500A3817E /* AgendaManager.swift in Sources */,
 				7923811A2960B04F009E51B7 /* GroupView.swift in Sources */,
 				79DEDB11292593C200F508EF /* SettingsEleve.swift in Sources */,
 				79F41E642954B08A00EAAC52 /* Eleve+Extensions.swift in Sources */,
@@ -1551,6 +1572,7 @@
 				79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */,
 				798DD4D2298C318F00C47B2C /* ExamListView.swift in Sources */,
 				794F6E12295CE1B700042B95 /* ObservEditor.swift in Sources */,
+				79F8773229F425A300AB38C3 /* DigitalClockView.swift in Sources */,
 				79FC04E5298DCC240093BC8B /* IndividualSteppedlMarkModal.swift in Sources */,
 				79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */,
 				7921355A2978726E0036A5EA /* Sequence+Extensions.swift in Sources */,
@@ -1562,6 +1584,7 @@
 				791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */,
 				79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */,
 				790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */,
+				79B3083A29EE115300C69C79 /* Documentation.docc in Sources */,
 				79DEDAEC2925864A00F508EF /* ClasseSplitView.swift in Sources */,
 				79BF1DAD29290FBC005D6CF3 /* Observ+Extensions.swift in Sources */,
 				79637201297D707400ECDBC3 /* SequenceList.swift in Sources */,
@@ -1610,6 +1633,7 @@
 				798DD4D4298C352A00C47B2C /* StepsNotationView.swift in Sources */,
 				79AFBFB62981C9DA001576DD /* ActivityCreatorModal.swift in Sources */,
 				7989B4DB29A28D0300383F84 /* ProgressState.swift in Sources */,
+				7913B58829EF15C700FBB478 /* ActivityTimerModal.swift in Sources */,
 				7994E3242972F4E500952D08 /* SchoolDocumentList.swift in Sources */,
 				795C2C31296E2DCA00EDFF09 /* RoomElevePlacement.swift in Sources */,
 				7981C22129A8054A0085986D /* ProgramTimeLine.swift in Sources */,

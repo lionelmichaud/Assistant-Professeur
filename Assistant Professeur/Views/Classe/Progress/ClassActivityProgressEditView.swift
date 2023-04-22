@@ -45,10 +45,26 @@ struct ClassActivityProgressEditView: View {
                 // priorité 2
                 compactView
             }
-
         } label: {
             labelView
         }
+        #if os(macOS)
+        .sheet(isPresented: $isShowingActivityTimer) {
+            NavigationStack {
+                if let activity = progress.activity {
+                    ActivityTimerView(activity: activity)
+                }
+            }
+        }
+        #else
+                .fullScreenCover(isPresented: $isShowingActivityTimer) {
+                    NavigationStack {
+                        if let activity = progress.activity {
+                            ActivityTimerView(activity: activity)
+                        }
+                    }
+                }
+        #endif
     }
 }
 
@@ -64,7 +80,7 @@ extension ClassActivityProgressEditView {
                     LabeledActivityView(activity: activity, font: .body)
                         .bold(hClass == .regular)
                     Spacer(minLength: 2)
-                    
+
                     ActivityAllSymbols(
                         activity: activity,
                         showTitle: false,

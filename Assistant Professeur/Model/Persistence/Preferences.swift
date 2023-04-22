@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import AppFoundation
 
 @propertyWrapper
 public struct UserDefault<Value> {
@@ -245,6 +246,27 @@ public final class Preferences {
     // Champ annotation
     @UserDefault("activity_annotation")
     public var activityAnnotationEnabled: Bool = true
+
+    /// Horaires
+    // Durée d'une séance de cours en minutes
+    @UserDefault("durée_séance_minutes")
+    public var seanceDuration: DateComponents = 55.minutes
+
+    // Durée inter-cours en minutes
+    @UserDefault("durée_inter_séance_minutes")
+    public var interSeancesDuration: DateComponents = 0.minutes
+
+    // Durée de la récréation en minutes
+    @UserDefault("durée_récréation_minutes")
+    public var recreationDuration: DateComponents = 20.minutes
+
+    // Durée de la pause déjeuner en minutes
+    @UserDefault("durée_déjeuner_minutes")
+    public var lunchDuration: DateComponents = 75.minutes
+
+    // Heure du début de la journée de cours
+    @UserDefault("heure_début_journée")
+    public var timeOfFirstSeance: DateComponents = 8.hours + 15.minutes
 
     /// Paramètres Graphiques
     // graphique Bilan
