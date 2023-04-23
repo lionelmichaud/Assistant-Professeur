@@ -15,43 +15,82 @@ struct ActivityTimerView: View {
     var alertRemainingMinutes: Int? = nil
     var test: Bool = false
 
+    enum TimerColors {
+        case normal, warning, alert
+        var color: Color {
+            switch self {
+                case .normal:
+                    return .green
+                case .warning:
+                    return .orange
+                case .alert:
+                    return .red
+            }
+        }
+    }
+
     @Preference(\.seanceDuration)
     private var seanceDuration
 
     var body: some View {
         TimelineView(.periodic(from: .now, by: 5)) { timeLine in
             if let trimValue = cursorValue(for: timeLine.date) {
-                ZStack {
-                    // le fond
-                    Circle()
-                        .fill(Color.clear)
-                        .overlay(
-                            Circle()
-                                .stroke(
-                                    Color.secondary,
-                                    lineWidth: lineWidth
-                                )
-                        )
+                let color = cursorColor(for: timeLine.date)
+                VStack {
+                    ZStack {
+                        // le fond
+                        Circle()
+                            .fill(Color.clear)
+                            .overlay(
+                                Circle()
+                                    .stroke(
+                                        Color.secondary,
+                                        lineWidth: lineWidth
+                                    )
+                            )
 
-                    // le curseur
-                    Circle()
-                        .trim(from: 0, to: trimValue)
-                        .stroke(style: StrokeStyle(
-                            lineWidth: lineWidth,
-                            lineCap: .round,
-                            lineJoin: .round
-                        ))
-                        .foregroundColor(cursorColor(for: timeLine.date))
-                        .animation(.easeInOut, value: 0.2)
-                        .rotationEffect(.degrees(-90.0))
+                        // le curseur
+                        Circle()
+                            .trim(from: 0, to: trimValue)
+                            .stroke(style: StrokeStyle(
+                                lineWidth: lineWidth,
+                                lineCap: .round,
+                                lineJoin: .round
+                            ))
+                            .foregroundColor(color)
+                            .animation(.easeInOut, value: 0.2)
+                            .rotationEffect(.degrees(-90.0))
 
-                    // le compte à rebour
-                    if let elapsedTime = AgendaManager.shared.elapsedTime(to: timeLine.date),
-                       let remainingTime = AgendaManager.shared.remainingTime(from: timeLine.date) {
-                        DigitalClockView(
-                            elapsedTime: elapsedTime,
-                            remainingTime: remainingTime
-                        )
+                        // le compte à rebour
+                        if let elapsedTime = elapsedTime(for: timeLine.date),
+                           let remainingTime = remainingTime(for: timeLine.date) {
+                            DigitalClockView(
+                                elapsedTime: elapsedTime,
+                                remainingTime: remainingTime,
+                                color: color
+                            )
+                        }
+                    }
+                    .padding(lineWidth)
+
+                    // affichage des seuils d'alerte
+                    if let warningRemainingMinutes {
+                        Text("Alerte: ")
+                            .font(.title)
+                            .bold()
+                            .foregroundColor(TimerColors.warning.color)
+                        + Text("-\(warningRemainingMinutes) minutes")
+                            .font(.title)
+                            .bold()
+                    }
+                    if let alertRemainingMinutes {
+                        Text("Alarme: ")
+                            .font(.title)
+                            .bold()
+                            .foregroundColor(TimerColors.alert.color)
+                        + Text("-\(alertRemainingMinutes) minutes")
+                            .font(.title)
+                            .bold()
                     }
                 }
 
@@ -60,9 +99,9 @@ struct ActivityTimerView: View {
                     .font(.title)
             }
         }
-        .padding(.horizontal, lineWidth)
     }
 
+    /// Temps écoulé depuis le début de la séance
     private func elapsedTime(for date: Date) -> DateComponents? {
         guard !test else {
             return DateComponents(minute: date.minutes, second: date.seconds)
@@ -71,6 +110,7 @@ struct ActivityTimerView: View {
         return AgendaManager.shared.elapsedTime(to: date)
     }
 
+    /// Temps restant avant le début de la séance
     private func remainingTime(for date: Date) -> DateComponents? {
         guard !test else {
             return DateComponents(minute: 60 - date.minutes, second: 60 - date.seconds)
@@ -79,6 +119,7 @@ struct ActivityTimerView: View {
         return AgendaManager.shared.elapsedTime(to: date)
     }
 
+    /// Position du curseur
     private func cursorValue(for date: Date) -> Double? {
         guard !test else {
             return date.minutes.double() / 60.0
@@ -92,15 +133,16 @@ struct ActivityTimerView: View {
         }
     }
 
+    /// Couleur du curseur
     private func cursorColor(for date: Date) -> Color {
-        guard let remaingMinutes = AgendaManager.shared.remainingMinutes(from: date) else {
-            return .green
+        guard let remaingMinutes = remainingTime(for: date)?.minute else {
+            return TimerColors.normal.color
         }
         if let alertRemainingMinutes, remaingMinutes < alertRemainingMinutes {
-            return .red
+            return TimerColors.alert.color
         }
         if let warningRemainingMinutes, remaingMinutes < warningRemainingMinutes {
-            return .orange
+            return TimerColors.warning.color
         }
         return .green
     }
@@ -117,7 +159,7 @@ struct ActivityTimerView_Previews: PreviewProvider {
         return Group {
             ActivityTimerView(
                 activity: activity,
-                warningRemainingMinutes: nil,
+                warningRemainingMinutes: 10,
                 alertRemainingMinutes: 5,
                 test: true
             )
@@ -125,8 +167,9 @@ struct ActivityTimerView_Previews: PreviewProvider {
             ActivityTimerView(
                 activity: activity,
                 lineWidth: 40,
-                warningRemainingMinutes: nil,
-                alertRemainingMinutes: 5
+                warningRemainingMinutes: 10,
+                alertRemainingMinutes: 5,
+                test: true
             )
             .previewDevice("iPhone 13")
         }

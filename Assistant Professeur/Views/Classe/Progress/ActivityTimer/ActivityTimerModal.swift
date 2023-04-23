@@ -10,19 +10,20 @@ import SwiftUI
 struct ActivityTimerModal: View {
     @ObservedObject
     var activity: ActivityEntity
+    var test: Bool = false
 
     @Environment(\.dismiss)
     private var dismiss
 
     var body: some View {
-        ActivityTimerView(activity: activity)
+        ActivityTimerView(activity: activity, test: test)
         #if os(iOS)
             .navigationTitle("Chronomètre")
-            .navigationBarTitleDisplayMode(.inline)
+            //.navigationBarTitleDisplayMode(.inline)
         #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Ok") {
+                    Button("Retour") {
                         dismiss()
                     }
                 }
@@ -40,11 +41,11 @@ struct ActivityTimerModal_Previews: PreviewProvider {
         let activity = ActivityEntity.all().first!
         return Group {
             NavigationStack {
-                ActivityTimerModal(activity: activity)
+                ActivityTimerModal(activity: activity, test: true)
             }
             .previewDevice("iPad mini (6th generation)")
             NavigationStack {
-                ActivityTimerModal(activity: activity)
+                ActivityTimerModal(activity: activity, test: true)
             }
             .previewDevice("iPhone 13")
         }
