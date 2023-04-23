@@ -99,6 +99,9 @@ struct ClasseDetail: View {
     private var isShowingImportListeDialog = false
 
     @State
+    private var isShowingClasseTimer = false
+
+    @State
     private var randomEleve: EleveEntity?
 
     @State
@@ -220,58 +223,72 @@ struct ClasseDetail: View {
 extension ClasseDetail {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
-        ToolbarItemGroup(placement: .primaryAction) {
-            Button {
-                randomEleve = classe.elevesSortedByName.randomElement()
-            } label: {
-                Image(systemName: "dice")
-                    .imageScale(.large)
-            }
-            .disabled(!eleveTrombineEnabled)
-            .popover(item: $randomEleve) { eleve in
-                TrombineView(eleve: eleve)
-                    .scaledToFit()
-                    .frame(minWidth: 200, minHeight: 250)
-                Text(eleve.displayName2lines(.prenomNom))
-                    .font(.headline)
-                    .multilineTextAlignment(.center)
-                    .bold()
-                    .padding(4)
-                if let group = eleve.group {
-                    GroupCapsule(group: group)
-                        .padding(.bottom)
+        ToolbarItem(placement: .primaryAction) {
+            ControlGroup {
+                Button {
+                    isShowingClasseTimer.toggle()
+                } label: {
+                    Image(systemName: "stopwatch")
                 }
-            }
-            // Importation des données
-            // Importer une liste d'élèves d'une classe depuis un fichier CSV au format PRONOTE
-            Button {
-                isShowingImportListeDialog.toggle()
-            } label: {
-                Image(systemName: "square.and.arrow.down")
-                    .imageScale(.large)
-            }
-            // Confirmation de l'importation d'une liste d'élèves d'une classe
-            .confirmationDialog(
-                "Importer une liste d'élèves",
-                isPresented: $isShowingImportListeDialog,
-                titleVisibility: .visible
-            ) {
-                Button("Importer et ajouter") {
-                    withAnimation {
-                        importCsvFile = true
+                .fullScreenCover(isPresented: $isShowingClasseTimer) {
+                    NavigationStack {
+                        ClasseTimerModal()
                     }
                 }
-                Button("Importer et remplacer", role: .destructive) {
-                    withAnimation {
-                        classe.allEleves.forEach { eleve in
-                            try? eleve.delete()
+                
+                Button {
+                    randomEleve = classe.elevesSortedByName.randomElement()
+                } label: {
+                    Image(systemName: "dice.fill")
+                        .imageScale(.large)
+                }
+                .disabled(!eleveTrombineEnabled)
+                .popover(item: $randomEleve) { eleve in
+                    TrombineView(eleve: eleve)
+                        .scaledToFit()
+                        .frame(minWidth: 200, minHeight: 250)
+                    Text(eleve.displayName2lines(.prenomNom))
+                        .font(.headline)
+                        .multilineTextAlignment(.center)
+                        .bold()
+                        .padding(4)
+                    if let group = eleve.group {
+                        GroupCapsule(group: group)
+                            .padding(.bottom)
+                    }
+                }
+                
+                // Importation des données
+                // Importer une liste d'élèves d'une classe depuis un fichier CSV au format PRONOTE
+                Button {
+                    isShowingImportListeDialog.toggle()
+                } label: {
+                    Image(systemName: "square.and.arrow.down")
+                        .imageScale(.large)
+                }
+                // Confirmation de l'importation d'une liste d'élèves d'une classe
+                .confirmationDialog(
+                    "Importer une liste d'élèves",
+                    isPresented: $isShowingImportListeDialog,
+                    titleVisibility: .visible
+                ) {
+                    Button("Importer et ajouter") {
+                        withAnimation {
+                            importCsvFile = true
                         }
                     }
-                    importCsvFile = true
-                }
-            } message: {
-                Text("La liste des élèves importée doit être au format CSV de \(interoperability == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
+                    Button("Importer et remplacer", role: .destructive) {
+                        withAnimation {
+                            classe.allEleves.forEach { eleve in
+                                try? eleve.delete()
+                            }
+                        }
+                        importCsvFile = true
+                    }
+                } message: {
+                    Text("La liste des élèves importée doit être au format CSV de \(interoperability == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
                     Text("Cette action ne peut pas être annulée.")
+                }
             }
         }
     }

@@ -119,6 +119,16 @@ struct AgendaManager {
             ))
     }
 
+    func seanceDuration() -> DateComponents {
+        AgendaManager.seanceDuration
+    }
+
+    /// Retourne la séance en cours à la `date`
+    /// - Returns: `nil` si aucune séance n'est en cours
+    func seanceOngoing(at date: Date) -> DateInterval? {
+        seances.first(where: { $0.contains(date) })
+    }
+
     /// Temps écoulé en **secondes** depuis le début de la séance.
     /// - Returns: Temps écoulé en secondes
     /// - Parameter thisDate: date/heure à laquelle faire le calcul
@@ -138,7 +148,7 @@ struct AgendaManager {
     /// - Parameter thisDate: date/heure à laquelle faire le calcul
     func elapsedTime(to thisDate: Date?) -> DateComponents? {
         let date = thisDate ?? .now
-        if let seance = seances.first(where: { $0.contains(date) }) {
+        if let seance = seanceOngoing(at: date) {
             return Calendar.current.dateComponents(
                 [.hour, .minute, .second],
                 from: seance.start,
@@ -168,7 +178,7 @@ struct AgendaManager {
     /// - Parameter thisDate: date/heure à laquelle faire le calcul
     func remainingTime(from thisDate: Date?) -> DateComponents? {
         let date = thisDate ?? .now
-        if let seance = seances.first(where: { $0.contains(date) }) {
+        if let seance = seanceOngoing(at: date) {
             return Calendar.current.dateComponents(
                 [.hour, .minute, .second],
                 from: date,

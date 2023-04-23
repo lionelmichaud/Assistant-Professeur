@@ -15,11 +15,21 @@ struct ActivityTimerModal: View {
     @Environment(\.dismiss)
     private var dismiss
 
+    @State
+    private var warningRemainingMinutes: Int = 10
+
+    @State
+    private var alertRemainingMinutes: Int = 5
+
     var body: some View {
-        ActivityTimerView(activity: activity, test: test)
+        SeanceTimerView(
+            warningRemainingMinutes: $warningRemainingMinutes,
+            alertRemainingMinutes: $alertRemainingMinutes,
+            test: test
+        )
         #if os(iOS)
-            .navigationTitle("Chronomètre")
-            //.navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Chronomètre")
+            // .navigationBarTitleDisplayMode(.inline)
         #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
