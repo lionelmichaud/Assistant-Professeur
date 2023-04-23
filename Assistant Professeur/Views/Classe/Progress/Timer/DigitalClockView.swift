@@ -10,6 +10,7 @@ import SwiftUI
 struct DigitalClockView: View {
     var elapsedTime: DateComponents
     var remainingTime: DateComponents
+    var color: Color = .primary
 
     private var elapsedMinutes: Int {
         elapsedTime.minute ?? 0
@@ -38,11 +39,12 @@ struct DigitalClockView: View {
     var body: some View {
         VStack(alignment: .trailing) {
             Text(counter)
-                .font(.system(size: 60))
+                .font(.system(size: 60, design: .monospaced))
                 .fontWeight(.black)
             Text(countDown)
-                .font(.system(size: 60))
+                .font(.system(size: 60, design: .monospaced))
                 .fontWeight(.black)
+                .foregroundColor(color)
         }
     }
 }

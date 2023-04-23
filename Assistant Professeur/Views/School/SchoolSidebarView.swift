@@ -288,6 +288,16 @@ extension SchoolSidebarView {
 
         // Menu
         ToolbarItemGroup(placement: .automatic) {
+            // Edition des préférences utilisateur
+            Button {
+                isEditingPreferences = true
+            } label: {
+                Label(
+                    "Préférences",
+                    systemImage: "gear"
+                )
+            }
+
             Menu {
                 Section {
                     // A propos
@@ -297,16 +307,6 @@ extension SchoolSidebarView {
                         Label(
                             "A propos",
                             systemImage: "info.circle"
-                        )
-                    }
-
-                    // Edition des préférences utilisateur
-                    Button {
-                        isEditingPreferences = true
-                    } label: {
-                        Label(
-                            "Préférences",
-                            systemImage: "gear"
                         )
                     }
 

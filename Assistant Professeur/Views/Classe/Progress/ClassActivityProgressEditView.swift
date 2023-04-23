@@ -52,7 +52,7 @@ struct ClassActivityProgressEditView: View {
         .sheet(isPresented: $isShowingActivityTimer) {
             NavigationStack {
                 if let activity = progress.activity {
-                    ActivityTimerView(activity: activity)
+                    ActivityTimerModal(activity: activity)
                 }
             }
         }
@@ -60,7 +60,7 @@ struct ClassActivityProgressEditView: View {
                 .fullScreenCover(isPresented: $isShowingActivityTimer) {
                     NavigationStack {
                         if let activity = progress.activity {
-                            ActivityTimerView(activity: activity)
+                            ActivityTimerModal(activity: activity)
                         }
                     }
                 }
