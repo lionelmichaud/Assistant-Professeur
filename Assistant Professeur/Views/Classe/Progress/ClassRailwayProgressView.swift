@@ -25,12 +25,11 @@ struct ClassRailwayProgressView: View {
 
     var body: some View {
         ForEach(classeSequences) { sequence in
-            if sequence.nbOfActivities > 0 {
+            if sequence.nbOfActivities > 0 && sequence.statusFor(classe: classe) == .inProgress {
                 GroupBox {
-                    sequenceTitleView(sequence: sequence)
-                        .padding(.bottom)
-                        .frame(maxWidth: .infinity)
-                    if sequence.statusFor(classe: classe) == .inProgress {
+                        sequenceTitleView(sequence: sequence)
+                            .padding(.bottom)
+                            .frame(maxWidth: .infinity)
                         StepperView()
                             .addSteps(steps(sequence: sequence))
                             .indicators(indicators(sequence: sequence))
@@ -42,7 +41,6 @@ struct ClassRailwayProgressView: View {
                             .spacing(hClass == .compact ? 35 : 75)
                             // .loadingAnimationTime(0.01)
                             .padding([.top, .leading])
-                    }
                 }
                 .padding(.horizontal)
                 .horizontallyAligned(.leading)
