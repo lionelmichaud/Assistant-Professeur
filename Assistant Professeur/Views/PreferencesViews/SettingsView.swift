@@ -20,11 +20,10 @@ struct SettingsView: View {
             SettingsSchool()
             SettingsClasse()
             SettingsEleve()
-            if horizontalSizeClass == .regular {
-                SettingsProgram()
-                SettingsSequence()
-                SettingsActivity()
-            }
+            SettingsProgram()
+            SettingsSequence()
+            SettingsActivity()
+            SettingsAgenda()
         }
         #if os(iOS)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))

@@ -5,14 +5,19 @@
 //  Created by Lionel MICHAUD on 20/04/2023.
 //
 
+import AppFoundation
 import Foundation
 
 struct AgendaManager {
-    @Preference(\.timeOfFirstSeance)
-    private static var timeOfFirstSeance
-    private static var dateOfFirstSeance: Date = {
+    @Preference(\.hourOfFirstSeance)
+    private static var hourOfFirstSeance
+
+    @Preference(\.minutesOfFirstSeance)
+    private static var minutesOfFirstSeance
+
+    static var dateOfFirstSeance: Date = {
         let startOfDay = Calendar.current.startOfDay(for: .now)
-        return timeOfFirstSeance.from(startOfDay)!
+        return (hourOfFirstSeance.hours + minutesOfFirstSeance.minutes).from(startOfDay)!
     }()
 
     @Preference(\.seanceDuration)
@@ -27,7 +32,7 @@ struct AgendaManager {
     @Preference(\.lunchDuration)
     private static var lunchDuration
 
-    static let shared = AgendaManager()
+    static var shared = AgendaManager()
 
     /// Horaire des heures de cours quotidiennes
     var seances = [DateInterval]()
@@ -38,89 +43,176 @@ struct AgendaManager {
         seances.append(
             DateInterval(
                 start: AgendaManager.dateOfFirstSeance,
-                duration: TimeInterval(AgendaManager.seanceDuration.minute! * 60)
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
             ))
 
         // 2ième heure de cours du matin
         var next =
             seances[0]
                 .end
-                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration.minute! * 60))
+                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
         seances.append(
             DateInterval(
                 start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration.minute! * 60)
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
             ))
 
         // 3ième heure de cours du matin
         next =
             seances[1]
                 .end
-                .addingTimeInterval(TimeInterval(AgendaManager.recreationDuration.minute! * 60))
+                .addingTimeInterval(TimeInterval(AgendaManager.recreationDuration * 60))
         seances.append(
             DateInterval(
                 start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration.minute!.double() * 60)
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
             ))
 
         // 4ième heure de cours du matin
         next =
             seances[2]
                 .end
-                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration.minute! * 60))
+                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
         seances.append(
             DateInterval(
                 start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration.minute!.double() * 60)
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
             ))
 
         // 1ère heure de cours de l'après-midi
         next =
             seances[3]
                 .end
-                .addingTimeInterval(TimeInterval(AgendaManager.lunchDuration.minute! * 60))
+                .addingTimeInterval(TimeInterval(AgendaManager.lunchDuration * 60))
         seances.append(
             DateInterval(
                 start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration.minute! * 60)
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
             ))
 
         // 2ième heure de cours de l'après-midi
         next =
             seances[4]
                 .end
-                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration.minute! * 60))
+                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
         seances.append(
             DateInterval(
                 start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration.minute! * 60)
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
             ))
 
         // 3ième heure de cours de l'après-midi
         next =
             seances[5]
                 .end
-                .addingTimeInterval(TimeInterval(AgendaManager.recreationDuration.minute! * 60))
+                .addingTimeInterval(TimeInterval(AgendaManager.recreationDuration * 60))
         seances.append(
             DateInterval(
                 start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration.minute!.double() * 60)
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
             ))
 
         // 4ième heure de cours de l'après-midi
         next =
             seances[6]
                 .end
-                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration.minute! * 60))
+                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
         seances.append(
             DateInterval(
                 start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration.minute!.double() * 60)
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
             ))
     }
 
+    mutating func update() {
+        // 1ère heure de cours du matin
+        seances[0] =
+            DateInterval(
+                start: AgendaManager.dateOfFirstSeance,
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+            )
+
+        // 2ième heure de cours du matin
+        var next =
+            seances[0]
+                .end
+                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
+        seances[1] =
+            DateInterval(
+                start: next,
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+            )
+
+        // 3ième heure de cours du matin
+        next =
+            seances[1]
+                .end
+                .addingTimeInterval(TimeInterval(AgendaManager.recreationDuration * 60))
+        seances[2] =
+            DateInterval(
+                start: next,
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+            )
+
+        // 4ième heure de cours du matin
+        next =
+            seances[2]
+                .end
+                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
+        seances[3] =
+            DateInterval(
+                start: next,
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+            )
+
+        // 1ère heure de cours de l'après-midi
+        next =
+            seances[3]
+                .end
+                .addingTimeInterval(TimeInterval(AgendaManager.lunchDuration * 60))
+        seances[4] =
+            DateInterval(
+                start: next,
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+            )
+
+        // 2ième heure de cours de l'après-midi
+        next =
+            seances[4]
+                .end
+                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
+        seances[5] =
+            DateInterval(
+                start: next,
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+            )
+
+        // 3ième heure de cours de l'après-midi
+        next =
+            seances[5]
+                .end
+                .addingTimeInterval(TimeInterval(AgendaManager.recreationDuration * 60))
+        seances[6] =
+            DateInterval(
+                start: next,
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+            )
+
+        // 4ième heure de cours de l'après-midi
+        next =
+            seances[6]
+                .end
+                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
+        seances[7] =
+            DateInterval(
+                start: next,
+                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+            )
+    }
+
+    /// Durée d'une séance de cours en minutes
     func seanceDuration() -> DateComponents {
-        AgendaManager.seanceDuration
+        AgendaManager.seanceDuration.minutes
     }
 
     /// Retourne la séance en cours à la `date`

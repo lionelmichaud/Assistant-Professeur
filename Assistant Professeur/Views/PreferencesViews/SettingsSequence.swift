@@ -23,6 +23,7 @@ struct SettingsSequence: View {
             } footer: {
                 Text("Ajouter un champ de saisie d'annotation à chaque séquence")
             }
+
             Section {
                 Stepper(value : $margeInterSequence,
                         in    : 0 ... 3,
@@ -34,7 +35,6 @@ struct SettingsSequence: View {
                             .foregroundColor(.secondary)
                     }
                 }
-
             } header: {
                 Text("Marge temporelle entre deux séquences pédagogiques")
             } footer: {

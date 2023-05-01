@@ -1,29 +1,29 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Lionel MICHAUD on 08/01/2022.
 //
 
-import SwiftUI
-import Combine
 import AppFoundation
+import Combine
+import SwiftUI
 
 @propertyWrapper
 public struct UserDefault<Value> {
     let key: String
     let defaultValue: Value
-    
+
     public var wrappedValue: Value {
         get { fatalError("Wrapped value should not be used.") }
         set { fatalError("Wrapped value should not be used.") } // swiftlint:disable:this unused_setter_value
     }
-    
+
     init(wrappedValue: Value, _ key: String) {
         self.defaultValue = wrappedValue
         self.key = key
     }
-    
+
     public static subscript(
         _enclosingInstance instance: Preferences,
         wrapped wrappedKeyPath: ReferenceWritableKeyPath<Preferences, Value>,
@@ -48,17 +48,17 @@ public struct UserDefault<Value> {
 public struct UserEnumDefault<Value: RawRepresentable> {
     let key: String
     let defaultValue: Value.RawValue
-    
+
     public var wrappedValue: Value {
         get { fatalError("Wrapped value should not be used.") }
         set { fatalError("Wrapped value should not be used.") } // swiftlint:disable:this unused_setter_value
     }
-    
+
     init(wrappedValue: Value, _ key: String) {
         self.defaultValue = wrappedValue.rawValue
         self.key = key
     }
-    
+
     public static subscript(
         _enclosingInstance instance: Preferences,
         wrapped wrappedKeyPath: ReferenceWritableKeyPath<Preferences, Value>,
@@ -84,9 +84,8 @@ public struct UserEnumDefault<Value: RawRepresentable> {
 /// In this case, we’re using the passthrough subject from our preferences container as an input to trigger changes
 /// in our dynamic @Preference property wrapper.
 final class PublisherObservableObject: ObservableObject {
-    
     var subscriber: AnyCancellable?
-    
+
     init(publisher: AnyPublisher<Void, Never>) {
         subscriber = publisher.sink(receiveValue: { [weak self] _ in
             self?.objectWillChange.send()
@@ -102,11 +101,11 @@ final class PublisherObservableObject: ObservableObject {
 ///    ```
 @propertyWrapper
 public struct Preference<Value>: DynamicProperty {
-    
-    @ObservedObject private var preferencesObserver: PublisherObservableObject
+    @ObservedObject
+    private var preferencesObserver: PublisherObservableObject
     private let keyPath: ReferenceWritableKeyPath<Preferences, Value>
     private let preferences: Preferences
-    
+
     public init(_ keyPath: ReferenceWritableKeyPath<Preferences, Value>, preferences: Preferences = .standard) {
         self.keyPath = keyPath
         self.preferences = preferences
@@ -118,12 +117,12 @@ public struct Preference<Value>: DynamicProperty {
             .eraseToAnyPublisher()
         self.preferencesObserver = .init(publisher: publisher)
     }
-    
+
     public var wrappedValue: Value {
         get { preferences[keyPath: keyPath] }
         nonmutating set { preferences[keyPath: keyPath] = newValue }
     }
-    
+
     public var projectedValue: Binding<Value> {
         Binding(
             get: { wrappedValue },
@@ -169,19 +168,18 @@ public struct Preference<Value>: DynamicProperty {
 ///          }
 ///    ```
 public final class Preferences {
-    
     public static let standard = Preferences(userDefaults: .standard)
     fileprivate let userDefaults: UserDefaults
-    
+
     /// Sends through the changed key path whenever a change occurs.
     public var preferencesChangedSubject = PassthroughSubject<AnyKeyPath, Never>()
-    
+
     public init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
     }
-    
+
     /// Générales
-    // Champ annotation
+    /// Champ annotation
     @UserEnumDefault("interop")
     public var interoperability: Interoperability = .ecoleDirecte
 
@@ -192,33 +190,33 @@ public final class Preferences {
     public var nameSortOrder: NameOrdering = .nomPrenom
 
     /// School
-    // Champ annotation
+    /// Champ annotation
     @UserDefault("school_annotation")
     public var schoolAnnotationEnabled: Bool = true
 
     /// Classe
-    // Champ appéciation
+    /// Champ appéciation
     @UserDefault("classe_appreciation")
     public var classeAppreciationEnabled: Bool = true
 
-    // Champ annotation
+    /// Champ annotation
     @UserDefault("classe_annotation")
     public var classeAnnotationEnabled: Bool = true
 
     /// Elève
-    // Champ appéciation
+    /// Champ appéciation
     @UserDefault("eleve_appreciation")
     public var eleveAppreciationEnabled: Bool = true
 
-    // Champ annotation
+    /// Champ annotation
     @UserDefault("eleve_annotation")
     public var eleveAnnotationEnabled: Bool = true
 
-    // Champ trombine
+    /// Champ trombine
     @UserDefault("eleve_trombine")
     public var eleveTrombineEnabled: Bool = true
 
-    // Champ bonus / malus
+    /// Champ bonus / malus
     @UserDefault("eleve_bonus")
     public var eleveBonusEnabled: Bool = true
 
@@ -229,51 +227,52 @@ public final class Preferences {
     public var maxBonusIncrement: Int = 1
 
     /// Programme pédagogique
-    // Programmes
-    // Champ annotation
+    /// Programmes
+    /// Champ annotation
     @UserDefault("program_annotation")
     public var programAnnotationEnabled: Bool = true
 
-    // Séquences
-    // Champ annotation
+    /// Séquences
+    /// Champ annotation
     @UserDefault("sequence_annotation")
     public var sequenceAnnotationEnabled: Bool = true
 
     @UserDefault("marge_inter_sequence_pedagogique")
     public var margeInterSequence: Int = 1
 
-    // Activités
-    // Champ annotation
+    /// Activités
+    /// Champ annotation
     @UserDefault("activity_annotation")
     public var activityAnnotationEnabled: Bool = true
 
     /// Horaires
-    // Durée d'une séance de cours en minutes
+    /// Durée d'une séance de cours en minutes
     @UserDefault("durée_séance_minutes")
-    public var seanceDuration: DateComponents = 55.minutes
+    public var seanceDuration: Int = 55
 
-    // Durée inter-cours en minutes
+    /// Durée inter-cours en minutes
     @UserDefault("durée_inter_séance_minutes")
-    public var interSeancesDuration: DateComponents = 0.minutes
+    public var interSeancesDuration: Int = 0
 
-    // Durée de la récréation en minutes
+    /// Durée de la récréation en minutes
     @UserDefault("durée_récréation_minutes")
-    public var recreationDuration: DateComponents = 20.minutes
+    public var recreationDuration: Int = 20
 
-    // Durée de la pause déjeuner en minutes
+    /// Durée de la pause déjeuner en minutes
     @UserDefault("durée_déjeuner_minutes")
-    public var lunchDuration: DateComponents = 75.minutes
+    public var lunchDuration: Int = 75
 
-    // Heure du début de la journée de cours
+    /// Heure du début de la journée de cours
     @UserDefault("heure_début_journée")
-    public var timeOfFirstSeance: DateComponents = 8.hours + 15.minutes
+    public var hourOfFirstSeance: Int = 8
+    @UserDefault("minute_début_journée")
+    public var minutesOfFirstSeance: Int = 15
 
-    /// Paramètres Graphiques
+    // Paramètres Graphiques
     // graphique Bilan
 //    @UserEnumDefault("ownership_graphic_selection")
 //    public var ownershipGraphicSelection: OwnershipNature = OwnershipNature.sellable
 
 //    @UserEnumDefault("asset_graphic_evaluated_fraction")
 //    public var assetGraphicEvaluatedFraction: EvaluatedFraction = EvaluatedFraction.ownedValue
-
 }
