@@ -42,11 +42,14 @@ struct ProgressClockView: View {
             // le compte à rebour
             if let elapsedTime,
                let remainingTime {
-                DigitalClockView(
-                    elapsedTime: elapsedTime,
-                    remainingTime: remainingTime,
-                    color: color
-                )
+                VStack {
+                    Text("minutes")
+                    DigitalClockView(
+                        elapsedTime: elapsedTime,
+                        remainingTime: remainingTime,
+                        color: color
+                    )
+                }
             }
         }
         .padding(lineWidth)

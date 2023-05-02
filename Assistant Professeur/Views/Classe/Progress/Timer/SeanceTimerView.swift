@@ -18,6 +18,8 @@ struct SeanceTimerView: View {
     var lineWidth: Double = 40.0
     var test: Bool = false
 
+    // MARK: - Internal Types
+
     enum TimerColors {
         case normal, warning, alert
         var color: Color {
@@ -31,6 +33,14 @@ struct SeanceTimerView: View {
             }
         }
     }
+
+    // MARK: - Private Properties
+
+    private let period = TimeInterval(2)
+
+    private let generator = UINotificationFeedbackGenerator()
+
+    // MARK: - Computed Properties
 
     private var warningString: String {
         if warningRemainingMinutes == 0 {
@@ -49,7 +59,7 @@ struct SeanceTimerView: View {
     }
 
     var body: some View {
-        TimelineView(.periodic(from: .now, by: 5)) { timeLine in
+        TimelineView(.periodic(from: .now, by: period)) { timeLine in
             if let seance = seanceOngoing(at: timeLine.date) {
                 VStack {
                     // heure de fin de la séance de travail
@@ -67,9 +77,8 @@ struct SeanceTimerView: View {
                     VStack {
                         Stepper(
                             value: $warningRemainingMinutes,
-                            in: 1 ... 15,
-                            step: 1,
-                            onEditingChanged: { _ in }
+                            in: 1 ... 30,
+                            step: 1
                         ) {
                             Text("Alerte: ")
                                 .foregroundColor(TimerColors.warning.color)
@@ -87,8 +96,14 @@ struct SeanceTimerView: View {
                                 + Text(alertString)
                         }.padding(.horizontal)
                     }
-                    .font(.title)
-                    .bold()
+                    .font(.system(size: 25))
+                    .fontWeight(.heavy)
+                    .frame(maxWidth: 400)
+                    .padding(.vertical)
+                    .background(
+                        RoundedRectangle(cornerRadius: 20).fill(.gray.opacity(0.3))
+                    )
+                    .padding(.horizontal, 4)
                 }
 
             } else {
@@ -98,7 +113,10 @@ struct SeanceTimerView: View {
         }
     }
 
-    func seanceOngoing(at date: Date) -> DateInterval? {
+    // MARK: - Methods
+
+    /// Retourne la séance en cours à la date
+    private func seanceOngoing(at date: Date) -> DateInterval? {
         #if DEBUG
             if test {
                 let hourStart = (date.minutes).minutes.before(date)!
@@ -128,7 +146,7 @@ struct SeanceTimerView: View {
             }
         #endif
 
-        return AgendaManager.shared.elapsedTime(to: date)
+        return AgendaManager.shared.remainingTime(from: date)
     }
 
     /// Position du curseur
@@ -153,9 +171,15 @@ struct SeanceTimerView: View {
             return TimerColors.normal.color
         }
         if remaingMinutes < alertRemainingMinutes {
+            if alertRemainingMinutes <= remaingMinutes + 1 {
+                generator.notificationOccurred(.error)
+            }
             return TimerColors.alert.color
         }
         if remaingMinutes < warningRemainingMinutes {
+            if warningRemainingMinutes <= remaingMinutes + 1 {
+                generator.notificationOccurred(.warning)
+            }
             return TimerColors.warning.color
         }
         return .green
@@ -171,18 +195,17 @@ struct SeanceTimerView_Previews: PreviewProvider {
 
     static var previews: some View {
         initialize()
-        let activity = ActivityEntity.all().first!
         return Group {
             SeanceTimerView(
-                warningRemainingMinutes: .constant(10),
-                alertRemainingMinutes: .constant(5),
+                warningRemainingMinutes: .constant(30),
+                alertRemainingMinutes: .constant(15),
                 lineWidth: 40,
                 test: true
             )
             .previewDevice("iPad mini (6th generation)")
             SeanceTimerView(
-                warningRemainingMinutes: .constant(10),
-                alertRemainingMinutes: .constant(5),
+                warningRemainingMinutes: .constant(30),
+                alertRemainingMinutes: .constant(15),
                 lineWidth: 40,
                 test: true
             )

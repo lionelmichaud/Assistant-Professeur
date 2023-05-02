@@ -8,17 +8,23 @@
 import AppFoundation
 import Foundation
 
+enum AmPm: String {
+    case morning = "Matin"
+    case afternoon = "Après-midi"
+
+    static func partOfTheDay(of date: Date) -> AmPm {
+        Calendar.current.component(.hour, from: date) <= 12 ?
+            .morning :
+            .afternoon
+    }
+}
+
 struct AgendaManager {
     @Preference(\.hourOfFirstSeance)
     private static var hourOfFirstSeance
 
     @Preference(\.minutesOfFirstSeance)
     private static var minutesOfFirstSeance
-
-    static var dateOfFirstSeance: Date = {
-        let startOfDay = Calendar.current.startOfDay(for: .now)
-        return (hourOfFirstSeance.hours + minutesOfFirstSeance.minutes).from(startOfDay)!
-    }()
 
     @Preference(\.seanceDuration)
     private static var seanceDuration
@@ -37,98 +43,57 @@ struct AgendaManager {
     /// Horaire des heures de cours quotidiennes
     var seances = [DateInterval]()
 
+    // MARK: - Subscripts
+
+    subscript(index: Int) -> AmPm? {
+        if seances.indices.contains(index) {
+            return AmPm.partOfTheDay(of: seances[index].start)
+        } else {
+            return nil
+        }
+    }
+
+    subscript(index: Int) -> DateInterval? {
+        get {
+            if seances.indices.contains(index) {
+                return seances[index]
+            } else {
+                return nil
+            }
+        }
+        set(newValue) {
+            if let newValue, seances.indices.contains(index) {
+                seances[index] = newValue
+            }
+        }
+    }
+
+    // MARK: - Type Methods
+
+    static func dateOfFirstSeance() -> Date {
+        Calendar.current.date(
+            bySettingHour: hourOfFirstSeance,
+            minute: minutesOfFirstSeance,
+            second: 0,
+            of: Date.now
+        )!
+    }
+
+    // MARK: - Initializers
+
     /// Initialise toutes les heures de cours **à la date du jour**
     private init() {
-        // 1ère heure de cours du matin
-        seances.append(
-            DateInterval(
-                start: AgendaManager.dateOfFirstSeance,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
-            ))
-
-        // 2ième heure de cours du matin
-        var next =
-            seances[0]
-                .end
-                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
-        seances.append(
-            DateInterval(
-                start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
-            ))
-
-        // 3ième heure de cours du matin
-        next =
-            seances[1]
-                .end
-                .addingTimeInterval(TimeInterval(AgendaManager.recreationDuration * 60))
-        seances.append(
-            DateInterval(
-                start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
-            ))
-
-        // 4ième heure de cours du matin
-        next =
-            seances[2]
-                .end
-                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
-        seances.append(
-            DateInterval(
-                start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
-            ))
-
-        // 1ère heure de cours de l'après-midi
-        next =
-            seances[3]
-                .end
-                .addingTimeInterval(TimeInterval(AgendaManager.lunchDuration * 60))
-        seances.append(
-            DateInterval(
-                start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
-            ))
-
-        // 2ième heure de cours de l'après-midi
-        next =
-            seances[4]
-                .end
-                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
-        seances.append(
-            DateInterval(
-                start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
-            ))
-
-        // 3ième heure de cours de l'après-midi
-        next =
-            seances[5]
-                .end
-                .addingTimeInterval(TimeInterval(AgendaManager.recreationDuration * 60))
-        seances.append(
-            DateInterval(
-                start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
-            ))
-
-        // 4ième heure de cours de l'après-midi
-        next =
-            seances[6]
-                .end
-                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
-        seances.append(
-            DateInterval(
-                start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
-            ))
+        seances = Array(repeating: DateInterval(), count: 8)
+        update()
     }
+
+    // MARK: - Methods
 
     mutating func update() {
         // 1ère heure de cours du matin
         seances[0] =
             DateInterval(
-                start: AgendaManager.dateOfFirstSeance,
+                start: AgendaManager.dateOfFirstSeance(),
                 duration: TimeInterval(AgendaManager.seanceDuration * 60)
             )
 
@@ -224,21 +189,22 @@ struct AgendaManager {
     /// Temps écoulé en **secondes** depuis le début de la séance.
     /// - Returns: Temps écoulé en secondes
     /// - Parameter thisDate: date/heure à laquelle faire le calcul
-    func elapsedSeconds(to thisDate: Date?) -> Int? {
+    func elapsedSeconds(to thisDate: Date? = nil) -> Int? {
         return elapsedTime(to: thisDate)?.second
     }
 
     /// Temps écoulé en **minutes** depuis le début de la séance.
     /// - Returns: Temps écoulé en secondes
     /// - Parameter thisDate: date/heure à laquelle faire le calcul
-    func elapsedMinutes(to thisDate: Date?) -> Int? {
+    func elapsedMinutes(to thisDate: Date? = nil) -> Int? {
         return elapsedTime(to: thisDate)?.minute
     }
 
     /// Temps écoulé en **heures - minutes - secondes** depuis le début de la séance.
     /// - Returns: Temps écoulé en secondes
-    /// - Parameter thisDate: date/heure à laquelle faire le calcul
-    func elapsedTime(to thisDate: Date?) -> DateComponents? {
+    /// - Parameter thisDate: date/heure à laquelle faire le calcul.
+    ///                         Si nil alors calcul fait à la date courante
+    func elapsedTime(to thisDate: Date? = nil) -> DateComponents? {
         let date = thisDate ?? .now
         if let seance = seanceOngoing(at: date) {
             return Calendar.current.dateComponents(
@@ -254,21 +220,22 @@ struct AgendaManager {
     /// Temps restant en **secondes** avant la fin de la séance.
     /// - Returns: Temps écoulé en secondes
     /// - Parameter thisDate: date/heure à laquelle faire le calcul
-    func remainingSeconds(from thisDate: Date?) -> Int? {
+    func remainingSeconds(from thisDate: Date? = nil) -> Int? {
         return remainingTime(from: thisDate)?.second
     }
 
     /// Temps restant en **minutes** avant la fin de la séance.
     /// - Returns: Temps écoulé en secondes
     /// - Parameter thisDate: date/heure à laquelle faire le calcul
-    func remainingMinutes(from thisDate: Date?) -> Int? {
+    func remainingMinutes(from thisDate: Date? = nil) -> Int? {
         return remainingTime(from: thisDate)?.minute
     }
 
     /// Temps restant en **heures - minutes - secondes** avant la fin de la séance.
     /// - Returns: Temps écoulé en secondes
     /// - Parameter thisDate: date/heure à laquelle faire le calcul
-    func remainingTime(from thisDate: Date?) -> DateComponents? {
+    ///                         Si nil alors calcul fait à la date courante
+    func remainingTime(from thisDate: Date? = nil) -> DateComponents? {
         let date = thisDate ?? .now
         if let seance = seanceOngoing(at: date) {
             return Calendar.current.dateComponents(

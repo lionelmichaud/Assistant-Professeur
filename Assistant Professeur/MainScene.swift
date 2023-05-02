@@ -29,35 +29,43 @@ struct MainScene: Scene {
                 .frame(minWidth: 800, minHeight: 600)
             #endif
         }
-        .onChange(of: scenePhase) { scenePhase in
-            // The final step is optional, but recommended:
-            // when your app moves to the background,
-            // you should call the save() method so that Core Data saves your changes permanently.
-
-            switch scenePhase {
-                case .active:
-                    // An app or custom scene in this phase contains at least one active scene instance.
-                    break
-                    //                    print("Scene Phase = .active")
-
-                case .inactive:
-                    // An app or custom scene in this phase contains no scene instances in the ScenePhase.active phase.
-                    break
-                    //                    print("Scene Phase = .inactive")
-
-                case .background:
-                    // Expect an app that enters the background phase to terminate.
-                    try? coreDataManager.saveIfContextHasChanged()
-                    //                    print("Scene Phase = .background")
-
-                @unknown default:
-                    fatalError()
-            }
-        }
+        .onChange(of: scenePhase, perform: manageScenePhaseChanges)
         #if os(macOS)
         .commands {
             SidebarCommands()
         }
         #endif
+        #if os(macOS)
+            Settings {
+                SettingsView()
+            }
+        #endif
+    }
+
+    // MARK: - Methods
+
+    private func manageScenePhaseChanges(scenePhase: ScenePhase) {
+        // The final step is optional, but recommended:
+        // when your app moves to the background,
+        // you should call the save() method so that Core Data saves your changes permanently.
+        switch scenePhase {
+            case .active:
+                // An app or custom scene in this phase contains at least one active scene instance.
+                break
+                //                    print("Scene Phase = .active")
+
+            case .inactive:
+                // An app or custom scene in this phase contains no scene instances in the ScenePhase.active phase.
+                break
+                //                    print("Scene Phase = .inactive")
+
+            case .background:
+                // Expect an app that enters the background phase to terminate.
+                try? coreDataManager.saveIfContextHasChanged()
+                //                    print("Scene Phase = .background")
+
+            @unknown default:
+                fatalError()
+        }
     }
 }

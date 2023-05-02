@@ -35,23 +35,9 @@ struct SettingsAgenda: View {
             List {
                 editView
                     .onAppear {
-                        let startOfDay = Calendar.current.startOfDay(for: .now)
-                        firstSeanceOfTheDay = (hourOfFirstSeance.hours + minutesOfFirstSeance.minutes).from(startOfDay)!
+                        firstSeanceOfTheDay = AgendaManager.dateOfFirstSeance()
                     }
-                ForEach(AgendaManager.shared.seances, id: \.self) { seance in
-                    HStack {
-                        Image(systemName: "clock")
-                            .font(.title)
-                        VStack(alignment: .leading) {
-                            Text(seance.start.formatted(date: .omitted, time: .shortened))
-                            Text(seance.end.formatted(date: .omitted, time: .shortened))
-                        }
-                    }
-                    .frame(
-                        maxWidth: .infinity,
-                        alignment: .leading
-                    )
-                }
+                dailyView
             }
         }
         #if os(iOS)
@@ -148,13 +134,46 @@ extension SettingsAgenda {
             Text("Durée exprimées en minutes")
         }
     }
+
+    private var dailyView: some View {
+        ForEach(AgendaManager.shared.seances.indices) { idx in
+            HStack {
+                Image(systemName: "clock")
+                    .font(.title)
+                HStack {
+                    Text(AgendaManager.shared[idx]!.start
+                        .formatted(date: .omitted, time: .shortened))
+                    Spacer()
+                    Text(" - ")
+                    Spacer()
+                    Text(AgendaManager.shared[idx]!.end
+                        .formatted(date: .omitted, time: .shortened))
+                }
+                .font(.title3).bold()
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 2)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(backgroundColor(AgendaManager.shared[idx]!).gradient))
+        }
+    }
+
+    private func backgroundColor(_ amPm: AmPm) -> Color {
+        return amPm == .morning ? Color.mint : Color.cyan
+    }
 }
 
 struct SettingsAgenda_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationView {
+        Group {
+            NavigationView {
+                SettingsAgenda()
+            }
+            .previewDevice("iPhone 13")
             SettingsAgenda()
+                .previewDevice("iPad mini (6th generation)")
         }
-        .previewDevice("iPhone 13")
     }
 }
