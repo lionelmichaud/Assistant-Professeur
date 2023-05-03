@@ -100,6 +100,7 @@
 		795EED0529673B88009AA6F4 /* Mark+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0429673B88009AA6F4 /* Mark+Extensions.swift */; };
 		795EED0B29677C76009AA6F4 /* EleveMarkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0929677C76009AA6F4 /* EleveMarkRow.swift */; };
 		795EED0C29677C76009AA6F4 /* MarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0A29677C76009AA6F4 /* MarkListView.swift */; };
+		795F63F52A02D3D300E937C6 /* InfoPersoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795F63F42A02D3D300E937C6 /* InfoPersoView.swift */; };
 		796371FF297D575800ECDBC3 /* SequenceSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796371FE297D575800ECDBC3 /* SequenceSidebarView.swift */; };
 		79637201297D707400ECDBC3 /* SequenceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637200297D707400ECDBC3 /* SequenceList.swift */; };
 		79637203297D826400ECDBC3 /* ProgramManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637202297D826400ECDBC3 /* ProgramManager.swift */; };
@@ -391,6 +392,7 @@
 		795EED0429673B88009AA6F4 /* Mark+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mark+Extensions.swift"; sourceTree = "<group>"; };
 		795EED0929677C76009AA6F4 /* EleveMarkRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveMarkRow.swift; sourceTree = "<group>"; };
 		795EED0A29677C76009AA6F4 /* MarkListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkListView.swift; sourceTree = "<group>"; };
+		795F63F42A02D3D300E937C6 /* InfoPersoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPersoView.swift; sourceTree = "<group>"; };
 		796371FE297D575800ECDBC3 /* SequenceSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceSidebarView.swift; sourceTree = "<group>"; };
 		79637200297D707400ECDBC3 /* SequenceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceList.swift; sourceTree = "<group>"; };
 		79637202297D826400ECDBC3 /* ProgramManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramManager.swift; sourceTree = "<group>"; };
@@ -956,6 +958,7 @@
 				799421852A02BFDC002999C4 /* SchoolSidebarToolbar.swift */,
 				79DEDB07292593C200F508EF /* AppVersionView.swift */,
 				799421882A02C714002999C4 /* UrgencyTelView.swift */,
+				795F63F42A02D3D300E937C6 /* InfoPersoView.swift */,
 			);
 			path = Toolbar;
 			sourceTree = "<group>";
@@ -1621,6 +1624,7 @@
 				79F41E6D2954C83A00EAAC52 /* ClasseEleveRow.swift in Sources */,
 				79E40E842997DF43006BBE49 /* Program+CoreDataClass.swift in Sources */,
 				79975324297C4ED900D1C66E /* ProgramDetailGroupBox.swift in Sources */,
+				795F63F52A02D3D300E937C6 /* InfoPersoView.swift in Sources */,
 				7923811B2960B04F009E51B7 /* GroupsListView.swift in Sources */,
 				79ECF1FF295A02EE008F0282 /* EleveDetail.swift in Sources */,
 				7937A2492987F7B400D0ED59 /* StepsListView.swift in Sources */,

@@ -43,7 +43,8 @@ struct UrgencyTelView: View {
                 )
             }
         } label: {
-            Text("Numéros d'urgence").textCase(.uppercase)
+            Text("Numéros d'urgence")
+                .textCase(.uppercase)
                 .font(.title3)
                 .fontWeight(.bold)
                 .padding()

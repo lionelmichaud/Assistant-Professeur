@@ -98,6 +98,8 @@ struct SchoolSidebarView: View {
     @State
     var isShowingUrgencyTel = false
     @State
+    var isShowingInfoPerso = false
+    @State
     var isShowingDeleteConfirmDialog = false
     @State
     var isShowingJsonImportConfirmDialog = false
@@ -205,6 +207,11 @@ struct SchoolSidebarView: View {
 
         .sheet(isPresented: $isShowingUrgencyTel) {
             UrgencyTelView()
+                .presentationDetents([.large])
+        }
+
+        .sheet(isPresented: $isShowingInfoPerso) {
+            InfoPersoView()
                 .presentationDetents([.large])
         }
 
