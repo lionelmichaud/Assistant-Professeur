@@ -137,6 +137,7 @@
 		798DD4D4298C352A00C47B2C /* StepsNotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D3298C352A00C47B2C /* StepsNotationView.swift */; };
 		798DD4D6298C366300C47B2C /* TrombineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D5298C366300C47B2C /* TrombineView.swift */; };
 		799421862A02BFDC002999C4 /* SchoolSidebarToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799421852A02BFDC002999C4 /* SchoolSidebarToolbar.swift */; };
+		799421892A02C714002999C4 /* UrgencyTelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799421882A02C714002999C4 /* UrgencyTelView.swift */; };
 		7994E31F2972DE8400952D08 /* RoomSeatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E31E2972DE8400952D08 /* RoomSeatManager.swift */; };
 		7994E3242972F4E500952D08 /* SchoolDocumentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E3212972F4E500952D08 /* SchoolDocumentList.swift */; };
 		7994E3252972F4E500952D08 /* DocumentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E3222972F4E500952D08 /* DocumentRow.swift */; };
@@ -212,7 +213,6 @@
 		79DEDB042925902800F508EF /* SchoolSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB032925902800F508EF /* SchoolSidebarView.swift */; };
 		79DEDB052925902800F508EF /* SchoolSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB032925902800F508EF /* SchoolSidebarView.swift */; };
 		79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB07292593C200F508EF /* AppVersionView.swift */; };
-		79DEDB0E292593C200F508EF /* AppVersionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB07292593C200F508EF /* AppVersionView.swift */; };
 		79DEDB0F292593C200F508EF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB08292593C200F508EF /* SettingsView.swift */; };
 		79DEDB10292593C200F508EF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB08292593C200F508EF /* SettingsView.swift */; };
 		79DEDB11292593C200F508EF /* SettingsEleve.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB09292593C200F508EF /* SettingsEleve.swift */; };
@@ -428,7 +428,8 @@
 		798DD4D1298C318F00C47B2C /* ExamListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListView.swift; sourceTree = "<group>"; };
 		798DD4D3298C352A00C47B2C /* StepsNotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsNotationView.swift; sourceTree = "<group>"; };
 		798DD4D5298C366300C47B2C /* TrombineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrombineView.swift; sourceTree = "<group>"; };
-		799421852A02BFDC002999C4 /* SchoolSidebarToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSidebarToolbar.swift; sourceTree = "<group>"; };
+		799421852A02BFDC002999C4 /* SchoolSidebarToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SchoolSidebarToolbar.swift; path = "../New Group/SchoolSidebarToolbar.swift"; sourceTree = "<group>"; };
+		799421882A02C714002999C4 /* UrgencyTelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgencyTelView.swift; sourceTree = "<group>"; };
 		7994E31E2972DE8400952D08 /* RoomSeatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSeatManager.swift; sourceTree = "<group>"; };
 		7994E3212972F4E500952D08 /* SchoolDocumentList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolDocumentList.swift; sourceTree = "<group>"; };
 		7994E3222972F4E500952D08 /* DocumentRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentRow.swift; sourceTree = "<group>"; };
@@ -949,6 +950,16 @@
 			path = Annotation;
 			sourceTree = "<group>";
 		};
+		799421872A02C6E5002999C4 /* Toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				799421852A02BFDC002999C4 /* SchoolSidebarToolbar.swift */,
+				79DEDB07292593C200F508EF /* AppVersionView.swift */,
+				799421882A02C714002999C4 /* UrgencyTelView.swift */,
+			);
+			path = Toolbar;
+			sourceTree = "<group>";
+		};
 		7994E3202972F4E500952D08 /* Document */ = {
 			isa = PBXGroup;
 			children = (
@@ -1131,6 +1142,7 @@
 		79DEDAE32925855B00F508EF /* School */ = {
 			isa = PBXGroup;
 			children = (
+				799421872A02C6E5002999C4 /* Toolbar */,
 				7994E3202972F4E500952D08 /* Document */,
 				793C29D02953C08100E7F65B /* Ressource */,
 				79E524BA295376E900DA99A7 /* Event */,
@@ -1138,7 +1150,6 @@
 				79D573462927EEDE00B0B7B8 /* SchoolViewModel.swift */,
 				79DEDAE8292585E300F508EF /* SchoolSplitView.swift */,
 				79DEDB032925902800F508EF /* SchoolSidebarView.swift */,
-				799421852A02BFDC002999C4 /* SchoolSidebarToolbar.swift */,
 				79595C6E2934298300C81021 /* SchoolBrowserRow.swift */,
 				79BF1DA32928E37B005D6CF3 /* SchoolCreatorModal.swift */,
 				79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */,
@@ -1227,7 +1238,6 @@
 		79DEDB06292593C200F508EF /* PreferencesViews */ = {
 			isa = PBXGroup;
 			children = (
-				79DEDB07292593C200F508EF /* AppVersionView.swift */,
 				79DEDB08292593C200F508EF /* SettingsView.swift */,
 				79DEDB09292593C200F508EF /* SettingsEleve.swift */,
 				79DEDB0A292593C200F508EF /* SettingsClasse.swift */,
@@ -1539,6 +1549,7 @@
 				794F6E14295CEC0C00042B95 /* ObservViewModel.swift in Sources */,
 				795EED0529673B88009AA6F4 /* Mark+Extensions.swift in Sources */,
 				79401350295624EF007AD790 /* Dsicipline.swift in Sources */,
+				799421892A02C714002999C4 /* UrgencyTelView.swift in Sources */,
 				7989B4D129A257DD00383F84 /* Activity+CoreDataClass.swift in Sources */,
 				7989B4CF29A257C500383F84 /* Sequence+CoreDataClass.swift in Sources */,
 				79DEDAEF292586A500F508EF /* EleveSplitView.swift in Sources */,
@@ -1730,7 +1741,6 @@
 				79DEDAF0292586A500F508EF /* EleveSplitView.swift in Sources */,
 				79DEDB10292593C200F508EF /* SettingsView.swift in Sources */,
 				79388A5129257025002AABB8 /* AppState.swift in Sources */,
-				79DEDB0E292593C200F508EF /* AppVersionView.swift in Sources */,
 				79DEDAED2925864A00F508EF /* ClasseSplitView.swift in Sources */,
 				79DEDAFF292589F400F508EF /* EleveSidebarView.swift in Sources */,
 				79DEDB0229258D4000F508EF /* ClasseSidebarView.swift in Sources */,

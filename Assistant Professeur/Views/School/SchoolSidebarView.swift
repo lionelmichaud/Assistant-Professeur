@@ -76,29 +76,27 @@ struct SchoolSidebarView: View {
     private var schoolsSections: SectionedFetchResults<String, SchoolEntity>
 
     @State
+    var alertTitle = ""
+    @State
+    var alertMessage = ""
+    @State
+    private var alertIsPresented = false
+
+    @State
     var isAddingNewSchool = false
 
     @State
     var isEditingPreferences = false
 
     @State
-    var isShowingAbout = false
-
-    @State
-    var alertTitle = ""
-
-    @State
-    var alertMessage = ""
-
-    @State
-    private var alertIsPresented = false
-
-    @State
     var fileImportOperation = FileImportOperation.none
-
     @State
     var fileExportOperation = FileExportOperation.none
 
+    @State
+    var isShowingAbout = false
+    @State
+    var isShowingUrgencyTel = false
     @State
     var isShowingDeleteConfirmDialog = false
     @State
@@ -202,6 +200,11 @@ struct SchoolSidebarView: View {
 
         .sheet(isPresented: $isShowingAbout) {
             AppVersionView()
+                .presentationDetents([.large])
+        }
+
+        .sheet(isPresented: $isShowingUrgencyTel) {
+            UrgencyTelView()
                 .presentationDetents([.large])
         }
 
