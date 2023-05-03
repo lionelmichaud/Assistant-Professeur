@@ -50,13 +50,13 @@ extension SchoolSidebarView {
                         )
                     }
 
-                    // Vérifier la cohérence de la base de donnée
+                    // Numéros d'urgence
                     Button {
-                        checkAllUserData()
+                        isShowingUrgencyTel = true
                     } label: {
                         Label(
-                            "Vérifier la base de donnée",
-                            systemImage: "checkmark.circle.trianglebadge.exclamationmark"
+                            "Numéros d'urgence",
+                            systemImage: "teletype.answer.circle"
                         )
                     }
                 }
@@ -131,6 +131,16 @@ extension SchoolSidebarView {
                 }
 
                 Section {
+                    // Vérifier la cohérence de la base de donnée
+                    Button {
+                        checkAllUserData()
+                    } label: {
+                        Label(
+                            "Vérifier la base de donnée",
+                            systemImage: "checkmark.circle.trianglebadge.exclamationmark"
+                        )
+                    }
+
                     // Effacer toutes les données utilisateur
                     Button(role: .destructive) {
                         isShowingDeleteConfirmDialog.toggle()
