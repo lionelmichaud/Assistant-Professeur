@@ -14,18 +14,52 @@ struct ProgressClockView: View {
     var remainingTime: DateComponents?
     var lineWidth: Double = 40.0
 
+    @Binding
+    var warningNotif: Bool
+
+    @Binding
+    var alertNotif: Bool
+
+    private let impactFeedback = UISelectionFeedbackGenerator()
+
     var body: some View {
         ZStack {
             // le fond
-            Circle()
-                .fill(Color.clear)
-                .overlay(
+            ZStack(alignment: .bottomTrailing) {
+                ZStack(alignment: .bottomLeading) {
                     Circle()
-                        .stroke(
-                            Color.secondary,
-                            lineWidth: lineWidth
+                        .fill(Color.clear)
+                        .overlay(
+                            Circle()
+                                .stroke(
+                                    Color.secondary,
+                                    lineWidth: lineWidth
+                                )
                         )
-                )
+
+                    // le bouton d'activation de la notification de warning
+                    Button {
+                        warningNotif.toggle()
+                        impactFeedback.selectionChanged()
+                    } label: {
+                        Image(systemName: warningNotif ? "timer.circle.fill" : "timer.circle")
+                            .font(.system(size: 60))
+                            .foregroundColor(SeanceTimerView.TimerColors.warning.color)
+                            .offset(x: -30, y: 30)
+                    }
+                }
+
+                // le bouton d'activation de la notification d'alerte
+                Button {
+                    alertNotif.toggle()
+                    impactFeedback.selectionChanged()
+                } label: {
+                    Image(systemName: alertNotif ? "timer.circle.fill" : "timer.circle")
+                        .font(.system(size: 60))
+                        .foregroundColor(SeanceTimerView.TimerColors.alert.color)
+                        .offset(x: 30, y: 30)
+                }
+            }
 
             // le curseur
             Circle()
@@ -62,7 +96,9 @@ struct ProgressClockView_Previews: PreviewProvider {
             trimValue: 0.25,
             color: .green,
             elapsedTime: DateComponents(minute: 15),
-            remainingTime: DateComponents(minute: 45)
+            remainingTime: DateComponents(minute: 45),
+            warningNotif: .constant(true),
+            alertNotif: .constant(true)
         )
     }
 }

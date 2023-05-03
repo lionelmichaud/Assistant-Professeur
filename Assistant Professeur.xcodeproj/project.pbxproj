@@ -136,6 +136,7 @@
 		798DD4D2298C318F00C47B2C /* ExamListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D1298C318F00C47B2C /* ExamListView.swift */; };
 		798DD4D4298C352A00C47B2C /* StepsNotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D3298C352A00C47B2C /* StepsNotationView.swift */; };
 		798DD4D6298C366300C47B2C /* TrombineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D5298C366300C47B2C /* TrombineView.swift */; };
+		799421862A02BFDC002999C4 /* SchoolSidebarToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799421852A02BFDC002999C4 /* SchoolSidebarToolbar.swift */; };
 		7994E31F2972DE8400952D08 /* RoomSeatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E31E2972DE8400952D08 /* RoomSeatManager.swift */; };
 		7994E3242972F4E500952D08 /* SchoolDocumentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E3212972F4E500952D08 /* SchoolDocumentList.swift */; };
 		7994E3252972F4E500952D08 /* DocumentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E3222972F4E500952D08 /* DocumentRow.swift */; };
@@ -427,6 +428,7 @@
 		798DD4D1298C318F00C47B2C /* ExamListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListView.swift; sourceTree = "<group>"; };
 		798DD4D3298C352A00C47B2C /* StepsNotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsNotationView.swift; sourceTree = "<group>"; };
 		798DD4D5298C366300C47B2C /* TrombineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrombineView.swift; sourceTree = "<group>"; };
+		799421852A02BFDC002999C4 /* SchoolSidebarToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSidebarToolbar.swift; sourceTree = "<group>"; };
 		7994E31E2972DE8400952D08 /* RoomSeatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSeatManager.swift; sourceTree = "<group>"; };
 		7994E3212972F4E500952D08 /* SchoolDocumentList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolDocumentList.swift; sourceTree = "<group>"; };
 		7994E3222972F4E500952D08 /* DocumentRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentRow.swift; sourceTree = "<group>"; };
@@ -1136,6 +1138,7 @@
 				79D573462927EEDE00B0B7B8 /* SchoolViewModel.swift */,
 				79DEDAE8292585E300F508EF /* SchoolSplitView.swift */,
 				79DEDB032925902800F508EF /* SchoolSidebarView.swift */,
+				799421852A02BFDC002999C4 /* SchoolSidebarToolbar.swift */,
 				79595C6E2934298300C81021 /* SchoolBrowserRow.swift */,
 				79BF1DA32928E37B005D6CF3 /* SchoolCreatorModal.swift */,
 				79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */,
@@ -1526,6 +1529,7 @@
 				7994E3262972F4E500952D08 /* PdfDocumentViewer.swift in Sources */,
 				79D573472927EEDE00B0B7B8 /* SchoolViewModel.swift in Sources */,
 				7981280629F1CB3500A3817E /* AgendaManager.swift in Sources */,
+				799421862A02BFDC002999C4 /* SchoolSidebarToolbar.swift in Sources */,
 				7923811A2960B04F009E51B7 /* GroupView.swift in Sources */,
 				79DEDB11292593C200F508EF /* SettingsEleve.swift in Sources */,
 				79F41E642954B08A00EAAC52 /* Eleve+Extensions.swift in Sources */,

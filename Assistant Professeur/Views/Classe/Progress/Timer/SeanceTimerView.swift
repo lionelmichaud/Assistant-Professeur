@@ -38,7 +38,13 @@ struct SeanceTimerView: View {
 
     private let period = TimeInterval(2)
 
-    private let generator = UINotificationFeedbackGenerator()
+    private let notificationFeddback = UINotificationFeedbackGenerator()
+
+    @State
+    private var warningNotif = true
+
+    @State
+    private var alertNotif = true
 
     // MARK: - Computed Properties
 
@@ -70,7 +76,9 @@ struct SeanceTimerView: View {
                         trimValue: cursorValue(for: timeLine.date)!,
                         color: cursorColor(for: timeLine.date),
                         elapsedTime: elapsedTime(for: timeLine.date),
-                        remainingTime: remainingTime(for: timeLine.date)
+                        remainingTime: remainingTime(for: timeLine.date),
+                        warningNotif: $warningNotif,
+                        alertNotif: $alertNotif
                     )
 
                     // seuils d'alerte
@@ -171,14 +179,14 @@ struct SeanceTimerView: View {
             return TimerColors.normal.color
         }
         if remaingMinutes < alertRemainingMinutes {
-            if alertRemainingMinutes <= remaingMinutes + 1 {
-                generator.notificationOccurred(.error)
+            if alertRemainingMinutes <= remaingMinutes + 1 && alertNotif {
+                notificationFeddback.notificationOccurred(.error)
             }
             return TimerColors.alert.color
         }
         if remaingMinutes < warningRemainingMinutes {
-            if warningRemainingMinutes <= remaingMinutes + 1 {
-                generator.notificationOccurred(.warning)
+            if warningRemainingMinutes <= remaingMinutes + 1 && warningNotif {
+                notificationFeddback.notificationOccurred(.warning)
             }
             return TimerColors.warning.color
         }
