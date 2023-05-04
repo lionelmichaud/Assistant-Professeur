@@ -35,11 +35,13 @@ enum FileExportOperation {
     case exportCsvPrograms
     case none
 
+    /// Liste de toutes les URL des fichiers à exporter
     var urls: [URL] {
         switch self {
             case let .exportJsonModel(annexFileNames):
                 return ImportExportManager.cachesURLsToShare(
                     fileNames: [
+                        JsonImportExportMng.ownerFileName,
                         JsonImportExportMng.schoolsFileName,
                         JsonImportExportMng.programsFileName
                     ] + annexFileNames
@@ -67,6 +69,9 @@ enum FileExportOperation {
 struct SchoolSidebarView: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
+
+    @EnvironmentObject
+    private var cloudKitVM: CloudKitViewModel
 
     @SectionedFetchRequest<String, SchoolEntity>(
         fetchRequest: SchoolEntity.requestAllSortedByLevelName,
@@ -211,7 +216,7 @@ struct SchoolSidebarView: View {
         }
 
         .sheet(isPresented: $isShowingInfoPerso) {
-            InfoPersoView()
+            InfoPersoView(cloudKitVM: cloudKitVM)
                 .presentationDetents([.large])
         }
 
@@ -385,17 +390,23 @@ struct SchoolSidebarView_Previews: PreviewProvider {
     static var previews: some View {
         initialize()
         return Group {
-            SchoolSidebarView()
-                .padding()
-                .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
-                .environment(\.managedObjectContext, CoreDataManager.shared.context)
-                .previewDevice("iPad mini (6th generation)")
+            NavigationStack {
+                EmptyView()
+                SchoolSidebarView()
+            }
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPad mini (6th generation)")
 
-            SchoolSidebarView()
-                .padding()
-                .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
-                .environment(\.managedObjectContext, CoreDataManager.shared.context)
-                .previewDevice("iPhone 13")
+            NavigationStack {
+                EmptyView()
+                SchoolSidebarView()
+            }
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPhone 13")
         }
     }
 }

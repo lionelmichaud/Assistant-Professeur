@@ -13,13 +13,8 @@
 		79134554296B65AB0092E7CD /* TrombinoscopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79134553296B65AB0092E7CD /* TrombinoscopeView.swift */; };
 		79134557296B6C620092E7CD /* TrombineInteractivView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79134556296B6C620092E7CD /* TrombineInteractivView.swift */; };
 		79135E0D2969E15B00F95694 /* AppVersion.json in Resources */ = {isa = PBXBuildFile; fileRef = 79135E0C2969E15B00F95694 /* AppVersion.json */; };
-		79135E132969E17000F95694 /* TROMBINOSCOPE personnel 2022-2023.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 79135E0F2969E17000F95694 /* TROMBINOSCOPE personnel 2022-2023.pdf */; };
-		79135E142969E17000F95694 /* COORDINATEURS MATIERES 2022.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 79135E102969E17000F95694 /* COORDINATEURS MATIERES 2022.pdf */; };
-		79135E152969E17000F95694 /* TROMBINSCOPE PROFS 2022.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 79135E112969E17000F95694 /* TROMBINSCOPE PROFS 2022.pdf */; };
-		79135E162969E17000F95694 /* Doc Prof Caousou.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 79135E122969E17000F95694 /* Doc Prof Caousou.pdf */; };
-		79135E1A2969E18200F95694 /* Plan TECHNO-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 79135E182969E18200F95694 /* Plan TECHNO-2.png */; };
-		79135E1B2969E18200F95694 /* Plan Salle.png in Resources */ = {isa = PBXBuildFile; fileRef = 79135E192969E18200F95694 /* Plan Salle.png */; };
 		7913B58829EF15C700FBB478 /* ActivityTimerModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7913B58729EF15C700FBB478 /* ActivityTimerModal.swift */; };
+		7915DC842A031C6A001C1249 /* Owner+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7915DC832A031C6A001C1249 /* Owner+CoreDataClass.swift */; };
 		791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791A0CDC29746A31004CA543 /* DataBaseManager.swift */; };
 		7920A5242957345A0092A7DD /* EleveLabelWithTrombineFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A5232957345A0092A7DD /* EleveLabelWithTrombineFlag.swift */; };
 		792135572978724C0036A5EA /* Program+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792135562978724C0036A5EA /* Program+Extensions.swift */; };
@@ -74,6 +69,7 @@
 		794013522956598B007AD790 /* EleveCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794013512956598B007AD790 /* EleveCreatorModal.swift */; };
 		79401354295659B6007AD790 /* EleveNameGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79401353295659B6007AD790 /* EleveNameGroupBox.swift */; };
 		7940135629565B48007AD790 /* EleveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7940135529565B48007AD790 /* EleveViewModel.swift */; };
+		7941BC662A030C5100EF9F30 /* Owner+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */; };
 		7942F23829A5612E007E3C3B /* StepperView in Frameworks */ = {isa = PBXBuildFile; productRef = 7942F23729A5612E007E3C3B /* StepperView */; };
 		794F6E0C295CDC3700042B95 /* ObservCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */; };
 		794F6E0E295CDC9100042B95 /* ColleCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */; };
@@ -311,14 +307,9 @@
 		79134553296B65AB0092E7CD /* TrombinoscopeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrombinoscopeView.swift; sourceTree = "<group>"; };
 		79134556296B6C620092E7CD /* TrombineInteractivView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrombineInteractivView.swift; sourceTree = "<group>"; };
 		79135E0C2969E15B00F95694 /* AppVersion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AppVersion.json; sourceTree = "<group>"; };
-		79135E0F2969E17000F95694 /* TROMBINOSCOPE personnel 2022-2023.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "TROMBINOSCOPE personnel 2022-2023.pdf"; sourceTree = "<group>"; };
-		79135E102969E17000F95694 /* COORDINATEURS MATIERES 2022.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "COORDINATEURS MATIERES 2022.pdf"; sourceTree = "<group>"; };
-		79135E112969E17000F95694 /* TROMBINSCOPE PROFS 2022.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "TROMBINSCOPE PROFS 2022.pdf"; sourceTree = "<group>"; };
-		79135E122969E17000F95694 /* Doc Prof Caousou.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Doc Prof Caousou.pdf"; sourceTree = "<group>"; };
-		79135E182969E18200F95694 /* Plan TECHNO-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Plan TECHNO-2.png"; sourceTree = "<group>"; };
-		79135E192969E18200F95694 /* Plan Salle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Plan Salle.png"; sourceTree = "<group>"; };
 		79135E1C296B0D7800F95694 /* Assistant-Professeur-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Assistant-Professeur-Info.plist"; sourceTree = SOURCE_ROOT; };
 		7913B58729EF15C700FBB478 /* ActivityTimerModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTimerModal.swift; sourceTree = "<group>"; };
+		7915DC832A031C6A001C1249 /* Owner+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Owner+CoreDataClass.swift"; sourceTree = "<group>"; };
 		791A0CDC29746A31004CA543 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
 		7920A5232957345A0092A7DD /* EleveLabelWithTrombineFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveLabelWithTrombineFlag.swift; sourceTree = "<group>"; };
 		792135562978724C0036A5EA /* Program+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Program+Extensions.swift"; sourceTree = "<group>"; };
@@ -367,6 +358,7 @@
 		794013512956598B007AD790 /* EleveCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveCreatorModal.swift; sourceTree = "<group>"; };
 		79401353295659B6007AD790 /* EleveNameGroupBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveNameGroupBox.swift; sourceTree = "<group>"; };
 		7940135529565B48007AD790 /* EleveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveViewModel.swift; sourceTree = "<group>"; };
+		7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Owner+Extensions.swift"; path = "../New Group/Owner+Extensions.swift"; sourceTree = "<group>"; };
 		794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservCreatorModal.swift; sourceTree = "<group>"; };
 		794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColleCreatorModal.swift; sourceTree = "<group>"; };
 		794F6E0F295CE1B700042B95 /* ObservDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservDetail.swift; sourceTree = "<group>"; };
@@ -618,10 +610,6 @@
 		79135E0E2969E17000F95694 /* Docs */ = {
 			isa = PBXGroup;
 			children = (
-				79135E0F2969E17000F95694 /* TROMBINOSCOPE personnel 2022-2023.pdf */,
-				79135E102969E17000F95694 /* COORDINATEURS MATIERES 2022.pdf */,
-				79135E112969E17000F95694 /* TROMBINSCOPE PROFS 2022.pdf */,
-				79135E122969E17000F95694 /* Doc Prof Caousou.pdf */,
 			);
 			path = Docs;
 			sourceTree = "<group>";
@@ -629,8 +617,6 @@
 		79135E172969E18200F95694 /* Plans */ = {
 			isa = PBXGroup;
 			children = (
-				79135E182969E18200F95694 /* Plan TECHNO-2.png */,
-				79135E192969E18200F95694 /* Plan Salle.png */,
 			);
 			path = Plans;
 			sourceTree = "<group>";
@@ -717,6 +703,7 @@
 				79BF1DA029280E8B005D6CF3 /* School */,
 				79BF1DA629290F32005D6CF3 /* Classe */,
 				79F41E622954B05F00EAAC52 /* Eleve */,
+				7941BC672A030C5A00EF9F30 /* Owner */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -810,6 +797,15 @@
 				7989B4DA29A28D0300383F84 /* ProgressState.swift */,
 			);
 			path = Progress;
+			sourceTree = "<group>";
+		};
+		7941BC672A030C5A00EF9F30 /* Owner */ = {
+			isa = PBXGroup;
+			children = (
+				7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */,
+				7915DC832A031C6A001C1249 /* Owner+CoreDataClass.swift */,
+			);
+			path = Owner;
 			sourceTree = "<group>";
 		};
 		7951B69E29B13E45006DC88D /* Warnings */ = {
@@ -1430,14 +1426,8 @@
 			files = (
 				79B6630D29244C3F007B1FBD /* Preview Assets.xcassets in Resources */,
 				79A8E7BC29AECE1B006D0EAA /* Images.xcassets in Resources */,
-				79135E132969E17000F95694 /* TROMBINOSCOPE personnel 2022-2023.pdf in Resources */,
-				79135E142969E17000F95694 /* COORDINATEURS MATIERES 2022.pdf in Resources */,
-				79135E1B2969E18200F95694 /* Plan Salle.png in Resources */,
-				79135E162969E17000F95694 /* Doc Prof Caousou.pdf in Resources */,
 				79B6630929244C3F007B1FBD /* Assets.xcassets in Resources */,
-				79135E152969E17000F95694 /* TROMBINSCOPE PROFS 2022.pdf in Resources */,
 				79135E0D2969E15B00F95694 /* AppVersion.json in Resources */,
-				79135E1A2969E18200F95694 /* Plan TECHNO-2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1626,6 +1616,7 @@
 				79975324297C4ED900D1C66E /* ProgramDetailGroupBox.swift in Sources */,
 				795F63F52A02D3D300E937C6 /* InfoPersoView.swift in Sources */,
 				7923811B2960B04F009E51B7 /* GroupsListView.swift in Sources */,
+				7915DC842A031C6A001C1249 /* Owner+CoreDataClass.swift in Sources */,
 				79ECF1FF295A02EE008F0282 /* EleveDetail.swift in Sources */,
 				7937A2492987F7B400D0ED59 /* StepsListView.swift in Sources */,
 				797AD2B229902BCE00BE5D37 /* ActivityProgressesView.swift in Sources */,
@@ -1697,6 +1688,7 @@
 				7989B4DF29A2A63000383F84 /* ClassSequenceProgressEditView.swift in Sources */,
 				793D6279295F29DD00477932 /* ColleEditor.swift in Sources */,
 				7989B4DD29A28F8E00383F84 /* CompletionSymbol.swift in Sources */,
+				7941BC662A030C5100EF9F30 /* Owner+Extensions.swift in Sources */,
 				79DEDB042925902800F508EF /* SchoolSidebarView.swift in Sources */,
 				7921F54C2925825800173F39 /* ModelEntityP.swift in Sources */,
 				79DEDB15292593C200F508EF /* SettingsGeneral.swift in Sources */,

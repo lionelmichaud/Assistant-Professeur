@@ -5,13 +5,51 @@
 //  Created by Lionel MICHAUD on 03/05/2023.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
+/// Infos perso de l'utilisateur de l'app
 struct InfoPersoView: View {
+    /// Initilisation des infos perso de l'utilisateur de l'app
+    /// - Parameter cloudKitVM: Données  utilisateur fournies par CloudKit
+    init(cloudKitVM: CloudKitViewModel) {
+        // Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
+        OwnerEntity.initializeEntity(userName: cloudKitVM.userName)
+        self._owner = StateObject(wrappedValue: OwnerEntity.all().first!)
+    }
+
+    @StateObject
+    private var owner: OwnerEntity //= {
+        // Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
+//        OwnerEntity.initializeEntity(userName: cloudKitVM.userName)
+//        return OwnerEntity.all().first!
+//    }()
+
     var body: some View {
         GroupBox {
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+            TextField("Votre nom", text: $owner.viewFamilyName)
+                .autocapitalization(.allCharacters)
+
+            TextField("Votre prénom", text: $owner.viewGivenName)
+                .autocapitalization(.words)
+
+            HStack {
+                Text("NUMEN")
+                TextField("Votre NUMEN", text: $owner.viewNumen)
+                    .autocapitalization(.allCharacters)
+            }
+            .padding(.bottom)
+
+            EmailEditView(
+                title: "Mail académique",
+                adress: $owner.viewEmailAdressAcademy,
+                webmailURL: $owner.urlMailAcademy,
+                id: $owner.viewIdMailAcademy,
+                pwd: $owner.viewPwdMailAcademy
+            )
+
+            AnnotationEditView(annotation: $owner.viewAnnotation)
+
         } label: {
             Text("Infos personnelles")
                 .textCase(.uppercase)
@@ -21,18 +59,20 @@ struct InfoPersoView: View {
                 .frame(maxWidth: .infinity)
                 .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue4))
         }
+        .textFieldStyle(.roundedBorder)
+        .autocorrectionDisabled()
         .padding()
         .verticallyAligned(.top)
     }
 }
 
-struct InfoPersoView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            InfoPersoView()
-                .previewDevice("iPad mini (6th generation)")
-            InfoPersoView()
-                .previewDevice("iPhone 13")
-        }
-    }
-}
+//struct InfoPersoView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            InfoPersoView()
+//                .previewDevice("iPad mini (6th generation)")
+//            InfoPersoView()
+//                .previewDevice("iPhone 13")
+//        }
+//    }
+//}
