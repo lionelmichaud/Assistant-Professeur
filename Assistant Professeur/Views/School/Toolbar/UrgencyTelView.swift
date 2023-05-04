@@ -7,6 +7,7 @@
 
 import SwiftUI
 import HelpersView
+import AppFoundation
 
 struct UrgencyTelView: View {
     private let columns = [
@@ -22,23 +23,23 @@ struct UrgencyTelView: View {
                 spacing: 4
             ) {
                 telNumberPad(
-                    tel: 112,
+                    tel: "112",
                     label: "NUMÉRO D’APPEL D’URGENCE EUROPÉEN"
                 )
                 telNumberPad(
-                    tel: 114,
+                    tel: "114",
                     label: "NUMÉRO D’URGENCE POUR LES PERSONNES SOURDESET MALENTENDANTES"
                 )
                 telNumberPad(
-                    tel: 15,
+                    tel: "15",
                     label: "SAMU"
                 )
                 telNumberPad(
-                    tel: 17,
+                    tel: "17",
                     label: "POLICE SECOURS"
                 )
                 telNumberPad(
-                    tel: 18,
+                    tel: "18",
                     label: "SAPEURS-POMPIERS"
                 )
             }
@@ -56,9 +57,9 @@ struct UrgencyTelView: View {
     }
 
     @ViewBuilder
-    func telNumberPad(tel: Int, label: String) -> some View {
+    func telNumberPad(tel: String, label: String) -> some View {
         VStack(alignment: .center) {
-            Text(tel.formatted())
+            Text(tel)
                 .font(.title)
                 .fontWeight(.black)
             Text(label)
@@ -68,6 +69,9 @@ struct UrgencyTelView: View {
         .padding(4)
         .frame(maxWidth: .infinity, minHeight: 120)
         .background(RoundedRectangle(cornerRadius: 15).fill(Color.secondary))
+        .onLongPressGesture(minimumDuration: 1) {
+            call(telNumber: tel)
+        }
     }
 }
 
