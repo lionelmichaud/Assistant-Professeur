@@ -15,6 +15,7 @@ private let customLog = Logger(
 
 /// Export/Import vers/depuis des fichiers JSON
 enum JsonImportExportMng { // swiftlint:disable:this type_body_length
+    static let ownerFileName = String(describing: OwnerEntity.self) + ".json"
     static let schoolsFileName = String(describing: SchoolEntity.self) + ".json"
     static let programsFileName = String(describing: ProgramEntity.self) + ".json"
 
@@ -22,15 +23,36 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
 
     /// Exporter les données du Model vers des fichiers au format JSON.
     /// Exporter les fichiers annexes (PDF, JPEG, PNG...) des autres entités.
+    ///
+    /// - Les fichiers JSON sont enregistrés dans le dossier `cache`.
+    /// - Les fichiers PDF, JPEG, PNG sont enregistrés dans le dossier `cache`.
+    /// - Returns: La liste des noms de fichiers **annexes** exportés.
     static func exportToJsonFiles() -> [String] {
+        // Exporter l'entité unique **OwnerEntity** vers un fichier au format JSON.
+        exportOwnerToJson()
+        // Exporter toutes les entités **SchoolEntity** et leurs descendants vers un fichier au format JSON.
         exportSchoolsToJson()
+        // Exporter toutes les entités **ProgramEntity** et leurs descendants vers un fichier au format JSON.
         exportProgramsToJson()
 
         // Exporter les fichiers annexes (PDF, JPEG, PNG...) des autres entités
         return exportedAnnexeFiles()
     }
 
-    /// Exporter les School et leurs descendants vers un fichier au format JSON
+    /// Exporter l'entité unique **OwnerEntity** vers un fichier au format JSON.
+    ///
+    /// Le fichier JSON est enregistré dans le dossier `cache`.
+    private static func exportOwnerToJson() {
+        let cachesUrl = URL.cachesDirectory
+        cachesUrl.encode(
+            OwnerEntity.all(),
+            to: ownerFileName
+        )
+    }
+
+    /// Exporter toutes les entités **SchoolEntity** et leurs descendants vers un fichier au format JSON.
+    ///
+    /// Le fichier JSON est enregistré dans le dossier `cache`.
     private static func exportSchoolsToJson() {
         let cachesUrl = URL.cachesDirectory
         cachesUrl.encode(
@@ -39,7 +61,9 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
         )
     }
 
-    /// Exporter les Program et leurs descendants vers un fichier au format JSON
+    /// Exporter toutes les entités **ProgramEntity** et leurs descendants vers un fichier au format JSON.
+    ///
+    /// Le fichier JSON est enregistré dans le dossier `cache`.
     private static func exportProgramsToJson() {
         let cachesUrl = URL.cachesDirectory
         cachesUrl.encode(
@@ -48,7 +72,10 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
         )
     }
 
-    /// Exporter les fichiers annexes (PDF, JPEG, PNG...) des autres entités
+    /// Exporter les fichiers annexes (PDF, JPEG, PNG...) des entités.
+    ///
+    /// Les fichiers PDF, JPEG, PNG sont enregistrés dans le dossier `cache`.
+    /// - Returns: La liste des noms de fichiers exportés.
     private static func exportedAnnexeFiles() -> [String] {
         var exportedFileNames = [String]()
 
@@ -65,6 +92,9 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
     }
 
     /// Exporter les annexes PDF des Documents associés aux Schools
+    ///
+    /// Les fichiers PDF sont enregistrés dans le dossier `cache`.
+    /// - Returns: La liste des noms de fichiers exportés.
     private static func exportedDocFiles() -> [String] {
         var exportedFileNames = [String]()
         let cachesUrl = URL.cachesDirectory
@@ -85,6 +115,9 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
     }
 
     /// Exporter les annexes PNG des plans de salle Rooms associés aux Schools
+    ///
+    /// Les fichiers PNG sont enregistrés dans le dossier `cache`.
+    /// - Returns: La liste des noms de fichiers exportés.
     private static func exportedRoomFiles() -> [String] {
         var exportedFileNames = [String]()
         let cachesUrl = URL.cachesDirectory
@@ -109,6 +142,9 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
     }
 
     /// Exporter les  Photos des Elèves
+    ///
+    /// Les fichiers Photos sont enregistrés dans le dossier `cache` au format PNG.
+    /// - Returns: La liste des noms de fichiers exportés.
     private static func exportedTrombineFiles() -> [String] {
         var exportedFileNames = [String]()
         let cachesUrl = URL.cachesDirectory

@@ -59,6 +59,16 @@ extension SchoolSidebarView {
                             systemImage: "teletype.answer.circle"
                         )
                     }
+
+                    // Infos personnelles
+                    Button {
+                        isShowingInfoPerso = true
+                    } label: {
+                        Label(
+                            "Infos personnelles",
+                            systemImage: "person.crop.square.filled.and.at.rectangle"
+                        )
+                    }
                 }
 
                 Menu("Importer") {

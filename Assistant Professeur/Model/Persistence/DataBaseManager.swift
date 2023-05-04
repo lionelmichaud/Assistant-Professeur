@@ -70,6 +70,10 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
         errorList: inout DataBaseErrorList,
         tryToRepair: Bool
     ) {
+        OwnerEntity.checkConsistency(
+            errorList: &errorList, tryToRepair: tryToRepair
+        )
+
         RoomEntity.checkConsistency(
             errorList: &errorList, tryToRepair: tryToRepair
         )
@@ -133,7 +137,9 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
     /// Retourne `true` si la BDD Core Data est vide.
     /// - Returns: `true` si la BDD Core Data est vide
     static func isEmpty() -> Bool {
-        SchoolEntity.cardinal() == 0 &&
+        OwnerEntity.cardinal() == 0 &&
+
+            SchoolEntity.cardinal() == 0 &&
             DocumentEntity.cardinal() == 0 &&
             EventEntity.cardinal() == 0 &&
             RessourceEntity.cardinal() == 0 &&
@@ -156,6 +162,13 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
     /// Efface tout le contenu de la base de donnée Core Data
     /// - Parameter failed: true si l'opération à échouée
     static func clear(failed: inout Bool) {
+        // Suppression des données personnelle de l'utilisateur de l'application
+        do {
+            try OwnerEntity.deleteAll()
+        } catch {
+            failed = true
+        }
+
         // Suppression des Etablissements
         do {
             try SchoolEntity.deleteAll()
@@ -207,10 +220,21 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
         failed = failed || !isEmpty()
     }
 
-    /// Peupler la base de donnée.
+    /// Peupler la base de donnée avec des données 'fake'.
     /// - Parameter failed: true si l'opération à échouée
     static func populateWithMockData(storeType: StoreType) {
         CoreDataManager.storeType = storeType
+
+        // Owner
+        OwnerEntity.create(
+            familyName: "MICHAUD",
+            givenName: "Lionel",
+            numen: "16 E2 23 18 02 HNL",
+            mailAdressAcademy: "Lionel.Michaud@ac-toulouse.fr",
+            urlMailAcademy: URL(string: "https://messagerie.ac-toulouse.fr"),
+            idMailAcademy: "lmichaud1",
+            pwdMailAcademy: "motdepasse"
+        )
 
         // Etablissement
         let college = SchoolEntity.create(

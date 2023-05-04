@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22E252" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22E261" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="ActivityEntity" representedClassName="ActivityEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="documentCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="documents.@count" usesScalarValueType="YES"/>
@@ -128,6 +128,17 @@
         <attribute name="isVerified" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="motif" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="eleve" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="observs" inverseEntity="EleveEntity"/>
+    </entity>
+    <entity name="OwnerEntity" representedClassName="OwnerEntity" syncable="YES" codeGenerationType="category">
+        <attribute name="annotation" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="familyName" attributeType="String" defaultValueString=""/>
+        <attribute name="givenName" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="idMailAcademy" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="mailAdressAcademy" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="numen" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="pwdMailAcademy" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="urlMailAcademy" optional="YES" attributeType="URI"/>
     </entity>
     <entity name="ProgramEntity" representedClassName="ProgramEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" optional="YES" attributeType="String" defaultValueString=""/>
