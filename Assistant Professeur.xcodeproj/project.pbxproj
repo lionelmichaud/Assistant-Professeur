@@ -187,6 +187,8 @@
 		79BF1DB72929105D005D6CF3 /* Event+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DB52929105D005D6CF3 /* Event+Extensions.swift */; };
 		79BF1DB929291069005D6CF3 /* Room+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DB829291069005D6CF3 /* Room+Extensions.swift */; };
 		79BF1DBA29291069005D6CF3 /* Room+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DB829291069005D6CF3 /* Room+Extensions.swift */; };
+		79C0CA022A0453EB0010DB43 /* bell.wav in Resources */ = {isa = PBXBuildFile; fileRef = 79C0CA002A0453D90010DB43 /* bell.wav */; };
+		79C0CA032A0453EB0010DB43 /* ding.wav in Resources */ = {isa = PBXBuildFile; fileRef = 79C0CA012A0453EB0010DB43 /* ding.wav */; };
 		79C2E47029DC22C2008DF730 /* EleveTextName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C2E46F29DC22C2008DF730 /* EleveTextName.swift */; };
 		79CD363929D989C900BF5ADC /* EmptyListMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CD363829D989C900BF5ADC /* EmptyListMessage.swift */; };
 		79D573472927EEDE00B0B7B8 /* SchoolViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D573462927EEDE00B0B7B8 /* SchoolViewModel.swift */; };
@@ -474,6 +476,8 @@
 		79BF1DB22929104F005D6CF3 /* Document+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Document+Extensions.swift"; sourceTree = "<group>"; };
 		79BF1DB52929105D005D6CF3 /* Event+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+Extensions.swift"; sourceTree = "<group>"; };
 		79BF1DB829291069005D6CF3 /* Room+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Room+Extensions.swift"; sourceTree = "<group>"; };
+		79C0CA002A0453D90010DB43 /* bell.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bell.wav; sourceTree = "<group>"; };
+		79C0CA012A0453EB0010DB43 /* ding.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ding.wav; sourceTree = "<group>"; };
 		79C2E46F29DC22C2008DF730 /* EleveTextName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveTextName.swift; sourceTree = "<group>"; };
 		79CD363829D989C900BF5ADC /* EmptyListMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyListMessage.swift; sourceTree = "<group>"; };
 		79D573462927EEDE00B0B7B8 /* SchoolViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolViewModel.swift; sourceTree = "<group>"; };
@@ -600,6 +604,7 @@
 		79135E0B2969E14C00F95694 /* AppData */ = {
 			isa = PBXGroup;
 			children = (
+				79C0C9FF2A04533A0010DB43 /* Sounds */,
 				79135E0A2969E13D00F95694 /* JSON */,
 				79135E172969E18200F95694 /* Plans */,
 				79135E0E2969E17000F95694 /* Docs */,
@@ -1138,6 +1143,15 @@
 			path = Room;
 			sourceTree = "<group>";
 		};
+		79C0C9FF2A04533A0010DB43 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				79C0CA002A0453D90010DB43 /* bell.wav */,
+				79C0CA012A0453EB0010DB43 /* ding.wav */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		79DEDAE32925855B00F508EF /* School */ = {
 			isa = PBXGroup;
 			children = (
@@ -1424,6 +1438,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79C0CA032A0453EB0010DB43 /* ding.wav in Resources */,
+				79C0CA022A0453EB0010DB43 /* bell.wav in Resources */,
 				79B6630D29244C3F007B1FBD /* Preview Assets.xcassets in Resources */,
 				79A8E7BC29AECE1B006D0EAA /* Images.xcassets in Resources */,
 				79B6630929244C3F007B1FBD /* Assets.xcassets in Resources */,

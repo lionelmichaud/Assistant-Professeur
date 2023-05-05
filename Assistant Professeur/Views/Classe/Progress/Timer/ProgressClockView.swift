@@ -43,8 +43,8 @@ struct ProgressClockView: View {
                         impactFeedback.selectionChanged()
                     } label: {
                         Image(systemName: warningNotif ? "timer.circle.fill" : "timer.circle")
-                            .font(.system(size: 60))
-                            .foregroundColor(SeanceTimerView.TimerColors.warning.color)
+                            .font(.system(size: 50))
+                            .foregroundColor(SeanceTimerView.TimerZone.warning.color)
                             .offset(x: -30, y: 30)
                     }
                 }
@@ -55,8 +55,8 @@ struct ProgressClockView: View {
                     impactFeedback.selectionChanged()
                 } label: {
                     Image(systemName: alertNotif ? "timer.circle.fill" : "timer.circle")
-                        .font(.system(size: 60))
-                        .foregroundColor(SeanceTimerView.TimerColors.alert.color)
+                        .font(.system(size: 50))
+                        .foregroundColor(SeanceTimerView.TimerZone.alert.color)
                         .offset(x: 30, y: 30)
                 }
             }
@@ -86,7 +86,6 @@ struct ProgressClockView: View {
                 }
             }
         }
-        .padding(lineWidth)
     }
 }
 

@@ -5,6 +5,8 @@
 //  Created by Lionel MICHAUD on 16/04/2023.
 //
 
+import AppFoundation
+import AVFoundation
 import HelpersView
 import SwiftUI
 
@@ -18,27 +20,44 @@ struct SeanceTimerView: View {
     var lineWidth: Double = 40.0
     var test: Bool = false
 
+    @Environment(\.horizontalSizeClass)
+    var hClass
+
     // MARK: - Internal Types
 
-    enum TimerColors {
+    enum TimerZone {
         case normal, warning, alert
         var color: Color {
             switch self {
-                case .normal:
-                    return .green
-                case .warning:
-                    return .orange
-                case .alert:
-                    return .red
+                case .normal: return .green
+                case .warning: return .orange
+                case .alert: return .red
             }
         }
+    }
+
+    // MARK: - Type Properties
+
+    static let dingPlayer: AVPlayer = AVPlayer.soundPlayer(sound: "ding")
+    static let bellPlayer: AVPlayer = AVPlayer.soundPlayer(sound: "bell")
+
+    // MARK: - Type Methods
+
+    static func playDingSound() {
+        dingPlayer.seek(to: .zero)
+        dingPlayer.play()
+    }
+
+    static func playBellSound() {
+        bellPlayer.seek(to: .zero)
+        bellPlayer.play()
     }
 
     // MARK: - Private Properties
 
     private let period = TimeInterval(2)
 
-    private let notificationFeddback = UINotificationFeedbackGenerator()
+    private let notificationFeedback = UINotificationFeedbackGenerator()
 
     @State
     private var warningNotif = true
@@ -64,54 +83,63 @@ struct SeanceTimerView: View {
         }
     }
 
+    @ViewBuilder
+    private func compactView(date: Date, seance: DateInterval) -> some View {
+        VStack {
+            VStack {
+                // heure de fin de la séance de travail
+                Text("Fin de la séance à **\(seance.end.formatted(date: .omitted, time: .shortened))**")
+                    .font(.title)
+
+                ProgressClockView(
+                    trimValue: cursorValue(for: date)!,
+                    color: timerZone(for: date).color,
+                    elapsedTime: elapsedTime(for: date),
+                    remainingTime: remainingTime(for: date),
+                    warningNotif: $warningNotif,
+                    alertNotif: $alertNotif
+                )
+                .padding(lineWidth)
+            }
+
+            // seuils d'alerte
+            reglageSeuilView
+        }
+    }
+
+    @ViewBuilder
+    private func regularView(date: Date, seance: DateInterval) -> some View {
+        HStack {
+            VStack {
+                // heure de fin de la séance de travail
+                Text("Fin de la séance à **\(seance.end.formatted(date: .omitted, time: .shortened))**")
+                    .font(.title)
+
+                ProgressClockView(
+                    trimValue: cursorValue(for: date)!,
+                    color: timerZone(for: date).color,
+                    elapsedTime: elapsedTime(for: date),
+                    remainingTime: remainingTime(for: date),
+                    warningNotif: $warningNotif,
+                    alertNotif: $alertNotif
+                )
+                .padding(lineWidth/2)
+            }
+
+            VStack {
+
+                // seuils d'alerte
+                reglageSeuilView
+            }
+        }
+    }
+
     var body: some View {
         TimelineView(.periodic(from: .now, by: period)) { timeLine in
             if let seance = seanceOngoing(at: timeLine.date) {
-                VStack {
-                    // heure de fin de la séance de travail
-                    Text("Fin de la séance à **\(seance.end.formatted(date: .omitted, time: .shortened))**")
-                        .font(.title)
-
-                    ProgressClockView(
-                        trimValue: cursorValue(for: timeLine.date)!,
-                        color: cursorColor(for: timeLine.date),
-                        elapsedTime: elapsedTime(for: timeLine.date),
-                        remainingTime: remainingTime(for: timeLine.date),
-                        warningNotif: $warningNotif,
-                        alertNotif: $alertNotif
-                    )
-
-                    // seuils d'alerte
-                    VStack {
-                        Stepper(
-                            value: $warningRemainingMinutes,
-                            in: 1 ... 30,
-                            step: 1
-                        ) {
-                            Text("Alerte: ")
-                                .foregroundColor(TimerColors.warning.color)
-                                + Text(warningString)
-                        }
-                        .padding(.horizontal)
-
-                        Stepper(
-                            value: $alertRemainingMinutes,
-                            in: 1 ... 15,
-                            step: 1
-                        ) {
-                            Text("Alarme: ")
-                                .foregroundColor(TimerColors.alert.color)
-                                + Text(alertString)
-                        }.padding(.horizontal)
-                    }
-                    .font(.system(size: 25))
-                    .fontWeight(.heavy)
-                    .frame(maxWidth: 400)
-                    .padding(.vertical)
-                    .background(
-                        RoundedRectangle(cornerRadius: 20).fill(.gray.opacity(0.3))
-                    )
-                    .padding(.horizontal, 4)
+                ViewThatFits(in: .horizontal) {
+                    regularView(date: timeLine.date, seance: seance)
+                    compactView(date: timeLine.date, seance: seance)
                 }
 
             } else {
@@ -173,24 +201,104 @@ struct SeanceTimerView: View {
         }
     }
 
-    /// Couleur du curseur
-    private func cursorColor(for date: Date) -> Color {
-        guard let remaingMinutes = remainingTime(for: date)?.minute else {
-            return TimerColors.normal.color
+    private func timerZone(for date: Date) -> TimerZone {
+        guard let remainingTime = remainingTime(for: date),
+              let remainingMinutes = remainingTime.minute,
+              let remainingSeconds = remainingTime.second else {
+            return .normal
         }
-        if remaingMinutes < alertRemainingMinutes {
-            if alertRemainingMinutes <= remaingMinutes + 1 && alertNotif {
-                notificationFeddback.notificationOccurred(.error)
+        vibrate(remainingMinutes: remainingMinutes)
+        playSoundAnd(
+            remainingMinutes: remainingMinutes,
+            remainingSeconds: remainingSeconds
+        )
+
+        switch remainingMinutes + 1 {
+            case 0 ... alertRemainingMinutes:
+                return .alert
+
+            case alertRemainingMinutes ... warningRemainingMinutes:
+                return .warning
+
+            default:
+                return .normal
+        }
+    }
+
+    private func vibrate(remainingMinutes: Int) {
+        let duration = 1
+        switch remainingMinutes + 1 {
+            case (alertRemainingMinutes - duration) ... alertRemainingMinutes:
+                if alertNotif {
+                    notificationFeedback.notificationOccurred(.error)
+                }
+
+            case (warningRemainingMinutes - duration) ... warningRemainingMinutes:
+                if warningNotif {
+                    notificationFeedback.notificationOccurred(.warning)
+                }
+
+            default:
+                break
+        }
+    }
+
+    private func playSoundAnd(
+        remainingMinutes: Int,
+        remainingSeconds _: Int
+    ) {
+        let duration = 1
+        switch remainingMinutes + 1 {
+            case (alertRemainingMinutes - duration) ... alertRemainingMinutes:
+                if alertNotif {
+                    SeanceTimerView.playBellSound()
+                }
+
+            case (warningRemainingMinutes - duration) ... warningRemainingMinutes:
+                if warningNotif {
+                    SeanceTimerView.playDingSound()
+                }
+
+            default:
+                break
+        }
+    }
+}
+
+// MARK: - Subviews
+
+extension SeanceTimerView {
+    private var reglageSeuilView: some View {
+        VStack {
+            Stepper(
+                value: $warningRemainingMinutes,
+                in: alertRemainingMinutes ... 45,
+                step: 1
+            ) {
+                Text("Alerte: ")
+                    .foregroundColor(TimerZone.warning.color)
+                    + Text(warningString)
             }
-            return TimerColors.alert.color
+            .padding(.horizontal)
+
+            Stepper(
+                value: $alertRemainingMinutes,
+                in: 0 ... warningRemainingMinutes,
+                step: 1
+            ) {
+                Text("Alarme: ")
+                    .foregroundColor(TimerZone.alert.color)
+                    + Text(alertString)
+            }.padding(.horizontal)
         }
-        if remaingMinutes < warningRemainingMinutes {
-            if warningRemainingMinutes <= remaingMinutes + 1 && warningNotif {
-                notificationFeddback.notificationOccurred(.warning)
-            }
-            return TimerColors.warning.color
-        }
-        return .green
+        .font(.system(size: 25))
+        .fontWeight(.heavy)
+        .frame(maxWidth: 400)
+        .padding(.vertical)
+        .background(
+            RoundedRectangle(cornerRadius: 20).fill(.gray.opacity(0.3))
+        )
+        .padding(.horizontal, 4)
     }
 }
 

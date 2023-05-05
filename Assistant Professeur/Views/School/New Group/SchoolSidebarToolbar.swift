@@ -74,7 +74,7 @@ extension SchoolSidebarView {
                 Menu("Importer") {
                     // Importer des fichiers JPEG pour le trombinoscope
                     Button(role: .destructive) {
-                        isShowingImportTrombineDialog.toggle()
+                        isShowingImportTrombineDialog = true
                     } label: {
                         Label(
                             "Importer des photos pour le trombinoscope",
@@ -84,7 +84,7 @@ extension SchoolSidebarView {
 
                     // Importer les données depuis des fichiers au format JSON
                     Button(role: .destructive) {
-                        isShowingJsonImportConfirmDialog.toggle()
+                        isShowingJsonImportConfirmDialog = true
                     } label: {
                         Label(
                             "Importer les données depuis une archive",
@@ -94,7 +94,7 @@ extension SchoolSidebarView {
 
                     // Importer des fichiers depuis le Bundle Application
                     Button(role: .destructive) {
-                        isShowingAppImportConfirmDialog.toggle()
+                        isShowingAppImportConfirmDialog = true
                     } label: {
                         Label(
                             "Importer les données contenues dans l'Application",
@@ -108,7 +108,7 @@ extension SchoolSidebarView {
                     Button {
                         let exportedFilesUrl = JsonImportExportMng.exportToJsonFiles()
                         fileExportOperation = .exportJsonModel(annexFileNames: exportedFilesUrl)
-                        isExportingModel.toggle()
+                        isExportingModel = true
                     } label: {
                         Label(
                             "Archiver vos données vers des fichiers",
@@ -119,7 +119,7 @@ extension SchoolSidebarView {
                     Button {
                         CsvImportExportMng.exportEleves()
                         fileExportOperation = .exportCsvEleveList
-                        isExportingModel.toggle()
+                        isExportingModel = true
                     } label: {
                         Label(
                             "Exporter les listes d'élèves au format CSV",
@@ -130,7 +130,7 @@ extension SchoolSidebarView {
                         Button {
                             CsvImportExportMng.exportPrograms()
                             fileExportOperation = .exportCsvPrograms
-                            isExportingModel.toggle()
+                            isExportingModel = true
                         } label: {
                             Label(
                                 "Exporter les programmes en CSV",
@@ -153,7 +153,7 @@ extension SchoolSidebarView {
 
                     // Effacer toutes les données utilisateur
                     Button(role: .destructive) {
-                        isShowingDeleteConfirmDialog.toggle()
+                        isShowingDeleteConfirmDialog = true
                     } label: {
                         Label(
                             "Supprimer toutes vos données",

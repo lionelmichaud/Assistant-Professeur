@@ -54,7 +54,9 @@ struct Assistant_ProfesseurApp: App {
                 do {
                     // charger tous les documents de l'appli pour rétablir la compatibilité
                     try PersistenceManager()
-                        .forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
+                        .forcedImportAllFilesFromApp(
+                            fileExtensions: ["json", "jpg", "png", "pdf", "wave"]
+                        )
 
                 } catch {
                     AppState.shared.initError = .failedToLoadApplicationData
