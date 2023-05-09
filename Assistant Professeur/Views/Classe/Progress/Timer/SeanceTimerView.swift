@@ -11,17 +11,8 @@ import HelpersView
 import SwiftUI
 
 struct SeanceTimerView: View {
-    @Binding
-    var warningRemainingMinutes: Int
-
-    @Binding
-    var alertRemainingMinutes: Int
-
     var lineWidth: Double = 40.0
     var test: Bool = false
-
-    @Environment(\.horizontalSizeClass)
-    var hClass
 
     // MARK: - Internal Types
 
@@ -55,15 +46,24 @@ struct SeanceTimerView: View {
 
     // MARK: - Private Properties
 
+    @SceneStorage("warningRemainingMinutes")
+    private var warningRemainingMinutes: Int = 10
+
+    @SceneStorage("alertRemainingMinutes")
+    private var alertRemainingMinutes: Int = 5
+
+    @SceneStorage("warningAlarmIsActivited")
+    private var warningAlarmIsActivited = true
+
+    @SceneStorage("alertAlarmIsActivated")
+    private var alertAlarmIsActivated = true
+    
+    @Environment(\.horizontalSizeClass)
+    private var hClass
+
     private let period = TimeInterval(2)
 
     private let notificationFeedback = UINotificationFeedbackGenerator()
-
-    @State
-    private var warningNotif = true
-
-    @State
-    private var alertNotif = true
 
     // MARK: - Computed Properties
 
@@ -96,8 +96,8 @@ struct SeanceTimerView: View {
                     color: timerZone(for: date).color,
                     elapsedTime: elapsedTime(for: date),
                     remainingTime: remainingTime(for: date),
-                    warningNotif: $warningNotif,
-                    alertNotif: $alertNotif
+                    warningNotif: $warningAlarmIsActivited,
+                    alertNotif: $alertAlarmIsActivated
                 )
                 .padding(lineWidth)
             }
@@ -120,8 +120,8 @@ struct SeanceTimerView: View {
                     color: timerZone(for: date).color,
                     elapsedTime: elapsedTime(for: date),
                     remainingTime: remainingTime(for: date),
-                    warningNotif: $warningNotif,
-                    alertNotif: $alertNotif
+                    warningNotif: $warningAlarmIsActivited,
+                    alertNotif: $alertAlarmIsActivated
                 )
                 .padding(lineWidth/2)
             }
@@ -208,7 +208,7 @@ struct SeanceTimerView: View {
             return .normal
         }
         vibrate(remainingMinutes: remainingMinutes)
-        playSoundAnd(
+        playSound(
             remainingMinutes: remainingMinutes,
             remainingSeconds: remainingSeconds
         )
@@ -229,12 +229,12 @@ struct SeanceTimerView: View {
         let duration = 1
         switch remainingMinutes + 1 {
             case (alertRemainingMinutes - duration) ... alertRemainingMinutes:
-                if alertNotif {
+                if alertAlarmIsActivated {
                     notificationFeedback.notificationOccurred(.error)
                 }
 
             case (warningRemainingMinutes - duration) ... warningRemainingMinutes:
-                if warningNotif {
+                if warningAlarmIsActivited {
                     notificationFeedback.notificationOccurred(.warning)
                 }
 
@@ -243,19 +243,19 @@ struct SeanceTimerView: View {
         }
     }
 
-    private func playSoundAnd(
+    private func playSound(
         remainingMinutes: Int,
         remainingSeconds _: Int
     ) {
         let duration = 1
         switch remainingMinutes + 1 {
             case (alertRemainingMinutes - duration) ... alertRemainingMinutes:
-                if alertNotif {
+                if alertAlarmIsActivated {
                     SeanceTimerView.playBellSound()
                 }
 
             case (warningRemainingMinutes - duration) ... warningRemainingMinutes:
-                if warningNotif {
+                if warningAlarmIsActivited {
                     SeanceTimerView.playDingSound()
                 }
 
@@ -313,15 +313,11 @@ struct SeanceTimerView_Previews: PreviewProvider {
         initialize()
         return Group {
             SeanceTimerView(
-                warningRemainingMinutes: .constant(30),
-                alertRemainingMinutes: .constant(15),
                 lineWidth: 40,
                 test: true
             )
             .previewDevice("iPad mini (6th generation)")
             SeanceTimerView(
-                warningRemainingMinutes: .constant(30),
-                alertRemainingMinutes: .constant(15),
                 lineWidth: 40,
                 test: true
             )

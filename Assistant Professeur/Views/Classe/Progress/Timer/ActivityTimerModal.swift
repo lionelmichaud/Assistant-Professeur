@@ -10,23 +10,14 @@ import SwiftUI
 struct ActivityTimerModal: View {
     @ObservedObject
     var activity: ActivityEntity
+
     var test: Bool = false
 
     @Environment(\.dismiss)
     private var dismiss
 
-    @State
-    private var warningRemainingMinutes: Int = 10
-
-    @State
-    private var alertRemainingMinutes: Int = 5
-
     var body: some View {
-        SeanceTimerView(
-            warningRemainingMinutes: $warningRemainingMinutes,
-            alertRemainingMinutes: $alertRemainingMinutes,
-            test: test
-        )
+        SeanceTimerView(test: test)
         #if os(iOS)
         .navigationTitle("Chronomètre")
             // .navigationBarTitleDisplayMode(.inline)
