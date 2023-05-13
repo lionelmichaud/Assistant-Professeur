@@ -22,9 +22,6 @@ struct SchoolDetail: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
 
-    @Preference(\.schoolAnnotationEnabled)
-    private var schoolAnnotation
-
     // MARK: - Computed Properties
 
     /// Vue du nom de l'établissement
@@ -50,10 +47,11 @@ struct SchoolDetail: View {
             .padding(.horizontal, 60)
 
             List {
-                // note sur la classe
-                if schoolAnnotation {
-                    AnnotationEditView(annotation: $school.viewAnnotation)
-                }
+                // infos sur l'établissement
+                NavigationLink(value: school) {
+                    Label("Informations", systemImage: "info.circle")
+                        .fontWeight(.bold)
+                    }
 
                 // édition de la liste des classes
                 ClassList(school: school)

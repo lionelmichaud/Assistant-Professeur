@@ -26,7 +26,7 @@ extension SchoolSidebarView {
             }
         }
 
-        // Menu
+        // Préférences utilisateur et Menu
         ToolbarItemGroup(placement: .automatic) {
             // Edition des préférences utilisateur
             Button {

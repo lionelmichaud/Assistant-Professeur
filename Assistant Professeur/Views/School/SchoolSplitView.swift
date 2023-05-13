@@ -20,7 +20,12 @@ struct SchoolSplitView: View {
 
         } detail: {
             // Détail dans la 2ième colonne
-            SchoolEditor()
+            NavigationStack {
+                SchoolEditor()
+                    .navigationDestination(for: SchoolEntity.self) { school in
+                        SchoolInfosView(school: school)
+                    }
+            }
         }
     }
 }

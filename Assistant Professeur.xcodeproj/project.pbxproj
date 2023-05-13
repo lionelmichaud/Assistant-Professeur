@@ -107,15 +107,19 @@
 		79637210297DA91200ECDBC3 /* ActivityDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7963720F297DA91200ECDBC3 /* ActivityDetail.swift */; };
 		79637212297DBCE200ECDBC3 /* SettingsSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637211297DBCE200ECDBC3 /* SettingsSequence.swift */; };
 		79637214297DBD6500ECDBC3 /* SettingsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637213297DBD6500ECDBC3 /* SettingsActivity.swift */; };
+		7967CFFA2A0D57BA00392F89 /* OrganizationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967CFF92A0D57BA00392F89 /* OrganizationEditView.swift */; };
 		796A242329A137E7009B2A6C /* ActivityClassProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A242229A137E7009B2A6C /* ActivityClassProgressView.swift */; };
 		796A242529A178DF009B2A6C /* ClassCurrentActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A242429A178DF009B2A6C /* ClassCurrentActivityView.swift */; };
 		796A242729A17C16009B2A6C /* ClassProgressesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A242629A17C16009B2A6C /* ClassProgressesView.swift */; };
+		796B6A7D2A0BD24600F00929 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B6A7C2A0BD24600F00929 /* ContactsManager.swift */; };
+		796B6A802A0C42BD00F00929 /* SchoolInfosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B6A7F2A0C42BD00F00929 /* SchoolInfosView.swift */; };
 		797AD2B229902BCE00BE5D37 /* ActivityProgressesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797AD2B129902BCE00BE5D37 /* ActivityProgressesView.swift */; };
 		797AD2B429913B4C00BE5D37 /* School+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */; };
 		797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */; };
 		7981280629F1CB3500A3817E /* AgendaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981280529F1CB3500A3817E /* AgendaManager.swift */; };
 		7981C22129A8054A0085986D /* ProgramTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981C22029A8054A0085986D /* ProgramTimeLine.swift */; };
 		7981C22329A807110085986D /* ProgramStepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981C22229A807110085986D /* ProgramStepperView.swift */; };
+		7983834F2A0FEB9200C4A4E2 /* ContactEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7983834E2A0FEB9200C4A4E2 /* ContactEnum.swift */; };
 		798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798458E92939529D00B74538 /* AnnotationEditView.swift */; };
 		7986A8572989B1A2007471BE /* GroupGlobalMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7986A8562989B1A2007471BE /* GroupGlobalMarkModal.swift */; };
 		7986A8592989CE73007471BE /* GroupSteppedlMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7986A8582989CE73007471BE /* GroupSteppedlMarkModal.swift */; };
@@ -398,15 +402,19 @@
 		79637211297DBCE200ECDBC3 /* SettingsSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSequence.swift; sourceTree = "<group>"; };
 		79637213297DBD6500ECDBC3 /* SettingsActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsActivity.swift; sourceTree = "<group>"; };
 		7966DCF8292573A1001D6C7F /* AppFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppFoundation; path = ../Packages/AppFoundation; sourceTree = "<group>"; };
+		7967CFF92A0D57BA00392F89 /* OrganizationEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationEditView.swift; sourceTree = "<group>"; };
 		796A242229A137E7009B2A6C /* ActivityClassProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityClassProgressView.swift; sourceTree = "<group>"; };
 		796A242429A178DF009B2A6C /* ClassCurrentActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassCurrentActivityView.swift; sourceTree = "<group>"; };
 		796A242629A17C16009B2A6C /* ClassProgressesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassProgressesView.swift; sourceTree = "<group>"; };
+		796B6A7C2A0BD24600F00929 /* ContactsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
+		796B6A7F2A0C42BD00F00929 /* SchoolInfosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SchoolInfosView.swift; path = "Assistant Professeur/Model/Persistence/SchoolInfosView.swift"; sourceTree = SOURCE_ROOT; };
 		797AD2B129902BCE00BE5D37 /* ActivityProgressesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityProgressesView.swift; sourceTree = "<group>"; };
 		797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "School+CoreDataClass.swift"; sourceTree = "<group>"; };
 		797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDisciplineLevel.swift; sourceTree = "<group>"; };
 		7981280529F1CB3500A3817E /* AgendaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AgendaManager.swift; path = "Assistant Professeur/Views/Classe/Progress/ActivityTimer/AgendaManager.swift"; sourceTree = SOURCE_ROOT; };
 		7981C22029A8054A0085986D /* ProgramTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramTimeLine.swift; sourceTree = "<group>"; };
 		7981C22229A807110085986D /* ProgramStepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramStepperView.swift; sourceTree = "<group>"; };
+		7983834E2A0FEB9200C4A4E2 /* ContactEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactEnum.swift; sourceTree = "<group>"; };
 		798458E92939529D00B74538 /* AnnotationEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationEditView.swift; sourceTree = "<group>"; };
 		7986A8562989B1A2007471BE /* GroupGlobalMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupGlobalMarkModal.swift; sourceTree = "<group>"; };
 		7986A8582989CE73007471BE /* GroupSteppedlMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSteppedlMarkModal.swift; sourceTree = "<group>"; };
@@ -699,6 +707,7 @@
 				79388A4E29257025002AABB8 /* AppState.swift */,
 				79FFF42C295122F60037A327 /* ColorOptions.swift */,
 				79DEDB1D292598BE00F508EF /* Persistence */,
+				7983834D2A0FEB7200C4A4E2 /* Contacts */,
 				7981280429F1CB1300A3817E /* Agenda */,
 				79BF1DAF29291005005D6CF3 /* Document */,
 				79213555297872320036A5EA /* Program */,
@@ -928,6 +937,15 @@
 			name = Packages;
 			sourceTree = "<group>";
 		};
+		796B6A7E2A0C42AE00F00929 /* Infos */ = {
+			isa = PBXGroup;
+			children = (
+				796B6A7F2A0C42BD00F00929 /* SchoolInfosView.swift */,
+				7967CFF92A0D57BA00392F89 /* OrganizationEditView.swift */,
+			);
+			path = Infos;
+			sourceTree = "<group>";
+		};
 		7981280429F1CB1300A3817E /* Agenda */ = {
 			isa = PBXGroup;
 			children = (
@@ -943,6 +961,15 @@
 				7981C22229A807110085986D /* ProgramStepperView.swift */,
 			);
 			path = TimeLine;
+			sourceTree = "<group>";
+		};
+		7983834D2A0FEB7200C4A4E2 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				7983834E2A0FEB9200C4A4E2 /* ContactEnum.swift */,
+				796B6A7C2A0BD24600F00929 /* ContactsManager.swift */,
+			);
+			path = Contacts;
 			sourceTree = "<group>";
 		};
 		798458E82939529D00B74538 /* Annotation */ = {
@@ -1155,6 +1182,7 @@
 		79DEDAE32925855B00F508EF /* School */ = {
 			isa = PBXGroup;
 			children = (
+				796B6A7E2A0C42AE00F00929 /* Infos */,
 				799421872A02C6E5002999C4 /* Toolbar */,
 				7994E3202972F4E500952D08 /* Document */,
 				793C29D02953C08100E7F65B /* Ressource */,
@@ -1497,6 +1525,7 @@
 				79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */,
 				7994E3252972F4E500952D08 /* DocumentRow.swift in Sources */,
 				7937A2442986AD9100D0ED59 /* CloudKitViewModel.swift in Sources */,
+				7967CFFA2A0D57BA00392F89 /* OrganizationEditView.swift in Sources */,
 				79B298E829EC5F2C008BAF50 /* SeanceTimerView.swift in Sources */,
 				7997531E297C3D5B00D1C66E /* ProgramCreatorModal.swift in Sources */,
 				7963720C297DA37E00ECDBC3 /* ActivityBrowserRow.swift in Sources */,
@@ -1529,6 +1558,7 @@
 				79ECF206295A16E2008F0282 /* EleveColleRow.swift in Sources */,
 				79BA2D48299C0084006325CC /* JsonImportExportMng.swift in Sources */,
 				79CD363929D989C900BF5ADC /* EmptyListMessage.swift in Sources */,
+				796B6A802A0C42BD00F00929 /* SchoolInfosView.swift in Sources */,
 				79975322297C4AEF00D1C66E /* ProgramBrowserRow.swift in Sources */,
 				7989B4D329A2733D00383F84 /* ClassActivityProgressEditView.swift in Sources */,
 				7989B4D729A276F400383F84 /* ActivityProgressSlider.swift in Sources */,
@@ -1580,6 +1610,7 @@
 				795C2C2A296E2DCA00EDFF09 /* RoomPlanEditView.swift in Sources */,
 				79975318297B173800D1C66E /* SettingsProgram.swift in Sources */,
 				793C29CF2953BE4E00E7F65B /* Ressource+Extensions.swift in Sources */,
+				796B6A7D2A0BD24600F00929 /* ContactsManager.swift in Sources */,
 				79FFF42929511E040037A327 /* ClassCreatorModal.swift in Sources */,
 				79FFF42F29522BA80037A327 /* ClasseViewModel.swift in Sources */,
 				794013522956598B007AD790 /* EleveCreatorModal.swift in Sources */,
@@ -1655,6 +1686,7 @@
 				795C2C2C296E2DCA00EDFF09 /* DraggableSeatLabel.swift in Sources */,
 				79F41E6129549AE400EAAC52 /* AppreciationView.swift in Sources */,
 				79A5737329BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift in Sources */,
+				7983834F2A0FEB9200C4A4E2 /* ContactEnum.swift in Sources */,
 				799D2C7929CCD226009C6336 /* SequenceDocumentList.swift in Sources */,
 				79BF1DB32929104F005D6CF3 /* Document+Extensions.swift in Sources */,
 				79F41E592954903D00EAAC52 /* ClasseEditor.swift in Sources */,
@@ -1920,6 +1952,8 @@
 				INFOPLIST_FILE = "Assistant-Professeur-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Assistant Professeur";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cette application demande l'accès à votre agenda pour synchroniser votre emploi du temps";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Cette application demande l'accès à vos contacts pour se synchroniser";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -1966,6 +2000,8 @@
 				INFOPLIST_FILE = "Assistant-Professeur-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Assistant Professeur";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cette application demande l'accès à votre agenda pour synchroniser votre emploi du temps";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Cette application demande l'accès à vos contacts pour se synchroniser";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
