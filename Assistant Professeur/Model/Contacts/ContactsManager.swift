@@ -44,6 +44,75 @@ enum ContactManager {
         }
     }
 
+    static func personContact(
+        givenName: String,
+        familyName: String,
+        inOrganizationName organizationName: String
+    ) async -> CNContact? {
+        let store = CNContactStore()
+        do {
+            try await store.requestAccess(for: .contacts)
+
+            do {
+                let group = try getOrCreateGroup(named: organizationName)
+                let predicate =
+                    CNContact
+                        .predicateForContacts(matchingName: "\(givenName) \(familyName)")
+                let matchingContacts =
+                    try store.unifiedContacts(
+                        matching: predicate,
+                        keysToFetch: ContactEnum.person().keysToFetch
+                    )
+
+                return matchingContacts.first
+
+            } catch {
+                print("Error getting or creating Contact: \(error.localizedDescription)")
+                return nil
+            }
+
+        } catch {
+            print("Error saving contact: \(error.localizedDescription)")
+            return nil
+        }
+    }
+
+    /// Retourne tous les contacts de personnes inclus dans le groupe de contact nommé `organizationName`.
+    /// - Parameter organizationName: Nom du groupe de contacts dans lequel recherchés les contacts.
+    static func allPersonContacts(
+        inOrganizationName organizationName: String
+    ) async -> [CNContact] {
+        let store = CNContactStore()
+        do {
+            try await store.requestAccess(for: .contacts)
+
+            do {
+                let group = try getOrCreateGroup(named: organizationName)
+                let predicate =
+                    CNContact
+                        .predicateForContactsInGroup(withIdentifier: group.identifier)
+                let contacts =
+                    try store.unifiedContacts(
+                        matching: predicate,
+                        keysToFetch: ContactEnum.person().keysToFetch
+                    )
+                let matchingContacts = contacts.compactMap { contact in
+                    contact.contactType == .person ? contact : nil
+                }
+
+                return matchingContacts
+
+            } catch {
+                print("Error getting or creating Contact: \(error.localizedDescription)")
+                return []
+            }
+
+        } catch {
+            print("Error saving contact: \(error.localizedDescription)")
+            return []
+        }
+    }
+
     /// Saves or updates the `contact`to the address book in the group named `groupName`
     /// if the contact does not already exist. Else, do nothing.
     ///
@@ -52,9 +121,9 @@ enum ContactManager {
     ///   - contact: contact to be saved
     ///   - groupName: name of the group in the adress book.
     /// - Returns: True si l'enregistrement à réussi.
-    static func save(
+    static func saveOrUpdate(
         contact: ContactEnum,
-        to groupName: String
+        toGroupNamed groupName: String
     ) async -> Bool {
         let store = CNContactStore()
         do {
@@ -64,14 +133,46 @@ enum ContactManager {
 
             switch contact {
                 case let .person(givenName, familyName, _, _, _, _):
-                    let predicate =
-                        CNContact
-                            .predicateForContacts(matchingName: "\(givenName) \(familyName)")
-                    let matchingContacts =
-                        try store.unifiedContacts(matching: predicate, keysToFetch: ContactEnum.person().keysToFetch)
+                    do {
+                        if let existingContact = await personContact(
+                            givenName: givenName,
+                            familyName: familyName,
+                            inOrganizationName: groupName
+                        ) {
+                            // mettre à jour le contact existants
+                            let updatedContact = existingContact.mutableCopy() as! CNMutableContact
 
-                    if !matchingContacts.isEmpty {
-                        print("A contact with the same name already exists!")
+                            contact.update(mutableContact: updatedContact)
+
+                            let updateRequest = CNSaveRequest()
+                            updateRequest.update(updatedContact)
+
+                            try store.execute(updateRequest)
+                            print("Contact updated successfully!")
+                            return true
+
+                        } else {
+                            // créer un nouveau contact
+                            guard let newContact = contact.mutableContact() else {
+                                print("Contact cannot be converted to CNMutableContact!")
+                                return false
+                            }
+
+                            let saveRequest = CNSaveRequest()
+                            saveRequest.add(newContact, toContainerWithIdentifier: nil)
+
+                            let addToGroupRequest = CNSaveRequest()
+                            addToGroupRequest.addMember(newContact, to: group)
+
+                            try store.execute(saveRequest)
+                            print("New contact saved successfully!")
+                            try store.execute(addToGroupRequest)
+                            print("New contact added to group successfully!")
+                            return true
+                        }
+
+                    } catch {
+                        print("Error creating or updating contact: \(error.localizedDescription)")
                         return false
                     }
 
@@ -120,10 +221,12 @@ enum ContactManager {
             print("Error saving contact: \(error.localizedDescription)")
             return false
         }
-
-        return false
     }
 
+    /// Cherche un groupe de contacts nommé `groupName` dans l'app Contacts.
+    /// Si le groupe n'existe pas, il est créé.
+    /// - Parameter groupName: <#groupName description#>
+    /// - Returns: Le groupe de contacts nommé `groupName`.
     private static func getOrCreateGroup(named groupName: String) throws -> CNGroup {
         let groups = try CNContactStore().groups(matching: nil)
 

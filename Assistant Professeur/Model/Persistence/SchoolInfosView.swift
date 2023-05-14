@@ -19,14 +19,18 @@ struct SchoolInfosView: View {
     var body: some View {
         List {
             // note sur la classe
-            OrganizationEditView(school: school)
-
             if schoolAnnotation {
                 AnnotationEditView(annotation: $school.viewAnnotation)
                     .padding(.top)
             }
+
+            // Contact de l'établissement
+            SchoolContactEditView(school: school)
+
+            // Contacts de personnes de l'établissement
+            PersonsContactsView(school: school)
         }
-        .listStyle(.plain)
+        // .listStyle(.plain)
         #if os(iOS)
         .navigationTitle("Informations")
         .navigationBarTitleDisplayMode(.inline)

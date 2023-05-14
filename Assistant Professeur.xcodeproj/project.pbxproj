@@ -107,7 +107,7 @@
 		79637210297DA91200ECDBC3 /* ActivityDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7963720F297DA91200ECDBC3 /* ActivityDetail.swift */; };
 		79637212297DBCE200ECDBC3 /* SettingsSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637211297DBCE200ECDBC3 /* SettingsSequence.swift */; };
 		79637214297DBD6500ECDBC3 /* SettingsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637213297DBD6500ECDBC3 /* SettingsActivity.swift */; };
-		7967CFFA2A0D57BA00392F89 /* OrganizationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967CFF92A0D57BA00392F89 /* OrganizationEditView.swift */; };
+		7967CFFA2A0D57BA00392F89 /* SchoolContactEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967CFF92A0D57BA00392F89 /* SchoolContactEditView.swift */; };
 		796A242329A137E7009B2A6C /* ActivityClassProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A242229A137E7009B2A6C /* ActivityClassProgressView.swift */; };
 		796A242529A178DF009B2A6C /* ClassCurrentActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A242429A178DF009B2A6C /* ClassCurrentActivityView.swift */; };
 		796A242729A17C16009B2A6C /* ClassProgressesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A242629A17C16009B2A6C /* ClassProgressesView.swift */; };
@@ -120,6 +120,7 @@
 		7981C22129A8054A0085986D /* ProgramTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981C22029A8054A0085986D /* ProgramTimeLine.swift */; };
 		7981C22329A807110085986D /* ProgramStepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981C22229A807110085986D /* ProgramStepperView.swift */; };
 		7983834F2A0FEB9200C4A4E2 /* ContactEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7983834E2A0FEB9200C4A4E2 /* ContactEnum.swift */; };
+		798383522A0FF38C00C4A4E2 /* PersonsContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798383512A0FF38C00C4A4E2 /* PersonsContactsView.swift */; };
 		798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798458E92939529D00B74538 /* AnnotationEditView.swift */; };
 		7986A8572989B1A2007471BE /* GroupGlobalMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7986A8562989B1A2007471BE /* GroupGlobalMarkModal.swift */; };
 		7986A8592989CE73007471BE /* GroupSteppedlMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7986A8582989CE73007471BE /* GroupSteppedlMarkModal.swift */; };
@@ -402,7 +403,7 @@
 		79637211297DBCE200ECDBC3 /* SettingsSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSequence.swift; sourceTree = "<group>"; };
 		79637213297DBD6500ECDBC3 /* SettingsActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsActivity.swift; sourceTree = "<group>"; };
 		7966DCF8292573A1001D6C7F /* AppFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppFoundation; path = ../Packages/AppFoundation; sourceTree = "<group>"; };
-		7967CFF92A0D57BA00392F89 /* OrganizationEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganizationEditView.swift; sourceTree = "<group>"; };
+		7967CFF92A0D57BA00392F89 /* SchoolContactEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolContactEditView.swift; sourceTree = "<group>"; };
 		796A242229A137E7009B2A6C /* ActivityClassProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityClassProgressView.swift; sourceTree = "<group>"; };
 		796A242429A178DF009B2A6C /* ClassCurrentActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassCurrentActivityView.swift; sourceTree = "<group>"; };
 		796A242629A17C16009B2A6C /* ClassProgressesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassProgressesView.swift; sourceTree = "<group>"; };
@@ -415,6 +416,7 @@
 		7981C22029A8054A0085986D /* ProgramTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramTimeLine.swift; sourceTree = "<group>"; };
 		7981C22229A807110085986D /* ProgramStepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramStepperView.swift; sourceTree = "<group>"; };
 		7983834E2A0FEB9200C4A4E2 /* ContactEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactEnum.swift; sourceTree = "<group>"; };
+		798383512A0FF38C00C4A4E2 /* PersonsContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonsContactsView.swift; sourceTree = "<group>"; };
 		798458E92939529D00B74538 /* AnnotationEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationEditView.swift; sourceTree = "<group>"; };
 		7986A8562989B1A2007471BE /* GroupGlobalMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupGlobalMarkModal.swift; sourceTree = "<group>"; };
 		7986A8582989CE73007471BE /* GroupSteppedlMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSteppedlMarkModal.swift; sourceTree = "<group>"; };
@@ -731,6 +733,7 @@
 				79DEDB06292593C200F508EF /* PreferencesViews */,
 				798458E82939529D00B74538 /* Annotation */,
 				79F41E5F29549AE400EAAC52 /* Appreciation */,
+				798383502A0FF34800C4A4E2 /* Contacts */,
 				79DEDAE32925855B00F508EF /* School */,
 				79DEDAE42925857C00F508EF /* Classe */,
 				79DEDAE52925858900F508EF /* Eleve */,
@@ -941,7 +944,6 @@
 			isa = PBXGroup;
 			children = (
 				796B6A7F2A0C42BD00F00929 /* SchoolInfosView.swift */,
-				7967CFF92A0D57BA00392F89 /* OrganizationEditView.swift */,
 			);
 			path = Infos;
 			sourceTree = "<group>";
@@ -968,6 +970,15 @@
 			children = (
 				7983834E2A0FEB9200C4A4E2 /* ContactEnum.swift */,
 				796B6A7C2A0BD24600F00929 /* ContactsManager.swift */,
+			);
+			path = Contacts;
+			sourceTree = "<group>";
+		};
+		798383502A0FF34800C4A4E2 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				7967CFF92A0D57BA00392F89 /* SchoolContactEditView.swift */,
+				798383512A0FF38C00C4A4E2 /* PersonsContactsView.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -1525,7 +1536,7 @@
 				79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */,
 				7994E3252972F4E500952D08 /* DocumentRow.swift in Sources */,
 				7937A2442986AD9100D0ED59 /* CloudKitViewModel.swift in Sources */,
-				7967CFFA2A0D57BA00392F89 /* OrganizationEditView.swift in Sources */,
+				7967CFFA2A0D57BA00392F89 /* SchoolContactEditView.swift in Sources */,
 				79B298E829EC5F2C008BAF50 /* SeanceTimerView.swift in Sources */,
 				7997531E297C3D5B00D1C66E /* ProgramCreatorModal.swift in Sources */,
 				7963720C297DA37E00ECDBC3 /* ActivityBrowserRow.swift in Sources */,
@@ -1588,6 +1599,7 @@
 				794F6E14295CEC0C00042B95 /* ObservViewModel.swift in Sources */,
 				795EED0529673B88009AA6F4 /* Mark+Extensions.swift in Sources */,
 				79401350295624EF007AD790 /* Dsicipline.swift in Sources */,
+				798383522A0FF38C00C4A4E2 /* PersonsContactsView.swift in Sources */,
 				799421892A02C714002999C4 /* UrgencyTelView.swift in Sources */,
 				7989B4D129A257DD00383F84 /* Activity+CoreDataClass.swift in Sources */,
 				7989B4CF29A257C500383F84 /* Sequence+CoreDataClass.swift in Sources */,

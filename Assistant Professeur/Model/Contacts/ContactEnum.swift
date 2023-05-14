@@ -120,7 +120,6 @@ enum ContactEnum {
                     mutableContact.urlAddresses = [url]
                 }
 
-
             case let .organization(organization, phoneNumber, emailAddress, urlAddress, street, city, postalCode):
                 guard organization.isNotEmpty else {
                     return

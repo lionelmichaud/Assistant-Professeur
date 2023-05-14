@@ -9,7 +9,7 @@ import AppFoundation
 import HelpersView
 import SwiftUI
 
-struct OrganizationEditView: View {
+struct SchoolContactEditView: View {
     @ObservedObject
     var school: SchoolEntity
 
@@ -65,7 +65,7 @@ struct OrganizationEditView: View {
     private var city: String = ""
 
     var body: some View {
-        Section("Coordonnées établissement") {
+        Section("Coordonnées de l'établissement") {
             TextField("Numéro de téléphone", text: $phoneNumber)
                 .keyboardType(.phonePad)
                 .textContentType(.telephoneNumber)
@@ -102,6 +102,7 @@ struct OrganizationEditView: View {
             }
             .buttonStyle(.bordered)
             .horizontallyAligned(.center)
+            .padding(.bottom)
         }
         // .textFieldStyle(.roundedBorder)
         .autocorrectionDisabled()
@@ -126,8 +127,8 @@ struct OrganizationEditView: View {
         }
         .alert(
             alertTitle,
-            isPresented : $alertIsPresented,
-            actions     : {}
+            isPresented: $alertIsPresented,
+            actions: {}
         )
     }
 
@@ -142,7 +143,10 @@ struct OrganizationEditView: View {
                 city: city,
                 postalCode: postalCode
             )
-            let success = await ContactManager.save(contact: contact, to: school.viewName)
+            let success = await ContactManager.saveOrUpdate(
+                contact: contact,
+                toGroupNamed: school.viewName
+            )
             if success {
                 alertTitle = "Le contact a été enregistré."
                 alertIsPresented.toggle()
@@ -164,7 +168,7 @@ struct OrganizationEditView_Previews: PreviewProvider {
         return Group {
             NavigationStack {
                 EmptyView()
-                OrganizationEditView(school: SchoolEntity.all().first!)
+                SchoolContactEditView(school: SchoolEntity.all().first!)
             }
             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
             .environment(\.managedObjectContext, CoreDataManager.shared.context)
@@ -172,7 +176,7 @@ struct OrganizationEditView_Previews: PreviewProvider {
 
             NavigationStack {
                 EmptyView()
-                OrganizationEditView(school: SchoolEntity.all().first!)
+                SchoolContactEditView(school: SchoolEntity.all().first!)
             }
             .padding()
             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
