@@ -268,6 +268,9 @@ public final class Preferences {
     @UserDefault("minute_début_journée")
     public var minutesOfFirstSeance: Int = 15
 
+    @UserDefault("début_année-Scolaire")
+    public var scholarYearStart: Date = Date.now
+
     // Paramètres Graphiques
     // graphique Bilan
 //    @UserEnumDefault("ownership_graphic_selection")

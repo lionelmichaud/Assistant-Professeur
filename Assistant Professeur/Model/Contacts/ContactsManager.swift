@@ -54,7 +54,7 @@ enum ContactManager {
             try await store.requestAccess(for: .contacts)
 
             do {
-                let group = try getOrCreateGroup(named: organizationName)
+                _ = try getOrCreateGroup(named: organizationName)
                 let predicate =
                     CNContact
                         .predicateForContacts(matchingName: "\(givenName) \(familyName)")

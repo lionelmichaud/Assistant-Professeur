@@ -79,6 +79,7 @@
 		7951063E294FD9520015AC5C /* ClassList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951063D294FD9520015AC5C /* ClassList.swift */; };
 		7951B6A029B13E6F006DC88D /* WarningSpliView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951B69F29B13E6F006DC88D /* WarningSpliView.swift */; };
 		7951B6A229B14012006DC88D /* WarningSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951B6A129B14012006DC88D /* WarningSidebarView.swift */; };
+		795415A82A129BBF00B86746 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795415A72A129BBF00B86746 /* EventManager.swift */; };
 		795804B729A696CC00AEB7DA /* SequenceTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795804B629A696CC00AEB7DA /* SequenceTimeLine.swift */; };
 		795804BA29A69CB800AEB7DA /* SequenceStepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795804B929A69CB800AEB7DA /* SequenceStepperView.swift */; };
 		79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79595C6E2934298300C81021 /* SchoolBrowserRow.swift */; };
@@ -374,6 +375,7 @@
 		7951063D294FD9520015AC5C /* ClassList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassList.swift; sourceTree = "<group>"; };
 		7951B69F29B13E6F006DC88D /* WarningSpliView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningSpliView.swift; sourceTree = "<group>"; };
 		7951B6A129B14012006DC88D /* WarningSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningSidebarView.swift; sourceTree = "<group>"; };
+		795415A72A129BBF00B86746 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		795804B629A696CC00AEB7DA /* SequenceTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceTimeLine.swift; sourceTree = "<group>"; };
 		795804B929A69CB800AEB7DA /* SequenceStepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceStepperView.swift; sourceTree = "<group>"; };
 		79595C6E2934298300C81021 /* SchoolBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolBrowserRow.swift; sourceTree = "<group>"; };
@@ -710,6 +712,7 @@
 				79FFF42C295122F60037A327 /* ColorOptions.swift */,
 				79DEDB1D292598BE00F508EF /* Persistence */,
 				7983834D2A0FEB7200C4A4E2 /* Contacts */,
+				795415A62A129BA600B86746 /* Events */,
 				7981280429F1CB1300A3817E /* Agenda */,
 				79BF1DAF29291005005D6CF3 /* Document */,
 				79213555297872320036A5EA /* Program */,
@@ -832,6 +835,14 @@
 				7951B6A129B14012006DC88D /* WarningSidebarView.swift */,
 			);
 			path = Warnings;
+			sourceTree = "<group>";
+		};
+		795415A62A129BA600B86746 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				795415A72A129BBF00B86746 /* EventManager.swift */,
+			);
+			path = Events;
 			sourceTree = "<group>";
 		};
 		795804B429A6965B00AEB7DA /* Progress */ = {
@@ -1637,6 +1648,7 @@
 				79AFBFB42981A4B0001576DD /* SequenceDetailGroupBox.swift in Sources */,
 				79388A4529256819002AABB8 /* CoreDataManager.swift in Sources */,
 				795CB1952958F668006EF060 /* Motif.swift in Sources */,
+				795415A82A129BBF00B86746 /* EventManager.swift in Sources */,
 				79F41E662954B1DC00EAAC52 /* Sexe.swift in Sources */,
 				79E524BE295376EA00DA99A7 /* EventEditor.swift in Sources */,
 				79BF1DB62929105D005D6CF3 /* Event+Extensions.swift in Sources */,
@@ -1965,7 +1977,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Assistant Professeur";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cette application demande l'accès à votre agenda pour synchroniser votre emploi du temps";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Cette application demande l'accès à vos contacts pour se synchroniser";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Cette application demande l'accès à vos contacts pour synchroniser vos contacts professionnels";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -2013,7 +2025,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Assistant Professeur";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cette application demande l'accès à votre agenda pour synchroniser votre emploi du temps";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Cette application demande l'accès à vos contacts pour se synchroniser";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Cette application demande l'accès à vos contacts pour synchroniser vos contacts professionnels";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
