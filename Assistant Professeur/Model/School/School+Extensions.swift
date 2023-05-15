@@ -66,6 +66,84 @@ extension SchoolEntity {
         }
     }
 
+    /// Wrapper of `idENT`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewIdENT: String {
+        get {
+            self.idENT ?? ""
+        }
+        set {
+            self.idENT = newValue.trimmed
+            try? OwnerEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `idNetwork`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewIdNetwork: String {
+        get {
+            self.idNetwork ?? ""
+        }
+        set {
+            self.idNetwork = newValue.trimmed
+            try? OwnerEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `pwdENT`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewPwdENT: String {
+        get {
+            self.pwdENT ?? ""
+        }
+        set {
+            self.pwdENT = newValue.trimmed
+            try? OwnerEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `pwdNetwork`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewPwdNetwork: String {
+        get {
+            self.pwdNetwork ?? ""
+        }
+        set {
+            self.pwdNetwork = newValue.trimmed
+            try? OwnerEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `codeEntree`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewCodeEntree: String {
+        get {
+            self.codeEntree ?? ""
+        }
+        set {
+            self.codeEntree = newValue.trimmed
+            try? OwnerEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `codePhotocopie`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewCodePhotocopie: String {
+        get {
+            self.codePhotocopie ?? ""
+        }
+        set {
+            self.codePhotocopie = newValue.trimmed
+            try? OwnerEntity.saveIfContextHasChanged()
+        }
+    }
+
     @objc
     var levelString: String {
         levelEnum.displayString
@@ -118,6 +196,7 @@ extension SchoolEntity {
     // MARK: - Type Methods
 
     /// Créer une nouvelle instance et la sauvegarder dans le context
+    /// - Important: Sauvegarder le Context.
     @discardableResult
     static func create(
         name: String,

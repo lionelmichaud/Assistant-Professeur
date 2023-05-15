@@ -21,13 +21,49 @@ struct SchoolInfosView: View {
             // note sur la classe
             if schoolAnnotation {
                 AnnotationEditView(annotation: $school.viewAnnotation)
-                    .padding(.top)
             }
-
-            // Contact de l'établissement
+            // Coordonnées de l'établissement
             SchoolContactEditView(school: school)
 
-            // Contacts de personnes de l'établissement
+            // Login/Password d'accès au réseau local de l'établissement
+            LoginPasswordEditView(
+                title: "Accès au réseaux local",
+                id: $school.viewIdNetwork,
+                pwd: $school.viewPwdNetwork
+            )
+
+            // Login/Password d'accès à l'ENT de l'établissement
+            LoginPasswordEditView(
+                title: "Accès à l'ENT",
+                id: $school.viewIdENT,
+                pwd: $school.viewPwdENT
+            )
+
+            Section {
+                // Code d'accès à l'entrée de l'établissement
+                LabeledContent {
+                    TextField("Entrée", text: $school.viewCodeEntree)
+                } label: {
+                    Image(systemName: "door.left.hand.closed")
+                        .imageScale(.large)
+                }
+
+                // Code d'accès au photocopieur de l'établissement
+                LabeledContent {
+                    TextField("Photocopieur", text: $school.viewCodePhotocopie)
+                } label: {
+                    Image(systemName: "scanner")
+                        .imageScale(.large)
+                }
+            } header: {
+                Label("Code d'accès", systemImage: "lock")
+                    .bold()
+            }
+            #if os(iOS) || os(tvOS)
+            .textInputAutocapitalization(.never)
+            #endif
+
+            // Contacts d'autres personnes de l'établissement
             PersonsContactsView(school: school)
         }
         // .listStyle(.plain)

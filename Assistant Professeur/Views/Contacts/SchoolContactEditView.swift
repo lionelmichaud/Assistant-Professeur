@@ -65,9 +65,11 @@ struct SchoolContactEditView: View {
     private var city: String = ""
 
     var body: some View {
-        Section("Coordonnées de l'établissement") {
+        Section {
             TextField("Numéro de téléphone", text: $phoneNumber)
+            #if os(iOS) || os(tvOS)
                 .keyboardType(.phonePad)
+            #endif
                 .textContentType(.telephoneNumber)
                 .submitLabel(.next)
                 .focused($focus, equals: .phone)
@@ -75,13 +77,17 @@ struct SchoolContactEditView: View {
                     phoneNumber = phoneNumber.formatPhoneNumber()
                 }
             TextField("Adresse e-mail", text: $emailAddress)
+            #if os(iOS) || os(tvOS)
                 .keyboardType(.emailAddress)
                 .textInputAutocapitalization(.never)
+            #endif
                 .submitLabel(.next)
                 .focused($focus, equals: .mail)
             TextField("Site Web", text: $urlAddress)
+            #if os(iOS) || os(tvOS)
                 .keyboardType(.URL)
                 .textInputAutocapitalization(.never)
+            #endif
                 .submitLabel(.next)
                 .focused($focus, equals: .url)
             TextField("Rue", text: $street)
@@ -89,7 +95,9 @@ struct SchoolContactEditView: View {
                 .focused($focus, equals: .street)
             HStack {
                 TextField("CP", text: $postalCode)
+                #if os(iOS) || os(tvOS)
                     .keyboardType(.numberPad)
+                #endif
                     .submitLabel(.next)
                     .focused($focus, equals: .postalCode)
                 TextField("Ville", text: $city)
@@ -103,6 +111,9 @@ struct SchoolContactEditView: View {
             .buttonStyle(.bordered)
             .horizontallyAligned(.center)
             .padding(.bottom)
+        } header: {
+            Label("Coordonnées de l'établissement", systemImage: "building")
+                .bold()
         }
         // .textFieldStyle(.roundedBorder)
         .autocorrectionDisabled()
@@ -134,15 +145,16 @@ struct SchoolContactEditView: View {
 
     private func saveContact() {
         Task {
-            let contact = ContactEnum.organization(
-                organization: school.viewName,
-                phoneNumber: phoneNumber,
-                emailAddress: emailAddress,
-                urlAddress: urlAddress,
-                street: street,
-                city: city,
-                postalCode: postalCode
-            )
+            let contact =
+                ContactEnum.organization(
+                    organization: school.viewName,
+                    phoneNumber: phoneNumber,
+                    emailAddress: emailAddress,
+                    urlAddress: urlAddress,
+                    street: street,
+                    city: city,
+                    postalCode: postalCode
+                )
             let success = await ContactManager.saveOrUpdate(
                 contact: contact,
                 toGroupNamed: school.viewName

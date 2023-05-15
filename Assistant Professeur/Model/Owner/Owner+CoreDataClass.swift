@@ -13,6 +13,7 @@ public final class OwnerEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, familyName, givenName, annotation, numen
         case mailAdressAcademy, urlMailAcademy, idMailAcademy, pwdMailAcademy
+        case mailAddressSchool, urlMailSchool, idMailSchool, pwdMailSchool
     }
 
     public required convenience init(from decoder: Decoder) throws {
@@ -24,10 +25,18 @@ public final class OwnerEntity: NSManagedObject, Codable, ModelEntityP {
         self.givenName = try container.decode(String.self, forKey: .givenName)
         self.annotation = try container.decodeIfPresent(String.self, forKey: .annotation)
         self.numen = try container.decodeIfPresent(String.self, forKey: .numen)
+
+        // e-mail académique
         self.mailAdressAcademy = try container.decodeIfPresent(String.self, forKey: .mailAdressAcademy)
         self.urlMailAcademy = try container.decodeIfPresent(URL.self, forKey: .urlMailAcademy)
         self.idMailAcademy = try container.decodeIfPresent(String.self, forKey: .idMailAcademy)
         self.pwdMailAcademy = try container.decodeIfPresent(String.self, forKey: .pwdMailAcademy)
+
+        // e-mail au sein de l'établissement
+        self.mailAddressSchool = try container.decodeIfPresent(String.self, forKey: .mailAddressSchool)
+        self.urlMailSchool = try container.decodeIfPresent(URL.self, forKey: .urlMailSchool)
+        self.idMailSchool = try container.decodeIfPresent(String.self, forKey: .idMailSchool)
+        self.pwdMailSchool = try container.decodeIfPresent(String.self, forKey: .pwdMailSchool)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -37,9 +46,17 @@ public final class OwnerEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(givenName, forKey: .givenName)
         try container.encodeIfPresent(annotation, forKey: .annotation)
         try container.encodeIfPresent(numen, forKey: .numen)
+
+        // e-mail académique
         try container.encodeIfPresent(mailAdressAcademy, forKey: .mailAdressAcademy)
         try container.encodeIfPresent(urlMailAcademy, forKey: .urlMailAcademy)
         try container.encodeIfPresent(idMailAcademy, forKey: .idMailAcademy)
         try container.encodeIfPresent(pwdMailAcademy, forKey: .pwdMailAcademy)
+
+        // e-mail au sein de l'établissement
+        try container.encodeIfPresent(mailAddressSchool, forKey: .mailAddressSchool)
+        try container.encodeIfPresent(urlMailSchool, forKey: .urlMailSchool)
+        try container.encodeIfPresent(idMailSchool, forKey: .idMailSchool)
+        try container.encodeIfPresent(pwdMailSchool, forKey: .pwdMailSchool)
     }
 }

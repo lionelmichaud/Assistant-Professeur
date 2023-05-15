@@ -402,7 +402,7 @@ extension ClasseEntity {
     // MARK: - Type Methods
 
     /// Créer une nouvelle classe et l'ajouter à l'établissement `school`
-    /// Sauvegarder le Context.
+    /// - Important: Sauvegarder le Context.
     @discardableResult
     static func create( // swiftlint:disable:this function_parameter_count
         level: LevelClasse,

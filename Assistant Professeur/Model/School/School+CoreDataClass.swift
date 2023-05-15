@@ -12,6 +12,8 @@ import Foundation
 public final class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, name, level, annotation
+        case idENT, pwdENT, idNetwork, pwdNetwork
+        case codeEntree, codePhotocopie
         case classes, documents, ressources, events, rooms
     }
 
@@ -24,6 +26,18 @@ public final class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
         self.name = try container.decode(String.self, forKey: .name)
         self.level = try container.decode(String.self, forKey: .level)
         self.annotation = try container.decodeIfPresent(String.self, forKey: .annotation)
+
+        // Accès à l'ENT
+        self.idENT = try container.decodeIfPresent(String.self, forKey: .idENT)
+        self.pwdENT = try container.decodeIfPresent(String.self, forKey: .pwdENT)
+
+        // Accès au réseau de l'établissement
+        self.idNetwork = try container.decodeIfPresent(String.self, forKey: .idNetwork)
+        self.pwdNetwork = try container.decodeIfPresent(String.self, forKey: .pwdNetwork)
+
+        // Codes d'accès
+        self.codeEntree = try container.decodeIfPresent(String.self, forKey: .codeEntree)
+        self.codePhotocopie = try container.decodeIfPresent(String.self, forKey: .codePhotocopie)
 
         // Les rooms doivent être chargés AVANT les classes pour que les classes puissent
         // établir la connection avec les rooms. Voir RoomEntity.init(from decoder: Decoder)
@@ -41,6 +55,18 @@ public final class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(name, forKey: .name)
         try container.encode(level, forKey: .level)
         try container.encodeIfPresent(annotation, forKey: .annotation)
+
+        // Accès à l'ENT
+        try container.encodeIfPresent(idENT, forKey: .idENT)
+        try container.encodeIfPresent(pwdENT, forKey: .pwdENT)
+
+        // Accès au réseau de l'établissement
+        try container.encodeIfPresent(idNetwork, forKey: .idNetwork)
+        try container.encodeIfPresent(pwdNetwork, forKey: .pwdNetwork)
+
+        // Codes d'accès
+        try container.encodeIfPresent(codeEntree, forKey: .codeEntree)
+        try container.encodeIfPresent(codePhotocopie, forKey: .codePhotocopie)
 
         try container.encode(classes as! Set<ClasseEntity>, forKey: .classes)
         try container.encode(documents as! Set<DocumentEntity>, forKey: .documents)

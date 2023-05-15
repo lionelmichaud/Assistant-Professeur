@@ -18,7 +18,7 @@ struct PersonsContactsView: View {
     private var contacts = [CNContact]()
 
     var body: some View {
-        Section("Contacts") {
+        Section {
             ForEach(contacts, id: \.identifier) { contact in
                 DisclosureGroup(label(contact)) {
                     Text(CNContactFormatter.string(from: contact, style: .fullName) ?? "")
@@ -39,6 +39,9 @@ struct PersonsContactsView: View {
             .emptyListPlaceHolder(contacts) {
                 Text("Aucun contact dans cet établissement")
             }
+        } header: {
+            Label("Contacts", systemImage: "person")
+                .bold()
         }
         .task {
             contacts = await ContactManager

@@ -19,8 +19,8 @@ struct InfoPersoView: View {
     }
 
     @StateObject
-    private var owner: OwnerEntity //= {
-        // Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
+    private var owner: OwnerEntity // = {
+    // Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
 //        OwnerEntity.initializeEntity(userName: cloudKitVM.userName)
 //        return OwnerEntity.all().first!
 //    }()
@@ -28,17 +28,22 @@ struct InfoPersoView: View {
     var body: some View {
         GroupBox {
             TextField("Votre nom", text: $owner.viewFamilyName)
+            #if os(iOS) || os(tvOS)
                 .autocapitalization(.allCharacters)
+            #endif
 
             TextField("Votre prénom", text: $owner.viewGivenName)
+            #if os(iOS) || os(tvOS)
                 .autocapitalization(.words)
+            #endif
 
             HStack {
                 Text("NUMEN")
                 TextField("Votre NUMEN", text: $owner.viewNumen)
+                #if os(iOS) || os(tvOS)
                     .autocapitalization(.allCharacters)
+                #endif
             }
-            .padding(.bottom)
 
             EmailEditView(
                 title: "Mail académique",
@@ -48,7 +53,16 @@ struct InfoPersoView: View {
                 pwd: $owner.viewPwdMailAcademy
             )
 
+            EmailEditView(
+                title: "Mail au sein de l'établissement",
+                adress: $owner.viewIdMailSchool,
+                webmailURL: $owner.urlMailSchool,
+                id: $owner.viewIdMailSchool,
+                pwd: $owner.viewPwdMailSchool
+            )
+
             AnnotationEditView(annotation: $owner.viewAnnotation)
+                .padding(.top)
 
         } label: {
             Text("Infos personnelles")
@@ -66,7 +80,7 @@ struct InfoPersoView: View {
     }
 }
 
-//struct InfoPersoView_Previews: PreviewProvider {
+// struct InfoPersoView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        Group {
 //            InfoPersoView()
@@ -75,4 +89,4 @@ struct InfoPersoView: View {
 //                .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

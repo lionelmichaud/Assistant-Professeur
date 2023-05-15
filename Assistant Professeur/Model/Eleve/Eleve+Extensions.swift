@@ -475,7 +475,7 @@ extension EleveEntity {
     // MARK: - Type Methods
 
     /// Créer un nouvel élève et l'ajouter à la `classe`.
-    /// Sauvegarder le Context.
+    /// - Important: Sauvegarder le Context.
     ///
     /// Ajouter une note pour chaque évaluation de la classe.
     /// - Parameters:
