@@ -19,8 +19,8 @@ struct ProgramCreatorModal: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @Preference(\.programAnnotationEnabled)
-    private var annotationEnabled
+    @EnvironmentObject
+    private var pref: UserPreferences
 
     @State
     private var alertTitle = ""
@@ -56,7 +56,7 @@ struct ProgramCreatorModal: View {
                 }
             }
 
-            if annotationEnabled {
+            if pref.programAnnotationEnabled {
                 TextField(
                     "Annotation",
                     text : $programVM.annotation,

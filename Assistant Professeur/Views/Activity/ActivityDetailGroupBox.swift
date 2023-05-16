@@ -15,8 +15,8 @@ struct ActivityDetailGroupBox: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @Preference(\.programAnnotationEnabled)
-    private var annotationEnabled
+    @EnvironmentObject
+    private var pref: UserPreferences
 
     @State
     private var documentToBeViewed: DocumentEntity?
@@ -28,7 +28,7 @@ struct ActivityDetailGroupBox: View {
                     .bold()
 
                 // note sur le programme
-                if annotationEnabled && activity.viewAnnotation.isNotEmpty {
+                if pref.activityAnnotationEnabled && activity.viewAnnotation.isNotEmpty {
                     AnnotationView(
                         annotation: activity.viewAnnotation,
                         scrollable: true,

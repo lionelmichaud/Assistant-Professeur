@@ -89,6 +89,7 @@ struct SettingsSchoolYear: View {
             }
 
         }
+        .padding(.bottom, 34)
         #if os(iOS)
         .navigationTitle("Préférences Année")
         .navigationBarTitleDisplayMode(.inline)

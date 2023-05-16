@@ -46,9 +46,6 @@ struct GroupSteppedlMarkModal: View {
     @Environment(\.horizontalSizeClass)
     private var horizontalSizeClass
 
-    @Preference(\.nameDisplayOrder)
-    private var nameDisplayOrder
-
     private let fontWeight: Font.Weight = .regular
     private let smallColumns = [GridItem(
         .adaptive(minimum: 80, maximum: 120),

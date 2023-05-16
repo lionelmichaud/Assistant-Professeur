@@ -6,7 +6,7 @@
 //
 
 import CoreData
-import Foundation
+import SwiftUI
 import os
 
 private let customLog = Logger(
@@ -208,8 +208,8 @@ extension ClasseEntity {
 extension ClasseEntity {
     // MARK: - Type Properties
 
-    @Preference(\.nameSortOrder)
-    private static var nameSortOrder
+    @EnvironmentObject
+    private static var pref: UserPreferences
 
     // MARK: - Type Computed Properties
 
@@ -576,7 +576,7 @@ extension ClasseEntity {
         filterColle: Bool = false,
         filterFlag: Bool = false
     ) -> [EleveEntity] {
-        let sortComparators = ClasseEntity.nameSortOrder == .nomPrenom ?
+        let sortComparators = ClasseEntity.pref.nameSortOrder == .nomPrenom ?
             [
                 SortDescriptor(\EleveEntity.familyName, order: .forward),
                 SortDescriptor(\EleveEntity.givenName, order: .forward)
@@ -626,7 +626,7 @@ extension ClasseEntity {
     ///
     /// Les élèves trouvés sont triés en utilisant les péréférences `nameSortOrder`.
     func unseatedEleves() -> [EleveEntity] {
-        let sortComparators = ClasseEntity.nameSortOrder == .nomPrenom ?
+        let sortComparators = ClasseEntity.pref.nameSortOrder == .nomPrenom ?
             [
                 SortDescriptor(\EleveEntity.familyName, order: .forward),
                 SortDescriptor(\EleveEntity.givenName, order: .forward)

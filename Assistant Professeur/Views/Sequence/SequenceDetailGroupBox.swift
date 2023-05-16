@@ -15,8 +15,8 @@ struct SequenceDetailGroupBox: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @Preference(\.programAnnotationEnabled)
-    private var annotationEnabled
+    @EnvironmentObject
+    private var pref: UserPreferences
 
     @State
     private var documentToBeViewed: DocumentEntity?
@@ -27,8 +27,8 @@ struct SequenceDetailGroupBox: View {
                 LabeledSequenceView(sequence: sequence)
                     .bold()
 
-                // note sur le programme
-                if annotationEnabled && sequence.viewAnnotation.isNotEmpty {
+                // note sur la séquence
+                if pref.sequenceAnnotationEnabled && sequence.viewAnnotation.isNotEmpty {
                     AnnotationView(
                         annotation: sequence.viewAnnotation,
                         scrollable: true,

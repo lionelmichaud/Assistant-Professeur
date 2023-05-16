@@ -16,9 +16,6 @@ struct GroupPicturesView: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
 
-    @Preference(\.nameDisplayOrder)
-    private var nameDisplayOrder
-
     let smallColumns = [
         GridItem(
             .adaptive(minimum: 120, maximum: 200),

@@ -1313,8 +1313,8 @@
 				79975317297B173800D1C66E /* SettingsProgram.swift */,
 				79637211297DBCE200ECDBC3 /* SettingsSequence.swift */,
 				79637213297DBD6500ECDBC3 /* SettingsActivity.swift */,
-				790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */,
 				79CAE16E2A13807C001FF13D /* SettingsSchoolYear.swift */,
+				790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */,
 			);
 			path = PreferencesViews;
 			sourceTree = "<group>";
@@ -1327,13 +1327,13 @@
 				79DEDB242925996E00F508EF /* Interoperability.swift */,
 				79DEDB262925996E00F508EF /* Preferences.swift */,
 				79DEDB252925996E00F508EF /* UIPreferences.swift */,
+				796793C62A12C0B80037173D /* UserPreferences.swift */,
 				79388A5229257045002AABB8 /* NavigationModel.swift */,
 				798B825F296CAC84004A24A8 /* ImportExportManager.swift */,
 				791A0CDC29746A31004CA543 /* DataBaseManager.swift */,
 				79BA2D49299C00CD006325CC /* CsvImportExportMng.swift */,
 				79BA2D4B299C0287006325CC /* ImageImportExportMng.swift */,
 				79BA2D47299C0084006325CC /* JsonImportExportMng.swift */,
-				796793C62A12C0B80037173D /* UserPreferences.swift */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";

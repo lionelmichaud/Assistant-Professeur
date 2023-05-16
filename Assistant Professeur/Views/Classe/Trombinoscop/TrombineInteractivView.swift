@@ -106,13 +106,13 @@ struct TrombinoscopeFooterView: View {
     @ObservedObject
     var eleve: EleveEntity
 
-    @Preference(\.maxBonusIncrement)
-    var maxBonusIncrement
+    @EnvironmentObject
+    private var pref: UserPreferences
 
     var body: some View {
         HStack(spacing: 0) {
             Button(iconName: "hand.thumbsdown.fill") {
-                eleve.viewBonus -= maxBonusIncrement
+                eleve.viewBonus -= pref.maxBonusIncrement
             }
             .buttonStyle(.bordered)
 
@@ -125,7 +125,7 @@ struct TrombinoscopeFooterView: View {
             }
 
             Button(iconName: "hand.thumbsup.fill") {
-                eleve.viewBonus += maxBonusIncrement
+                eleve.viewBonus += pref.maxBonusIncrement
             }
             .buttonStyle(.bordered)
         }

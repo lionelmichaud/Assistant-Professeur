@@ -6,7 +6,7 @@
 //
 
 import AppFoundation
-import Foundation
+import SwiftUI
 
 enum AmPm: String {
     case morning = "Matin"
@@ -20,23 +20,8 @@ enum AmPm: String {
 }
 
 struct AgendaManager {
-    @Preference(\.hourOfFirstSeance)
-    private static var hourOfFirstSeance
-
-    @Preference(\.minutesOfFirstSeance)
-    private static var minutesOfFirstSeance
-
-    @Preference(\.seanceDuration)
-    private static var seanceDuration
-
-    @Preference(\.interSeancesDuration)
-    private static var interSeancesDuration
-
-    @Preference(\.recreationDuration)
-    private static var recreationDuration
-
-    @Preference(\.lunchDuration)
-    private static var lunchDuration
+    @EnvironmentObject
+    private static var pref: UserPreferences
 
     static var shared = AgendaManager()
 
@@ -72,8 +57,8 @@ struct AgendaManager {
 
     static func dateOfFirstSeance() -> Date {
         Calendar.current.date(
-            bySettingHour: hourOfFirstSeance,
-            minute: minutesOfFirstSeance,
+            bySettingHour: pref.hourOfFirstSeance,
+            minute: pref.minutesOfFirstSeance,
             second: 0,
             of: Date.now
         )!
@@ -94,90 +79,90 @@ struct AgendaManager {
         seances[0] =
             DateInterval(
                 start: AgendaManager.dateOfFirstSeance(),
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+                duration: TimeInterval(AgendaManager.pref.seanceDuration * 60)
             )
 
         // 2ième heure de cours du matin
         var next =
             seances[0]
                 .end
-                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
+                .addingTimeInterval(TimeInterval(AgendaManager.pref.interSeancesDuration * 60))
         seances[1] =
             DateInterval(
                 start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+                duration: TimeInterval(AgendaManager.pref.seanceDuration * 60)
             )
 
         // 3ième heure de cours du matin
         next =
             seances[1]
                 .end
-                .addingTimeInterval(TimeInterval(AgendaManager.recreationDuration * 60))
+                .addingTimeInterval(TimeInterval(AgendaManager.pref.recreationDuration * 60))
         seances[2] =
             DateInterval(
                 start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+                duration: TimeInterval(AgendaManager.pref.seanceDuration * 60)
             )
 
         // 4ième heure de cours du matin
         next =
             seances[2]
                 .end
-                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
+                .addingTimeInterval(TimeInterval(AgendaManager.pref.interSeancesDuration * 60))
         seances[3] =
             DateInterval(
                 start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+                duration: TimeInterval(AgendaManager.pref.seanceDuration * 60)
             )
 
         // 1ère heure de cours de l'après-midi
         next =
             seances[3]
                 .end
-                .addingTimeInterval(TimeInterval(AgendaManager.lunchDuration * 60))
+                .addingTimeInterval(TimeInterval(AgendaManager.pref.lunchDuration * 60))
         seances[4] =
             DateInterval(
                 start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+                duration: TimeInterval(AgendaManager.pref.seanceDuration * 60)
             )
 
         // 2ième heure de cours de l'après-midi
         next =
             seances[4]
                 .end
-                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
+                .addingTimeInterval(TimeInterval(AgendaManager.pref.interSeancesDuration * 60))
         seances[5] =
             DateInterval(
                 start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+                duration: TimeInterval(AgendaManager.pref.seanceDuration * 60)
             )
 
         // 3ième heure de cours de l'après-midi
         next =
             seances[5]
                 .end
-                .addingTimeInterval(TimeInterval(AgendaManager.recreationDuration * 60))
+                .addingTimeInterval(TimeInterval(AgendaManager.pref.recreationDuration * 60))
         seances[6] =
             DateInterval(
                 start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+                duration: TimeInterval(AgendaManager.pref.seanceDuration * 60)
             )
 
         // 4ième heure de cours de l'après-midi
         next =
             seances[6]
                 .end
-                .addingTimeInterval(TimeInterval(AgendaManager.interSeancesDuration * 60))
+                .addingTimeInterval(TimeInterval(AgendaManager.pref.interSeancesDuration * 60))
         seances[7] =
             DateInterval(
                 start: next,
-                duration: TimeInterval(AgendaManager.seanceDuration * 60)
+                duration: TimeInterval(AgendaManager.pref.seanceDuration * 60)
             )
     }
 
     /// Durée d'une séance de cours en minutes
     func seanceDuration() -> DateComponents {
-        AgendaManager.seanceDuration.minutes
+        AgendaManager.pref.seanceDuration.minutes
     }
 
     /// Retourne la séance en cours à la `date`

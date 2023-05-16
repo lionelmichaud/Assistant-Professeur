@@ -23,9 +23,6 @@ struct GroupView: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
 
-    @Preference(\.nameDisplayOrder)
-    private var nameDisplayOrder
-
     // MARK: - Computed Properties
 
     private var groupIsEditable: Bool {

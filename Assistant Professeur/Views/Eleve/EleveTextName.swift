@@ -15,11 +15,11 @@ struct EleveTextName: View {
     var fontWidth: Font.Width = .condensed
     var fontWeight: Font.Weight = .bold
 
-    @Preference(\.nameDisplayOrder)
-    private var nameDisplayOrder
+    @EnvironmentObject
+    private var pref: UserPreferences
 
     var body: some View {
-        Text(eleve.displayName(nameDisplayOrder))
+        Text(eleve.displayName(pref.nameDisplayOrder))
             .font(fontSize)
             .fontWidth(fontWidth)
             .fontWeight(fontWeight)

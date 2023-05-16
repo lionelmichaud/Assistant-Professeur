@@ -18,8 +18,8 @@ struct SequenceEditorModal: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @Preference(\.programAnnotationEnabled)
-    private var annotationEnabled
+    @EnvironmentObject
+    private var pref: UserPreferences
 
     /// Focused filed manager
     enum FocusableField: Hashable {
@@ -57,7 +57,7 @@ struct SequenceEditorModal: View {
             .textFieldStyle(.roundedBorder)
             .focused($focus, equals: .title)
 
-            if annotationEnabled {
+            if pref.sequenceAnnotationEnabled {
                 TextField(
                     "Annotation",
                     text : $sequence.annotation.bound,

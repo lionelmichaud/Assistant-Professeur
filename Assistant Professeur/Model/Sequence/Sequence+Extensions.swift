@@ -6,7 +6,7 @@
 //
 
 import CoreData
-import Foundation
+import SwiftUI
 
 /// Une séquence d'un programme scolaire pour une dscipline et un niveau donnés
 extension SequenceEntity {
@@ -77,10 +77,10 @@ extension SequenceEntity {
     /// Somme des durées des activités en nombre de séances
     /// + une marge d'une séance à la fin de la séquence
     var durationWithMargin: Double {
-        @Preference(\.margeInterSequence)
-        var margeInterSequence
+        @EnvironmentObject
+        var pref: UserPreferences
 
-        return durationWithoutMargin + Double(margeInterSequence)
+        return durationWithoutMargin + Double(pref.margeInterSequence)
     }
 
     var durationWithMarginString: String {

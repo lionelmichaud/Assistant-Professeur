@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct SettingsSchool: View {
-    @Preference(\.schoolAnnotationEnabled)
-    var schoolAnnotation
+    @EnvironmentObject
+    private var pref: UserPreferences
 
     var body: some View {
         List {
             Section {
-                Toggle("Annotation", isOn: $schoolAnnotation)
+                Toggle("Annotation", isOn: $pref.schoolAnnotationEnabled)
             } header: {
                 Text("Champs")
             } footer: {
