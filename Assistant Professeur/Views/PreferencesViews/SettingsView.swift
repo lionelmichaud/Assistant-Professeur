@@ -23,6 +23,7 @@ struct SettingsView: View {
             SettingsProgram()
             SettingsSequence()
             SettingsActivity()
+            SettingsSchoolYear()
             SettingsAgenda()
         }
         #if os(iOS)

@@ -17,9 +17,13 @@ private let customLog = Logger(
 )
 
 struct ContentView: View {
+    @AppStorage("userPreferences")
+    private var userPreferencesData: Data?
+    @StateObject
+    private var userPreferencesModel: UserPreferences = UserPreferences()
+
     @SceneStorage("navigation")
     private var navigationData: Data?
-
     @StateObject
     private var navigationModel = NavigationModel()
 
@@ -95,6 +99,7 @@ struct ContentView: View {
 //            }
         }
         .environmentObject(navigationModel)
+        .environmentObject(userPreferencesModel)
 
         // Alerte en cas d'erreur d'initilisation de l'App
         .alert(
@@ -139,6 +144,7 @@ struct ContentView: View {
 
         // Asynchronous initializaing of the View
         .task {
+            // Persistence dans SceneStorage de l'état de navigation
             if let navigationData {
                 // Remplacer l'état de navigation initial par celui récupéré à partir
                 // du décodage de l'état antérieur de navigation stocké dans SceneStorage
@@ -147,6 +153,16 @@ struct ContentView: View {
             // Encoder l'état de navigation (qui vient de changer) dans SceneStorage
             for await _ in navigationModel.objectWillChangeSequence {
                 navigationData = navigationModel.jsonData
+            }
+        }
+        .task {
+            // Persistence dans AppStorage des préférences utilisateur
+            if let userPreferencesData {
+                userPreferencesModel.jsonData = userPreferencesData
+            }
+            // Encoder les préférences (qui viennent de changer) dans AppStorage
+            for await _ in userPreferencesModel.objectWillChangeSequence {
+                userPreferencesData = userPreferencesModel.jsonData
             }
         }
     }
