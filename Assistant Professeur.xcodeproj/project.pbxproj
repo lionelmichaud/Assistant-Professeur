@@ -108,6 +108,7 @@
 		79637210297DA91200ECDBC3 /* ActivityDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7963720F297DA91200ECDBC3 /* ActivityDetail.swift */; };
 		79637212297DBCE200ECDBC3 /* SettingsSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637211297DBCE200ECDBC3 /* SettingsSequence.swift */; };
 		79637214297DBD6500ECDBC3 /* SettingsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637213297DBD6500ECDBC3 /* SettingsActivity.swift */; };
+		796521CF2A13FBC7000C27D1 /* Zones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796521CE2A13FBC7000C27D1 /* Zones.swift */; };
 		796793C72A12C0B80037173D /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796793C62A12C0B80037173D /* UserPreferences.swift */; };
 		7967CFFA2A0D57BA00392F89 /* SchoolContactEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967CFF92A0D57BA00392F89 /* SchoolContactEditView.swift */; };
 		796A242329A137E7009B2A6C /* ActivityClassProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A242229A137E7009B2A6C /* ActivityClassProgressView.swift */; };
@@ -406,6 +407,7 @@
 		7963720F297DA91200ECDBC3 /* ActivityDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetail.swift; sourceTree = "<group>"; };
 		79637211297DBCE200ECDBC3 /* SettingsSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSequence.swift; sourceTree = "<group>"; };
 		79637213297DBD6500ECDBC3 /* SettingsActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsActivity.swift; sourceTree = "<group>"; };
+		796521CE2A13FBC7000C27D1 /* Zones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zones.swift; sourceTree = "<group>"; };
 		7966DCF8292573A1001D6C7F /* AppFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppFoundation; path = ../Packages/AppFoundation; sourceTree = "<group>"; };
 		796793C62A12C0B80037173D /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		7967CFF92A0D57BA00392F89 /* SchoolContactEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolContactEditView.swift; sourceTree = "<group>"; };
@@ -845,6 +847,7 @@
 			isa = PBXGroup;
 			children = (
 				795415A72A129BBF00B86746 /* EventManager.swift */,
+				796521CE2A13FBC7000C27D1 /* Zones.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -1323,6 +1326,7 @@
 			isa = PBXGroup;
 			children = (
 				79388A4429256819002AABB8 /* CoreDataManager.swift */,
+				791A0CDC29746A31004CA543 /* DataBaseManager.swift */,
 				79DEDB212925991100F508EF /* Persistence.swift */,
 				79DEDB242925996E00F508EF /* Interoperability.swift */,
 				79DEDB262925996E00F508EF /* Preferences.swift */,
@@ -1330,7 +1334,6 @@
 				796793C62A12C0B80037173D /* UserPreferences.swift */,
 				79388A5229257045002AABB8 /* NavigationModel.swift */,
 				798B825F296CAC84004A24A8 /* ImportExportManager.swift */,
-				791A0CDC29746A31004CA543 /* DataBaseManager.swift */,
 				79BA2D49299C00CD006325CC /* CsvImportExportMng.swift */,
 				79BA2D4B299C0287006325CC /* ImageImportExportMng.swift */,
 				79BA2D47299C0084006325CC /* JsonImportExportMng.swift */,
@@ -1663,6 +1666,7 @@
 				79E923C52961E94D00EDB7CA /* GroupManager.swift in Sources */,
 				79401354295659B6007AD790 /* EleveNameGroupBox.swift in Sources */,
 				79F38D0A29D7495D006C9B35 /* GroupCapsule.swift in Sources */,
+				796521CF2A13FBC7000C27D1 /* Zones.swift in Sources */,
 				7989B4D929A288E900383F84 /* LabeledSequenceView.swift in Sources */,
 				79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */,
 				798DD4D2298C318F00C47B2C /* ExamListView.swift in Sources */,

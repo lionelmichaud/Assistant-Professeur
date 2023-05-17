@@ -40,7 +40,7 @@ struct SettingsSchoolYear: View {
                     displayedComponents: .date
                 )
             } header: {
-                Text("Vacances d'automne")
+                Text("Vacances de Toussaint")
             }
 
             Section {
@@ -85,13 +85,13 @@ struct SettingsSchoolYear: View {
                     displayedComponents: .date
                 )
             } header: {
-                Text("Vacances de Pâques")
+                Text("Vacances de printemps")
             }
 
         }
         .padding(.bottom, 34)
         #if os(iOS)
-        .navigationTitle("Préférences Année")
+        .navigationTitle("Année scolaire")
         .navigationBarTitleDisplayMode(.inline)
         #endif
     }
