@@ -49,8 +49,8 @@ extension SettingsAgenda {
                         [.hour, .minute],
                         from: newDate
                     )
-                pref.hourOfFirstSeance = firstSeance.hour!
-                pref.minutesOfFirstSeance = firstSeance.minute!
+                pref.horaire.hourOfFirstSeance = firstSeance.hour!
+                pref.horaire.minutesOfFirstSeance = firstSeance.minute!
                 AgendaManager.shared.update()
             }
 
@@ -58,14 +58,14 @@ extension SettingsAgenda {
                 HStack {
                     Text("Durée d'une séance")
                     Spacer()
-                    Text("\(pref.seanceDuration.formatted(.number))")
+                    Text("\(pref.horaire.seanceDuration.formatted(.number))")
                         .foregroundColor(.secondary)
                 }
             } onIncrement: {
-                pref.seanceDuration += 5
+                pref.horaire.seanceDuration += 5
                 AgendaManager.shared.update()
             } onDecrement: {
-                pref.seanceDuration -= 5
+                pref.horaire.seanceDuration -= 5
                 AgendaManager.shared.update()
             }
 
@@ -73,14 +73,14 @@ extension SettingsAgenda {
                 HStack {
                     Text("Durée inter-séance")
                     Spacer()
-                    Text("\(pref.interSeancesDuration.formatted(.number))")
+                    Text("\(pref.horaire.interSeancesDuration.formatted(.number))")
                         .foregroundColor(.secondary)
                 }
             } onIncrement: {
-                pref.interSeancesDuration += 1
+                pref.horaire.interSeancesDuration += 1
                 AgendaManager.shared.update()
             } onDecrement: {
-                pref.interSeancesDuration -= 1
+                pref.horaire.interSeancesDuration -= 1
                 AgendaManager.shared.update()
             }
 
@@ -88,14 +88,14 @@ extension SettingsAgenda {
                 HStack {
                     Text("Durée de la récréation")
                     Spacer()
-                    Text("\(pref.recreationDuration.formatted(.number))")
+                    Text("\(pref.horaire.recreationDuration.formatted(.number))")
                         .foregroundColor(.secondary)
                 }
             } onIncrement: {
-                pref.recreationDuration += 5
+                pref.horaire.recreationDuration += 5
                 AgendaManager.shared.update()
             } onDecrement: {
-                pref.recreationDuration -= 5
+                pref.horaire.recreationDuration -= 5
                 AgendaManager.shared.update()
             }
 
@@ -103,14 +103,14 @@ extension SettingsAgenda {
                 HStack {
                     Text("Durée du déjeuné")
                     Spacer()
-                    Text("\(pref.lunchDuration.formatted(.number))")
+                    Text("\(pref.horaire.lunchDuration.formatted(.number))")
                         .foregroundColor(.secondary)
                 }
             } onIncrement: {
-                pref.lunchDuration += 5
+                pref.horaire.lunchDuration += 5
                 AgendaManager.shared.update()
             } onDecrement: {
-                pref.lunchDuration -= 5
+                pref.horaire.lunchDuration -= 5
                 AgendaManager.shared.update()
             }
 

@@ -116,7 +116,7 @@ struct EleveLabelWithTrombineFlag: View {
                         .symbolRenderingMode(.monochrome)
                         .foregroundColor(eleve.sexEnum.color)
                 }
-                .disabled(!pref.eleveTrombineEnabled)
+                .disabled(!pref.eleve.trombineEnabled)
 
                 // Nom
                 if hClass == .compact {

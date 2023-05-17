@@ -112,7 +112,7 @@ struct TrombinoscopeFooterView: View {
     var body: some View {
         HStack(spacing: 0) {
             Button(iconName: "hand.thumbsdown.fill") {
-                eleve.viewBonus -= pref.maxBonusIncrement
+                eleve.viewBonus -= pref.eleve.maxBonusIncrement
             }
             .buttonStyle(.bordered)
 
@@ -125,7 +125,7 @@ struct TrombinoscopeFooterView: View {
             }
 
             Button(iconName: "hand.thumbsup.fill") {
-                eleve.viewBonus += pref.maxBonusIncrement
+                eleve.viewBonus += pref.eleve.maxBonusIncrement
             }
             .buttonStyle(.bordered)
         }

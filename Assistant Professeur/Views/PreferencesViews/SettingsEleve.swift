@@ -16,9 +16,9 @@ struct SettingsEleve: View {
     var body: some View {
         List {
             Section {
-                Toggle("Trombine", isOn: $pref.eleveTrombineEnabled)
-                Toggle("Appréciation", isOn: $pref.eleveAppreciationEnabled)
-                Toggle("Annotation", isOn: $pref.eleveAnnotationEnabled)
+                Toggle("Trombine", isOn: $pref.eleve.trombineEnabled)
+                Toggle("Appréciation", isOn: $pref.eleve.appreciationEnabled)
+                Toggle("Annotation", isOn: $pref.eleve.annotationEnabled)
             } header: {
                 Text("Champs")
             } footer: {
@@ -26,30 +26,30 @@ struct SettingsEleve: View {
             }
 
             Section("Bonus / Malus") {
-                Toggle("Afficher", isOn: $pref.eleveBonusEnabled)
-                if pref.eleveBonusEnabled {
+                Toggle("Afficher", isOn: $pref.eleve.bonusEnabled)
+                if pref.eleve.bonusEnabled {
                     Stepper(
-                        value: $pref.maxBonusMalus,
+                        value: $pref.eleve.maxBonusMalus,
                         in: 0 ... 100,
                         step: 1
                     ) {
                         HStack {
                             Text("Limite")
                             Spacer()
-                            Text("+/-\(pref.maxBonusMalus.formatted(.number.precision(.fractionLength(0)))) points")
+                            Text("+/-\(pref.eleve.maxBonusMalus.formatted(.number.precision(.fractionLength(0)))) points")
                                 .foregroundColor(.secondary)
                         }
                     }
 
                     Stepper(
-                        value: $pref.maxBonusIncrement,
+                        value: $pref.eleve.maxBonusIncrement,
                         in: 1 ... 5,
                         step: 1
                     ) {
                         HStack {
                             Text("Incrément de")
                             Spacer()
-                            Text("\(pref.maxBonusIncrement.formatted(.number.precision(.fractionLength(0)))) points")
+                            Text("\(pref.eleve.maxBonusIncrement.formatted(.number.precision(.fractionLength(0)))) points")
                                 .foregroundColor(.secondary)
                         }
                     }

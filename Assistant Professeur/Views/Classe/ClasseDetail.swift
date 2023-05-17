@@ -135,7 +135,7 @@ struct ClasseDetail: View {
                     elevesListView
 
                     // trombinoscope
-                    if pref.eleveTrombineEnabled {
+                    if pref.eleve.trombineEnabled {
                         trombinoscopeView
                     }
 
@@ -233,7 +233,7 @@ extension ClasseDetail {
                     Image(systemName: "dice.fill")
                         .imageScale(.large)
                 }
-                .disabled(!pref.eleveTrombineEnabled)
+                .disabled(!pref.eleve.trombineEnabled)
                 .popover(item: $randomEleve) { eleve in
                     TrombineView(eleve: eleve)
                         .scaledToFit()

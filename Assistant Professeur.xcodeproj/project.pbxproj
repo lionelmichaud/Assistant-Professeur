@@ -109,6 +109,9 @@
 		79637212297DBCE200ECDBC3 /* SettingsSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637211297DBCE200ECDBC3 /* SettingsSequence.swift */; };
 		79637214297DBD6500ECDBC3 /* SettingsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637213297DBD6500ECDBC3 /* SettingsActivity.swift */; };
 		796521CF2A13FBC7000C27D1 /* Zones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796521CE2A13FBC7000C27D1 /* Zones.swift */; };
+		796521D22A14DC0C000C27D1 /* SchoolYearPref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796521D12A14DC0C000C27D1 /* SchoolYearPref.swift */; };
+		796521D42A14E0F3000C27D1 /* ElevePref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796521D32A14E0F3000C27D1 /* ElevePref.swift */; };
+		796521D62A14EF1E000C27D1 /* DailySchedulePref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796521D52A14EF1E000C27D1 /* DailySchedulePref.swift */; };
 		796793C72A12C0B80037173D /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796793C62A12C0B80037173D /* UserPreferences.swift */; };
 		7967CFFA2A0D57BA00392F89 /* SchoolContactEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967CFF92A0D57BA00392F89 /* SchoolContactEditView.swift */; };
 		796A242329A137E7009B2A6C /* ActivityClassProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A242229A137E7009B2A6C /* ActivityClassProgressView.swift */; };
@@ -408,6 +411,9 @@
 		79637211297DBCE200ECDBC3 /* SettingsSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSequence.swift; sourceTree = "<group>"; };
 		79637213297DBD6500ECDBC3 /* SettingsActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsActivity.swift; sourceTree = "<group>"; };
 		796521CE2A13FBC7000C27D1 /* Zones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zones.swift; sourceTree = "<group>"; };
+		796521D12A14DC0C000C27D1 /* SchoolYearPref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolYearPref.swift; sourceTree = "<group>"; };
+		796521D32A14E0F3000C27D1 /* ElevePref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevePref.swift; sourceTree = "<group>"; };
+		796521D52A14EF1E000C27D1 /* DailySchedulePref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySchedulePref.swift; sourceTree = "<group>"; };
 		7966DCF8292573A1001D6C7F /* AppFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppFoundation; path = ../Packages/AppFoundation; sourceTree = "<group>"; };
 		796793C62A12C0B80037173D /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		7967CFF92A0D57BA00392F89 /* SchoolContactEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolContactEditView.swift; sourceTree = "<group>"; };
@@ -948,6 +954,19 @@
 			path = Activity;
 			sourceTree = "<group>";
 		};
+		796521D02A14DB3B000C27D1 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				79DEDB262925996E00F508EF /* Preferences.swift */,
+				79DEDB252925996E00F508EF /* UIPreferences.swift */,
+				796793C62A12C0B80037173D /* UserPreferences.swift */,
+				796521D12A14DC0C000C27D1 /* SchoolYearPref.swift */,
+				796521D32A14E0F3000C27D1 /* ElevePref.swift */,
+				796521D52A14EF1E000C27D1 /* DailySchedulePref.swift */,
+			);
+			path = Preferences;
+			sourceTree = "<group>";
+		};
 		7966DCF7292573A1001D6C7F /* Packages */ = {
 			isa = PBXGroup;
 			children = (
@@ -1309,10 +1328,10 @@
 			isa = PBXGroup;
 			children = (
 				79DEDB08292593C200F508EF /* SettingsView.swift */,
-				79DEDB09292593C200F508EF /* SettingsEleve.swift */,
-				79DEDB0A292593C200F508EF /* SettingsClasse.swift */,
 				79DEDB0B292593C200F508EF /* SettingsGeneral.swift */,
 				79DEDB0C292593C200F508EF /* SettingsSchool.swift */,
+				79DEDB0A292593C200F508EF /* SettingsClasse.swift */,
+				79DEDB09292593C200F508EF /* SettingsEleve.swift */,
 				79975317297B173800D1C66E /* SettingsProgram.swift */,
 				79637211297DBCE200ECDBC3 /* SettingsSequence.swift */,
 				79637213297DBD6500ECDBC3 /* SettingsActivity.swift */,
@@ -1325,13 +1344,11 @@
 		79DEDB1D292598BE00F508EF /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
+				796521D02A14DB3B000C27D1 /* Preferences */,
 				79388A4429256819002AABB8 /* CoreDataManager.swift */,
 				791A0CDC29746A31004CA543 /* DataBaseManager.swift */,
 				79DEDB212925991100F508EF /* Persistence.swift */,
 				79DEDB242925996E00F508EF /* Interoperability.swift */,
-				79DEDB262925996E00F508EF /* Preferences.swift */,
-				79DEDB252925996E00F508EF /* UIPreferences.swift */,
-				796793C62A12C0B80037173D /* UserPreferences.swift */,
 				79388A5229257045002AABB8 /* NavigationModel.swift */,
 				798B825F296CAC84004A24A8 /* ImportExportManager.swift */,
 				79BA2D49299C00CD006325CC /* CsvImportExportMng.swift */,
@@ -1578,6 +1595,7 @@
 				7920A5242957345A0092A7DD /* EleveLabelWithTrombineFlag.swift in Sources */,
 				79ECF204295A1607008F0282 /* ColleBrowserRow.swift in Sources */,
 				79F41E732954D30F00EAAC52 /* EleveBrowserRow.swift in Sources */,
+				796521D22A14DC0C000C27D1 /* SchoolYearPref.swift in Sources */,
 				79EE3EA4296F6CF20075E9BD /* EleveTrombineStyling.swift in Sources */,
 				79398D30296616250013564D /* ClasseExamRow.swift in Sources */,
 				79A5737529BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift in Sources */,
@@ -1631,6 +1649,7 @@
 				793D6271295DCBBC00477932 /* MotifEditor.swift in Sources */,
 				79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */,
 				7937A2462986C57D00D0ED59 /* ExamTypeEnum.swift in Sources */,
+				796521D62A14EF1E000C27D1 /* DailySchedulePref.swift in Sources */,
 				793D6270295DCBBC00477932 /* MotifView.swift in Sources */,
 				79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */,
 				795C2C2E296E2DCA00EDFF09 /* RoomEditor.swift in Sources */,
@@ -1768,6 +1787,7 @@
 				79398D352966224A0013564D /* ExamViewModel.swift in Sources */,
 				79637208297D9B5B00ECDBC3 /* ActivitySideBar.swift in Sources */,
 				79DEDB2B2925996E00F508EF /* Preferences.swift in Sources */,
+				796521D42A14E0F3000C27D1 /* ElevePref.swift in Sources */,
 				79637212297DBCE200ECDBC3 /* SettingsSequence.swift in Sources */,
 				7989B4DF29A2A63000383F84 /* ClassSequenceProgressEditView.swift in Sources */,
 				793D6279295F29DD00477932 /* ColleEditor.swift in Sources */,

@@ -193,7 +193,7 @@ extension EleveMarkRow {
                 .foregroundColor(mark.eleve!.sexEnum.color)
         }
         .buttonStyle(.borderless)
-        .disabled(!pref.eleveTrombineEnabled)
+        .disabled(!pref.eleve.trombineEnabled)
         .popover(item: $selectedEleve) { eleve in
             TrombineView(eleve: eleve)
                 .scaledToFit()

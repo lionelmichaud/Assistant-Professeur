@@ -43,8 +43,8 @@ struct EleveDetail: View {
     private var bonusView: some View {
         Stepper(
             value: $eleve.viewBonus,
-            in: -pref.maxBonusMalus ... pref.maxBonusMalus,
-            step: pref.maxBonusIncrement
+            in: -pref.eleve.maxBonusMalus ... pref.eleve.maxBonusMalus,
+            step: pref.eleve.maxBonusIncrement
         ) {
             HStack {
                 Label(
@@ -159,15 +159,15 @@ struct EleveDetail: View {
 
             List {
                 // appréciation sur l'élève
-                if pref.eleveAppreciationEnabled {
+                if pref.eleve.appreciationEnabled {
                     AppreciationView(appreciation: $eleve.viewAppreciation)
                 }
                 // annotation sur l'élève
-                if pref.eleveAnnotationEnabled {
+                if pref.eleve.annotationEnabled {
                     AnnotationEditView(annotation: $eleve.viewAnnotation)
                 }
                 // bonus/malus de l'élève
-                if pref.eleveBonusEnabled {
+                if pref.eleve.bonusEnabled {
                     bonusView
                 }
                 // observations sur l'élève

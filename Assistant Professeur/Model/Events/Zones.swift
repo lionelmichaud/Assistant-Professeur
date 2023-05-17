@@ -8,7 +8,7 @@
 import Foundation
 import AppFoundation
 
-enum ZoneScolaire: PickableEnumP {
+enum ZoneScolaire: PickableEnumP, Codable {
     case zoneA
     case ZoneB
     case ZoneC
