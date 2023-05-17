@@ -748,7 +748,6 @@
 				79DEDB06292593C200F508EF /* PreferencesViews */,
 				798458E82939529D00B74538 /* Annotation */,
 				79F41E5F29549AE400EAAC52 /* Appreciation */,
-				798383502A0FF34800C4A4E2 /* Contacts */,
 				79DEDAE32925855B00F508EF /* School */,
 				79DEDAE42925857C00F508EF /* Classe */,
 				79DEDAE52925858900F508EF /* Eleve */,
@@ -981,6 +980,7 @@
 			isa = PBXGroup;
 			children = (
 				796B6A7F2A0C42BD00F00929 /* SchoolInfosView.swift */,
+				798383502A0FF34800C4A4E2 /* Contacts */,
 			);
 			path = Infos;
 			sourceTree = "<group>";

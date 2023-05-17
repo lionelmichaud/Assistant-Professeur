@@ -100,7 +100,15 @@ enum ContactManager {
                     contact.contactType == .person ? contact : nil
                 }
 
-                return matchingContacts
+                return matchingContacts.sorted { left ,right in
+                    if left.jobTitle == right.jobTitle {
+                        return left.familyName < right.familyName
+                    } else if left.jobTitle.isEmpty || right.jobTitle.isEmpty {
+                        return left.familyName < right.familyName
+                    } else {
+                        return left.jobTitle < right.jobTitle
+                    }
+                }
 
             } catch {
                 print("Error getting or creating Contact: \(error.localizedDescription)")

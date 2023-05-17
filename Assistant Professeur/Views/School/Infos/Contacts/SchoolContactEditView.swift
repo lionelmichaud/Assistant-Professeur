@@ -121,7 +121,7 @@ struct SchoolContactEditView: View {
             focus?.moveToNext()
         }
         .onAppear {
-            focus = .phone
+            focus = .none
             Task {
                 if let schoolContact = await ContactManager.organizationContact(organizationName: school.viewName),
                    let contact = ContactEnum(from: schoolContact) {

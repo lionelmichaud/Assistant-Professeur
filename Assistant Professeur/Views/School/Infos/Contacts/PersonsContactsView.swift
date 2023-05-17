@@ -21,18 +21,24 @@ struct PersonsContactsView: View {
         Section {
             ForEach(contacts, id: \.identifier) { contact in
                 DisclosureGroup(label(contact)) {
-                    Text(CNContactFormatter.string(from: contact, style: .fullName) ?? "")
-                        .textSelection(.enabled)
-                    if hasPhoneNumber(contact) {
-                        Text(contact.phoneNumbers.first!.value.stringValue)
+                    if hasJobTitle(contact) {
+                        Text(CNContactFormatter.string(from: contact, style: .fullName) ?? "")
                             .textSelection(.enabled)
+                    }
+                    if hasPhoneNumber(contact) {
+                        Text(contact.phoneNumbers.first!.value.stringValue.formatPhoneNumber())
+                            .foregroundColor(.accentColor)
                             .onLongPressGesture(minimumDuration: 1) {
-                                call(telNumber: contact.phoneNumbers.first!.value.stringValue)
+                                call(telNumber: contact.phoneNumbers.first!.value.stringValue
+                                    .replacingOccurrences(of: " ", with: "", count: 10))
                             }
                     }
                     if hasEmailAddress(contact) {
                         Text((contact.emailAddresses.first!.value) as String)
-                            .textSelection(.enabled)
+                            .foregroundColor(.accentColor)
+                            .onLongPressGesture(minimumDuration: 1) {
+                                sendMail(to: contact.emailAddresses.first!.value as String)
+                            }
                     }
                 }
             }
