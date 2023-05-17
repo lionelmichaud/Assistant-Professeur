@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 16/05/2023.
 //
 
-import Foundation
 import AppFoundation
+import Foundation
 
 enum ZoneScolaire: PickableEnumP, Codable {
     case zoneA
