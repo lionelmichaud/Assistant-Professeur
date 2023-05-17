@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct SettingsActivity: View {
-    @Preference(\.activityAnnotationEnabled)
-    var activityAnnotationEnabled
+    @EnvironmentObject
+    private var pref: UserPreferences
 
     var body: some View {
         List {
             Section {
-                Toggle("Annotation", isOn: $activityAnnotationEnabled)
+                Toggle("Annotation", isOn: $pref.activityAnnotationEnabled)
             } header: {
                 Text("Champs")
             } footer: {
@@ -31,5 +31,6 @@ struct SettingsActivity: View {
 struct SettingsActivity_Previews: PreviewProvider {
     static var previews: some View {
         SettingsActivity()
+            .environmentObject(UserPreferences())
     }
 }

@@ -18,11 +18,8 @@ struct EleveLabelWithTrombineFlag: View {
     var imageSize: Image.Scale = .large
     var flagSize: Image.Scale = .medium
 
-    @Preference(\.eleveTrombineEnabled)
-    private var eleveTrombineEnabled
-
-    @Preference(\.nameDisplayOrder)
-    private var nameDisplayOrder
+    @EnvironmentObject
+    private var pref: UserPreferences
 
     @Environment(\.horizontalSizeClass)
     var hClass
@@ -119,21 +116,21 @@ struct EleveLabelWithTrombineFlag: View {
                         .symbolRenderingMode(.monochrome)
                         .foregroundColor(eleve.sexEnum.color)
                 }
-                .disabled(!eleveTrombineEnabled)
+                .disabled(!pref.eleve.trombineEnabled)
 
                 // Nom
                 if hClass == .compact {
                     EleveTextName(
                         eleve: eleve,
                         fontSize: font,
-                        fontWidth: .condensed,
+                        fontWidth: Font.Width.condensed,
                         fontWeight: fontWeight
                     )
                 } else {
                     EleveTextName(
                         eleve: eleve,
                         fontSize: font,
-                        fontWidth: .standard,
+                        fontWidth: Font.Width.standard,
                         fontWeight: fontWeight
                     )
                 }

@@ -8,25 +8,17 @@
 import SwiftUI
 
 struct SettingsEleve: View {
-    @Preference(\.eleveAppreciationEnabled)
-    var eleveAppreciationEnabled
-    @Preference(\.eleveAnnotationEnabled)
-    var eleveAnnotationEnabled
-    @Preference(\.eleveBonusEnabled)
-    var eleveBonusEnabled
-    @Preference(\.maxBonusMalus)
-    var maxBonusMalus
-    @Preference(\.maxBonusIncrement)
-    var maxBonusIncrement
-    @Preference(\.eleveTrombineEnabled)
-    var eleveTrombineEnabled
+    @EnvironmentObject
+    private var pref: UserPreferences
+
+    @State private var isShowingBonusResetConfirmDialog = false
 
     var body: some View {
         List {
             Section {
-                Toggle("Trombine", isOn: $eleveTrombineEnabled)
-                Toggle("Appréciation", isOn: $eleveAppreciationEnabled)
-                Toggle("Annotation", isOn: $eleveAnnotationEnabled)
+                Toggle("Trombine", isOn: $pref.eleve.trombineEnabled)
+                Toggle("Appréciation", isOn: $pref.eleve.appreciationEnabled)
+                Toggle("Annotation", isOn: $pref.eleve.annotationEnabled)
             } header: {
                 Text("Champs")
             } footer: {
@@ -34,35 +26,51 @@ struct SettingsEleve: View {
             }
 
             Section("Bonus / Malus") {
-                Toggle("Afficher", isOn: $eleveBonusEnabled)
-                if eleveBonusEnabled {
-                    Stepper(value : $maxBonusMalus,
-                            in    : 0 ... 100,
-                            step  : 1) {
+                Toggle("Afficher", isOn: $pref.eleve.bonusEnabled)
+                if pref.eleve.bonusEnabled {
+                    Stepper(
+                        value: $pref.eleve.maxBonusMalus,
+                        in: 0 ... 100,
+                        step: 1
+                    ) {
                         HStack {
                             Text("Limite")
                             Spacer()
-                            Text("+/-\(maxBonusMalus.formatted(.number.precision(.fractionLength(0)))) points")
+                            Text("+/-\(pref.eleve.maxBonusMalus.formatted(.number.precision(.fractionLength(0)))) points")
                                 .foregroundColor(.secondary)
                         }
                     }
 
-                    Stepper(value : $maxBonusIncrement,
-                            in    : 1 ... 5,
-                            step  : 1) {
+                    Stepper(
+                        value: $pref.eleve.maxBonusIncrement,
+                        in: 1 ... 5,
+                        step: 1
+                    ) {
                         HStack {
-                            Text("Par incrément de")
+                            Text("Incrément de")
                             Spacer()
-                            Text("\(maxBonusIncrement.formatted(.number.precision(.fractionLength(2)))) points")
+                            Text("\(pref.eleve.maxBonusIncrement.formatted(.number.precision(.fractionLength(0)))) points")
                                 .foregroundColor(.secondary)
                         }
                     }
 
                     Button("Remettre tous les bonus à zéro", role: .destructive) {
-//                        for idx in eleveStore.items.indices {
-//                            eleveStore.items[idx].bonus = 0
-//                        }
-//                        eleveStore.saveAsJSON()
+                        isShowingBonusResetConfirmDialog.toggle()
+                    }
+                    // Confirmation de la remise à zéro des bonus/malus de tous les élèves
+                    .confirmationDialog(
+                        "Remise à zéro des bonus/malus de tous les élèves",
+                        isPresented: $isShowingBonusResetConfirmDialog,
+                        titleVisibility: .visible
+                    ) {
+                        Button("Remettre à zéro", role: .destructive) {
+                            let eleves = EleveEntity.all()
+                            eleves.forEach { eleve in
+                                eleve.viewBonus = 0
+                            }
+                        }
+                    } message: {
+                        Text("Cette action ne peut pas être annulée.")
                     }
                 }
             }

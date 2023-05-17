@@ -23,6 +23,7 @@ struct SettingsView: View {
             SettingsProgram()
             SettingsSequence()
             SettingsActivity()
+            SettingsSchoolYear()
             SettingsAgenda()
         }
         #if os(iOS)
@@ -41,5 +42,6 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
+            .environmentObject(UserPreferences())
     }
 }

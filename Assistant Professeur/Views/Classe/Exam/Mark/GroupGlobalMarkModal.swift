@@ -18,9 +18,6 @@ struct GroupGlobalMarkModal: View {
     @Environment(\.dismiss)
     private var dismiss
 
-    @Preference(\.nameDisplayOrder)
-    private var nameDisplayOrder
-
     private let fontWeight: Font.Weight = .semibold
     private let smallColumns = [
         GridItem(

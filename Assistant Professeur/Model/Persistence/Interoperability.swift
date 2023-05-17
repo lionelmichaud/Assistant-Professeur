@@ -8,7 +8,7 @@
 import Foundation
 import AppFoundation
 
-public enum Interoperability: Int, PickableEnumP {
+public enum Interoperability: Int, Codable, PickableEnumP {
     case proNote
     case ecoleDirecte
 

@@ -10,22 +10,8 @@ import HelpersView
 import SwiftUI
 
 struct SettingsAgenda: View {
-    @Preference(\.seanceDuration)
-    var seanceDuration
-
-    @Preference(\.interSeancesDuration)
-    var interSeancesDuration
-
-    @Preference(\.recreationDuration)
-    var recreationDuration
-
-    @Preference(\.lunchDuration)
-    var lunchDuration
-
-    @Preference(\.hourOfFirstSeance)
-    var hourOfFirstSeance
-    @Preference(\.minutesOfFirstSeance)
-    var minutesOfFirstSeance
+    @EnvironmentObject
+    private var pref: UserPreferences
 
     @State
     private var firstSeanceOfTheDay: Date = .now
@@ -63,8 +49,8 @@ extension SettingsAgenda {
                         [.hour, .minute],
                         from: newDate
                     )
-                hourOfFirstSeance = firstSeance.hour!
-                minutesOfFirstSeance = firstSeance.minute!
+                pref.horaire.hourOfFirstSeance = firstSeance.hour!
+                pref.horaire.minutesOfFirstSeance = firstSeance.minute!
                 AgendaManager.shared.update()
             }
 
@@ -72,14 +58,14 @@ extension SettingsAgenda {
                 HStack {
                     Text("Durée d'une séance")
                     Spacer()
-                    Text("\(seanceDuration.formatted(.number))")
+                    Text("\(pref.horaire.seanceDuration.formatted(.number))")
                         .foregroundColor(.secondary)
                 }
             } onIncrement: {
-                seanceDuration += 5
+                pref.horaire.seanceDuration += 5
                 AgendaManager.shared.update()
             } onDecrement: {
-                seanceDuration -= 5
+                pref.horaire.seanceDuration -= 5
                 AgendaManager.shared.update()
             }
 
@@ -87,14 +73,14 @@ extension SettingsAgenda {
                 HStack {
                     Text("Durée inter-séance")
                     Spacer()
-                    Text("\(interSeancesDuration.formatted(.number))")
+                    Text("\(pref.horaire.interSeancesDuration.formatted(.number))")
                         .foregroundColor(.secondary)
                 }
             } onIncrement: {
-                interSeancesDuration += 1
+                pref.horaire.interSeancesDuration += 1
                 AgendaManager.shared.update()
             } onDecrement: {
-                interSeancesDuration -= 1
+                pref.horaire.interSeancesDuration -= 1
                 AgendaManager.shared.update()
             }
 
@@ -102,14 +88,14 @@ extension SettingsAgenda {
                 HStack {
                     Text("Durée de la récréation")
                     Spacer()
-                    Text("\(recreationDuration.formatted(.number))")
+                    Text("\(pref.horaire.recreationDuration.formatted(.number))")
                         .foregroundColor(.secondary)
                 }
             } onIncrement: {
-                recreationDuration += 5
+                pref.horaire.recreationDuration += 5
                 AgendaManager.shared.update()
             } onDecrement: {
-                recreationDuration -= 5
+                pref.horaire.recreationDuration -= 5
                 AgendaManager.shared.update()
             }
 
@@ -117,14 +103,14 @@ extension SettingsAgenda {
                 HStack {
                     Text("Durée du déjeuné")
                     Spacer()
-                    Text("\(lunchDuration.formatted(.number))")
+                    Text("\(pref.horaire.lunchDuration.formatted(.number))")
                         .foregroundColor(.secondary)
                 }
             } onIncrement: {
-                lunchDuration += 5
+                pref.horaire.lunchDuration += 5
                 AgendaManager.shared.update()
             } onDecrement: {
-                lunchDuration -= 5
+                pref.horaire.lunchDuration -= 5
                 AgendaManager.shared.update()
             }
 
@@ -170,9 +156,11 @@ struct SettingsAgenda_Previews: PreviewProvider {
         Group {
             NavigationView {
                 SettingsAgenda()
+                    .environmentObject(UserPreferences())
             }
             .previewDevice("iPhone 13")
             SettingsAgenda()
+                .environmentObject(UserPreferences())
                 .previewDevice("iPad mini (6th generation)")
         }
     }

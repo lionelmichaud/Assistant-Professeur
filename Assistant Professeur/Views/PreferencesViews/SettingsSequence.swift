@@ -8,16 +8,13 @@
 import SwiftUI
 
 struct SettingsSequence: View {
-    @Preference(\.sequenceAnnotationEnabled)
-    var sequenceAnnotationEnabled
-
-    @Preference(\.margeInterSequence)
-    var margeInterSequence
+    @EnvironmentObject
+    private var pref: UserPreferences
 
     var body: some View {
         List {
             Section {
-                Toggle("Annotation", isOn: $sequenceAnnotationEnabled)
+                Toggle("Annotation", isOn: $pref.sequenceAnnotationEnabled)
             } header: {
                 Text("Champs")
             } footer: {
@@ -25,13 +22,13 @@ struct SettingsSequence: View {
             }
 
             Section {
-                Stepper(value : $margeInterSequence,
+                Stepper(value : $pref.margeInterSequence,
                         in    : 0 ... 3,
                         step  : 1) {
                     HStack {
                         Text("Nombre de séances")
                         Spacer()
-                        Text("\(margeInterSequence.formatted(.number))")
+                        Text("\(pref.margeInterSequence.formatted(.number))")
                             .foregroundColor(.secondary)
                     }
                 }
@@ -51,5 +48,6 @@ struct SettingsSequence: View {
 struct SettingsSequence_Previews: PreviewProvider {
     static var previews: some View {
         SettingsSequence()
+            .environmentObject(UserPreferences())
     }
 }

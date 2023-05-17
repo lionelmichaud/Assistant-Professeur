@@ -80,20 +80,11 @@ struct ClasseDetail: View {
     @Environment(\.managedObjectContext)
     private var managedObjectContext
 
-    @Preference(\.interoperability)
-    private var interoperability
-
-    @Preference(\.classeAppreciationEnabled)
-    private var classeAppreciationEnabled
-
-    @Preference(\.classeAnnotationEnabled)
-    private var classeAnnotationEnabled
-
-    @Preference(\.eleveTrombineEnabled)
-    private var eleveTrombineEnabled
-
     @Environment(\.horizontalSizeClass)
     private var hClass
+
+    @EnvironmentObject
+    private var pref: UserPreferences
 
     @State
     private var isShowingImportListeDialog = false
@@ -127,11 +118,11 @@ struct ClasseDetail: View {
 
             List {
                 // appréciation sur la classe
-                if classeAppreciationEnabled {
+                if pref.classeAppreciationEnabled {
                     AppreciationView(appreciation: $classe.viewAppreciation)
                 }
                 // annotation sur la classe
-                if classeAnnotationEnabled {
+                if pref.classeAnnotationEnabled {
                     AnnotationEditView(annotation: $classe.viewAnnotation)
                 }
 
@@ -144,7 +135,7 @@ struct ClasseDetail: View {
                     elevesListView
 
                     // trombinoscope
-                    if eleveTrombineEnabled {
+                    if pref.eleve.trombineEnabled {
                         trombinoscopeView
                     }
 
@@ -204,7 +195,7 @@ struct ClasseDetail: View {
             ) = CsvImportExportMng
                 .importElevesListe(
                     for: classe,
-                    interoperability: interoperability,
+                    interoperability: pref.interoperability,
                     result: result
                 )
         }
@@ -242,7 +233,7 @@ extension ClasseDetail {
                     Image(systemName: "dice.fill")
                         .imageScale(.large)
                 }
-                .disabled(!eleveTrombineEnabled)
+                .disabled(!pref.eleve.trombineEnabled)
                 .popover(item: $randomEleve) { eleve in
                     TrombineView(eleve: eleve)
                         .scaledToFit()
@@ -286,7 +277,7 @@ extension ClasseDetail {
                         importCsvFile = true
                     }
                 } message: {
-                    Text("La liste des élèves importée doit être au format CSV de \(interoperability == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
+                    Text("La liste des élèves importée doit être au format CSV de \(pref.interoperability == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
                     Text("Cette action ne peut pas être annulée.")
                 }
             }

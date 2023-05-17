@@ -25,9 +25,6 @@ struct TrombinoscopeView: View {
         )
     ]
 
-    @Preference(\.nameDisplayOrder)
-    private var nameDisplayOrder
-
     let font: Font = .title3
     let fontWeight: Font.Weight = .semibold
 

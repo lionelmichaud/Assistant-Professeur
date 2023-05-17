@@ -15,8 +15,8 @@ struct ProgramDetailGroupBox: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @Preference(\.programAnnotationEnabled)
-    private var annotationEnabled
+    @EnvironmentObject
+    private var pref: UserPreferences
 
     @State
     private var isViewing = false
@@ -29,7 +29,7 @@ struct ProgramDetailGroupBox: View {
                 .horizontallyAligned(.leading)
 
             // note sur le programme
-            if annotationEnabled && program.viewAnnotation.isNotEmpty {
+            if pref.programAnnotationEnabled && program.viewAnnotation.isNotEmpty {
                 AnnotationView(
                     annotation: program.viewAnnotation,
                     scrollable: true,

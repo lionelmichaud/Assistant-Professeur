@@ -5,42 +5,42 @@
 //  Created by Lionel MICHAUD on 18/09/2022.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct SettingsGeneral: View {
-    @Preference(\.interoperability)
-    var interoperability
-
-    @Preference(\.nameDisplayOrder)
-    var nameDisplayOrder
-
-    @Preference(\.nameSortOrder)
-    var nameSortOrder
+    @EnvironmentObject
+    private var pref: UserPreferences
 
     var body: some View {
         List {
             // Type d'interopérabilité avec les ENT
             Text("Type d'interopérabilité avec les ENT")
-            CasePicker(pickedCase: $interoperability,
-                       label: "Interopérabilté avec")
+            CasePicker(
+                pickedCase: $pref.interoperability,
+                label: "Interopérabilté avec"
+            )
             .pickerStyle(.segmented)
 
             Section {
                 // Ordre d'affichage des noms des élèves
                 Text("Ordre d'affichage des noms des élèves")
-                CasePicker(pickedCase: $nameDisplayOrder,
-                           label: "Ordre d'affichage des noms")
+                CasePicker(
+                    pickedCase: $pref.nameDisplayOrder,
+                    label: "Ordre d'affichage des noms"
+                )
                 .pickerStyle(.segmented)
                 // Ordre de tri des noms des élèves
                 Text("Ordre de tri des noms des élèves")
-                CasePicker(pickedCase: $nameSortOrder,
-                           label: "Ordre de tri des noms")
+                CasePicker(
+                    pickedCase: $pref.nameSortOrder,
+                    label: "Ordre de tri des noms"
+                )
                 .pickerStyle(.segmented)
             } header: {
                 Text("Affichage")
             }
-            //.listRowSeparator(.hidden)
+            // .listRowSeparator(.hidden)
         }
         #if os(iOS)
         .navigationTitle("Préférences Générales")
@@ -52,5 +52,6 @@ struct SettingsGeneral: View {
 struct SettingsGeneral_Previews: PreviewProvider {
     static var previews: some View {
         SettingsGeneral()
+            .environmentObject(UserPreferences())
     }
 }
