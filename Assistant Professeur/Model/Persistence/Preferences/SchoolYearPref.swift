@@ -10,12 +10,13 @@ import AppFoundation
 
 struct SchoolYearPref: Codable {
     static var currentSchoolYear: Int {
-        if Date.now.month >= 1 {
-            return Date.now.year-1
-        } else {
+        if Date.now.month >= 9 {
             return Date.now.year
+        } else {
+            return Date.now.year-1
         }
     }
+    var calName: String = "Scolaire"
 
     var zone: ZoneScolaire = .ZoneC
 
@@ -25,7 +26,7 @@ struct SchoolYearPref: Codable {
     )
     var autumnVacation = DateInterval(
         start: Calendar.current.date(from: currentSchoolYear.years + 10.months + 22.days)!,
-        end: Calendar.current.date(from: (currentSchoolYear+1).years + 11.months + 6.days)!
+        end: Calendar.current.date(from: (currentSchoolYear).years + 11.months + 6.days)!
     )
     var noelVacation = DateInterval(
         start: Calendar.current.date(from: currentSchoolYear.years + 12.months + 17.days)!,

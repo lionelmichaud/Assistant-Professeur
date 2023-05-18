@@ -7,6 +7,12 @@
 
 import Contacts
 import Foundation
+import os
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "ContactManager"
+)
 
 enum ContactManager {
     /// Retourne le contact de type .organization dont le nom d'organisation est `organizationName`
@@ -34,12 +40,18 @@ enum ContactManager {
                 })
 
             } catch {
-                print("Error getting or creating Contacts Group: \(error.localizedDescription)")
+                customLog.log(
+                    level: .error,
+                    "Error getting or creating Contacts Group: \(error.localizedDescription)"
+                )
                 return nil
             }
 
         } catch {
-            print("Error saving contact: \(error.localizedDescription)")
+            customLog.log(
+                level: .error,
+                "Access to contacts denied.: \(error.localizedDescription)"
+            )
             return nil
         }
     }
@@ -67,12 +79,18 @@ enum ContactManager {
                 return matchingContacts.first
 
             } catch {
-                print("Error getting or creating Contact: \(error.localizedDescription)")
+                customLog.log(
+                    level: .error,
+                    "Error getting Contact: \(error.localizedDescription)"
+                )
                 return nil
             }
 
         } catch {
-            print("Error saving contact: \(error.localizedDescription)")
+            customLog.log(
+                level: .error,
+                "Access to contacts denied.: \(error.localizedDescription)"
+            )
             return nil
         }
     }
@@ -100,7 +118,7 @@ enum ContactManager {
                     contact.contactType == .person ? contact : nil
                 }
 
-                return matchingContacts.sorted { left ,right in
+                return matchingContacts.sorted { left, right in
                     if left.jobTitle == right.jobTitle {
                         return left.familyName < right.familyName
                     } else if left.jobTitle.isEmpty || right.jobTitle.isEmpty {
@@ -111,12 +129,18 @@ enum ContactManager {
                 }
 
             } catch {
-                print("Error getting or creating Contact: \(error.localizedDescription)")
+                customLog.log(
+                    level: .error,
+                    "Error getting Contacts: \(error.localizedDescription)"
+                )
                 return []
             }
 
         } catch {
-            print("Error saving contact: \(error.localizedDescription)")
+            customLog.log(
+                level: .error,
+                "Access to contacts denied.: \(error.localizedDescription)"
+            )
             return []
         }
     }
@@ -137,6 +161,7 @@ enum ContactManager {
         do {
             try await store.requestAccess(for: .contacts)
 
+            // Find the gorup of contacts named `groupName`
             let group = try getOrCreateGroup(named: groupName)
 
             switch contact {
@@ -149,38 +174,51 @@ enum ContactManager {
                         ) {
                             // mettre à jour le contact existants
                             let updatedContact = existingContact.mutableCopy() as! CNMutableContact
-
                             contact.update(mutableContact: updatedContact)
 
                             let updateRequest = CNSaveRequest()
                             updateRequest.update(updatedContact)
 
                             try store.execute(updateRequest)
-                            print("Contact updated successfully!")
+                            customLog.log(
+                                level: .info,
+                                "Contact updated successfully!"
+                            )
                             return true
 
                         } else {
                             // créer un nouveau contact
                             guard let newContact = contact.mutableContact() else {
-                                print("Contact cannot be converted to CNMutableContact!")
+                                customLog.log(
+                                    level: .error,
+                                    "Contact cannot be converted to CNMutableContact!"
+                                )
                                 return false
                             }
 
                             let saveRequest = CNSaveRequest()
                             saveRequest.add(newContact, toContainerWithIdentifier: nil)
+                            try store.execute(saveRequest)
+                            customLog.log(
+                                level: .info,
+                                "New contact saved successfully!"
+                            )
 
                             let addToGroupRequest = CNSaveRequest()
                             addToGroupRequest.addMember(newContact, to: group)
-
-                            try store.execute(saveRequest)
-                            print("New contact saved successfully!")
                             try store.execute(addToGroupRequest)
-                            print("New contact added to group successfully!")
+                            customLog.log(
+                                level: .info,
+                                "New contact added to group successfully!"
+                            )
                             return true
                         }
 
                     } catch {
-                        print("Error creating or updating contact: \(error.localizedDescription)")
+                        customLog.log(
+                            level: .error,
+                            "Error creating or updating contact: \(error.localizedDescription)"
+                        )
                         return false
                     }
 
@@ -202,7 +240,10 @@ enum ContactManager {
                         } else {
                             // créer un nouveau contact
                             guard let newContact = contact.mutableContact() else {
-                                print("Contact cannot be converted to CNMutableContact!")
+                                customLog.log(
+                                    level: .error,
+                                    "Contact cannot be converted to CNMutableContact!"
+                                )
                                 return false
                             }
 
@@ -220,34 +261,43 @@ enum ContactManager {
                         }
 
                     } catch {
-                        print("Error creating or updating contact: \(error.localizedDescription)")
+                        customLog.log(
+                            level: .error,
+                            "Error creating or updating contact: \(error.localizedDescription)"
+                        )
                         return false
                     }
             }
 
         } catch {
-            print("Error saving contact: \(error.localizedDescription)")
+            customLog.log(
+                level: .error,
+                "Access to contacts denied.: \(error.localizedDescription)"
+            )
             return false
         }
     }
 
     /// Cherche un groupe de contacts nommé `groupName` dans l'app Contacts.
     /// Si le groupe n'existe pas, il est créé.
-    /// - Parameter groupName: <#groupName description#>
+    /// - Parameter groupName: Nomn du groupe de contacts recherché.
     /// - Returns: Le groupe de contacts nommé `groupName`.
     private static func getOrCreateGroup(named groupName: String) throws -> CNGroup {
-        let groups = try CNContactStore().groups(matching: nil)
+        let store = CNContactStore()
+        let groups = try store.groups(matching: nil)
 
         if let existingGroup = groups.first(where: { $0.name == groupName }) {
             return existingGroup
+
         } else {
+            // Créer le groupe de contacts
             let newGroup = CNMutableGroup()
             newGroup.name = groupName
 
+            // Enregistrer le nouveau groupe
             let saveRequest = CNSaveRequest()
             saveRequest.add(newGroup, toContainerWithIdentifier: nil)
-
-            try CNContactStore().execute(saveRequest)
+            try store.execute(saveRequest)
 
             return newGroup
         }

@@ -12,6 +12,11 @@ struct SettingsSchoolYear: View {
     @EnvironmentObject
     private var pref: UserPreferences
 
+    @State
+    private var alertTitle = ""
+    @State
+    private var alertIsPresented = false
+
     var body: some View {
         Form {
             // Zone scolaire
@@ -65,6 +70,15 @@ struct SettingsSchoolYear: View {
                     )
                     .labelsHidden()
                 }
+                Button {
+                    saveEvent(
+                        eventTitle: "Vacances de Toussaint",
+                        eventDateInterval: pref.schoolYear.autumnVacation
+                    )
+                } label: {
+                    Text("Synchroniser avec l'App Calendrier")
+                }
+                .horizontallyAligned(.center)
             } header: {
                 Text("Vacances de Toussaint")
             }
@@ -86,6 +100,15 @@ struct SettingsSchoolYear: View {
                     )
                     .labelsHidden()
                 }
+                Button {
+                    saveEvent(
+                        eventTitle: "Vacances de Noël",
+                        eventDateInterval: pref.schoolYear.noelVacation
+                    )
+                } label: {
+                    Text("Synchroniser avec l'App Calendrier")
+                }
+                .horizontallyAligned(.center)
             } header: {
                 Text("Vacances de Noël")
             }
@@ -107,6 +130,15 @@ struct SettingsSchoolYear: View {
                     )
                     .labelsHidden()
                 }
+                Button {
+                    saveEvent(
+                        eventTitle: "Vacances d'hiver",
+                        eventDateInterval: pref.schoolYear.winterVacation
+                    )
+                } label: {
+                    Text("Synchroniser avec l'App Calendrier")
+                }
+                .horizontallyAligned(.center)
             } header: {
                 Text("Vacances d'hiver")
             }
@@ -128,15 +160,50 @@ struct SettingsSchoolYear: View {
                     )
                     .labelsHidden()
                 }
+                Button {
+                    saveEvent(
+                        eventTitle: "Vacances de printemps",
+                        eventDateInterval: pref.schoolYear.paqueVacation
+                    )
+                } label: {
+                    Text("Synchroniser avec l'App Calendrier")
+                }
+                .horizontallyAligned(.center)
             } header: {
                 Text("Vacances de printemps")
             }
         }
         .padding(.bottom, 34)
+        .alert(
+            alertTitle,
+            isPresented: $alertIsPresented,
+            actions: {}
+        )
         #if os(iOS)
-            .navigationTitle("Année scolaire")
-            .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Année scolaire")
+        .navigationBarTitleDisplayMode(.inline)
         #endif
+    }
+
+    private func saveEvent(
+        eventTitle: String,
+        eventDateInterval: DateInterval
+    ) {
+        Task {
+            let success = await EventManager.saveOrUpdate(
+                eventTitle: eventTitle,
+                eventDateInterval: eventDateInterval,
+                toCalendarNamed: pref.schoolYear.calName,
+                during: pref.schoolYear.interval
+            )
+            if success {
+                alertTitle = "L'événement a été enregistré."
+                alertIsPresented.toggle()
+            } else {
+                alertTitle = "L'enregistrement à échoué."
+                alertIsPresented.toggle()
+            }
+        }
     }
 }
 

@@ -100,6 +100,7 @@ struct SchoolContactEditView: View {
                 #endif
                     .submitLabel(.next)
                     .focused($focus, equals: .postalCode)
+                Divider()
                 TextField("Ville", text: $city)
                     .autocorrectionDisabled(false)
                     .submitLabel(.next)
@@ -108,7 +109,6 @@ struct SchoolContactEditView: View {
             Button(action: saveContact) {
                 Text("Enregistrer dans Contacts")
             }
-            .buttonStyle(.bordered)
             .horizontallyAligned(.center)
             .padding(.bottom)
         } header: {
@@ -120,8 +120,13 @@ struct SchoolContactEditView: View {
         .onSubmit {
             focus?.moveToNext()
         }
+        .alert(
+            alertTitle,
+            isPresented: $alertIsPresented,
+            actions: {}
+        )
         .onAppear {
-            focus = .none
+            focus = SchoolContactEditView.FocusableField.none
             Task {
                 if let schoolContact = await ContactManager.organizationContact(organizationName: school.viewName),
                    let contact = ContactEnum(from: schoolContact) {
@@ -136,11 +141,6 @@ struct SchoolContactEditView: View {
                 }
             }
         }
-        .alert(
-            alertTitle,
-            isPresented: $alertIsPresented,
-            actions: {}
-        )
     }
 
     private func saveContact() {
