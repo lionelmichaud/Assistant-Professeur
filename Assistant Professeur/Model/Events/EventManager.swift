@@ -14,7 +14,101 @@ private let customLog = Logger(
     category: "EventManager"
 )
 
+/// Gestionnaire d'Evénements. Synchronize l'appli avec l'app Calendrier.
 enum EventManager {
+    /// Retourne la liste de tous les événements de l'année scolaire dont
+    /// le titre contient "`discipline` - `classe`".
+    /// - Parameters:
+    ///   - discipline: La discipline recherchée.
+    ///   - classe: La classe recherchée.
+    ///   - calName: Nom du calendrier où ajouter l'événement.
+    ///   - schoolYear: Intervalle de temps de l'année scolaire en cours.
+    static func getAllEvents(
+        forDiscipline discipline: Discipline,
+        forClasse classe: String,
+        inCalendarNamed calName: String,
+        during schoolYear: DateInterval
+    ) async -> [EKEvent] {
+        let eventName = "\(discipline.acronym) - \(classe)"
+
+        return await getEvents(
+            withTitle: eventName,
+            inCalendarNamed: calName,
+            startDate: schoolYear.start,
+            endDate: schoolYear.end
+        )
+    }
+
+    /// Retourne la liste de tous les événements de la journée en cours dont
+    /// le titre contient "`discipline` - `classe`".
+    /// - Parameters:
+    ///   - discipline: La discipline recherchée.
+    ///   - classe: La classe recherchée.
+    ///   - calName: Nom du calendrier où ajouter l'événement.
+    static func getTodayEvents(
+        forDiscipline discipline: Discipline,
+        forClasse classe: String,
+        inCalendarNamed calName: String
+    ) async -> [EKEvent] {
+        let startOfDay = Calendar.current.startOfDay(for: .now)
+        let oneDay = 60 * 60 * 24.0
+        let endOfDay = startOfDay.addingTimeInterval(oneDay)
+        let eventName = "\(discipline.acronym) - \(classe)"
+
+        return await getEvents(
+            withTitle: eventName,
+            inCalendarNamed: calName,
+            startDate: startOfDay,
+            endDate: endOfDay
+        )
+    }
+
+    static func getEvents(
+        withTitle title: String,
+        inCalendarNamed calName: String,
+        startDate: Date,
+        endDate: Date
+    ) async -> [EKEvent] {
+        let eventStore = EKEventStore()
+        do {
+            try await eventStore.requestAccess(to: .event)
+
+            // Find the calendar named `calName`
+            guard let myCalendar = try getOrCreateCalendar(named: calName) else {
+                return []
+            }
+
+            let predicate = eventStore.predicateForEvents(
+                withStart: startDate,
+                end: endDate,
+                calendars: [myCalendar]
+            )
+
+            let existingEvents = eventStore.events(matching: predicate)
+            let selectedEvents = existingEvents.filter { event in
+                event.title.contains(title)
+            }
+            return selectedEvents
+
+        } catch {
+            customLog.log(
+                level: .error,
+                "Error accessing events: \(error.localizedDescription)"
+            )
+            return []
+        }
+    }
+
+    /// Updates or saves an event to the Calendar app in the calendar named `calName`
+    /// if the event does not already exist.
+    ///
+    /// If the calendar named `calName` does not exist, creates the calendar.
+    /// - Parameters:
+    ///   - eventTitle: Nom de l'événement.
+    ///   - eventDateInterval: Intervalle de temps de l'événement.
+    ///   - calName: Nom du calendrier où ajouter l'événement.
+    ///   - schoolYear: Intervalle de temps de l'année scolaire en cours.
+    /// - Returns: True si l'enregistrement à réussi.
     static func saveOrUpdate(
         eventTitle: String,
         eventDateInterval: DateInterval,

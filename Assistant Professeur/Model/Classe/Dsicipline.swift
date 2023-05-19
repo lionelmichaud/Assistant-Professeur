@@ -64,4 +64,39 @@ enum Discipline: String, PickableIdentifiableEnumP, Codable {
                 return "Autre"
         }
     }
+
+    var acronym: String {
+        switch self {
+            case .technologie:
+                return "TECHNO"
+            case .mathematiques:
+                return "MATH"
+            case .physique:
+                return "P-C"
+            case .snt:
+                return "SNT"
+            case .histoireGeo:
+                return "H-G"
+            case .francais:
+                return "FR"
+            case .anglais:
+                return "ENG"
+            case .espagnol:
+                return "ESP"
+            case .allemand:
+                return "GER"
+            case .latin:
+                return "LAT"
+            case .musique:
+                return "MUS"
+            case .artPla:
+                return "ARTPLA"
+            case .svt:
+                return "SVT"
+            case .nsi:
+                return "NSI"
+            case .autre:
+                return "Autre"
+        }
+    }
 }

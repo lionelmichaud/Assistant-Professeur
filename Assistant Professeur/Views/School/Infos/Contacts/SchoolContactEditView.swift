@@ -107,10 +107,10 @@ struct SchoolContactEditView: View {
                     .focused($focus, equals: .city)
             }
             Button(action: saveContact) {
-                Text("Enregistrer dans Contacts")
+                Text("Synchroniser avec l'app Contacts")
             }
+            .buttonStyle(.borderless)
             .horizontallyAligned(.center)
-            .padding(.bottom)
         } header: {
             Label("Coordonnées de l'établissement", systemImage: "building")
                 .bold()

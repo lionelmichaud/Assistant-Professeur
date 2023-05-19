@@ -14,6 +14,7 @@ private let customLog = Logger(
     category: "ContactManager"
 )
 
+/// Gestionnaire de Contacts. Synchronize l'appli avec l'app Contacts.
 enum ContactManager {
     /// Retourne le contact de type .organization dont le nom d'organisation est `organizationName`
     /// se trouvant dans le Groupe de contacts nommé `organizationName`.
@@ -145,8 +146,8 @@ enum ContactManager {
         }
     }
 
-    /// Saves or updates the `contact`to the address book in the group named `groupName`
-    /// if the contact does not already exist. Else, do nothing.
+    /// Updates or saves the `contact`to the address book in the group named `groupName`
+    /// if the contact does not already exist.
     ///
     /// If the group named `groupName` does not exist, creates the group.
     /// - Parameters:
