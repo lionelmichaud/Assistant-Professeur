@@ -216,6 +216,7 @@ extension ClasseDetail {
     private func myToolBarContent() -> some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             ControlGroup {
+                // Chronomètre de classe
                 Button {
                     isShowingClasseTimer.toggle()
                 } label: {
@@ -226,7 +227,8 @@ extension ClasseDetail {
                         ClasseTimerModal()
                     }
                 }
-                
+
+                // Tirer au sort un élève
                 Button {
                     randomEleve = classe.elevesSortedByName.randomElement()
                 } label: {

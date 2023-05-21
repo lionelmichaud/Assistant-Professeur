@@ -7,15 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7901B2E42A16C21D00C55108 /* EventEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7901B2E32A16C21D00C55108 /* EventEditView.swift */; };
-		7901B2E62A16C46400C55108 /* CalendarChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7901B2E52A16C46400C55108 /* CalendarChooser.swift */; };
 		790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */; };
 		790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */; };
 		790F76A229818858000A5C7D /* DurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F76A129818858000A5C7D /* DurationView.swift */; };
 		79134554296B65AB0092E7CD /* TrombinoscopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79134553296B65AB0092E7CD /* TrombinoscopeView.swift */; };
 		79134557296B6C620092E7CD /* TrombineInteractivView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79134556296B6C620092E7CD /* TrombineInteractivView.swift */; };
 		79135E0D2969E15B00F95694 /* AppVersion.json in Resources */ = {isa = PBXBuildFile; fileRef = 79135E0C2969E15B00F95694 /* AppVersion.json */; };
-		7913B58829EF15C700FBB478 /* ActivityTimerModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7913B58729EF15C700FBB478 /* ActivityTimerModal.swift */; };
 		7915DC842A031C6A001C1249 /* Owner+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7915DC832A031C6A001C1249 /* Owner+CoreDataClass.swift */; };
 		791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791A0CDC29746A31004CA543 /* DataBaseManager.swift */; };
 		7920A5242957345A0092A7DD /* EleveLabelWithTrombineFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A5232957345A0092A7DD /* EleveLabelWithTrombineFlag.swift */; };
@@ -317,8 +314,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7901B2E32A16C21D00C55108 /* EventEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEditView.swift; sourceTree = "<group>"; };
-		7901B2E52A16C46400C55108 /* CalendarChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarChooser.swift; sourceTree = "<group>"; };
 		790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAgenda.swift; sourceTree = "<group>"; };
 		790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceCreatorModal.swift; sourceTree = "<group>"; };
 		790F76A129818858000A5C7D /* DurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationView.swift; sourceTree = "<group>"; };
@@ -326,7 +321,6 @@
 		79134556296B6C620092E7CD /* TrombineInteractivView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrombineInteractivView.swift; sourceTree = "<group>"; };
 		79135E0C2969E15B00F95694 /* AppVersion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AppVersion.json; sourceTree = "<group>"; };
 		79135E1C296B0D7800F95694 /* Assistant-Professeur-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Assistant-Professeur-Info.plist"; sourceTree = SOURCE_ROOT; };
-		7913B58729EF15C700FBB478 /* ActivityTimerModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTimerModal.swift; sourceTree = "<group>"; };
 		7915DC832A031C6A001C1249 /* Owner+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Owner+CoreDataClass.swift"; sourceTree = "<group>"; };
 		791A0CDC29746A31004CA543 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
 		7920A5232957345A0092A7DD /* EleveLabelWithTrombineFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveLabelWithTrombineFlag.swift; sourceTree = "<group>"; };
@@ -613,8 +607,6 @@
 		7901B2E22A16C1FB00C55108 /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				7901B2E32A16C21D00C55108 /* EventEditView.swift */,
-				7901B2E52A16C46400C55108 /* CalendarChooser.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -1084,7 +1076,6 @@
 			isa = PBXGroup;
 			children = (
 				79A6AC9729F59DEA003705D0 /* ClasseTimerModal.swift */,
-				7913B58729EF15C700FBB478 /* ActivityTimerModal.swift */,
 				79B298E729EC5F2C008BAF50 /* SeanceTimerView.swift */,
 				79A6AC9429F57DCF003705D0 /* ProgressClockView.swift */,
 				79F8773129F425A300AB38C3 /* DigitalClockView.swift */,
@@ -1701,7 +1692,6 @@
 				79F38D0A29D7495D006C9B35 /* GroupCapsule.swift in Sources */,
 				796521CF2A13FBC7000C27D1 /* Zones.swift in Sources */,
 				7989B4D929A288E900383F84 /* LabeledSequenceView.swift in Sources */,
-				7901B2E42A16C21D00C55108 /* EventEditView.swift in Sources */,
 				79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */,
 				798DD4D2298C318F00C47B2C /* ExamListView.swift in Sources */,
 				794F6E12295CE1B700042B95 /* ObservEditor.swift in Sources */,
@@ -1773,7 +1763,6 @@
 				790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */,
 				79AFBFB62981C9DA001576DD /* ActivityCreatorModal.swift in Sources */,
 				7989B4DB29A28D0300383F84 /* ProgressState.swift in Sources */,
-				7913B58829EF15C700FBB478 /* ActivityTimerModal.swift in Sources */,
 				7994E3242972F4E500952D08 /* SchoolDocumentList.swift in Sources */,
 				795C2C31296E2DCA00EDFF09 /* RoomElevePlacement.swift in Sources */,
 				7981C22129A8054A0085986D /* ProgramTimeLine.swift in Sources */,
@@ -1790,7 +1779,6 @@
 				795804BA29A69CB800AEB7DA /* SequenceStepperView.swift in Sources */,
 				7951B6A229B14012006DC88D /* WarningSidebarView.swift in Sources */,
 				79E40E752996BEED006BBE49 /* Seat+CoreDataClass.swift in Sources */,
-				7901B2E62A16C46400C55108 /* CalendarChooser.swift in Sources */,
 				79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */,
 				79E40E8A2997FD45006BBE49 /* Group+CoreDataClass.swift in Sources */,
 				7937A24229859A5500D0ED59 /* ExamStep.swift in Sources */,
