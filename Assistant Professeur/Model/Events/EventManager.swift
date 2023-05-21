@@ -16,8 +16,8 @@ private let customLog = Logger(
 
 /// Gestionnaire d'Evénements. Synchronize l'appli avec l'app Calendrier.
 enum EventManager {
-    /// Retourne la liste de tous les événements de l'année scolaire dont
-    /// le titre contient "`discipline` - `classe`".
+    /// Retourne la liste de tous les événements de l'année scolaire
+    /// du clalendrier `calName` dont le titre contient "`discipline` - `classe`".
     /// - Parameters:
     ///   - discipline: La discipline recherchée.
     ///   - classe: La classe recherchée.
@@ -39,8 +39,8 @@ enum EventManager {
         )
     }
 
-    /// Retourne la liste de tous les événements de la journée en cours dont
-    /// le titre contient "`discipline` - `classe`".
+    /// Retourne la liste de tous les événements de la journée en cours
+    /// du clalendrier `calName` dont  le titre contient "`discipline` - `classe`".
     /// - Parameters:
     ///   - discipline: La discipline recherchée.
     ///   - classe: La classe recherchée.
@@ -63,8 +63,26 @@ enum EventManager {
         )
     }
 
+    /// Retourne la liste de tous les événements de la journée en cours
+    /// du clalendrier `calName`.
+    /// - Parameters:
+    ///   - calName: Nom du calendrier où ajouter l'événement.
+    static func getTodayEvents(
+        inCalendarNamed calName: String
+    ) async -> [EKEvent] {
+        let startOfDay = Calendar.current.startOfDay(for: .now)
+        let oneDay = 60 * 60 * 24.0
+        let endOfDay = startOfDay.addingTimeInterval(oneDay)
+
+        return await getEvents(
+            inCalendarNamed: calName,
+            startDate: startOfDay,
+            endDate: endOfDay
+        )
+    }
+
     static func getEvents(
-        withTitle title: String,
+        withTitle title: String? = nil,
         inCalendarNamed calName: String,
         startDate: Date,
         endDate: Date
@@ -85,10 +103,14 @@ enum EventManager {
             )
 
             let existingEvents = eventStore.events(matching: predicate)
-            let selectedEvents = existingEvents.filter { event in
-                event.title.contains(title)
+            if let title {
+                let selectedEvents = existingEvents.filter { event in
+                    event.title.contains(title)
+                }
+                return selectedEvents
+            } else {
+                return existingEvents
             }
-            return selectedEvents
 
         } catch {
             customLog.log(
