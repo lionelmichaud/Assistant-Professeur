@@ -11,6 +11,9 @@ import HelpersView
 import SwiftUI
 
 struct SeanceTimerView: View {
+    var discipline: Discipline
+    var classeName : String
+    var schoolName: String
     var lineWidth: Double = 40.0
     var test: Bool = false
 
@@ -57,11 +60,14 @@ struct SeanceTimerView: View {
 
     @SceneStorage("alertAlarmIsActivated")
     private var alertAlarmIsActivated = true
-    
+
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    private let period = TimeInterval(2)
+    @State
+    private var timerVM: TimerVM = .init()
+
+    private let period = TimeInterval(2) // seconds
 
     private let notificationFeedback = UINotificationFeedbackGenerator()
 
@@ -123,11 +129,10 @@ struct SeanceTimerView: View {
                     warningNotif: $warningAlarmIsActivited,
                     alertNotif: $alertAlarmIsActivated
                 )
-                .padding(lineWidth/2)
+                .padding(lineWidth / 2)
             }
 
             VStack {
-
                 // seuils d'alerte
                 reglageSeuilView
             }
@@ -136,7 +141,7 @@ struct SeanceTimerView: View {
 
     var body: some View {
         TimelineView(.periodic(from: .now, by: period)) { timeLine in
-            if let seance = seanceOngoing(at: timeLine.date) {
+            if let seance = timerVM.seanceOngoing(at: timeLine.date) {
                 ViewThatFits(in: .horizontal) {
                     regularView(date: timeLine.date, seance: seance)
                     compactView(date: timeLine.date, seance: seance)
@@ -147,21 +152,17 @@ struct SeanceTimerView: View {
                     .font(.title)
             }
         }
+        .task {
+            /// Charge les heures de cours du jour
+            await timerVM.loadTodaySeances(
+                forDiscipline: discipline,
+                forClasse: classeName,
+                schoolName: schoolName
+            )
+        }
     }
 
     // MARK: - Methods
-
-    /// Retourne la séance en cours à la date
-    private func seanceOngoing(at date: Date) -> DateInterval? {
-        #if DEBUG
-            if test {
-                let hourStart = (date.minutes).minutes.before(date)!
-                return DateInterval(start: hourStart, duration: 3600)
-            }
-        #endif
-
-        return AgendaManager.shared.seanceOngoing(at: date)
-    }
 
     /// Temps écoulé depuis le début de la séance
     private func elapsedTime(for date: Date) -> DateComponents? {
@@ -171,7 +172,7 @@ struct SeanceTimerView: View {
             }
         #endif
 
-        return AgendaManager.shared.elapsedTime(to: date)
+        return timerVM.elapsedTime(to: date)
     }
 
     /// Temps restant avant le début de la séance
@@ -182,7 +183,7 @@ struct SeanceTimerView: View {
             }
         #endif
 
-        return AgendaManager.shared.remainingTime(from: date)
+        return timerVM.remainingTime(from: date)
     }
 
     /// Position du curseur
@@ -193,8 +194,8 @@ struct SeanceTimerView: View {
             }
         #endif
 
-        if let elapsedMinutes = AgendaManager.shared.elapsedMinutes(to: date)?.double(),
-           let seanceDuration = AgendaManager.shared.seanceDuration().minute?.double() {
+        if let elapsedMinutes = timerVM.elapsedMinutes(to: date)?.double(),
+           let seanceDuration = timerVM.seanceDuration()?.minute?.double() {
             return (elapsedMinutes / seanceDuration)
         } else {
             return nil
@@ -311,13 +312,21 @@ struct SeanceTimerView_Previews: PreviewProvider {
 
     static var previews: some View {
         initialize()
+        let classe = ClasseEntity.all().first!
         return Group {
             SeanceTimerView(
+                discipline: classe.disciplineEnum,
+                classeName: classe.displayString,
+                schoolName: classe.school!.viewName,
                 lineWidth: 40,
                 test: true
             )
             .previewDevice("iPad mini (6th generation)")
+            
             SeanceTimerView(
+                discipline: classe.disciplineEnum,
+                classeName: classe.displayString,
+                schoolName: classe.school!.viewName,
                 lineWidth: 40,
                 test: true
             )

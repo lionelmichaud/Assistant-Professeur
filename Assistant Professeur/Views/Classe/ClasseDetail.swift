@@ -224,7 +224,15 @@ extension ClasseDetail {
                 }
                 .fullScreenCover(isPresented: $isShowingClasseTimer) {
                     NavigationStack {
-                        ClasseTimerModal()
+                        if let schoolName = classe.school?.viewName {
+                            ClasseTimerModal(
+                                discipline: classe.disciplineEnum,
+                                classeName: classe.displayString,
+                                schoolName: schoolName
+                            )
+                        } else {
+                            Text("Impossible d'affciehr le chronomètre")
+                        }
                     }
                 }
 
@@ -250,7 +258,7 @@ extension ClasseDetail {
                             .padding(.bottom)
                     }
                 }
-                
+
                 // Importation des données
                 // Importer une liste d'élèves d'une classe depuis un fichier CSV au format PRONOTE
                 Button {
@@ -280,7 +288,7 @@ extension ClasseDetail {
                     }
                 } message: {
                     Text("La liste des élèves importée doit être au format CSV de \(pref.interoperability == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
-                    Text("Cette action ne peut pas être annulée.")
+                        Text("Cette action ne peut pas être annulée.")
                 }
             }
         }

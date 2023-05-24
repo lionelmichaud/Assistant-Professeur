@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @EnvironmentObject
+    private var nav: NavigationModel
+
     @Environment(\.dismiss)
     private var dismiss
 
@@ -15,19 +18,28 @@ struct SettingsView: View {
     private var horizontalSizeClass
 
     var body: some View {
-        TabView {
+        TabView(selection: $nav.selectedPrefTab) {
             SettingsGeneral()
+                .tag(1)
             SettingsSchool()
+                .tag(2)
             SettingsClasse()
+                .tag(3)
             SettingsEleve()
+                .tag(4)
             SettingsProgram()
+                .tag(5)
             SettingsSequence()
+                .tag(6)
             SettingsActivity()
+                .tag(7)
             SettingsSchoolYear()
-            SettingsAgenda()
+                .tag(8)
+            // SettingsAgenda()
         }
         #if os(iOS)
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+        .tabViewStyle(.page(indexDisplayMode: .always))
+        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
         #endif
         .toolbar {
             ToolbarItem {
@@ -40,8 +52,20 @@ struct SettingsView: View {
 }
 
 struct SettingsView_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+
     static var previews: some View {
-        SettingsView()
-            .environmentObject(UserPreferences())
+        initialize()
+        return Group {
+            SettingsView()
+                .environmentObject(UserPreferences())
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+            SettingsView()
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
     }
 }
