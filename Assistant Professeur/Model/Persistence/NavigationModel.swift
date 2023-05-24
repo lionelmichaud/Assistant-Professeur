@@ -59,6 +59,7 @@ final class NavigationModel: ObservableObject, Codable {
     enum CodingKeys: String, CodingKey {
         case columnVisibility
         case selectedTab
+        case selectedPrefTab
         case selectedWarningType
         case selectedProgramId
         case selectedSequenceId
@@ -81,6 +82,8 @@ final class NavigationModel: ObservableObject, Codable {
     var columnVisibility: NavigationSplitViewVisibility
     @Published
     var selectedTab: TabSelection
+    @Published
+    var selectedPrefTab: Int
     @Published
     var selectedWarningType: WarningSelection?
     @Published
@@ -196,6 +199,7 @@ final class NavigationModel: ObservableObject, Codable {
             // initialize l'état de navigation en conséquence
             columnVisibility = model.columnVisibility
             selectedTab = model.selectedTab
+            selectedPrefTab = model.selectedPrefTab
             selectedWarningType = model.selectedWarningType
 
             selectedProgramMngObjId = model.selectedProgramMngObjId
@@ -227,6 +231,7 @@ final class NavigationModel: ObservableObject, Codable {
     init(
         columnVisibility: NavigationSplitViewVisibility = .all,
         selectedTab: TabSelection = .school,
+        selectedPrefTab: Int = 1,
         selectedWarningType: WarningSelection? = nil,
         selectedProgramMngObjId: NSManagedObjectID? = nil,
         selectedSequenceMngObjId: NSManagedObjectID? = nil,
@@ -245,6 +250,7 @@ final class NavigationModel: ObservableObject, Codable {
         #endif
         self.columnVisibility = columnVisibility
         self.selectedTab = selectedTab
+        self.selectedPrefTab = selectedPrefTab
         self.selectedWarningType = selectedWarningType
 
         self.selectedProgramMngObjId = selectedProgramMngObjId
@@ -272,6 +278,9 @@ final class NavigationModel: ObservableObject, Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.selectedTab = try container.decode(
             NavigationModel.TabSelection.self, forKey: .selectedTab
+        )
+        self.selectedPrefTab = try container.decode(
+            Int.self, forKey: .selectedPrefTab
         )
         self.selectedWarningType = try container.decodeIfPresent(
             NavigationModel.WarningSelection.self, forKey: .selectedWarningType
@@ -357,6 +366,7 @@ final class NavigationModel: ObservableObject, Codable {
 
     func resetSelections() {
         selectedTab = .school
+        selectedPrefTab = 1
         selectedWarningType = .observation
 
         selectedProgramMngObjId = nil
@@ -375,7 +385,8 @@ final class NavigationModel: ObservableObject, Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(selectedTab, forKey: .selectedTab)
-        try container.encode(selectedWarningType, forKey: .selectedWarningType)
+        try container.encode(selectedPrefTab, forKey: .selectedPrefTab)
+        try container.encodeIfPresent(selectedWarningType, forKey: .selectedWarningType)
 
         try container.encodeIfPresent(selectedProgramId, forKey: .selectedProgramId)
         try container.encodeIfPresent(selectedSequenceId, forKey: .selectedSequenceId)

@@ -172,7 +172,7 @@ struct ContentView: View {
             GroupEntity.pref = $userPreferencesModel
             ExamEntity.pref = $userPreferencesModel
             SequenceEntity.pref = $userPreferencesModel
-            AgendaManager.pref = $userPreferencesModel
+            //AgendaManager.pref = $userPreferencesModel
 
             // Encoder les nouvelles préférences (qui viennent de changer)
             // dans userPreferencesData et les faire persister dans AppStorage

@@ -51,16 +51,32 @@ struct ClassActivityProgressEditView: View {
         #if os(macOS)
         .sheet(isPresented: $isShowingActivityTimer) {
             NavigationStack {
-                if let activity = progress.activity {
-                    ClasseTimerModal()
+                if let discipline = progress.classe?.disciplineEnum,
+                   let classeName = progress.classe?.displayString,
+                   let schoolName = progress.classe!.school?.viewName {
+                    ClasseTimerModal(
+                        discipline: discipline,
+                        classeName: classeName,
+                        schoolName: schoolName
+                    )
+                } else {
+                    Text("Impossible d'affciehr le chronomètre")
                 }
             }
         }
         #else
                 .fullScreenCover(isPresented: $isShowingActivityTimer) {
                     NavigationStack {
-                        if let activity = progress.activity {
-                            ClasseTimerModal()
+                        if let discipline = progress.classe?.disciplineEnum,
+                           let classeName = progress.classe?.displayString,
+                           let schoolName = progress.classe!.school?.viewName {
+                            ClasseTimerModal(
+                                discipline: discipline,
+                                classeName: classeName,
+                                schoolName: schoolName
+                            )
+                        } else {
+                            Text("Impossible d'affciehr le chronomètre")
                         }
                     }
                 }

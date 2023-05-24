@@ -224,6 +224,7 @@ struct SchoolSidebarView: View {
         .sheet(isPresented: $isEditingPreferences) {
             NavigationStack {
                 SettingsView()
+                    .environmentObject(navigationModel)
             }
             .presentationDetents([.large])
         }
