@@ -16,21 +16,6 @@ private let customLog = Logger(
 )
 
 struct GroupSteppedlMarkModal: View {
-    // MARK: - Initializer
-
-    init(exam: ExamEntity) {
-        self.exam = exam
-
-        // Initializer les notes échelonnées à partir des
-        // notes actuelles des membres du groupe
-        self._stepsMarks = State(
-            initialValue: GroupSteppedlMarkModal.initializedStepsMarks(
-                pourExam: exam,
-                aPartirDuGroupe: GroupSteppedlMarkModal.initialGroupNumber
-            )
-        )
-    }
-
     // MARK: - Type Properties
 
     static let initialGroupNumber = 1
@@ -57,6 +42,21 @@ struct GroupSteppedlMarkModal: View {
 
     @State
     private var stepsMarks: [Double]
+
+    // MARK: - Initializer
+
+    init(exam: ExamEntity) {
+        self.exam = exam
+
+        // Initializer les notes échelonnées à partir des
+        // notes actuelles des membres du groupe
+        self._stepsMarks = State(
+            initialValue: GroupSteppedlMarkModal.initializedStepsMarks(
+                pourExam: exam,
+                aPartirDuGroupe: GroupSteppedlMarkModal.initialGroupNumber
+            )
+        )
+    }
 
     /// Liste des numéros de groupe d'élèves non vides
     private var groupsNb: [Int] {
@@ -147,21 +147,16 @@ struct GroupSteppedlMarkModal: View {
                 )
             }
         }
+        .onChange(of: stepsMarks) { newMarks in
+            attribuer(stepsMarks: newMarks)
+        }
         #if os(iOS)
         .navigationTitle("Note de groupe")
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button("Annuler") {
-                    dismiss()
-                }
-            }
-            ToolbarItem(placement: .confirmationAction) {
-                Button("Attribuer") {
-                    withAnimation {
-                        attribuer(stepsMarks: stepsMarks)
-                    }
+                Button("Fermer") {
                     dismiss()
                 }
             }
