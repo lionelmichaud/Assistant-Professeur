@@ -53,14 +53,6 @@ struct InfoPersoView: View {
                 pwd: $owner.viewPwdMailAcademy
             )
 
-            EmailEditView(
-                title: "Mail au sein de l'établissement",
-                adress: $owner.viewIdMailSchool,
-                webmailURL: $owner.urlMailSchool,
-                id: $owner.viewIdMailSchool,
-                pwd: $owner.viewPwdMailSchool
-            )
-
             AnnotationEditView(annotation: $owner.viewAnnotation)
                 .padding(.top)
 

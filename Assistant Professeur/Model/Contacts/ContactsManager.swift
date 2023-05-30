@@ -16,6 +16,11 @@ private let customLog = Logger(
 
 /// Gestionnaire de Contacts. Synchronize l'appli avec l'app Contacts.
 enum ContactManager {
+    enum SortOrder {
+        case byJobTitle
+        case byName
+    }
+
     /// Retourne le contact de type .organization dont le nom d'organisation est `organizationName`
     /// se trouvant dans le Groupe de contacts nommé `organizationName`.
     /// - Parameter organizationName: Nom de l'organisation recherchée
@@ -97,9 +102,12 @@ enum ContactManager {
     }
 
     /// Retourne tous les contacts de personnes inclus dans le groupe de contact nommé `organizationName`.
-    /// - Parameter organizationName: Nom du groupe de contacts dans lequel recherchés les contacts.
+    /// - Parameters:
+    ///  -  organizationName: Nom du groupe de contacts dans lequel recherchés les contacts.
+    ///  - sortedBy: Ordre de tri.
     static func allPersonContacts(
-        inOrganizationName organizationName: String
+        inOrganizationName organizationName: String,
+        sortedBy: SortOrder
     ) async -> [CNContact] {
         let store = CNContactStore()
         do {
@@ -119,16 +127,23 @@ enum ContactManager {
                     contact.contactType == .person ? contact : nil
                 }
 
-                return matchingContacts.sorted { left, right in
-                    if left.jobTitle == right.jobTitle {
-                        return left.familyName < right.familyName
-                    } else if left.jobTitle.isEmpty || right.jobTitle.isEmpty {
-                        return left.familyName < right.familyName
-                    } else {
-                        return left.jobTitle < right.jobTitle
-                    }
-                }
+                switch sortedBy {
+                    case .byJobTitle:
+                        return matchingContacts.sorted { left, right in
+                            if left.jobTitle == right.jobTitle {
+                                return left.familyName < right.familyName
+                            } else if left.jobTitle.isEmpty || right.jobTitle.isEmpty {
+                                return left.familyName < right.familyName
+                            } else {
+                                return left.jobTitle < right.jobTitle
+                            }
+                        }
 
+                    case .byName:
+                        return matchingContacts.sorted { left, right in
+                            return left.familyName < right.familyName
+                        }
+                }
             } catch {
                 customLog.log(
                     level: .error,

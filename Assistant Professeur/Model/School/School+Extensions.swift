@@ -144,6 +144,45 @@ extension SchoolEntity {
         }
     }
 
+    /// Wrapper of `mailAddressSchool`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewMailAddressSchool: String {
+        get {
+            self.mailAddressSchool ?? ""
+        }
+        set {
+            self.mailAddressSchool = newValue.trimmed
+            try? OwnerEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `idMailSchool`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewIdMailSchool: String {
+        get {
+            self.idMailSchool ?? ""
+        }
+        set {
+            self.idMailSchool = newValue.trimmed
+            try? OwnerEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `pwdMailSchool`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewPwdMailSchool: String {
+        get {
+            self.pwdMailSchool ?? ""
+        }
+        set {
+            self.pwdMailSchool = newValue.trimmed
+            try? OwnerEntity.saveIfContextHasChanged()
+        }
+    }
+
     @objc
     var levelString: String {
         levelEnum.displayString
@@ -201,12 +240,21 @@ extension SchoolEntity {
     static func create(
         name: String,
         level: LevelSchool,
-        annotation: String = ""
+        annotation: String = "",
+        mailAddressSchool : String = "",
+        urlMailSchool     : URL?   = nil,
+        idMailSchool      : String = "",
+        pwdMailSchool     : String = ""
     ) -> SchoolEntity {
         let school = SchoolEntity.create()
         school.name = name
         school.level = level.rawValue
         school.annotation = annotation
+
+        school.mailAddressSchool = mailAddressSchool
+        school.urlMailSchool     = urlMailSchool
+        school.idMailSchool      = idMailSchool
+        school.pwdMailSchool     = pwdMailSchool
 
         try? SchoolEntity.saveIfContextHasChanged()
         return school
@@ -405,6 +453,11 @@ public extension SchoolEntity {
            Salles: \(String(describing: roomsSortedByName).withPrefixedSplittedLines("     "))
            Ressources: \(String(describing: ressourcesSortedByName).withPrefixedSplittedLines("     "))
            Classes: \(String(describing: classesSortedByLevelNumber).withPrefixedSplittedLines("     "))
+
+           eMail établissement : \(viewIdMailSchool)
+           URL webmail : \(String(describing: urlMailSchool?.absoluteString))
+           Identifiant : \(viewIdMailSchool)
+           Mot de passe: \(viewPwdMailSchool)
         """
     }
 }

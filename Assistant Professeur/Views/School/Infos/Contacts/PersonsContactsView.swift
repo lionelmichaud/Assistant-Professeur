@@ -17,8 +17,25 @@ struct PersonsContactsView: View {
     @State
     private var contacts = [CNContact]()
 
+    @State
+    private var contactSortOrder: ContactManager.SortOrder = .byJobTitle
+
     var body: some View {
         Section {
+            Picker("Tri", selection: $contactSortOrder) {
+                Text("Tri par Nom").tag(ContactManager.SortOrder.byName)
+                Text("Tri par Titre").tag(ContactManager.SortOrder.byJobTitle)
+            }
+            .pickerStyle(.segmented)
+            .onChange(of: contactSortOrder) { newOrder in
+                Task(priority: .background) {
+                        contacts = await ContactManager
+                            .allPersonContacts(
+                                inOrganizationName: school.viewName,
+                                sortedBy: newOrder
+                            )
+                    }
+            }
             ForEach(contacts, id: \.identifier) { contact in
                 DisclosureGroup(label(contact)) {
                     if hasJobTitle(contact) {
@@ -51,7 +68,10 @@ struct PersonsContactsView: View {
         }
         .task {
             contacts = await ContactManager
-                .allPersonContacts(inOrganizationName: school.viewName)
+                .allPersonContacts(
+                    inOrganizationName: school.viewName,
+                    sortedBy: contactSortOrder
+                )
         }
     }
 

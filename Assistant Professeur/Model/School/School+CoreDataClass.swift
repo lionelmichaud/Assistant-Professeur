@@ -15,6 +15,7 @@ public final class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
         case idENT, pwdENT, idNetwork, pwdNetwork
         case codeEntree, codePhotocopie
         case classes, documents, ressources, events, rooms
+        case mailAddressSchool, urlMailSchool, idMailSchool, pwdMailSchool
     }
 
     /// Conformance to Decodable
@@ -38,6 +39,12 @@ public final class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
         // Codes d'accès
         self.codeEntree = try container.decodeIfPresent(String.self, forKey: .codeEntree)
         self.codePhotocopie = try container.decodeIfPresent(String.self, forKey: .codePhotocopie)
+
+        // e-mail au sein de l'établissement
+        self.mailAddressSchool = try container.decodeIfPresent(String.self, forKey: .mailAddressSchool)
+        self.urlMailSchool = try container.decodeIfPresent(URL.self, forKey: .urlMailSchool)
+        self.idMailSchool = try container.decodeIfPresent(String.self, forKey: .idMailSchool)
+        self.pwdMailSchool = try container.decodeIfPresent(String.self, forKey: .pwdMailSchool)
 
         // Les rooms doivent être chargés AVANT les classes pour que les classes puissent
         // établir la connection avec les rooms. Voir RoomEntity.init(from decoder: Decoder)
@@ -67,6 +74,12 @@ public final class SchoolEntity: NSManagedObject, Codable, ModelEntityP {
         // Codes d'accès
         try container.encodeIfPresent(codeEntree, forKey: .codeEntree)
         try container.encodeIfPresent(codePhotocopie, forKey: .codePhotocopie)
+
+        // e-mail au sein de l'établissement
+        try container.encodeIfPresent(mailAddressSchool, forKey: .mailAddressSchool)
+        try container.encodeIfPresent(urlMailSchool, forKey: .urlMailSchool)
+        try container.encodeIfPresent(idMailSchool, forKey: .idMailSchool)
+        try container.encodeIfPresent(pwdMailSchool, forKey: .pwdMailSchool)
 
         try container.encode(classes as! Set<ClasseEntity>, forKey: .classes)
         try container.encode(documents as! Set<DocumentEntity>, forKey: .documents)

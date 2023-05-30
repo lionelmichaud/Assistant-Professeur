@@ -107,7 +107,7 @@ struct SchoolContactEditView: View {
                     .focused($focus, equals: .city)
             }
             Button(action: saveContact) {
-                Text("Synchroniser avec l'app Contacts")
+                Text("Mettre à jour l'app Contacts")
             }
             .buttonStyle(.borderless)
             .horizontallyAligned(.center)

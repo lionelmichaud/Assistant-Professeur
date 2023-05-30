@@ -25,7 +25,15 @@ struct SchoolInfosView: View {
             // Coordonnées de l'établissement
             SchoolContactEditView(school: school)
 
-            // Login/Password d'accès au réseau local de l'établissement
+            EmailEditView(
+                title: "Mail au sein de l'établissement",
+                adress: $school.viewIdMailSchool,
+                webmailURL: $school.urlMailSchool,
+                id: $school.viewIdMailSchool,
+                pwd: $school.viewPwdMailSchool
+            )
+
+      // Login/Password d'accès au réseau local de l'établissement
             LoginPasswordEditView(
                 title: "Accès au réseaux local",
                 id: $school.viewIdNetwork,

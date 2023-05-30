@@ -74,19 +74,6 @@ extension OwnerEntity {
         }
     }
 
-    /// Wrapper of `mailAddressSchool`
-    /// - Important: *Saves the context to the store after modification is done*
-    @objc
-    var viewMailAddressSchool: String {
-        get {
-            self.mailAddressSchool ?? ""
-        }
-        set {
-            self.mailAddressSchool = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
-        }
-    }
-
     /// Wrapper of `idMailAcademy`
     /// - Important: *Saves the context to the store after modification is done*
     @objc
@@ -96,19 +83,6 @@ extension OwnerEntity {
         }
         set {
             self.idMailAcademy = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
-        }
-    }
-
-    /// Wrapper of `idMailSchool`
-    /// - Important: *Saves the context to the store after modification is done*
-    @objc
-    var viewIdMailSchool: String {
-        get {
-            self.idMailSchool ?? ""
-        }
-        set {
-            self.idMailSchool = newValue.trimmed
             try? OwnerEntity.saveIfContextHasChanged()
         }
     }
@@ -125,20 +99,6 @@ extension OwnerEntity {
             try? OwnerEntity.saveIfContextHasChanged()
         }
     }
-
-    /// Wrapper of `pwdMailSchool`
-    /// - Important: *Saves the context to the store after modification is done*
-    @objc
-    var viewPwdMailSchool: String {
-        get {
-            self.pwdMailSchool ?? ""
-        }
-        set {
-            self.pwdMailSchool = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
-        }
-    }
-
 }
 
 // MARK: - Extension Core Data
@@ -187,11 +147,7 @@ extension OwnerEntity {
         mailAdressAcademy : String = "",
         urlMailAcademy    : URL?   = nil,
         idMailAcademy     : String = "",
-        pwdMailAcademy    : String = "",
-        mailAddressSchool : String = "",
-        urlMailSchool     : URL?   = nil,
-        idMailSchool      : String = "",
-        pwdMailSchool     : String = ""
+        pwdMailAcademy    : String = ""
     ) -> OwnerEntity? {
         guard OwnerEntity.cardinal() == 0 else {
             return nil
@@ -205,11 +161,6 @@ extension OwnerEntity {
         owner.urlMailAcademy    = urlMailAcademy
         owner.idMailAcademy     = idMailAcademy
         owner.pwdMailAcademy    = pwdMailAcademy
-
-        owner.mailAddressSchool = mailAdressAcademy
-        owner.urlMailSchool     = urlMailAcademy
-        owner.idMailSchool      = idMailAcademy
-        owner.pwdMailSchool     = pwdMailAcademy
 
         try? OwnerEntity.saveIfContextHasChanged()
 
@@ -274,11 +225,6 @@ public extension OwnerEntity {
            URL webmail : \(String(describing: urlMailAcademy?.absoluteString))
            Identifiant : \(viewIdMailAcademy)
            Mot de passe: \(viewPwdMailAcademy)
-
-           eMail établissement : \(viewIdMailSchool)
-           URL webmail : \(String(describing: urlMailSchool?.absoluteString))
-           Identifiant : \(viewIdMailSchool)
-           Mot de passe: \(viewPwdMailSchool)
         """
     }
 }

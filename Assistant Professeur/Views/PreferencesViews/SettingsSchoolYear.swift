@@ -76,7 +76,7 @@ struct SettingsSchoolYear: View {
                         eventDateInterval: pref.schoolYear.autumnVacation
                     )
                 } label: {
-                    Text("Synchroniser avec l'App Calendrier")
+                    Text("Mettre à jour l'App Calendrier")
                 }
                 .horizontallyAligned(.center)
             } header: {
@@ -106,7 +106,7 @@ struct SettingsSchoolYear: View {
                         eventDateInterval: pref.schoolYear.noelVacation
                     )
                 } label: {
-                    Text("Synchroniser avec l'App Calendrier")
+                    Text("Mettre à jour l'App Calendrier")
                 }
                 .horizontallyAligned(.center)
             } header: {
@@ -136,7 +136,7 @@ struct SettingsSchoolYear: View {
                         eventDateInterval: pref.schoolYear.winterVacation
                     )
                 } label: {
-                    Text("Synchroniser avec l'App Calendrier")
+                    Text("Mettre à jour l'App Calendrier")
                 }
                 .horizontallyAligned(.center)
             } header: {
@@ -166,7 +166,7 @@ struct SettingsSchoolYear: View {
                         eventDateInterval: pref.schoolYear.paqueVacation
                     )
                 } label: {
-                    Text("Synchroniser avec l'App Calendrier")
+                    Text("Mettre à jour l'App Calendrier")
                 }
                 .horizontallyAligned(.center)
             } header: {

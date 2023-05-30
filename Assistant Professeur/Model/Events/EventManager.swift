@@ -122,9 +122,10 @@ enum EventManager {
     }
 
     /// Updates or saves an event to the Calendar app in the calendar named `calName`
-    /// if the event does not already exist.
     ///
     /// If the calendar named `calName` does not exist, creates the calendar.
+    ///
+    /// If the event already exists, updates the event, else, creates the event.
     /// - Parameters:
     ///   - eventTitle: Nom de l'événement.
     ///   - eventDateInterval: Intervalle de temps de l'événement.
