@@ -33,7 +33,7 @@ struct SchoolInfosView: View {
                 pwd: $school.viewPwdMailSchool
             )
 
-      // Login/Password d'accès au réseau local de l'établissement
+            // Login/Password d'accès au réseau local de l'établissement
             LoginPasswordEditView(
                 title: "Accès au réseaux local",
                 id: $school.viewIdNetwork,
@@ -65,7 +65,9 @@ struct SchoolInfosView: View {
                 }
             } header: {
                 Label("Code d'accès", systemImage: "lock")
-                    .bold()
+                    .font(.callout)
+                    .foregroundColor(.secondary)
+                    .fontWeight(.bold)
             }
             #if os(iOS) || os(tvOS)
             .textInputAutocapitalization(.never)

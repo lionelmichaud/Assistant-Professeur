@@ -30,6 +30,9 @@ struct ClasseSplitView: View {
                 ClasseEditor()
                     .navigationDestination(for: ClasseNavigationRoute.self) { route in
                         switch route {
+                            case let.infos(classe):
+                                ClasseInfosView(classe: classe)
+
                             case let.room(classe):
                                 RoomElevePlacement(classe: classe)
 

@@ -64,7 +64,9 @@ struct PersonsContactsView: View {
             }
         } header: {
             Label("Contacts", systemImage: "person")
-                .bold()
+                .font(.callout)
+                .foregroundColor(.secondary)
+                .fontWeight(.bold)
         }
         .task {
             contacts = await ContactManager
