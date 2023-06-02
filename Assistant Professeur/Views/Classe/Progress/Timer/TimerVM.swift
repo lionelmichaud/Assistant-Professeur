@@ -31,7 +31,7 @@ struct TimerVM {
         forClasse classe: String,
         schoolName: String
     ) async {
-        self.seances = await EventManager.getTodayEvents(
+        self.seances = await EventManager.getTodaySeances(
             forDiscipline: discipline,
             forClasse: classe,
             inCalendarNamed: schoolName

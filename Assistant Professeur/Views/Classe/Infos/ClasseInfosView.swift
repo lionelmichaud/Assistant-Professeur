@@ -5,6 +5,8 @@
 //  Created by Lionel MICHAUD on 31/05/2023.
 //
 
+import EventKit
+import HelpersView
 import SwiftUI
 
 struct ClasseInfosView: View {
@@ -13,6 +15,26 @@ struct ClasseInfosView: View {
 
     @EnvironmentObject
     private var pref: UserPreferences
+
+    /// Conseils de classe
+    @State
+    private var conseils = [EKEvent]()
+
+    private var conseilList: some View {
+        ForEach(conseils, id: \.eventIdentifier) { conseil in
+            VStack {
+                Text("Date: ").foregroundColor(.secondary) +
+                    Text(conseil.startDate.formatted(date: .complete, time: .standard))
+                if let location = conseil.location {
+                    Text("Lieu: ").foregroundColor(.secondary) +
+                    Text(location)
+                }
+            }
+        }
+        .emptyListPlaceHolder(conseils) {
+            Text("Aucune conseil prévu pour cette classe")
+        }
+    }
 
     private var roomView: some View {
         NavigationLink(value: ClasseNavigationRoute.room(classe)) {
@@ -30,17 +52,40 @@ struct ClasseInfosView: View {
 
     var body: some View {
         List {
-            // appréciation sur la classe
-            if pref.classeAppreciationEnabled {
-                AppreciationView(appreciation: $classe.viewAppreciation)
+            Section {
+                // appréciation sur la classe
+                if pref.classeAppreciationEnabled {
+                    AppreciationView(appreciation: $classe.viewAppreciation)
+                }
+                // annotation sur la classe
+                if pref.classeAnnotationEnabled {
+                    AnnotationEditView(annotation: $classe.viewAnnotation)
+                }
             }
-            // annotation sur la classe
-            if pref.classeAnnotationEnabled {
-                AnnotationEditView(annotation: $classe.viewAnnotation)
+
+            // Conseils de classe
+            Section {
+                conseilList
+            } header: {
+                Text("Conseils de classe")
+                    .font(.callout)
+                    .foregroundColor(.secondary)
+                    .fontWeight(.bold)
             }
-            
+
             // Salle de classe utilisée
-            roomView
+            Section {
+                roomView
+            }
+        }
+        .task {
+            if let school = classe.school {
+                conseils = await EventManager.getAllConseils(
+                    forClasse: classe.displayString,
+                    inCalendarNamed: school.viewName,
+                    during: pref.schoolYear.interval
+                )
+            }
         }
     }
 }
@@ -59,7 +104,7 @@ struct ClasseInfosView_Previews: PreviewProvider {
                     .environment(\.managedObjectContext, CoreDataManager.shared.context)
             }
             .previewDevice("iPad mini (6th generation)")
-            
+
             NavigationStack {
                 ClasseInfosView(classe: ClasseEntity.all().first!)
                     .environmentObject(NavigationModel())

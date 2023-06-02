@@ -13,7 +13,7 @@ import SwiftUI
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
-    category: "Extensions.Bundle-Codable"
+    category: "ContentView"
 )
 
 struct ContentView: View {
