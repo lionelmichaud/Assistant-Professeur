@@ -10,6 +10,7 @@ import HelpersView
 import SwiftUI
 
 enum ClasseNavigationRoute: Hashable, Codable {
+    case infos(ClasseEntity)
     case room(ClasseEntity)
     case liste(ClasseEntity)
     case trombinoscope(ClasseEntity)
@@ -20,6 +21,9 @@ enum ClasseNavigationRoute: Hashable, Codable {
 
     static func == (lhs: ClasseNavigationRoute, rhs: ClasseNavigationRoute) -> Bool {
         switch (lhs, rhs) {
+            case let (.infos(classel), .infos(classer)):
+                return (classel.id == classer.id)
+
             case let (.room(classel), .room(classer)):
                 return (classel.id == classer.id)
 
@@ -48,6 +52,9 @@ enum ClasseNavigationRoute: Hashable, Codable {
 
     func hash(into hasher: inout Hasher) {
         switch self {
+            case let .infos(classe):
+                hasher.combine("infos")
+                hasher.combine(classe.id)
             case let .room(classe):
                 hasher.combine("room")
                 hasher.combine(classe.id)
@@ -117,17 +124,7 @@ struct ClasseDetail: View {
             ClasseNameGroupBox(classe: classe)
 
             List {
-                // appréciation sur la classe
-                if pref.classeAppreciationEnabled {
-                    AppreciationView(appreciation: $classe.viewAppreciation)
-                }
-                // annotation sur la classe
-                if pref.classeAnnotationEnabled {
-                    AnnotationEditView(annotation: $classe.viewAnnotation)
-                }
-
-                // Salle de classe utilisée
-                roomView
+                infosView
 
                 // Section élèves
                 Section {
@@ -298,17 +295,10 @@ extension ClasseDetail {
 // MARK: - Subviews
 
 extension ClasseDetail {
-    private var roomView: some View {
-        NavigationLink(value: ClasseNavigationRoute.room(classe)) {
-            HStack {
-                Label("Salle de classe", systemImage: "door.left.hand.open")
-                    .fontWeight(.bold)
-                if classe.hasAssociatedRoom {
-                    Spacer()
-                    Text(classe.room!.viewName)
-                        .foregroundColor(.secondary)
-                }
-            }
+    private var infosView: some View {
+        NavigationLink(value: ClasseNavigationRoute.infos(classe)) {
+            Label("Informations", systemImage: "info.circle")
+                .fontWeight(.bold)
         }
     }
 

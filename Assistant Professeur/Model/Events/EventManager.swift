@@ -16,6 +16,27 @@ private let customLog = Logger(
 
 /// Gestionnaire d'Evénements. Synchronize l'appli avec l'app Calendrier.
 enum EventManager {
+    /// Retourne la liste de tous les conseils de classe de l'année scolaire
+    /// du clalendrier `calName` dont le titre contient "`discipline` - `classe`".
+    /// - Parameters:
+    ///   - classe: La classe recherchée.
+    ///   - calName: Nom du calendrier où ajouter l'événement.
+    ///   - schoolYear: Intervalle de temps de l'année scolaire en cours.
+    static func getAllConseils(
+        forClasse classe: String,
+        inCalendarNamed calName: String,
+        during schoolYear: DateInterval
+    ) async -> [EKEvent] {
+        let eventName = "Conseil - \(classe)"
+
+        return await getEvents(
+            withTitleIncluding: eventName,
+            inCalendarNamed: calName,
+            startDate: schoolYear.start,
+            endDate: schoolYear.end
+        )
+    }
+
     /// Retourne la liste de tous les événements de l'année scolaire
     /// du clalendrier `calName` dont le titre contient "`discipline` - `classe`".
     /// - Parameters:
@@ -23,7 +44,7 @@ enum EventManager {
     ///   - classe: La classe recherchée.
     ///   - calName: Nom du calendrier où ajouter l'événement.
     ///   - schoolYear: Intervalle de temps de l'année scolaire en cours.
-    static func getAllEvents(
+    static func getAllSeances(
         forDiscipline discipline: Discipline,
         forClasse classe: String,
         inCalendarNamed calName: String,
@@ -32,7 +53,7 @@ enum EventManager {
         let eventName = "\(discipline.acronym) - \(classe)"
 
         return await getEvents(
-            withTitle: eventName,
+            withTitleIncluding: eventName,
             inCalendarNamed: calName,
             startDate: schoolYear.start,
             endDate: schoolYear.end
@@ -45,7 +66,7 @@ enum EventManager {
     ///   - discipline: La discipline recherchée.
     ///   - classe: La classe recherchée.
     ///   - calName: Nom du calendrier où ajouter l'événement.
-    static func getTodayEvents(
+    static func getTodaySeances(
         forDiscipline discipline: Discipline,
         forClasse classe: String,
         inCalendarNamed calName: String
@@ -56,7 +77,7 @@ enum EventManager {
         let eventName = "\(discipline.acronym) - \(classe)"
 
         return await getEvents(
-            withTitle: eventName,
+            withTitleIncluding: eventName,
             inCalendarNamed: calName,
             startDate: startOfDay,
             endDate: endOfDay
@@ -67,7 +88,7 @@ enum EventManager {
     /// du clalendrier `calName`.
     /// - Parameters:
     ///   - calName: Nom du calendrier où ajouter l'événement.
-    static func getTodayEvents(
+    static func getTodaySeances(
         inCalendarNamed calName: String
     ) async -> [EKEvent] {
         let startOfDay = Calendar.current.startOfDay(for: .now)
@@ -81,8 +102,12 @@ enum EventManager {
         )
     }
 
+    /// Retourne la liste de tous les événements entre `startDate` et `endDate`
+    /// du clalendrier `calName` dont le toitre contient `title`.
+    ///
+    /// Si `title` = `nil` alors ne tient pas compte de ce filtre.
     static func getEvents(
-        withTitle title: String? = nil,
+        withTitleIncluding title: String? = nil,
         inCalendarNamed calName: String,
         startDate: Date,
         endDate: Date

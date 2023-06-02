@@ -7,7 +7,13 @@
 
 import Combine
 import CoreData
+import os
 import SwiftUI
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "NavigationModel"
+)
 
 /// @MainActor
 final class NavigationModel: ObservableObject, Codable {
@@ -61,6 +67,8 @@ final class NavigationModel: ObservableObject, Codable {
         case selectedTab
         case selectedPrefTab
         case selectedWarningType
+        case classPath
+        case programPath
         case selectedProgramId
         case selectedSequenceId
         case selectedActivityId
@@ -72,8 +80,6 @@ final class NavigationModel: ObservableObject, Codable {
         case filterObservation
         case filterColle
         case filterFlag
-        case classPath
-        case programPath
     }
 
     // MARK: - Properties
@@ -191,32 +197,44 @@ final class NavigationModel: ObservableObject, Codable {
         }
         set {
             // décode l'état de navigation à partir des données fournies au format JSON
-            guard let data = newValue,
-                  let model = try? decoder.decode(Self.self, from: data)
-            else {
+            guard let data = newValue else {
                 return
             }
-            // initialize l'état de navigation en conséquence
-            columnVisibility = model.columnVisibility
-            selectedTab = model.selectedTab
-            selectedPrefTab = model.selectedPrefTab
-            selectedWarningType = model.selectedWarningType
+            do {
+                #if DEBUG
+                    print(">> NavigationModel() JSON decoding has started")
+                #endif
+                let model = try decoder.decode(Self.self, from: data)
+                // initialize l'état de navigation en conséquence
+                columnVisibility = model.columnVisibility
+                selectedTab = model.selectedTab
+                selectedPrefTab = model.selectedPrefTab
+                selectedWarningType = model.selectedWarningType
 
-            selectedProgramMngObjId = model.selectedProgramMngObjId
-            selectedSequenceMngObjId = model.selectedSequenceMngObjId
-            selectedActivityMngObjId = model.selectedActivityMngObjId
-            selectedObservMngObjId = model.selectedObservMngObjId
-            selectedColleMngObjId = model.selectedColleMngObjId
-            selectedEleveMngObjId = model.selectedEleveMngObjId
-            selectedClasseMngObjId = model.selectedClasseMngObjId
-            selectedSchoolMngObjId = model.selectedSchoolMngObjId
+                selectedProgramMngObjId = model.selectedProgramMngObjId
+                selectedSequenceMngObjId = model.selectedSequenceMngObjId
+                selectedActivityMngObjId = model.selectedActivityMngObjId
+                selectedObservMngObjId = model.selectedObservMngObjId
+                selectedColleMngObjId = model.selectedColleMngObjId
+                selectedEleveMngObjId = model.selectedEleveMngObjId
+                selectedClasseMngObjId = model.selectedClasseMngObjId
+                selectedSchoolMngObjId = model.selectedSchoolMngObjId
 
-            filterObservation = model.filterObservation
-            filterColle = model.filterColle
-            filterFlag = model.filterFlag
+                filterObservation = model.filterObservation
+                filterColle = model.filterColle
+                filterFlag = model.filterFlag
 
-            classPath = model.classPath
-            programPath = model.programPath
+                classPath = model.classPath
+                programPath = model.programPath
+                #if DEBUG
+                    print(">> NavigationModel() JSON decoding has completed")
+                #endif
+            } catch {
+                customLog.log(
+                    level: .error,
+                    "Erreur de décodage JSON de NavigationModel: \(error.localizedDescription)"
+                )
+            }
         }
     }
 
@@ -278,9 +296,6 @@ final class NavigationModel: ObservableObject, Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.selectedTab = try container.decode(
             NavigationModel.TabSelection.self, forKey: .selectedTab
-        )
-        self.selectedPrefTab = try container.decode(
-            Int.self, forKey: .selectedPrefTab
         )
         self.selectedWarningType = try container.decodeIfPresent(
             NavigationModel.WarningSelection.self, forKey: .selectedWarningType
@@ -359,6 +374,10 @@ final class NavigationModel: ObservableObject, Codable {
 
         self.columnVisibility = try container.decode(
             NavigationSplitViewVisibility.self, forKey: .columnVisibility
+        )
+
+        self.selectedPrefTab = try container.decode(
+            Int.self, forKey: .selectedPrefTab
         )
     }
 
