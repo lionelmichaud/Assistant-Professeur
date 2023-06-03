@@ -27,7 +27,7 @@ extension NavigationModel {
                 case .eleve: return EleveEntity.defaultImageName
                 case .warning: return "hand.raised"
                 case .program: return ProgramEntity.defaultImageName
-                case .competence: return ""
+                case .competence: return "brain.head.profile"
             }
         }
     }

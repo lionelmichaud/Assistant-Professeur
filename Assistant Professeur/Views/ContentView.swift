@@ -96,6 +96,17 @@ struct ContentView: View {
                 }
                 .tag(NavigationModel.TabSelection.program)
                 .badge(ProgramEntity.cardinal())
+
+            // Les compétences
+            CompetenciesSplitView()
+                .tabItem {
+                    Label(
+                        NavigationModel.TabSelection.competence.rawValue,
+                        systemImage: NavigationModel.TabSelection.competence.imageName
+                    ).symbolVariant(.none)
+                }
+                .tag(NavigationModel.TabSelection.competence)
+                .badge(ProgramEntity.cardinal())
 //            }
         }
         .environmentObject(navigationModel)

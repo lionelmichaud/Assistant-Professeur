@@ -15,6 +15,7 @@ private let customLog = Logger(
     category: "NavigationModel"
 )
 
+/// A navigation model used to persist and restore the navigation state.
 /// @MainActor
 final class NavigationModel: ObservableObject, Codable {
     // MARK: - Embeded Types
