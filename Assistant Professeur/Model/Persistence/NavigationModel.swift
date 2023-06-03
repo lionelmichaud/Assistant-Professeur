@@ -19,49 +19,6 @@ private let customLog = Logger(
 final class NavigationModel: ObservableObject, Codable {
     // MARK: - Embeded Types
 
-    enum TabSelection: String, Hashable, Codable {
-        case userSettings = "Réglages"
-        case school = "Etablissement"
-        case classe = "Classes"
-        case eleve = "Elèves"
-        case warning = "Avertissements"
-        case program = "Programmes"
-        case competence = "Compétences"
-
-        var imageName: String {
-            switch self {
-                case .userSettings:
-                    return ""
-                case .school:
-                    return SchoolEntity.defaultImageName
-                case .classe:
-                    return ClasseEntity.defaultImageName
-                case .eleve:
-                    return EleveEntity.defaultImageName
-                case .warning:
-                    return "hand.raised"
-                case .program:
-                    return ProgramEntity.defaultImageName
-                case .competence:
-                    return ""
-            }
-        }
-    }
-
-    enum WarningSelection: String, Hashable, Codable, CaseIterable {
-        case observation = "Observations"
-        case colle = "Colles"
-
-        var imageName: String {
-            switch self {
-                case .observation:
-                    return ObservEntity.defaultImageName
-                case .colle:
-                    return ColleEntity.defaultImageName
-            }
-        }
-    }
-
     enum CodingKeys: String, CodingKey {
         case columnVisibility
         case selectedTab
@@ -89,7 +46,7 @@ final class NavigationModel: ObservableObject, Codable {
     @Published
     var selectedTab: TabSelection
     @Published
-    var selectedPrefTab: Int
+    var selectedPrefTab: PrefTabSelection
     @Published
     var selectedWarningType: WarningSelection?
     @Published
@@ -105,7 +62,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ProgramEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedProgramId: UUID?
 
     @Published
@@ -115,7 +71,6 @@ final class NavigationModel: ObservableObject, Codable {
                 SequenceEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedSequenceId: UUID?
 
     @Published
@@ -125,7 +80,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ActivityEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedActivityId: UUID?
 
     @Published
@@ -135,7 +89,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ObservEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedObservId: UUID?
 
     @Published
@@ -145,7 +98,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ColleEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedColleId: UUID?
 
     @Published
@@ -155,7 +107,6 @@ final class NavigationModel: ObservableObject, Codable {
                 EleveEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedEleveId: UUID?
 
     @Published
@@ -165,7 +116,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ClasseEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedClasseId: UUID?
 
     @Published
@@ -175,7 +125,6 @@ final class NavigationModel: ObservableObject, Codable {
                 SchoolEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedSchoolId: UUID?
 
     @Published
@@ -249,7 +198,7 @@ final class NavigationModel: ObservableObject, Codable {
     init(
         columnVisibility: NavigationSplitViewVisibility = .all,
         selectedTab: TabSelection = .school,
-        selectedPrefTab: Int = 1,
+        selectedPrefTab: PrefTabSelection = .general,
         selectedWarningType: WarningSelection? = nil,
         selectedProgramMngObjId: NSManagedObjectID? = nil,
         selectedSequenceMngObjId: NSManagedObjectID? = nil,
@@ -296,6 +245,9 @@ final class NavigationModel: ObservableObject, Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.selectedTab = try container.decode(
             NavigationModel.TabSelection.self, forKey: .selectedTab
+        )
+        self.selectedPrefTab = try container.decode(
+            PrefTabSelection.self, forKey: .selectedPrefTab
         )
         self.selectedWarningType = try container.decodeIfPresent(
             NavigationModel.WarningSelection.self, forKey: .selectedWarningType
@@ -375,17 +327,13 @@ final class NavigationModel: ObservableObject, Codable {
         self.columnVisibility = try container.decode(
             NavigationSplitViewVisibility.self, forKey: .columnVisibility
         )
-
-        self.selectedPrefTab = try container.decode(
-            Int.self, forKey: .selectedPrefTab
-        )
     }
 
     // MARK: - Methods
 
     func resetSelections() {
         selectedTab = .school
-        selectedPrefTab = 1
+        selectedPrefTab = .general
         selectedWarningType = .observation
 
         selectedProgramMngObjId = nil
