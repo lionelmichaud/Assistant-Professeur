@@ -45,7 +45,7 @@ struct ColleCreatorModal: View {
     var body: some View {
         Form {
             HStack {
-                Image(systemName: "lock")
+                Image(systemName: ColleEntity.defaultImageName)
                     .sfSymbolStyling()
                 // date
                 DatePicker("Date", selection: $colleVM.date)

@@ -38,7 +38,7 @@ struct ClasseObservLabel: View {
                 if large {
                     Text("observation" + (number > 1 ? "s" : ""))
                 }
-                Image(systemName: "magnifyingglass")
+                Image(systemName: ObservEntity.defaultImageName)
                     .imageScale(scale)
                     .foregroundColor(.red)
             }

@@ -41,7 +41,7 @@ struct SequenceSidebarView: View {
 
             } else {
                 EmptyListMessage(
-                    symbolName: "books.vertical",
+                    symbolName: ProgramEntity.defaultImageName,
                     title: "Aucun programme sélectionné.",
                     message: "Sélectionner un programme pour en visualiser les séquences.",
                     showAsGroupBox: true

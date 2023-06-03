@@ -14,7 +14,6 @@ struct SchoolRessourceRow: View {
 
     var body: some View {
         HStack {
-            //Label(ressource.name, systemImage: "doc.plaintext")
             Label(
                 title: {
                     Text(ressource.viewName)

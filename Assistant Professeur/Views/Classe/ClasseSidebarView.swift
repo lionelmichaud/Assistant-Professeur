@@ -40,7 +40,7 @@ struct ClasseSidebarView: View {
             }
             .emptyListPlaceHolder(classesSections) {
                 EmptyListMessage(
-                    symbolName: "person.3.sequence.fill",
+                    symbolName: ClasseEntity.defaultImageName,
                     title: "Aucune classe actuellement.",
                     message: "Les classes ajoutées apparaîtront ici."
                 )

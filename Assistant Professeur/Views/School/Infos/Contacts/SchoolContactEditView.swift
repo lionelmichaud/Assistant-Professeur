@@ -112,10 +112,13 @@ struct SchoolContactEditView: View {
             .buttonStyle(.borderless)
             .horizontallyAligned(.center)
         } header: {
-            Label("Coordonnées de l'établissement", systemImage: "building")
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
+            Label(
+                "Coordonnées de l'établissement",
+                systemImage: school.levelEnum.imageName
+            )
+            .font(.callout)
+            .foregroundColor(.secondary)
+            .fontWeight(.bold)
         }
         // .textFieldStyle(.roundedBorder)
         .autocorrectionDisabled()

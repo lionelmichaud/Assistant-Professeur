@@ -47,7 +47,7 @@ struct GroupView: View {
                         } label: {
                             Label(
                                 eleve.displayName,
-                                systemImage: "graduationcap"
+                                systemImage: EleveEntity.defaultImageName
                             )
                         }
                     }

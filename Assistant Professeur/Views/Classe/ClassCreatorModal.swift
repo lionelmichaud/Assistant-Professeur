@@ -104,8 +104,7 @@ struct ClassCreatorModal: View {
                         alertMessage = "Cette classe existe déjà dans cet établissement"
                         alertIsPresented.toggle()
 
-                    } else if !isCompatible(
-                        classeLevel: classeVM.levelEnum,
+                    } else if !classeVM.levelEnum.isCompatible(
                         withSchool: inSchool
                     ) {
                         // niveau de classe incompatble avec l'école
@@ -130,19 +129,6 @@ struct ClassCreatorModal: View {
             isHoursFocused = true
         }
     }
-
-    private func isCompatible(
-        classeLevel: LevelClasse,
-        withSchool: SchoolEntity
-    ) -> Bool {
-        switch classeLevel {
-            case .n6ieme, .n5ieme, .n4ieme, .n3ieme:
-                return withSchool.levelEnum == .college
-
-            case .n2nd, .n1ere, .n0terminale:
-                return withSchool.levelEnum == .lycee
-        }
-    }
 }
 
 // MARK: - Subviews
@@ -151,9 +137,9 @@ extension ClassCreatorModal {
     var niveauView: some View {
         HStack {
             // niveau de cette classe
-            Image(systemName: "person.3.sequence.fill")
+            Image(systemName: ClasseEntity.defaultImageName)
                 .sfSymbolStyling()
-                .foregroundColor(classeVM.levelEnum.color)
+                .foregroundColor(classeVM.levelEnum.imageColor)
 
             CasePicker(
                 pickedCase: $classeVM.levelEnum,

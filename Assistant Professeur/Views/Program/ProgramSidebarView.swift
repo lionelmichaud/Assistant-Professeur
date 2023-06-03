@@ -71,7 +71,7 @@ struct ProgramSidebarView: View {
             }
             .emptyListPlaceHolder(programsSections) {
                 EmptyListMessage(
-                    symbolName: "books.vertical",
+                    symbolName: ProgramEntity.defaultImageName,
                     title: "Aucun programme actuellement.",
                     message: "Les programmes ajoutés apparaîtront ici."
                 )

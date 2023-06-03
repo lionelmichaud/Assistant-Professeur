@@ -50,7 +50,7 @@ struct EleveCreatorModal: View {
     var body: some View {
         Form {
             HStack {
-                Image(systemName: "graduationcap")
+                Image(systemName: EleveEntity.defaultImageName)
                     .sfSymbolStyling()
                     .foregroundColor(eleveVM.sexEnum.color)
                 // Sexe de cet eleve

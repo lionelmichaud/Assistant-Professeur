@@ -45,7 +45,7 @@ struct ObservCreatorModal: View {
     var body: some View {
         Form {
             HStack {
-                Image(systemName: "magnifyingglass")
+                Image(systemName: ObservEntity.defaultImageName)
                     .sfSymbolStyling()
                 // date
                 DatePicker("Date", selection: $observVM.date)

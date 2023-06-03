@@ -41,7 +41,10 @@ struct ActivityDetailGroupBox: View {
                     Button {
                         documentToBeViewed = document
                     } label: {
-                        Label(document.viewName, systemImage: "doc.richtext")
+                        Label(
+                            document.viewName,
+                            systemImage: DocumentEntity.defaultImageName
+                        )
                     }
                     .padding(.top, 4)
                 }

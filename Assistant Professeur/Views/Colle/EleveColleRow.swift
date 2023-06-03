@@ -25,7 +25,7 @@ struct EleveColleRow: View {
 
     var body: some View {
         HStack {
-            Image(systemName: "lock")
+            Image(systemName: ColleEntity.defaultImageName)
                 .foregroundColor(colle.color)
             if hClass == .compact {
                 VStack(alignment: .leading) {

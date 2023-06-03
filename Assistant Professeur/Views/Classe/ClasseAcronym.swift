@@ -13,9 +13,9 @@ struct ClasseAcronym: View {
 
     var body: some View {
         HStack {
-            Image(systemName: "person.3.sequence.fill")
+            Image(systemName: ClasseEntity.defaultImageName)
                 .sfSymbolStyling()
-                .foregroundColor(classe.levelEnum.color)
+                .foregroundColor(classe.levelEnum.imageColor)
             Text(classe.displayString)
                 .font(.title2)
                 .fontWeight(.semibold)

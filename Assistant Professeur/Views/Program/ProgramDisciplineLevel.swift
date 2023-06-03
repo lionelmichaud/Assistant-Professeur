@@ -13,12 +13,15 @@ struct ProgramDisciplineLevel: View {
 
     var body: some View {
         HStack {
-            Label(program.disciplineString, systemImage: "books.vertical")
+            Label(
+                program.disciplineString,
+                systemImage: ProgramEntity.defaultImageName
+            )
             Label {
                 Text(program.viewLevelEnum.pickerString + (program.segpa ? " Segpa" : ""))
             } icon: {
-                Image(systemName: "person.3.sequence.fill")
-                    .foregroundColor(program.viewLevelEnum.color)
+                Image(systemName: ClasseEntity.defaultImageName)
+                    .foregroundColor(program.viewLevelEnum.imageColor)
             }
         }
     }

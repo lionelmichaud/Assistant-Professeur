@@ -88,9 +88,9 @@ extension ProgramCreatorModal {
     var niveauView: some View {
         HStack {
             // niveau de cette classe
-            Image(systemName: "person.3.sequence.fill")
+            Image(systemName: ClasseEntity.defaultImageName)
                 .sfSymbolStyling()
-                .foregroundColor(programVM.levelEnum.color)
+                .foregroundColor(programVM.levelEnum.imageColor)
 
             CasePicker(pickedCase: $programVM.levelEnum,
                        label: "")

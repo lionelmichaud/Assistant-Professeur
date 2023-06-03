@@ -187,7 +187,7 @@ extension EleveMarkRow {
                 selectedEleve = mark.eleve
             }
         } label: {
-            Image(systemName: "graduationcap")
+            Image(systemName: EleveEntity.defaultImageName)
                 .imageScale(imageSize)
                 .symbolRenderingMode(.monochrome)
                 .foregroundColor(mark.eleve!.sexEnum.color)

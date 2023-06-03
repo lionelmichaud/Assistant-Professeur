@@ -25,7 +25,7 @@ struct EleveObservRow: View {
 
     var body: some View {
         HStack {
-            Image(systemName: "magnifyingglass")
+            Image(systemName: ObservEntity.defaultImageName)
                 .foregroundColor(observ.color)
             if hClass == .compact {
                 VStack(alignment: .leading) {

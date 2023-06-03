@@ -55,6 +55,33 @@
         <attribute name="motif" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="eleve" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="colles" inverseEntity="EleveEntity"/>
     </entity>
+    <entity name="DisciplineCompetencyEntity" representedClassName="DisciplineCompetencyEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="descrip" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="connaissances" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DisciplineConnaissanceEntity" inverseName="competency" inverseEntity="DisciplineConnaissanceEntity"/>
+        <relationship name="section" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DisciplineSectionEntity" inverseName="competencies" inverseEntity="DisciplineSectionEntity"/>
+        <relationship name="workedCompetencies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkedCompetencyEntity" inverseName="disciplineCompetencies" inverseEntity="WorkedCompetencyEntity"/>
+    </entity>
+    <entity name="DisciplineConnaissanceEntity" representedClassName="DisciplineConnaissanceEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="descrip" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="competency" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DisciplineCompetencyEntity" inverseName="connaissances" inverseEntity="DisciplineCompetencyEntity"/>
+    </entity>
+    <entity name="DisciplineSectionEntity" representedClassName="DisciplineSectionEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="descrip" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="competencies" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DisciplineCompetencyEntity" inverseName="section" inverseEntity="DisciplineCompetencyEntity"/>
+        <relationship name="theme" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DisciplineThemeEntity" inverseName="sections" inverseEntity="DisciplineThemeEntity"/>
+    </entity>
+    <entity name="DisciplineThemeEntity" representedClassName="DisciplineThemeEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="acronym" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" attributeType="String" defaultValueString=""/>
+        <relationship name="sections" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DisciplineSectionEntity" inverseName="theme" inverseEntity="DisciplineSectionEntity"/>
+    </entity>
     <entity name="DocumentEntity" representedClassName="DocumentEntity" syncable="YES" codeGenerationType="category">
         <attribute name="docName" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -212,5 +239,18 @@
         <relationship name="activities" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ActivityEntity" inverseName="sequence" inverseEntity="ActivityEntity"/>
         <relationship name="documents" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DocumentEntity" inverseName="sequence" inverseEntity="DocumentEntity"/>
         <relationship name="program" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProgramEntity" inverseName="sequences" inverseEntity="ProgramEntity"/>
+    </entity>
+    <entity name="WorkedCompetencyChapterEntity" representedClassName="WorkedCompetencyChapterEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="acronym" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" attributeType="String" defaultValueString=""/>
+        <relationship name="competencies" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="WorkedCompetencyEntity" inverseName="chapter" inverseEntity="WorkedCompetencyEntity"/>
+    </entity>
+    <entity name="WorkedCompetencyEntity" representedClassName="WorkedCompetencyEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="descrip" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="chapter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkedCompetencyChapterEntity" inverseName="competencies" inverseEntity="WorkedCompetencyChapterEntity"/>
+        <relationship name="disciplineCompetencies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DisciplineCompetencyEntity" inverseName="workedCompetencies" inverseEntity="DisciplineCompetencyEntity"/>
     </entity>
 </model>

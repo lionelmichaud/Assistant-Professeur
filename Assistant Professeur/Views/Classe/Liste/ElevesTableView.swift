@@ -142,31 +142,31 @@ struct ElevesTableView: View {
         }
         .toolbar(content: myToolBarContent)
         #if os(iOS)
-        .navigationTitle("Élèves de " + classe.displayString + " (\(classe.nbOfEleves))")
-        .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Élèves de " + classe.displayString + " (\(classe.nbOfEleves))")
+            .navigationBarTitleDisplayMode(.inline)
         #endif
-        .sheet(isPresented: $isAddingNewEleve) {
-            NavigationStack {
-                EleveCreatorModal(inClasse: classe)
-                    .presentationDetents([.medium])
-            }
-        }
-        .sheet(isPresented: $isAddingNewObserv) {
-            if let eleve = selectedEleve {
+            .sheet(isPresented: $isAddingNewEleve) {
                 NavigationStack {
-                    ObservCreatorModal(eleve: eleve)
+                    EleveCreatorModal(inClasse: classe)
                         .presentationDetents([.medium])
                 }
             }
-        }
-        .sheet(isPresented: $isAddingNewColle) {
-            if let eleve = selectedEleve {
-                NavigationStack {
-                    ColleCreatorModal(eleve: eleve)
-                        .presentationDetents([.medium])
+            .sheet(isPresented: $isAddingNewObserv) {
+                if let eleve = selectedEleve {
+                    NavigationStack {
+                        ObservCreatorModal(eleve: eleve)
+                            .presentationDetents([.medium])
+                    }
                 }
             }
-        }
+            .sheet(isPresented: $isAddingNewColle) {
+                if let eleve = selectedEleve {
+                    NavigationStack {
+                        ColleCreatorModal(eleve: eleve)
+                            .presentationDetents([.medium])
+                    }
+                }
+            }
     }
 }
 
@@ -181,11 +181,14 @@ extension ElevesTableView {
                 // Programatic Navigation
                 navigationModel.selectedTab = .eleve
                 navigationModel.selectedEleveMngObjId =
-                EleveEntity
-                    .byObjectIdentifier(objectID: selection.first!)!
-                    .objectID
+                    EleveEntity
+                        .byObjectIdentifier(objectID: selection.first!)!
+                        .objectID
             } label: {
-                Label("Fiche élève", systemImage: "info.circle")
+                Label(
+                    "Fiche élève",
+                    systemImage: "info.circle"
+                )
             }
             .disabled(selection.count != 1 || EleveEntity
                 .byObjectIdentifier(objectID: selection.first!) == nil)
@@ -207,7 +210,10 @@ extension ElevesTableView {
                             }
                     }
                 } label: {
-                    Label("Supprimer", systemImage: "trash")
+                    Label(
+                        "Supprimer",
+                        systemImage: "trash"
+                    )
                 }
                 .disabled(selection.isEmpty)
 
@@ -215,7 +221,10 @@ extension ElevesTableView {
                 Button {
                     isAddingNewEleve = true
                 } label: {
-                    Label("Ajouter", systemImage: "plus.circle.fill")
+                    Label(
+                        "Ajouter",
+                        systemImage: "plus.circle.fill"
+                    )
                 }
             }.controlGroupStyle(.navigation)
         }
@@ -224,7 +233,7 @@ extension ElevesTableView {
             // flager les élèves
             if selection.count > 1 || (
                 selection.count == 1 &&
-                !(EleveEntity.byObjectIdentifier(objectID: selection.first!)?.isFlagged ?? false)
+                    !(EleveEntity.byObjectIdentifier(objectID: selection.first!)?.isFlagged ?? false)
 
             ) {
                 Button {
@@ -236,7 +245,10 @@ extension ElevesTableView {
                             }
                     }
                 } label: {
-                    Label("Marquer", systemImage: "flag.fill")
+                    Label(
+                        "Marquer",
+                        systemImage: "flag.fill"
+                    )
                 }
             }
 
@@ -255,7 +267,10 @@ extension ElevesTableView {
                             }
                     }
                 } label: {
-                    Label("Supprimer marque", systemImage: "flag.slash")
+                    Label(
+                        "Supprimer marque",
+                        systemImage: "flag.slash"
+                    )
                 }
             }
 
@@ -263,7 +278,10 @@ extension ElevesTableView {
             Button {
                 isAddingNewObserv = true
             } label: {
-                Label("Nouvelle observation", systemImage: "rectangle.and.text.magnifyingglass")
+                Label(
+                    "Nouvelle observation",
+                    systemImage: ObservEntity.defaultImageName
+                )
             }
             .disabled(selection.count != 1)
 
@@ -271,12 +289,16 @@ extension ElevesTableView {
             Button {
                 isAddingNewColle = true
             } label: {
-                Label("Nouvelle colle", systemImage: "lock.fill")
+                Label(
+                    "Nouvelle colle",
+                    systemImage: ColleEntity.defaultImageName
+                )
             }
             .disabled(selection.count != 1)
         }
     }
 }
+
 // struct ElevesTableView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()

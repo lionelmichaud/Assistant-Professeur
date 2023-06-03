@@ -49,7 +49,7 @@ struct ObservDetail: View {
             // observations
             List {
                 HStack {
-                    Image(systemName: "magnifyingglass")
+                    Image(systemName: ObservEntity.defaultImageName)
                         .sfSymbolStyling()
                         .foregroundColor(observ.color)
                     // date

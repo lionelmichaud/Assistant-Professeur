@@ -13,9 +13,9 @@ struct ProgramBrowserRow: View {
 
     var body: some View {
         HStack {
-            Image(systemName: "person.3.sequence.fill")
+            Image(systemName: ProgramEntity.defaultImageName)
                 .sfSymbolStyling()
-                .foregroundColor(program.viewLevelEnum.color)
+                .foregroundColor(program.viewLevelEnum.imageColor)
             Text(program.viewLevelEnum.pickerString + (program.segpa ? " Segpa" : ""))
                 .fontWeight(.bold)
         }

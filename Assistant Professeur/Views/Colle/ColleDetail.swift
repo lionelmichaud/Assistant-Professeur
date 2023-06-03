@@ -49,7 +49,7 @@ struct ColleDetail: View {
             // colles
             List {
                 HStack {
-                    Image(systemName: "lock")
+                    Image(systemName: ColleEntity.defaultImageName)
                         .sfSymbolStyling()
                         .foregroundColor(colle.color)
                     // date

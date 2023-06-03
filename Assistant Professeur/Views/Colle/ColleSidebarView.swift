@@ -25,7 +25,7 @@ struct ColleSidebarView: View {
         List(selection: $navigationModel.selectedColleMngObjId) {
             if ColleEntity.all().isEmpty {
                 EmptyListMessage(
-                    symbolName: "lock",
+                    symbolName: ColleEntity.defaultImageName,
                     title: "Aucune colle actuellement.",
                     message: "Les colles ajoutées apparaîtront ici."
                 )
@@ -46,7 +46,7 @@ struct ColleSidebarView: View {
                 }
                 .emptyListPlaceHolder(schools) {
                     EmptyListMessage(
-                        symbolName: "building",
+                        symbolName: SchoolEntity.defaultImageName,
                         title: "Aucun établissement actuellement."
                     )
                 }
@@ -111,7 +111,7 @@ struct ColleSidebarSchoolSubview: View {
         }
         .emptyListPlaceHolder(school.classesSortedByLevelNumber) {
             EmptyListMessage(
-                symbolName: "person.3.sequence.fill",
+                symbolName: ClasseEntity.defaultImageName,
                 title: "Aucune classe dans cet établissement actuellement.",
                 message: "Les classes ajoutées apparaîtront ici."
             )

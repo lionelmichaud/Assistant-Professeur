@@ -33,15 +33,15 @@ final class NavigationModel: ObservableObject, Codable {
                 case .userSettings:
                     return ""
                 case .school:
-                    return "building.2"
+                    return SchoolEntity.defaultImageName
                 case .classe:
-                    return "person.3.sequence"
+                    return ClasseEntity.defaultImageName
                 case .eleve:
-                    return "graduationcap"
+                    return EleveEntity.defaultImageName
                 case .warning:
                     return "hand.raised"
                 case .program:
-                    return "books.vertical"
+                    return ProgramEntity.defaultImageName
                 case .competence:
                     return ""
             }
@@ -55,9 +55,9 @@ final class NavigationModel: ObservableObject, Codable {
         var imageName: String {
             switch self {
                 case .observation:
-                    return "rectangle.and.text.magnifyingglass"
+                    return ObservEntity.defaultImageName
                 case .colle:
-                    return "lock"
+                    return ColleEntity.defaultImageName
             }
         }
     }

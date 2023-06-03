@@ -29,9 +29,9 @@ struct SchoolCreatorModal: View {
         // Nom de l'établissement
         Form {
             HStack {
-                Image(systemName: schoolVM.niveau == .lycee ? "building.2" : "building")
+                Image(systemName: schoolVM.niveau.imageName)
                     .imageScale(.large)
-                    .foregroundColor(schoolVM.niveau == .lycee ? .mint : .orange)
+                    .foregroundColor(schoolVM.niveau.imageColor)
 
                 TextField("Nom", text: $schoolVM.name)
                     .font(.title2)

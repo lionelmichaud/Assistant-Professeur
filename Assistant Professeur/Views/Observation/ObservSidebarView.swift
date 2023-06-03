@@ -24,7 +24,7 @@ struct ObservSidebarView: View {
         List(selection: $navigationModel.selectedObservMngObjId) {
             if ObservEntity.all().isEmpty {
                 EmptyListMessage(
-                    symbolName: "magnifyingglass",
+                    symbolName: ObservEntity.defaultImageName,
                     title: "Aucune observation actuellement.",
                     message: "Les observations ajoutées apparaîtront ici."
                 )
@@ -45,7 +45,7 @@ struct ObservSidebarView: View {
                 }
                 .emptyListPlaceHolder(schools) {
                     EmptyListMessage(
-                        symbolName: "building",
+                        symbolName: SchoolEntity.defaultImageName,
                         title: "Aucun établissement actuellement."
                     )
                 }
@@ -110,7 +110,7 @@ struct ObservSidebarSchoolSubview: View {
         }
         .emptyListPlaceHolder(school.classesSortedByLevelNumber) {
             EmptyListMessage(
-                symbolName: "person.3.sequence.fill",
+                symbolName: ClasseEntity.defaultImageName,
                 title: "Aucune classe dans cet établissement actuellement.",
                 message: "Les classes ajoutées apparaîtront ici."
             )

@@ -15,7 +15,7 @@ struct ColleBrowserRow: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Image(systemName: "lock")
+                Image(systemName: ColleEntity.defaultImageName)
                     .symbolRenderingMode(.monochrome)
                     .foregroundColor(colle.color)
                 Text("\(colle.viewDate.stringShortDate) à \(colle.viewDate.stringTime)")

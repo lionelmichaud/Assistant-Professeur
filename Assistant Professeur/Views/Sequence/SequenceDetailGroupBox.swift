@@ -41,7 +41,10 @@ struct SequenceDetailGroupBox: View {
                     Button {
                         documentToBeViewed = document
                     } label: {
-                        Label(document.viewName, systemImage: "doc.richtext")
+                        Label(
+                            document.viewName,
+                            systemImage: DocumentEntity.defaultImageName
+                        )
                     }
                     .padding(.top, 4)
                 }
@@ -62,37 +65,37 @@ struct SequenceDetailGroupBox: View {
         }
         .padding(.horizontal)
         #if os(macOS)
-        .sheet(item: $documentToBeViewed) { doc in
-            NavigationStack {
-                PdfDocumentViewer(document: doc)
+            .sheet(item: $documentToBeViewed) { doc in
+                NavigationStack {
+                    PdfDocumentViewer(document: doc)
+                }
             }
-        }
         #else
-        .fullScreenCover(item: $documentToBeViewed) { doc in
-            NavigationStack {
-                PdfDocumentViewer(document: doc)
-            }
-        }
+                .fullScreenCover(item: $documentToBeViewed) { doc in
+                    NavigationStack {
+                        PdfDocumentViewer(document: doc)
+                    }
+                }
         #endif
     }
 }
 
- struct SequenceDetailGroupBox_Previews: PreviewProvider {
-     static func initialize() {
-         DataBaseManager.populateWithMockData(storeType: .inMemory)
-     }
+struct SequenceDetailGroupBox_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
 
-     static var previews: some View {
-         initialize()
-         return Group {
-             SequenceDetailGroupBox(sequence: SequenceEntity.all().first!)
-                 .environmentObject(NavigationModel(selectedSequenceMngObjId: SequenceEntity.all().first!.objectID))
-                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
-                 .previewDevice("iPad mini (6th generation)")
-             SequenceDetailGroupBox(sequence: SequenceEntity.all().first!)
-                 .environmentObject(NavigationModel(selectedSequenceMngObjId: SequenceEntity.all().first!.objectID))
-                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
-                 .previewDevice("iPhone 13")
-         }
-     }
- }
+    static var previews: some View {
+        initialize()
+        return Group {
+            SequenceDetailGroupBox(sequence: SequenceEntity.all().first!)
+                .environmentObject(NavigationModel(selectedSequenceMngObjId: SequenceEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+            SequenceDetailGroupBox(sequence: SequenceEntity.all().first!)
+                .environmentObject(NavigationModel(selectedSequenceMngObjId: SequenceEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

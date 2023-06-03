@@ -15,7 +15,7 @@ struct ObservBrowserRow: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Image(systemName: "magnifyingglass")
+                Image(systemName: ObservEntity.defaultImageName)
                     .symbolRenderingMode(.monochrome)
                     .foregroundColor(observ.color)
                 Text("\(observ.viewDate.stringShortDate) à \(observ.viewDate.stringTime)")

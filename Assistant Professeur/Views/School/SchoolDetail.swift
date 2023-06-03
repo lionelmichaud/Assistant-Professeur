@@ -27,9 +27,9 @@ struct SchoolDetail: View {
     /// Vue du nom de l'établissement
     private var nameView: some View {
         HStack {
-            Image(systemName: school.levelEnum == .lycee ? "building.2" : "building")
+            Image(systemName: school.levelEnum.imageName)
                 .imageScale(.large)
-                .foregroundColor(school.levelEnum == .lycee ? .mint : .orange)
+                .foregroundColor(school.levelEnum.imageColor)
             TextField("Nom", text: $school.viewName)
                 .font(.title2)
                 .textFieldStyle(.roundedBorder)

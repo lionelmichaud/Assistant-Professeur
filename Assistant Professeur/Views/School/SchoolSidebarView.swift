@@ -133,8 +133,7 @@ struct SchoolSidebarView: View {
                         // pour chaque Etablissement
                         ForEach(section, id: \.objectID) { school in
                             SchoolBrowserRow(school: school)
-                                .badge(school.nbOfClasses)
-
+//                                .badge(school.nbOfClasses)
                                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                     // supprimer l'établissement et tous ses descendants
                                     Button(role: .destructive) {
@@ -154,17 +153,15 @@ struct SchoolSidebarView: View {
                                     if school.classesCount == 0 {
                                         Button {
                                             withAnimation {
-                                                if school.classesCount == 0 {
-                                                    school.toggleLevel()
-                                                }
+                                                school.toggleLevel()
                                             }
                                         } label: {
                                             Label(
-                                                school.levelEnum == .college ? "Lycée" : "Collège",
-                                                systemImage: school.levelEnum == .college ? "building.2" : "building"
+                                                school.levelEnum.next.displayString,
+                                                systemImage: school.levelEnum.next.imageName
                                             )
                                         }
-                                        .tint(school.levelEnum == .college ? .mint : .orange)
+                                        .tint(school.levelEnum.next.imageColor)
                                     }
                                 }
                         }
@@ -178,7 +175,7 @@ struct SchoolSidebarView: View {
             }
             .emptyListPlaceHolder(schoolsSections) {
                 EmptyListMessage(
-                    symbolName: "building",
+                    symbolName: SchoolEntity.defaultImageName,
                     title: "Aucun établissement actuellement.",
                     message: "Les établissements ajoutés apparaîtront ici."
                 )
