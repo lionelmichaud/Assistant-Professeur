@@ -61,7 +61,8 @@ struct RoomLayoutEditor: View {
         #endif
             .toolbarTitleMenu {
                 // Positionner une nouvelle place au centre du plan de la salle de classe
-                if room.nbSeatUnpositionned > 0 {
+                if room.imageSize != nil,
+                   room.nbSeatUnpositionned > 0 {
                     Button {
                         withAnimation {
                             _ = room.addSeatToPlan(x: 0.5, y: 0.5)

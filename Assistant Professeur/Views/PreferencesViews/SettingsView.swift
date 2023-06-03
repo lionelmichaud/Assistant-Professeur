@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 22/05/2022.
 //
 
+import HelpersView
 import SwiftUI
 
 struct SettingsView: View {
@@ -41,6 +42,12 @@ struct SettingsView: View {
         .tabViewStyle(.page(indexDisplayMode: .always))
         .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
         #endif
+        .toolbarTitleMenu {
+            CasePicker(
+                pickedCase: $nav.selectedPrefTab.animation(),
+                label: "Préférences"
+            )
+        }
         .toolbar {
             ToolbarItem {
                 Button("Fermer") {
