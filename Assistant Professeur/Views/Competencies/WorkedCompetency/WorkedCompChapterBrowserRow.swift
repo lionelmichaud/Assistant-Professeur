@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 04/06/2023.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct WorkedCompChapterBrowserRow: View {
     @ObservedObject
@@ -17,6 +17,7 @@ struct WorkedCompChapterBrowserRow: View {
             LabeledContent {
                 VStack(alignment: .leading) {
                     Text(chapter.viewAcronym)
+                        .foregroundColor(.primary)
                         .fontWeight(.bold)
                     Text(chapter.viewDescription)
                         .foregroundColor(.secondary)
@@ -31,8 +32,8 @@ struct WorkedCompChapterBrowserRow: View {
     }
 }
 
-//struct WorkedCompBrowserRow_Previews: PreviewProvider {
+// struct WorkedCompBrowserRow_Previews: PreviewProvider {
 //    static var previews: some View {
 //        WorkedCompBrowserRow()
 //    }
-//}
+// }

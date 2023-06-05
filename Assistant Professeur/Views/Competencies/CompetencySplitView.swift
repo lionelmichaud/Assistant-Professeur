@@ -7,9 +7,14 @@
 
 import SwiftUI
 
+enum CompetencyTypeSelection: String, Hashable, CaseIterable, Codable {
+    case workedCompetencies = "Compétences du socle"
+    case disciplineCompetencies = "Compétences disciplinaires"
+}
+
 struct CompetencySplitView: View {
     @EnvironmentObject
-    private var navig : NavigationModel
+    private var navig: NavigationModel
 
     var body: some View {
         NavigationSplitView(
@@ -20,7 +25,16 @@ struct CompetencySplitView: View {
 
         } content: {
             // 2nde colonne
-            Text("colonne")
+            switch navig.selectedCompetenceType {
+                case .none:
+                    Text("Sélectionner un type de compétence")
+
+                case .workedCompetencies:
+                    WorkedCompChapterListView()
+
+                case .disciplineCompetencies:
+                    Text("disciplineCompetencies")
+            }
 
         } detail: {
             // Détail dans la 3ième colonne

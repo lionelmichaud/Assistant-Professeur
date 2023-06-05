@@ -67,19 +67,4 @@ extension NavigationModel {
             }
         }
     }
-
-    /// Filtres
-    enum WarningSelection: String, Hashable, Codable, CaseIterable {
-        case observation = "Observations"
-        case colle = "Colles"
-
-        var imageName: String {
-            switch self {
-                case .observation:
-                    return ObservEntity.defaultImageName
-                case .colle:
-                    return ColleEntity.defaultImageName
-            }
-        }
-    }
 }

@@ -32,12 +32,12 @@ struct EleveEditor: View {
         if selectedEleveExists {
             EleveDetail(eleve: selectedEleve!)
         } else {
-            VStack(alignment: .center) {
-                Text("Aucun élève sélectionné.")
-                Text("Sélectionner un élève.")
-            }
-            .foregroundStyle(.secondary)
-            .font(.title)
+            EmptyListMessage(
+                symbolName: EleveEntity.defaultImageName,
+                title: "Aucun élève sélectionné.",
+                message: "Sélectionner un élève pour en visualiser les détails ici.",
+                showAsGroupBox: true
+            )
         }
     }
 }

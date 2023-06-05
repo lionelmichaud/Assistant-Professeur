@@ -56,13 +56,11 @@ struct ActivityDetail: View {
                     }
                 }
             } else {
-                VStack(alignment: .center) {
-                    Text("Aucune Activité sélectionnée.")
-                    Text("Sélectionner une Activité.")
-                        .padding(.top)
-                }
-                .foregroundStyle(.secondary)
-                .font(.title2)
+                EmptyListMessage(
+                    title: "Aucune activité sélectionnée.",
+                    message: "Sélectionner une activité pour en visualiser le détail ici.",
+                    showAsGroupBox: true
+                )
             }
         }
         #if os(iOS)
@@ -104,10 +102,10 @@ extension ActivityDetail {
     }
 }
 
- struct ActivityDetail_Previews: PreviewProvider {
-     static func initialize() {
-         DataBaseManager.populateWithMockData(storeType: .inMemory)
-     }
+struct ActivityDetail_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
 
     static var previews: some View {
         initialize()
@@ -122,4 +120,4 @@ extension ActivityDetail {
                 .previewDevice("iPhone 13")
         }
     }
- }
+}

@@ -33,12 +33,12 @@ struct SchoolEditor: View {
         if selectedSchoolExists {
             SchoolDetail(school: selectedSchool!)
         } else {
-            VStack(alignment: .center) {
-                Text("Aucun établissement sélectionné.")
-                Text("Sélectionner un établissement.")
-            }
-            .foregroundStyle(.secondary)
-            .font(.title)
+            EmptyListMessage(
+                symbolName: SchoolEntity.defaultImageName,
+                title: "Aucun établissement sélectionné.",
+                message: "Sélectionner un établissement pour en visualiser les détails ici.",
+                showAsGroupBox: true
+            )
         }
     }
 }

@@ -43,9 +43,10 @@ struct SequenceSidebarView: View {
                 EmptyListMessage(
                     symbolName: ProgramEntity.defaultImageName,
                     title: "Aucun programme sélectionné.",
-                    message: "Sélectionner un programme pour en visualiser les séquences.",
+                    message: "Sélectionner un programme pour en visualiser les séquences ici.",
                     showAsGroupBox: true
                 )
+                .padding(.horizontal)
             }
         }
         #if os(iOS)

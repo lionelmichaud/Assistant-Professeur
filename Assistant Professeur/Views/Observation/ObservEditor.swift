@@ -31,12 +31,12 @@ struct ObservEditor: View {
         if selectedObservExists {
             ObservDetail(observ: selectedObserv!)
         } else {
-            VStack(alignment: .center) {
-                Text("Aucune observation sélectionnée.")
-                Text("Sélectionner une observation.")
-            }
-            .foregroundStyle(.secondary)
-            .font(.title)
+            EmptyListMessage(
+                symbolName: ObservEntity.defaultImageName,
+                title: "Aucune observation sélectionnée.",
+                message: "Sélectionner une observation pour en visualiser les détails ici.",
+                showAsGroupBox: true
+            )
         }
     }
 }

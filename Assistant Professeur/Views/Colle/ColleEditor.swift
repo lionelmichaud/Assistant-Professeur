@@ -31,12 +31,12 @@ struct ColleEditor: View {
         if selectedColleExists {
             ColleDetail(colle: selectedColle!)
         } else {
-            VStack(alignment: .center) {
-                Text("Aucune colle sélectionnée.")
-                Text("Sélectionner une colle.")
-            }
-            .foregroundStyle(.secondary)
-            .font(.title)
+            EmptyListMessage(
+                symbolName: ColleEntity.defaultImageName,
+                title: "Aucune colle sélectionnée.",
+                message: "Sélectionner une colle pour en visualiser les détails ici.",
+                showAsGroupBox: true
+            )
         }
     }
 }

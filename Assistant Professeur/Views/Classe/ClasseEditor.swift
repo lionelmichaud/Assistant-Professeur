@@ -32,12 +32,12 @@ struct ClasseEditor: View {
         if selectedClasseExists {
             ClasseDetail(classe: selectedClasse!)
         } else {
-            VStack(alignment: .center) {
-                Text("Aucune classe sélectionnée.")
-                Text("Sélectionner une classe.")
-            }
-            .foregroundStyle(.secondary)
-            .font(.title)
+            EmptyListMessage(
+                symbolName: ClasseEntity.defaultImageName,
+                title: "Aucune classe sélectionnée.",
+                message: "Sélectionner une classe pour en visualiser les détails ici.",
+                showAsGroupBox: true
+            )
         }
     }
 }

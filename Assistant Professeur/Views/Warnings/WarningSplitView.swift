@@ -7,7 +7,21 @@
 
 import SwiftUI
 
-struct WarningSpliView: View {
+enum WarningSelection: String, Hashable, Codable, CaseIterable {
+    case observation = "Observations"
+    case colle = "Colles"
+
+    var imageName: String {
+        switch self {
+            case .observation:
+                return ObservEntity.defaultImageName
+            case .colle:
+                return ColleEntity.defaultImageName
+        }
+    }
+}
+
+struct WarningSplitView: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
@@ -28,10 +42,17 @@ struct WarningSpliView: View {
             switch navig.selectedWarningType {
                 case .colle:
                     ColleSidebarView()
+
                 case .observation:
                     ObservSidebarView()
+
                 case .none:
-                    Text("Sélectionner un type d'avertissement")
+                    EmptyListMessage(
+                        symbolName: "exclamationmark.triangle",
+                        title: "Aucun type d'avertissement sélectionné.",
+                        message: "Sélectionner un type d'avertissement.",
+                        showAsGroupBox: true
+                    )
             }
 
         } detail: {
@@ -39,10 +60,17 @@ struct WarningSpliView: View {
             switch navig.selectedWarningType {
                 case .colle:
                     ColleEditor()
+
                 case .observation:
                     ObservEditor()
+
                 case .none:
-                    Text("Sélectionner un type d'avertissement")
+                    EmptyListMessage(
+                        symbolName: "exclamationmark.triangle",
+                        title: "Aucun type d'avertissement sélectionné.",
+                        message: "Sélectionner un type d'avertissement.",
+                        showAsGroupBox: true
+                    )
             }
         }
         .navigationSplitViewStyle(.balanced)
@@ -58,13 +86,13 @@ struct WarningSpliView_Previews: PreviewProvider {
         initialize()
 
         return Group {
-            WarningSpliView()
+            WarningSplitView()
                 .padding()
                 .environmentObject(NavigationModel(selectedWarningType: .colle))
                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
                 .previewDevice("iPad mini (6th generation)")
 
-            WarningSpliView()
+            WarningSplitView()
                 .padding()
                 .environmentObject(NavigationModel(selectedWarningType: .colle))
                 .environment(\.managedObjectContext, CoreDataManager.shared.context)

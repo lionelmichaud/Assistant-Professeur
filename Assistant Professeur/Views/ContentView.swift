@@ -75,7 +75,7 @@ struct ContentView: View {
 
             // Les observations données aux élèves
             // Les colles données aux élèves
-            WarningSpliView()
+            WarningSplitView()
                 .tabItem {
                     Label(
                         NavigationModel.TabSelection.warning.rawValue,

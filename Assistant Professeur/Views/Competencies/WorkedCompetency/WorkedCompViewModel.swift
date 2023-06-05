@@ -44,6 +44,12 @@ class WorkedCompViewModel: ObservableObject {
         self.description = workedCompChapter.viewDescription
     }
 
+    func update(this workedCompChapter: WorkedCompChapterEntity) {
+        workedCompChapter.viewCycleEnum = self.cycle
+        workedCompChapter.viewAcronym = self.acronym
+        workedCompChapter.viewDescription = self.description
+    }
+
     /// Créer une entité `ProgramEntity` à partir du VM et
     ///
     /// Crée un Groupe 0 pour les élèves de la classe n'appartenant à aucun groupe

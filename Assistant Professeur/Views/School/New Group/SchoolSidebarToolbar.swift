@@ -18,11 +18,11 @@ extension SchoolSidebarView {
             Button {
                 isAddingNewSchool = true
             } label: {
-                HStack {
-                    Image(systemName: "plus.circle.fill")
-                    Text("Ajouter un établissement")
-                    Spacer()
-                }
+                Label(
+                    "Ajouter un établissement",
+                    systemImage: "plus.circle.fill"
+                )
+                .labelStyle(.titleAndIcon)
             }
         }
 
