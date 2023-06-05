@@ -98,7 +98,7 @@ struct ContentView: View {
                 .badge(ProgramEntity.cardinal())
 
             // Les compétences
-            CompetenciesSplitView()
+            CompetencySplitView()
                 .tabItem {
                     Label(
                         NavigationModel.TabSelection.competence.rawValue,
@@ -106,7 +106,6 @@ struct ContentView: View {
                     ).symbolVariant(.none)
                 }
                 .tag(NavigationModel.TabSelection.competence)
-                .badge(ProgramEntity.cardinal())
 //            }
         }
         .environmentObject(navigationModel)

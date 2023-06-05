@@ -220,28 +220,16 @@ extension ProgramEntity {
             .sorted(using: sortComparators)
     }
 
-    // MARK: - Type Methods
-
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         // Set defaults here
         self.id = UUID()
     }
 
-    static func allSortedbyDisciplineLevelSegpa() -> [ProgramEntity] {
-        do {
-            return try ProgramEntity
-                .context
-                .fetch(ProgramEntity.requestAllSortedbyDisciplineLevelSegpa)
-        } catch {
-            return []
-        }
-    }
-
     /// Retourne true si un object équivalent existe déjà dans le context.
     ///
     /// Si `objectID` != `nil` alors on retourne true seulement
-    /// si l'objet existant possède ne possède pas le même identifiant.
+    /// si l'objet existant possède le même identifiant.
     static func exists(
         dscipline: Discipline,
         classeLevel: LevelClasse,
@@ -250,9 +238,21 @@ extension ProgramEntity {
     ) -> Bool {
         all().contains {
             $0.viewDisciplineEnum == dscipline &&
-                $0.viewLevelEnum == classeLevel &&
-                $0.segpa == classeIsSegpa &&
-                (objectID == nil || $0.objectID != objectID)
+            $0.viewLevelEnum == classeLevel &&
+            $0.segpa == classeIsSegpa &&
+            (objectID == nil || $0.objectID != objectID)
+        }
+    }
+
+    // MARK: - Type Methods
+
+    static func allSortedbyDisciplineLevelSegpa() -> [ProgramEntity] {
+        do {
+            return try ProgramEntity
+                .context
+                .fetch(ProgramEntity.requestAllSortedbyDisciplineLevelSegpa)
+        } catch {
+            return []
         }
     }
 
@@ -288,7 +288,7 @@ extension ProgramEntity {
             if program.discipline == nil {
                 errorList.append(DataBaseError.outOfBound(
                     entity: Self.entity().name!,
-                    name: "\(program.disciplineString) - \(program.levelString)",
+                    name: program.description,
                     attribute: "discipline",
                     id: program.id
                 ))
@@ -296,7 +296,7 @@ extension ProgramEntity {
             if program.level == nil {
                 errorList.append(DataBaseError.outOfBound(
                     entity: Self.entity().name!,
-                    name: "\(program.disciplineString) - \(program.levelString)",
+                    name: program.description,
                     attribute: "level",
                     id: program.id
                 ))

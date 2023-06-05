@@ -47,7 +47,7 @@ public final class ProgramEntity: NSManagedObject, Codable, ModelEntityP {
 //            }
 //        }
 
-        self.document = try container.decode(DocumentEntity.self, forKey: .document)
+        self.document = try container.decodeIfPresent(DocumentEntity.self, forKey: .document)
         self.sequences = try container.decode(Set<SequenceEntity>.self, forKey: .sequences) as NSSet
     }
 

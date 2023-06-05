@@ -21,13 +21,20 @@ extension NavigationModel {
 
         var imageName: String {
             switch self {
-                case .userSettings: return "gear"
-                case .school: return SchoolEntity.defaultImageName
-                case .classe: return ClasseEntity.defaultImageName
-                case .eleve: return EleveEntity.defaultImageName
-                case .warning: return "hand.raised"
-                case .program: return ProgramEntity.defaultImageName
-                case .competence: return "brain.head.profile"
+                case .userSettings:
+                    return "gear"
+                case .school:
+                    return SchoolEntity.defaultImageName
+                case .classe:
+                    return ClasseEntity.defaultImageName
+                case .eleve:
+                    return EleveEntity.defaultImageName
+                case .warning:
+                    return "hand.raised"
+                case .program:
+                    return ProgramEntity.defaultImageName
+                case .competence:
+                    return WorkedCompChapterEntity.defaultImageName
             }
         }
     }

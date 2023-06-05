@@ -15,57 +15,6 @@ private let customLog = Logger(
     category: "SchoolSidebarView"
 )
 
-enum FileImportOperation {
-    case importTrombines
-    case importModel
-    case none
-
-    var allowedContentTypes: [UTType] {
-        switch self {
-            case .importTrombines: return [.jpeg]
-            case .importModel: return [.json, .pdf, .png, .jpeg]
-            case .none: return []
-        }
-    }
-}
-
-enum FileExportOperation {
-    case exportJsonModel(annexFileNames: [String])
-    case exportCsvEleveList
-    case exportCsvPrograms
-    case none
-
-    /// Liste de toutes les URL des fichiers à exporter
-    var urls: [URL] {
-        switch self {
-            case let .exportJsonModel(annexFileNames):
-                return ImportExportManager.cachesURLsToShare(
-                    fileNames: [
-                        JsonImportExportMng.ownerFileName,
-                        JsonImportExportMng.schoolsFileName,
-                        JsonImportExportMng.programsFileName
-                    ] + annexFileNames
-                )
-
-            case .exportCsvEleveList:
-                return ImportExportManager.cachesURLsToShare(
-                    fileNames: [
-                        CsvImportExportMng.csvEleveListFileName
-                    ]
-                )
-
-            case .exportCsvPrograms:
-                return ImportExportManager.cachesURLsToShare(
-                    fileNames: [
-                        CsvImportExportMng.csvProgramListFileName
-                    ]
-                )
-
-            case .none: return []
-        }
-    }
-}
-
 struct SchoolSidebarView: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel

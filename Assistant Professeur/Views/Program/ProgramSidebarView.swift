@@ -126,6 +126,7 @@ extension ProgramSidebarView {
                 Image(systemName: "ellipsis.circle")
             }
         }
+        
         // Ajouter un établissement
         ToolbarItemGroup(placement: .status) {
             Button {

@@ -123,10 +123,19 @@ final class NavigationModel: ObservableObject, Codable {
     var selectedSchoolMngObjId: NSManagedObjectID? {
         willSet(newValue) {
             selectedSchoolId =
-                SchoolEntity.id(MngObjID: newValue)
+            SchoolEntity.id(MngObjID: newValue)
         }
     }
     var selectedSchoolId: UUID?
+
+    @Published
+    var selectedWorkedCompChapterMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedWorkedCompChapterId =
+            WorkedCompChapterEntity.id(MngObjID: newValue)
+        }
+    }
+    var selectedWorkedCompChapterId: UUID?
 
     @Published
     var filterObservation: Bool
