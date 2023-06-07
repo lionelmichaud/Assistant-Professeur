@@ -140,7 +140,8 @@ extension WCompEntity {
     /// - Parameters:
     ///   - errorList: Liste des erreurs trouvées.
     static func checkConsistency(
-        errorList: inout DataBaseErrorList
+        errorList: inout DataBaseErrorList,
+        tryToRepair: Bool
     ) {
         all().forEach { comp in
             if comp.descrip == nil {
@@ -152,11 +153,24 @@ extension WCompEntity {
                 ))
             }
             if comp.chapter == nil {
-                errorList.append(DataBaseError.noOwner(
-                    entity: Self.entity().name!,
-                    name: comp.description,
-                    id: comp.id
-                ))
+                if tryToRepair {
+                    do {
+                        // la destruction est sauvegardée
+                        try comp.delete()
+                    } catch {
+                        errorList.append(DataBaseError.noOwner(
+                            entity: Self.entity().name!,
+                            name: comp.description,
+                            id: comp.id
+                        ))
+                    }
+                } else {
+                    errorList.append(DataBaseError.noOwner(
+                        entity: Self.entity().name!,
+                        name: comp.description,
+                        id: comp.id
+                    ))
+                }
             }
         }
     }

@@ -16,12 +16,12 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
         errorList: inout DataBaseErrorList,
         tryToRepair: Bool
     ) {
-        /// Utilisateur
+        // Utilisateur
         OwnerEntity.checkConsistency(
             errorList: &errorList, tryToRepair: tryToRepair
         )
 
-        /// Etablissements
+        // Etablissements
         RoomEntity.checkConsistency(
             errorList: &errorList, tryToRepair: tryToRepair
         )
@@ -59,7 +59,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             errorList: &errorList, tryToRepair: tryToRepair
         )
 
-        /// Programmes
+        // Programmes
         ProgramEntity.checkConsistency(
             errorList: &errorList
         )
@@ -73,12 +73,12 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             errorList: &errorList
         )
 
-        /// Compétences
+        // Compétences
         WCompChapterEntity.checkConsistency(
             errorList: &errorList
         )
         WCompEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
 
         #if DEBUG
@@ -113,7 +113,10 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             ProgramEntity.cardinal() == 0 &&
             SequenceEntity.cardinal() == 0 &&
             ActivityEntity.cardinal() == 0 &&
-            ActivityProgressEntity.cardinal() == 0
+            ActivityProgressEntity.cardinal() == 0 &&
+
+            WCompChapterEntity.cardinal() == 0 &&
+            WCompEntity.cardinal() == 0
     }
 
     /// Efface tout le contenu de la base de donnée Core Data
@@ -169,6 +172,14 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             try SequenceEntity.deleteAll()
             try ActivityEntity.deleteAll()
             try ActivityProgressEntity.deleteAll()
+        } catch {
+            failed = true
+        }
+
+        // Suppression des Compétences
+        do {
+            try WCompChapterEntity.deleteAll()
+            try WCompEntity.deleteAll()
         } catch {
             failed = true
         }
