@@ -87,7 +87,11 @@ struct WCompChapterListView: View {
             //            onDismiss: ProgramEntity.rollback()
         ) {
             NavigationStack {
-                WCompChapterCreatorModal()
+                let chapter = WCompChapterEntity()
+                WCompChapterEditorModal(
+                    chapter: chapter,
+                    isEditing: false
+                )
             }
             .presentationDetents([.medium])
         }
@@ -98,7 +102,10 @@ struct WCompChapterListView: View {
             onDismiss: didDismiss
         ) { chapter in
             NavigationStack {
-                WCompChapterEditorModal(chapter: chapter)
+                WCompChapterEditorModal(
+                    chapter: chapter,
+                    isEditing: true
+                )
             }
             .presentationDetents([.medium])
         }
@@ -115,7 +122,7 @@ extension WCompChapterListView {
     @ToolbarContentBuilder
     func myToolBarContent() -> some ToolbarContent {
         ToolbarItemGroup(placement: .status) {
-            /// Ajouter un chapitre de compétences du socle commun
+            // Ajouter un chapitre de compétences du socle commun
             Button {
                 isAddingObject = true
             } label: {
@@ -128,12 +135,12 @@ extension WCompChapterListView {
         }
 
         ToolbarItemGroup(placement: .navigationBarTrailing) {
-            /// Modifier un chapitre de compétences du socle commun
+            // Modifier un chapitre de compétences du socle commun
             if let selectedObject = nav.selectedWorkedCompChapterMngObjId {
                 Button("Modifier") {
                     editedWorkedChapter =
-                    WCompChapterEntity
-                        .byObjectId(MngObjID: selectedObject)
+                        WCompChapterEntity
+                            .byObjectId(MngObjID: selectedObject)
                 }
             }
         }
