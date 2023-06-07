@@ -34,7 +34,7 @@ extension NavigationModel {
                 case .program:
                     return ProgramEntity.defaultImageName
                 case .competence:
-                    return WorkedCompChapterEntity.defaultImageName
+                    return WCompChapterEntity.defaultImageName
             }
         }
     }

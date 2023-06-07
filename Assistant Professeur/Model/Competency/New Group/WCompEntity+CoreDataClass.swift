@@ -1,5 +1,5 @@
 //
-//  WorkedCompEntity+CoreDataClass.swift
+//  WCompEntity+CoreDataClass.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 04/06/2023.
@@ -11,11 +11,11 @@ import os
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
-    category: "WorkedCompEntity.Codable"
+    category: "WCompEntity.Codable"
 )
 
-@objc(WorkedCompEntity)
-public final class WorkedCompEntity: NSManagedObject, Codable, ModelEntityP {
+@objc(WCompEntity)
+public final class WCompEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, number, descrip, chapter, acronym, disciplineCompetencies
     }
@@ -41,7 +41,7 @@ public final class WorkedCompEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(descrip, forKey: .descrip)
 
 //        try container.encode(
-//            disciplineCompetencies as! Set<DisciplineCompEntity>,
+//            disciplineCompetencies as! Set<DCompEntity>,
 //            forKey: .disciplineCompetencies
 //        )
     }

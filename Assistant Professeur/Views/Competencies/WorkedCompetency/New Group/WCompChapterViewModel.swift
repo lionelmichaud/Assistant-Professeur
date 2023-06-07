@@ -7,7 +7,7 @@
 
 import Foundation
 
-class WorkedCompViewModel: ObservableObject {
+class WCompChapterViewModel: ObservableObject {
     // MARK: - Properties
 
     @Published
@@ -31,20 +31,20 @@ class WorkedCompViewModel: ObservableObject {
         self.description = description
     }
 
-    convenience init(from workedCompChapter: WorkedCompChapterEntity) {
+    convenience init(from workedCompChapter: WCompChapterEntity) {
         self.init()
         self.update(from: workedCompChapter)
     }
 
     // MARK: - Methods
 
-    func update(from workedCompChapter: WorkedCompChapterEntity) {
+    func update(from workedCompChapter: WCompChapterEntity) {
         self.cycle = workedCompChapter.viewCycleEnum
         self.acronym = workedCompChapter.viewAcronym
         self.description = workedCompChapter.viewDescription
     }
 
-    func update(this workedCompChapter: WorkedCompChapterEntity) {
+    func update(this workedCompChapter: WCompChapterEntity) {
         workedCompChapter.viewCycleEnum = self.cycle
         workedCompChapter.viewAcronym = self.acronym
         workedCompChapter.viewDescription = self.description
@@ -55,7 +55,7 @@ class WorkedCompViewModel: ObservableObject {
     /// Crée un Groupe 0 pour les élèves de la classe n'appartenant à aucun groupe
     /// - Important: Saves the context
     func createAndSaveEntity() {
-        WorkedCompChapterEntity.create(
+        WCompChapterEntity.create(
             cycle: cycle,
             acronym: acronym,
             description: description

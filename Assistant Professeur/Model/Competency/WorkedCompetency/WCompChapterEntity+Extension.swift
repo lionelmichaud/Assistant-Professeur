@@ -8,7 +8,7 @@
 import CoreData
 import Foundation
 
-extension WorkedCompChapterEntity {
+extension WCompChapterEntity {
     // MARK: - Computed properties
 
     /// Nom de l'image par défaut utilisée pour représenter un établissement
@@ -91,17 +91,17 @@ extension WorkedCompChapterEntity {
 
 // MARK: - Extension CoreData
 
-extension WorkedCompChapterEntity {
+extension WCompChapterEntity {
     // MARK: - Type Computed Properties
 
     static var byCycleAcronymNSSortDescriptor: [NSSortDescriptor] =
         [
             NSSortDescriptor(
-                keyPath: \WorkedCompChapterEntity.cycle,
+                keyPath: \WCompChapterEntity.cycle,
                 ascending: true
             ),
             NSSortDescriptor(
-                keyPath: \WorkedCompChapterEntity.acronym,
+                keyPath: \WCompChapterEntity.acronym,
                 ascending: true
             )
         ]
@@ -111,8 +111,8 @@ extension WorkedCompChapterEntity {
     /// Ordre de tri:
     ///   1. Cycle
     ///   2. Titre
-    static var requestAllSortedbyCycleTitle: NSFetchRequest<WorkedCompChapterEntity> {
-        let request = WorkedCompChapterEntity.fetchRequest()
+    static var requestAllSortedbyCycleTitle: NSFetchRequest<WCompChapterEntity> {
+        let request = WCompChapterEntity.fetchRequest()
         request.sortDescriptors = Self.byCycleAcronymNSSortDescriptor
         return request
     }
@@ -120,19 +120,19 @@ extension WorkedCompChapterEntity {
     // MARK: - Computed properties
 
     /// Liste des Compétences Travaillées non triées
-    var allWorkedCompetencies: [WorkedCompEntity] {
+    var allWorkedCompetencies: [WCompEntity] {
         if let competencies {
-            return (competencies.allObjects as! [WorkedCompEntity])
+            return (competencies.allObjects as! [WCompEntity])
         } else {
             return []
         }
     }
 
     /// Liste des Compétences Travaillées triées par numéro
-    var sequencesSortedByNumber: [WorkedCompEntity] {
+    var allWorkedCompetenciesSortedByNumber: [WCompEntity] {
         let sortComparators =
             [
-                SortDescriptor(\WorkedCompEntity.number, order: .forward)
+                SortDescriptor(\WCompEntity.number, order: .forward)
             ]
         return allWorkedCompetencies.sorted(using: sortComparators)
     }
@@ -145,27 +145,27 @@ extension WorkedCompChapterEntity {
 
     /// Retourne true si un object équivalent existe déjà dans le context.
     ///
-    /// Si `objectID` != `nil` alors on retourne true seulement
-    /// si l'objet existant possède le même identifiant.
+    /// Si `thisObjectID` != `nil` alors on retourne true seulement
+    /// si un objet existant possède un identifiant différent de `thisObjectID`.
     static func exists(
         cycle: Cycle,
         acronym: String,
-        objectID: NSManagedObjectID? = nil
+        thisObjectID: NSManagedObjectID? = nil
     ) -> Bool {
         all().contains {
             $0.viewCycleEnum == cycle &&
             $0.viewAcronym == acronym &&
-            (objectID == nil || $0.objectID != objectID)
+            (thisObjectID == nil || $0.objectID != thisObjectID)
         }
     }
 
     // MARK: - Type Methods
 
-    static func allSortedbyCycleTitle() -> [WorkedCompChapterEntity] {
+    static func allSortedbyCycleTitle() -> [WCompChapterEntity] {
         do {
-            return try WorkedCompChapterEntity
+            return try WCompChapterEntity
                 .context
-                .fetch(WorkedCompChapterEntity.requestAllSortedbyCycleTitle)
+                .fetch(WCompChapterEntity.requestAllSortedbyCycleTitle)
         } catch {
             return []
         }
@@ -177,8 +177,8 @@ extension WorkedCompChapterEntity {
         cycle: Cycle,
         acronym: String,
         description: String
-    ) -> WorkedCompChapterEntity {
-        let chapter = WorkedCompChapterEntity.create()
+    ) -> WCompChapterEntity {
+        let chapter = WCompChapterEntity.create()
 
         chapter.cycle = cycle.rawValue
         chapter.acronym = acronym
@@ -225,7 +225,7 @@ extension WorkedCompChapterEntity {
 
 // MARK: - Extension Debug
 
-public extension WorkedCompChapterEntity {
+public extension WCompChapterEntity {
     override var description: String {
         """
 

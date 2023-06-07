@@ -9,7 +9,7 @@ import CoreData
 import HelpersView
 import SwiftUI
 
-struct WorkedCompChapterListView: View {
+struct WCompChapterListView: View {
     @EnvironmentObject
     private var nav: NavigationModel
 
@@ -17,14 +17,14 @@ struct WorkedCompChapterListView: View {
     private var isAddingObject = false
 
     @State
-    private var editeWorkedChapter: WorkedCompChapterEntity?
+    private var editedWorkedChapter: WCompChapterEntity?
 
-    @SectionedFetchRequest<String, WorkedCompChapterEntity>(
-        fetchRequest: WorkedCompChapterEntity.requestAllSortedbyCycleTitle,
+    @SectionedFetchRequest<String, WCompChapterEntity>(
+        fetchRequest: WCompChapterEntity.requestAllSortedbyCycleTitle,
         sectionIdentifier: \.cycleString,
         animation: .default
     )
-    private var workedCompChapterSections: SectionedFetchResults<String, WorkedCompChapterEntity>
+    private var workedCompChapterSections: SectionedFetchResults<String, WCompChapterEntity>
 
     var body: some View {
         List(selection: $nav.selectedWorkedCompChapterMngObjId) {
@@ -35,9 +35,8 @@ struct WorkedCompChapterListView: View {
                         // pour chaque Chapitre
                         ForEach(section, id: \.objectID) { workedChapter in
                             //                            NavigationLink(value: program.objectID) {
-                            WorkedCompChapterBrowserRow(chapter: workedChapter)
+                            WCompChapterBrowserRow(chapter: workedChapter)
                                 // .badge(workedChapter.nbOfWorkedCompetencies)
-
                                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                     // supprimer le chapitre
                                     Button(role: .destructive) {
@@ -54,12 +53,11 @@ struct WorkedCompChapterListView: View {
                                 .swipeActions(edge: .leading, allowsFullSwipe: false) {
                                     // modifier le chapitre
                                     Button {
-                                        editeWorkedChapter = workedChapter
+                                        editedWorkedChapter = workedChapter
                                     } label: {
                                         Label("Modifier", systemImage: "pencil")
                                     }
-                                }.tint(.green)
-
+                                }
                             //                            }
                         }
                     } header: {
@@ -72,9 +70,9 @@ struct WorkedCompChapterListView: View {
             }
             .emptyListPlaceHolder(workedCompChapterSections) {
                 EmptyListMessage(
-                    symbolName: WorkedCompChapterEntity.defaultImageName,
-                    title: "Aucune compétence actuellement.",
-                    message: "Les compétences ajoutées apparaîtront ici."
+                    symbolName: WCompChapterEntity.defaultImageName,
+                    title: "Aucun élément actuellement.",
+                    message: "Les éléments de compétences ajoutées apparaîtront ici."
                 )
             }
         }
@@ -83,50 +81,60 @@ struct WorkedCompChapterListView: View {
         #endif
         .toolbar(content: myToolBarContent)
 
-        /// Modal Sheet de création d'un chapitre de compétence socle
+        // Modal Sheet de création d'un chapitre de compétence socle
         .sheet(
             isPresented: $isAddingObject
             //            onDismiss: ProgramEntity.rollback()
         ) {
             NavigationStack {
-                WorkedCompCreatorModal()
+                WCompChapterCreatorModal()
             }
             .presentationDetents([.medium])
         }
 
-        /// Modal Sheet de modification d'un chapitre de compétence socle
+        // Modal Sheet de modification d'un chapitre de compétence socle
         .sheet(
-            item: $editeWorkedChapter,
+            item: $editedWorkedChapter,
             onDismiss: didDismiss
         ) { chapter in
             NavigationStack {
-                WorkedCompEditorModal(chapter: chapter)
+                WCompChapterEditorModal(chapter: chapter)
             }
             .presentationDetents([.medium])
         }
     }
 
     private func didDismiss() {
-        editeWorkedChapter = nil
+        editedWorkedChapter = nil
     }
 }
 
 // MARK: Toolbar Content
 
-extension WorkedCompChapterListView {
+extension WCompChapterListView {
     @ToolbarContentBuilder
     func myToolBarContent() -> some ToolbarContent {
-        // Ajouter un établissement
         ToolbarItemGroup(placement: .status) {
-            // Ajouter une compétence du socle commun
+            /// Ajouter un chapitre de compétences du socle commun
             Button {
                 isAddingObject = true
             } label: {
                 Label(
-                    "Ajouter une élément",
+                    "Ajouter un élément",
                     systemImage: "plus.circle.fill"
                 )
                 .labelStyle(.titleAndIcon)
+            }
+        }
+
+        ToolbarItemGroup(placement: .navigationBarTrailing) {
+            /// Modifier un chapitre de compétences du socle commun
+            if let selectedObject = nav.selectedWorkedCompChapterMngObjId {
+                Button("Modifier") {
+                    editedWorkedChapter =
+                    WCompChapterEntity
+                        .byObjectId(MngObjID: selectedObject)
+                }
             }
         }
     }
@@ -134,6 +142,6 @@ extension WorkedCompChapterListView {
 
 struct WorkedCompChapterListView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkedCompChapterListView()
+        WCompChapterListView()
     }
 }

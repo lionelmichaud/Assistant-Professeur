@@ -27,10 +27,16 @@ struct CompetencySplitView: View {
             // 2nde colonne
             switch navig.selectedCompetenceType {
                 case .none:
-                    Text("Sélectionner un type de compétence")
+                    EmptyListMessage(
+                        symbolName: WCompChapterEntity.defaultImageName,
+                        title: "Aucun type de compétences sélectionné.",
+                        message: "Sélectionner un type de compétence.",
+                        showAsGroupBox: true
+                    )
+                    .padding(.horizontal)
 
                 case .workedCompetencies:
-                    WorkedCompChapterListView()
+                    WCompChapterListView()
 
                 case .disciplineCompetencies:
                     Text("disciplineCompetencies")
@@ -38,8 +44,23 @@ struct CompetencySplitView: View {
 
         } detail: {
             // Détail dans la 3ième colonne
-            Text("détail")
+            switch navig.selectedCompetenceType {
+                case .none:
+                    EmptyListMessage(
+                        symbolName: WCompChapterEntity.defaultImageName,
+                        title: "Aucun type de compétences sélectionné.",
+                        message: "Sélectionner un type de compétence.",
+                        showAsGroupBox: true
+                    )
+
+                case .workedCompetencies:
+                    WCompListView()
+
+                case .disciplineCompetencies:
+                    Text("disciplineCompetencies")
+            }
         }
+        .navigationSplitViewStyle(.balanced)
     }
 }
 

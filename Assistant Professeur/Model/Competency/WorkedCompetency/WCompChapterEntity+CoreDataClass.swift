@@ -11,11 +11,11 @@ import os
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
-    category: "WorkedCompChapterEntity.Codable"
+    category: "WCompChapterEntity.Codable"
 )
 
-@objc(WorkedCompChapterEntity)
-public final class WorkedCompChapterEntity: NSManagedObject, Codable, ModelEntityP {
+@objc(WCompChapterEntity)
+public final class WCompChapterEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, title, descrip, cycle, acronym, competencies
     }
@@ -30,7 +30,7 @@ public final class WorkedCompChapterEntity: NSManagedObject, Codable, ModelEntit
         self.descrip = try container.decodeIfPresent(String.self, forKey: .descrip)
 
         self.competencies = try container.decode(
-            Set<WorkedCompEntity>.self,
+            Set<WCompEntity>.self,
             forKey: .competencies
         ) as NSSet
     }

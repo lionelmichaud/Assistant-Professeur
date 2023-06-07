@@ -37,6 +37,7 @@ final class NavigationModel: ObservableObject, Codable {
         case selectedClasseId
         case selectedSchoolId
         case selectedWorkedCompChapterId
+        case selectedWorkedCompId
         case filterObservation
         case filterColle
         case filterFlag
@@ -67,7 +68,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ProgramEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedProgramId: UUID?
 
     @Published
@@ -77,7 +77,6 @@ final class NavigationModel: ObservableObject, Codable {
                 SequenceEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedSequenceId: UUID?
 
     @Published
@@ -87,7 +86,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ActivityEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedActivityId: UUID?
 
     @Published
@@ -97,7 +95,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ObservEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedObservId: UUID?
 
     @Published
@@ -107,7 +104,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ColleEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedColleId: UUID?
 
     @Published
@@ -117,7 +113,6 @@ final class NavigationModel: ObservableObject, Codable {
                 EleveEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedEleveId: UUID?
 
     @Published
@@ -127,7 +122,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ClasseEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedClasseId: UUID?
 
     @Published
@@ -137,18 +131,25 @@ final class NavigationModel: ObservableObject, Codable {
                 SchoolEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedSchoolId: UUID?
 
     @Published
     var selectedWorkedCompChapterMngObjId: NSManagedObjectID? {
         willSet(newValue) {
             selectedWorkedCompChapterId =
-                WorkedCompChapterEntity.id(MngObjID: newValue)
+            WCompChapterEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedWorkedCompChapterId: UUID?
+
+    @Published
+    var selectedWorkedCompMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedWorkedCompId =
+            WCompEntity.id(MngObjID: newValue)
+        }
+    }
+    var selectedWorkedCompId: UUID?
 
     @Published
     var filterObservation: Bool
@@ -162,6 +163,9 @@ final class NavigationModel: ObservableObject, Codable {
 
     // MARK: - Computed Properties
 
+    /// Etat de navigation encodé JSON
+    ///
+    /// Convertion: Struct <=> JSON
     var jsonData: Data? {
         get {
             // retourne l'état de navigation encodé JSON
@@ -193,6 +197,7 @@ final class NavigationModel: ObservableObject, Codable {
                 selectedClasseMngObjId = model.selectedClasseMngObjId
                 selectedSchoolMngObjId = model.selectedSchoolMngObjId
                 selectedWorkedCompChapterMngObjId = model.selectedWorkedCompChapterMngObjId
+                selectedWorkedCompMngObjId = model.selectedWorkedCompMngObjId
 
                 filterObservation = model.filterObservation
                 filterColle = model.filterColle
@@ -235,6 +240,7 @@ final class NavigationModel: ObservableObject, Codable {
         selectedClasseMngObjId: NSManagedObjectID? = nil,
         selectedSchoolMngObjId: NSManagedObjectID? = nil,
         selectedWorkedCompChapterMngObjId: NSManagedObjectID? = nil,
+        selectedWorkedCompMngObjId: NSManagedObjectID? = nil,
         filterObservation: Bool = false,
         filterColle: Bool = false,
         filterFlag: Bool = false
@@ -257,6 +263,7 @@ final class NavigationModel: ObservableObject, Codable {
         self.selectedClasseMngObjId = selectedClasseMngObjId
         self.selectedSchoolMngObjId = selectedSchoolMngObjId
         self.selectedWorkedCompChapterMngObjId = selectedWorkedCompChapterMngObjId
+        self.selectedWorkedCompMngObjId = selectedWorkedCompMngObjId
 
         self.filterObservation = filterObservation
         self.filterColle = filterColle
@@ -348,7 +355,13 @@ final class NavigationModel: ObservableObject, Codable {
             UUID.self, forKey: .selectedWorkedCompChapterId
         )
         selectedWorkedCompChapterMngObjId =
-            WorkedCompChapterEntity.managedObjectID(id: selectedWorkedCompChapterId)
+        WCompChapterEntity.managedObjectID(id: selectedWorkedCompChapterId)
+
+        self.selectedWorkedCompId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedWorkedCompId
+        )
+        selectedWorkedCompMngObjId =
+        WCompChapterEntity.managedObjectID(id: selectedWorkedCompId)
 
         self.filterObservation = try container.decode(
             Bool.self, forKey: .filterObservation
@@ -384,6 +397,7 @@ final class NavigationModel: ObservableObject, Codable {
         selectedClasseMngObjId = nil
         selectedSchoolMngObjId = nil
         selectedWorkedCompChapterMngObjId = nil
+        selectedWorkedCompMngObjId = nil
 
         classPath = []
         programPath = NavigationPath()
@@ -405,6 +419,7 @@ final class NavigationModel: ObservableObject, Codable {
         try container.encodeIfPresent(selectedClasseId, forKey: .selectedClasseId)
         try container.encodeIfPresent(selectedSchoolId, forKey: .selectedSchoolId)
         try container.encodeIfPresent(selectedWorkedCompChapterId, forKey: .selectedWorkedCompChapterId)
+        try container.encodeIfPresent(selectedWorkedCompId, forKey: .selectedWorkedCompId)
 
         try container.encode(filterObservation, forKey: .filterObservation)
         try container.encode(filterColle, forKey: .filterColle)

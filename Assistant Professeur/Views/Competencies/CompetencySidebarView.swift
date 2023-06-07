@@ -30,7 +30,7 @@ struct CompetencySidebarView: View {
                         .fontWeight(.bold)
                 },
                 icon: {
-                    Image(systemName: WorkedCompChapterEntity.defaultImageName)
+                    Image(systemName: WCompChapterEntity.defaultImageName)
                 }
             )
             .badge(cardinal(type))
@@ -51,7 +51,7 @@ struct CompetencySidebarView: View {
     private func cardinal(_ type: CompetencyTypeSelection) -> Int {
         switch type {
             case .workedCompetencies:
-                return WorkedCompChapterEntity.cardinal()
+                return WCompChapterEntity.cardinal()
 
             case .disciplineCompetencies:
                 return 1

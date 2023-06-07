@@ -1,32 +1,34 @@
 //
-//  WorkedCompCreatorModal.swift
+//  WCompCreatorModal.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 04/06/2023.
+//  Created by Lionel MICHAUD on 06/06/2023.
 //
 
 import HelpersView
 import SwiftUI
 
-struct WorkedCompCreatorModal: View {
+struct WCompCreatorModal: View {
+    var chapter: WCompChapterEntity
+
     @StateObject
-    private var workedCompChapterVM = WorkedCompViewModel()
+    private var workedCompVM = WCompViewModel()
 
     @Environment(\.dismiss)
     private var dismiss
 
     /// Focused filed manager
     enum FocusableField: Hashable {
-        case acronym
+        case number
         case description
         case none
 
         mutating func moveToNext() {
             switch self {
-                case .acronym:
+                case .number:
                     self = .description
                 case .description:
-                    self = .acronym
+                    self = .number
                 case .none:
                     self = .none
             }
@@ -45,20 +47,14 @@ struct WorkedCompCreatorModal: View {
 
     var body: some View {
         Form {
-            VStack {
-                HStack {
-                    cycle
-                        .padding(.trailing)
-                    acronym
-                }
-                description
-            }
+            number
+            description
         }
         .onSubmit {
             focus?.moveToNext()
         }
         .onAppear {
-            focus = .acronym
+            focus = .number
         }
         .alert(
             alertTitle,
@@ -68,53 +64,35 @@ struct WorkedCompCreatorModal: View {
         )
         .toolbar(content: myToolBarContent)
         #if os(iOS)
-            .navigationTitle("Nouveau Chapitre")
+            .navigationTitle("Nouvelle Compétence")
         #endif
     }
 }
 
 // MARK: - Subviews
 
-extension WorkedCompCreatorModal {
-    var cycle: some View {
-        // niveau de cette classe
-        LabeledContent {
-            CasePicker(
-                pickedCase: $workedCompChapterVM.cycle,
-                label: ""
-            )
-            .pickerStyle(.menu)
-        } label: {
-            Image(systemName: WorkedCompChapterEntity.defaultImageName)
-                .sfSymbolStyling()
-        }
-        .frame(maxWidth: 140)
-    }
-
-    var acronym: some View {
-        TextField(
-            "Acronyme",
-            text: $workedCompChapterVM.acronym
+extension WCompCreatorModal {
+    var number: some View {
+        IntegerEditView2(
+            label: "Numéro",
+            integer: $workedCompVM.number
         )
-        .onSubmit {
-            workedCompChapterVM.acronym.trim()
-        }
-        .textFieldStyle(.roundedBorder)
-        .frame(maxWidth: 100)
-        .autocorrectionDisabled()
+//        .textFieldStyle(.roundedBorder)
+//        .frame(maxWidth: 100)
+//        .autocorrectionDisabled()
         .submitLabel(.next)
-        .focused($focus, equals: .acronym)
+        .focused($focus, equals: .number)
     }
 
     var description: some View {
         TextField(
             "Description",
-            text: $workedCompChapterVM.description,
+            text: $workedCompVM.description,
             axis: .vertical
         )
         .lineLimit(5)
         .onSubmit {
-            workedCompChapterVM.description.trim()
+            workedCompVM.description.trim()
         }
         .textFieldStyle(.roundedBorder)
         .autocorrectionDisabled()
@@ -125,7 +103,7 @@ extension WorkedCompCreatorModal {
 
 // MARK: Toolbar Content
 
-extension WorkedCompCreatorModal {
+extension WCompCreatorModal {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
@@ -137,22 +115,15 @@ extension WorkedCompCreatorModal {
         ToolbarItem(placement: .confirmationAction) {
             Button("Ajouter") {
                 // Ajouter un nouveau programme
-                if WorkedCompChapterEntity.exists(
-                    cycle: workedCompChapterVM.cycle,
-                    acronym: workedCompChapterVM.acronym
+                if WCompEntity.exists(
+                    number: workedCompVM.number
                 ) {
                     // doublon
                     alertTitle = "Ajout impossible"
-                    alertMessage = "Un chapitre de compétences travaillées pour ce cycle existe déjà."
+                    alertMessage = "Une compétence avec ce numéro existe déjà."
                     alertIsPresented.toggle()
 
-                } else if workedCompChapterVM.acronym.isEmpty {
-                    alertTitle = "Ajout impossible"
-                    alertMessage = "L'acronyme de la compétence est obligatoire."
-                    focus = .acronym
-                    alertIsPresented.toggle()
-
-                } else if workedCompChapterVM.description.isEmpty {
+                } else if workedCompVM.description.isEmpty {
                     alertTitle = "Ajout impossible"
                     alertMessage = "La description de la compétence est obligatoire."
                     focus = .description
@@ -161,7 +132,8 @@ extension WorkedCompCreatorModal {
                 } else {
                     // Créer et Ajouter un nouveau chapitre de compétences
                     withAnimation {
-                        workedCompChapterVM.createAndSaveEntity()
+                        workedCompVM
+                            .createAndSaveEntity(inChapter: chapter)
                     }
                     dismiss()
                 }
@@ -170,8 +142,8 @@ extension WorkedCompCreatorModal {
     }
 }
 
-struct WorkedCompCreatorModal_Previews: PreviewProvider {
-    static var previews: some View {
-        WorkedCompCreatorModal()
-    }
-}
+// struct WorkedCompCreatorModal_Previews: PreviewProvider {
+//    static var previews: some View {
+//        WorkedCompCreatorModal()
+//    }
+// }

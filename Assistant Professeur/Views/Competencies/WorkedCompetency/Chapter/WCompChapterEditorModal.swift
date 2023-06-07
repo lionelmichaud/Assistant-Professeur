@@ -1,5 +1,5 @@
 //
-//  WorkedCompEditorModal.swift
+//  WCompChapterEditorModal.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 05/06/2023.
@@ -8,12 +8,12 @@
 import HelpersView
 import SwiftUI
 
-struct WorkedCompEditorModal: View {
+struct WCompChapterEditorModal: View {
     @ObservedObject
-    var chapter: WorkedCompChapterEntity
+    var chapter: WCompChapterEntity
 
     @StateObject
-    private var workedCompChapterVM = WorkedCompViewModel()
+    private var workedCompChapterVM = WCompChapterViewModel()
 
     @Environment(\.dismiss)
     private var dismiss
@@ -48,14 +48,9 @@ struct WorkedCompEditorModal: View {
 
     var body: some View {
         Form {
-            VStack {
-                HStack {
-                    cycle
-                        .padding(.trailing)
-                    acronym
-                }
-                description
-            }
+            cycle
+            acronym
+            description
         }
         .onSubmit {
             focus?.moveToNext()
@@ -79,7 +74,7 @@ struct WorkedCompEditorModal: View {
 
 // MARK: - Subviews
 
-extension WorkedCompEditorModal {
+extension WCompChapterEditorModal {
     var cycle: some View {
         // niveau de cette classe
         LabeledContent {
@@ -89,7 +84,7 @@ extension WorkedCompEditorModal {
             )
             .pickerStyle(.menu)
         } label: {
-            Image(systemName: WorkedCompChapterEntity.defaultImageName)
+            Image(systemName: WCompChapterEntity.defaultImageName)
                 .sfSymbolStyling()
         }
         .frame(maxWidth: 140)
@@ -129,7 +124,7 @@ extension WorkedCompEditorModal {
 
 // MARK: Toolbar Content
 
-extension WorkedCompEditorModal {
+extension WCompChapterEditorModal {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
@@ -141,7 +136,7 @@ extension WorkedCompEditorModal {
         ToolbarItem(placement: .confirmationAction) {
             Button("Ok") {
                 // Ajouter un nouveau programme
-                if WorkedCompChapterEntity.exists(
+                if WCompChapterEntity.exists(
                     cycle: workedCompChapterVM.cycle,
                     acronym: workedCompChapterVM.acronym
                 ) {
@@ -166,7 +161,7 @@ extension WorkedCompEditorModal {
                     // Modifier le chapitre de compétences
                     withAnimation {
                         workedCompChapterVM.update(this: chapter)
-                        try? WorkedCompChapterEntity.saveIfContextHasChanged()
+                        try? WCompChapterEntity.saveIfContextHasChanged()
                     }
                     dismiss()
                 }
@@ -175,7 +170,7 @@ extension WorkedCompEditorModal {
     }
 }
 
-//struct WorkedCompEditorModal_Previews: PreviewProvider {
+//struct WCompChapterEditorModal_Previews: PreviewProvider {
 //    static var previews: some View {
 //        WorkedCompEditorModal()
 //    }

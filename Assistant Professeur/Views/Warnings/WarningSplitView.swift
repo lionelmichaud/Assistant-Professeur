@@ -40,30 +40,24 @@ struct WarningSplitView: View {
         } content: {
             // 2nde colonne
             switch navig.selectedWarningType {
+                case .none:
+                    EmptyListMessage(
+                        symbolName: "exclamationmark.triangle",
+                        title: "Aucun type d'avertissement sélectionné.",
+                        message: "Sélectionner un type d'avertissement.",
+                        showAsGroupBox: true
+                    )
+
                 case .colle:
                     ColleSidebarView()
 
                 case .observation:
                     ObservSidebarView()
-
-                case .none:
-                    EmptyListMessage(
-                        symbolName: "exclamationmark.triangle",
-                        title: "Aucun type d'avertissement sélectionné.",
-                        message: "Sélectionner un type d'avertissement.",
-                        showAsGroupBox: true
-                    )
             }
 
         } detail: {
             // Détail dans la 3ième colonne
             switch navig.selectedWarningType {
-                case .colle:
-                    ColleEditor()
-
-                case .observation:
-                    ObservEditor()
-
                 case .none:
                     EmptyListMessage(
                         symbolName: "exclamationmark.triangle",
@@ -71,6 +65,12 @@ struct WarningSplitView: View {
                         message: "Sélectionner un type d'avertissement.",
                         showAsGroupBox: true
                     )
+
+                case .colle:
+                    ColleEditor()
+
+                case .observation:
+                    ObservEditor()
             }
         }
         .navigationSplitViewStyle(.balanced)

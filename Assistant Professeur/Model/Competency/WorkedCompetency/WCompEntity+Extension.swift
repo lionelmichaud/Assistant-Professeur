@@ -1,5 +1,5 @@
 //
-//  WorkedCompEntity+Extension.swift
+//  WCompEntity+Extension.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 04/06/2023.
@@ -8,7 +8,7 @@
 import CoreData
 import Foundation
 
-extension WorkedCompEntity {
+extension WCompEntity {
     // MARK: - Computed properties
 
     /// Nom de l'image par défaut utilisée pour représenter un établissement
@@ -31,7 +31,7 @@ extension WorkedCompEntity {
 
     @objc
     var viewAcronym: String {
-        self.chapter?.viewAcronym ?? "??"
+        (self.chapter?.viewAcronym ?? "??") + "." + String(self.viewNumber)
     }
 
     /// Wrapper of `descrip`
@@ -55,13 +55,13 @@ extension WorkedCompEntity {
 
 // MARK: - Extension CoreData
 
-extension WorkedCompEntity {
+extension WCompEntity {
     // MARK: - Type Computed Properties
 
     static var byAcronymNSSortDescriptor: [NSSortDescriptor] =
         [
             NSSortDescriptor(
-                keyPath: \WorkedCompEntity.viewAcronym,
+                keyPath: \WCompEntity.viewAcronym,
                 ascending: true
             )
         ]
@@ -70,8 +70,8 @@ extension WorkedCompEntity {
     ///
     /// Ordre de tri:
     ///   1. Acronym
-    static var requestAllSortedByAcronym: NSFetchRequest<WorkedCompEntity> {
-        let request = WorkedCompEntity.fetchRequest()
+    static var requestAllSortedByAcronym: NSFetchRequest<WCompEntity> {
+        let request = WCompEntity.fetchRequest()
         request.sortDescriptors = Self.byAcronymNSSortDescriptor
         return request
     }
@@ -79,20 +79,20 @@ extension WorkedCompEntity {
     // MARK: - Computed properties
 
     /// Liste des Compétences Disciplinaires non triées
-    var allDisciplineCompetencies: [DisciplineCompEntity] {
+    var allDisciplineCompetencies: [DCompEntity] {
         if let disciplineCompetencies {
-            return (disciplineCompetencies.allObjects as! [DisciplineCompEntity])
+            return (disciplineCompetencies.allObjects as! [DCompEntity])
         } else {
             return []
         }
     }
 
     /// Liste des Compétences Disciplinaires triées par numéro
-    var disciplineCompSortedByNumber: [DisciplineCompEntity] {
+    var disciplineCompSortedByNumber: [DCompEntity] {
         let sortComparators =
             [
                 SortDescriptor(
-                    \DisciplineCompEntity.number,
+                    \DCompEntity.number,
                     order: .forward
                 )
             ]
@@ -107,25 +107,25 @@ extension WorkedCompEntity {
 
     /// Retourne true si un object équivalent existe déjà dans le context.
     ///
-    /// Si `objectID` != `nil` alors on retourne true seulement
-    /// si l'objet existant possède le même identifiant.
+    /// Si `thisObjectID` != `nil` alors on retourne true seulement
+    /// si un objet existant possède un identifiant différent de `thisObjectID`.
     static func exists(
-        acronym: String,
-        objectID: NSManagedObjectID? = nil
+        number: Int,
+        thisObjectID: NSManagedObjectID? = nil
     ) -> Bool {
         all().contains {
-            $0.viewAcronym == acronym &&
-                (objectID == nil || $0.objectID != objectID)
+            $0.viewNumber == number &&
+                (thisObjectID == nil || $0.objectID != thisObjectID)
         }
     }
 
     // MARK: - Type Methods
 
-    static func allSortedbyAcronym() -> [WorkedCompEntity] {
+    static func allSortedbyAcronym() -> [WCompEntity] {
         do {
-            return try WorkedCompEntity
+            return try WCompEntity
                 .context
-                .fetch(WorkedCompEntity.requestAllSortedByAcronym)
+                .fetch(WCompEntity.requestAllSortedByAcronym)
         } catch {
             return []
         }
@@ -136,12 +136,15 @@ extension WorkedCompEntity {
     @discardableResult
     static func create(
         number: Int,
-        description: String
-    ) -> WorkedCompEntity {
-        let comp = WorkedCompEntity.create()
+        description: String,
+        inChapter chapter: WCompChapterEntity
+    ) -> WCompEntity {
+        let comp = WCompEntity.create()
 
         comp.number = Int16(number)
         comp.descrip = description
+
+        comp.chapter = chapter
 
         try? Self.saveIfContextHasChanged()
         return comp
@@ -168,7 +171,7 @@ extension WorkedCompEntity {
 
 // MARK: - Extension Debug
 
-public extension WorkedCompEntity {
+public extension WCompEntity {
     override var description: String {
         """
 
