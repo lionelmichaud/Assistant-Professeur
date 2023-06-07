@@ -1470,8 +1470,8 @@
 				79388A5229257045002AABB8 /* NavigationModel.swift */,
 				79F7708C2A2B7F89004E9089 /* NavigationModel+Extensions.swift */,
 				798B825F296CAC84004A24A8 /* ImportExportManager.swift */,
-				79BA2D49299C00CD006325CC /* CsvImportExportMng.swift */,
 				79BA2D4B299C0287006325CC /* ImageImportExportMng.swift */,
+				79BA2D49299C00CD006325CC /* CsvImportExportMng.swift */,
 				79BA2D47299C0084006325CC /* JsonImportExportMng.swift */,
 				799EFBA32A2CFC66008E9775 /* FileOperationTypes.swift */,
 			);

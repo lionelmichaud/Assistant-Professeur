@@ -18,6 +18,8 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
     static let ownerFileName = String(describing: OwnerEntity.self) + ".json"
     static let schoolsFileName = String(describing: SchoolEntity.self) + ".json"
     static let programsFileName = String(describing: ProgramEntity.self) + ".json"
+    static let wCompetenciesFileName = String(describing: WCompChapterEntity.self) + ".json"
+    static let dCompetenciesFileName = String(describing: DThemeEntity.self) + ".json"
 
     // MARK: - Export
 
@@ -34,8 +36,10 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
         exportSchoolsToJson()
         // Exporter toutes les entités **ProgramEntity** et leurs descendants vers un fichier au format JSON.
         exportProgramsToJson()
+        // Exporter toutes les entités **WCompChapterEntity** et leurs descendants vers un fichier au format JSON.
+        exportWorkedCompetenciesToJson()
 
-        // Exporter les fichiers annexes (PDF, JPEG, PNG...) des autres entités
+        // Exporter les fichiers annexes (PDF, JPEG, PNG...) des autres entités.
         return exportedAnnexeFiles()
     }
 
@@ -69,6 +73,17 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
         cachesUrl.encode(
             ProgramEntity.all(),
             to: programsFileName
+        )
+    }
+
+    /// Exporter toutes les entités **WCompChapterEntity** et leurs descendants vers un fichier au format JSON.
+    ///
+    /// Le fichier JSON est enregistré dans le dossier `cache`.
+    private static func exportWorkedCompetenciesToJson() {
+        let cachesUrl = URL.cachesDirectory
+        cachesUrl.encode(
+            WCompChapterEntity.all(),
+            to: wCompetenciesFileName
         )
     }
 

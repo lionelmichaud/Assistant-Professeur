@@ -43,7 +43,7 @@ public final class WCompChapterEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encodeIfPresent(acronym, forKey: .acronym)
 
         try container.encode(
-            competencies as! Set<SequenceEntity>,
+            competencies as! Set<WCompEntity>,
             forKey: .competencies
         )
     }
