@@ -38,7 +38,7 @@ struct WCompListView: View {
     var body: some View {
         Group {
             if selectedChapterExists {
-                List {
+                List(selection: $nav.selectedWorkedCompMngObjId) {
                     ForEach(
                         selectedChapter!.allWorkedCompetenciesSortedByNumber
                     ) { competency in
@@ -78,7 +78,7 @@ struct WCompListView: View {
                 EmptyListMessage(
                     symbolName: WCompEntity.defaultImageName,
                     title: "Aucune compétence sélectionné.",
-                    message: "Les compétences ajoutées apparaîtront ici.",
+                    message: "Les compétences sélectionnées apparaîtront ici.",
                     showAsGroupBox: true
                 )
             }
@@ -93,8 +93,13 @@ struct WCompListView: View {
             isPresented: $isAddingObject
         ) {
             NavigationStack {
-                WCompCreatorModal(chapter: selectedChapter!)
-                    .presentationDetents([.medium])
+                let competency = WCompEntity()
+                WCompEditorModal(
+                    competency: competency,
+                    inChapter: selectedChapter!,
+                    isEditing: false
+                )
+                .presentationDetents([.medium])
             }
         }
 
@@ -104,10 +109,11 @@ struct WCompListView: View {
             onDismiss: didDismiss
         ) { competency in
             NavigationStack {
-//                WCompEditorModal(
-//                    chapter: selectedChapter!,
-//                    competency: competency
-//                )
+                WCompEditorModal(
+                    competency: competency,
+                    inChapter: selectedChapter!,
+                    isEditing: true
+                )
             }
             .presentationDetents([.medium])
         }

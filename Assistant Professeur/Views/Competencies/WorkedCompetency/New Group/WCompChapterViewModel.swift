@@ -21,6 +21,7 @@ class WCompChapterViewModel: ObservableObject {
 
     // MARK: - Initializers
 
+    /// Créer un View Model par défaut ou pas
     internal init(
         cycle: Cycle = .cycle4,
         acronym: String = "",
@@ -31,6 +32,8 @@ class WCompChapterViewModel: ObservableObject {
         self.description = description
     }
 
+    /// Créer un View Model à partir d'un objet existant
+    /// - Parameter workedCompChapter: objet existant
     convenience init(from workedCompChapter: WCompChapterEntity) {
         self.init()
         self.update(from: workedCompChapter)
@@ -38,21 +41,24 @@ class WCompChapterViewModel: ObservableObject {
 
     // MARK: - Methods
 
+    /// Initialiser le View Model à partir d'un objet existant
+    /// - Parameter workedCompChapter: objet existant
     func update(from workedCompChapter: WCompChapterEntity) {
         self.cycle = workedCompChapter.viewCycleEnum
         self.acronym = workedCompChapter.viewAcronym
         self.description = workedCompChapter.viewDescription
     }
 
+    /// Mettre à jour un objet existant à partir d'un View Model
+    /// - Parameter workedCompChapter: objet existant
     func update(this workedCompChapter: WCompChapterEntity) {
         workedCompChapter.viewCycleEnum = self.cycle
         workedCompChapter.viewAcronym = self.acronym
         workedCompChapter.viewDescription = self.description
     }
 
-    /// Créer une entité `ProgramEntity` à partir du VM et
-    ///
-    /// Crée un Groupe 0 pour les élèves de la classe n'appartenant à aucun groupe
+    /// Créer une entité `WCompChapterEntity` à partir du VM et
+    /// le sauveagrader dans le context.
     /// - Important: Saves the context
     func createAndSaveEntity() {
         WCompChapterEntity.create(

@@ -15,7 +15,6 @@ struct WCompChapterListView: View {
 
     @State
     private var isAddingObject = false
-
     @State
     private var editedWorkedChapter: WCompChapterEntity?
 
@@ -36,9 +35,9 @@ struct WCompChapterListView: View {
                         ForEach(section, id: \.objectID) { workedChapter in
                             //                            NavigationLink(value: program.objectID) {
                             WCompChapterBrowserRow(chapter: workedChapter)
-                                // .badge(workedChapter.nbOfWorkedCompetencies)
+                                .badge(workedChapter.nbOfWorkedCompetencies)
                                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                    // supprimer le chapitre
+                                    /// supprimer le chapitre
                                     Button(role: .destructive) {
                                         withAnimation {
                                             if nav.selectedWorkedCompChapterMngObjId == workedChapter.objectID {
@@ -51,7 +50,7 @@ struct WCompChapterListView: View {
                                     }
                                 }
                                 .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                                    // modifier le chapitre
+                                    /// modifier le chapitre
                                     Button {
                                         editedWorkedChapter = workedChapter
                                     } label: {
@@ -62,8 +61,8 @@ struct WCompChapterListView: View {
                         }
                     } header: {
                         Text("\(section.id)")
-                            .font(.headline)
-                            .foregroundColor(.primary)
+                            .font(.body)
+                            .foregroundColor(.secondary)
                             .fontWeight(.bold)
                     }
                 }
@@ -72,7 +71,7 @@ struct WCompChapterListView: View {
                 EmptyListMessage(
                     symbolName: WCompChapterEntity.defaultImageName,
                     title: "Aucun élément actuellement.",
-                    message: "Les éléments de compétences ajoutées apparaîtront ici."
+                    message: "Les éléments de compétences ajoutés apparaîtront ici."
                 )
             }
         }
@@ -81,7 +80,7 @@ struct WCompChapterListView: View {
         #endif
         .toolbar(content: myToolBarContent)
 
-        // Modal Sheet de création d'un chapitre de compétence socle
+        /// Modal Sheet de création d'un chapitre de compétence socle
         .sheet(
             isPresented: $isAddingObject
             //            onDismiss: ProgramEntity.rollback()
@@ -92,11 +91,11 @@ struct WCompChapterListView: View {
                     chapter: chapter,
                     isEditing: false
                 )
+                .presentationDetents([.medium])
             }
-            .presentationDetents([.medium])
         }
 
-        // Modal Sheet de modification d'un chapitre de compétence socle
+        /// Modal Sheet de modification d'un chapitre de compétence socle
         .sheet(
             item: $editedWorkedChapter,
             onDismiss: didDismiss
@@ -122,7 +121,7 @@ extension WCompChapterListView {
     @ToolbarContentBuilder
     func myToolBarContent() -> some ToolbarContent {
         ToolbarItemGroup(placement: .status) {
-            // Ajouter un chapitre de compétences du socle commun
+            /// Ajouter un chapitre de compétences du socle commun
             Button {
                 isAddingObject = true
             } label: {
@@ -135,7 +134,7 @@ extension WCompChapterListView {
         }
 
         ToolbarItemGroup(placement: .navigationBarTrailing) {
-            // Modifier un chapitre de compétences du socle commun
+            /// Modifier un chapitre de compétences du socle commun
             if let selectedObject = nav.selectedWorkedCompChapterMngObjId {
                 Button("Modifier") {
                     editedWorkedChapter =

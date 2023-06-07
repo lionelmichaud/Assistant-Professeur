@@ -15,11 +15,14 @@ struct WCompChapterBrowserRow: View {
     var body: some View {
         Label(
             title: {
-                Text(chapter.viewAcronym)
-                    .fontWeight(.bold)
-                Text(chapter.viewDescription)
-                    .foregroundColor(.secondary)
-                    .lineLimit(2)
+                Group {
+                    Text(chapter.viewAcronym)
+                        .fontWeight(.bold) +
+                    Text(". ") +
+                        Text(chapter.viewDescription)
+                        .foregroundColor(.secondary)
+                }
+                .lineLimit(5)
             },
             icon: {
                 Image(systemName: WCompChapterEntity.defaultImageName)

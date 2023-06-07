@@ -55,7 +55,8 @@ struct CompetencySidebarView: View {
 
             case .disciplineCompetencies:
                 return 1
-//                return DisciplineThemeEntity.cardinal()
+                // TODO: - Implémener cadrdinal de DThemeEntity
+                //return DThemeEntity.cardinal()
         }
     }
 }
@@ -70,9 +71,10 @@ extension CompetencySidebarView {
             Menu {
                 Menu("Exporter") {
                     Button {
-                        CsvImportExportMng.exportPrograms()
-                        fileExportOperation = .exportCsvPrograms
-                        isExportingModel.toggle()
+                        // TODO: - Implémenter export CSV des Compétences
+//                        CsvImportExportMng.exportPrograms()
+//                        fileExportOperation = .exportCsvPrograms
+//                        isExportingModel.toggle()
                     } label: {
                         Label(
                             "Exporter les compétences en CSV",

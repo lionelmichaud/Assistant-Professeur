@@ -137,11 +137,7 @@ extension WCompChapterEntity {
         return allWorkedCompetencies.sorted(using: sortComparators)
     }
 
-    override public func awakeFromInsert() {
-        super.awakeFromInsert()
-        // Set defaults here
-        self.id = UUID()
-    }
+    // MARK: - Type Methods
 
     /// Retourne true si un object équivalent existe déjà dans le context.
     ///
@@ -154,12 +150,10 @@ extension WCompChapterEntity {
     ) -> Bool {
         all().contains {
             $0.viewCycleEnum == cycle &&
-            $0.viewAcronym == acronym &&
-            (thisObjectID == nil || $0.objectID != thisObjectID)
+                $0.viewAcronym == acronym &&
+                (thisObjectID == nil || $0.objectID != thisObjectID)
         }
     }
-
-    // MARK: - Type Methods
 
     static func allSortedbyCycleTitle() -> [WCompChapterEntity] {
         do {
@@ -170,6 +164,7 @@ extension WCompChapterEntity {
             return []
         }
     }
+
     /// Créer une nouvelle instance et la sauvegarder dans le context
     /// - Important: Saves the context
     @discardableResult
@@ -220,6 +215,29 @@ extension WCompChapterEntity {
                 ))
             }
         }
+    }
+
+    // MARK: - Methods
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
+    }
+
+    /// Recherche si la compétence existe déjà dans ce chapitre.
+    ///
+    /// Si `thisObjectID` != `nil` alors on retourne true seulement
+    /// si un objet existant possède un identifiant différent de `thisObjectID`.
+    func exists(
+        number: Int,
+        thisObjectID: NSManagedObjectID? = nil
+    ) -> Bool {
+        (self.competencies?.allObjects as! [WCompEntity])
+            .contains {
+                $0.viewNumber == number &&
+                    (thisObjectID == nil || $0.objectID != thisObjectID)
+            }
     }
 }
 

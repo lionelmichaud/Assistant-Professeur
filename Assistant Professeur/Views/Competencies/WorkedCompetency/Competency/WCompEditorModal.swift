@@ -1,5 +1,5 @@
 //
-//  WCompCreatorModal.swift
+//  WCompEditorModal.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 06/06/2023.
@@ -8,8 +8,13 @@
 import HelpersView
 import SwiftUI
 
-struct WCompCreatorModal: View {
-    var chapter: WCompChapterEntity
+struct WCompEditorModal: View {
+    @ObservedObject
+    var competency: WCompEntity
+
+    var inChapter: WCompChapterEntity
+
+    var isEditing: Bool
 
     @StateObject
     private var workedCompVM = WCompViewModel()
@@ -55,6 +60,9 @@ struct WCompCreatorModal: View {
         }
         .onAppear {
             focus = .number
+            if isEditing {
+                workedCompVM.update(from: competency)
+            }
         }
         .alert(
             alertTitle,
@@ -64,14 +72,14 @@ struct WCompCreatorModal: View {
         )
         .toolbar(content: myToolBarContent)
         #if os(iOS)
-            .navigationTitle("Nouvelle Compétence")
+            .navigationTitle(isEditing ? "Modification" : "Nouvelle Compétence")
         #endif
     }
 }
 
 // MARK: - Subviews
 
-extension WCompCreatorModal {
+extension WCompEditorModal {
     var number: some View {
         IntegerEditView2(
             label: "Numéro",
@@ -103,7 +111,7 @@ extension WCompCreatorModal {
 
 // MARK: Toolbar Content
 
-extension WCompCreatorModal {
+extension WCompEditorModal {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
@@ -113,10 +121,11 @@ extension WCompCreatorModal {
             }
         }
         ToolbarItem(placement: .confirmationAction) {
-            Button("Ajouter") {
+            Button(isEditing ? "Ok" : "Ajouter") {
                 // Ajouter un nouveau programme
-                if WCompEntity.exists(
-                    number: workedCompVM.number
+                if inChapter.exists(
+                    number: workedCompVM.number,
+                    thisObjectID: isEditing ? competency.objectID : nil
                 ) {
                     // doublon
                     alertTitle = "Ajout impossible"
@@ -132,8 +141,14 @@ extension WCompCreatorModal {
                 } else {
                     // Créer et Ajouter un nouveau chapitre de compétences
                     withAnimation {
-                        workedCompVM
-                            .createAndSaveEntity(inChapter: chapter)
+                        if isEditing {
+                            workedCompVM.update(this: competency)
+                            try? WCompEntity
+                                .saveIfContextHasChanged()
+                        } else {
+                            workedCompVM
+                                .createAndSaveEntity(inChapter: inChapter)
+                        }
                     }
                     dismiss()
                 }

@@ -18,10 +18,10 @@ struct WCompBrowserRow: View {
                     .fontWeight(.bold)
                 Text(workedComp.viewDescription)
                     .foregroundColor(.secondary)
-                    .lineLimit(2)
+                    .lineLimit(4)
             },
             icon: {
-                Image(systemName: WCompChapterEntity.defaultImageName)
+                Image(systemName: WCompEntity.defaultImageName)
             }
         )
     }

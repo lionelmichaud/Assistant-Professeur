@@ -116,6 +116,8 @@
 		796521D42A14E0F3000C27D1 /* ElevePref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796521D32A14E0F3000C27D1 /* ElevePref.swift */; };
 		796521D62A14EF1E000C27D1 /* DailySchedulePref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796521D52A14EF1E000C27D1 /* DailySchedulePref.swift */; };
 		796699D72A30BF0400DF14AB /* WCompChapterEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796699D62A30BF0400DF14AB /* WCompChapterEditorModal.swift */; };
+		796699D92A30D38100DF14AB /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791A0CDC29746A31004CA543 /* DataBaseManager.swift */; };
+		796699DB2A30D38E00DF14AB /* DataBaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796699DA2A30D38E00DF14AB /* DataBaseError.swift */; };
 		796793C72A12C0B80037173D /* UserPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796793C62A12C0B80037173D /* UserPreferences.swift */; };
 		7967CFFA2A0D57BA00392F89 /* SchoolContactEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967CFF92A0D57BA00392F89 /* SchoolContactEditView.swift */; };
 		796A242329A137E7009B2A6C /* ActivityClassProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A242229A137E7009B2A6C /* ActivityClassProgressView.swift */; };
@@ -150,7 +152,7 @@
 		798D24F12A2DD812008500D2 /* WCompChapterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798D24F02A2DD812008500D2 /* WCompChapterViewModel.swift */; };
 		798D24F42A2E085F008500D2 /* WCompChapterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798D24F32A2E085F008500D2 /* WCompChapterListView.swift */; };
 		798D24FA2A2E88CA008500D2 /* WCompListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798D24F92A2E88CA008500D2 /* WCompListView.swift */; };
-		798D24FC2A2E9767008500D2 /* WCompCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798D24FB2A2E9767008500D2 /* WCompCreatorModal.swift */; };
+		798D24FC2A2E9767008500D2 /* WCompEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798D24FB2A2E9767008500D2 /* WCompEditorModal.swift */; };
 		798D24FE2A2E98C8008500D2 /* WCompViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798D24FD2A2E98C8008500D2 /* WCompViewModel.swift */; };
 		798DD4D2298C318F00C47B2C /* ExamListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D1298C318F00C47B2C /* ExamListView.swift */; };
 		798DD4D4298C352A00C47B2C /* StepsNotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D3298C352A00C47B2C /* StepsNotationView.swift */; };
@@ -436,6 +438,7 @@
 		796521D32A14E0F3000C27D1 /* ElevePref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevePref.swift; sourceTree = "<group>"; };
 		796521D52A14EF1E000C27D1 /* DailySchedulePref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySchedulePref.swift; sourceTree = "<group>"; };
 		796699D62A30BF0400DF14AB /* WCompChapterEditorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WCompChapterEditorModal.swift; path = ../../../../../../../../../.Trash/WCompChapterEditorModal.swift; sourceTree = "<group>"; };
+		796699DA2A30D38E00DF14AB /* DataBaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseError.swift; sourceTree = "<group>"; };
 		7966DCF8292573A1001D6C7F /* AppFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppFoundation; path = ../Packages/AppFoundation; sourceTree = "<group>"; };
 		796793C62A12C0B80037173D /* UserPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferences.swift; sourceTree = "<group>"; };
 		7967CFF92A0D57BA00392F89 /* SchoolContactEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolContactEditView.swift; sourceTree = "<group>"; };
@@ -471,7 +474,7 @@
 		798D24F02A2DD812008500D2 /* WCompChapterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WCompChapterViewModel.swift; path = "../New Group/WCompChapterViewModel.swift"; sourceTree = "<group>"; };
 		798D24F32A2E085F008500D2 /* WCompChapterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompChapterListView.swift; sourceTree = "<group>"; };
 		798D24F92A2E88CA008500D2 /* WCompListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompListView.swift; sourceTree = "<group>"; };
-		798D24FB2A2E9767008500D2 /* WCompCreatorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompCreatorModal.swift; sourceTree = "<group>"; };
+		798D24FB2A2E9767008500D2 /* WCompEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompEditorModal.swift; sourceTree = "<group>"; };
 		798D24FD2A2E98C8008500D2 /* WCompViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompViewModel.swift; sourceTree = "<group>"; };
 		798DD4D1298C318F00C47B2C /* ExamListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListView.swift; sourceTree = "<group>"; };
 		798DD4D3298C352A00C47B2C /* StepsNotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsNotationView.swift; sourceTree = "<group>"; };
@@ -707,10 +710,10 @@
 		791DEE1A2A3078F100D0E248 /* Competency */ = {
 			isa = PBXGroup;
 			children = (
-				798D24F92A2E88CA008500D2 /* WCompListView.swift */,
-				798D24FB2A2E9767008500D2 /* WCompCreatorModal.swift */,
 				798D24FD2A2E98C8008500D2 /* WCompViewModel.swift */,
+				798D24F92A2E88CA008500D2 /* WCompListView.swift */,
 				791DEE172A2FFB7C00D0E248 /* WCompBrowserRow.swift */,
+				798D24FB2A2E9767008500D2 /* WCompEditorModal.swift */,
 			);
 			path = Competency;
 			sourceTree = "<group>";
@@ -1040,6 +1043,16 @@
 				796521D52A14EF1E000C27D1 /* DailySchedulePref.swift */,
 			);
 			path = Preferences;
+			sourceTree = "<group>";
+		};
+		796699D82A30D37100DF14AB /* DataBase */ = {
+			isa = PBXGroup;
+			children = (
+				79388A4429256819002AABB8 /* CoreDataManager.swift */,
+				791A0CDC29746A31004CA543 /* DataBaseManager.swift */,
+				796699DA2A30D38E00DF14AB /* DataBaseError.swift */,
+			);
+			path = DataBase;
 			sourceTree = "<group>";
 		};
 		7966DCF7292573A1001D6C7F /* Packages */ = {
@@ -1451,8 +1464,7 @@
 			isa = PBXGroup;
 			children = (
 				796521D02A14DB3B000C27D1 /* Preferences */,
-				79388A4429256819002AABB8 /* CoreDataManager.swift */,
-				791A0CDC29746A31004CA543 /* DataBaseManager.swift */,
+				796699D82A30D37100DF14AB /* DataBase */,
 				79DEDB212925991100F508EF /* Persistence.swift */,
 				79DEDB242925996E00F508EF /* Interoperability.swift */,
 				79388A5229257045002AABB8 /* NavigationModel.swift */,
@@ -1924,7 +1936,7 @@
 				7989B4DF29A2A63000383F84 /* ClassSequenceProgressEditView.swift in Sources */,
 				793D6279295F29DD00477932 /* ColleEditor.swift in Sources */,
 				7989B4DD29A28F8E00383F84 /* CompletionSymbol.swift in Sources */,
-				798D24FC2A2E9767008500D2 /* WCompCreatorModal.swift in Sources */,
+				798D24FC2A2E9767008500D2 /* WCompEditorModal.swift in Sources */,
 				7941BC662A030C5100EF9F30 /* Owner+Extensions.swift in Sources */,
 				79DEDB042925902800F508EF /* SchoolSidebarView.swift in Sources */,
 				7921F54C2925825800173F39 /* ModelEntityP.swift in Sources */,
@@ -1941,6 +1953,7 @@
 				79E40E812997D8BB006BBE49 /* Observ+CoreDataClass.swift in Sources */,
 				798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */,
 				798D24F12A2DD812008500D2 /* WCompChapterViewModel.swift in Sources */,
+				796699DB2A30D38E00DF14AB /* DataBaseError.swift in Sources */,
 				799EFBA62A2CFE45008E9775 /* WCompChapterBrowserRow.swift in Sources */,
 				797AD2B429913B4C00BE5D37 /* School+CoreDataClass.swift in Sources */,
 				79F41E712954D2F900EAAC52 /* EleveLabel.swift in Sources */,
@@ -1962,6 +1975,7 @@
 				79D5734A2927F16B00B0B7B8 /* LevelSchool.swift in Sources */,
 				79388A5029257025002AABB8 /* AppState.swift in Sources */,
 				79DEDB2C2925996E00F508EF /* Preferences.swift in Sources */,
+				796699D92A30D38100DF14AB /* DataBaseManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

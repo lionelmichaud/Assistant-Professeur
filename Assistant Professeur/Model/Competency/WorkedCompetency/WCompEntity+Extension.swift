@@ -105,20 +105,6 @@ extension WCompEntity {
         self.id = UUID()
     }
 
-    /// Retourne true si un object équivalent existe déjà dans le context.
-    ///
-    /// Si `thisObjectID` != `nil` alors on retourne true seulement
-    /// si un objet existant possède un identifiant différent de `thisObjectID`.
-    static func exists(
-        number: Int,
-        thisObjectID: NSManagedObjectID? = nil
-    ) -> Bool {
-        all().contains {
-            $0.viewNumber == number &&
-                (thisObjectID == nil || $0.objectID != thisObjectID)
-        }
-    }
-
     // MARK: - Type Methods
 
     static func allSortedbyAcronym() -> [WCompEntity] {
@@ -165,6 +151,13 @@ extension WCompEntity {
                     id: comp.id
                 ))
             }
+            if comp.chapter == nil {
+                errorList.append(DataBaseError.noOwner(
+                    entity: Self.entity().name!,
+                    name: comp.description,
+                    id: comp.id
+                ))
+            }
         }
     }
 }
@@ -177,9 +170,10 @@ public extension WCompEntity {
 
         COMPÉTENCES DU SOCLE:
            ID          : \(String(describing: id))
+           Chapitre    : \(String(describing: chapter?.viewAcronym))
            Numéro      : \(viewNumber)
            Description : \(viewDescription)
-           Compétences : \(String(describing: disciplineCompetencies).withPrefixedSplittedLines("     "))
         """
+        //           Compétences disciplinaires : \(String(describing: disciplineCompetencies).withPrefixedSplittedLines("     "))
     }
 }
