@@ -54,7 +54,7 @@ final class NavigationModel: ObservableObject, Codable {
     @Published
     var selectedWarningType: WarningSelection?
     @Published
-    var selectedCompetenceType: CompetencyTypeSelection?
+    var selectedCompetenceType: CompetencySelection?
     @Published
     var classPath = [ClasseNavigationRoute]()
     @Published
@@ -230,7 +230,7 @@ final class NavigationModel: ObservableObject, Codable {
         selectedTab: TabSelection = .school,
         selectedPrefTab: PrefTabSelection = .general,
         selectedWarningType: WarningSelection? = nil,
-        selectedCompetenceType: CompetencyTypeSelection? = nil,
+        selectedCompetenceType: CompetencySelection? = nil,
         selectedProgramMngObjId: NSManagedObjectID? = nil,
         selectedSequenceMngObjId: NSManagedObjectID? = nil,
         selectedActivityMngObjId: NSManagedObjectID? = nil,
@@ -289,7 +289,7 @@ final class NavigationModel: ObservableObject, Codable {
             WarningSelection.self, forKey: .selectedWarningType
         )
         self.selectedCompetenceType = try container.decodeIfPresent(
-            CompetencyTypeSelection.self, forKey: .selectedCompetenceType
+            CompetencySelection.self, forKey: .selectedCompetenceType
         )
         // FIXME: Plante dans ClasseSideBar si on décode ici
 //        self.classPath = try container.decode(
@@ -386,7 +386,7 @@ final class NavigationModel: ObservableObject, Codable {
         selectedTab = .school
         selectedPrefTab = .general
         selectedWarningType = .observation
-        selectedCompetenceType = .disciplineCompetencies
+        selectedCompetenceType = .workedCompetencies
 
         selectedProgramMngObjId = nil
         selectedSequenceMngObjId = nil

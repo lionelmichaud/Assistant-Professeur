@@ -19,21 +19,30 @@ struct CompetencySidebarView: View {
     private var fileExportOperation = FileExportOperation.none
 
     var body: some View {
-        List(
-            CompetencyTypeSelection.allCases,
-            id: \.self,
-            selection: $navig.selectedCompetenceType
-        ) { type in
-            Label(
-                title: {
-                    Text(type.rawValue)
-                        .fontWeight(.bold)
-                },
-                icon: {
-                    Image(systemName: WCompChapterEntity.defaultImageName)
+        List(selection: $navig.selectedCompetenceType) {
+            // Compétences du socle
+            NavigationLink(value: CompetencySelection.workedCompetencies) {
+                label(CompetencySelection.workedCompetencies)
+                // .badge(cardinal(type))
+            }
+
+            // Compétences disciplinaires
+            Section {
+                // Pour chaque discipline
+                ForEach(Discipline.allCases) { discipline in
+                    NavigationLink(
+                        value: CompetencySelection.disciplineCompetencies(discipline: discipline)
+                    ) {
+                        label(CompetencySelection.disciplineCompetencies(discipline: discipline))
+                    }
                 }
-            )
-            .badge(cardinal(type))
+
+            } header: {
+                Text("Compétences disciplinaires")
+                    .font(.callout)
+                    .foregroundColor(.secondary)
+                    .fontWeight(.bold)
+            }
         }
         #if os(iOS)
         .navigationTitle("Compétences")
@@ -48,7 +57,20 @@ struct CompetencySidebarView: View {
         }
     }
 
-    private func cardinal(_ type: CompetencyTypeSelection) -> Int {
+    @ViewBuilder
+    private func label(_ type: CompetencySelection) -> some View {
+        Label(
+            title: {
+                Text(type.label)
+                    .fontWeight(.bold)
+            },
+            icon: {
+                Image(systemName: WCompEntity.defaultImageName)
+            }
+        )
+    }
+
+    private func cardinal(_ type: CompetencySelection) -> Int {
         switch type {
             case .workedCompetencies:
                 return WCompChapterEntity.cardinal()
@@ -56,7 +78,7 @@ struct CompetencySidebarView: View {
             case .disciplineCompetencies:
                 return 1
                 // TODO: - Implémener cadrdinal de DThemeEntity
-                //return DThemeEntity.cardinal()
+                // return DThemeEntity.cardinal()
         }
     }
 }

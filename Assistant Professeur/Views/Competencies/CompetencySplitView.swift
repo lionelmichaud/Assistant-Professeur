@@ -7,9 +7,19 @@
 
 import SwiftUI
 
-enum CompetencyTypeSelection: String, Hashable, CaseIterable, Codable {
-    case workedCompetencies = "Compétences du socle"
-    case disciplineCompetencies = "Compétences disciplinaires"
+enum CompetencySelection: Hashable, Codable {
+    case workedCompetencies
+    case disciplineCompetencies(discipline: Discipline)
+
+    var label: String {
+        switch self {
+            case .workedCompetencies:
+                return "Compétences du socle"
+                
+            case .disciplineCompetencies(discipline: let discipline):
+                return discipline.displayString
+        }
+    }
 }
 
 struct CompetencySplitView: View {

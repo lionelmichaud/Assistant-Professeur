@@ -36,7 +36,8 @@ struct EleveSidebarView: View {
                         )
                     } header: {
                         Text(school.displayString)
-                            .foregroundColor(.primary)
+                            .font(.callout)
+                            .foregroundColor(.secondary)
                             .fontWeight(.bold)
                     }
                 } else {
