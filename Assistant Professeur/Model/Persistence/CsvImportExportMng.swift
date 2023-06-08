@@ -23,6 +23,7 @@ enum CsvImportExportMng { // swiftlint:disable:this type_body_length
 
     static let csvEleveListFileName = "élèves.csv"
     static let csvProgramListFileName = "programmes.csv"
+    static let csvCompetencyListFileName = "compétances.csv"
 
     static func csvClasseGroupFileName(classe: ClasseEntity) -> String {
         (classe.school?.displayString ?? "") + "_" + classe.displayString + "_groupes.csv"
@@ -36,6 +37,10 @@ enum CsvImportExportMng { // swiftlint:disable:this type_body_length
             falseEncoding: "FAUX",
             delimiter: ";"
         )
+    }
+
+    static func exportCompetencies() {
+        // TODO: - Implémenter export CSV des Compétences
     }
 
     /// Exporter la liste des Programmes

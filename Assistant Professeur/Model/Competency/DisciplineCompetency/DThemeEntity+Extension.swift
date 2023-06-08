@@ -1,14 +1,14 @@
 //
-//  WorkedCompetencyChapterEntity+Extension.swift
+//  DThemeEntity+Extension.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 04/06/2023.
+//  Created by Lionel MICHAUD on 07/06/2023.
 //
 
 import CoreData
 import Foundation
 
-extension WCompChapterEntity {
+extension DThemeEntity {
     // MARK: - Computed properties
 
     /// Nom de l'image par défaut utilisée pour représenter un établissement
@@ -57,6 +57,42 @@ extension WCompChapterEntity {
         self.cycle = newCycle.rawValue
     }
 
+    /// Wrapper of `discipline`
+    /// - Important: *Saves the context to the store after modification is done*
+    var viewDisciplineEnum: Discipline {
+        get {
+            if let discipline {
+                return Discipline(rawValue: discipline) ?? .technologie
+            } else {
+                return .technologie
+            }
+        }
+        set {
+            self.discipline = newValue.rawValue
+            try? Self.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `discipline`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    var disciplineEnum: Discipline {
+        get {
+            if let discipline {
+                return Discipline(rawValue: discipline) ?? .technologie
+            } else {
+                return .technologie
+            }
+        }
+        set {
+            self.discipline = newValue.rawValue
+        }
+    }
+
+    @objc
+    var disciplineString: String {
+        viewDisciplineEnum.displayString
+    }
+
     /// Wrapper of `acronym`
     /// - Important: *Saves the context to the store after modification is done*
     @objc
@@ -83,61 +119,67 @@ extension WCompChapterEntity {
         }
     }
 
-    /// Nombre de **Compétences** Travaillées dans ce **Chapitre**
-    var nbOfWorkedCompetencies: Int {
-        Int(compCount)
+    /// Nombre de Sections de Compétences disciplinaires
+    var nbOfSections: Int {
+        Int(sectionsCount)
     }
 }
 
 // MARK: - Extension CoreData
 
-extension WCompChapterEntity {
+extension DThemeEntity {
     // MARK: - Type Computed Properties
 
     /// Ordre de tri:
-    ///   1. Cycle
-    ///   2. Acronyme
-    static var byCycleAcronymNSSortDescriptor: [NSSortDescriptor] =
+    ///   1. Discipline
+    ///   2. Cycle
+    ///   3. Titre du thème
+    static var byDiscCycleAcronymNSSortDescriptor: [NSSortDescriptor] =
         [
             NSSortDescriptor(
-                keyPath: \WCompChapterEntity.cycle,
+                keyPath: \DThemeEntity.cycle,
                 ascending: true
             ),
             NSSortDescriptor(
-                keyPath: \WCompChapterEntity.acronym,
+                keyPath: \DThemeEntity.discipline,
+                ascending: true
+            ),
+            NSSortDescriptor(
+                keyPath: \DThemeEntity.acronym,
                 ascending: true
             )
         ]
 
-    /// Requête pour toutes les **Chapitres** de compétences triées.
+    /// Requête pour toutes les **Thèmes** de compétences disciplinaires triées.
     ///
     /// Ordre de tri:
-    ///   1. Cycle
-    ///   2. Acronyme
-    static var requestAllSortedByCycleAcronymTitle: NSFetchRequest<WCompChapterEntity> {
-        let request = WCompChapterEntity.fetchRequest()
-        request.sortDescriptors = Self.byCycleAcronymNSSortDescriptor
+    ///   1. Discipline
+    ///   2. Cycle
+    ///   3. Titre du thème
+    static var requestAllSortedByDiscCycleAcronym: NSFetchRequest<DThemeEntity> {
+        let request = DThemeEntity.fetchRequest()
+        request.sortDescriptors = Self.byDiscCycleAcronymNSSortDescriptor
         return request
     }
 
     // MARK: - Computed properties
 
-    /// Liste des **Compétences** Travaillées du **Chapitre**, non triées
-    var allWorkedCompetencies: [WCompEntity] {
-        if let competencies {
-            return (competencies.allObjects as! [WCompEntity])
+    /// Liste des **Sections** de compétences disciplinaires non triées
+    var allSections: [DSectionEntity] {
+        if let sections {
+            return (sections.allObjects as! [DSectionEntity])
         } else {
             return []
         }
     }
 
-    /// Liste des **Compétences** Travaillées du **Chapitre** triées par numéro
-    var allWorkedCompetenciesSortedByNumber: [WCompEntity] {
+    /// Liste des **Sections** de compétences disciplinaires triées par numéro
+    var allWorkedCompetenciesSortedByNumber: [DSectionEntity] {
         let sortComparators =
             [
-                SortDescriptor(\WCompEntity.number, order: .forward)
+                SortDescriptor(\DSectionEntity.number, order: .forward)
             ]
-        return allWorkedCompetencies.sorted(using: sortComparators)
+        return allSections.sorted(using: sortComparators)
     }
 
     // MARK: - Type Methods
@@ -148,26 +190,29 @@ extension WCompChapterEntity {
     /// si un objet existant possède un identifiant différent de `thisObjectID`.
     static func exists(
         cycle: Cycle,
+        discipline: Discipline,
         acronym: String,
         thisObjectID: NSManagedObjectID? = nil
     ) -> Bool {
         all().contains {
             $0.viewCycleEnum == cycle &&
+                $0.viewDisciplineEnum == discipline &&
                 $0.viewAcronym == acronym &&
                 (thisObjectID == nil || $0.objectID != thisObjectID)
         }
     }
 
-    /// Liste de tous les **Chapitres** de compétences travaillées triées.
+    /// Liste de tous les **Thèmes** de compétences disciplinaires triées.
     ///
     /// Ordre de tri:
-    ///   1. Cycle
-    ///   2. Acronyme
-    static func allSortedbyCycleAcronymTitle() -> [WCompChapterEntity] {
+    ///   1. Discipline
+    ///   2. Cycle
+    ///   3. Titre du thème
+    static func allSortedbyCycleTitle() -> [DThemeEntity] {
         do {
-            return try WCompChapterEntity
+            return try DThemeEntity
                 .context
-                .fetch(WCompChapterEntity.requestAllSortedByCycleAcronymTitle)
+                .fetch(DThemeEntity.requestAllSortedByDiscCycleAcronym)
         } catch {
             return []
         }
@@ -178,12 +223,14 @@ extension WCompChapterEntity {
     @discardableResult
     static func create(
         cycle: Cycle,
+        discipline: Discipline,
         acronym: String,
         description: String
-    ) -> WCompChapterEntity {
-        let chapter = WCompChapterEntity.create()
+    ) -> DThemeEntity {
+        let chapter = DThemeEntity.create()
 
         chapter.cycle = cycle.rawValue
+        chapter.discipline = discipline.rawValue
         chapter.acronym = acronym
         chapter.descrip = description
 
@@ -197,29 +244,37 @@ extension WCompChapterEntity {
     static func checkConsistency(
         errorList: inout DataBaseErrorList
     ) {
-        all().forEach { chapter in
-            if chapter.cycle == nil {
+        all().forEach { theme in
+            if theme.cycle == nil {
                 errorList.append(DataBaseError.outOfBound(
                     entity: Self.entity().name!,
-                    name: chapter.description,
+                    name: theme.description,
                     attribute: "cycle",
-                    id: chapter.id
+                    id: theme.id
                 ))
             }
-            if chapter.acronym == nil {
+            if theme.discipline == nil {
                 errorList.append(DataBaseError.outOfBound(
                     entity: Self.entity().name!,
-                    name: chapter.description,
+                    name: theme.description,
+                    attribute: "discipline",
+                    id: theme.id
+                ))
+            }
+            if theme.acronym == nil {
+                errorList.append(DataBaseError.outOfBound(
+                    entity: Self.entity().name!,
+                    name: theme.description,
                     attribute: "acronym",
-                    id: chapter.id
+                    id: theme.id
                 ))
             }
-            if chapter.descrip == nil {
+            if theme.descrip == nil {
                 errorList.append(DataBaseError.outOfBound(
                     entity: Self.entity().name!,
-                    name: chapter.description,
+                    name: theme.description,
                     attribute: "descrip",
-                    id: chapter.id
+                    id: theme.id
                 ))
             }
         }
@@ -233,7 +288,7 @@ extension WCompChapterEntity {
         self.id = UUID()
     }
 
-    /// Recherche si la **Compétence** existe déjà dans ce **Chapitre**.
+    /// Recherche si la **Section** existe déjà dans ce **Theme**.
     ///
     /// Si `thisObjectID` != `nil` alors on retourne true seulement
     /// si un objet existant possède un identifiant différent de `thisObjectID`.
@@ -241,26 +296,29 @@ extension WCompChapterEntity {
         number: Int,
         thisObjectID: NSManagedObjectID? = nil
     ) -> Bool {
-        (self.competencies?.allObjects as! [WCompEntity])
-            .contains {
-                $0.viewNumber == number &&
-                    (thisObjectID == nil || $0.objectID != thisObjectID)
-            }
+        true
+        // TODO: - A compléter
+//        (self.sections?.allObjects as! [DSectionEntity])
+//            .contains {
+//                $0.viewNumber == number &&
+//                    (thisObjectID == nil || $0.objectID != thisObjectID)
+//            }
     }
 }
 
 // MARK: - Extension Debug
 
-public extension WCompChapterEntity {
+public extension DThemeEntity {
     override var description: String {
         """
 
         ÉLÉMENT DE COMPÉTENCES DU SOCLE:
            ID          : \(String(describing: id))
+           Discipline  : \(disciplineString)
            Cycle       : \(cycleString)
            Code        : \(viewAcronym)
            Description : \(viewDescription)
-           Compétences : \(String(describing: competencies).withPrefixedSplittedLines("     "))
+           Sections    : \(String(describing: sections).withPrefixedSplittedLines("     "))
         """
     }
 }

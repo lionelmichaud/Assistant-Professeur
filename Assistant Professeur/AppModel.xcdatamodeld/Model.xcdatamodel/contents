@@ -85,12 +85,13 @@
         <relationship name="competencies" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DCompEntity" inverseName="section" inverseEntity="DCompEntity"/>
         <relationship name="theme" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DThemeEntity" inverseName="sections" inverseEntity="DThemeEntity"/>
     </entity>
-    <entity name="DThemeEntity" representedClassName="DThemeEntity" syncable="YES" codeGenerationType="class">
+    <entity name="DThemeEntity" representedClassName="DThemeEntity" syncable="YES" codeGenerationType="category">
         <attribute name="acronym" attributeType="String" defaultValueString=""/>
         <attribute name="cycle" attributeType="String" defaultValueString=""/>
+        <attribute name="descrip" attributeType="String" defaultValueString=""/>
         <attribute name="discipline" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="title" attributeType="String" defaultValueString=""/>
+        <attribute name="sectionsCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="sections.@count" usesScalarValueType="YES"/>
         <relationship name="sections" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DSectionEntity" inverseName="theme" inverseEntity="DSectionEntity"/>
     </entity>
     <entity name="EleveEntity" representedClassName="EleveEntity" syncable="YES" codeGenerationType="category">

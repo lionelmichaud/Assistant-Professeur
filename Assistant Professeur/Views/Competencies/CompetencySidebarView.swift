@@ -71,10 +71,9 @@ extension CompetencySidebarView {
             Menu {
                 Menu("Exporter") {
                     Button {
-                        // TODO: - Implémenter export CSV des Compétences
-//                        CsvImportExportMng.exportPrograms()
-//                        fileExportOperation = .exportCsvPrograms
-//                        isExportingModel.toggle()
+                        CsvImportExportMng.exportCompetencies()
+                        fileExportOperation = .exportCsvCompetencies
+                        isExportingModel.toggle()
                     } label: {
                         Label(
                             "Exporter les compétences en CSV",

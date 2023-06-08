@@ -26,6 +26,7 @@ enum FileExportOperation {
     case exportJsonModel(annexFileNames: [String])
     case exportCsvEleveList
     case exportCsvPrograms
+    case exportCsvCompetencies
     case none
 
     /// Liste de toutes les URL des fichiers à exporter
@@ -51,6 +52,13 @@ enum FileExportOperation {
                 return ImportExportManager.cachesURLsToShare(
                     fileNames: [
                         CsvImportExportMng.csvProgramListFileName
+                    ]
+                )
+
+            case .exportCsvCompetencies:
+                return ImportExportManager.cachesURLsToShare(
+                    fileNames: [
+                        CsvImportExportMng.csvCompetencyListFileName
                     ]
                 )
 

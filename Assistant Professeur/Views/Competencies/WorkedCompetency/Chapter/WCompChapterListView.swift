@@ -19,7 +19,7 @@ struct WCompChapterListView: View {
     private var editedWorkedChapter: WCompChapterEntity?
 
     @SectionedFetchRequest<String, WCompChapterEntity>(
-        fetchRequest: WCompChapterEntity.requestAllSortedbyCycleTitle,
+        fetchRequest: WCompChapterEntity.requestAllSortedByCycleAcronymTitle,
         sectionIdentifier: \.cycleString,
         animation: .default
     )

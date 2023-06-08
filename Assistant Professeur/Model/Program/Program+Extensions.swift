@@ -48,6 +48,11 @@ extension ProgramEntity {
         }
     }
 
+    @objc
+    var disciplineString: String {
+        viewDisciplineEnum.displayString
+    }
+
     /// Wrapper of `level`
     /// - Important: *Saves the context to the store after modification is done*
     var viewLevelEnum: LevelClasse {
@@ -79,6 +84,11 @@ extension ProgramEntity {
         }
     }
 
+    @objc
+    var levelString: String {
+        viewLevelEnum.displayString
+    }
+
     /// Wrapper of `segpa`
     /// - Important: *Saves the context to the store after modification is done*
     @objc
@@ -103,16 +113,6 @@ extension ProgramEntity {
             self.annotation = newValue
             try? Self.saveIfContextHasChanged()
         }
-    }
-
-    @objc
-    var levelString: String {
-        viewLevelEnum.displayString
-    }
-
-    @objc
-    var disciplineString: String {
-        viewDisciplineEnum.displayString
     }
 
     // MARK: - Methods
