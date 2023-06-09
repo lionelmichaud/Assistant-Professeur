@@ -1371,8 +1371,6 @@
 			isa = PBXGroup;
 			children = (
 				79FD218A2A3362C000A8D925 /* DisciplineTheme */,
-				79C20A7F2A326D0C00E43A07 /* DCompThemeListView.swift */,
-				79C20A812A32855F00E43A07 /* DThemeEditorModal.swift */,
 			);
 			path = DsciplineCompetency;
 			sourceTree = "<group>";
@@ -1567,7 +1565,9 @@
 			isa = PBXGroup;
 			children = (
 				79FD218B2A33630E00A8D925 /* DThemeViewModel.swift */,
+				79C20A7F2A326D0C00E43A07 /* DCompThemeListView.swift */,
 				79FD218D2A337DCC00A8D925 /* DThemeBrowserView.swift */,
+				79C20A812A32855F00E43A07 /* DThemeEditorModal.swift */,
 			);
 			path = DisciplineTheme;
 			sourceTree = "<group>";
