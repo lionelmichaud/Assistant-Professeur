@@ -23,7 +23,7 @@ struct CompetencySidebarView: View {
             // Compétences du socle
             NavigationLink(value: CompetencySelection.workedCompetencies) {
                 label(CompetencySelection.workedCompetencies)
-                // .badge(cardinal(type))
+                    .badge(cardinal(CompetencySelection.workedCompetencies))
             }
 
             // Compétences disciplinaires
@@ -34,6 +34,7 @@ struct CompetencySidebarView: View {
                         value: CompetencySelection.disciplineCompetencies(discipline: discipline)
                     ) {
                         label(CompetencySelection.disciplineCompetencies(discipline: discipline))
+                            .badge(DThemeEntity.nbOfThemes(for: discipline))
                     }
                 }
 

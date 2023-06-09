@@ -28,11 +28,11 @@ struct WCompChapterListView: View {
     var body: some View {
         List(selection: $nav.selectedWorkedCompChapterMngObjId) {
             // pour chaque Cycle
-            ForEach(workedCompChapterSections) { section in
-                if section.isNotEmpty {
+            ForEach(workedCompChapterSections) { cycleChapters in
+                if cycleChapters.isNotEmpty {
                     Section {
                         // pour chaque Chapitre
-                        ForEach(section, id: \.objectID) { workedChapter in
+                        ForEach(cycleChapters, id: \.objectID) { workedChapter in
                             //                            NavigationLink(value: program.objectID) {
                             WCompChapterBrowserRow(chapter: workedChapter)
                                 .badge(workedChapter.nbOfWorkedCompetencies)
@@ -60,7 +60,7 @@ struct WCompChapterListView: View {
                             //                            }
                         }
                     } header: {
-                        Text("\(section.id)")
+                        Text("\(cycleChapters.id)")
                             .font(.body)
                             .foregroundColor(.secondary)
                             .fontWeight(.bold)

@@ -217,6 +217,8 @@
 		79BF1DBA29291069005D6CF3 /* Room+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DB829291069005D6CF3 /* Room+Extensions.swift */; };
 		79C0CA022A0453EB0010DB43 /* bell.wav in Resources */ = {isa = PBXBuildFile; fileRef = 79C0CA002A0453D90010DB43 /* bell.wav */; };
 		79C0CA032A0453EB0010DB43 /* ding.wav in Resources */ = {isa = PBXBuildFile; fileRef = 79C0CA012A0453EB0010DB43 /* ding.wav */; };
+		79C20A802A326D0C00E43A07 /* DCompThemeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C20A7F2A326D0C00E43A07 /* DCompThemeListView.swift */; };
+		79C20A822A32855F00E43A07 /* DThemeEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C20A812A32855F00E43A07 /* DThemeEditorModal.swift */; };
 		79C2E47029DC22C2008DF730 /* EleveTextName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C2E46F29DC22C2008DF730 /* EleveTextName.swift */; };
 		79CAE16F2A13807C001FF13D /* SettingsSchoolYear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CAE16E2A13807C001FF13D /* SettingsSchoolYear.swift */; };
 		79CD363929D989C900BF5ADC /* EmptyListMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79CD363829D989C900BF5ADC /* EmptyListMessage.swift */; };
@@ -312,6 +314,8 @@
 		79F8773229F425A300AB38C3 /* DigitalClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F8773129F425A300AB38C3 /* DigitalClockView.swift */; };
 		79FBB4D72991C2CC00B47484 /* Classe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */; };
 		79FC04E5298DCC240093BC8B /* IndividualSteppedlMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FC04E4298DCC240093BC8B /* IndividualSteppedlMarkModal.swift */; };
+		79FD218C2A33630E00A8D925 /* DThemeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD218B2A33630E00A8D925 /* DThemeViewModel.swift */; };
+		79FD218E2A337DCC00A8D925 /* DThemeBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD218D2A337DCC00A8D925 /* DThemeBrowserView.swift */; };
 		79FFF42729511DF20037A327 /* ClassBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42629511DF20037A327 /* ClassBrowserRow.swift */; };
 		79FFF42929511E040037A327 /* ClassCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42829511E040037A327 /* ClassCreatorModal.swift */; };
 		79FFF42B295120100037A327 /* LevelClasse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42A295120100037A327 /* LevelClasse.swift */; };
@@ -539,6 +543,8 @@
 		79BF1DB829291069005D6CF3 /* Room+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Room+Extensions.swift"; sourceTree = "<group>"; };
 		79C0CA002A0453D90010DB43 /* bell.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bell.wav; sourceTree = "<group>"; };
 		79C0CA012A0453EB0010DB43 /* ding.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ding.wav; sourceTree = "<group>"; };
+		79C20A7F2A326D0C00E43A07 /* DCompThemeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompThemeListView.swift; sourceTree = "<group>"; };
+		79C20A812A32855F00E43A07 /* DThemeEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DThemeEditorModal.swift; sourceTree = "<group>"; };
 		79C2E46F29DC22C2008DF730 /* EleveTextName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveTextName.swift; sourceTree = "<group>"; };
 		79CAE16E2A13807C001FF13D /* SettingsSchoolYear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSchoolYear.swift; sourceTree = "<group>"; };
 		79CD363829D989C900BF5ADC /* EmptyListMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyListMessage.swift; sourceTree = "<group>"; };
@@ -613,6 +619,8 @@
 		79F8773129F425A300AB38C3 /* DigitalClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalClockView.swift; sourceTree = "<group>"; };
 		79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Classe+CoreDataClass.swift"; path = "Assistant Professeur/Model/Classe/Classe+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		79FC04E4298DCC240093BC8B /* IndividualSteppedlMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualSteppedlMarkModal.swift; sourceTree = "<group>"; };
+		79FD218B2A33630E00A8D925 /* DThemeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DThemeViewModel.swift; sourceTree = "<group>"; };
+		79FD218D2A337DCC00A8D925 /* DThemeBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DThemeBrowserView.swift; sourceTree = "<group>"; };
 		79FFF42629511DF20037A327 /* ClassBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassBrowserRow.swift; sourceTree = "<group>"; };
 		79FFF42829511E040037A327 /* ClassCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassCreatorModal.swift; sourceTree = "<group>"; };
 		79FFF42A295120100037A327 /* LevelClasse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelClasse.swift; sourceTree = "<group>"; };
@@ -1359,6 +1367,16 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
+		79C20A7E2A326CD300E43A07 /* DsciplineCompetency */ = {
+			isa = PBXGroup;
+			children = (
+				79FD218A2A3362C000A8D925 /* DisciplineTheme */,
+				79C20A7F2A326D0C00E43A07 /* DCompThemeListView.swift */,
+				79C20A812A32855F00E43A07 /* DThemeEditorModal.swift */,
+			);
+			path = DsciplineCompetency;
+			sourceTree = "<group>";
+		};
 		79DEDAE32925855B00F508EF /* School */ = {
 			isa = PBXGroup;
 			children = (
@@ -1539,9 +1557,19 @@
 			children = (
 				79F7708F2A2B9B7E004E9089 /* CompetencySplitView.swift */,
 				79F770912A2B9F4E004E9089 /* CompetencySidebarView.swift */,
+				79C20A7E2A326CD300E43A07 /* DsciplineCompetency */,
 				799EFBA92A2D0260008E9775 /* WorkedCompetency */,
 			);
 			path = Competencies;
+			sourceTree = "<group>";
+		};
+		79FD218A2A3362C000A8D925 /* DisciplineTheme */ = {
+			isa = PBXGroup;
+			children = (
+				79FD218B2A33630E00A8D925 /* DThemeViewModel.swift */,
+				79FD218D2A337DCC00A8D925 /* DThemeBrowserView.swift */,
+			);
+			path = DisciplineTheme;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1736,6 +1764,7 @@
 				7951063E294FD9520015AC5C /* ClassList.swift in Sources */,
 				7997531A297C17E300D1C66E /* ProgramSidebarView.swift in Sources */,
 				793D627F295F33D300477932 /* ColleViewModel.swift in Sources */,
+				79C20A802A326D0C00E43A07 /* DCompThemeListView.swift in Sources */,
 				79DEDAE9292585E300F508EF /* SchoolSplitView.swift in Sources */,
 				79398D37296632D60013564D /* ExamDetail.swift in Sources */,
 				7920A5242957345A0092A7DD /* EleveLabelWithTrombineFlag.swift in Sources */,
@@ -1782,6 +1811,7 @@
 				79F41E642954B08A00EAAC52 /* Eleve+Extensions.swift in Sources */,
 				7937A24B298830CC00D0ED59 /* StepEditor.swift in Sources */,
 				79AFBFB82981D264001576DD /* ActivityEditorModal.swift in Sources */,
+				79C20A822A32855F00E43A07 /* DThemeEditorModal.swift in Sources */,
 				795EED0B29677C76009AA6F4 /* EleveMarkRow.swift in Sources */,
 				794F6E14295CEC0C00042B95 /* ObservViewModel.swift in Sources */,
 				795EED0529673B88009AA6F4 /* Mark+Extensions.swift in Sources */,
@@ -1795,6 +1825,7 @@
 				79ECF1F82959F6CA008F0282 /* EleveColleLabel.swift in Sources */,
 				7989B4D529A2752800383F84 /* LabeledActivityView.swift in Sources */,
 				792381142960A888009E51B7 /* Group+Extensions.swift in Sources */,
+				79FD218C2A33630E00A8D925 /* DThemeViewModel.swift in Sources */,
 				793D6271295DCBBC00477932 /* MotifEditor.swift in Sources */,
 				79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */,
 				7937A2462986C57D00D0ED59 /* ExamTypeEnum.swift in Sources */,
@@ -1843,6 +1874,7 @@
 				79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */,
 				798DD4D2298C318F00C47B2C /* ExamListView.swift in Sources */,
 				794F6E12295CE1B700042B95 /* ObservEditor.swift in Sources */,
+				79FD218E2A337DCC00A8D925 /* DThemeBrowserView.swift in Sources */,
 				79F8773229F425A300AB38C3 /* DigitalClockView.swift in Sources */,
 				79FC04E5298DCC240093BC8B /* IndividualSteppedlMarkModal.swift in Sources */,
 				79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */,

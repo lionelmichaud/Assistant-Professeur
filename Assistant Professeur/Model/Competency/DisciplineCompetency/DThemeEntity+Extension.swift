@@ -184,6 +184,13 @@ extension DThemeEntity {
 
     // MARK: - Type Methods
 
+    /// Nombre de thèmes dans cette `discipline`
+    static func nbOfThemes(for discipline: Discipline) -> Int {
+        all().filter {
+            $0.disciplineEnum == discipline
+        }.count
+    }
+
     /// Retourne true si un object équivalent existe déjà dans le context.
     ///
     /// Si `thisObjectID` != `nil` alors on retourne true seulement
@@ -293,8 +300,8 @@ extension DThemeEntity {
     /// Si `thisObjectID` != `nil` alors on retourne true seulement
     /// si un objet existant possède un identifiant différent de `thisObjectID`.
     func exists(
-        number: Int,
-        thisObjectID: NSManagedObjectID? = nil
+        number _: Int,
+        thisObjectID _: NSManagedObjectID? = nil
     ) -> Bool {
         true
         // TODO: - A compléter

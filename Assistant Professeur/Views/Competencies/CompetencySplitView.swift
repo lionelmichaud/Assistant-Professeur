@@ -15,7 +15,7 @@ enum CompetencySelection: Hashable, Codable {
         switch self {
             case .workedCompetencies:
                 return "Compétences du socle"
-                
+
             case .disciplineCompetencies(discipline: let discipline):
                 return discipline.displayString
         }
@@ -48,8 +48,8 @@ struct CompetencySplitView: View {
                 case .workedCompetencies:
                     WCompChapterListView()
 
-                case .disciplineCompetencies:
-                    Text("disciplineCompetencies")
+                case .disciplineCompetencies(let discipline):
+                    DCompThemeListView(discipline: discipline)
             }
 
         } detail: {
@@ -66,8 +66,8 @@ struct CompetencySplitView: View {
                 case .workedCompetencies:
                     WCompListView()
 
-                case .disciplineCompetencies:
-                    Text("disciplineCompetencies")
+                case .disciplineCompetencies(let discipline):
+                    Text(discipline.displayString)
             }
         }
         .navigationSplitViewStyle(.balanced)

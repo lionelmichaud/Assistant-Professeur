@@ -38,6 +38,7 @@ final class NavigationModel: ObservableObject, Codable {
         case selectedSchoolId
         case selectedWorkedCompChapterId
         case selectedWorkedCompId
+        case selectedDiscThemeId
         case filterObservation
         case filterColle
         case filterFlag
@@ -152,6 +153,15 @@ final class NavigationModel: ObservableObject, Codable {
     var selectedWorkedCompId: UUID?
 
     @Published
+    var selectedDiscThemeMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedDiscThemeId =
+            DThemeEntity.id(MngObjID: newValue)
+        }
+    }
+    var selectedDiscThemeId: UUID?
+
+    @Published
     var filterObservation: Bool
     @Published
     var filterColle: Bool
@@ -198,6 +208,7 @@ final class NavigationModel: ObservableObject, Codable {
                 selectedSchoolMngObjId = model.selectedSchoolMngObjId
                 selectedWorkedCompChapterMngObjId = model.selectedWorkedCompChapterMngObjId
                 selectedWorkedCompMngObjId = model.selectedWorkedCompMngObjId
+                selectedDiscThemeMngObjId = model.selectedDiscThemeMngObjId
 
                 filterObservation = model.filterObservation
                 filterColle = model.filterColle
@@ -241,6 +252,7 @@ final class NavigationModel: ObservableObject, Codable {
         selectedSchoolMngObjId: NSManagedObjectID? = nil,
         selectedWorkedCompChapterMngObjId: NSManagedObjectID? = nil,
         selectedWorkedCompMngObjId: NSManagedObjectID? = nil,
+        selectedDiscThemeMngObjId: NSManagedObjectID? = nil,
         filterObservation: Bool = false,
         filterColle: Bool = false,
         filterFlag: Bool = false
@@ -264,6 +276,7 @@ final class NavigationModel: ObservableObject, Codable {
         self.selectedSchoolMngObjId = selectedSchoolMngObjId
         self.selectedWorkedCompChapterMngObjId = selectedWorkedCompChapterMngObjId
         self.selectedWorkedCompMngObjId = selectedWorkedCompMngObjId
+        self.selectedDiscThemeMngObjId = selectedDiscThemeMngObjId
 
         self.filterObservation = filterObservation
         self.filterColle = filterColle
@@ -363,6 +376,12 @@ final class NavigationModel: ObservableObject, Codable {
         selectedWorkedCompMngObjId =
         WCompChapterEntity.managedObjectID(id: selectedWorkedCompId)
 
+        self.selectedDiscThemeId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedDiscThemeId
+        )
+        self.selectedDiscThemeMngObjId =
+        DThemeEntity.managedObjectID(id: selectedDiscThemeId)
+
         self.filterObservation = try container.decode(
             Bool.self, forKey: .filterObservation
         )
@@ -398,6 +417,7 @@ final class NavigationModel: ObservableObject, Codable {
         selectedSchoolMngObjId = nil
         selectedWorkedCompChapterMngObjId = nil
         selectedWorkedCompMngObjId = nil
+        selectedDiscThemeMngObjId = nil
 
         classPath = []
         programPath = NavigationPath()
@@ -420,6 +440,7 @@ final class NavigationModel: ObservableObject, Codable {
         try container.encodeIfPresent(selectedSchoolId, forKey: .selectedSchoolId)
         try container.encodeIfPresent(selectedWorkedCompChapterId, forKey: .selectedWorkedCompChapterId)
         try container.encodeIfPresent(selectedWorkedCompId, forKey: .selectedWorkedCompId)
+        try container.encodeIfPresent(selectedDiscThemeId, forKey: .selectedDiscThemeId)
 
         try container.encode(filterObservation, forKey: .filterObservation)
         try container.encode(filterColle, forKey: .filterColle)
