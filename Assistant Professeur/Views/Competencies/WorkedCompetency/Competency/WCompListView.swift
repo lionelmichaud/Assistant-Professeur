@@ -77,8 +77,8 @@ struct WCompListView: View {
             } else {
                 EmptyListMessage(
                     symbolName: WCompEntity.defaultImageName,
-                    title: "Aucune compétence sélectionné.",
-                    message: "Les compétences sélectionnées apparaîtront ici.",
+                    title: "Aucune élément de compétence sélectionné.",
+                    message: "Sélectionner une compétence pour en visualiser le contenu.",
                     showAsGroupBox: true
                 )
             }

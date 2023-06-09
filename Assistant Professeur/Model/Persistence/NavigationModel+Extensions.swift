@@ -12,9 +12,9 @@ extension NavigationModel {
     /// Onglets
     enum TabSelection: String, Hashable, Codable {
         case userSettings = "Réglages"
-        case school = "Etablissement"
-        case classe = "Classes"
-        case eleve = "Elèves"
+        case school = "Mes Etablissements"
+        case classe = "Mes Classes"
+        case eleve = "Mes Elèves"
         case warning = "Avertissements"
         case program = "Programmes"
         case competence = "Compétences"

@@ -85,7 +85,6 @@ struct ContentView: View {
                 .tag(NavigationModel.TabSelection.warning)
                 .badge(ObservEntity.cardinal() + ColleEntity.cardinal())
 
-//            if isPad() || isMac() {
             // Les programmes scolaires
             ProgramSplitView(navig: navigationModel)
                 .tabItem {
@@ -97,16 +96,17 @@ struct ContentView: View {
                 .tag(NavigationModel.TabSelection.program)
                 .badge(ProgramEntity.cardinal())
 
-            // Les compétences
-            CompetencySplitView()
-                .tabItem {
-                    Label(
-                        NavigationModel.TabSelection.competence.rawValue,
-                        systemImage: NavigationModel.TabSelection.competence.imageName
-                    ).symbolVariant(.none)
-                }
-                .tag(NavigationModel.TabSelection.competence)
-//            }
+            if isPad() || isMac() {
+                // Les compétences
+                CompetencySplitView()
+                    .tabItem {
+                        Label(
+                            NavigationModel.TabSelection.competence.rawValue,
+                            systemImage: NavigationModel.TabSelection.competence.imageName
+                        ).symbolVariant(.none)
+                    }
+                    .tag(NavigationModel.TabSelection.competence)
+            }
         }
         .environmentObject(navigationModel)
         .environmentObject(userPreferencesModel)
@@ -174,7 +174,7 @@ struct ContentView: View {
                 // du décodage des dernières valeurs stockées dans AppStorage
                 userPreferencesModel.jsonData = userPreferencesData
             }
-            
+
             // Injecter l'ObservedObject dans les Classes qui ne sont pas des View
             // et qui l'utilisent comme une "static property"
             EleveEntity.pref = $userPreferencesModel
@@ -182,7 +182,7 @@ struct ContentView: View {
             GroupEntity.pref = $userPreferencesModel
             ExamEntity.pref = $userPreferencesModel
             SequenceEntity.pref = $userPreferencesModel
-            //AgendaManager.pref = $userPreferencesModel
+            // AgendaManager.pref = $userPreferencesModel
 
             // Encoder les nouvelles préférences (qui viennent de changer)
             // dans userPreferencesData et les faire persister dans AppStorage
