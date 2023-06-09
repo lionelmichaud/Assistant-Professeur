@@ -39,6 +39,8 @@ final class NavigationModel: ObservableObject, Codable {
         case selectedWorkedCompChapterId
         case selectedWorkedCompId
         case selectedDiscThemeId
+        case selectedDiscSectionId
+        case selectedDiscCompId
         case filterObservation
         case filterColle
         case filterFlag
@@ -162,6 +164,24 @@ final class NavigationModel: ObservableObject, Codable {
     var selectedDiscThemeId: UUID?
 
     @Published
+    var selectedDiscSectionMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedDiscSectionId =
+            DSectionEntity.id(MngObjID: newValue)
+        }
+    }
+    var selectedDiscSectionId: UUID?
+
+    @Published
+    var selectedDiscCompMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedDiscCompId =
+            DCompEntity.id(MngObjID: newValue)
+        }
+    }
+    var selectedDiscCompId: UUID?
+
+    @Published
     var filterObservation: Bool
     @Published
     var filterColle: Bool
@@ -209,6 +229,8 @@ final class NavigationModel: ObservableObject, Codable {
                 selectedWorkedCompChapterMngObjId = model.selectedWorkedCompChapterMngObjId
                 selectedWorkedCompMngObjId = model.selectedWorkedCompMngObjId
                 selectedDiscThemeMngObjId = model.selectedDiscThemeMngObjId
+                selectedDiscSectionMngObjId = model.selectedDiscSectionMngObjId
+                selectedDiscCompMngObjId = model.selectedDiscCompMngObjId
 
                 filterObservation = model.filterObservation
                 filterColle = model.filterColle
@@ -253,6 +275,8 @@ final class NavigationModel: ObservableObject, Codable {
         selectedWorkedCompChapterMngObjId: NSManagedObjectID? = nil,
         selectedWorkedCompMngObjId: NSManagedObjectID? = nil,
         selectedDiscThemeMngObjId: NSManagedObjectID? = nil,
+        selectedDiscSectionMngObjId: NSManagedObjectID? = nil,
+        selectedDiscCompMngObjId: NSManagedObjectID? = nil,
         filterObservation: Bool = false,
         filterColle: Bool = false,
         filterFlag: Bool = false
@@ -277,6 +301,8 @@ final class NavigationModel: ObservableObject, Codable {
         self.selectedWorkedCompChapterMngObjId = selectedWorkedCompChapterMngObjId
         self.selectedWorkedCompMngObjId = selectedWorkedCompMngObjId
         self.selectedDiscThemeMngObjId = selectedDiscThemeMngObjId
+        self.selectedDiscSectionMngObjId = selectedDiscSectionMngObjId
+        self.selectedDiscCompMngObjId = selectedDiscCompMngObjId
 
         self.filterObservation = filterObservation
         self.filterColle = filterColle
@@ -382,6 +408,18 @@ final class NavigationModel: ObservableObject, Codable {
         self.selectedDiscThemeMngObjId =
         DThemeEntity.managedObjectID(id: selectedDiscThemeId)
 
+        self.selectedDiscSectionId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedDiscSectionId
+        )
+        self.selectedDiscSectionMngObjId =
+        DSectionEntity.managedObjectID(id: selectedDiscSectionId)
+
+        self.selectedDiscCompId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedDiscCompId
+        )
+        self.selectedDiscCompMngObjId =
+        DCompEntity.managedObjectID(id: selectedDiscCompId)
+
         self.filterObservation = try container.decode(
             Bool.self, forKey: .filterObservation
         )
@@ -418,6 +456,8 @@ final class NavigationModel: ObservableObject, Codable {
         selectedWorkedCompChapterMngObjId = nil
         selectedWorkedCompMngObjId = nil
         selectedDiscThemeMngObjId = nil
+        selectedDiscSectionMngObjId = nil
+        selectedDiscCompMngObjId    = nil
 
         classPath = []
         programPath = NavigationPath()
@@ -441,6 +481,8 @@ final class NavigationModel: ObservableObject, Codable {
         try container.encodeIfPresent(selectedWorkedCompChapterId, forKey: .selectedWorkedCompChapterId)
         try container.encodeIfPresent(selectedWorkedCompId, forKey: .selectedWorkedCompId)
         try container.encodeIfPresent(selectedDiscThemeId, forKey: .selectedDiscThemeId)
+        try container.encodeIfPresent(selectedDiscSectionId, forKey: .selectedDiscSectionId)
+        try container.encodeIfPresent(selectedDiscCompId, forKey: .selectedDiscCompId)
 
         try container.encode(filterObservation, forKey: .filterObservation)
         try container.encode(filterColle, forKey: .filterColle)

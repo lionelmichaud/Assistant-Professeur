@@ -1,23 +1,23 @@
 //
-//  WCompEditorModal.swift
+//  DSectionEditorModal.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 06/06/2023.
+//  Created by Lionel MICHAUD on 09/06/2023.
 //
 
 import HelpersView
 import SwiftUI
 
-struct WCompEditorModal: View {
+struct DSectionEditorModal: View {
     @ObservedObject
-    var competency: WCompEntity
+    var section: DSectionEntity
 
-    var inChapter: WCompChapterEntity
+    var inTheme: DThemeEntity
 
     var isEditing: Bool
 
     @StateObject
-    private var workedCompVM = WCompViewModel()
+    private var disciplineSectionVM = DSectionViewModel()
 
     @Environment(\.dismiss)
     private var dismiss
@@ -61,7 +61,7 @@ struct WCompEditorModal: View {
         .onAppear {
             focus = .number
             if isEditing {
-                workedCompVM.update(from: competency)
+                disciplineSectionVM.update(from: section)
             }
         }
         .alert(
@@ -79,11 +79,11 @@ struct WCompEditorModal: View {
 
 // MARK: - Subviews
 
-extension WCompEditorModal {
+extension DSectionEditorModal {
     var number: some View {
         IntegerEditView2(
             label: "Numéro",
-            integer: $workedCompVM.number
+            integer: $disciplineSectionVM.number
         )
         .submitLabel(.next)
         .focused($focus, equals: .number)
@@ -92,12 +92,12 @@ extension WCompEditorModal {
     var description: some View {
         TextField(
             "Description",
-            text: $workedCompVM.description,
+            text: $disciplineSectionVM.description,
             axis: .vertical
         )
         .lineLimit(5)
         .onSubmit {
-            workedCompVM.description.trim()
+            disciplineSectionVM.description.trim()
         }
         .textFieldStyle(.roundedBorder)
         .autocorrectionDisabled()
@@ -108,28 +108,28 @@ extension WCompEditorModal {
 
 // MARK: Toolbar Content
 
-extension WCompEditorModal {
+extension DSectionEditorModal {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
             Button("Annuler") {
-                WCompEntity.rollback()
+                DSectionEntity.rollback()
                 dismiss()
             }
         }
         ToolbarItem(placement: .confirmationAction) {
             Button(isEditing ? "Ok" : "Ajouter") {
                 // Ajouter un nouveau programme
-                if inChapter.exists(
-                    number: workedCompVM.number,
-                    thisObjectID: isEditing ? competency.objectID : nil
+                if inTheme.exists(
+                    number: disciplineSectionVM.number,
+                    thisObjectID: isEditing ? section.objectID : nil
                 ) {
                     // doublon
                     alertTitle = "Ajout impossible"
                     alertMessage = "Une compétence avec ce numéro existe déjà."
                     alertIsPresented.toggle()
 
-                } else if workedCompVM.description.isEmpty {
+                } else if disciplineSectionVM.description.isEmpty {
                     alertTitle = "Ajout impossible"
                     alertMessage = "La description de la compétence est obligatoire."
                     focus = .description
@@ -139,12 +139,12 @@ extension WCompEditorModal {
                     // Créer et Ajouter un nouveau chapitre de compétences
                     withAnimation {
                         if isEditing {
-                            workedCompVM.update(this: competency)
+                            disciplineSectionVM.update(this: section)
                             try? WCompEntity
                                 .saveIfContextHasChanged()
                         } else {
-                            workedCompVM
-                                .createAndSaveEntity(inChapter: inChapter)
+                            disciplineSectionVM
+                                .createAndSaveEntity(inTheme: inTheme)
                         }
                     }
                     dismiss()
@@ -154,8 +154,8 @@ extension WCompEditorModal {
     }
 }
 
-// struct WorkedCompCreatorModal_Previews: PreviewProvider {
+// struct DSectionEditorModal_Previews: PreviewProvider {
 //    static var previews: some View {
-//        WorkedCompCreatorModal()
+//        DSectionEditorModal()
 //    }
 // }

@@ -11,7 +11,8 @@ import Foundation
 extension DThemeEntity {
     // MARK: - Computed properties
 
-    /// Nom de l'image par défaut utilisée pour représenter un établissement
+    /// Nom de l'image par défaut utilisée pour représenter
+    /// un thème de compétences disciplinaires
     static var defaultImageName: String {
         "text.book.closed.fill"
     }
@@ -174,7 +175,7 @@ extension DThemeEntity {
     }
 
     /// Liste des **Sections** de compétences disciplinaires triées par numéro
-    var allWorkedCompetenciesSortedByNumber: [DSectionEntity] {
+    var allSectionsSortedByNumber: [DSectionEntity] {
         let sortComparators =
             [
                 SortDescriptor(\DSectionEntity.number, order: .forward)
@@ -300,16 +301,14 @@ extension DThemeEntity {
     /// Si `thisObjectID` != `nil` alors on retourne true seulement
     /// si un objet existant possède un identifiant différent de `thisObjectID`.
     func exists(
-        number _: Int,
-        thisObjectID _: NSManagedObjectID? = nil
+        number: Int,
+        thisObjectID: NSManagedObjectID? = nil
     ) -> Bool {
-        true
-        // TODO: - A compléter
-//        (self.sections?.allObjects as! [DSectionEntity])
-//            .contains {
-//                $0.viewNumber == number &&
-//                    (thisObjectID == nil || $0.objectID != thisObjectID)
-//            }
+        (self.sections?.allObjects as! [DSectionEntity])
+            .contains {
+                $0.viewNumber == number &&
+                    (thisObjectID == nil || $0.objectID != thisObjectID)
+            }
     }
 }
 

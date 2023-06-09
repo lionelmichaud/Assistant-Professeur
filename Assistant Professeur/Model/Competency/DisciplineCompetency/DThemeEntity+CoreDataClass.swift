@@ -30,10 +30,10 @@ public final class DThemeEntity: NSManagedObject, Codable, ModelEntityP {
         self.discipline = try container.decodeIfPresent(String.self, forKey: .discipline)
         self.descrip = try container.decodeIfPresent(String.self, forKey: .descrip)
 
-//        self.sections = try container.decode(
-//            Set<DSectionEntity>.self,
-//            forKey: .sections
-//        ) as NSSet
+        self.sections = try container.decode(
+            Set<DSectionEntity>.self,
+            forKey: .sections
+        ) as NSSet
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -44,9 +44,9 @@ public final class DThemeEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encodeIfPresent(discipline, forKey: .discipline)
         try container.encodeIfPresent(descrip, forKey: .descrip)
 
-//        try container.encode(
-//            sections as! Set<DSectionEntity>,
-//            forKey: .sections
-//        )
+        try container.encode(
+            sections as! Set<DSectionEntity>,
+            forKey: .sections
+        )
     }
 }

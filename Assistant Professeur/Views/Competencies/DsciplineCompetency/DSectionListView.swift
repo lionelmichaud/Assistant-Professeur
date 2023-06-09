@@ -1,57 +1,59 @@
 //
-//  WCompListView.swift
+//  DCompListView.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 05/06/2023.
+//  Created by Lionel MICHAUD on 09/06/2023.
 //
 
 import CoreData
 import HelpersView
 import SwiftUI
 
-struct WCompListView: View {
+struct DSectionListView: View {
+    var discipline: Discipline
+
     @EnvironmentObject
     private var nav: NavigationModel
 
     @State
     private var isAddingObject = false
     @State
-    private var editedWorkedCompetency: WCompEntity?
+    private var editedDisciplineSection: DSectionEntity?
 
     // MARK: - Computed properties
 
-    private var selectedChapterId: NSManagedObjectID? {
-        nav.selectedWorkedCompChapterMngObjId
+    private var selectedThemeId: NSManagedObjectID? {
+        nav.selectedDiscThemeMngObjId
     }
 
-    private var selectedChapter: WCompChapterEntity? {
-        guard let selectedChapterId else {
+    private var selectedTheme: DThemeEntity? {
+        guard let selectedThemeId else {
             return nil
         }
-        return WCompChapterEntity.byObjectId(MngObjID: selectedChapterId)
+        return DThemeEntity.byObjectId(MngObjID: selectedThemeId)
     }
 
-    private var selectedChapterExists: Bool {
-        selectedChapter != nil
+    private var selectedThemeExists: Bool {
+        selectedTheme != nil
     }
 
     var body: some View {
         Group {
-            if selectedChapterExists {
-                List(selection: $nav.selectedWorkedCompMngObjId) {
-                    // pour chaque compétence travaillée
+            if selectedThemeExists {
+                List(selection: $nav.selectedDiscSectionMngObjId) {
+                    // pour chaque section de compétences disciplinaires
                     ForEach(
-                        selectedChapter!.allWorkedCompetenciesSortedByNumber
-                    ) { competency in
-                        WCompBrowserRow(workedComp: competency)
+                        selectedTheme!.allSectionsSortedByNumber
+                    ) { disciplineSection in
+                        DSectionBrowserView(disciplineSection: disciplineSection)
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 // supprimer la compétence
                                 Button(role: .destructive) {
                                     withAnimation {
-                                        if nav.selectedWorkedCompMngObjId == competency.objectID {
-                                            nav.selectedWorkedCompMngObjId = nil
+                                        if nav.selectedDiscSectionMngObjId == disciplineSection.objectID {
+                                            nav.selectedDiscSectionMngObjId = nil
                                         }
-                                        try? competency.delete()
+                                        try? disciplineSection.delete()
                                     }
                                 } label: {
                                     Label("Supprimer", systemImage: "trash")
@@ -60,32 +62,32 @@ struct WCompListView: View {
                             .swipeActions(edge: .leading, allowsFullSwipe: false) {
                                 // modifier la compétence
                                 Button {
-                                    editedWorkedCompetency = competency
+                                    editedDisciplineSection = disciplineSection
                                 } label: {
                                     Label("Modifier", systemImage: "pencil")
                                 }
                             }
                     }
-                    .emptyListPlaceHolder(selectedChapter!.allWorkedCompetenciesSortedByNumber) {
+                    .emptyListPlaceHolder(selectedTheme!.allSectionsSortedByNumber) {
                         EmptyListMessage(
-                            symbolName: WCompEntity.defaultImageName,
-                            title: "Aucune compétence actuellement.",
-                            message: "Les compétences ajoutées apparaîtront ici."
+                            symbolName: DSectionEntity.defaultImageName,
+                            title: "Aucune section de compétences disciplinaires actuellement.",
+                            message: "Les sections ajoutées apparaîtront ici."
                         )
                     }
                 }
 
             } else {
                 EmptyListMessage(
-                    symbolName: WCompEntity.defaultImageName,
-                    title: "Aucun élément de compétence sélectionné.",
-                    message: "Sélectionner un élément de compétence pour en visualiser le contenu.",
+                    symbolName: DSectionEntity.defaultImageName,
+                    title: "Aucune section de compétences disciplinaires sélectionnée.",
+                    message: "Sélectionner une section de compétences pour en visualiser le contenu.",
                     showAsGroupBox: true
                 )
             }
         }
         #if os(iOS)
-        .navigationTitle("Compétences travaillées")
+        .navigationTitle("Sections")
         #endif
         .toolbar(content: myToolBarContent)
 
@@ -94,10 +96,10 @@ struct WCompListView: View {
             isPresented: $isAddingObject
         ) {
             NavigationStack {
-                let competency = WCompEntity()
-                WCompEditorModal(
-                    competency: competency,
-                    inChapter: selectedChapter!,
+                let section = DSectionEntity()
+                DSectionEditorModal(
+                    section: section,
+                    inTheme: selectedTheme!,
                     isEditing: false
                 )
                 .presentationDetents([.medium])
@@ -106,13 +108,13 @@ struct WCompListView: View {
 
         // Modal Sheet de modification d'un chapitre de compétence socle
         .sheet(
-            item: $editedWorkedCompetency,
+            item: $editedDisciplineSection,
             onDismiss: didDismiss
-        ) { competency in
+        ) { section in
             NavigationStack {
-                WCompEditorModal(
-                    competency: competency,
-                    inChapter: selectedChapter!,
+                DSectionEditorModal(
+                    section: section,
+                    inTheme: selectedTheme!,
                     isEditing: true
                 )
             }
@@ -121,23 +123,23 @@ struct WCompListView: View {
     }
 
     private func didDismiss() {
-        editedWorkedCompetency = nil
+        editedDisciplineSection = nil
     }
 }
 
 // MARK: Toolbar Content
 
-extension WCompListView {
+extension DSectionListView {
     @ToolbarContentBuilder
     func myToolBarContent() -> some ToolbarContent {
-        if selectedChapterExists {
+        if selectedThemeExists {
             ToolbarItemGroup(placement: .status) {
                 // Ajouter une compétence au chapitre
                 Button {
                     isAddingObject = true
                 } label: {
                     Label(
-                        "Ajouter une compétence",
+                        "Ajouter une section",
                         systemImage: "plus.circle.fill"
                     )
                     .labelStyle(.titleAndIcon)
@@ -147,19 +149,13 @@ extension WCompListView {
 
         ToolbarItemGroup(placement: .navigationBarTrailing) {
             // Modifier une compétence du chapitre
-            if let selectedCompMngObjId = nav.selectedWorkedCompMngObjId {
+            if let selectedSectionMngObjId = nav.selectedDiscSectionMngObjId {
                 Button("Modifier") {
-                    editedWorkedCompetency =
-                        WCompEntity
-                            .byObjectId(MngObjID: selectedCompMngObjId)
+                    editedDisciplineSection =
+                        DSectionEntity
+                            .byObjectId(MngObjID: selectedSectionMngObjId)
                 }
             }
         }
-    }
-}
-
-struct WorkedCompListView_Previews: PreviewProvider {
-    static var previews: some View {
-        WCompListView()
     }
 }

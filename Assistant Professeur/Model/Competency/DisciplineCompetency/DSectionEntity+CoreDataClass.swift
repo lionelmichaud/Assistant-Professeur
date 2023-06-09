@@ -1,8 +1,8 @@
 //
-//  WCompEntity+CoreDataClass.swift
+//  DSectionEntity+CoreDataClass.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 04/06/2023.
+//  Created by Lionel MICHAUD on 09/06/2023.
 //
 
 import CoreData
@@ -11,13 +11,13 @@ import os
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
-    category: "WCompEntity.Codable"
+    category: "DSectionEntity.Codable"
 )
 
-@objc(WCompEntity)
-public final class WCompEntity: NSManagedObject, Codable, ModelEntityP {
+@objc(DSectionEntity)
+public final class DSectionEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
-        case id, number, descrip, chapter, disciplineCompetencies
+        case id, number, descrip, theme, competencies
     }
 
     public required convenience init(from decoder: Decoder) throws {
@@ -28,10 +28,10 @@ public final class WCompEntity: NSManagedObject, Codable, ModelEntityP {
         self.number = try container.decode(Int16.self, forKey: .number)
         self.descrip = try container.decode(String.self, forKey: .descrip)
 
-        //        self.competencies = try container.decode(
-        //            Set<WorkedCompetencyEntity>.self,
-        //            forKey: .competencies
-        //        ) as NSSet
+        self.competencies = try container.decode(
+            Set<DCompEntity>.self,
+            forKey: .competencies
+        ) as NSSet
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -40,9 +40,9 @@ public final class WCompEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(number, forKey: .number)
         try container.encode(descrip, forKey: .descrip)
 
-//        try container.encode(
-//            disciplineCompetencies as! Set<DCompEntity>,
-//            forKey: .disciplineCompetencies
-//        )
+        try container.encode(
+            competencies as! Set<DCompEntity>,
+            forKey: .competencies
+        )
     }
 }

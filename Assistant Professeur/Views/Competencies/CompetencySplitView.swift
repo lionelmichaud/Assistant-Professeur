@@ -49,7 +49,7 @@ struct CompetencySplitView: View {
                     WCompChapterListView()
 
                 case .disciplineCompetencies(let discipline):
-                    DCompThemeListView(discipline: discipline)
+                    DThemeListView(discipline: discipline)
             }
 
         } detail: {
@@ -67,7 +67,7 @@ struct CompetencySplitView: View {
                     WCompListView()
 
                 case .disciplineCompetencies(let discipline):
-                    Text(discipline.displayString)
+                    DSectionListView(discipline: discipline)
             }
         }
         .navigationSplitViewStyle(.balanced)

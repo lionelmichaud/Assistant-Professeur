@@ -50,7 +50,7 @@ class WCompViewModel: ObservableObject {
         workedComp.viewDescription = self.description
     }
 
-    /// Créer une entité `WCompChapterEntity` à partir du VM et
+    /// Créer une entité `WCompEntity` à partir du VM et
     /// le sauveagrader dans le context.
     /// - Important: Saves the context
     /// - Parameter chapter: Chapitre dans lequel crééer la compétence.

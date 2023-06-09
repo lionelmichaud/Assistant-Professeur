@@ -55,7 +55,7 @@
         <attribute name="motif" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="eleve" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="colles" inverseEntity="EleveEntity"/>
     </entity>
-    <entity name="DCompEntity" representedClassName="DCompEntity" syncable="YES" codeGenerationType="class">
+    <entity name="DCompEntity" representedClassName="DCompEntity" syncable="YES" codeGenerationType="category">
         <attribute name="descrip" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -78,11 +78,12 @@
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="documents" inverseEntity="SchoolEntity"/>
         <relationship name="sequence" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SequenceEntity" inverseName="documents" inverseEntity="SequenceEntity"/>
     </entity>
-    <entity name="DSectionEntity" representedClassName="DSectionEntity" syncable="YES" codeGenerationType="class">
+    <entity name="DSectionEntity" representedClassName="DSectionEntity" syncable="YES" codeGenerationType="category">
+        <attribute name="compCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="competencies.@count" usesScalarValueType="YES"/>
         <attribute name="descrip" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="competencies" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="DCompEntity" inverseName="section" inverseEntity="DCompEntity"/>
+        <relationship name="competencies" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DCompEntity" inverseName="section" inverseEntity="DCompEntity"/>
         <relationship name="theme" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DThemeEntity" inverseName="sections" inverseEntity="DThemeEntity"/>
     </entity>
     <entity name="DThemeEntity" representedClassName="DThemeEntity" syncable="YES" codeGenerationType="category">

@@ -1,19 +1,20 @@
 //
-//  WCompEntity+Extension.swift
+//  DSectionEntity+Extension.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 04/06/2023.
+//  Created by Lionel MICHAUD on 09/06/2023.
 //
 
 import CoreData
 import Foundation
 
-extension WCompEntity {
+extension DSectionEntity {
     // MARK: - Computed properties
 
-    /// Nom de l'image par défaut utilisée pour représenter une compétence travaillée
+    /// Nom de l'image par défaut utilisée pour représenter
+    /// une section de compétences disciplinaires
     static var defaultImageName: String {
-        "brain.head.profile"
+        "text.book.closed.fill"
     }
 
     /// Wrapper of `number`
@@ -31,7 +32,7 @@ extension WCompEntity {
 
     @objc
     var viewAcronym: String {
-        (self.chapter?.viewAcronym ?? "??") + "." + String(self.viewNumber)
+        (self.theme?.viewAcronym ?? "??") + "." + String(self.viewNumber)
     }
 
     /// Wrapper of `descrip`
@@ -48,55 +49,55 @@ extension WCompEntity {
     }
 
     /// Nombre de Compétences Disciplinaires associées
-    var nbOfDisciplineCompetencies: Int {
-        Int(disCompCount)
+    var nbOfCompetencies: Int {
+        Int(compCount)
     }
 }
 
 // MARK: - Extension CoreData
 
-extension WCompEntity {
+extension DSectionEntity {
     // MARK: - Type Computed Properties
 
     static var byAcronymNSSortDescriptor: [NSSortDescriptor] =
-        [
-            NSSortDescriptor(
-                keyPath: \WCompEntity.viewAcronym,
-                ascending: true
-            )
-        ]
+    [
+        NSSortDescriptor(
+            keyPath: \DSectionEntity.viewAcronym,
+            ascending: true
+        )
+    ]
 
-    /// Requête pour toutes les compétences triées.
+    /// Requête pour toutes les sections de compétences triées.
     ///
     /// Ordre de tri:
     ///   1. Acronym
-    static var requestAllSortedByAcronym: NSFetchRequest<WCompEntity> {
-        let request = WCompEntity.fetchRequest()
+    static var requestAllSortedByAcronym: NSFetchRequest<DSectionEntity> {
+        let request = DSectionEntity.fetchRequest()
         request.sortDescriptors = Self.byAcronymNSSortDescriptor
         return request
     }
 
     // MARK: - Computed properties
 
-    /// Liste des Compétences Disciplinaires non triées
-    var allDisciplineCompetencies: [DCompEntity] {
-        if let disciplineCompetencies {
-            return (disciplineCompetencies.allObjects as! [DCompEntity])
+    /// Liste des compétences Disciplinaires de la section, non triées
+    var allCompetencies: [DCompEntity] {
+        if let competencies {
+            return (competencies.allObjects as! [DCompEntity])
         } else {
             return []
         }
     }
 
-    /// Liste des Compétences Disciplinaires triées par numéro
-    var disciplineCompSortedByNumber: [DCompEntity] {
+    /// Liste des Compétences Disciplinaires de la section, triées par numéro
+    var allCompetenciesSortedByNumber: [DCompEntity] {
         let sortComparators =
-            [
-                SortDescriptor(
-                    \DCompEntity.number,
-                    order: .forward
-                )
-            ]
-        return allDisciplineCompetencies.sorted(using: sortComparators)
+        [
+            SortDescriptor(
+                \DCompEntity.number,
+                 order: .forward
+            )
+        ]
+        return allCompetencies.sorted(using: sortComparators)
     }
 
     override public func awakeFromInsert() {
@@ -107,11 +108,11 @@ extension WCompEntity {
 
     // MARK: - Type Methods
 
-    static func allSortedbyAcronym() -> [WCompEntity] {
+    static func allSortedbyAcronym() -> [DSectionEntity] {
         do {
-            return try WCompEntity
+            return try DSectionEntity
                 .context
-                .fetch(WCompEntity.requestAllSortedByAcronym)
+                .fetch(DSectionEntity.requestAllSortedByAcronym)
         } catch {
             return []
         }
@@ -123,17 +124,17 @@ extension WCompEntity {
     static func create(
         number: Int,
         description: String,
-        inChapter chapter: WCompChapterEntity
-    ) -> WCompEntity {
-        let comp = WCompEntity.create()
+        inTheme theme: DThemeEntity
+    ) -> DSectionEntity {
+        let section = DSectionEntity.create()
 
-        comp.number = Int16(number)
-        comp.descrip = description
+        section.number = Int16(number)
+        section.descrip = description
 
-        comp.chapter = chapter
+        section.theme = theme
 
         try? Self.saveIfContextHasChanged()
-        return comp
+        return section
     }
 
     /// Check the correctness and consistency of all database entities of this type.
@@ -143,32 +144,32 @@ extension WCompEntity {
         errorList: inout DataBaseErrorList,
         tryToRepair: Bool
     ) {
-        all().forEach { comp in
-            if comp.descrip == nil {
+        all().forEach { section in
+            if section.descrip == nil {
                 errorList.append(DataBaseError.outOfBound(
                     entity: Self.entity().name!,
-                    name: comp.description,
+                    name: section.description,
                     attribute: "descrip",
-                    id: comp.id
+                    id: section.id
                 ))
             }
-            if comp.chapter == nil {
+            if section.theme == nil {
                 if tryToRepair {
                     do {
                         // la destruction est sauvegardée
-                        try comp.delete()
+                        try section.delete()
                     } catch {
                         errorList.append(DataBaseError.noOwner(
                             entity: Self.entity().name!,
-                            name: comp.description,
-                            id: comp.id
+                            name: section.description,
+                            id: section.id
                         ))
                     }
                 } else {
                     errorList.append(DataBaseError.noOwner(
                         entity: Self.entity().name!,
-                        name: comp.description,
-                        id: comp.id
+                        name: section.description,
+                        id: section.id
                     ))
                 }
             }
@@ -178,13 +179,13 @@ extension WCompEntity {
 
 // MARK: - Extension Debug
 
-public extension WCompEntity {
+public extension DSectionEntity {
     override var description: String {
         """
 
         COMPÉTENCES DU SOCLE:
            ID          : \(String(describing: id))
-           Chapitre    : \(String(describing: chapter?.viewAcronym))
+           Thème       : \(String(describing: theme?.viewAcronym))
            Numéro      : \(viewNumber)
            Description : \(viewDescription)
         """

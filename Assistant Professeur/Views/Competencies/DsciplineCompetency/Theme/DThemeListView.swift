@@ -8,7 +8,7 @@
 import HelpersView
 import SwiftUI
 
-struct DCompThemeListView: View {
+struct DThemeListView: View {
     var discipline: Discipline
 
     @EnvironmentObject
@@ -120,7 +120,7 @@ struct DCompThemeListView: View {
 
 // MARK: Toolbar Content
 
-extension DCompThemeListView {
+extension DThemeListView {
     @ToolbarContentBuilder
     func myToolBarContent() -> some ToolbarContent {
         ToolbarItemGroup(placement: .status) {
@@ -151,6 +151,6 @@ extension DCompThemeListView {
 
 struct DCompThemeListView_Previews: PreviewProvider {
     static var previews: some View {
-        DCompThemeListView(discipline: .technologie)
+        DThemeListView(discipline: .technologie)
     }
 }
