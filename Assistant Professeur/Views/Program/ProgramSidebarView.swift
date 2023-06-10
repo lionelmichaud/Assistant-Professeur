@@ -46,7 +46,7 @@ struct ProgramSidebarView: View {
                             ProgramBrowserRow(program: program)
                                 .badge(program.nbOfSequences)
 
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     // supprimer le programme et tous ses descendants
                                     Button(role: .destructive) {
                                         withAnimation {

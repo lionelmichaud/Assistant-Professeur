@@ -1,5 +1,5 @@
 //
-//  DSectionEntity+Extension.swift
+//  DCompEntity+Extensions.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 09/06/2023.
@@ -8,13 +8,13 @@
 import CoreData
 import Foundation
 
-extension DSectionEntity {
+extension DCompEntity {
     // MARK: - Computed properties
 
     /// Nom de l'image par défaut utilisée pour représenter
     /// une section de compétences disciplinaires
     static var defaultImageName: String {
-        "text.book.closed.fill"
+        "brain.head.profile"
     }
 
     /// Wrapper of `number`
@@ -32,7 +32,9 @@ extension DSectionEntity {
 
     @objc
     var viewAcronym: String {
-        (self.theme?.viewAcronym ?? "??") + "." + String(self.viewNumber)
+        (self.section?.theme?.viewAcronym ?? "??") + "." +
+        (self.section?.viewAcronym ?? "??") + "." +
+        String(self.viewNumber)
     }
 
     /// Wrapper of `descrip`
@@ -50,19 +52,19 @@ extension DSectionEntity {
 
     /// Nombre de Compétences Disciplinaires associées
     var nbOfCompetencies: Int {
-        Int(compCount)
+        Int(connaissanceCount)
     }
 }
 
 // MARK: - Extension CoreData
 
-extension DSectionEntity {
+extension DCompEntity {
     // MARK: - Type Computed Properties
 
     static var byAcronymNSSortDescriptor: [NSSortDescriptor] =
     [
         NSSortDescriptor(
-            keyPath: \DSectionEntity.viewAcronym,
+            keyPath: \DCompEntity.viewAcronym,
             ascending: true
         )
     ]
@@ -71,33 +73,33 @@ extension DSectionEntity {
     ///
     /// Ordre de tri:
     ///   1. Acronym
-    static var requestAllSortedByAcronym: NSFetchRequest<DSectionEntity> {
-        let request = DSectionEntity.fetchRequest()
+    static var requestAllSortedByAcronym: NSFetchRequest<DCompEntity> {
+        let request = DCompEntity.fetchRequest()
         request.sortDescriptors = Self.byAcronymNSSortDescriptor
         return request
     }
 
     // MARK: - Computed properties
 
-    /// Liste des compétences Disciplinaires de la section, non triées
-    var allCompetencies: [DCompEntity] {
-        if let competencies {
-            return (competencies.allObjects as! [DCompEntity])
+    /// Liste des connaissances Disciplinaires de la compétence, non triées
+    var allConnaissances: [DConnaissanceEntity] {
+        if let connaissances {
+            return (connaissances.allObjects as! [DConnaissanceEntity])
         } else {
             return []
         }
     }
 
-    /// Liste des Compétences Disciplinaires de la section, triées par numéro
-    var allCompetenciesSortedByNumber: [DCompEntity] {
+    /// Liste des connaissances Disciplinaires de la compétence, triées par numéro
+    var allConnaissancesSortedByNumber: [DConnaissanceEntity] {
         let sortComparators =
         [
             SortDescriptor(
-                \DCompEntity.number,
+                \DConnaissanceEntity.number,
                  order: .forward
             )
         ]
-        return allCompetencies.sorted(using: sortComparators)
+        return allConnaissances.sorted(using: sortComparators)
     }
 
     override public func awakeFromInsert() {
@@ -108,11 +110,11 @@ extension DSectionEntity {
 
     // MARK: - Type Methods
 
-    static func allSortedbyAcronym() -> [DSectionEntity] {
+    static func allSortedbyAcronym() -> [DCompEntity] {
         do {
-            return try DSectionEntity
+            return try DCompEntity
                 .context
-                .fetch(DSectionEntity.requestAllSortedByAcronym)
+                .fetch(DCompEntity.requestAllSortedByAcronym)
         } catch {
             return []
         }
@@ -124,17 +126,17 @@ extension DSectionEntity {
     static func create(
         number: Int,
         description: String,
-        inTheme theme: DThemeEntity
-    ) -> DSectionEntity {
-        let section = DSectionEntity.create()
+        inSection section: DSectionEntity
+    ) -> DCompEntity {
+        let competency = DCompEntity.create()
 
-        section.number = Int16(number)
-        section.descrip = description
+        competency.number = Int16(number)
+        competency.descrip = description
 
-        section.theme = theme
+        competency.section = section
 
         try? Self.saveIfContextHasChanged()
-        return section
+        return competency
     }
 
     /// Check the correctness and consistency of all database entities of this type.
@@ -144,32 +146,32 @@ extension DSectionEntity {
         errorList: inout DataBaseErrorList,
         tryToRepair: Bool
     ) {
-        all().forEach { section in
-            if section.descrip == nil {
+        all().forEach { competency in
+            if competency.descrip == nil {
                 errorList.append(DataBaseError.outOfBound(
                     entity: Self.entity().name!,
-                    name: section.description,
+                    name: competency.description,
                     attribute: "descrip",
-                    id: section.id
+                    id: competency.id
                 ))
             }
-            if section.theme == nil {
+            if competency.section == nil {
                 if tryToRepair {
                     do {
                         // la destruction est sauvegardée
-                        try section.delete()
+                        try competency.delete()
                     } catch {
                         errorList.append(DataBaseError.noOwner(
                             entity: Self.entity().name!,
-                            name: section.description,
-                            id: section.id
+                            name: competency.description,
+                            id: competency.id
                         ))
                     }
                 } else {
                     errorList.append(DataBaseError.noOwner(
                         entity: Self.entity().name!,
-                        name: section.description,
-                        id: section.id
+                        name: competency.description,
+                        id: competency.id
                     ))
                 }
             }
@@ -179,13 +181,13 @@ extension DSectionEntity {
 
 // MARK: - Extension Debug
 
-public extension DSectionEntity {
+public extension DCompEntity {
     override var description: String {
         """
 
-        SECTION DISCIPLINAIRE:
+        COMPÉTENCES DISCIPLINAIRE:
            ID          : \(String(describing: id))
-           Thème       : \(String(describing: theme?.viewAcronym))
+           Section     : \(String(describing: section?.viewAcronym))
            Numéro      : \(viewNumber)
            Description : \(viewDescription)
         """

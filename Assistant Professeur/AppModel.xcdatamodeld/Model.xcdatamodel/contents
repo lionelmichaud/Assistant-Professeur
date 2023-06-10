@@ -56,6 +56,7 @@
         <relationship name="eleve" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="colles" inverseEntity="EleveEntity"/>
     </entity>
     <entity name="DCompEntity" representedClassName="DCompEntity" syncable="YES" codeGenerationType="category">
+        <attribute name="connaissanceCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="connaissances.@count" usesScalarValueType="YES"/>
         <attribute name="descrip" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>

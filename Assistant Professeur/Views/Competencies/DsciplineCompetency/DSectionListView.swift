@@ -40,41 +40,45 @@ struct DSectionListView: View {
     var body: some View {
         Group {
             if selectedThemeExists {
-                List(selection: $nav.selectedDiscSectionMngObjId) {
+                List(
+                    selectedTheme!.allSectionsSortedByNumber,
+                    selection: $nav.selectedDiscSectionMngObjId
+                ) { disciplineSection in
                     // pour chaque section de compétences disciplinaires
-                    ForEach(
-                        selectedTheme!.allSectionsSortedByNumber
-                    ) { disciplineSection in
-                        DSectionBrowserView(disciplineSection: disciplineSection)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                // supprimer la compétence
-                                Button(role: .destructive) {
-                                    withAnimation {
-                                        if nav.selectedDiscSectionMngObjId == disciplineSection.objectID {
-                                            nav.selectedDiscSectionMngObjId = nil
+                    NavigationStack {
+                        NavigationLink(destination: DComListView()) {
+                            DSectionBrowserView(disciplineSection: disciplineSection)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                    // supprimer la compétence
+                                    Button(role: .destructive) {
+                                        withAnimation {
+                                            if nav.selectedDiscSectionMngObjId == disciplineSection.objectID {
+                                                nav.selectedDiscSectionMngObjId = nil
+                                            }
+                                            try? disciplineSection.delete()
                                         }
-                                        try? disciplineSection.delete()
+                                    } label: {
+                                        Label("Supprimer", systemImage: "trash")
                                     }
-                                } label: {
-                                    Label("Supprimer", systemImage: "trash")
                                 }
-                            }
-                            .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                                // modifier la compétence
-                                Button {
-                                    editedDisciplineSection = disciplineSection
-                                } label: {
-                                    Label("Modifier", systemImage: "pencil")
+                                .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                                    // modifier la compétence
+                                    Button {
+                                        editedDisciplineSection = disciplineSection
+                                    } label: {
+                                        Label("Modifier", systemImage: "pencil")
+                                    }
                                 }
-                            }
+                        }
                     }
-                    .emptyListPlaceHolder(selectedTheme!.allSectionsSortedByNumber) {
-                        EmptyListMessage(
-                            symbolName: DSectionEntity.defaultImageName,
-                            title: "Aucune section de compétences disciplinaires actuellement.",
-                            message: "Les sections ajoutées apparaîtront ici."
-                        )
-                    }
+                }
+                .emptyListPlaceHolder(selectedTheme!.allSectionsSortedByNumber) {
+                    EmptyListMessage(
+                        symbolName: DSectionEntity.defaultImageName,
+                        title: "Aucune section de compétences disciplinaires actuellement.",
+                        message: "Les sections ajoutées apparaîtront ici.",
+                        showAsGroupBox: true
+                    )
                 }
 
             } else {

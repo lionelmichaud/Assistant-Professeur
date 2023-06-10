@@ -39,7 +39,7 @@ struct ClassList: View {
                         navigationModel.selectedClasseMngObjId = classe.objectID
                     }
 
-                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         // supprimer une classe
                         Button(role: .destructive) {
                             withAnimation {

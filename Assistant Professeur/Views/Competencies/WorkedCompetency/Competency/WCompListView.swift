@@ -44,7 +44,7 @@ struct WCompListView: View {
                         selectedChapter!.allWorkedCompetenciesSortedByNumber
                     ) { competency in
                         WCompBrowserRow(workedComp: competency)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 // supprimer la compétence
                                 Button(role: .destructive) {
                                     withAnimation {

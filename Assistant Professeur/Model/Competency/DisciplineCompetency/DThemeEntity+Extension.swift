@@ -318,7 +318,7 @@ public extension DThemeEntity {
     override var description: String {
         """
 
-        ÉLÉMENT DE COMPÉTENCES DU SOCLE:
+        THEME DISCIPLINAIRE:
            ID          : \(String(describing: id))
            Discipline  : \(disciplineString)
            Cycle       : \(cycleString)

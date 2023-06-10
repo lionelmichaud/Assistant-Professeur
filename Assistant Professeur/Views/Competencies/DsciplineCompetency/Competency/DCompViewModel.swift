@@ -1,5 +1,5 @@
 //
-//  DSectionViewModal.swift
+//  DCompViewModel.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 09/06/2023.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DSectionViewModel: ObservableObject {
+class DCompViewModel: ObservableObject {
     // MARK: - Properties
 
     @Published
@@ -29,7 +29,7 @@ class DSectionViewModel: ObservableObject {
 
     /// Créer un View Model à partir d'un objet existant
     /// - Parameter section: objet existant
-    convenience init(from section: DSectionEntity) {
+    convenience init(from section: DCompEntity) {
         self.init()
         self.update(from: section)
     }
@@ -37,30 +37,30 @@ class DSectionViewModel: ObservableObject {
     // MARK: - Methods
 
     /// Initialiser le View Model à partir d'un objet existant
-    /// - Parameter section: bjet exis
-    func update(from section: DSectionEntity) {
-        self.number = section.viewNumber
-        self.description = section.viewDescription
+    /// - Parameter competency: bjet exis
+    func update(from competency: DCompEntity) {
+        self.number = competency.viewNumber
+        self.description = competency.viewDescription
     }
 
     /// Mettre à jour un objet existant à partir d'un View Model
-    /// - Parameter section: objet existant
-    func update(this section: DSectionEntity) {
-        section.viewNumber = self.number
-        section.viewDescription = self.description
+    /// - Parameter competency: objet existant
+    func update(this competency: DCompEntity) {
+        competency.viewNumber = self.number
+        competency.viewDescription = self.description
     }
 
-    /// Créer une entité `DSectionEntity` à partir du VM et
+    /// Créer une entité `DCompEntity` à partir du VM et
     /// le sauveagrader dans le context.
     /// - Important: Saves the context
-    /// - Parameter theme: Thème dans lequel crééer la compétence.
+    /// - Parameter section: Section dans lequel crééer la compétence.
     func createAndSaveEntity(
-        inTheme theme: DThemeEntity
+        inSection section: DSectionEntity
     ) {
-        DSectionEntity.create(
+        DCompEntity.create(
             number: number,
             description: description,
-            inTheme: theme
+            inSection: section
         )
     }
 }

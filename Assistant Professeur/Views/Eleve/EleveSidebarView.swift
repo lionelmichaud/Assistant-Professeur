@@ -123,7 +123,7 @@ struct EleveSidebarSchoolSubview: View {
                     // pour chaque Elève
                     ForEach(eleveInClasse(classe), id: \.objectID) { eleve in
                         EleveBrowserRow(eleve: eleve)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 // supprimer un élève
                                 Button(role: .destructive) {
                                     withAnimation {

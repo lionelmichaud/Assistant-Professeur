@@ -38,7 +38,7 @@ struct DThemeListView: View {
                         // pour chaque Thème
                         ForEach(filteredThemes, id: \.objectID) { theme in
                             DThemeBrowserView(theme: theme)
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     // supprimer le thème
                                     Button(role: .destructive) {
                                         withAnimation {

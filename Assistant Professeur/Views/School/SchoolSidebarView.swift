@@ -83,7 +83,7 @@ struct SchoolSidebarView: View {
                         ForEach(section, id: \.objectID) { school in
                             SchoolBrowserRow(school: school)
 //                                .badge(school.nbOfClasses)
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     // supprimer l'établissement et tous ses descendants
                                     Button(role: .destructive) {
                                         withAnimation {

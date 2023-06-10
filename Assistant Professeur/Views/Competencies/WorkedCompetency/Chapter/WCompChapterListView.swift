@@ -36,7 +36,7 @@ struct WCompChapterListView: View {
                             //                            NavigationLink(value: program.objectID) {
                             WCompChapterBrowserRow(chapter: workedChapter)
                                 .badge(workedChapter.nbOfWorkedCompetencies)
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     /// supprimer le chapitre
                                     Button(role: .destructive) {
                                         withAnimation {

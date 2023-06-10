@@ -323,6 +323,9 @@
 		79FD21992A339A7700A8D925 /* DSectionEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD21982A339A7700A8D925 /* DSectionEditorModal.swift */; };
 		79FD219B2A339BE700A8D925 /* DSectionEntity+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD219A2A339BE700A8D925 /* DSectionEntity+Extension.swift */; };
 		79FD219D2A33BB3700A8D925 /* DSectionViewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD219C2A33BB3700A8D925 /* DSectionViewModal.swift */; };
+		79FD21A02A33C82900A8D925 /* DCompViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD219F2A33C82900A8D925 /* DCompViewModel.swift */; };
+		79FD21A22A33CF6900A8D925 /* DCompEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD21A12A33CF6900A8D925 /* DCompEntity+Extensions.swift */; };
+		79FD21A42A33D76A00A8D925 /* DComListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD21A32A33D76A00A8D925 /* DComListView.swift */; };
 		79FFF42729511DF20037A327 /* ClassBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42629511DF20037A327 /* ClassBrowserRow.swift */; };
 		79FFF42929511E040037A327 /* ClassCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42829511E040037A327 /* ClassCreatorModal.swift */; };
 		79FFF42B295120100037A327 /* LevelClasse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42A295120100037A327 /* LevelClasse.swift */; };
@@ -635,6 +638,9 @@
 		79FD21982A339A7700A8D925 /* DSectionEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSectionEditorModal.swift; sourceTree = "<group>"; };
 		79FD219A2A339BE700A8D925 /* DSectionEntity+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DSectionEntity+Extension.swift"; sourceTree = "<group>"; };
 		79FD219C2A33BB3700A8D925 /* DSectionViewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSectionViewModal.swift; sourceTree = "<group>"; };
+		79FD219F2A33C82900A8D925 /* DCompViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompViewModel.swift; sourceTree = "<group>"; };
+		79FD21A12A33CF6900A8D925 /* DCompEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DCompEntity+Extensions.swift"; sourceTree = "<group>"; };
+		79FD21A32A33D76A00A8D925 /* DComListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DComListView.swift; sourceTree = "<group>"; };
 		79FFF42629511DF20037A327 /* ClassBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassBrowserRow.swift; sourceTree = "<group>"; };
 		79FFF42829511E040037A327 /* ClassCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassCreatorModal.swift; sourceTree = "<group>"; };
 		79FFF42A295120100037A327 /* LevelClasse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelClasse.swift; sourceTree = "<group>"; };
@@ -795,6 +801,7 @@
 				79FD21922A338A9200A8D925 /* DSectionEntity+CoreDataClass.swift */,
 				79FD219A2A339BE700A8D925 /* DSectionEntity+Extension.swift */,
 				79FD21942A338CAC00A8D925 /* DCompEntity+CoreDataClass.swift */,
+				79FD21A12A33CF6900A8D925 /* DCompEntity+Extensions.swift */,
 			);
 			path = DisciplineCompetency;
 			sourceTree = "<group>";
@@ -868,12 +875,7 @@
 				79DEDAE42925857C00F508EF /* Classe */,
 				79DEDAE52925858900F508EF /* Eleve */,
 				7951B69E29B13E45006DC88D /* Warnings */,
-				79DEDAE6292585AE00F508EF /* Observation */,
-				79DEDAE7292585BD00F508EF /* Colle */,
-				793D626B295DCBBC00477932 /* MotifView */,
 				79975314297B146600D1C66E /* Program */,
-				796371FD297D574B00ECDBC3 /* Sequence */,
-				79637206297D879100ECDBC3 /* Activity */,
 				79F7708E2A2B9B68004E9089 /* Competencies */,
 				79CD363829D989C900BF5ADC /* EmptyListMessage.swift */,
 			);
@@ -961,6 +963,9 @@
 			children = (
 				7951B69F29B13E6F006DC88D /* WarningSplitView.swift */,
 				7951B6A129B14012006DC88D /* WarningSidebarView.swift */,
+				793D626B295DCBBC00477932 /* MotifView */,
+				79DEDAE7292585BD00F508EF /* Colle */,
+				79DEDAE6292585AE00F508EF /* Observation */,
 			);
 			path = Warnings;
 			sourceTree = "<group>";
@@ -1199,6 +1204,8 @@
 		79975314297B146600D1C66E /* Program */ = {
 			isa = PBXGroup;
 			children = (
+				796371FD297D574B00ECDBC3 /* Sequence */,
+				79637206297D879100ECDBC3 /* Activity */,
 				7981C21F29A805220085986D /* TimeLine */,
 				7997531F297C3F9200D1C66E /* ProgramViewModel.swift */,
 				79975315297B148800D1C66E /* ProgramSplitView.swift */,
@@ -1389,6 +1396,7 @@
 			children = (
 				79FD218A2A3362C000A8D925 /* Theme */,
 				79FD218F2A33868F00A8D925 /* Section */,
+				79FD219E2A33C7E500A8D925 /* Competency */,
 			);
 			path = DsciplineCompetency;
 			sourceTree = "<group>";
@@ -1593,12 +1601,21 @@
 		79FD218F2A33868F00A8D925 /* Section */ = {
 			isa = PBXGroup;
 			children = (
+				79FD219C2A33BB3700A8D925 /* DSectionViewModal.swift */,
 				79FD21902A3386F600A8D925 /* DSectionListView.swift */,
 				79FD21962A33980800A8D925 /* DSectionBrowserView.swift */,
 				79FD21982A339A7700A8D925 /* DSectionEditorModal.swift */,
-				79FD219C2A33BB3700A8D925 /* DSectionViewModal.swift */,
 			);
 			name = Section;
+			sourceTree = "<group>";
+		};
+		79FD219E2A33C7E500A8D925 /* Competency */ = {
+			isa = PBXGroup;
+			children = (
+				79FD219F2A33C82900A8D925 /* DCompViewModel.swift */,
+				79FD21A32A33D76A00A8D925 /* DComListView.swift */,
+			);
+			path = Competency;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1857,6 +1874,7 @@
 				7989B4D529A2752800383F84 /* LabeledActivityView.swift in Sources */,
 				792381142960A888009E51B7 /* Group+Extensions.swift in Sources */,
 				79FD218C2A33630E00A8D925 /* DThemeViewModel.swift in Sources */,
+				79FD21A02A33C82900A8D925 /* DCompViewModel.swift in Sources */,
 				793D6271295DCBBC00477932 /* MotifEditor.swift in Sources */,
 				79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */,
 				7937A2462986C57D00D0ED59 /* ExamTypeEnum.swift in Sources */,
@@ -1865,6 +1883,7 @@
 				79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */,
 				795C2C2E296E2DCA00EDFF09 /* RoomEditor.swift in Sources */,
 				793D6276295DD9E600477932 /* ObservNotifIcon.swift in Sources */,
+				79FD21A22A33CF6900A8D925 /* DCompEntity+Extensions.swift in Sources */,
 				79C2E47029DC22C2008DF730 /* EleveTextName.swift in Sources */,
 				792311362A312BBA008556E1 /* DThemeEntity+CoreDataClass.swift in Sources */,
 				79225B522A26BC38005030B5 /* ClasseInfosView.swift in Sources */,
@@ -1902,6 +1921,7 @@
 				79F38D0A29D7495D006C9B35 /* GroupCapsule.swift in Sources */,
 				796521CF2A13FBC7000C27D1 /* Zones.swift in Sources */,
 				7989B4D929A288E900383F84 /* LabeledSequenceView.swift in Sources */,
+				79FD21A42A33D76A00A8D925 /* DComListView.swift in Sources */,
 				79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */,
 				798DD4D2298C318F00C47B2C /* ExamListView.swift in Sources */,
 				79FD21912A3386F600A8D925 /* DSectionListView.swift in Sources */,
