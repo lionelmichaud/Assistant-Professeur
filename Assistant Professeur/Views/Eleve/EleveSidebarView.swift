@@ -90,7 +90,7 @@ struct EleveSidebarView: View {
                 .toggleStyle(.button)
             }
         }
-        .navigationTitle("Les Élèves")
+        .navigationTitle("Mes Élèves")
     }
 }
 

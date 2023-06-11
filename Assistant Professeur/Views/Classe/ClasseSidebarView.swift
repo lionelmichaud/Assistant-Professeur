@@ -47,7 +47,7 @@ struct ClasseSidebarView: View {
             }
         }
         #if os(iOS)
-        .navigationTitle("Les Classes")
+        .navigationTitle("Mes Classes")
         #endif
     }
 }
