@@ -83,6 +83,7 @@ struct DThemeListView: View {
                 }
             }
             .onChange(of: nav.selectedDiscThemeMngObjId) { _ in
+                nav.selectedDiscSectionMngObjId = nil
                 nav.selectedDiscCompMngObjId = nil
             }
         }

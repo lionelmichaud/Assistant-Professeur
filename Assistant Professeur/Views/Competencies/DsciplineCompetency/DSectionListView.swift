@@ -76,6 +76,9 @@ struct DSectionListView: View {
                     showAsGroupBox: true
                 )
             }
+            .onChange(of: nav.selectedDiscSectionMngObjId) { _ in
+                nav.selectedDiscCompMngObjId = nil
+            }
         }
         #if os(iOS)
         .navigationTitle("Sections")
