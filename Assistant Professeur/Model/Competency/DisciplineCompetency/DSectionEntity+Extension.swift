@@ -60,12 +60,12 @@ extension DSectionEntity {
     // MARK: - Type Computed Properties
 
     static var byAcronymNSSortDescriptor: [NSSortDescriptor] =
-    [
-        NSSortDescriptor(
-            keyPath: \DSectionEntity.viewAcronym,
-            ascending: true
-        )
-    ]
+        [
+            NSSortDescriptor(
+                keyPath: \DSectionEntity.viewAcronym,
+                ascending: true
+            )
+        ]
 
     /// Requête pour toutes les sections de compétences triées.
     ///
@@ -91,19 +91,13 @@ extension DSectionEntity {
     /// Liste des Compétences Disciplinaires de la section, triées par numéro
     var allCompetenciesSortedByNumber: [DCompEntity] {
         let sortComparators =
-        [
-            SortDescriptor(
-                \DCompEntity.number,
-                 order: .forward
-            )
-        ]
+            [
+                SortDescriptor(
+                    \DCompEntity.number,
+                    order: .forward
+                )
+            ]
         return allCompetencies.sorted(using: sortComparators)
-    }
-
-    override public func awakeFromInsert() {
-        super.awakeFromInsert()
-        // Set defaults here
-        self.id = UUID()
     }
 
     // MARK: - Type Methods
@@ -173,6 +167,28 @@ extension DSectionEntity {
                     ))
                 }
             }
+        }
+    }
+
+    // MARK: - Methods
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
+    }
+
+    /// Recherche si la **Competence** existe déjà dans cette **Section**.
+    ///
+    /// Si `thisObjectID` != `nil` alors on retourne true seulement
+    /// si un objet existant possède un identifiant différent de `thisObjectID`.
+    func exists(
+        number: Int,
+        thisObjectID: NSManagedObjectID? = nil
+    ) -> Bool {
+        allCompetencies.contains {
+            $0.viewNumber == number &&
+                (thisObjectID == nil || $0.objectID != thisObjectID)
         }
     }
 }

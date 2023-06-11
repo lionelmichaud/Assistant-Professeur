@@ -10,6 +10,9 @@ import HelpersView
 import SwiftUI
 
 struct DSectionListView: View {
+    @ObservedObject
+    var theme: DThemeEntity
+
     var discipline: Discipline
 
     @EnvironmentObject
@@ -18,74 +21,56 @@ struct DSectionListView: View {
     @State
     private var isAddingObject = false
     @State
-    private var editedDisciplineSection: DSectionEntity?
+    private var editedSection: DSectionEntity?
 
     // MARK: - Computed properties
 
-    private var selectedThemeId: NSManagedObjectID? {
-        nav.selectedDiscThemeMngObjId
-    }
-
-    private var selectedTheme: DThemeEntity? {
-        guard let selectedThemeId else {
-            return nil
-        }
-        return DThemeEntity.byObjectId(MngObjID: selectedThemeId)
-    }
-
-    private var selectedThemeExists: Bool {
-        selectedTheme != nil
-    }
-
     var body: some View {
-        Group {
-            if selectedThemeExists {
-                List(
-                    selectedTheme!.allSectionsSortedByNumber,
-                    selection: $nav.selectedDiscSectionMngObjId
-                ) { disciplineSection in
-                    // pour chaque section de compétences disciplinaires
-                    NavigationStack {
-                        NavigationLink(destination: DComListView()) {
-                            DSectionBrowserView(disciplineSection: disciplineSection)
-                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                    // supprimer la compétence
-                                    Button(role: .destructive) {
-                                        withAnimation {
-                                            if nav.selectedDiscSectionMngObjId == disciplineSection.objectID {
-                                                nav.selectedDiscSectionMngObjId = nil
-                                            }
-                                            try? disciplineSection.delete()
-                                        }
-                                    } label: {
-                                        Label("Supprimer", systemImage: "trash")
-                                    }
-                                }
-                                .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                                    // modifier la compétence
-                                    Button {
-                                        editedDisciplineSection = disciplineSection
-                                    } label: {
-                                        Label("Modifier", systemImage: "pencil")
-                                    }
-                                }
+        List(selection: $nav.selectedDiscSectionMngObjId) {
+            // Thème de compétences disciplinaires
+            DThemeBrowserView(
+                theme: theme,
+                showIcon: false
+            )
+
+            // Sections de compétences disciplinaires
+            ForEach(
+                theme.allSectionsSortedByNumber,
+                id: \.objectID
+            ) { section in
+                // pour chaque section de compétences disciplinaires
+                DSectionBrowserView(
+                    section: section,
+                    showIcon: true
+                )
+                .badge(section.nbOfCompetencies)
+                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                    // supprimer la compétence
+                    Button(role: .destructive) {
+                        withAnimation {
+                            if nav.selectedDiscSectionMngObjId == section.objectID {
+                                nav.selectedDiscSectionMngObjId = nil
+                            }
+                            try? section.delete()
                         }
+                    } label: {
+                        Label("Supprimer", systemImage: "trash")
                     }
                 }
-                .emptyListPlaceHolder(selectedTheme!.allSectionsSortedByNumber) {
-                    EmptyListMessage(
-                        symbolName: DSectionEntity.defaultImageName,
-                        title: "Aucune section de compétences disciplinaires actuellement.",
-                        message: "Les sections ajoutées apparaîtront ici.",
-                        showAsGroupBox: true
-                    )
+                .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                    // modifier la compétence
+                    Button {
+                        editedSection = section
+                    } label: {
+                        Label("Modifier", systemImage: "pencil")
+                    }
                 }
-
-            } else {
+            }
+            .emptyListPlaceHolder(theme.allSectionsSortedByNumber) {
                 EmptyListMessage(
                     symbolName: DSectionEntity.defaultImageName,
-                    title: "Aucune section de compétences disciplinaires sélectionnée.",
-                    message: "Sélectionner une section de compétences pour en visualiser le contenu.",
+                    title: "Aucune section de compétences disciplinaires actuellement.",
+                    message: "Les sections ajoutées apparaîtront ici.",
                     showAsGroupBox: true
                 )
             }
@@ -103,22 +88,22 @@ struct DSectionListView: View {
                 let section = DSectionEntity()
                 DSectionEditorModal(
                     section: section,
-                    inTheme: selectedTheme!,
+                    inTheme: theme,
                     isEditing: false
                 )
-                .presentationDetents([.medium])
             }
+            .presentationDetents([.medium])
         }
 
         // Modal Sheet de modification d'un chapitre de compétence socle
         .sheet(
-            item: $editedDisciplineSection,
+            item: $editedSection,
             onDismiss: didDismiss
         ) { section in
             NavigationStack {
                 DSectionEditorModal(
                     section: section,
-                    inTheme: selectedTheme!,
+                    inTheme: theme,
                     isEditing: true
                 )
             }
@@ -127,7 +112,7 @@ struct DSectionListView: View {
     }
 
     private func didDismiss() {
-        editedDisciplineSection = nil
+        editedSection = nil
     }
 }
 
@@ -136,26 +121,24 @@ struct DSectionListView: View {
 extension DSectionListView {
     @ToolbarContentBuilder
     func myToolBarContent() -> some ToolbarContent {
-        if selectedThemeExists {
-            ToolbarItemGroup(placement: .status) {
-                // Ajouter une compétence au chapitre
-                Button {
-                    isAddingObject = true
-                } label: {
-                    Label(
-                        "Ajouter une section",
-                        systemImage: "plus.circle.fill"
-                    )
-                    .labelStyle(.titleAndIcon)
-                }
+        ToolbarItemGroup(placement: .status) {
+            // Ajouter une séction au thème
+            Button {
+                isAddingObject = true
+            } label: {
+                Label(
+                    "Ajouter une section",
+                    systemImage: "plus.circle.fill"
+                )
+                .labelStyle(.titleAndIcon)
             }
         }
 
         ToolbarItemGroup(placement: .navigationBarTrailing) {
-            // Modifier une compétence du chapitre
+            // Modifier une séction du thème
             if let selectedSectionMngObjId = nav.selectedDiscSectionMngObjId {
                 Button("Modifier") {
-                    editedDisciplineSection =
+                    editedSection =
                         DSectionEntity
                             .byObjectId(MngObjID: selectedSectionMngObjId)
                 }

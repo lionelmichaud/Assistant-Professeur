@@ -82,6 +82,7 @@ struct WCompListView: View {
                     message: "Sélectionner un élément de compétence pour en visualiser le contenu.",
                     showAsGroupBox: true
                 )
+                .padding(.horizontal)
             }
         }
         #if os(iOS)

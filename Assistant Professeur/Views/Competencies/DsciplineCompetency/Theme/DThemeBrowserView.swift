@@ -11,22 +11,35 @@ struct DThemeBrowserView: View {
     @ObservedObject
     var theme: DThemeEntity
 
+    var showIcon: Bool
+
     var body: some View {
-        Label(
-            title: {
-                Group {
-                    Text(theme.viewAcronym)
-                        .fontWeight(.bold) +
-                    Text(". ") +
-                    Text(theme.viewDescription)
-                        .foregroundColor(.secondary)
+        if showIcon {
+            Label(
+                title: {
+                    Group {
+                        Text(theme.viewAcronym)
+                            .fontWeight(.bold) +
+                        Text(". ") +
+                        Text(theme.viewDescription)
+                            .foregroundColor(.secondary)
+                    }
+                    .lineLimit(5)
+                },
+                icon: {
+                    Image(systemName: DThemeEntity.defaultImageName)
                 }
-                .lineLimit(5)
-            },
-            icon: {
-                Image(systemName: DThemeEntity.defaultImageName)
+            )
+        } else {
+            Group {
+                Text(theme.viewAcronym)
+                    .fontWeight(.bold) +
+                Text(". ") +
+                Text(theme.viewDescription)
+                    .foregroundColor(.secondary)
             }
-        )
+            .lineLimit(5)
+        }
     }
 }
 

@@ -32,9 +32,8 @@ extension DCompEntity {
 
     @objc
     var viewAcronym: String {
-        (self.section?.theme?.viewAcronym ?? "??") + "." +
         (self.section?.viewAcronym ?? "??") + "." +
-        String(self.viewNumber)
+            String(self.viewNumber)
     }
 
     /// Wrapper of `descrip`
@@ -62,12 +61,12 @@ extension DCompEntity {
     // MARK: - Type Computed Properties
 
     static var byAcronymNSSortDescriptor: [NSSortDescriptor] =
-    [
-        NSSortDescriptor(
-            keyPath: \DCompEntity.viewAcronym,
-            ascending: true
-        )
-    ]
+        [
+            NSSortDescriptor(
+                keyPath: \DCompEntity.viewAcronym,
+                ascending: true
+            )
+        ]
 
     /// Requête pour toutes les sections de compétences triées.
     ///
@@ -93,19 +92,13 @@ extension DCompEntity {
     /// Liste des connaissances Disciplinaires de la compétence, triées par numéro
     var allConnaissancesSortedByNumber: [DConnaissanceEntity] {
         let sortComparators =
-        [
-            SortDescriptor(
-                \DConnaissanceEntity.number,
-                 order: .forward
-            )
-        ]
+            [
+                SortDescriptor(
+                    \DConnaissanceEntity.number,
+                    order: .forward
+                )
+            ]
         return allConnaissances.sorted(using: sortComparators)
-    }
-
-    override public func awakeFromInsert() {
-        super.awakeFromInsert()
-        // Set defaults here
-        self.id = UUID()
     }
 
     // MARK: - Type Methods
@@ -176,6 +169,14 @@ extension DCompEntity {
                 }
             }
         }
+    }
+
+    // MARK: - Methods
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
     }
 }
 

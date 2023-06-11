@@ -50,7 +50,8 @@ struct ActivityList: View {
             } else {
                 EmptyListMessage(
                     title: "Aucune activitée actuellement dans cette séquence.",
-                    message: "Les activitées ajoutées apparaîtront ici."
+                    message: "Les activitées ajoutées apparaîtront ici.",
+                    showAsGroupBox: true
                 )
             }
         } header: {

@@ -16,7 +16,7 @@ enum CompetencySelection: Hashable, Codable {
             case .workedCompetencies:
                 return "Compétences du socle"
 
-            case .disciplineCompetencies(discipline: let discipline):
+            case let .disciplineCompetencies(discipline: discipline):
                 return discipline.displayString
         }
     }
@@ -46,10 +46,22 @@ struct CompetencySplitView: View {
                     .padding(.horizontal)
 
                 case .workedCompetencies:
+                    /// Compétences travaillées
                     WCompChapterListView()
 
-                case .disciplineCompetencies(let discipline):
-                    DThemeListView(discipline: discipline)
+                case let .disciplineCompetencies(discipline):
+                    /// Compétences disciplinaires
+                    NavigationStack(path: $navig.competencePath) {
+                        // Thème
+                        DThemeListView(discipline: discipline)
+                            .navigationDestination(for: DThemeEntity.self) { theme in
+                                // Section
+                                DSectionListView(
+                                    theme: theme,
+                                    discipline: discipline
+                                )
+                            }
+                    }
             }
 
         } detail: {
@@ -64,10 +76,12 @@ struct CompetencySplitView: View {
                     )
 
                 case .workedCompetencies:
+                    /// Compétences travaillées
                     WCompListView()
 
-                case .disciplineCompetencies(let discipline):
-                    DSectionListView(discipline: discipline)
+                case let .disciplineCompetencies(discipline):
+                    /// Compétences disciplinaires
+                    DComListView(discipline: discipline)
             }
         }
         .navigationSplitViewStyle(.balanced)

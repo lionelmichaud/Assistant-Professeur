@@ -75,7 +75,7 @@ struct DThemeEditorModal: View {
         )
         .toolbar(content: myToolBarContent)
         #if os(iOS)
-            .navigationTitle(isEditing ? "Modification" : "Nouveau thème")
+            .navigationTitle(isEditing ? "Modification Thème" : "Nouveau Thème")
         #endif
     }
 }

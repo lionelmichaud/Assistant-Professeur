@@ -304,11 +304,10 @@ extension DThemeEntity {
         number: Int,
         thisObjectID: NSManagedObjectID? = nil
     ) -> Bool {
-        (self.sections?.allObjects as! [DSectionEntity])
-            .contains {
-                $0.viewNumber == number &&
-                    (thisObjectID == nil || $0.objectID != thisObjectID)
-            }
+        allSections.contains {
+            $0.viewNumber == number &&
+                (thisObjectID == nil || $0.objectID != thisObjectID)
+        }
     }
 }
 

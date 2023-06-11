@@ -1,23 +1,27 @@
 //
-//  DSectionEditorModal.swift
+//  DCompEditorModal.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 09/06/2023.
+//  Created by Lionel MICHAUD on 10/06/2023.
 //
 
-import HelpersView
 import SwiftUI
+import HelpersView
 
-struct DSectionEditorModal: View {
+struct DCompEditorModal: View {
     @ObservedObject
-    var section: DSectionEntity
+    /// utilisé seulement si `isEditing`= true
+    var competency: DCompEntity
 
-    var inTheme: DThemeEntity
+    /// utilisé seulement si `isEditing`= false
+    var nextNumber: Int = 1
+
+    var inSection: DSectionEntity
 
     var isEditing: Bool
 
     @StateObject
-    private var disciplineSectionVM = DSectionViewModel()
+    private var disciplineCompVM = DCompViewModel()
 
     @Environment(\.dismiss)
     private var dismiss
@@ -61,7 +65,9 @@ struct DSectionEditorModal: View {
         .onAppear {
             focus = .number
             if isEditing {
-                disciplineSectionVM.update(from: section)
+                disciplineCompVM.update(from: competency)
+            } else {
+                disciplineCompVM.number = nextNumber
             }
         }
         .alert(
@@ -71,19 +77,18 @@ struct DSectionEditorModal: View {
             message: { Text(alertMessage) }
         )
         .toolbar(content: myToolBarContent)
-        #if os(iOS)
-            .navigationTitle(isEditing ? "Modification Section" : "Nouvelle Section")
-        #endif
+#if os(iOS)
+        .navigationTitle(isEditing ? "Modification Compétence" : "Nouvelle Compétence")
+#endif
     }
 }
-
 // MARK: - Subviews
 
-extension DSectionEditorModal {
+extension DCompEditorModal {
     var number: some View {
         IntegerEditView2(
             label: "Numéro",
-            integer: $disciplineSectionVM.number
+            integer: $disciplineCompVM.number
         )
         .submitLabel(.next)
         .focused($focus, equals: .number)
@@ -92,12 +97,12 @@ extension DSectionEditorModal {
     var description: some View {
         TextField(
             "Description",
-            text: $disciplineSectionVM.description,
+            text: $disciplineCompVM.description,
             axis: .vertical
         )
         .lineLimit(5)
         .onSubmit {
-            disciplineSectionVM.description.trim()
+            disciplineCompVM.description.trim()
         }
         .textFieldStyle(.roundedBorder)
         .autocorrectionDisabled()
@@ -108,28 +113,28 @@ extension DSectionEditorModal {
 
 // MARK: Toolbar Content
 
-extension DSectionEditorModal {
+extension DCompEditorModal {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
             Button("Annuler") {
-                DSectionEntity.rollback()
+                DCompEntity.rollback()
                 dismiss()
             }
         }
         ToolbarItem(placement: .confirmationAction) {
             Button(isEditing ? "Ok" : "Ajouter") {
                 // Ajouter un nouveau programme
-                if inTheme.exists(
-                    number: disciplineSectionVM.number,
-                    thisObjectID: isEditing ? section.objectID : nil
+                if inSection.exists(
+                    number: disciplineCompVM.number,
+                    thisObjectID: isEditing ? competency.objectID : nil
                 ) {
                     // doublon
                     alertTitle = "Ajout impossible"
                     alertMessage = "Une compétence avec ce numéro existe déjà."
                     alertIsPresented.toggle()
 
-                } else if disciplineSectionVM.description.isEmpty {
+                } else if disciplineCompVM.description.isEmpty {
                     alertTitle = "Ajout impossible"
                     alertMessage = "La description de la compétence est obligatoire."
                     focus = .description
@@ -139,12 +144,12 @@ extension DSectionEditorModal {
                     // Créer et Ajouter un nouveau chapitre de compétences
                     withAnimation {
                         if isEditing {
-                            disciplineSectionVM.update(this: section)
+                            disciplineCompVM.update(this: competency)
                             try? WCompEntity
                                 .saveIfContextHasChanged()
                         } else {
-                            disciplineSectionVM
-                                .createAndSaveEntity(inTheme: inTheme)
+                            disciplineCompVM
+                                .createAndSaveEntity(inSection: inSection)
                         }
                     }
                     dismiss()
@@ -154,8 +159,9 @@ extension DSectionEditorModal {
     }
 }
 
-// struct DSectionEditorModal_Previews: PreviewProvider {
+
+//struct DCompEditorModal_Previews: PreviewProvider {
 //    static var previews: some View {
-//        DSectionEditorModal()
+//        DCompEditorModal()
 //    }
-// }
+//}

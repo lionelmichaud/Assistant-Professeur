@@ -44,6 +44,10 @@ struct CompetencySidebarView: View {
                     .foregroundColor(.secondary)
                     .fontWeight(.bold)
             }
+            .onChange(
+                of: navig.selectedCompetenceType,
+                perform: resetNavigCompetency
+            )
         }
         #if os(iOS)
         .navigationTitle("Compétences")
@@ -56,6 +60,13 @@ struct CompetencySidebarView: View {
             files: isExportingModel ? fileExportOperation.urls : []
         ) { _ in
         }
+    }
+
+    private func resetNavigCompetency(newSelection _: CompetencySelection?) {
+        navig.competencePath.removeLast(navig.competencePath.count)
+        navig.selectedDiscThemeMngObjId = nil
+        navig.selectedDiscSectionMngObjId = nil
+        navig.selectedDiscCompMngObjId = nil
     }
 
     @ViewBuilder

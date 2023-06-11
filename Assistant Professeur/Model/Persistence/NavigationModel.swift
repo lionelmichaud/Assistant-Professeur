@@ -28,6 +28,7 @@ final class NavigationModel: ObservableObject, Codable {
         case selectedCompetenceType
         case classPath
         case programPath
+        case competencePath
         case selectedProgramId
         case selectedSequenceId
         case selectedActivityId
@@ -62,6 +63,8 @@ final class NavigationModel: ObservableObject, Codable {
     var classPath = [ClasseNavigationRoute]()
     @Published
     var programPath = NavigationPath()
+    @Published
+    var competencePath = NavigationPath()
 
     /// TODO: - Trouver une autre solution
     @Published
@@ -238,6 +241,7 @@ final class NavigationModel: ObservableObject, Codable {
 
                 classPath = model.classPath
                 programPath = model.programPath
+                competencePath = model.competencePath
                 #if DEBUG
                     print(">> NavigationModel() JSON decoding has completed")
                 #endif
@@ -310,6 +314,7 @@ final class NavigationModel: ObservableObject, Codable {
 
         self.classPath = []
         self.programPath = NavigationPath()
+        self.competencePath = NavigationPath()
 
         #if DEBUG
             print(">> NavigationModel() initialization has completed")
@@ -493,6 +498,10 @@ final class NavigationModel: ObservableObject, Codable {
 
         if let representation = programPath.codable {
             try container.encode(representation, forKey: .programPath)
+        }
+
+        if let representation = competencePath.codable {
+            try container.encode(representation, forKey: .competencePath)
         }
     }
 }

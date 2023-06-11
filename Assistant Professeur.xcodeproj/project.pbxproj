@@ -326,6 +326,8 @@
 		79FD21A02A33C82900A8D925 /* DCompViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD219F2A33C82900A8D925 /* DCompViewModel.swift */; };
 		79FD21A22A33CF6900A8D925 /* DCompEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD21A12A33CF6900A8D925 /* DCompEntity+Extensions.swift */; };
 		79FD21A42A33D76A00A8D925 /* DComListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD21A32A33D76A00A8D925 /* DComListView.swift */; };
+		79FD21A62A34D41000A8D925 /* DCompEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD21A52A34D41000A8D925 /* DCompEditorModal.swift */; };
+		79FD21A82A34DAB300A8D925 /* DCompBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD21A72A34DAB300A8D925 /* DCompBrowserView.swift */; };
 		79FFF42729511DF20037A327 /* ClassBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42629511DF20037A327 /* ClassBrowserRow.swift */; };
 		79FFF42929511E040037A327 /* ClassCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42829511E040037A327 /* ClassCreatorModal.swift */; };
 		79FFF42B295120100037A327 /* LevelClasse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42A295120100037A327 /* LevelClasse.swift */; };
@@ -641,6 +643,8 @@
 		79FD219F2A33C82900A8D925 /* DCompViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompViewModel.swift; sourceTree = "<group>"; };
 		79FD21A12A33CF6900A8D925 /* DCompEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DCompEntity+Extensions.swift"; sourceTree = "<group>"; };
 		79FD21A32A33D76A00A8D925 /* DComListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DComListView.swift; sourceTree = "<group>"; };
+		79FD21A52A34D41000A8D925 /* DCompEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompEditorModal.swift; sourceTree = "<group>"; };
+		79FD21A72A34DAB300A8D925 /* DCompBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompBrowserView.swift; sourceTree = "<group>"; };
 		79FFF42629511DF20037A327 /* ClassBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassBrowserRow.swift; sourceTree = "<group>"; };
 		79FFF42829511E040037A327 /* ClassCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassCreatorModal.swift; sourceTree = "<group>"; };
 		79FFF42A295120100037A327 /* LevelClasse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelClasse.swift; sourceTree = "<group>"; };
@@ -1614,6 +1618,8 @@
 			children = (
 				79FD219F2A33C82900A8D925 /* DCompViewModel.swift */,
 				79FD21A32A33D76A00A8D925 /* DComListView.swift */,
+				79FD21A72A34DAB300A8D925 /* DCompBrowserView.swift */,
+				79FD21A52A34D41000A8D925 /* DCompEditorModal.swift */,
 			);
 			path = Competency;
 			sourceTree = "<group>";
@@ -1796,6 +1802,7 @@
 				7967CFFA2A0D57BA00392F89 /* SchoolContactEditView.swift in Sources */,
 				79B298E829EC5F2C008BAF50 /* SeanceTimerView.swift in Sources */,
 				7997531E297C3D5B00D1C66E /* ProgramCreatorModal.swift in Sources */,
+				79FD21A62A34D41000A8D925 /* DCompEditorModal.swift in Sources */,
 				7963720C297DA37E00ECDBC3 /* ActivityBrowserRow.swift in Sources */,
 				79F7708D2A2B7F89004E9089 /* NavigationModel+Extensions.swift in Sources */,
 				79F38D0829D747D9006C9B35 /* ColorPalettes.swift in Sources */,
@@ -1914,6 +1921,7 @@
 				79F41E662954B1DC00EAAC52 /* Sexe.swift in Sources */,
 				79E524BE295376EA00DA99A7 /* EventEditor.swift in Sources */,
 				79BF1DB62929105D005D6CF3 /* Event+Extensions.swift in Sources */,
+				79FD21A82A34DAB300A8D925 /* DCompBrowserView.swift in Sources */,
 				79DEDB0F292593C200F508EF /* SettingsView.swift in Sources */,
 				79CAE16F2A13807C001FF13D /* SettingsSchoolYear.swift in Sources */,
 				79E923C52961E94D00EDB7CA /* GroupManager.swift in Sources */,

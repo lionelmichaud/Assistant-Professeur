@@ -1,15 +1,15 @@
 //
-//  DSectionBrowserView.swift
+//  DCompBrowserView.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 09/06/2023.
+//  Created by Lionel MICHAUD on 10/06/2023.
 //
 
 import SwiftUI
 
-struct DSectionBrowserView: View {
+struct DCompBrowserView: View {
     @ObservedObject
-    var section: DSectionEntity
+    var competency: DCompEntity
 
     var showIcon: Bool
 
@@ -18,24 +18,24 @@ struct DSectionBrowserView: View {
             Label(
                 title: {
                     Group {
-                        Text(section.viewAcronym)
+                        Text(competency.viewAcronym)
                             .fontWeight(.bold) +
-                        Text(". ") +
-                        Text(section.viewDescription)
+                            Text(". ") +
+                            Text(competency.viewDescription)
                             .foregroundColor(.secondary)
                     }
                     .lineLimit(5)
                 },
                 icon: {
-                    Image(systemName: DSectionEntity.defaultImageName)
+                    Image(systemName: DCompEntity.defaultImageName)
                 }
             )
         } else {
             Group {
-                Text(section.viewAcronym)
+                Text(competency.viewAcronym)
                     .fontWeight(.bold) +
-                Text(". ") +
-                Text(section.viewDescription)
+                    Text(". ") +
+                    Text(competency.viewDescription)
                     .foregroundColor(.secondary)
             }
             .lineLimit(5)
@@ -43,8 +43,8 @@ struct DSectionBrowserView: View {
     }
 }
 
-// struct DSectionBrowserView_Previews: PreviewProvider {
+// struct DCompBrowserView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        DSectionBrowserView()
+//        DCompBrowserView()
 //    }
 // }

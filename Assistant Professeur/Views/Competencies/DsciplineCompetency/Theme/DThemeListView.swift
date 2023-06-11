@@ -24,7 +24,7 @@ struct DThemeListView: View {
     @State
     private var isAddingObject = false
     @State
-    private var editedCompTheme: DThemeEntity?
+    private var editedTheme: DThemeEntity?
 
     var body: some View {
         List(selection: $nav.selectedDiscThemeMngObjId) {
@@ -37,7 +37,12 @@ struct DThemeListView: View {
                     Section {
                         // pour chaque Thème
                         ForEach(filteredThemes, id: \.objectID) { theme in
-                            DThemeBrowserView(theme: theme)
+                            NavigationLink(value: theme) {
+                                DThemeBrowserView(
+                                    theme: theme,
+                                    showIcon: true
+                                )
+                                .badge(theme.nbOfSections)
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     // supprimer le thème
                                     Button(role: .destructive) {
@@ -54,11 +59,12 @@ struct DThemeListView: View {
                                 .swipeActions(edge: .leading, allowsFullSwipe: false) {
                                     // modifier le thème
                                     Button {
-                                        editedCompTheme = theme
+                                        editedTheme = theme
                                     } label: {
                                         Label("Modifier", systemImage: "pencil")
                                     }
                                 }
+                            }
                         }
                     } header: {
                         Text("\(cycleThemes.id)")
@@ -74,6 +80,9 @@ struct DThemeListView: View {
                         showAsGroupBox: true
                     )
                 }
+            }
+            .onChange(of: nav.selectedDiscThemeMngObjId) { _ in
+                nav.selectedDiscCompMngObjId = nil
             }
         }
         #if os(iOS)
@@ -99,7 +108,7 @@ struct DThemeListView: View {
 
         // Modal Sheet de modification d'un chapitre de compétence socle
         .sheet(
-            item: $editedCompTheme,
+            item: $editedTheme,
             onDismiss: didDismiss
         ) { theme in
             NavigationStack {
@@ -114,7 +123,7 @@ struct DThemeListView: View {
     }
 
     private func didDismiss() {
-        editedCompTheme = nil
+        editedTheme = nil
     }
 }
 
@@ -140,7 +149,7 @@ extension DThemeListView {
             // Modifier un chapitre de compétences du socle commun
             if let selectedObject = nav.selectedDiscThemeMngObjId {
                 Button("Modifier") {
-                    editedCompTheme =
+                    editedTheme =
                         DThemeEntity
                             .byObjectId(MngObjID: selectedObject)
                 }
