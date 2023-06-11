@@ -30,7 +30,8 @@ struct DSectionListView: View {
             // Thème de compétences disciplinaires
             DThemeBrowserView(
                 theme: theme,
-                showIcon: false
+                showIcon: false,
+                showProgressivity: true
             )
 
             // Sections de compétences disciplinaires
@@ -41,7 +42,8 @@ struct DSectionListView: View {
                 // pour chaque section de compétences disciplinaires
                 DSectionBrowserView(
                     section: section,
-                    showIcon: true
+                    showIcon: true,
+                    showProgressivity: false
                 )
                 .badge(section.nbOfCompetencies)
                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
@@ -88,6 +90,7 @@ struct DSectionListView: View {
                 let section = DSectionEntity()
                 DSectionEditorModal(
                     section: section,
+                    nextNumber: theme.nbOfSections + 1,
                     inTheme: theme,
                     isEditing: false
                 )

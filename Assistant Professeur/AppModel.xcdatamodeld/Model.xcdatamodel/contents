@@ -84,6 +84,7 @@
         <attribute name="descrip" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="progressivity" attributeType="String" defaultValueString=""/>
         <relationship name="competencies" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DCompEntity" inverseName="section" inverseEntity="DCompEntity"/>
         <relationship name="theme" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DThemeEntity" inverseName="sections" inverseEntity="DThemeEntity"/>
     </entity>
@@ -93,6 +94,7 @@
         <attribute name="descrip" attributeType="String" defaultValueString=""/>
         <attribute name="discipline" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="progressivity" attributeType="String" defaultValueString=""/>
         <attribute name="sectionsCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="sections.@count" usesScalarValueType="YES"/>
         <relationship name="sections" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DSectionEntity" inverseName="theme" inverseEntity="DSectionEntity"/>
     </entity>

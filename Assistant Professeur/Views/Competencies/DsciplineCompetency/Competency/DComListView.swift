@@ -44,7 +44,8 @@ struct DComListView: View {
                     // Section de compétences disciplinaires
                     DSectionBrowserView(
                         section: selectedSection!,
-                        showIcon: false
+                        showIcon: false,
+                        showProgressivity: true
                     )
 
                     // Compétences disciplinaires

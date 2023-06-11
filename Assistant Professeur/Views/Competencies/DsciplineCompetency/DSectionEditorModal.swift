@@ -12,6 +12,9 @@ struct DSectionEditorModal: View {
     @ObservedObject
     var section: DSectionEntity
 
+    /// utilisé seulement si `isEditing`= false
+    var nextNumber: Int = 1
+
     var inTheme: DThemeEntity
 
     var isEditing: Bool
@@ -26,6 +29,7 @@ struct DSectionEditorModal: View {
     enum FocusableField: Hashable {
         case number
         case description
+        case progressivity
         case none
 
         mutating func moveToNext() {
@@ -33,6 +37,8 @@ struct DSectionEditorModal: View {
                 case .number:
                     self = .description
                 case .description:
+                    self = .progressivity
+                case .progressivity:
                     self = .number
                 case .none:
                     self = .none
@@ -54,6 +60,9 @@ struct DSectionEditorModal: View {
         Form {
             number
             description
+            Section("Repères de progressivité") {
+                progressivity
+            }
         }
         .onSubmit {
             focus?.moveToNext()
@@ -62,6 +71,8 @@ struct DSectionEditorModal: View {
             focus = .number
             if isEditing {
                 disciplineSectionVM.update(from: section)
+            } else {
+                disciplineSectionVM.number = nextNumber
             }
         }
         .alert(
@@ -72,7 +83,7 @@ struct DSectionEditorModal: View {
         )
         .toolbar(content: myToolBarContent)
         #if os(iOS)
-            .navigationTitle(isEditing ? "Modification Section" : "Nouvelle Section")
+            .navigationTitle(isEditing ? "Modification de la Section" : "Nouvelle Section")
         #endif
     }
 }
@@ -103,6 +114,22 @@ extension DSectionEditorModal {
         .autocorrectionDisabled()
         .submitLabel(.next)
         .focused($focus, equals: .description)
+    }
+
+    var progressivity: some View {
+        TextField(
+            "Repères de progressivté",
+            text: $disciplineSectionVM.progressivity,
+            axis: .vertical
+        )
+        //.lineLimit(5)
+        .onSubmit {
+            disciplineSectionVM.progressivity.trim()
+        }
+        .textFieldStyle(.roundedBorder)
+        .autocorrectionDisabled()
+        .submitLabel(.next)
+        .focused($focus, equals: .progressivity)
     }
 }
 

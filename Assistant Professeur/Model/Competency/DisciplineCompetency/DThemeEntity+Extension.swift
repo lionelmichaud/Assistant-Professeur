@@ -120,6 +120,19 @@ extension DThemeEntity {
         }
     }
 
+    /// Wrapper of `progressivity`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewProgressivity: String {
+        get {
+            self.progressivity ?? ""
+        }
+        set {
+            self.progressivity = newValue
+            try? Self.saveIfContextHasChanged()
+        }
+    }
+
     /// Nombre de Sections de Compétences disciplinaires
     var nbOfSections: Int {
         Int(sectionsCount)
@@ -233,17 +246,19 @@ extension DThemeEntity {
         cycle: Cycle,
         discipline: Discipline,
         acronym: String,
-        description: String
+        description: String,
+        progressivity: String
     ) -> DThemeEntity {
-        let chapter = DThemeEntity.create()
+        let theme = DThemeEntity.create()
 
-        chapter.cycle = cycle.rawValue
-        chapter.discipline = discipline.rawValue
-        chapter.acronym = acronym
-        chapter.descrip = description
+        theme.cycle = cycle.rawValue
+        theme.discipline = discipline.rawValue
+        theme.acronym = acronym
+        theme.descrip = description
+        theme.progressivity = progressivity
 
         try? Self.saveIfContextHasChanged()
-        return chapter
+        return theme
     }
 
     /// Check the correctness and consistency of all database entities of this type.
@@ -285,6 +300,14 @@ extension DThemeEntity {
                     id: theme.id
                 ))
             }
+            if theme.progressivity == nil {
+                errorList.append(DataBaseError.outOfBound(
+                    entity: Self.entity().name!,
+                    name: theme.description,
+                    attribute: "progressivity",
+                    id: theme.id
+                ))
+            }
         }
     }
 
@@ -318,12 +341,13 @@ public extension DThemeEntity {
         """
 
         THEME DISCIPLINAIRE:
-           ID          : \(String(describing: id))
-           Discipline  : \(disciplineString)
-           Cycle       : \(cycleString)
-           Code        : \(viewAcronym)
-           Description : \(viewDescription)
-           Sections    : \(String(describing: sections).withPrefixedSplittedLines("     "))
+           ID            : \(String(describing: id))
+           Discipline    : \(disciplineString)
+           Cycle         : \(cycleString)
+           Code          : \(viewAcronym)
+           Description   : \(viewDescription)
+           Progressivité : \(viewProgressivity)
+           Sections      : \(String(describing: sections).withPrefixedSplittedLines("     "))
         """
     }
 }

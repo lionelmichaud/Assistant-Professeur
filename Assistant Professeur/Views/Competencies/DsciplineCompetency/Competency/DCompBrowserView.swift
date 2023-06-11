@@ -13,32 +13,30 @@ struct DCompBrowserView: View {
 
     var showIcon: Bool
 
+    var description: some View {
+        Group {
+            Text(competency.viewAcronym)
+                .fontWeight(.bold) +
+            Text(". ") +
+            Text(competency.viewDescription)
+                .foregroundColor(.secondary)
+        }
+        .lineLimit(5)
+        .textSelection(.enabled)
+    }
+
     var body: some View {
         if showIcon {
             Label(
                 title: {
-                    Group {
-                        Text(competency.viewAcronym)
-                            .fontWeight(.bold) +
-                            Text(". ") +
-                            Text(competency.viewDescription)
-                            .foregroundColor(.secondary)
-                    }
-                    .lineLimit(5)
+                    description
                 },
                 icon: {
                     Image(systemName: DCompEntity.defaultImageName)
                 }
             )
         } else {
-            Group {
-                Text(competency.viewAcronym)
-                    .fontWeight(.bold) +
-                    Text(". ") +
-                    Text(competency.viewDescription)
-                    .foregroundColor(.secondary)
-            }
-            .lineLimit(5)
+            description
         }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  DSectionViewModal.swift
+//  DSectionViewModel.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 09/06/2023.
@@ -16,15 +16,20 @@ class DSectionViewModel: ObservableObject {
     @Published
     var description: String = ""
 
+    @Published
+    var progressivity: String = ""
+
     // MARK: - Initializers
 
     /// Créer un View Model par défaut ou pas
     internal init(
         number: Int = 1,
-        description: String = ""
+        description: String = "",
+        progressivity: String = ""
     ) {
         self.number = number
         self.description = description
+        self.progressivity = progressivity
     }
 
     /// Créer un View Model à partir d'un objet existant
@@ -41,6 +46,7 @@ class DSectionViewModel: ObservableObject {
     func update(from section: DSectionEntity) {
         self.number = section.viewNumber
         self.description = section.viewDescription
+        self.progressivity = section.viewProgressivity
     }
 
     /// Mettre à jour un objet existant à partir d'un View Model
@@ -48,6 +54,7 @@ class DSectionViewModel: ObservableObject {
     func update(this section: DSectionEntity) {
         section.viewNumber = self.number
         section.viewDescription = self.description
+        section.viewProgressivity = self.progressivity
     }
 
     /// Créer une entité `DSectionEntity` à partir du VM et
@@ -60,6 +67,7 @@ class DSectionViewModel: ObservableObject {
         DSectionEntity.create(
             number: number,
             description: description,
+            progressivity: progressivity,
             inTheme: theme
         )
     }

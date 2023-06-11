@@ -26,6 +26,7 @@ struct DThemeEditorModal: View {
     enum FocusableField: Hashable {
         case acronym
         case description
+        case progressivity
         case none
 
         mutating func moveToNext() {
@@ -33,6 +34,8 @@ struct DThemeEditorModal: View {
                 case .acronym:
                     self = .description
                 case .description:
+                    self = .progressivity
+                case .progressivity:
                     self = .acronym
                 case .none:
                     self = .none
@@ -55,6 +58,9 @@ struct DThemeEditorModal: View {
             cycleView
             acronymView
             descriptionView
+            Section("Repères de progressivité") {
+                progressivity
+            }
         }
         .onSubmit {
             focus?.moveToNext()
@@ -75,7 +81,7 @@ struct DThemeEditorModal: View {
         )
         .toolbar(content: myToolBarContent)
         #if os(iOS)
-            .navigationTitle(isEditing ? "Modification Thème" : "Nouveau Thème")
+            .navigationTitle(isEditing ? "Modification du Thème" : "Nouveau Thème")
         #endif
     }
 }
@@ -127,6 +133,22 @@ extension DThemeEditorModal {
         .autocorrectionDisabled()
         .submitLabel(.next)
         .focused($focus, equals: .description)
+    }
+
+    var progressivity: some View {
+        TextField(
+            "Repères de progressivté",
+            text: $disciplineThemeVM.progressivity,
+            axis: .vertical
+        )
+        //.lineLimit(5)
+        .onSubmit {
+            disciplineThemeVM.progressivity.trim()
+        }
+        .textFieldStyle(.roundedBorder)
+        .autocorrectionDisabled()
+        .submitLabel(.next)
+        .focused($focus, equals: .progressivity)
     }
 }
 

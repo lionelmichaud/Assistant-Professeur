@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 10/06/2023.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct DCompEditorModal: View {
     @ObservedObject
@@ -77,11 +77,12 @@ struct DCompEditorModal: View {
             message: { Text(alertMessage) }
         )
         .toolbar(content: myToolBarContent)
-#if os(iOS)
-        .navigationTitle(isEditing ? "Modification Compétence" : "Nouvelle Compétence")
-#endif
+        #if os(iOS)
+            .navigationTitle(isEditing ? "Modification de la Compétence" : "Nouvelle Compétence")
+        #endif
     }
 }
+
 // MARK: - Subviews
 
 extension DCompEditorModal {
@@ -159,9 +160,8 @@ extension DCompEditorModal {
     }
 }
 
-
-//struct DCompEditorModal_Previews: PreviewProvider {
+// struct DCompEditorModal_Previews: PreviewProvider {
 //    static var previews: some View {
 //        DCompEditorModal()
 //    }
-//}
+// }

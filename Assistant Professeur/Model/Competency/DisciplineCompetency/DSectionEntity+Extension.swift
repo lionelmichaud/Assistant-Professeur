@@ -48,6 +48,19 @@ extension DSectionEntity {
         }
     }
 
+    /// Wrapper of `progressivity`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewProgressivity: String {
+        get {
+            self.progressivity ?? ""
+        }
+        set {
+            self.progressivity = newValue
+            try? Self.saveIfContextHasChanged()
+        }
+    }
+
     /// Nombre de Compétences Disciplinaires associées
     var nbOfCompetencies: Int {
         Int(compCount)
@@ -118,12 +131,14 @@ extension DSectionEntity {
     static func create(
         number: Int,
         description: String,
+        progressivity: String,
         inTheme theme: DThemeEntity
     ) -> DSectionEntity {
         let section = DSectionEntity.create()
 
         section.number = Int16(number)
         section.descrip = description
+        section.progressivity = progressivity
 
         section.theme = theme
 
@@ -144,6 +159,14 @@ extension DSectionEntity {
                     entity: Self.entity().name!,
                     name: section.description,
                     attribute: "descrip",
+                    id: section.id
+                ))
+            }
+            if section.progressivity == nil {
+                errorList.append(DataBaseError.outOfBound(
+                    entity: Self.entity().name!,
+                    name: section.description,
+                    attribute: "progressivity",
                     id: section.id
                 ))
             }
@@ -200,10 +223,11 @@ public extension DSectionEntity {
         """
 
         SECTION DISCIPLINAIRE:
-           ID          : \(String(describing: id))
-           Thème       : \(String(describing: theme?.viewAcronym))
-           Numéro      : \(viewNumber)
-           Description : \(viewDescription)
+           ID            : \(String(describing: id))
+           Thème         : \(String(describing: theme?.viewAcronym))
+           Numéro        : \(viewNumber)
+           Description   : \(viewDescription)
+           Progressivité : \(viewProgressivity)
         """
         //           Compétences disciplinaires : \(String(describing: disciplineCompetencies).withPrefixedSplittedLines("     "))
     }

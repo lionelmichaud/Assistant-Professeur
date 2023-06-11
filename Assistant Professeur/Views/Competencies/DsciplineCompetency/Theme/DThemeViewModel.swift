@@ -22,6 +22,9 @@ class DThemeViewModel: ObservableObject {
     @Published
     var description: String = ""
 
+    @Published
+    var progressivity: String = ""
+
     // MARK: - Initializers
 
     /// Créer un View Model par défaut ou pas
@@ -29,12 +32,14 @@ class DThemeViewModel: ObservableObject {
         cycle: Cycle = .cycle4,
         discipline: Discipline = .autre,
         acronym: String = "",
-        description: String = ""
+        description: String = "",
+        progressivity: String = ""
     ) {
         self.cycle = cycle
         self.discipline = discipline
         self.acronym = acronym
         self.description = description
+        self.progressivity = progressivity
     }
 
     /// Créer un View Model à partir d'un objet existant
@@ -53,6 +58,7 @@ class DThemeViewModel: ObservableObject {
         self.discipline = disciplineTheme.disciplineEnum
         self.acronym = disciplineTheme.viewAcronym
         self.description = disciplineTheme.viewDescription
+        self.progressivity = disciplineTheme.viewProgressivity
     }
 
     /// Mettre à jour un objet existant à partir d'un View Model
@@ -62,6 +68,7 @@ class DThemeViewModel: ObservableObject {
         disciplineTheme.viewDisciplineEnum = self.discipline
         disciplineTheme.viewAcronym = self.acronym
         disciplineTheme.viewDescription = self.description
+        disciplineTheme.viewProgressivity = self.progressivity
     }
 
     /// Créer une entité `DThemeEntity` à partir du VM et
@@ -72,7 +79,8 @@ class DThemeViewModel: ObservableObject {
             cycle: cycle,
             discipline: discipline,
             acronym: acronym,
-            description: description
+            description: description,
+            progressivity: progressivity
         )
     }
 }

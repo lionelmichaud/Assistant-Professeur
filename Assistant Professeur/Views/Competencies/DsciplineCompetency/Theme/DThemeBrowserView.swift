@@ -13,38 +13,60 @@ struct DThemeBrowserView: View {
 
     var showIcon: Bool
 
-    var body: some View {
-        if showIcon {
-            Label(
-                title: {
-                    Group {
-                        Text(theme.viewAcronym)
-                            .fontWeight(.bold) +
-                        Text(". ") +
-                        Text(theme.viewDescription)
-                            .foregroundColor(.secondary)
-                    }
-                    .lineLimit(5)
-                },
-                icon: {
-                    Image(systemName: DThemeEntity.defaultImageName)
-                }
-            )
-        } else {
-            Group {
-                Text(theme.viewAcronym)
-                    .fontWeight(.bold) +
+    var showProgressivity: Bool
+
+    @State
+    private var isExpanded: Bool = false
+
+    var description: some View {
+        Group {
+            Text(theme.viewAcronym)
+                .fontWeight(.bold) +
                 Text(". ") +
                 Text(theme.viewDescription)
-                    .foregroundColor(.secondary)
+                .foregroundColor(.secondary)
+        }
+        .lineLimit(5)
+        .textSelection(.enabled)
+    }
+
+    var progressivity: some View {
+        DisclosureGroup(isExpanded: $isExpanded) {
+            Text(theme.viewProgressivity)
+                .foregroundColor(.secondary)
+                // .lineLimit(5)
+                .textSelection(.enabled)
+        } label: {
+            Text("Repères de progressivité: ")
+                .fontWeight(.bold)
+                .font(.callout)
+        }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            if showIcon {
+                Label(
+                    title: {
+                        description
+                    },
+                    icon: {
+                        Image(systemName: DThemeEntity.defaultImageName)
+                    }
+                )
+            } else {
+                description
             }
-            .lineLimit(5)
+            if showProgressivity && theme.viewProgressivity.isNotEmpty {
+                progressivity
+                    .padding(.top, 4)
+            }
         }
     }
 }
 
-//struct DThemeBrowserView_Previews: PreviewProvider {
+// struct DThemeBrowserView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        DThemeBrowserView()
 //    }
-//}
+// }

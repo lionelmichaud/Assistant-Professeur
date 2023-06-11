@@ -40,7 +40,8 @@ struct DThemeListView: View {
                             NavigationLink(value: theme) {
                                 DThemeBrowserView(
                                     theme: theme,
-                                    showIcon: true
+                                    showIcon: true,
+                                    showProgressivity: false
                                 )
                                 .badge(theme.nbOfSections)
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {

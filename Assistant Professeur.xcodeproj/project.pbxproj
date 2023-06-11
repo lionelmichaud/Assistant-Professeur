@@ -322,7 +322,7 @@
 		79FD21972A33980800A8D925 /* DSectionBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD21962A33980800A8D925 /* DSectionBrowserView.swift */; };
 		79FD21992A339A7700A8D925 /* DSectionEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD21982A339A7700A8D925 /* DSectionEditorModal.swift */; };
 		79FD219B2A339BE700A8D925 /* DSectionEntity+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD219A2A339BE700A8D925 /* DSectionEntity+Extension.swift */; };
-		79FD219D2A33BB3700A8D925 /* DSectionViewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD219C2A33BB3700A8D925 /* DSectionViewModal.swift */; };
+		79FD219D2A33BB3700A8D925 /* DSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD219C2A33BB3700A8D925 /* DSectionViewModel.swift */; };
 		79FD21A02A33C82900A8D925 /* DCompViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD219F2A33C82900A8D925 /* DCompViewModel.swift */; };
 		79FD21A22A33CF6900A8D925 /* DCompEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD21A12A33CF6900A8D925 /* DCompEntity+Extensions.swift */; };
 		79FD21A42A33D76A00A8D925 /* DComListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD21A32A33D76A00A8D925 /* DComListView.swift */; };
@@ -639,7 +639,7 @@
 		79FD21962A33980800A8D925 /* DSectionBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSectionBrowserView.swift; sourceTree = "<group>"; };
 		79FD21982A339A7700A8D925 /* DSectionEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSectionEditorModal.swift; sourceTree = "<group>"; };
 		79FD219A2A339BE700A8D925 /* DSectionEntity+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DSectionEntity+Extension.swift"; sourceTree = "<group>"; };
-		79FD219C2A33BB3700A8D925 /* DSectionViewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSectionViewModal.swift; sourceTree = "<group>"; };
+		79FD219C2A33BB3700A8D925 /* DSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSectionViewModel.swift; sourceTree = "<group>"; };
 		79FD219F2A33C82900A8D925 /* DCompViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompViewModel.swift; sourceTree = "<group>"; };
 		79FD21A12A33CF6900A8D925 /* DCompEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DCompEntity+Extensions.swift"; sourceTree = "<group>"; };
 		79FD21A32A33D76A00A8D925 /* DComListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DComListView.swift; sourceTree = "<group>"; };
@@ -1605,7 +1605,7 @@
 		79FD218F2A33868F00A8D925 /* Section */ = {
 			isa = PBXGroup;
 			children = (
-				79FD219C2A33BB3700A8D925 /* DSectionViewModal.swift */,
+				79FD219C2A33BB3700A8D925 /* DSectionViewModel.swift */,
 				79FD21902A3386F600A8D925 /* DSectionListView.swift */,
 				79FD21962A33980800A8D925 /* DSectionBrowserView.swift */,
 				79FD21982A339A7700A8D925 /* DSectionEditorModal.swift */,
@@ -1971,7 +1971,7 @@
 				7937A2492987F7B400D0ED59 /* StepsListView.swift in Sources */,
 				797AD2B229902BCE00BE5D37 /* ActivityProgressesView.swift in Sources */,
 				79A6AC9529F57DD0003705D0 /* ProgressClockView.swift in Sources */,
-				79FD219D2A33BB3700A8D925 /* DSectionViewModal.swift in Sources */,
+				79FD219D2A33BB3700A8D925 /* DSectionViewModel.swift in Sources */,
 				79E524BD295376EA00DA99A7 /* EventList.swift in Sources */,
 				798D24FE2A2E98C8008500D2 /* WCompViewModel.swift in Sources */,
 				79ECF1F42959F09F008F0282 /* colle+extensions.swift in Sources */,
