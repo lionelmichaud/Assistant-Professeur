@@ -37,7 +37,7 @@ class DCompViewModel: ObservableObject {
     // MARK: - Methods
 
     /// Initialiser le View Model à partir d'un objet existant
-    /// - Parameter competency: bjet exis
+    /// - Parameter competency: objet exis
     func update(from competency: DCompEntity) {
         self.number = competency.viewNumber
         self.description = competency.viewDescription

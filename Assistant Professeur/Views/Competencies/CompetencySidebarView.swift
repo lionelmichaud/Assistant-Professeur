@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CompetencySidebarView: View {
     @EnvironmentObject
-    private var navig: NavigationModel
+    private var nav: NavigationModel
 
     @State
     private var isExportingModel = false
@@ -19,7 +19,7 @@ struct CompetencySidebarView: View {
     private var fileExportOperation = FileExportOperation.none
 
     var body: some View {
-        List(selection: $navig.selectedCompetenceType) {
+        List(selection: $nav.selectedCompetenceType) {
             // Compétences du socle
             NavigationLink(value: CompetencySelection.workedCompetencies) {
                 label(CompetencySelection.workedCompetencies)
@@ -45,7 +45,7 @@ struct CompetencySidebarView: View {
                     .fontWeight(.bold)
             }
             .onChange(
-                of: navig.selectedCompetenceType,
+                of: nav.selectedCompetenceType,
                 perform: resetNavigCompetency
             )
         }
@@ -63,10 +63,11 @@ struct CompetencySidebarView: View {
     }
 
     private func resetNavigCompetency(newSelection _: CompetencySelection?) {
-        navig.competencePath.removeLast(navig.competencePath.count)
-        navig.selectedDiscThemeMngObjId = nil
-        navig.selectedDiscSectionMngObjId = nil
-        navig.selectedDiscCompMngObjId = nil
+        nav.competencePath.removeLast(nav.competencePath.count)
+        nav.selectedDiscThemeMngObjId = nil
+        nav.selectedDiscSectionMngObjId = nil
+        nav.selectedDiscCompMngObjId = nil
+        nav.selectedDiscKnowMngObjId = nil
     }
 
     @ViewBuilder

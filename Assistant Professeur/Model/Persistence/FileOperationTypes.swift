@@ -37,7 +37,9 @@ enum FileExportOperation {
                     fileNames: [
                         JsonImportExportMng.ownerFileName,
                         JsonImportExportMng.schoolsFileName,
-                        JsonImportExportMng.programsFileName
+                        JsonImportExportMng.programsFileName,
+                        JsonImportExportMng.wCompetenciesFileName,
+                        JsonImportExportMng.dCompetenciesFileName
                     ] + annexFileNames
                 )
 

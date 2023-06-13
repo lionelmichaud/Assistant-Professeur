@@ -1,20 +1,20 @@
 //
-//  DCompEntity+Extensions.swift
+//  DKnowledgeEntity+Extensions.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 09/06/2023.
+//  Created by Lionel MICHAUD on 11/06/2023.
 //
 
 import CoreData
 import Foundation
 
-extension DCompEntity {
+extension DKnowledgeEntity {
     // MARK: - Computed properties
 
     /// Nom de l'image par défaut utilisée pour représenter
     /// une section de compétences disciplinaires
     static var defaultImageName: String {
-        "brain.head.profile"
+        "text.bubble"
     }
 
     /// Wrapper of `number`
@@ -32,8 +32,8 @@ extension DCompEntity {
 
     @objc
     var viewAcronym: String {
-        (self.section?.viewAcronym ?? "??") + "." +
-            String(self.viewNumber)
+        (self.competency?.viewAcronym ?? "??") + "." +
+        String(self.viewNumber)
     }
 
     /// Wrapper of `descrip`
@@ -48,66 +48,40 @@ extension DCompEntity {
             try? Self.saveIfContextHasChanged()
         }
     }
-
-    /// Nombre de Compétences Disciplinaires associées
-    var nbOfKnowledges: Int {
-        Int(knowledgesCount)
-    }
 }
 
 // MARK: - Extension CoreData
 
-extension DCompEntity {
+extension DKnowledgeEntity {
     // MARK: - Type Computed Properties
 
     static var byAcronymNSSortDescriptor: [NSSortDescriptor] =
-        [
-            NSSortDescriptor(
-                keyPath: \DCompEntity.viewAcronym,
-                ascending: true
-            )
-        ]
+    [
+        NSSortDescriptor(
+            keyPath: \DKnowledgeEntity.viewAcronym,
+            ascending: true
+        )
+    ]
 
     /// Requête pour toutes les sections de compétences triées.
     ///
     /// Ordre de tri:
     ///   1. Acronym
-    static var requestAllSortedByAcronym: NSFetchRequest<DCompEntity> {
-        let request = DCompEntity.fetchRequest()
+    static var requestAllSortedByAcronym: NSFetchRequest<DKnowledgeEntity> {
+        let request = DKnowledgeEntity.fetchRequest()
         request.sortDescriptors = Self.byAcronymNSSortDescriptor
         return request
     }
 
     // MARK: - Computed properties
 
-    /// Liste des Connaissances Disciplinaires de la compétence, non triées
-    var allKnowledges: [DKnowledgeEntity] {
-        if let knowledges {
-            return (knowledges.allObjects as! [DKnowledgeEntity])
-        } else {
-            return []
-        }
-    }
-
-    /// Liste des Connaissances Disciplinaires de la compétence, triées par numéro
-    var allKnowledgesSortedByNumber: [DKnowledgeEntity] {
-        let sortComparators =
-            [
-                SortDescriptor(
-                    \DKnowledgeEntity.number,
-                    order: .forward
-                )
-            ]
-        return allKnowledges.sorted(using: sortComparators)
-    }
-
     // MARK: - Type Methods
 
-    static func allSortedByAcronym() -> [DCompEntity] {
+    static func allSortedByAcronym() -> [DKnowledgeEntity] {
         do {
-            return try DCompEntity
+            return try DKnowledgeEntity
                 .context
-                .fetch(DCompEntity.requestAllSortedByAcronym)
+                .fetch(DKnowledgeEntity.requestAllSortedByAcronym)
         } catch {
             return []
         }
@@ -119,17 +93,17 @@ extension DCompEntity {
     static func create(
         number: Int,
         description: String,
-        inSection section: DSectionEntity
-    ) -> DCompEntity {
-        let competency = DCompEntity.create()
+        inCompetency competency: DCompEntity
+    ) -> DKnowledgeEntity {
+        let knowledge = DKnowledgeEntity.create()
 
-        competency.number = Int16(number)
-        competency.descrip = description
+        knowledge.number = Int16(number)
+        knowledge.descrip = description
 
-        competency.section = section
+        knowledge.competency = competency
 
         try? Self.saveIfContextHasChanged()
-        return competency
+        return knowledge
     }
 
     /// Check the correctness and consistency of all database entities of this type.
@@ -139,32 +113,32 @@ extension DCompEntity {
         errorList: inout DataBaseErrorList,
         tryToRepair: Bool
     ) {
-        all().forEach { competency in
-            if competency.descrip == nil {
+        all().forEach { knowledge in
+            if knowledge.descrip == nil {
                 errorList.append(DataBaseError.outOfBound(
                     entity: Self.entity().name!,
-                    name: competency.description,
+                    name: knowledge.description,
                     attribute: "descrip",
-                    id: competency.id
+                    id: knowledge.id
                 ))
             }
-            if competency.section == nil {
+            if knowledge.competency == nil {
                 if tryToRepair {
                     do {
                         // la destruction est sauvegardée
-                        try competency.delete()
+                        try knowledge.delete()
                     } catch {
                         errorList.append(DataBaseError.noOwner(
                             entity: Self.entity().name!,
-                            name: competency.description,
-                            id: competency.id
+                            name: knowledge.description,
+                            id: knowledge.id
                         ))
                     }
                 } else {
                     errorList.append(DataBaseError.noOwner(
                         entity: Self.entity().name!,
-                        name: competency.description,
-                        id: competency.id
+                        name: knowledge.description,
+                        id: knowledge.id
                     ))
                 }
             }
@@ -178,30 +152,17 @@ extension DCompEntity {
         // Set defaults here
         self.id = UUID()
     }
-    /// Recherche si la **Connaissance** existe déjà dans cette **Compétence**.
-    ///
-    /// Si `thisObjectID` != `nil` alors on retourne true seulement
-    /// si un objet existant possède un identifiant différent de `thisObjectID`.
-    func exists(
-        number: Int,
-        thisObjectID: NSManagedObjectID? = nil
-    ) -> Bool {
-        allKnowledges.contains {
-            $0.viewNumber == number &&
-            (thisObjectID == nil || $0.objectID != thisObjectID)
-        }
-    }
 }
 
 // MARK: - Extension Debug
 
-public extension DCompEntity {
+public extension DKnowledgeEntity {
     override var description: String {
         """
 
-        COMPÉTENCES DISCIPLINAIRE:
+        CONNAISSANCES DISCIPLINAIRE:
            ID          : \(String(describing: id))
-           Section     : \(String(describing: section?.viewAcronym))
+           Compétence  : \(String(describing: competency?.viewAcronym))
            Numéro      : \(viewNumber)
            Description : \(viewDescription)
         """

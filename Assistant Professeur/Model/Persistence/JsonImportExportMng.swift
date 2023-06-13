@@ -26,6 +26,7 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
     /// Exporter les données du Model vers des fichiers au format JSON.
     /// Exporter les fichiers annexes (PDF, JPEG, PNG...) des autres entités.
     ///
+    /// Les classe d'objet tête de graphe sont exportées chacune dans un fichier qui lui est propre.
     /// - Les fichiers JSON sont enregistrés dans le dossier `cache`.
     /// - Les fichiers PDF, JPEG, PNG sont enregistrés dans le dossier `cache`.
     /// - Returns: La liste des noms de fichiers **annexes** exportés.
@@ -38,6 +39,8 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
         exportProgramsToJson()
         // Exporter toutes les entités **WCompChapterEntity** et leurs descendants vers un fichier au format JSON.
         exportWorkedCompetenciesToJson()
+        // Exporter toutes les entités **DThemeEntity** et leurs descendants vers un fichier au format JSON.
+        exportDisciplineThemesToJson()
 
         // Exporter les fichiers annexes (PDF, JPEG, PNG...) des autres entités.
         return exportedAnnexeFiles()
@@ -84,6 +87,17 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
         cachesUrl.encode(
             WCompChapterEntity.all(),
             to: wCompetenciesFileName
+        )
+    }
+
+    /// Exporter toutes les entités **DThemeEntity** et leurs descendants vers un fichier au format JSON.
+    ///
+    /// Le fichier JSON est enregistré dans le dossier `cache`.
+    private static func exportDisciplineThemesToJson() {
+        let cachesUrl = URL.cachesDirectory
+        cachesUrl.encode(
+            DThemeEntity.all(),
+            to: dCompetenciesFileName
         )
     }
 
@@ -226,6 +240,21 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
                     )
                 }
 
+                /// RECHERCHER LES FICHIERS REQUIS
+
+                /// Rechercher le fichier contenant les données du Owner du Modèle
+                guard let ownerJsonFile = filesUrl.first(where: { fileUrl in
+                    fileUrl.lastPathComponent == ownerFileName
+                }) else {
+                    alertTitle = "Échec"
+                    alertMessage = "Le fichier **\(ownerFileName)** n'a pas été trouvé"
+                    alertIsPresented = true
+                    return (
+                        alertTitle: alertTitle,
+                        alertMessage: alertMessage,
+                        alertIsPresented: alertIsPresented
+                    )
+                }
                 /// Rechercher le fichier contenant la branche des Programmes du Modèle
                 guard let programJsonFile = filesUrl.first(where: { fileUrl in
                     fileUrl.lastPathComponent == programsFileName
@@ -252,6 +281,49 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
                         alertIsPresented: alertIsPresented
                     )
                 }
+                /// Rechercher le fichier contenant la branche des Compétences Socle du Modèle
+                guard let wCompetenciesJsonFile = filesUrl.first(where: { fileUrl in
+                    fileUrl.lastPathComponent == wCompetenciesFileName
+                }) else {
+                    alertTitle = "Échec"
+                    alertMessage = "Le fichier **\(wCompetenciesFileName)** n'a pas été trouvé"
+                    alertIsPresented = true
+                    return (
+                        alertTitle: alertTitle,
+                        alertMessage: alertMessage,
+                        alertIsPresented: alertIsPresented
+                    )
+                }
+                /// Rechercher le fichier contenant la branche des Compétences Disciplinaires du Modèle
+                guard let dCompetenciesJsonFile = filesUrl.first(where: { fileUrl in
+                    fileUrl.lastPathComponent == dCompetenciesFileName
+                }) else {
+                    alertTitle = "Échec"
+                    alertMessage = "Le fichier **\(dCompetenciesFileName)** n'a pas été trouvé"
+                    alertIsPresented = true
+                    return (
+                        alertTitle: alertTitle,
+                        alertMessage: alertMessage,
+                        alertIsPresented: alertIsPresented
+                    )
+                }
+
+                /// IMPORTER LES FICHIERS REQUIS
+
+                // Importer les données contenant les données du Owner du Modèle
+                guard ownerJsonFile.startAccessingSecurityScopedResource() else {
+                    alertTitle = "Échec"
+                    alertMessage = "L'importation du fichier **\(ownerFileName)** a échouée!"
+                    alertIsPresented = true
+
+                    return (
+                        alertTitle: alertTitle,
+                        alertMessage: alertMessage,
+                        alertIsPresented: alertIsPresented
+                    )
+                }
+                importOwnerFromJson(fileUrl: ownerJsonFile)
+                ownerJsonFile.stopAccessingSecurityScopedResource()
 
                 // Importer les données des Schools et de leurs descendants
                 // WARNING: Il faut que les Schools soient chargées AVANT
@@ -272,6 +344,10 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
                 schoolJsonFile.stopAccessingSecurityScopedResource()
 
                 // Importer les données des Programs et de leurs descendants
+                // WARNING: Il faut que les Programs soient chargées AVANT
+                // les Compétences Disciplinaires pour que les entités
+                // des Compétences Disciplinaires puissent
+                // établir la connection avec les entités des Programs
                 guard programJsonFile.startAccessingSecurityScopedResource() else {
                     alertTitle = "Échec"
                     alertMessage = "L'importation du fichier **\(programsFileName)** a échouée!"
@@ -285,6 +361,40 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
                 }
                 importProgramsFromJson(fileUrl: programJsonFile)
                 programJsonFile.stopAccessingSecurityScopedResource()
+
+                // Importer les données des Compétences Socle et de leurs descendants
+                // WARNING: Il faut que les Compétences Socle soient chargées AVANT
+                // les Compétences Disciplinaires pour que les entités
+                // des Compétences Disciplinaires puissent
+                // établir la connection avec les entités des Compétences Socle
+                guard wCompetenciesJsonFile.startAccessingSecurityScopedResource() else {
+                    alertTitle = "Échec"
+                    alertMessage = "L'importation du fichier **\(wCompetenciesFileName)** a échouée!"
+                    alertIsPresented = true
+
+                    return (
+                        alertTitle: alertTitle,
+                        alertMessage: alertMessage,
+                        alertIsPresented: alertIsPresented
+                    )
+                }
+                importWCompetenciesFromJson(fileUrl: wCompetenciesJsonFile)
+                wCompetenciesJsonFile.stopAccessingSecurityScopedResource()
+
+                // Importer les données des Compétences Disciplinaires et de leurs descendants
+                guard dCompetenciesJsonFile.startAccessingSecurityScopedResource() else {
+                    alertTitle = "Échec"
+                    alertMessage = "L'importation du fichier **\(dCompetenciesFileName)** a échouée!"
+                    alertIsPresented = true
+
+                    return (
+                        alertTitle: alertTitle,
+                        alertMessage: alertMessage,
+                        alertIsPresented: alertIsPresented
+                    )
+                }
+                importDCompetenciesFromJson(fileUrl: dCompetenciesJsonFile)
+                dCompetenciesJsonFile.stopAccessingSecurityScopedResource()
 
                 // Importer les fichiers annexes (PDF, JPEG, PNG...)
                 (
@@ -301,6 +411,19 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
             alertMessage: alertMessage,
             alertIsPresented: alertIsPresented
         )
+    }
+
+    // MARK: - Importation des fichiers JSON
+
+    /// Importer les données contenant les données du Owner du Modèle depuis un fichier au format JSON
+    private static func importOwnerFromJson(fileUrl: URL) {
+        let owner = fileUrl.decode(
+            OwnerEntity.self,
+            from: ""
+        )
+        #if DEBUG
+            print(String(describing: owner))
+        #endif
     }
 
     /// Importer les Schools depuis des fichiers au format JSON
@@ -322,6 +445,28 @@ enum JsonImportExportMng { // swiftlint:disable:this type_body_length
         )
         #if DEBUG
             print(String(describing: programs))
+        #endif
+    }
+
+    /// Importer les Compétences Scocle depuis des fichiers au format JSON
+    private static func importWCompetenciesFromJson(fileUrl: URL) {
+        let wCompChapters = fileUrl.decode(
+            [WCompChapterEntity].self,
+            from: ""
+        )
+        #if DEBUG
+            print(String(describing: wCompChapters))
+        #endif
+    }
+
+    /// Importer les Compétences Disciplinaires depuis des fichiers au format JSON
+    private static func importDCompetenciesFromJson(fileUrl: URL) {
+        let dCompThemes = fileUrl.decode(
+            [DThemeEntity].self,
+            from: ""
+        )
+        #if DEBUG
+            print(String(describing: dCompThemes))
         #endif
     }
 

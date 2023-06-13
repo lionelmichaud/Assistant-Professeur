@@ -24,18 +24,18 @@ enum CompetencySelection: Hashable, Codable {
 
 struct CompetencySplitView: View {
     @EnvironmentObject
-    private var navig: NavigationModel
+    private var nav: NavigationModel
 
     var body: some View {
         NavigationSplitView(
-            columnVisibility: $navig.columnVisibility
+            columnVisibility: $nav.columnVisibility
         ) {
             // 1ère colonne
             CompetencySidebarView()
 
         } content: {
             // 2nde colonne
-            switch navig.selectedCompetenceType {
+            switch nav.selectedCompetenceType {
                 case .none:
                     EmptyListMessage(
                         symbolName: WCompChapterEntity.defaultImageName,
@@ -51,7 +51,7 @@ struct CompetencySplitView: View {
 
                 case let .disciplineCompetencies(discipline):
                     /// Compétences disciplinaires
-                    NavigationStack(path: $navig.competencePath) {
+                    NavigationStack(path: $nav.competencePath) {
                         // Thème
                         DThemeListView(discipline: discipline)
                             .navigationDestination(for: DThemeEntity.self) { theme in
@@ -61,12 +61,19 @@ struct CompetencySplitView: View {
                                     discipline: discipline
                                 )
                             }
+                            .navigationDestination(for: DSectionEntity.self) { section in
+                                // Compétence
+                                DCompListView(
+                                    section: section,
+                                    discipline: discipline
+                                )
+                            }
                     }
             }
 
         } detail: {
             // Détail dans la 3ième colonne
-            switch navig.selectedCompetenceType {
+            switch nav.selectedCompetenceType {
                 case .none:
                     EmptyListMessage(
                         symbolName: WCompChapterEntity.defaultImageName,
@@ -79,9 +86,9 @@ struct CompetencySplitView: View {
                     /// Compétences travaillées
                     WCompListView()
 
-                case let .disciplineCompetencies(discipline):
-                    /// Compétences disciplinaires
-                    DComListView(discipline: discipline)
+                case .disciplineCompetencies:
+                    /// Connaissance disciplinaires
+                    DKnowListView()
             }
         }
         .navigationSplitViewStyle(.balanced)

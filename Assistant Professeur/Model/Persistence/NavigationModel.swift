@@ -42,6 +42,7 @@ final class NavigationModel: ObservableObject, Codable {
         case selectedDiscThemeId
         case selectedDiscSectionId
         case selectedDiscCompId
+        case selectedDiscKnowId
         case filterObservation
         case filterColle
         case filterFlag
@@ -185,6 +186,15 @@ final class NavigationModel: ObservableObject, Codable {
     var selectedDiscCompId: UUID?
 
     @Published
+    var selectedDiscKnowMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedDiscKnowId =
+            DKnowledgeEntity.id(MngObjID: newValue)
+        }
+    }
+    var selectedDiscKnowId: UUID?
+
+    @Published
     var filterObservation: Bool
     @Published
     var filterColle: Bool
@@ -234,6 +244,7 @@ final class NavigationModel: ObservableObject, Codable {
                 selectedDiscThemeMngObjId = model.selectedDiscThemeMngObjId
                 selectedDiscSectionMngObjId = model.selectedDiscSectionMngObjId
                 selectedDiscCompMngObjId = model.selectedDiscCompMngObjId
+                selectedDiscKnowMngObjId = model.selectedDiscKnowMngObjId
 
                 filterObservation = model.filterObservation
                 filterColle = model.filterColle
@@ -281,6 +292,7 @@ final class NavigationModel: ObservableObject, Codable {
         selectedDiscThemeMngObjId: NSManagedObjectID? = nil,
         selectedDiscSectionMngObjId: NSManagedObjectID? = nil,
         selectedDiscCompMngObjId: NSManagedObjectID? = nil,
+        selectedDiscKnowMngObjId: NSManagedObjectID? = nil,
         filterObservation: Bool = false,
         filterColle: Bool = false,
         filterFlag: Bool = false
@@ -307,6 +319,7 @@ final class NavigationModel: ObservableObject, Codable {
         self.selectedDiscThemeMngObjId = selectedDiscThemeMngObjId
         self.selectedDiscSectionMngObjId = selectedDiscSectionMngObjId
         self.selectedDiscCompMngObjId = selectedDiscCompMngObjId
+        self.selectedDiscKnowMngObjId = selectedDiscKnowMngObjId
 
         self.filterObservation = filterObservation
         self.filterColle = filterColle
@@ -425,6 +438,9 @@ final class NavigationModel: ObservableObject, Codable {
         self.selectedDiscCompMngObjId =
         DCompEntity.managedObjectID(id: selectedDiscCompId)
 
+        self.selectedDiscKnowMngObjId =
+        DKnowledgeEntity.managedObjectID(id: selectedDiscKnowId)
+
         self.filterObservation = try container.decode(
             Bool.self, forKey: .filterObservation
         )
@@ -463,6 +479,7 @@ final class NavigationModel: ObservableObject, Codable {
         selectedDiscThemeMngObjId = nil
         selectedDiscSectionMngObjId = nil
         selectedDiscCompMngObjId    = nil
+        selectedDiscKnowMngObjId    = nil
 
         classPath = []
         programPath = NavigationPath()
@@ -488,6 +505,7 @@ final class NavigationModel: ObservableObject, Codable {
         try container.encodeIfPresent(selectedDiscThemeId, forKey: .selectedDiscThemeId)
         try container.encodeIfPresent(selectedDiscSectionId, forKey: .selectedDiscSectionId)
         try container.encodeIfPresent(selectedDiscCompId, forKey: .selectedDiscCompId)
+        try container.encodeIfPresent(selectedDiscKnowId, forKey: .selectedDiscKnowId)
 
         try container.encode(filterObservation, forKey: .filterObservation)
         try container.encode(filterColle, forKey: .filterColle)

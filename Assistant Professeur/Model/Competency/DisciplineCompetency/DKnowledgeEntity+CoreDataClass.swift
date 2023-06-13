@@ -1,8 +1,8 @@
 //
-//  DCompEntity.swift
+//  DKnowledgeEntity+CoreDataClass.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 09/06/2023.
+//  Created by Lionel MICHAUD on 11/06/2023.
 //
 
 import CoreData
@@ -11,13 +11,13 @@ import os
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
-    category: "DCompEntity.Codable"
+    category: "DKnowledgeEntity.Codable"
 )
 
-@objc(DCompEntity)
-public final class DCompEntity: NSManagedObject, Codable, ModelEntityP {
+@objc(DKnowledgeEntity)
+public final class DKnowledgeEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
-        case id, number, descrip, knowledges, workedCompetencies
+        case id, number, descrip
     }
 
     public required convenience init(from decoder: Decoder) throws {
@@ -27,11 +27,6 @@ public final class DCompEntity: NSManagedObject, Codable, ModelEntityP {
         self.id = try container.decode(UUID.self, forKey: .id)
         self.number = try container.decode(Int16.self, forKey: .number)
         self.descrip = try container.decode(String.self, forKey: .descrip)
-
-        self.knowledges = try container.decode(
-            Set<DKnowledgeEntity>.self,
-            forKey: .knowledges
-        ) as NSSet
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -39,10 +34,5 @@ public final class DCompEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(id, forKey: .id)
         try container.encode(number, forKey: .number)
         try container.encode(descrip, forKey: .descrip)
-
-        try container.encode(
-            knowledges as! Set<DKnowledgeEntity>,
-            forKey: .knowledges
-        )
     }
 }

@@ -67,6 +67,19 @@ struct DThemeListView: View {
                                 }
                             }
                         }
+                        .emptyListPlaceHolder(filteredThemes) {
+                            EmptyListMessage(
+                                symbolName: DThemeEntity.defaultImageName,
+                                title: "Aucun thème de compétences disciplinaires actuellement.",
+                                message: "Les thèmes ajoutés apparaîtront ici.",
+                                showAsGroupBox: true
+                            )
+                        }
+                        .onChange(of: nav.selectedDiscThemeMngObjId) { _ in
+                            nav.selectedDiscSectionMngObjId = nil
+                            nav.selectedDiscCompMngObjId = nil
+                            nav.selectedDiscKnowMngObjId = nil
+                        }
                     } header: {
                         Text("\(cycleThemes.id)")
                             .font(.body)
@@ -81,10 +94,6 @@ struct DThemeListView: View {
                         showAsGroupBox: true
                     )
                 }
-            }
-            .onChange(of: nav.selectedDiscThemeMngObjId) { _ in
-                nav.selectedDiscSectionMngObjId = nil
-                nav.selectedDiscCompMngObjId = nil
             }
         }
         #if os(iOS)

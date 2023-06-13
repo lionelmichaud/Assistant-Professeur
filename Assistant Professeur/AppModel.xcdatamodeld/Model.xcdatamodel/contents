@@ -56,19 +56,19 @@
         <relationship name="eleve" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="EleveEntity" inverseName="colles" inverseEntity="EleveEntity"/>
     </entity>
     <entity name="DCompEntity" representedClassName="DCompEntity" syncable="YES" codeGenerationType="category">
-        <attribute name="connaissanceCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="connaissances.@count" usesScalarValueType="YES"/>
         <attribute name="descrip" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="knowledgesCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="knowledges.@count" usesScalarValueType="YES"/>
         <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="connaissances" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DConnaissanceEntity" inverseName="competency" inverseEntity="DConnaissanceEntity"/>
+        <relationship name="knowledges" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DKnowledgeEntity" inverseName="competency" inverseEntity="DKnowledgeEntity"/>
         <relationship name="section" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DSectionEntity" inverseName="competencies" inverseEntity="DSectionEntity"/>
         <relationship name="workedCompetencies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WCompEntity" inverseName="disciplineCompetencies" inverseEntity="WCompEntity"/>
     </entity>
-    <entity name="DConnaissanceEntity" representedClassName="DConnaissanceEntity" syncable="YES" codeGenerationType="class">
+    <entity name="DKnowledgeEntity" representedClassName="DKnowledgeEntity" syncable="YES" codeGenerationType="category">
         <attribute name="descrip" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="competency" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DCompEntity" inverseName="connaissances" inverseEntity="DCompEntity"/>
+        <relationship name="competency" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DCompEntity" inverseName="knowledges" inverseEntity="DCompEntity"/>
     </entity>
     <entity name="DocumentEntity" representedClassName="DocumentEntity" syncable="YES" codeGenerationType="category">
         <attribute name="docName" attributeType="String" defaultValueString=""/>

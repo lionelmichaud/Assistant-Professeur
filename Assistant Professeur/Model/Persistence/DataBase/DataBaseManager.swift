@@ -73,11 +73,25 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             errorList: &errorList
         )
 
-        // Compétences
+        // Compétences travaillées du socle
         WCompChapterEntity.checkConsistency(
             errorList: &errorList
         )
         WCompEntity.checkConsistency(
+            errorList: &errorList, tryToRepair: tryToRepair
+        )
+
+        // Compétences Disciplinaires
+        DThemeEntity.checkConsistency(
+            errorList: &errorList
+        )
+        DSectionEntity.checkConsistency(
+            errorList: &errorList, tryToRepair: tryToRepair
+        )
+        DCompEntity.checkConsistency(
+            errorList: &errorList, tryToRepair: tryToRepair
+        )
+        DKnowledgeEntity.checkConsistency(
             errorList: &errorList, tryToRepair: tryToRepair
         )
 
@@ -116,7 +130,11 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             ActivityProgressEntity.cardinal() == 0 &&
 
             WCompChapterEntity.cardinal() == 0 &&
-            WCompEntity.cardinal() == 0
+            WCompEntity.cardinal() == 0 &&
+            DThemeEntity.cardinal() == 0 &&
+            DSectionEntity.cardinal() == 0 &&
+            DCompEntity.cardinal() == 0 &&
+            DKnowledgeEntity.cardinal() == 0
     }
 
     /// Efface tout le contenu de la base de donnée Core Data
@@ -176,10 +194,20 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             failed = true
         }
 
-        // Suppression des Compétences
+        // Suppression des Compétences travaillées du socle
         do {
             try WCompChapterEntity.deleteAll()
             try WCompEntity.deleteAll()
+        } catch {
+            failed = true
+        }
+
+        // Suppression des Compétences Disciplinaires
+        do {
+            try DThemeEntity.deleteAll()
+            try DSectionEntity.deleteAll()
+            try DCompEntity.deleteAll()
+            try DKnowledgeEntity.deleteAll()
         } catch {
             failed = true
         }
@@ -330,7 +358,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             dans: classe5E1
         )
 
-        let eleve3E2_3 = EleveEntity.create(
+        _ = EleveEntity.create(
             familyName: "BIDULE",
             givenName: "Françine",
             sex: .female,
@@ -341,7 +369,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             dans: classe3E2
         )
 
-        let eleveTerm = EleveEntity.create(
+        _ = EleveEntity.create(
             familyName: "LEGENDRE",
             givenName: "Frédérick",
             sex: .male,
@@ -491,7 +519,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             annotation: "Une annotation de séquence 4",
             dans: progTechno5
         )
-        let progSntTermSeq1 = SequenceEntity.create(
+        _ = SequenceEntity.create(
             name: "Séquence 1 du Programme de SNT",
             annotation: "Une annotation de séquence 1 du Programme de SNT",
             url: URL(string: "http://www.google.com"),
@@ -595,6 +623,70 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             isTP: false,
             isProject: true,
             dans: progSntTermSeq2
+        )
+
+        // Compétences Travaillées Socle
+        //   Chapitres
+        let wcc1 = WCompChapterEntity.create(
+            cycle: .cycle4,
+            acronym: "CT1",
+            description: "Chapitre Travaillé 1"
+        )
+        //   Compétences
+        let wc1 = WCompEntity.create(
+            number: 1,
+            description: "Compétence travaillée 1",
+            inChapter: wcc1
+        )
+        let wc2 = WCompEntity.create(
+            number: 2,
+            description: "Compétence travaillée 2",
+            inChapter: wcc1
+        )
+
+        // Compétences Disciplinaires
+        //   Thèmes
+        let dt1 = DThemeEntity.create(
+            cycle: .cycle4,
+            discipline: .technologie,
+            acronym: "DC",
+            description: "Design et Créativité",
+            progressivity: "1er niveau"
+        )
+        //   Sections
+        let ds1 = DSectionEntity.create(
+            number: 1,
+            description: "Section 1",
+            progressivity: "2nd niveau",
+            inTheme: dt1
+        )
+        let ds2 = DSectionEntity.create(
+            number: 2,
+            description: "Section 2",
+            progressivity: "3nd niveau",
+            inTheme: dt1
+        )
+        //   Compétences
+        let dc1 = DCompEntity.create(
+            number: 1,
+            description: "Compétence 1",
+            inSection: ds1
+        )
+        let dc2 = DCompEntity.create(
+            number: 2,
+            description: "Compétence 2",
+            inSection: ds1
+        )
+        //   Connaissances
+        let dk1 = DKnowledgeEntity.create(
+            number: 1,
+            description: "Connaissance 1",
+            inCompetency: dc1
+        )
+        let dk2 = DKnowledgeEntity.create(
+            number: 2,
+            description: "Connaissance 2",
+            inCompetency: dc1
         )
 
         let allProgresses5E1 = classe5E1.allProgresses

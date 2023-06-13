@@ -40,31 +40,33 @@ struct DSectionListView: View {
                 id: \.objectID
             ) { section in
                 // pour chaque section de compétences disciplinaires
-                DSectionBrowserView(
-                    section: section,
-                    showIcon: true,
-                    showProgressivity: false
-                )
-                .badge(section.nbOfCompetencies)
-                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                    // supprimer la compétence
-                    Button(role: .destructive) {
-                        withAnimation {
-                            if nav.selectedDiscSectionMngObjId == section.objectID {
-                                nav.selectedDiscSectionMngObjId = nil
+                NavigationLink(value: section) {
+                    DSectionBrowserView(
+                        section: section,
+                        showIcon: true,
+                        showProgressivity: false
+                    )
+                    .badge(section.nbOfCompetencies)
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        // supprimer la compétence
+                        Button(role: .destructive) {
+                            withAnimation {
+                                if nav.selectedDiscSectionMngObjId == section.objectID {
+                                    nav.selectedDiscSectionMngObjId = nil
+                                }
+                                try? section.delete()
                             }
-                            try? section.delete()
+                        } label: {
+                            Label("Supprimer", systemImage: "trash")
                         }
-                    } label: {
-                        Label("Supprimer", systemImage: "trash")
                     }
-                }
-                .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                    // modifier la compétence
-                    Button {
-                        editedSection = section
-                    } label: {
-                        Label("Modifier", systemImage: "pencil")
+                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                        // modifier la compétence
+                        Button {
+                            editedSection = section
+                        } label: {
+                            Label("Modifier", systemImage: "pencil")
+                        }
                     }
                 }
             }
@@ -78,6 +80,7 @@ struct DSectionListView: View {
             }
             .onChange(of: nav.selectedDiscSectionMngObjId) { _ in
                 nav.selectedDiscCompMngObjId = nil
+                nav.selectedDiscKnowMngObjId = nil
             }
         }
         #if os(iOS)
