@@ -201,6 +201,17 @@ extension CsvImportExportMng {
             }
         }
 
+        // colonnes relatives à la connaissance
+        func appendKnowToKnowColumns(knowledge: DKnowledgeEntity?) {
+            if let knowledge {
+                knowAcronymColumn.append(knowledge.viewAcronym)
+                knowDescriptionColumn.append(knowledge.viewDescription)
+            } else {
+                knowAcronymColumn.append("aucune")
+                knowDescriptionColumn.append("aucune")
+            }
+        }
+
         var dataFrame = DataFrame()
 
         // colonnes relatives au Thème
@@ -241,32 +252,52 @@ extension CsvImportExportMng {
         )
 
         // colonnes relatives à la connaissance
-        var KnowAcronymColumn = Column(
+        var knowAcronymColumn = Column(
             ColumnID("Connaissance Acronym", String.self),
             capacity: 4
         )
-        var KnowDescriptionColumn = Column(
+        var knowDescriptionColumn = Column(
             ColumnID("Connaissance Description", String.self),
             capacity: 4
         )
 
-       let sections = theme.allSectionsSortedByNumber
+        let sections = theme.allSectionsSortedByNumber
 
         if sections.isNotEmpty {
             sections.forEach { section in
                 let competencies = section.allCompetenciesSortedByNumber
 
-                // colonnes relatives au programme
                 if competencies.isNotEmpty {
                     competencies.forEach { competency in
-                        // colonnes relatives au Thème
-                        appendThemeToThemeColumns(theme: theme)
+                        let knowledges = competency.allKnowledgesSortedByNumber
 
-                        // colonnes relatives à la Section
-                        appendSectionToSectionColumns(section: section)
+                        if knowledges.isNotEmpty {
+                            knowledges.forEach { knowledge in
+                                // colonnes relatives au Thème
+                                appendThemeToThemeColumns(theme: theme)
 
-                        // colonnes relatives à la Compétence
-                        appendCompToCompColumns(competency: competency)
+                                // colonnes relatives à la Section
+                                appendSectionToSectionColumns(section: section)
+
+                                // colonnes relatives à la Compétence
+                                appendCompToCompColumns(competency: competency)
+
+                                // colonnes relatives à la connaissance
+                                appendKnowToKnowColumns(knowledge: knowledge)
+                            }
+                        } else {
+                            // colonnes relatives au Thème
+                            appendThemeToThemeColumns(theme: theme)
+
+                            // colonnes relatives à la Section
+                            appendSectionToSectionColumns(section: section)
+
+                            // colonnes relatives à la Compétence
+                            appendCompToCompColumns(competency: competency)
+
+                            // colonnes relatives à la connaissance
+                            appendKnowToKnowColumns(knowledge: nil)
+                        }
                     }
                 } else {
                     // colonnes relatives au Thème
@@ -277,6 +308,9 @@ extension CsvImportExportMng {
 
                     // colonnes VIDES relatives à la Compétence
                     appendCompToCompColumns(competency: nil)
+
+                    // colonnes relatives à la connaissance
+                    appendKnowToKnowColumns(knowledge: nil)
                 }
             }
         } else {
@@ -288,11 +322,14 @@ extension CsvImportExportMng {
 
             // colonnes VIDES relatives à la Compétence
             appendCompToCompColumns(competency: nil)
+
+            // colonnes relatives à la connaissance
+            appendKnowToKnowColumns(knowledge: nil)
         }
 
         // colonnes relatives au Thème
-        dataFrame.append(column: cycleColumn)
         dataFrame.append(column: disciplineColumn)
+        dataFrame.append(column: cycleColumn)
         dataFrame.append(column: themeAcronymColumn)
         dataFrame.append(column: themeDescriptionColumn)
 
@@ -303,6 +340,10 @@ extension CsvImportExportMng {
         // colonnes relatives à la Compétence
         dataFrame.append(column: compAcronymColumn)
         dataFrame.append(column: compDescriptionColumn)
+
+        // colonnes relatives à la Connaissance
+        dataFrame.append(column: knowAcronymColumn)
+        dataFrame.append(column: knowDescriptionColumn)
 
         return dataFrame
     }
