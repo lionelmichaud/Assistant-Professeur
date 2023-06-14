@@ -12,6 +12,11 @@ import PDFKit
 extension DocumentEntity {
     // MARK: - Computed properties
 
+    /// Nom de l'image par défaut utilisée pour représenter un établissement
+    static var defaultImageName: String {
+        "doc.richtext"
+    }
+
     /// Wrapper of `docName`
     /// - Important: *Saves the context to the store after modification is done*
     @objc

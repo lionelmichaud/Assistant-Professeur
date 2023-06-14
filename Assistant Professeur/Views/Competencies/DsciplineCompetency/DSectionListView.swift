@@ -1,0 +1,157 @@
+//
+//  DCompListView.swift
+//  Assistant Professeur
+//
+//  Created by Lionel MICHAUD on 09/06/2023.
+//
+
+import CoreData
+import HelpersView
+import SwiftUI
+
+struct DSectionListView: View {
+    @ObservedObject
+    var theme: DThemeEntity
+
+    var discipline: Discipline
+
+    @EnvironmentObject
+    private var nav: NavigationModel
+
+    @State
+    private var isAddingObject = false
+    @State
+    private var editedSection: DSectionEntity?
+
+    // MARK: - Computed properties
+
+    var body: some View {
+        List(selection: $nav.selectedDiscSectionMngObjId) {
+            // Thème de compétences disciplinaires
+            DThemeBrowserView(
+                theme: theme,
+                showIcon: false,
+                showProgressivity: true
+            )
+
+            // Sections de compétences disciplinaires
+            ForEach(
+                theme.allSectionsSortedByNumber,
+                id: \.objectID
+            ) { section in
+                // pour chaque section de compétences disciplinaires
+                NavigationLink(value: section) {
+                    DSectionBrowserView(
+                        section: section,
+                        showIcon: true,
+                        showProgressivity: false
+                    )
+                    .badge(section.nbOfCompetencies)
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        // supprimer la compétence
+                        Button(role: .destructive) {
+                            withAnimation {
+                                if nav.selectedDiscSectionMngObjId == section.objectID {
+                                    nav.selectedDiscSectionMngObjId = nil
+                                }
+                                try? section.delete()
+                            }
+                        } label: {
+                            Label("Supprimer", systemImage: "trash")
+                        }
+                    }
+                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                        // modifier la compétence
+                        Button {
+                            editedSection = section
+                        } label: {
+                            Label("Modifier", systemImage: "pencil")
+                        }
+                    }
+                }
+            }
+            .emptyListPlaceHolder(theme.allSectionsSortedByNumber) {
+                EmptyListMessage(
+                    symbolName: DSectionEntity.defaultImageName,
+                    title: "Aucune section de compétences disciplinaires actuellement.",
+                    message: "Les sections ajoutées apparaîtront ici.",
+                    showAsGroupBox: true
+                )
+            }
+            .onChange(of: nav.selectedDiscSectionMngObjId) { _ in
+                nav.selectedDiscCompMngObjId = nil
+                nav.selectedDiscKnowMngObjId = nil
+            }
+        }
+        #if os(iOS)
+        .navigationTitle("Sections")
+        #endif
+        .toolbar(content: myToolBarContent)
+
+        // Modal Sheet de création d'un chapitre de compétence socle
+        .sheet(
+            isPresented: $isAddingObject
+        ) {
+            NavigationStack {
+                let section = DSectionEntity()
+                DSectionEditorModal(
+                    section: section,
+                    nextNumber: theme.nbOfSections + 1,
+                    inTheme: theme,
+                    isEditing: false
+                )
+            }
+            .presentationDetents([.medium])
+        }
+
+        // Modal Sheet de modification d'un chapitre de compétence socle
+        .sheet(
+            item: $editedSection,
+            onDismiss: didDismiss
+        ) { section in
+            NavigationStack {
+                DSectionEditorModal(
+                    section: section,
+                    inTheme: theme,
+                    isEditing: true
+                )
+            }
+            .presentationDetents([.medium])
+        }
+    }
+
+    private func didDismiss() {
+        editedSection = nil
+    }
+}
+
+// MARK: Toolbar Content
+
+extension DSectionListView {
+    @ToolbarContentBuilder
+    func myToolBarContent() -> some ToolbarContent {
+        ToolbarItemGroup(placement: .status) {
+            // Ajouter une séction au thème
+            Button {
+                isAddingObject = true
+            } label: {
+                Label(
+                    "Ajouter une section",
+                    systemImage: "plus.circle.fill"
+                )
+                .labelStyle(.titleAndIcon)
+            }
+        }
+
+        ToolbarItemGroup(placement: .navigationBarTrailing) {
+            // Modifier une séction du thème
+            if let selectedSectionMngObjId = nav.selectedDiscSectionMngObjId {
+                Button("Modifier") {
+                    editedSection =
+                        DSectionEntity
+                            .byObjectId(MngObjID: selectedSectionMngObjId)
+                }
+            }
+        }
+    }
+}

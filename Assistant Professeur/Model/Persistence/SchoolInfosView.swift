@@ -64,7 +64,7 @@ struct SchoolInfosView: View {
                         .imageScale(.large)
                 }
             } header: {
-                Label("Code d'accès", systemImage: "lock")
+                Label("Code d'accès", systemImage: ColleEntity.defaultImageName)
                     .font(.callout)
                     .foregroundColor(.secondary)
                     .fontWeight(.bold)

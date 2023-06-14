@@ -111,7 +111,7 @@ struct EleveLabelWithTrombineFlag: View {
                         showTrombine.toggle()
                     }
                 } label: {
-                    Image(systemName: "graduationcap")
+                    Image(systemName: EleveEntity.defaultImageName)
                         .imageScale(imageSize)
                         .symbolRenderingMode(.monochrome)
                         .foregroundColor(eleve.sexEnum.color)

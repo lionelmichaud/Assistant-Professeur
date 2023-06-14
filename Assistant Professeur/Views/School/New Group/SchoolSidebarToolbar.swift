@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 03/05/2023.
 //
 
-import SwiftUI
 import AppFoundation
+import SwiftUI
 
 // MARK: SchoolSidebarView Toolbar Content
 
@@ -18,11 +18,11 @@ extension SchoolSidebarView {
             Button {
                 isAddingNewSchool = true
             } label: {
-                HStack {
-                    Image(systemName: "plus.circle.fill")
-                    Text("Ajouter un établissement")
-                    Spacer()
-                }
+                Label(
+                    "Ajouter un établissement",
+                    systemImage: "plus.circle.fill"
+                )
+                .labelStyle(.titleAndIcon)
             }
         }
 
@@ -126,18 +126,18 @@ extension SchoolSidebarView {
                             systemImage: "square.and.arrow.up"
                         )
                     }
-                    if isPad() || isMac() {
-                        Button {
-                            CsvImportExportMng.exportPrograms()
-                            fileExportOperation = .exportCsvPrograms
-                            isExportingModel = true
-                        } label: {
-                            Label(
-                                "Exporter les programmes en CSV",
-                                systemImage: "square.and.arrow.up"
-                            )
-                        }
+//                    if isPad() || isMac() {
+                    Button {
+                        CsvImportExportMng.exportPrograms()
+                        fileExportOperation = .exportCsvPrograms
+                        isExportingModel = true
+                    } label: {
+                        Label(
+                            "Exporter les programmes en CSV",
+                            systemImage: "square.and.arrow.up"
+                        )
                     }
+//                    }
                 }
 
                 Section {

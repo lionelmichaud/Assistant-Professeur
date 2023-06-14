@@ -5,11 +5,10 @@
 //  Created by Lionel MICHAUD on 21/01/2023.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct ProgramCreatorModal: View {
-
     @StateObject
     private var programVM = ProgramViewModel()
 
@@ -59,8 +58,8 @@ struct ProgramCreatorModal: View {
             if pref.programAnnotationEnabled {
                 TextField(
                     "Annotation",
-                    text : $programVM.annotation,
-                    axis : .vertical
+                    text: $programVM.annotation,
+                    axis: .vertical
                 )
                 .lineLimit(5)
                 .font(hClass == .compact ? .callout : .body)
@@ -72,12 +71,12 @@ struct ProgramCreatorModal: View {
         .alert(
             alertTitle,
             isPresented: $alertIsPresented,
-            actions: { },
+            actions: {},
             message: { Text(alertMessage) }
         )
         .toolbar(content: myToolBarContent)
         #if os(iOS)
-        .navigationTitle("Nouveau Programme")
+            .navigationTitle("Nouveau Programme")
         #endif
     }
 }
@@ -88,12 +87,14 @@ extension ProgramCreatorModal {
     var niveauView: some View {
         HStack {
             // niveau de cette classe
-            Image(systemName: "person.3.sequence.fill")
+            Image(systemName: ClasseEntity.defaultImageName)
                 .sfSymbolStyling()
-                .foregroundColor(programVM.levelEnum.color)
+                .foregroundColor(programVM.levelEnum.imageColor)
 
-            CasePicker(pickedCase: $programVM.levelEnum,
-                       label: "")
+            CasePicker(
+                pickedCase: $programVM.levelEnum,
+                label: ""
+            )
             .pickerStyle(.menu)
         }
     }
@@ -107,12 +108,13 @@ extension ProgramCreatorModal {
     }
 
     var disciplineView: some View {
-        CasePicker(pickedCase: $programVM.disciplineEnum,
-                   label: "Discipline")
+        CasePicker(
+            pickedCase: $programVM.disciplineEnum,
+            label: "Discipline"
+        )
         .pickerStyle(.menu)
         .frame(width: 300)
     }
-
 }
 
 // MARK: Toolbar Content
@@ -128,14 +130,14 @@ extension ProgramCreatorModal {
         }
         ToolbarItem(placement: .confirmationAction) {
             Button("Ajouter") {
-                /// Ajouter un nouveau programme
+                // Ajouter un nouveau programme
                 if ProgramEntity.exists(
                     dscipline: programVM.disciplineEnum,
                     classeLevel: programVM.levelEnum,
                     classeIsSegpa: programVM.segpa
                 ) {
                     // doublon
-                    alertTitle   = "Ajout impossible"
+                    alertTitle = "Ajout impossible"
                     alertMessage = "Un programme pour ce niveau existe déjà dans cette discipline."
                     alertIsPresented.toggle()
 

@@ -46,7 +46,7 @@ struct ProgramSidebarView: View {
                             ProgramBrowserRow(program: program)
                                 .badge(program.nbOfSequences)
 
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     // supprimer le programme et tous ses descendants
                                     Button(role: .destructive) {
                                         withAnimation {
@@ -71,7 +71,7 @@ struct ProgramSidebarView: View {
             }
             .emptyListPlaceHolder(programsSections) {
                 EmptyListMessage(
-                    symbolName: "books.vertical",
+                    symbolName: ProgramEntity.defaultImageName,
                     title: "Aucun programme actuellement.",
                     message: "Les programmes ajoutés apparaîtront ici."
                 )
@@ -126,6 +126,7 @@ extension ProgramSidebarView {
                 Image(systemName: "ellipsis.circle")
             }
         }
+        
         // Ajouter un établissement
         ToolbarItemGroup(placement: .status) {
             Button {

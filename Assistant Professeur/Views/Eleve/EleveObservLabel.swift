@@ -24,7 +24,7 @@ struct EleveObservLabel: View {
             let nb = nbObservWithActionToDo
             if nb > 0 {
                 Text("\(nb)")
-                Image(systemName: "magnifyingglass")
+                Image(systemName: ObservEntity.defaultImageName)
                     .imageScale(scale)
                     .foregroundColor(.red)
             }

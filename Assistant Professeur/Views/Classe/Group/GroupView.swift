@@ -47,7 +47,7 @@ struct GroupView: View {
                         } label: {
                             Label(
                                 eleve.displayName,
-                                systemImage: "graduationcap"
+                                systemImage: EleveEntity.defaultImageName
                             )
                         }
                     }
@@ -74,7 +74,7 @@ struct GroupView: View {
                     }
 
                     // retirer l'élève du groupe
-                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         if groupIsEditable && isEditing {
                             Button(role: .destructive) {
                                 withAnimation {

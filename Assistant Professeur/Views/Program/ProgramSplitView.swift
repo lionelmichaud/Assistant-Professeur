@@ -101,9 +101,6 @@ struct ProgramSplitView: View {
                         message: "Sélectionner une activité pour en visualiser le contenu.",
                         showAsGroupBox: true
                     )
-                    .padding()
-                    .foregroundStyle(.secondary)
-                    .font(.title2)
 
                 case .showActivityDetail:
                     ActivityDetail()

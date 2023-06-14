@@ -328,7 +328,7 @@ extension ClasseDetail {
 
     private var progressView: some View {
         NavigationLink(value: ClasseNavigationRoute.progress(classe)) {
-            Label("Progression", systemImage: "books.vertical.fill")
+            Label("Progression", systemImage: ProgramEntity.defaultImageName)
                 .fontWeight(.bold)
         }
     }

@@ -29,21 +29,30 @@ struct TrombineInteractivView: View {
                 navigationModel.selectedTab = .eleve
                 navigationModel.selectedEleveMngObjId = eleve.objectID
             } label: {
-                Label("Fiche élève", systemImage: "info.circle")
+                Label(
+                    "Fiche élève",
+                    systemImage: "info.circle"
+                )
             }
 
             // ajouter une observation
             Button {
                 isAddingNewObserv = true
             } label: {
-                Label("Nouvelle observation", systemImage: "rectangle.and.text.magnifyingglass")
+                Label(
+                    "Nouvelle observation",
+                    systemImage: ObservEntity.defaultImageName
+                )
             }
 
             // ajouter une colle
             Button {
                 isAddingNewColle = true
             } label: {
-                Label("Nouvelle colle", systemImage: "lock.fill")
+                Label(
+                    "Nouvelle colle",
+                    systemImage: ColleEntity.defaultImageName
+                )
             }
 
         } label: {

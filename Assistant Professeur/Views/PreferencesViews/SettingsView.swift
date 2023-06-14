@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 22/05/2022.
 //
 
+import HelpersView
 import SwiftUI
 
 struct SettingsView: View {
@@ -20,27 +21,33 @@ struct SettingsView: View {
     var body: some View {
         TabView(selection: $nav.selectedPrefTab) {
             SettingsGeneral()
-                .tag(1)
+                .tag(NavigationModel.PrefTabSelection.general)
             SettingsSchool()
-                .tag(2)
+                .tag(NavigationModel.PrefTabSelection.school)
             SettingsClasse()
-                .tag(3)
+                .tag(NavigationModel.PrefTabSelection.classe)
             SettingsEleve()
-                .tag(4)
+                .tag(NavigationModel.PrefTabSelection.eleve)
             SettingsProgram()
-                .tag(5)
+                .tag(NavigationModel.PrefTabSelection.program)
             SettingsSequence()
-                .tag(6)
+                .tag(NavigationModel.PrefTabSelection.sequence)
             SettingsActivity()
-                .tag(7)
+                .tag(NavigationModel.PrefTabSelection.activity)
             SettingsSchoolYear()
-                .tag(8)
+                .tag(NavigationModel.PrefTabSelection.schoolYear)
             // SettingsAgenda()
         }
         #if os(iOS)
         .tabViewStyle(.page(indexDisplayMode: .always))
         .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
         #endif
+        .toolbarTitleMenu {
+            CasePicker(
+                pickedCase: $nav.selectedPrefTab.animation(),
+                label: "Préférences"
+            )
+        }
         .toolbar {
             ToolbarItem {
                 Button("Fermer") {

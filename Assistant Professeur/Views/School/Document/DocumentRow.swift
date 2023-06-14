@@ -18,7 +18,7 @@ struct DocumentRow: View {
 
     var body: some View {
         HStack {
-            Image(systemName: "doc.richtext")
+            Image(systemName: DocumentEntity.defaultImageName)
                 .sfSymbolStyling()
                 .foregroundColor(.accentColor)
             TextField(

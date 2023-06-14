@@ -43,7 +43,7 @@ struct ProgramDetailGroupBox: View {
                 Button {
                     isViewing.toggle()
                 } label: {
-                    Label(document.viewName, systemImage: "doc.richtext")
+                    Label(document.viewName, systemImage: DocumentEntity.defaultImageName)
                 }
                 .horizontallyAligned(.leading)
                 .padding(.top, 4)

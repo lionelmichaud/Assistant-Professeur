@@ -51,32 +51,47 @@ struct EditableSeatLabel: View {
                         navigationModel.selectedTab = .eleve
                         navigationModel.selectedEleveMngObjId = eleveOnSeat.objectID
                     } label: {
-                        Label("Fiche élève", systemImage: "info.circle")
+                        Label(
+                            "Fiche élève",
+                            systemImage: "info.circle"
+                        )
                     }
                     // ajouter un point de bonus
                     Button {
                         eleveOnSeat.viewBonus += 1
                     } label: {
-                        Label("Ajouter bonus", systemImage: "hand.thumbsup")
+                        Label(
+                            "Ajouter bonus",
+                            systemImage: "hand.thumbsup"
+                        )
                     }
                     // ajouter un point de malus
                     Button {
                         eleveOnSeat.viewBonus -= 1
                     } label: {
-                        Label("Ajouter malus", systemImage: "hand.thumbsdown")
+                        Label(
+                            "Ajouter malus",
+                            systemImage: "hand.thumbsdown"
+                        )
                     }
 
                     // ajouter une observation
                     Button {
                         isAddingNewObserv = true
                     } label: {
-                        Label("Nouvelle observation", systemImage: "rectangle.and.text.magnifyingglass")
+                        Label(
+                            "Nouvelle observation",
+                            systemImage: ObservEntity.defaultImageName
+                        )
                     }
                     // ajouter une colle
                     Button {
                         isAddingNewColle = true
                     } label: {
-                        Label("Nouvelle colle", systemImage: "lock.fill")
+                        Label(
+                            "Nouvelle colle",
+                            systemImage: "lock.fill"
+                        )
                     }
                 }
 
@@ -89,7 +104,10 @@ struct EditableSeatLabel: View {
                             try? EleveEntity.saveIfContextHasChanged()
                         }
                     } label: {
-                        Label("Libérer la place", systemImage: "chair")
+                        Label(
+                            "Libérer la place",
+                            systemImage: "chair"
+                        )
                     }
                 }
             }

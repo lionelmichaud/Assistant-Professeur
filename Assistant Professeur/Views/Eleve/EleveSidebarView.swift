@@ -36,7 +36,8 @@ struct EleveSidebarView: View {
                         )
                     } header: {
                         Text(school.displayString)
-                            .foregroundColor(.primary)
+                            .font(.callout)
+                            .foregroundColor(.secondary)
                             .fontWeight(.bold)
                     }
                 } else {
@@ -45,7 +46,7 @@ struct EleveSidebarView: View {
             }
             .emptyListPlaceHolder(schools) {
                 EmptyListMessage(
-                    symbolName: "building",
+                    symbolName: SchoolEntity.defaultImageName,
                     title: "Aucun établissement actuellement."
                 )
             }
@@ -65,7 +66,7 @@ struct EleveSidebarView: View {
                 Toggle(
                     isOn: $navigationModel.filterObservation.animation(),
                     label: {
-                        Image(systemName: "magnifyingglass")
+                        Image(systemName: ObservEntity.defaultImageName)
                     }
                 )
                 .toggleStyle(.button)
@@ -74,7 +75,7 @@ struct EleveSidebarView: View {
                 Toggle(
                     isOn: $navigationModel.filterColle.animation(),
                     label: {
-                        Image(systemName: "lock")
+                        Image(systemName: ColleEntity.defaultImageName)
                     }
                 )
                 .toggleStyle(.button)
@@ -89,7 +90,7 @@ struct EleveSidebarView: View {
                 .toggleStyle(.button)
             }
         }
-        .navigationTitle("Les Élèves")
+        .navigationTitle("Mes Élèves")
     }
 }
 
@@ -122,7 +123,7 @@ struct EleveSidebarSchoolSubview: View {
                     // pour chaque Elève
                     ForEach(eleveInClasse(classe), id: \.objectID) { eleve in
                         EleveBrowserRow(eleve: eleve)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 // supprimer un élève
                                 Button(role: .destructive) {
                                     withAnimation {
@@ -166,7 +167,7 @@ struct EleveSidebarSchoolSubview: View {
                 .padding(.leading, 4)
             } else {
                 EmptyListMessage(
-                    symbolName: "graduationcap",
+                    symbolName: EleveEntity.defaultImageName,
                     title: "Aucun élève actuellement.",
                     message: "Les élèves ajoutés apparaîtront ici."
                 )

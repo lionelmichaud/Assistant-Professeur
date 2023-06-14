@@ -23,12 +23,13 @@ struct ProgramTimeLine: View {
                 }
 
             } else {
-                VStack(alignment: .center) {
-                    Text("Aucun programme sélectionné.")
-                    Text("Sélectionner un programme.")
-                }
-                .foregroundStyle(.secondary)
-                .font(.title2)
+                EmptyListMessage(
+                    symbolName: ProgramEntity.defaultImageName,
+                    title: "Aucun programme sélectionné.",
+                    message: "Sélectionner un programme pour en visualiser les séquences.",
+                    showAsGroupBox: true
+                )
+                .padding(.horizontal)
             }
         }
         #if os(iOS)
@@ -38,8 +39,8 @@ struct ProgramTimeLine: View {
     }
 }
 
-//struct ProgramTimeLine_Previews: PreviewProvider {
+// struct ProgramTimeLine_Previews: PreviewProvider {
 //    static var previews: some View {
 //        ProgramTimeLine()
 //    }
-//}
+// }

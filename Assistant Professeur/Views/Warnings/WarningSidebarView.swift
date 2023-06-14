@@ -13,29 +13,25 @@ struct WarningSidebarView: View {
 
     var body: some View {
         List(
-            NavigationModel.WarningSelection.allCases,
+            WarningSelection.allCases,
             id: \.self,
             selection: $navig.selectedWarningType
         ) { warningType in
-            HStack {
-                Label(
-                    title: {
-                        Text(warningType.rawValue)
-                            .fontWeight(.bold)
-                    },
-                    icon: {
-                        Image(systemName: warningType.imageName)
-                    }
-                )
-                Spacer()
-                Text("\(cardinal(warningType))")
-                    .foregroundColor(.secondary)
-           }
+            Label(
+                title: {
+                    Text(warningType.rawValue)
+                        .fontWeight(.bold)
+                },
+                icon: {
+                    Image(systemName: warningType.imageName)
+                }
+            )
+            .badge(cardinal(warningType))
         }
         .navigationTitle("Avertissements")
     }
 
-    private func cardinal(_ warningType: NavigationModel.WarningSelection) -> Int {
+    private func cardinal(_ warningType: WarningSelection) -> Int {
         switch warningType {
             case .observation:
                 return ObservEntity.cardinal()

@@ -15,60 +15,20 @@ private let customLog = Logger(
     category: "NavigationModel"
 )
 
+/// A navigation model used to persist and restore the navigation state.
 /// @MainActor
 final class NavigationModel: ObservableObject, Codable {
     // MARK: - Embeded Types
-
-    enum TabSelection: String, Hashable, Codable {
-        case userSettings = "Réglages"
-        case school = "Etablissement"
-        case classe = "Classes"
-        case eleve = "Elèves"
-        case warning = "Avertissements"
-        case program = "Programmes"
-        case competence = "Compétences"
-
-        var imageName: String {
-            switch self {
-                case .userSettings:
-                    return ""
-                case .school:
-                    return "building.2"
-                case .classe:
-                    return "person.3.sequence"
-                case .eleve:
-                    return "graduationcap"
-                case .warning:
-                    return "hand.raised"
-                case .program:
-                    return "books.vertical"
-                case .competence:
-                    return ""
-            }
-        }
-    }
-
-    enum WarningSelection: String, Hashable, Codable, CaseIterable {
-        case observation = "Observations"
-        case colle = "Colles"
-
-        var imageName: String {
-            switch self {
-                case .observation:
-                    return "rectangle.and.text.magnifyingglass"
-                case .colle:
-                    return "lock"
-            }
-        }
-    }
 
     enum CodingKeys: String, CodingKey {
         case columnVisibility
         case selectedTab
         case selectedPrefTab
         case selectedWarningType
+        case selectedCompetenceType
         case classPath
         case programPath
+        case competencePath
         case selectedProgramId
         case selectedSequenceId
         case selectedActivityId
@@ -77,6 +37,12 @@ final class NavigationModel: ObservableObject, Codable {
         case selectedEleveId
         case selectedClasseId
         case selectedSchoolId
+        case selectedWorkedCompChapterId
+        case selectedWorkedCompId
+        case selectedDiscThemeId
+        case selectedDiscSectionId
+        case selectedDiscCompId
+        case selectedDiscKnowId
         case filterObservation
         case filterColle
         case filterFlag
@@ -89,13 +55,17 @@ final class NavigationModel: ObservableObject, Codable {
     @Published
     var selectedTab: TabSelection
     @Published
-    var selectedPrefTab: Int
+    var selectedPrefTab: PrefTabSelection
     @Published
     var selectedWarningType: WarningSelection?
+    @Published
+    var selectedCompetenceType: CompetencySelection?
     @Published
     var classPath = [ClasseNavigationRoute]()
     @Published
     var programPath = NavigationPath()
+    @Published
+    var competencePath = NavigationPath()
 
     /// TODO: - Trouver une autre solution
     @Published
@@ -105,7 +75,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ProgramEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedProgramId: UUID?
 
     @Published
@@ -115,7 +84,6 @@ final class NavigationModel: ObservableObject, Codable {
                 SequenceEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedSequenceId: UUID?
 
     @Published
@@ -125,7 +93,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ActivityEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedActivityId: UUID?
 
     @Published
@@ -135,7 +102,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ObservEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedObservId: UUID?
 
     @Published
@@ -145,7 +111,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ColleEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedColleId: UUID?
 
     @Published
@@ -155,7 +120,6 @@ final class NavigationModel: ObservableObject, Codable {
                 EleveEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedEleveId: UUID?
 
     @Published
@@ -165,7 +129,6 @@ final class NavigationModel: ObservableObject, Codable {
                 ClasseEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedClasseId: UUID?
 
     @Published
@@ -175,8 +138,61 @@ final class NavigationModel: ObservableObject, Codable {
                 SchoolEntity.id(MngObjID: newValue)
         }
     }
-
     var selectedSchoolId: UUID?
+
+    @Published
+    var selectedWorkedCompChapterMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedWorkedCompChapterId =
+            WCompChapterEntity.id(MngObjID: newValue)
+        }
+    }
+    var selectedWorkedCompChapterId: UUID?
+
+    @Published
+    var selectedWorkedCompMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedWorkedCompId =
+            WCompEntity.id(MngObjID: newValue)
+        }
+    }
+    var selectedWorkedCompId: UUID?
+
+    @Published
+    var selectedDiscThemeMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedDiscThemeId =
+            DThemeEntity.id(MngObjID: newValue)
+        }
+    }
+    var selectedDiscThemeId: UUID?
+
+    @Published
+    var selectedDiscSectionMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedDiscSectionId =
+            DSectionEntity.id(MngObjID: newValue)
+        }
+    }
+    var selectedDiscSectionId: UUID?
+
+    @Published
+    var selectedDiscCompMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedDiscCompId =
+            DCompEntity.id(MngObjID: newValue)
+        }
+    }
+    var selectedDiscCompId: UUID?
+
+    @Published
+    var selectedDiscKnowMngObjId: NSManagedObjectID? {
+        willSet(newValue) {
+            selectedDiscKnowId =
+            DKnowledgeEntity.id(MngObjID: newValue)
+        }
+    }
+    var selectedDiscKnowId: UUID?
 
     @Published
     var filterObservation: Bool
@@ -190,6 +206,9 @@ final class NavigationModel: ObservableObject, Codable {
 
     // MARK: - Computed Properties
 
+    /// Etat de navigation encodé JSON
+    ///
+    /// Convertion: Struct <=> JSON
     var jsonData: Data? {
         get {
             // retourne l'état de navigation encodé JSON
@@ -210,6 +229,7 @@ final class NavigationModel: ObservableObject, Codable {
                 selectedTab = model.selectedTab
                 selectedPrefTab = model.selectedPrefTab
                 selectedWarningType = model.selectedWarningType
+                selectedCompetenceType = model.selectedCompetenceType
 
                 selectedProgramMngObjId = model.selectedProgramMngObjId
                 selectedSequenceMngObjId = model.selectedSequenceMngObjId
@@ -219,6 +239,12 @@ final class NavigationModel: ObservableObject, Codable {
                 selectedEleveMngObjId = model.selectedEleveMngObjId
                 selectedClasseMngObjId = model.selectedClasseMngObjId
                 selectedSchoolMngObjId = model.selectedSchoolMngObjId
+                selectedWorkedCompChapterMngObjId = model.selectedWorkedCompChapterMngObjId
+                selectedWorkedCompMngObjId = model.selectedWorkedCompMngObjId
+                selectedDiscThemeMngObjId = model.selectedDiscThemeMngObjId
+                selectedDiscSectionMngObjId = model.selectedDiscSectionMngObjId
+                selectedDiscCompMngObjId = model.selectedDiscCompMngObjId
+                selectedDiscKnowMngObjId = model.selectedDiscKnowMngObjId
 
                 filterObservation = model.filterObservation
                 filterColle = model.filterColle
@@ -226,6 +252,7 @@ final class NavigationModel: ObservableObject, Codable {
 
                 classPath = model.classPath
                 programPath = model.programPath
+                competencePath = model.competencePath
                 #if DEBUG
                     print(">> NavigationModel() JSON decoding has completed")
                 #endif
@@ -249,8 +276,9 @@ final class NavigationModel: ObservableObject, Codable {
     init(
         columnVisibility: NavigationSplitViewVisibility = .all,
         selectedTab: TabSelection = .school,
-        selectedPrefTab: Int = 1,
+        selectedPrefTab: PrefTabSelection = .general,
         selectedWarningType: WarningSelection? = nil,
+        selectedCompetenceType: CompetencySelection? = nil,
         selectedProgramMngObjId: NSManagedObjectID? = nil,
         selectedSequenceMngObjId: NSManagedObjectID? = nil,
         selectedActivityMngObjId: NSManagedObjectID? = nil,
@@ -259,6 +287,12 @@ final class NavigationModel: ObservableObject, Codable {
         selectedEleveMngObjId: NSManagedObjectID? = nil,
         selectedClasseMngObjId: NSManagedObjectID? = nil,
         selectedSchoolMngObjId: NSManagedObjectID? = nil,
+        selectedWorkedCompChapterMngObjId: NSManagedObjectID? = nil,
+        selectedWorkedCompMngObjId: NSManagedObjectID? = nil,
+        selectedDiscThemeMngObjId: NSManagedObjectID? = nil,
+        selectedDiscSectionMngObjId: NSManagedObjectID? = nil,
+        selectedDiscCompMngObjId: NSManagedObjectID? = nil,
+        selectedDiscKnowMngObjId: NSManagedObjectID? = nil,
         filterObservation: Bool = false,
         filterColle: Bool = false,
         filterFlag: Bool = false
@@ -270,6 +304,7 @@ final class NavigationModel: ObservableObject, Codable {
         self.selectedTab = selectedTab
         self.selectedPrefTab = selectedPrefTab
         self.selectedWarningType = selectedWarningType
+        self.selectedCompetenceType = selectedCompetenceType
 
         self.selectedProgramMngObjId = selectedProgramMngObjId
         self.selectedSequenceMngObjId = selectedSequenceMngObjId
@@ -279,6 +314,12 @@ final class NavigationModel: ObservableObject, Codable {
         self.selectedEleveMngObjId = selectedEleveMngObjId
         self.selectedClasseMngObjId = selectedClasseMngObjId
         self.selectedSchoolMngObjId = selectedSchoolMngObjId
+        self.selectedWorkedCompChapterMngObjId = selectedWorkedCompChapterMngObjId
+        self.selectedWorkedCompMngObjId = selectedWorkedCompMngObjId
+        self.selectedDiscThemeMngObjId = selectedDiscThemeMngObjId
+        self.selectedDiscSectionMngObjId = selectedDiscSectionMngObjId
+        self.selectedDiscCompMngObjId = selectedDiscCompMngObjId
+        self.selectedDiscKnowMngObjId = selectedDiscKnowMngObjId
 
         self.filterObservation = filterObservation
         self.filterColle = filterColle
@@ -286,6 +327,7 @@ final class NavigationModel: ObservableObject, Codable {
 
         self.classPath = []
         self.programPath = NavigationPath()
+        self.competencePath = NavigationPath()
 
         #if DEBUG
             print(">> NavigationModel() initialization has completed")
@@ -297,8 +339,14 @@ final class NavigationModel: ObservableObject, Codable {
         self.selectedTab = try container.decode(
             NavigationModel.TabSelection.self, forKey: .selectedTab
         )
+        self.selectedPrefTab = try container.decode(
+            PrefTabSelection.self, forKey: .selectedPrefTab
+        )
         self.selectedWarningType = try container.decodeIfPresent(
-            NavigationModel.WarningSelection.self, forKey: .selectedWarningType
+            WarningSelection.self, forKey: .selectedWarningType
+        )
+        self.selectedCompetenceType = try container.decodeIfPresent(
+            CompetencySelection.self, forKey: .selectedCompetenceType
         )
         // FIXME: Plante dans ClasseSideBar si on décode ici
 //        self.classPath = try container.decode(
@@ -360,6 +408,39 @@ final class NavigationModel: ObservableObject, Codable {
         selectedSchoolMngObjId =
             SchoolEntity.managedObjectID(id: selectedSchoolId)
 
+        self.selectedWorkedCompChapterId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedWorkedCompChapterId
+        )
+        selectedWorkedCompChapterMngObjId =
+        WCompChapterEntity.managedObjectID(id: selectedWorkedCompChapterId)
+
+        self.selectedWorkedCompId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedWorkedCompId
+        )
+        selectedWorkedCompMngObjId =
+        WCompChapterEntity.managedObjectID(id: selectedWorkedCompId)
+
+        self.selectedDiscThemeId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedDiscThemeId
+        )
+        self.selectedDiscThemeMngObjId =
+        DThemeEntity.managedObjectID(id: selectedDiscThemeId)
+
+        self.selectedDiscSectionId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedDiscSectionId
+        )
+        self.selectedDiscSectionMngObjId =
+        DSectionEntity.managedObjectID(id: selectedDiscSectionId)
+
+        self.selectedDiscCompId = try container.decodeIfPresent(
+            UUID.self, forKey: .selectedDiscCompId
+        )
+        self.selectedDiscCompMngObjId =
+        DCompEntity.managedObjectID(id: selectedDiscCompId)
+
+        self.selectedDiscKnowMngObjId =
+        DKnowledgeEntity.managedObjectID(id: selectedDiscKnowId)
+
         self.filterObservation = try container.decode(
             Bool.self, forKey: .filterObservation
         )
@@ -375,18 +456,15 @@ final class NavigationModel: ObservableObject, Codable {
         self.columnVisibility = try container.decode(
             NavigationSplitViewVisibility.self, forKey: .columnVisibility
         )
-
-        self.selectedPrefTab = try container.decode(
-            Int.self, forKey: .selectedPrefTab
-        )
     }
 
     // MARK: - Methods
 
     func resetSelections() {
         selectedTab = .school
-        selectedPrefTab = 1
+        selectedPrefTab = .general
         selectedWarningType = .observation
+        selectedCompetenceType = .workedCompetencies
 
         selectedProgramMngObjId = nil
         selectedSequenceMngObjId = nil
@@ -396,6 +474,12 @@ final class NavigationModel: ObservableObject, Codable {
         selectedEleveMngObjId = nil
         selectedClasseMngObjId = nil
         selectedSchoolMngObjId = nil
+        selectedWorkedCompChapterMngObjId = nil
+        selectedWorkedCompMngObjId = nil
+        selectedDiscThemeMngObjId = nil
+        selectedDiscSectionMngObjId = nil
+        selectedDiscCompMngObjId    = nil
+        selectedDiscKnowMngObjId    = nil
 
         classPath = []
         programPath = NavigationPath()
@@ -406,6 +490,7 @@ final class NavigationModel: ObservableObject, Codable {
         try container.encode(selectedTab, forKey: .selectedTab)
         try container.encode(selectedPrefTab, forKey: .selectedPrefTab)
         try container.encodeIfPresent(selectedWarningType, forKey: .selectedWarningType)
+        try container.encodeIfPresent(selectedCompetenceType, forKey: .selectedCompetenceType)
 
         try container.encodeIfPresent(selectedProgramId, forKey: .selectedProgramId)
         try container.encodeIfPresent(selectedSequenceId, forKey: .selectedSequenceId)
@@ -415,6 +500,12 @@ final class NavigationModel: ObservableObject, Codable {
         try container.encodeIfPresent(selectedEleveId, forKey: .selectedEleveId)
         try container.encodeIfPresent(selectedClasseId, forKey: .selectedClasseId)
         try container.encodeIfPresent(selectedSchoolId, forKey: .selectedSchoolId)
+        try container.encodeIfPresent(selectedWorkedCompChapterId, forKey: .selectedWorkedCompChapterId)
+        try container.encodeIfPresent(selectedWorkedCompId, forKey: .selectedWorkedCompId)
+        try container.encodeIfPresent(selectedDiscThemeId, forKey: .selectedDiscThemeId)
+        try container.encodeIfPresent(selectedDiscSectionId, forKey: .selectedDiscSectionId)
+        try container.encodeIfPresent(selectedDiscCompId, forKey: .selectedDiscCompId)
+        try container.encodeIfPresent(selectedDiscKnowId, forKey: .selectedDiscKnowId)
 
         try container.encode(filterObservation, forKey: .filterObservation)
         try container.encode(filterColle, forKey: .filterColle)
@@ -425,6 +516,10 @@ final class NavigationModel: ObservableObject, Codable {
 
         if let representation = programPath.codable {
             try container.encode(representation, forKey: .programPath)
+        }
+
+        if let representation = competencePath.codable {
+            try container.encode(representation, forKey: .competencePath)
         }
     }
 }

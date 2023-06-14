@@ -24,6 +24,7 @@ enum Discipline: String, PickableIdentifiableEnumP, Codable {
     case snt
     case svt
     case technologie
+    case general
     case autre
 
     var id: String {
@@ -62,6 +63,8 @@ enum Discipline: String, PickableIdentifiableEnumP, Codable {
                 return "NSI"
             case .autre:
                 return "Autre"
+            case .general:
+                return "Ens. Générale"
         }
     }
 
@@ -95,6 +98,8 @@ enum Discipline: String, PickableIdentifiableEnumP, Codable {
                 return "SVT"
             case .nsi:
                 return "NSI"
+            case .general:
+                return "GEN"
             case .autre:
                 return "Autre"
         }

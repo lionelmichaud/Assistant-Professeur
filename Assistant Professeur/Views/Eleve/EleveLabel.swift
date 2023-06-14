@@ -18,7 +18,7 @@ struct EleveLabel: View {
 
     var body: some View {
         HStack {
-            Image(systemName: "graduationcap")
+            Image(systemName: EleveEntity.defaultImageName)
                 .imageScale(imageSize)
                 .symbolRenderingMode(.monochrome)
                 .foregroundColor(eleve.sexEnum.color)

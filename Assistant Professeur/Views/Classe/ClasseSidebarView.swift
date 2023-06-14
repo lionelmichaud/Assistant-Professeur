@@ -40,14 +40,14 @@ struct ClasseSidebarView: View {
             }
             .emptyListPlaceHolder(classesSections) {
                 EmptyListMessage(
-                    symbolName: "person.3.sequence.fill",
+                    symbolName: ClasseEntity.defaultImageName,
                     title: "Aucune classe actuellement.",
                     message: "Les classes ajoutées apparaîtront ici."
                 )
             }
         }
         #if os(iOS)
-        .navigationTitle("Les Classes")
+        .navigationTitle("Mes Classes")
         #endif
     }
 }
@@ -63,7 +63,7 @@ struct ClasseSidebarSchoolSubview: View {
         ForEach(schoolSection, id: \.objectID) { classe in
             ClassBrowserRow(classe: classe)
 
-                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                     // supprimer la classe et tous ses descendants
                     Button(role: .destructive) {
                         withAnimation {

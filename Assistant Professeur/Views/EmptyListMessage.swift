@@ -50,13 +50,13 @@ struct EmptyListMessage_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             EmptyListMessage(
-                symbolName: "books.vertical",
+                symbolName: ProgramEntity.defaultImageName,
                 title: "Titre",
                 message: "Un message",
                 showAsGroupBox: false
             )
             EmptyListMessage(
-                symbolName: "books.vertical",
+                symbolName: ProgramEntity.defaultImageName,
                 title: "Titre",
                 message: "Un message",
                 showAsGroupBox: true

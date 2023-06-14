@@ -12,6 +12,11 @@ import Foundation
 extension SchoolEntity {
     // MARK: - Computed properties
 
+    /// Nom de l'image par défaut utilisée pour représenter un établissement
+    static var defaultImageName: String {
+        LevelSchool.college.imageName
+    }
+
     /// Wrapper of `level`
     /// - Important: *Saves the context to the store after modification is done*
     var levelEnum: LevelSchool {
@@ -224,7 +229,7 @@ extension SchoolEntity {
     /// Requête pour tous les établissements triées.
     ///
     /// Ordre de tri:
-    ///   1. Type d'école
+    ///   1. Niveau d'école
     ///   2. Nom de l'école
     static var requestAllSortedByLevelName: NSFetchRequest<SchoolEntity> {
         let request = SchoolEntity.fetchRequest()
@@ -263,7 +268,7 @@ extension SchoolEntity {
     /// Retourne tous les établissements triées.
     ///
     /// Ordre de tri:
-    ///   1. Type d'école
+    ///   1. Niveau d'école
     ///   2. Nom de l'école
     static func allSortedByLevelName() -> [SchoolEntity] {
         do {

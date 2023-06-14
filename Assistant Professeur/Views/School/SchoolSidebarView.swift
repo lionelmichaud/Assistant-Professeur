@@ -15,57 +15,6 @@ private let customLog = Logger(
     category: "SchoolSidebarView"
 )
 
-enum FileImportOperation {
-    case importTrombines
-    case importModel
-    case none
-
-    var allowedContentTypes: [UTType] {
-        switch self {
-            case .importTrombines: return [.jpeg]
-            case .importModel: return [.json, .pdf, .png, .jpeg]
-            case .none: return []
-        }
-    }
-}
-
-enum FileExportOperation {
-    case exportJsonModel(annexFileNames: [String])
-    case exportCsvEleveList
-    case exportCsvPrograms
-    case none
-
-    /// Liste de toutes les URL des fichiers à exporter
-    var urls: [URL] {
-        switch self {
-            case let .exportJsonModel(annexFileNames):
-                return ImportExportManager.cachesURLsToShare(
-                    fileNames: [
-                        JsonImportExportMng.ownerFileName,
-                        JsonImportExportMng.schoolsFileName,
-                        JsonImportExportMng.programsFileName
-                    ] + annexFileNames
-                )
-
-            case .exportCsvEleveList:
-                return ImportExportManager.cachesURLsToShare(
-                    fileNames: [
-                        CsvImportExportMng.csvEleveListFileName
-                    ]
-                )
-
-            case .exportCsvPrograms:
-                return ImportExportManager.cachesURLsToShare(
-                    fileNames: [
-                        CsvImportExportMng.csvProgramListFileName
-                    ]
-                )
-
-            case .none: return []
-        }
-    }
-}
-
 struct SchoolSidebarView: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
@@ -133,9 +82,8 @@ struct SchoolSidebarView: View {
                         // pour chaque Etablissement
                         ForEach(section, id: \.objectID) { school in
                             SchoolBrowserRow(school: school)
-                                .badge(school.nbOfClasses)
-
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+//                                .badge(school.nbOfClasses)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     // supprimer l'établissement et tous ses descendants
                                     Button(role: .destructive) {
                                         withAnimation {
@@ -154,17 +102,15 @@ struct SchoolSidebarView: View {
                                     if school.classesCount == 0 {
                                         Button {
                                             withAnimation {
-                                                if school.classesCount == 0 {
-                                                    school.toggleLevel()
-                                                }
+                                                school.toggleLevel()
                                             }
                                         } label: {
                                             Label(
-                                                school.levelEnum == .college ? "Lycée" : "Collège",
-                                                systemImage: school.levelEnum == .college ? "building.2" : "building"
+                                                school.levelEnum.next.displayString,
+                                                systemImage: school.levelEnum.next.imageName
                                             )
                                         }
-                                        .tint(school.levelEnum == .college ? .mint : .orange)
+                                        .tint(school.levelEnum.next.imageColor)
                                     }
                                 }
                         }
@@ -178,7 +124,7 @@ struct SchoolSidebarView: View {
             }
             .emptyListPlaceHolder(schoolsSections) {
                 EmptyListMessage(
-                    symbolName: "building",
+                    symbolName: SchoolEntity.defaultImageName,
                     title: "Aucun établissement actuellement.",
                     message: "Les établissements ajoutés apparaîtront ici."
                 )

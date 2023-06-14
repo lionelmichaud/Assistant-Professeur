@@ -14,9 +14,9 @@ struct ClassBrowserRow: View {
 
     private var regularRow: some View {
         HStack {
-            Image(systemName: "person.3.sequence.fill")
+            Image(systemName: ClasseEntity.defaultImageName)
                 .sfSymbolStyling()
-                .foregroundColor(classe.levelEnum.color)
+                .foregroundColor(classe.levelEnum.imageColor)
 
             Text(classe.displayString)
                 .fontWeight(.bold)
@@ -48,9 +48,9 @@ struct ClassBrowserRow: View {
 
     private var compactRow: some View {
         HStack {
-            Image(systemName: "person.3.sequence.fill")
+            Image(systemName: ClasseEntity.defaultImageName)
                 .sfSymbolStyling()
-                .foregroundColor(classe.levelEnum.color)
+                .foregroundColor(classe.levelEnum.imageColor)
 
             VStack(alignment: .leading, spacing: 5) {
                 HStack {

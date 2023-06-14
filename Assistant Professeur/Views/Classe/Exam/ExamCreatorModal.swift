@@ -23,7 +23,7 @@ struct ExamCreatorModal: View {
 
     private var nameView: some View {
         HStack {
-            Image(systemName: "doc.plaintext")
+            Image(systemName: DocumentEntity.defaultImageName)
                 .sfSymbolStyling()
                 .foregroundColor(.accentColor)
 
