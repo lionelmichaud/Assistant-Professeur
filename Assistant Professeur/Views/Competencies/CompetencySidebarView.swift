@@ -23,7 +23,7 @@ struct CompetencySidebarView: View {
             // Compétences du socle
             NavigationLink(value: CompetencySelection.workedCompetencies) {
                 label(CompetencySelection.workedCompetencies)
-                    .badge(cardinal(CompetencySelection.workedCompetencies))
+                    .badge(WCompChapterEntity.cardinal())
             }
 
             // Compétences disciplinaires
@@ -81,18 +81,6 @@ struct CompetencySidebarView: View {
                 Image(systemName: WCompEntity.defaultImageName)
             }
         )
-    }
-
-    private func cardinal(_ type: CompetencySelection) -> Int {
-        switch type {
-            case .workedCompetencies:
-                return WCompChapterEntity.cardinal()
-
-            case .disciplineCompetencies:
-                return 1
-                // TODO: - Implémener cadrdinal de DThemeEntity
-                // return DThemeEntity.cardinal()
-        }
     }
 }
 

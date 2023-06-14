@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		79012C6C2A39EA8700BF0772 /* CsvImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C6B2A39EA8600BF0772 /* CsvImport.swift */; };
+		79012C6E2A39EB7300BF0772 /* CsvExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C6D2A39EB7300BF0772 /* CsvExport.swift */; };
+		79012C712A39F7A000BF0772 /* JsonImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C702A39F7A000BF0772 /* JsonImport.swift */; };
+		79012C732A39F84B00BF0772 /* JsonExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C722A39F84B00BF0772 /* JsonExport.swift */; };
 		790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */; };
 		790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */; };
 		790F76A229818858000A5C7D /* DurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F76A129818858000A5C7D /* DurationView.swift */; };
@@ -359,6 +363,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		79012C6B2A39EA8600BF0772 /* CsvImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvImport.swift; sourceTree = "<group>"; };
+		79012C6D2A39EB7300BF0772 /* CsvExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvExport.swift; sourceTree = "<group>"; };
+		79012C702A39F7A000BF0772 /* JsonImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonImport.swift; sourceTree = "<group>"; };
+		79012C722A39F84B00BF0772 /* JsonExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonExport.swift; sourceTree = "<group>"; };
 		790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAgenda.swift; sourceTree = "<group>"; };
 		790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceCreatorModal.swift; sourceTree = "<group>"; };
 		790F76A129818858000A5C7D /* DurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationView.swift; sourceTree = "<group>"; };
@@ -693,6 +701,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		79012C6A2A39EA3300BF0772 /* CsvImportExportMng */ = {
+			isa = PBXGroup;
+			children = (
+				79BA2D49299C00CD006325CC /* CsvImportExportMng.swift */,
+				79012C6B2A39EA8600BF0772 /* CsvImport.swift */,
+				79012C6D2A39EB7300BF0772 /* CsvExport.swift */,
+			);
+			path = CsvImportExportMng;
+			sourceTree = "<group>";
+		};
+		79012C6F2A39F76D00BF0772 /* JsonImportExportMng */ = {
+			isa = PBXGroup;
+			children = (
+				79BA2D47299C0084006325CC /* JsonImportExportMng.swift */,
+				79012C702A39F7A000BF0772 /* JsonImport.swift */,
+				79012C722A39F84B00BF0772 /* JsonExport.swift */,
+			);
+			path = JsonImportExportMng;
+			sourceTree = "<group>";
+		};
 		7901B2E22A16C1FB00C55108 /* Events */ = {
 			isa = PBXGroup;
 			children = (
@@ -1557,8 +1585,8 @@
 				79F7708C2A2B7F89004E9089 /* NavigationModel+Extensions.swift */,
 				798B825F296CAC84004A24A8 /* ImportExportManager.swift */,
 				79BA2D4B299C0287006325CC /* ImageImportExportMng.swift */,
-				79BA2D49299C00CD006325CC /* CsvImportExportMng.swift */,
-				79BA2D47299C0084006325CC /* JsonImportExportMng.swift */,
+				79012C6F2A39F76D00BF0772 /* JsonImportExportMng */,
+				79012C6A2A39EA3300BF0772 /* CsvImportExportMng */,
 				799EFBA32A2CFC66008E9775 /* FileOperationTypes.swift */,
 			);
 			path = Persistence;
@@ -1949,6 +1977,7 @@
 				795CB1952958F668006EF060 /* Motif.swift in Sources */,
 				795415A82A129BBF00B86746 /* EventManager.swift in Sources */,
 				79F41E662954B1DC00EAAC52 /* Sexe.swift in Sources */,
+				79012C732A39F84B00BF0772 /* JsonExport.swift in Sources */,
 				79E524BE295376EA00DA99A7 /* EventEditor.swift in Sources */,
 				79BF1DB62929105D005D6CF3 /* Event+Extensions.swift in Sources */,
 				79FD21A82A34DAB300A8D925 /* DCompBrowserView.swift in Sources */,
@@ -1968,7 +1997,9 @@
 				79F8773229F425A300AB38C3 /* DigitalClockView.swift in Sources */,
 				79FC04E5298DCC240093BC8B /* IndividualSteppedlMarkModal.swift in Sources */,
 				79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */,
+				79012C6E2A39EB7300BF0772 /* CsvExport.swift in Sources */,
 				79FD21992A339A7700A8D925 /* DSectionEditorModal.swift in Sources */,
+				79012C6C2A39EA8700BF0772 /* CsvImport.swift in Sources */,
 				7921355A2978726E0036A5EA /* Sequence+Extensions.swift in Sources */,
 				7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */,
 				7921355D2978728A0036A5EA /* Activity+Extensions.swift in Sources */,
@@ -2053,6 +2084,7 @@
 				79BF1DA229280ED7005D6CF3 /* School+Extensions.swift in Sources */,
 				791802A42A365A5E001588B2 /* DKnowledgeEntity+CoreDataClass.swift in Sources */,
 				79DEDAF82925870500F508EF /* ColleSidebarView.swift in Sources */,
+				79012C712A39F7A000BF0772 /* JsonImport.swift in Sources */,
 				79DEDB272925996E00F508EF /* Interoperability.swift in Sources */,
 				79637205297D85EF00ECDBC3 /* SequenceBrowserRow.swift in Sources */,
 				799EFBA42A2CFC66008E9775 /* FileOperationTypes.swift in Sources */,

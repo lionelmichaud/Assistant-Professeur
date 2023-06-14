@@ -229,7 +229,7 @@ extension DThemeEntity {
     ///   1. Discipline
     ///   2. Cycle
     ///   3. Titre du thème
-    static func allSortedbyCycleTitle() -> [DThemeEntity] {
+    static func allSortedbyDiscCycleTitle() -> [DThemeEntity] {
         do {
             return try DThemeEntity
                 .context
