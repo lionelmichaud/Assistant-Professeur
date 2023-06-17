@@ -78,10 +78,12 @@ struct DSectionListView: View {
                     showAsGroupBox: true
                 )
             }
-            .onChange(of: nav.selectedDiscSectionMngObjId) { _ in
-                nav.selectedDiscCompMngObjId = nil
-                nav.selectedDiscKnowMngObjId = nil
-            }
+        }
+        .onChange(of: nav.selectedDiscSectionMngObjId) { _ in
+            // si on change de section
+            // => on reset les compétence et connaissance sélectionnées
+            nav.selectedDiscCompMngObjId = nil
+            nav.selectedDiscKnowMngObjId = nil
         }
         #if os(iOS)
         .navigationTitle("Sections")

@@ -101,6 +101,27 @@ extension DCompEntity {
         return allKnowledges.sorted(using: sortComparators)
     }
 
+    /// Liste des Compétences Travaillées non triées
+    var allWorkedCompetencies: [WCompEntity] {
+        if let workedCompetencies {
+            return (workedCompetencies.allObjects as! [WCompEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Liste des Compétences Travaillées triées par numéro
+    var workedCompSortedByNumber: [WCompEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(
+                \WCompEntity.number,
+                 order: .forward
+            )
+        ]
+        return allWorkedCompetencies.sorted(using: sortComparators)
+    }
+
     // MARK: - Type Methods
 
     static func allSortedByAcronym() -> [DCompEntity] {

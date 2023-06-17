@@ -75,11 +75,6 @@ struct DThemeListView: View {
                                 showAsGroupBox: true
                             )
                         }
-                        .onChange(of: nav.selectedDiscThemeMngObjId) { _ in
-                            nav.selectedDiscSectionMngObjId = nil
-                            nav.selectedDiscCompMngObjId = nil
-                            nav.selectedDiscKnowMngObjId = nil
-                        }
                     } header: {
                         Text("\(cycleThemes.id)")
                             .font(.body)
@@ -95,6 +90,13 @@ struct DThemeListView: View {
                     )
                 }
             }
+        }
+        .onChange(of: nav.selectedDiscThemeMngObjId) { _ in
+            // si on change de thème
+            // => on reset les section, compétence et connaissance sélectionnées
+            nav.selectedDiscSectionMngObjId = nil
+            nav.selectedDiscCompMngObjId = nil
+            nav.selectedDiscKnowMngObjId = nil
         }
         #if os(iOS)
         .navigationTitle("Thèmes")

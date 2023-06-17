@@ -74,9 +74,11 @@ struct DCompListView: View {
                     showAsGroupBox: false
                 )
             }
-            .onChange(of: nav.selectedDiscCompMngObjId) { _ in
-                nav.selectedDiscKnowMngObjId = nil
-            }
+        }
+        .onChange(of: nav.selectedDiscCompMngObjId) { _ in
+            // si on change de compétence
+            // => on reset la connaissance sélectionnée
+            nav.selectedDiscKnowMngObjId = nil
         }
         #if os(iOS)
         .navigationTitle("Compétences")

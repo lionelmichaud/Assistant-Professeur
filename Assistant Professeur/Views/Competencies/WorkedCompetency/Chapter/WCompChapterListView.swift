@@ -33,7 +33,7 @@ struct WCompChapterListView: View {
                     Section {
                         // pour chaque Chapitre
                         ForEach(cycleChapters, id: \.objectID) { workedChapter in
-                            //                            NavigationLink(value: program.objectID) {
+                            // NavigationLink(value: program.objectID) {
                             WCompChapterBrowserRow(chapter: workedChapter)
                                 .badge(workedChapter.nbOfWorkedCompetencies)
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
