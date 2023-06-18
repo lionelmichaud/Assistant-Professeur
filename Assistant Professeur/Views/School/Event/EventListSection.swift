@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// Vue de la liste des événements de l'établissement
-struct EventList: View {
+struct EventListSection: View {
     @ObservedObject
     var school: SchoolEntity
 
@@ -64,7 +64,7 @@ struct EventList_Previews: PreviewProvider {
         initialize()
         return Group {
             List {
-                EventList(school: SchoolEntity.all().first!)
+                EventListSection(school: SchoolEntity.all().first!)
             }
             .padding()
             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
@@ -72,7 +72,7 @@ struct EventList_Previews: PreviewProvider {
             .previewDevice("iPad mini (6th generation)")
 
             List {
-                EventList(school: SchoolEntity.all().first!)
+                EventListSection(school: SchoolEntity.all().first!)
             }
             .padding()
             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))

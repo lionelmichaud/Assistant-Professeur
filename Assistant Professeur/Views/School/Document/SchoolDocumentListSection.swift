@@ -17,7 +17,7 @@ private let customLog = Logger(
 )
 
 /// Vue de la liste des documents importants de l'établissement
-struct SchoolDocumentList: View {
+struct SchoolDocumentListSection: View {
     @ObservedObject
     var school: SchoolEntity
 
@@ -146,7 +146,7 @@ struct DocumentList_Previews: PreviewProvider {
         initialize()
         return Group {
             List {
-                SchoolDocumentList(school: SchoolEntity.all().first!)
+                SchoolDocumentListSection(school: SchoolEntity.all().first!)
             }
             .padding()
             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
@@ -154,7 +154,7 @@ struct DocumentList_Previews: PreviewProvider {
             .previewDevice("iPad mini (6th generation)")
 
             List {
-                SchoolDocumentList(school: SchoolEntity.all().first!)
+                SchoolDocumentListSection(school: SchoolEntity.all().first!)
             }
             .padding()
             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))

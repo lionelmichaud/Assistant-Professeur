@@ -14,7 +14,7 @@ extension DCompEntity {
     /// Nom de l'image par défaut utilisée pour représenter
     /// une section de compétences disciplinaires
     static var defaultImageName: String {
-        "brain.head.profile"
+        "gearshape.2"
     }
 
     /// Wrapper of `number`
@@ -60,24 +60,6 @@ extension DCompEntity {
 extension DCompEntity {
     // MARK: - Type Computed Properties
 
-    static var byAcronymNSSortDescriptor: [NSSortDescriptor] =
-        [
-            NSSortDescriptor(
-                keyPath: \DCompEntity.viewAcronym,
-                ascending: true
-            )
-        ]
-
-    /// Requête pour toutes les sections de compétences triées.
-    ///
-    /// Ordre de tri:
-    ///   1. Acronym
-    static var requestAllSortedByAcronym: NSFetchRequest<DCompEntity> {
-        let request = DCompEntity.fetchRequest()
-        request.sortDescriptors = Self.byAcronymNSSortDescriptor
-        return request
-    }
-
     // MARK: - Computed properties
 
     /// Liste des Connaissances Disciplinaires de la compétence, non triées
@@ -110,12 +92,12 @@ extension DCompEntity {
         }
     }
 
-    /// Liste des Compétences Travaillées triées par numéro
-    var workedCompSortedByNumber: [WCompEntity] {
+    /// Liste des Compétences Travaillées triées par Acronym
+    var workedCompSortedByAcronym: [WCompEntity] {
         let sortComparators =
         [
             SortDescriptor(
-                \WCompEntity.number,
+                \WCompEntity.viewAcronym,
                  order: .forward
             )
         ]
@@ -125,13 +107,7 @@ extension DCompEntity {
     // MARK: - Type Methods
 
     static func allSortedByAcronym() -> [DCompEntity] {
-        do {
-            return try DCompEntity
-                .context
-                .fetch(DCompEntity.requestAllSortedByAcronym)
-        } catch {
-            return []
-        }
+        all().sorted(by: \.viewAcronym)
     }
 
     /// Créer une nouvelle instance et la sauvegarder dans le context

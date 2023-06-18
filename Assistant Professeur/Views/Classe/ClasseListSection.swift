@@ -1,5 +1,5 @@
 //
-//  ClassList.swift
+//  ClasseListSection.swift
 //  Cahier du Professeur
 //
 //  Created by Lionel MICHAUD on 31/10/2022.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ClassList: View {
+struct ClasseListSection: View {
     @ObservedObject
     var school: SchoolEntity
 
@@ -31,7 +31,7 @@ struct ClassList: View {
 
             // édition de la liste des classes
             ForEach(school.classesSortedByLevelNumber) { classe in
-                ClassBrowserRow(classe: classe)
+                ClasseBrowserRow(classe: classe)
 
                     .onTapGesture {
                         // Programatic Navigation
@@ -83,7 +83,7 @@ struct ClassList: View {
         // Modal: ajout d'une nouvelle classe
         .sheet(isPresented: $isAddingNewClasse) {
             NavigationStack {
-                ClassCreatorModal(inSchool: school)
+                ClasseCreatorModal(inSchool: school)
                     .presentationDetents([.medium])
             }
         }
@@ -99,7 +99,7 @@ struct ClassList: View {
          initialize()
          return Group {
              List {
-                 ClassList(school: SchoolEntity.all().first!)
+                 ClasseListSection(school: SchoolEntity.all().first!)
              }
              .padding()
              .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
@@ -107,7 +107,7 @@ struct ClassList: View {
              .previewDevice("iPad mini (6th generation)")
 
              List {
-                 ClassList(school: SchoolEntity.all().first!)
+                 ClasseListSection(school: SchoolEntity.all().first!)
              }
              .padding()
              .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))

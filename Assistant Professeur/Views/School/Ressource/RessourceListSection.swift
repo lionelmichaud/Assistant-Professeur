@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-/// Vue de la liste des ressources de l'établissement
-struct RessourceList: View {
+/// Vue de la liste des ressources de l'établissement  
+struct RessourceListSection: View {
     @ObservedObject
     var school: SchoolEntity
 
@@ -61,7 +61,7 @@ struct RessourceList_Previews: PreviewProvider {
         initialize()
         return Group {
             List {
-                RessourceList(school: SchoolEntity.all().first!)
+                RessourceListSection(school: SchoolEntity.all().first!)
             }
             .padding()
             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
@@ -69,7 +69,7 @@ struct RessourceList_Previews: PreviewProvider {
             .previewDevice("iPad mini (6th generation)")
             
             List {
-                RessourceList(school: SchoolEntity.all().first!)
+                RessourceListSection(school: SchoolEntity.all().first!)
             }
             .padding()
             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))

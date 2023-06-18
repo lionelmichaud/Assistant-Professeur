@@ -13,7 +13,7 @@ extension WCompEntity {
 
     /// Nom de l'image par défaut utilisée pour représenter une compétence travaillée
     static var defaultImageName: String {
-        "brain.head.profile"
+        "gearshape.2"
     }
 
     /// Wrapper of `number`
@@ -29,7 +29,7 @@ extension WCompEntity {
         }
     }
 
-    @objc
+    @objc(viewAcronym)
     var viewAcronym: String {
         (self.chapter?.viewAcronym ?? "??") + "." + String(self.viewNumber)
     }
@@ -48,6 +48,7 @@ extension WCompEntity {
     }
 
     /// Nombre de Compétences Disciplinaires associées
+    @objc
     var nbOfDisciplineCompetencies: Int {
         Int(disCompCount)
     }
@@ -57,24 +58,6 @@ extension WCompEntity {
 
 extension WCompEntity {
     // MARK: - Type Computed Properties
-
-    static var byAcronymNSSortDescriptor: [NSSortDescriptor] =
-        [
-            NSSortDescriptor(
-                keyPath: \WCompEntity.viewAcronym,
-                ascending: true
-            )
-        ]
-
-    /// Requête pour toutes les compétences triées.
-    ///
-    /// Ordre de tri:
-    ///   1. Acronym
-    static var requestAllSortedByAcronym: NSFetchRequest<WCompEntity> {
-        let request = WCompEntity.fetchRequest()
-        request.sortDescriptors = Self.byAcronymNSSortDescriptor
-        return request
-    }
 
     // MARK: - Computed properties
 
@@ -87,12 +70,12 @@ extension WCompEntity {
         }
     }
 
-    /// Liste des Compétences Disciplinaires triées par numéro
-    var disciplineCompSortedByNumber: [DCompEntity] {
+    /// Liste des Compétences Disciplinaires triées par Acronym
+    var disciplineCompSortedByAcronym: [DCompEntity] {
         let sortComparators =
             [
                 SortDescriptor(
-                    \DCompEntity.number,
+                    \DCompEntity.viewAcronym,
                     order: .forward
                 )
             ]
@@ -108,13 +91,7 @@ extension WCompEntity {
     // MARK: - Type Methods
 
     static func allSortedbyAcronym() -> [WCompEntity] {
-        do {
-            return try WCompEntity
-                .context
-                .fetch(WCompEntity.requestAllSortedByAcronym)
-        } catch {
-            return []
-        }
+        all().sorted(by: \.viewAcronym)
     }
 
     /// Créer une nouvelle instance et la sauvegarder dans le context

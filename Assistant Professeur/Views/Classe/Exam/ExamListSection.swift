@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ExamListView: View {
+struct ExamListSection: View {
     @ObservedObject
     var classe: ClasseEntity
 
@@ -18,7 +18,7 @@ struct ExamListView: View {
     private var isAddingNewExam = false
 
     var body: some View {
-        Group {
+        Section {
             // ajouter une évaluation
             Button {
                 isAddingNewExam = true
@@ -40,6 +40,11 @@ struct ExamListView: View {
                 }
             }
             .onDelete(perform: deleteItems)
+        } header: {
+            Text("Evaluations (\(classe.nbOfExams))")
+                .font(.callout)
+                .foregroundColor(.secondary)
+                .fontWeight(.bold)
         }
     }
 

@@ -14,7 +14,7 @@ extension DKnowledgeEntity {
     /// Nom de l'image par défaut utilisée pour représenter
     /// une section de compétences disciplinaires
     static var defaultImageName: String {
-        "text.bubble"
+        "brain.head.profile"
     }
 
     /// Wrapper of `number`

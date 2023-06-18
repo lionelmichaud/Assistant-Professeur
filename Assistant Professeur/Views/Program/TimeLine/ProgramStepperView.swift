@@ -76,7 +76,7 @@ extension ProgramStepperView {
                             .foregroundColor(.teal)
                             .textSelection(.enabled)
                         ForEach(classes) { classe in
-                            ClassCapsule(classe: classe)
+                            ClasseCapsule(classe: classe)
                         }
                     }
                     Text(sequence.viewAnnotation)

@@ -43,28 +43,31 @@ struct WCompListView: View {
                     ForEach(
                         selectedChapter!.allWorkedCompetenciesSortedByNumber
                     ) { competency in
-                        WCompBrowserRow(workedComp: competency)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                // supprimer la compétence
-                                Button(role: .destructive) {
-                                    withAnimation {
-                                        if nav.selectedWorkedCompMngObjId == competency.objectID {
-                                            nav.selectedWorkedCompMngObjId = nil
-                                        }
-                                        try? competency.delete()
+                        WCompBrowserRow(
+                            workedComp: competency,
+                            showDisciplineCompetencies: true
+                        )
+                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                            // supprimer la compétence
+                            Button(role: .destructive) {
+                                withAnimation {
+                                    if nav.selectedWorkedCompMngObjId == competency.objectID {
+                                        nav.selectedWorkedCompMngObjId = nil
                                     }
-                                } label: {
-                                    Label("Supprimer", systemImage: "trash")
+                                    try? competency.delete()
                                 }
+                            } label: {
+                                Label("Supprimer", systemImage: "trash")
                             }
-                            .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                                // modifier la compétence
-                                Button {
-                                    editedWorkedCompetency = competency
-                                } label: {
-                                    Label("Modifier", systemImage: "pencil")
-                                }
+                        }
+                        .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                            // modifier la compétence
+                            Button {
+                                editedWorkedCompetency = competency
+                            } label: {
+                                Label("Modifier", systemImage: "pencil")
                             }
+                        }
                     }
                     .emptyListPlaceHolder(selectedChapter!.allWorkedCompetenciesSortedByNumber) {
                         EmptyListMessage(
@@ -98,6 +101,7 @@ struct WCompListView: View {
                 let competency = WCompEntity()
                 WCompEditorModal(
                     competency: competency,
+                    nextNumber: (selectedChapter?.nbOfWorkedCompetencies ?? 0) + 1,
                     inChapter: selectedChapter!,
                     isEditing: false
                 )

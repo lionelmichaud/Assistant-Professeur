@@ -39,7 +39,7 @@ struct DCompListView: View {
                 section.allCompetenciesSortedByNumber,
                 id: \.objectID
             ) { competency in
-                DCompBrowserView(
+                DCompBrowserRow(
                     competency: competency,
                     showIcon: true
                 )

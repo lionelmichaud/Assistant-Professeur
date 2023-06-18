@@ -9,7 +9,7 @@ import SwiftUI
 import HelpersView
 
 /// Vue de la liste des salles de classe de l'établissement
-struct RoomList: View {
+struct RoomListSection: View {
     @ObservedObject
     var school: SchoolEntity
 

@@ -11,14 +11,26 @@ struct WCompBrowserRow: View {
     @ObservedObject
     var workedComp: WCompEntity
 
+    var showDisciplineCompetencies: Bool = false
+
     var body: some View {
         Label(
             title: {
                 Text(workedComp.viewAcronym)
                     .fontWeight(.bold)
-                Text(workedComp.viewDescription)
-                    .foregroundColor(.secondary)
-                    .lineLimit(4)
+                VStack(alignment: .leading) {
+                    Text(workedComp.viewDescription)
+                        .foregroundColor(.secondary)
+                        .lineLimit(4)
+                        .textSelection(.enabled)
+                    if showDisciplineCompetencies {
+                        HStack {
+                            ForEach(workedComp.disciplineCompSortedByAcronym) { dComp in
+                                Text(dComp.viewAcronym)
+                            }
+                        }
+                    }
+                }
             },
             icon: {
                 Image(systemName: WCompEntity.defaultImageName)

@@ -12,6 +12,9 @@ struct WCompEditorModal: View {
     @ObservedObject
     var competency: WCompEntity
 
+    /// utilisé seulement si `isEditing`= false
+    var nextNumber: Int = 1
+
     var inChapter: WCompChapterEntity
 
     var isEditing: Bool
@@ -62,6 +65,8 @@ struct WCompEditorModal: View {
             focus = .number
             if isEditing {
                 workedCompVM.update(from: competency)
+            } else {
+                workedCompVM.number = nextNumber
             }
         }
         .alert(

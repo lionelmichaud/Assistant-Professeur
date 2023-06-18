@@ -1,24 +1,24 @@
 //
-//  DKnowledgeBrowserView.swift
+//  DCompBrowserView.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 12/06/2023.
+//  Created by Lionel MICHAUD on 10/06/2023.
 //
 
 import SwiftUI
 
-struct DKnowBrowserView: View {
+struct DCompBrowserRow: View {
     @ObservedObject
-    var knowledge: DKnowledgeEntity
+    var competency: DCompEntity
 
     var showIcon: Bool
 
     var description: some View {
         Group {
-            Text(knowledge.viewAcronym)
+            Text(competency.viewAcronym)
                 .fontWeight(.bold) +
             Text(". ") +
-            Text(knowledge.viewDescription)
+            Text(competency.viewDescription)
                 .foregroundColor(.secondary)
         }
         .lineLimit(5)
@@ -34,7 +34,7 @@ struct DKnowBrowserView: View {
                     }
                 },
                 icon: {
-                    Image(systemName: DKnowledgeEntity.defaultImageName)
+                    Image(systemName: DCompEntity.defaultImageName)
                 }
             )
         } else {
@@ -43,8 +43,8 @@ struct DKnowBrowserView: View {
     }
 }
 
-//struct DKnowledgeBrowserView_Previews: PreviewProvider {
+// struct DCompBrowserView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        DKnowledgeBrowserView()
+//        DCompBrowserView()
 //    }
-//}
+// }

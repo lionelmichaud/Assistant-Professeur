@@ -17,7 +17,7 @@ private let customLog = Logger(
 @objc(DCompEntity)
 public final class DCompEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
-        case id, number, descrip, knowledges, workedCompetencies
+        case id, number, descrip, knowledges, wCompIDs
     }
 
     public required convenience init(from decoder: Decoder) throws {
@@ -27,6 +27,22 @@ public final class DCompEntity: NSManagedObject, Codable, ModelEntityP {
         self.id = try container.decode(UUID.self, forKey: .id)
         self.number = try container.decode(Int16.self, forKey: .number)
         self.descrip = try container.decode(String.self, forKey: .descrip)
+
+        // Les WCompChapter doivent être chargés AVANT les DTheme pour que les DCompEntity puissent
+        // établir la connection avec les WCompEntity. Voir WCompEntity.init(from decoder: Decoder)
+        if let wCompSetIds = try container.decodeIfPresent([UUID?].self, forKey: .wCompIDs) {
+            wCompSetIds.forEach { wCompId in
+                if let wCompId,
+                   let wComp = WCompEntity.byId(id: wCompId) {
+                    self.workedCompetencies?.adding(wComp)
+                } else {
+                    customLog.log(
+                        level: .error,
+                        "Erreur: Compétence travaillée associée à la Compétence disciplianire \(String(describing: self)) introuvable!"
+                    )
+                }
+            }
+        }
 
         self.knowledges = try container.decode(
             Set<DKnowledgeEntity>.self,
@@ -40,8 +56,12 @@ public final class DCompEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(number, forKey: .number)
         try container.encode(descrip, forKey: .descrip)
 
-        try container.encode(
-            knowledges as! Set<DKnowledgeEntity>,
+        let wCompSet = workedCompetencies as? Set<WCompEntity>
+        let wCompSetIds = wCompSet?.map { $0.id }
+        try container.encodeIfPresent(wCompSetIds, forKey: .wCompIDs)
+
+        try container.encodeIfPresent(
+            knowledges as? Set<DKnowledgeEntity>,
             forKey: .knowledges
         )
     }

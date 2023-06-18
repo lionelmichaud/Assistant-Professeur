@@ -9,86 +9,12 @@ import AppFoundation
 import HelpersView
 import SwiftUI
 
-enum ClasseNavigationRoute: Hashable, Codable {
-    case infos(ClasseEntity)
-    case room(ClasseEntity)
-    case liste(ClasseEntity)
-    case trombinoscope(ClasseEntity)
-    case groups(ClasseEntity)
-    case exam(ClasseEntity, ExamEntity)
-    case activity(ClasseEntity)
-    case progress(ClasseEntity)
-
-    static func == (lhs: ClasseNavigationRoute, rhs: ClasseNavigationRoute) -> Bool {
-        switch (lhs, rhs) {
-            case let (.infos(classel), .infos(classer)):
-                return (classel.id == classer.id)
-
-            case let (.room(classel), .room(classer)):
-                return (classel.id == classer.id)
-
-            case let (.liste(classel), .liste(classer)):
-                return classel.id == classer.id
-
-            case let (.trombinoscope(classel), .trombinoscope(classer)):
-                return classel.id == classer.id
-
-            case let (.groups(classel), .groups(classer)):
-                return classel.id == classer.id
-
-            case let (.exam(classel, examl), .exam(classer, examr)):
-                return (classel.id == classer.id) &&
-                    (examl == examr)
-
-            case let (.activity(classel), .activity(classer)):
-                return classel.id == classer.id
-
-            case let (.progress(classel), .progress(classer)):
-                return classel.id == classer.id
-
-            default: return false
-        }
-    }
-
-    func hash(into hasher: inout Hasher) {
-        switch self {
-            case let .infos(classe):
-                hasher.combine("infos")
-                hasher.combine(classe.id)
-            case let .room(classe):
-                hasher.combine("room")
-                hasher.combine(classe.id)
-            case let .liste(classe):
-                hasher.combine("liste")
-                hasher.combine(classe.id)
-            case let .trombinoscope(classe):
-                hasher.combine("trombinoscope")
-                hasher.combine(classe.id)
-            case let .groups(classe):
-                hasher.combine("groups")
-                hasher.combine(classe.id)
-            case let .exam(classe, exam):
-                hasher.combine(classe.id)
-                hasher.combine(exam.id)
-            case let .activity(classe):
-                hasher.combine("activity")
-                hasher.combine(classe.id)
-            case let .progress(classe):
-                hasher.combine("progress")
-                hasher.combine(classe.id)
-        }
-    }
-}
-
 struct ClasseDetail: View {
     @ObservedObject
     var classe: ClasseEntity
 
     @Environment(\.managedObjectContext)
     private var managedObjectContext
-
-    @Environment(\.horizontalSizeClass)
-    private var hClass
 
     @EnvironmentObject
     private var pref: UserPreferences
@@ -124,52 +50,19 @@ struct ClasseDetail: View {
             ClasseNameGroupBox(classe: classe)
 
             List {
-                infosView
+                NavigationLink(value: ClasseNavigationRoute.infos(classe)) {
+                    Label("Informations", systemImage: "info.circle")
+                        .fontWeight(.bold)
+                }
 
                 // Section élèves
-                Section {
-                    // édition de la liste des élèves
-                    elevesListView
-
-                    // trombinoscope
-                    if pref.eleve.trombineEnabled {
-                        trombinoscopeView
-                    }
-
-                    // gestion des groupes
-                    groupsView
-                } header: {
-                    Text("Elèves (\(classe.nbOfEleves))")
-                        .font(.callout)
-                        .foregroundColor(.secondary)
-                        .fontWeight(.bold)
-                }
+                EleveListSection(classe: classe)
 
                 // Section progression
-                if let progresses = classe.progresses, progresses.count != 0 {
-                    Section {
-                        // Activité actuelle
-                        currentActivityView
-
-                        // Progression glogale
-                        progressView
-                    } header: {
-                        Text("Progession")
-                            .font(.callout)
-                            .foregroundColor(.secondary)
-                            .fontWeight(.bold)
-                    }
-                }
+                ClasseProgressSection(classe: classe)
 
                 // Section évaluations
-                Section {
-                    ExamListView(classe: classe)
-                } header: {
-                    Text("Evaluations (\(classe.nbOfExams))")
-                        .font(.callout)
-                        .foregroundColor(.secondary)
-                        .fontWeight(.bold)
-                }
+                ExamListSection(classe: classe)
             }
         }
         .toolbar(content: myToolBarContent)
@@ -288,69 +181,6 @@ extension ClasseDetail {
                         Text("Cette action ne peut pas être annulée.")
                 }
             }
-        }
-    }
-}
-
-// MARK: - Subviews
-
-extension ClasseDetail {
-    private var infosView: some View {
-        NavigationLink(value: ClasseNavigationRoute.infos(classe)) {
-            Label("Informations", systemImage: "info.circle")
-                .fontWeight(.bold)
-        }
-    }
-
-    private var currentActivityView: some View {
-        NavigationLink(value: ClasseNavigationRoute.activity(classe)) {
-            HStack {
-                Label(hClass == .compact ? "Activité" : "Activité en cours", systemImage: "book.fill")
-                    .fontWeight(.bold)
-                if let activity = classe.currentActivity,
-                   let sequence = activity.sequence {
-                    let currentActivityProgress =
-                        classe
-                            .sortedProgressesInSequence(sequence)
-                            .first(where: { $0.activity == activity })
-                    Spacer()
-                    if hClass == .compact {
-                        Text("Seq \(sequence.viewNumber) - Act \(activity.viewNumber) (\(currentActivityProgress!.progress, format: .percent))")
-                            .foregroundColor(.secondary)
-                    } else {
-                        Text("Séquence \(sequence.viewNumber) - Activité \(activity.viewNumber) (\(currentActivityProgress!.progress, format: .percent))")
-                            .foregroundColor(.secondary)
-                    }
-                }
-            }
-        }
-    }
-
-    private var progressView: some View {
-        NavigationLink(value: ClasseNavigationRoute.progress(classe)) {
-            Label("Progression", systemImage: ProgramEntity.defaultImageName)
-                .fontWeight(.bold)
-        }
-    }
-
-    private var elevesListView: some View {
-        NavigationLink(value: ClasseNavigationRoute.liste(classe)) {
-            Label("Liste d'appel", systemImage: "list.bullet")
-                .fontWeight(.bold)
-        }
-    }
-
-    private var trombinoscopeView: some View {
-        NavigationLink(value: ClasseNavigationRoute.trombinoscope(classe)) {
-            Label("Trombinoscope", systemImage: "person.crop.square.fill")
-                .fontWeight(.bold)
-        }
-    }
-
-    private var groupsView: some View {
-        NavigationLink(value: ClasseNavigationRoute.groups(classe)) {
-            Label("Groupes", systemImage: "person.line.dotted.person.fill")
-                .fontWeight(.bold)
         }
     }
 }

@@ -76,7 +76,7 @@ extension SequenceStepperView {
                             .textSelection(.enabled)
                         ForEach(classes) { classe in
                             if classe.currentActivity == activity {
-                                ClassCapsule(classe: classe)
+                                ClasseCapsule(classe: classe)
                             }
                         }
                     }

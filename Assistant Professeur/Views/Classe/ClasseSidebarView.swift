@@ -61,7 +61,7 @@ struct ClasseSidebarSchoolSubview: View {
     var body: some View {
         // pour chaque Classe
         ForEach(schoolSection, id: \.objectID) { classe in
-            ClassBrowserRow(classe: classe)
+            ClasseBrowserRow(classe: classe)
 
                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                     // supprimer la classe et tous ses descendants

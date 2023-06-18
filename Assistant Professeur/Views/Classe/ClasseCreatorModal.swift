@@ -8,7 +8,7 @@
 import HelpersView
 import SwiftUI
 
-struct ClassCreatorModal: View {
+struct ClasseCreatorModal: View {
     let inSchool: SchoolEntity
 
     @Environment(\.dismiss)
@@ -133,7 +133,7 @@ struct ClassCreatorModal: View {
 
 // MARK: - Subviews
 
-extension ClassCreatorModal {
+extension ClasseCreatorModal {
     var niveauView: some View {
         HStack {
             // niveau de cette classe
@@ -204,12 +204,12 @@ struct ClassCreator_Previews: PreviewProvider {
         return Group {
             NavigationStack {
                 EmptyView()
-                ClassCreatorModal(inSchool: SchoolEntity.all().first!)
+                ClasseCreatorModal(inSchool: SchoolEntity.all().first!)
             }
             .previewDevice("iPad mini (6th generation)")
             NavigationStack {
                 EmptyView()
-                ClassCreatorModal(inSchool: SchoolEntity.all().first!)
+                ClasseCreatorModal(inSchool: SchoolEntity.all().first!)
             }
             .previewDevice("iPhone 13)")
         }

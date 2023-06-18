@@ -8,7 +8,7 @@
 import HelpersView
 import SwiftUI
 
-struct ClassBrowserRow: View {
+struct ClasseBrowserRow: View {
     @ObservedObject
     var classe: ClasseEntity
 
@@ -96,7 +96,7 @@ struct ClassRow_Previews: PreviewProvider {
         initialize()
         return Group {
             List {
-                ClassBrowserRow(classe: ClasseEntity.all().first!)
+                ClasseBrowserRow(classe: ClasseEntity.all().first!)
             }
             .padding()
             .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
@@ -104,7 +104,7 @@ struct ClassRow_Previews: PreviewProvider {
             .previewDevice("iPad mini (6th generation)")
 
             List {
-                ClassBrowserRow(classe: ClasseEntity.all().first!)
+                ClasseBrowserRow(classe: ClasseEntity.all().first!)
             }
             .padding()
             .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))

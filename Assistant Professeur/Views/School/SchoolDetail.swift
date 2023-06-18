@@ -53,20 +53,20 @@ struct SchoolDetail: View {
                         .fontWeight(.bold)
                     }
 
-                // édition de la liste des classes
-                ClassList(school: school)
+                // Section liste des classes
+                ClasseListSection(school: school)
 
-                // édition de la liste des événements
-                EventList(school: school)
+                // Section liste des événements
+                EventListSection(school: school)
 
-                // édition de la liste des documents utiles
-                SchoolDocumentList(school: school)
+                // Section liste des documents utiles
+                SchoolDocumentListSection(school: school)
 
-                // édition de la liste des salles de classe
-                RoomList(school: school)
+                // Section liste des salles de classe
+                RoomListSection(school: school)
 
-                // édition de la liste des ressources
-                RessourceList(school: school)
+                // Section liste des ressources
+                RessourceListSection(school: school)
             }
             #if os(iOS)
             .navigationTitle("Etablissement")

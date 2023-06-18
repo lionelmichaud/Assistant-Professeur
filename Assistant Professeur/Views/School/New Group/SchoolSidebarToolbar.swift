@@ -126,7 +126,6 @@ extension SchoolSidebarView {
                             systemImage: "square.and.arrow.up"
                         )
                     }
-//                    if isPad() || isMac() {
                     Button {
                         CsvImportExportMng.exportPrograms()
                         fileExportOperation = .exportCsvPrograms
@@ -137,7 +136,18 @@ extension SchoolSidebarView {
                             systemImage: "square.and.arrow.up"
                         )
                     }
-//                    }
+                    if isPad() || isMac() {
+                        Button {
+                            CsvImportExportMng.exportCompetencies()
+                            fileExportOperation = .exportCsvCompetencies
+                            isExportingModel.toggle()
+                        } label: {
+                            Label(
+                                "Exporter les compétences en CSV",
+                                systemImage: "square.and.arrow.up"
+                            )
+                        }
+                    }
                 }
 
                 Section {
