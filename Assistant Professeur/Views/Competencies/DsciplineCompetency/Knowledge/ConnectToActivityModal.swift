@@ -16,6 +16,9 @@ struct ConnectToActivityModal: View {
     private var selectedLevel: LevelClasse = .nbCP
 
     @State
+    private var selectedSequence: SequenceEntity = .all().first!
+
+    @State
     private var selectedActivity: ActivityEntity = .all().first!
 
     @Environment(\.dismiss)
@@ -30,10 +33,10 @@ struct ConnectToActivityModal: View {
         competency.section?.theme?.cycleEnum
     }
 
-    /// Filtrer les activitées en fonction des Discipline, Cycle et Niveau de classe sélectionnés
-    private var selectedActivities: [ActivityEntity] {
+    /// Filtrer les séquences en fonction des Discipline, Cycle et Niveau de classe sélectionnés
+    private var selectedSequences: [SequenceEntity] {
         if let cycle, let discipline {
-            return ActivityEntity.allSortedByProgSeqAct(
+            return SequenceEntity.sortedByDisciplineLevelSeq(
                 discipline: discipline,
                 cycle: cycle,
                 level: selectedLevel
@@ -43,62 +46,71 @@ struct ConnectToActivityModal: View {
         }
     }
 
-    /// Choisir l'activité
-    private var activityPicker: some View {
-        Picker(
-            "Activité",
-            selection: $selectedActivity
-        ) {
-            ForEach(selectedActivities) { activity in
-                CompActivityBrowerRow(
-                    activity: activity,
-                    verticallyStacked: false
-                )
-                .horizontallyAligned(.leading)
-                .tag(activity)
-            }
-        }
-        .pickerStyle(.wheel)
+    private var selectedActivities: [ActivityEntity] {
+        selectedSequence.activitiesSortedByNumber
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
+        Form {
             if cycle == nil || discipline == nil {
                 Text("Aucune activité existante sélectionnable.")
-            } else {
-                Text("Choisir une activité associée:")
-                    .font(.headline)
-                    .padding([.leading, .top])
 
-                LevelInCyclePicker(
-                    selectedLevel: $selectedLevel,
-                    inCycle: cycle!
-                )
-                .padding(.horizontal)
+            } else {
+                Section("Sélectionner un niveau") {
+                    LevelInCyclePicker(
+                        selectedLevel: $selectedLevel,
+                        inCycle: cycle!
+                    )
+                }
+
+                if selectedSequences.isNotEmpty {
+                    Section("Sélectionner une séquence") {
+                        SequencePicker(
+                            selectedSequence: $selectedSequence,
+                            inSequences: selectedSequences
+                        )
+                        .padding(.horizontal)
+                    }
+                } else {
+                    Text("Aucune séquence existante sélectionnable.")
+                }
 
                 if selectedActivities.isNotEmpty {
-                    ActivityPicker(
-                        selectedActivity: $selectedActivity,
-                        inActivities: selectedActivities
-                    )
-                    .padding(.horizontal)
+                    Section("Sélectionner une activité") {
+                        ActivityPicker(
+                            selectedActivity: $selectedActivity,
+                            inActivities: selectedActivities
+                        )
+                        .padding(.horizontal)
+                    }
                 } else {
                     Text("Aucune activité existante sélectionnable.")
                 }
             }
         }
-        .verticallyAligned(.top)
         .onAppear {
             if let firstLevelInCycle = cycle?.associatedLevels.first {
                 self.selectedLevel = firstLevelInCycle
+            }
+            if let firstSequence = selectedSequences.first {
+                self.selectedSequence = firstSequence
+            }
+            if let firstActivity = selectedActivities.first {
+                self.selectedActivity = firstActivity
+            }
+        }
+        .onChange(of: selectedLevel) { _ in
+            if let firstSequence = selectedSequences.first {
+                self.selectedSequence = firstSequence
             }
             if let firstActivity = selectedActivities.first {
                 self.selectedActivity = firstActivity
             }
         }
         #if os(iOS)
-        .navigationTitle("Activité Pédagogique")
+        .navigationTitle("Activité pédagogique associée")
         #endif
+        .navigationBarTitleDisplayModeInline()
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
                 Button("Annuler") {
@@ -106,11 +118,13 @@ struct ConnectToActivityModal: View {
                     dismiss()
                 }
             }
-            ToolbarItem(placement: .confirmationAction) {
-                Button("Ok") {
-                    selectedActivity.addToCompetencies(competency)
-                    try? DCompEntity.saveIfContextHasChanged()
-                    dismiss()
+            if selectedActivities.isNotEmpty && selectedSequences.isNotEmpty {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Ok") {
+                        selectedActivity.addToCompetencies(competency)
+                        try? DCompEntity.saveIfContextHasChanged()
+                        dismiss()
+                    }
                 }
             }
         }

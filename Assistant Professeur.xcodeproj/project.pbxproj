@@ -328,13 +328,17 @@
 		79F79B852A2D226700DEE003 /* WCompEntity+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F79B842A2D226700DEE003 /* WCompEntity+Extension.swift */; };
 		79F7A2772A40504600CEC3D5 /* DCompCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2762A40504600CEC3D5 /* DCompCapsule.swift */; };
 		79F7A2792A4053BE00CEC3D5 /* ActivityListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2782A4053BE00CEC3D5 /* ActivityListSection.swift */; };
-		79F7A27B2A40553F00CEC3D5 /* CompActivityBrowerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27A2A40553F00CEC3D5 /* CompActivityBrowerRow.swift */; };
+		79F7A27B2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27A2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift */; };
 		79F7A27D2A405D8F00CEC3D5 /* ConnectToActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27C2A405D8F00CEC3D5 /* ConnectToActivityModal.swift */; };
 		79F7A27F2A40888300CEC3D5 /* DCompTagRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27E2A40888300CEC3D5 /* DCompTagRow.swift */; };
 		79F7A2812A408ABE00CEC3D5 /* WCompCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */; };
 		79F7A2832A408B2C00CEC3D5 /* WCompTagRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2822A408B2C00CEC3D5 /* WCompTagRow.swift */; };
 		79F7A2852A409C5200CEC3D5 /* LevelInCyclePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2842A409C5200CEC3D5 /* LevelInCyclePicker.swift */; };
 		79F7A2872A40A9AF00CEC3D5 /* ActivityPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2862A40A9AF00CEC3D5 /* ActivityPicker.swift */; };
+		79F7A2892A40ADB900CEC3D5 /* SequencePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2882A40ADB900CEC3D5 /* SequencePicker.swift */; };
+		79F7A28B2A40AECE00CEC3D5 /* SequencePickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A28A2A40AECE00CEC3D5 /* SequencePickerRow.swift */; };
+		79F7A28D2A40CAA000CEC3D5 /* WCompChapterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A28C2A40CAA000CEC3D5 /* WCompChapterPicker.swift */; };
+		79F7A28F2A40CE7100CEC3D5 /* WCompPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A28E2A40CE7100CEC3D5 /* WCompPicker.swift */; };
 		79F8773229F425A300AB38C3 /* DigitalClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F8773129F425A300AB38C3 /* DigitalClockView.swift */; };
 		79FB2E492A3E4DFB00F05D61 /* ConnectToWCompModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FB2E482A3E4DFB00F05D61 /* ConnectToWCompModal.swift */; };
 		79FBB4D72991C2CC00B47484 /* Classe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */; };
@@ -670,13 +674,17 @@
 		79F79B842A2D226700DEE003 /* WCompEntity+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WCompEntity+Extension.swift"; sourceTree = "<group>"; };
 		79F7A2762A40504600CEC3D5 /* DCompCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompCapsule.swift; sourceTree = "<group>"; };
 		79F7A2782A4053BE00CEC3D5 /* ActivityListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityListSection.swift; sourceTree = "<group>"; };
-		79F7A27A2A40553F00CEC3D5 /* CompActivityBrowerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompActivityBrowerRow.swift; sourceTree = "<group>"; };
+		79F7A27A2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociatedActivityBrowerRow.swift; sourceTree = "<group>"; };
 		79F7A27C2A405D8F00CEC3D5 /* ConnectToActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectToActivityModal.swift; sourceTree = "<group>"; };
 		79F7A27E2A40888300CEC3D5 /* DCompTagRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompTagRow.swift; sourceTree = "<group>"; };
 		79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompCapsule.swift; sourceTree = "<group>"; };
 		79F7A2822A408B2C00CEC3D5 /* WCompTagRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompTagRow.swift; sourceTree = "<group>"; };
 		79F7A2842A409C5200CEC3D5 /* LevelInCyclePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelInCyclePicker.swift; sourceTree = "<group>"; };
 		79F7A2862A40A9AF00CEC3D5 /* ActivityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPicker.swift; sourceTree = "<group>"; };
+		79F7A2882A40ADB900CEC3D5 /* SequencePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequencePicker.swift; sourceTree = "<group>"; };
+		79F7A28A2A40AECE00CEC3D5 /* SequencePickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequencePickerRow.swift; sourceTree = "<group>"; };
+		79F7A28C2A40CAA000CEC3D5 /* WCompChapterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompChapterPicker.swift; sourceTree = "<group>"; };
+		79F7A28E2A40CE7100CEC3D5 /* WCompPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompPicker.swift; sourceTree = "<group>"; };
 		79F8773129F425A300AB38C3 /* DigitalClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalClockView.swift; sourceTree = "<group>"; };
 		79FB2E482A3E4DFB00F05D61 /* ConnectToWCompModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectToWCompModal.swift; sourceTree = "<group>"; };
 		79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Classe+CoreDataClass.swift"; path = "Assistant Professeur/Model/Classe/Classe+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
@@ -814,7 +822,7 @@
 				796A17872A3F6C6600413DDD /* WCompListSection.swift */,
 				79F7A27C2A405D8F00CEC3D5 /* ConnectToActivityModal.swift */,
 				79F7A2782A4053BE00CEC3D5 /* ActivityListSection.swift */,
-				79F7A27A2A40553F00CEC3D5 /* CompActivityBrowerRow.swift */,
+				79F7A27A2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift */,
 			);
 			path = Knowledge;
 			sourceTree = "<group>";
@@ -826,6 +834,7 @@
 				798D24F32A2E085F008500D2 /* WCompChapterListView.swift */,
 				799EFBA52A2CFE45008E9775 /* WCompChapterBrowserRow.swift */,
 				796699D62A30BF0400DF14AB /* WCompChapterEditorModal.swift */,
+				79F7A28C2A40CAA000CEC3D5 /* WCompChapterPicker.swift */,
 			);
 			path = Chapter;
 			sourceTree = "<group>";
@@ -839,6 +848,7 @@
 				798D24FB2A2E9767008500D2 /* WCompEditorModal.swift */,
 				79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */,
 				79F7A2822A408B2C00CEC3D5 /* WCompTagRow.swift */,
+				79F7A28E2A40CE7100CEC3D5 /* WCompPicker.swift */,
 			);
 			path = Competency;
 			sourceTree = "<group>";
@@ -1148,6 +1158,8 @@
 				79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */,
 				7989B4D829A288E900383F84 /* LabeledSequenceView.swift */,
 				799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */,
+				79F7A2882A40ADB900CEC3D5 /* SequencePicker.swift */,
+				79F7A28A2A40AECE00CEC3D5 /* SequencePickerRow.swift */,
 			);
 			path = Sequence;
 			sourceTree = "<group>";
@@ -1919,6 +1931,7 @@
 				793D627F295F33D300477932 /* ColleViewModel.swift in Sources */,
 				79C20A802A326D0C00E43A07 /* DThemeListView.swift in Sources */,
 				79DEDAE9292585E300F508EF /* SchoolSplitView.swift in Sources */,
+				79F7A28D2A40CAA000CEC3D5 /* WCompChapterPicker.swift in Sources */,
 				79398D37296632D60013564D /* ExamDetail.swift in Sources */,
 				7920A5242957345A0092A7DD /* EleveLabelWithTrombineFlag.swift in Sources */,
 				79F770902A2B9B7E004E9089 /* CompetencySplitView.swift in Sources */,
@@ -1930,7 +1943,7 @@
 				796521D22A14DC0C000C27D1 /* SchoolYearPref.swift in Sources */,
 				796699D72A30BF0400DF14AB /* WCompChapterEditorModal.swift in Sources */,
 				79EE3EA4296F6CF20075E9BD /* EleveTrombineStyling.swift in Sources */,
-				79F7A27B2A40553F00CEC3D5 /* CompActivityBrowerRow.swift in Sources */,
+				79F7A27B2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift in Sources */,
 				79398D30296616250013564D /* ClasseExamRow.swift in Sources */,
 				79A5737529BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift in Sources */,
 				79DEDB13292593C200F508EF /* SettingsClasse.swift in Sources */,
@@ -1993,6 +2006,7 @@
 				79FD21A02A33C82900A8D925 /* DCompViewModel.swift in Sources */,
 				793D6271295DCBBC00477932 /* MotifEditor.swift in Sources */,
 				79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */,
+				79F7A2892A40ADB900CEC3D5 /* SequencePicker.swift in Sources */,
 				7937A2462986C57D00D0ED59 /* ExamTypeEnum.swift in Sources */,
 				796521D62A14EF1E000C27D1 /* DailySchedulePref.swift in Sources */,
 				793D6270295DCBBC00477932 /* MotifView.swift in Sources */,
@@ -2129,6 +2143,7 @@
 				79DEDAFB2925897600F508EF /* ObservSidebarView.swift in Sources */,
 				798DD4D4298C352A00C47B2C /* StepsNotationView.swift in Sources */,
 				790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */,
+				79F7A28F2A40CE7100CEC3D5 /* WCompPicker.swift in Sources */,
 				79AFBFB62981C9DA001576DD /* ActivityCreatorModal.swift in Sources */,
 				7989B4DB29A28D0300383F84 /* ProgressState.swift in Sources */,
 				7994E3242972F4E500952D08 /* SchoolDocumentListSection.swift in Sources */,
@@ -2164,6 +2179,7 @@
 				79637208297D9B5B00ECDBC3 /* ActivitySideBar.swift in Sources */,
 				79DEDB2B2925996E00F508EF /* Preferences.swift in Sources */,
 				796521D42A14E0F3000C27D1 /* ElevePref.swift in Sources */,
+				79F7A28B2A40AECE00CEC3D5 /* SequencePickerRow.swift in Sources */,
 				79637212297DBCE200ECDBC3 /* SettingsSequence.swift in Sources */,
 				7989B4DF29A2A63000383F84 /* ClassSequenceProgressEditView.swift in Sources */,
 				793D6279295F29DD00477932 /* ColleEditor.swift in Sources */,

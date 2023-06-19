@@ -31,7 +31,7 @@ struct ActivityListSection: View {
             ForEach(
                 dCompetency.activitiesSortedByLevelSeqActNumber
             ) { activity in
-                CompActivityBrowerRow(
+                AssociatedActivityBrowerRow(
                     activity: activity,
                     verticallyStacked: true
                 )

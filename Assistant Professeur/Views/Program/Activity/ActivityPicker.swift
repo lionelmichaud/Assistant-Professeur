@@ -20,7 +20,7 @@ struct ActivityPicker: View {
             selection: $selectedActivity
         ) {
             ForEach(inActivities) { activity in
-                CompActivityBrowerRow(
+                AssociatedActivityBrowerRow(
                     activity: activity,
                     verticallyStacked: false
                 )

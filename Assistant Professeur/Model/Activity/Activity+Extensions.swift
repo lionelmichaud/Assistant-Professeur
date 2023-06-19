@@ -255,10 +255,10 @@ extension ActivityEntity {
     ///   2. Niveau de classe
     ///   3. Numéro de séquence
     ///   4. Numéro d'activité
-    static func allSortedByProgSeqAct(
-        discipline: Discipline? = nil,
-        cycle: Cycle? = nil,
-        level: LevelClasse? = nil
+    static func sortedByDisciplineLevelSeqAct(
+        forDiscipline discipline: Discipline? = nil,
+        forCycle cycle: Cycle? = nil,
+        forLevel level: LevelClasse? = nil
     ) -> [ActivityEntity] {
         let sortComparators =
             [
