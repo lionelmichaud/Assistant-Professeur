@@ -89,6 +89,11 @@ extension ProgramEntity {
         viewLevelEnum.displayString
     }
 
+    @objc
+    var levelSortOrder: Int {
+        viewLevelEnum.sortOrder
+    }
+
     /// Wrapper of `segpa`
     /// - Important: *Saves the context to the store after modification is done*
     @objc

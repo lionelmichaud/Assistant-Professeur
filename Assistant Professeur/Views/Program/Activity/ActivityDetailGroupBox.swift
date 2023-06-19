@@ -66,6 +66,9 @@ struct ActivityDetailGroupBox: View {
                     showTitle: true
                 )
                 .padding(.top, 4)
+
+                // Compétences disciplinaires associées
+                DCompTagRow(disciplineComps: activity.allDisciplineCompetencies)
             }
             .font(hClass == .compact ? .callout : .body)
             .horizontallyAligned(.leading)

@@ -35,12 +35,13 @@ struct DKnowListView: View {
             if selectedCompetencyExists {
                 List {
                     // Compétence disciplinaire
-                    DCompBrowserRow(
-                        competency: selectedCompetency!,
-                        showIcon: false
-                    )
+//                    DCompBrowserRow(
+//                        competency: selectedCompetency!,
+//                        showIcon: false
+//                    )
 
-                    // Section des Connaissances disciplinaires
+                    // Section des Connaissances disciplinaires associées
+                    // à la compétence disciplinaire sélectionnée
                     KnowledgeListSection(
                         dCompetency: selectedCompetency!
                     )
@@ -49,6 +50,14 @@ struct DKnowListView: View {
                     // à la compétence disciplinaire sélectionnée
                     if WCompEntity.cardinal() > 0 {
                         WCompListSection(
+                            dCompetency: selectedCompetency!
+                        )
+                    }
+
+                    // Section des Activités associées
+                    // à la compétence disciplinaire sélectionnée
+                    if ActivityEntity.cardinal() > 0 {
+                        ActivityListSection(
                             dCompetency: selectedCompetency!
                         )
                     }

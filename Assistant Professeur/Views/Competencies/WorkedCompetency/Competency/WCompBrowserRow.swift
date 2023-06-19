@@ -13,24 +13,27 @@ struct WCompBrowserRow: View {
 
     var showDisciplineCompetencies: Bool = false
 
+    var description: some View {
+        VStack(alignment: .leading) {
+            Group {
+                Text(workedComp.viewAcronym)
+                    .fontWeight(.bold) +
+                    Text(". ") +
+                    Text(workedComp.viewDescription)
+                    .foregroundColor(.secondary)
+            }
+            .lineLimit(5)
+            .textSelection(.enabled)
+            if showDisciplineCompetencies {
+                DCompTagRow(disciplineComps: workedComp.disciplineCompSortedByAcronym)
+            }
+        }
+    }
+
     var body: some View {
         Label(
             title: {
-                Text(workedComp.viewAcronym)
-                    .fontWeight(.bold)
-                VStack(alignment: .leading) {
-                    Text(workedComp.viewDescription)
-                        .foregroundColor(.secondary)
-                        .lineLimit(4)
-                        .textSelection(.enabled)
-                    if showDisciplineCompetencies {
-                        HStack {
-                            ForEach(workedComp.disciplineCompSortedByAcronym) { dComp in
-                                Text(dComp.viewAcronym)
-                            }
-                        }
-                    }
-                }
+                description
             },
             icon: {
                 Image(systemName: WCompEntity.defaultImageName)
@@ -39,8 +42,8 @@ struct WCompBrowserRow: View {
     }
 }
 
-//struct WorkedCompBrowserRow_Previews: PreviewProvider {
+// struct WorkedCompBrowserRow_Previews: PreviewProvider {
 //    static var previews: some View {
 //        WorkedCompBrowserRow()
 //    }
-//}
+// }

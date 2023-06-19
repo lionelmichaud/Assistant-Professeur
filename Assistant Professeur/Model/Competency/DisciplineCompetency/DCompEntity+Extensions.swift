@@ -104,6 +104,40 @@ extension DCompEntity {
         return allWorkedCompetencies.sorted(using: sortComparators)
     }
 
+    /// Liste des Activités associées non triées
+    var allActivities: [ActivityEntity] {
+        if let activities {
+            return (activities.allObjects as! [ActivityEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Liste des Activités associées triées
+    ///
+    /// Ordre de tri:
+    ///   1. Niveau de classe
+    ///   2. Numéro de séquence
+    ///   2. Numéro d'activité
+    var activitiesSortedByLevelSeqActNumber: [ActivityEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(
+                \ActivityEntity.sequence?.program?.levelSortOrder,
+                 order: .forward
+            ),
+            SortDescriptor(
+                \ActivityEntity.sequence?.number,
+                 order: .forward
+            ),
+            SortDescriptor(
+                \ActivityEntity.number,
+                 order: .forward
+            )
+        ]
+        return allActivities.sorted(using: sortComparators)
+    }
+
     // MARK: - Type Methods
 
     static func allSortedByAcronym() -> [DCompEntity] {

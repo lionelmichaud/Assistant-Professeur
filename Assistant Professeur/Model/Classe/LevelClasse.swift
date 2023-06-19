@@ -73,6 +73,23 @@ enum LevelClasse: String, PickableEnumP, Codable {
         }
     }
 
+    var sortOrder: Int {
+        switch self {
+            case .nbCP: return 1
+            case .naCE1: return 2
+            case .n9CE2: return 3
+            case .n8CM1: return 4
+            case .n7CM2: return 5
+            case .n6ieme: return 6
+            case .n5ieme: return 7
+            case .n4ieme: return 8
+            case .n3ieme: return 9
+            case .n2nd: return 10
+            case .n1ere: return 11
+            case .n0terminale: return 12
+        }
+    }
+
     func isCompatible(
         withSchool school: SchoolEntity
     ) -> Bool {

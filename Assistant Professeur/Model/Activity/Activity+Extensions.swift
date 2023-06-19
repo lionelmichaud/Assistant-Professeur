@@ -200,7 +200,7 @@ extension ActivityEntity {
             .sorted(using: sortComparators)
     }
 
-   /// Liste des documents non triées
+    /// Liste des documents non triées
     var allDocuments: [DocumentEntity] {
         if let documents {
             return (documents.allObjects as! [DocumentEntity])
@@ -218,12 +218,95 @@ extension ActivityEntity {
         return allDocuments.sorted(using: sortComparators)
     }
 
+    /// Liste des Compétences Disciplinaires non triées
+    var allDisciplineCompetencies: [DCompEntity] {
+        if let competencies {
+            return (competencies.allObjects as! [DCompEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Liste des Compétences Disciplinaires triées par Acronym
+    var disciplineCompSortedByAcronym: [DCompEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(
+                \DCompEntity.viewAcronym,
+                 order: .forward
+            )
+        ]
+        return allDisciplineCompetencies.sorted(using: sortComparators)
+    }
+
     // MARK: - Type Methods
 
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         // Set defaults here
         self.id = UUID()
+    }
+
+    /// Retourne toutes les activités triées satisfaisant au critères:
+    /// `discipline`, `cycle`, `level`
+    ///
+    /// Ordre de tri:
+    ///   1. Discipline
+    ///   2. Niveau de classe
+    ///   3. Numéro de séquence
+    ///   4. Numéro d'activité
+    static func allSortedByProgSeqAct(
+        discipline: Discipline? = nil,
+        cycle: Cycle? = nil,
+        level: LevelClasse? = nil
+    ) -> [ActivityEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(
+                    \ActivityEntity.sequence?.program?.disciplineString,
+                    order: .forward
+                ),
+                SortDescriptor(
+                    \ActivityEntity.sequence?.program?.levelSortOrder,
+                    order: .forward
+                ),
+                SortDescriptor(
+                    \ActivityEntity.sequence?.viewNumber,
+                    order: .forward
+                ),
+                SortDescriptor(
+                    \ActivityEntity.viewNumber,
+                    order: .forward
+                )
+            ]
+        return all()
+            .filter { activity in
+                var result = true
+
+                if let discipline {
+                    result =
+                        result &&
+                        activity.sequence?.program?.viewDisciplineEnum == discipline
+                }
+
+                if let cycle {
+                    if let level = activity.sequence?.program?.viewLevelEnum {
+                        result =
+                            result &&
+                            cycle.associatedLevels.contains(level)
+                    } else {
+                        result = false
+                    }
+                }
+
+                if let level {
+                    result =
+                        result &&
+                        activity.sequence?.program?.viewLevelEnum == level
+                }
+                return result
+            }
+            .sorted(using: sortComparators)
     }
 
     /// Créer une nouvelle instance SANS la sauvegarder dans le context
