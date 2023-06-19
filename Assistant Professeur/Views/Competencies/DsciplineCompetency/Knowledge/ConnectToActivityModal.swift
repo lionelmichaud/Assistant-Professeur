@@ -13,41 +13,34 @@ struct ConnectToActivityModal: View {
     var competency: DCompEntity
 
     @State
-    private var selectedActivity: ActivityEntity = .all().first!
+    private var selectedLevel: LevelClasse = .nbCP
 
     @State
-    private var levelEnum: LevelClasse = .n4ieme
+    private var selectedActivity: ActivityEntity = .all().first!
 
     @Environment(\.dismiss)
+
     private var dismiss
+
+    private var discipline: Discipline? {
+        competency.section?.theme?.disciplineEnum
+    }
+
+    private var cycle: Cycle? {
+        competency.section?.theme?.cycleEnum
+    }
 
     /// Filtrer les activitées en fonction des Discipline, Cycle et Niveau de classe sélectionnés
     private var selectedActivities: [ActivityEntity] {
-        if let cycle = competency.section?.theme?.cycleEnum,
-           let discipline = competency.section?.theme?.disciplineEnum {
+        if let cycle, let discipline {
             return ActivityEntity.allSortedByProgSeqAct(
                 discipline: discipline,
                 cycle: cycle,
-                level: levelEnum
+                level: selectedLevel
             )
         } else {
             return []
         }
-    }
-
-    /// Choisir le niveau de classe
-    private var levelPicker: some View {
-        Picker(
-            "Niveau",
-            selection: $levelEnum
-        ) {
-            if let cycle = competency.section?.theme?.cycleEnum {
-                ForEach(cycle.associatedLevels, id: \.self) { level in
-                    Text(level.pickerString)
-                }
-            }
-        }
-        .pickerStyle(.segmented)
     }
 
     /// Choisir l'activité
@@ -56,17 +49,13 @@ struct ConnectToActivityModal: View {
             "Activité",
             selection: $selectedActivity
         ) {
-            if selectedActivities.isNotEmpty {
-                ForEach(selectedActivities) { activity in
-                    CompActivityBrowerRow(
-                        activity: activity,
-                        verticallyStacked: false
-                    )
-                    .horizontallyAligned(.leading)
-                    .tag(activity)
-                }
-            } else {
-                Text("Aucune activité existante sélectionnable.")
+            ForEach(selectedActivities) { activity in
+                CompActivityBrowerRow(
+                    activity: activity,
+                    verticallyStacked: false
+                )
+                .horizontallyAligned(.leading)
+                .tag(activity)
             }
         }
         .pickerStyle(.wheel)
@@ -74,23 +63,37 @@ struct ConnectToActivityModal: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Choisir une activité associée:")
-                .font(.headline)
-                .padding([.leading, .top])
+            if cycle == nil || discipline == nil {
+                Text("Aucune activité existante sélectionnable.")
+            } else {
+                Text("Choisir une activité associée:")
+                    .font(.headline)
+                    .padding([.leading, .top])
 
-            levelPicker
+                LevelInCyclePicker(
+                    selectedLevel: $selectedLevel,
+                    inCycle: cycle!
+                )
                 .padding(.horizontal)
 
-            activityPicker
-                .padding(.horizontal)
+                if selectedActivities.isNotEmpty {
+                    ActivityPicker(
+                        selectedActivity: $selectedActivity,
+                        inActivities: selectedActivities
+                    )
+                    .padding(.horizontal)
+                } else {
+                    Text("Aucune activité existante sélectionnable.")
+                }
+            }
         }
         .verticallyAligned(.top)
         .onAppear {
-            if let firstLevelInCycle = competency.section?.theme?.cycleEnum.associatedLevels.first {
-                levelEnum = firstLevelInCycle
+            if let firstLevelInCycle = cycle?.associatedLevels.first {
+                self.selectedLevel = firstLevelInCycle
             }
             if let firstActivity = selectedActivities.first {
-                selectedActivity = firstActivity
+                self.selectedActivity = firstActivity
             }
         }
         #if os(iOS)

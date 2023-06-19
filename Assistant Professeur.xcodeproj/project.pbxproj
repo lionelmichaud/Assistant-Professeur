@@ -333,6 +333,8 @@
 		79F7A27F2A40888300CEC3D5 /* DCompTagRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27E2A40888300CEC3D5 /* DCompTagRow.swift */; };
 		79F7A2812A408ABE00CEC3D5 /* WCompCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */; };
 		79F7A2832A408B2C00CEC3D5 /* WCompTagRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2822A408B2C00CEC3D5 /* WCompTagRow.swift */; };
+		79F7A2852A409C5200CEC3D5 /* LevelInCyclePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2842A409C5200CEC3D5 /* LevelInCyclePicker.swift */; };
+		79F7A2872A40A9AF00CEC3D5 /* ActivityPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2862A40A9AF00CEC3D5 /* ActivityPicker.swift */; };
 		79F8773229F425A300AB38C3 /* DigitalClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F8773129F425A300AB38C3 /* DigitalClockView.swift */; };
 		79FB2E492A3E4DFB00F05D61 /* ConnectToWCompModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FB2E482A3E4DFB00F05D61 /* ConnectToWCompModal.swift */; };
 		79FBB4D72991C2CC00B47484 /* Classe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */; };
@@ -673,6 +675,8 @@
 		79F7A27E2A40888300CEC3D5 /* DCompTagRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompTagRow.swift; sourceTree = "<group>"; };
 		79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompCapsule.swift; sourceTree = "<group>"; };
 		79F7A2822A408B2C00CEC3D5 /* WCompTagRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompTagRow.swift; sourceTree = "<group>"; };
+		79F7A2842A409C5200CEC3D5 /* LevelInCyclePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelInCyclePicker.swift; sourceTree = "<group>"; };
+		79F7A2862A40A9AF00CEC3D5 /* ActivityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPicker.swift; sourceTree = "<group>"; };
 		79F8773129F425A300AB38C3 /* DigitalClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalClockView.swift; sourceTree = "<group>"; };
 		79FB2E482A3E4DFB00F05D61 /* ConnectToWCompModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectToWCompModal.swift; sourceTree = "<group>"; };
 		79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Classe+CoreDataClass.swift"; path = "Assistant Professeur/Model/Classe/Classe+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
@@ -1162,6 +1166,7 @@
 				79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */,
 				7989B4D429A2752800383F84 /* LabeledActivityView.swift */,
 				799D2C7629CBADE2009C6336 /* ActivityDocumentList.swift */,
+				79F7A2862A40A9AF00CEC3D5 /* ActivityPicker.swift */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -1676,6 +1681,7 @@
 			children = (
 				79F7708F2A2B9B7E004E9089 /* CompetencySplitView.swift */,
 				79F770912A2B9F4E004E9089 /* CompetencySidebarView.swift */,
+				79F7A2842A409C5200CEC3D5 /* LevelInCyclePicker.swift */,
 				79C20A7E2A326CD300E43A07 /* DsciplineCompetency */,
 				799EFBA92A2D0260008E9775 /* WorkedCompetency */,
 			);
@@ -1917,6 +1923,7 @@
 				7920A5242957345A0092A7DD /* EleveLabelWithTrombineFlag.swift in Sources */,
 				79F770902A2B9B7E004E9089 /* CompetencySplitView.swift in Sources */,
 				79ECF204295A1607008F0282 /* ColleBrowserRow.swift in Sources */,
+				79F7A2872A40A9AF00CEC3D5 /* ActivityPicker.swift in Sources */,
 				791802A62A365E29001588B2 /* DKnowledgeEntity+Extensions.swift in Sources */,
 				79F41E732954D30F00EAAC52 /* EleveBrowserRow.swift in Sources */,
 				79F7A2832A408B2C00CEC3D5 /* WCompTagRow.swift in Sources */,
@@ -2085,6 +2092,7 @@
 				79ECF1F42959F09F008F0282 /* colle+extensions.swift in Sources */,
 				796371FF297D575800ECDBC3 /* SequenceSidebarView.swift in Sources */,
 				7994E31F2972DE8400952D08 /* RoomSeatManager.swift in Sources */,
+				79F7A2852A409C5200CEC3D5 /* LevelInCyclePicker.swift in Sources */,
 				79637214297DBD6500ECDBC3 /* SettingsActivity.swift in Sources */,
 				79FD21952A338CAC00A8D925 /* DCompEntity+CoreDataClass.swift in Sources */,
 				7997531C297C17F400D1C66E /* ProgramEditorModal.swift in Sources */,
