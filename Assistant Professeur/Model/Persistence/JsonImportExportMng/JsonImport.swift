@@ -140,6 +140,7 @@ extension JsonImportExportMng {
                         alertIsPresented: alertIsPresented
                     )
                 }
+                // TODO: - A tester
                 importOwnerFromJson(fileUrl: ownerJsonFile)
                 ownerJsonFile.stopAccessingSecurityScopedResource()
 
@@ -233,6 +234,7 @@ extension JsonImportExportMng {
 
     // MARK: - Importation des fichiers JSON
 
+    // TODO: - A tester
     /// Importer les données contenant les données du Owner du Modèle depuis un fichier au format JSON
     private static func importOwnerFromJson(fileUrl: URL) {
         let owner = fileUrl.decode(
@@ -266,6 +268,7 @@ extension JsonImportExportMng {
         #endif
     }
 
+    // TODO: - A tester
     /// Importer les Compétences Scocle depuis des fichiers au format JSON
     private static func importWCompetenciesFromJson(fileUrl: URL) {
         let wCompChapters = fileUrl.decode(
@@ -277,6 +280,7 @@ extension JsonImportExportMng {
         #endif
     }
 
+    // TODO: - A tester
     /// Importer les Compétences Disciplinaires depuis des fichiers au format JSON
     private static func importDCompetenciesFromJson(fileUrl: URL) {
         let dCompThemes = fileUrl.decode(
