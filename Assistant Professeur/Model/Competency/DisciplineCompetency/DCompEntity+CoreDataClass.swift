@@ -17,7 +17,7 @@ private let customLog = Logger(
 @objc(DCompEntity)
 public final class DCompEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
-        case id, number, descrip, knowledges, wCompIDs
+        case id, number, descrip, knowledges, wCompIDs, activityIDs
     }
 
     public required convenience init(from decoder: Decoder) throws {
@@ -44,6 +44,22 @@ public final class DCompEntity: NSManagedObject, Codable, ModelEntityP {
             }
         }
 
+        // Les Activity doivent être chargés AVANT les DTheme pour que les DCompEntity puissent
+        // établir la connection avec les Activity. Voir Activity.init(from decoder: Decoder)
+        if let wActivitySetIds = try container.decodeIfPresent([UUID?].self, forKey: .activityIDs) {
+            wActivitySetIds.forEach { activityId in
+                if let activityId,
+                   let activity = ActivityEntity.byId(id: activityId) {
+                    self.activities?.adding(activity)
+                } else {
+                    customLog.log(
+                        level: .error,
+                        "Erreur: Activité associée à la Compétence disciplianire \(String(describing: self)) introuvable!"
+                    )
+                }
+            }
+        }
+
         self.knowledges = try container.decode(
             Set<DKnowledgeEntity>.self,
             forKey: .knowledges
@@ -59,6 +75,10 @@ public final class DCompEntity: NSManagedObject, Codable, ModelEntityP {
         let wCompSet = workedCompetencies as? Set<WCompEntity>
         let wCompSetIds = wCompSet?.map { $0.id }
         try container.encodeIfPresent(wCompSetIds, forKey: .wCompIDs)
+
+        let activitySet = activities as? Set<ActivityEntity>
+        let activitySetIds = activitySet?.map { $0.id }
+        try container.encodeIfPresent(activitySetIds, forKey: .activityIDs)
 
         try container.encodeIfPresent(
             knowledges as? Set<DKnowledgeEntity>,

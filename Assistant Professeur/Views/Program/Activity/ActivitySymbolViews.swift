@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 04/02/2023.
 //
 
+import HelpersView
 import SwiftUI
 
 struct ActivitySymbolEvalSommative: View {
@@ -24,6 +25,11 @@ struct ActivitySymbolEvalSommative: View {
                 } else: {
                     $0.labelStyle(.iconOnly)
                 }
+                .filledCapsuleStyling(
+                    withBackground: true,
+                    withBorder: true,
+                    fillColor: .blue3
+                )
             } else {
                 EmptyView()
             }
@@ -48,6 +54,11 @@ struct ActivitySymbolEvalFormmative: View {
                 } else: {
                     $0.labelStyle(.iconOnly)
                 }
+                .filledCapsuleStyling(
+                    withBackground: true,
+                    withBorder: true,
+                    fillColor: .blue3
+                )
             } else {
                 EmptyView()
             }
@@ -72,6 +83,11 @@ struct ActivitySymbolTP: View {
                 } else: {
                     $0.labelStyle(.iconOnly)
                 }
+                .filledCapsuleStyling(
+                    withBackground: true,
+                    withBorder: true,
+                    fillColor: .blue3
+                )
             } else {
                 EmptyView()
             }
@@ -96,6 +112,11 @@ struct ActivitySymbolProject: View {
                 } else: {
                     $0.labelStyle(.iconOnly)
                 }
+                .filledCapsuleStyling(
+                    withBackground: true,
+                    withBorder: true,
+                    fillColor: .blue3
+                )
             } else {
                 EmptyView()
             }

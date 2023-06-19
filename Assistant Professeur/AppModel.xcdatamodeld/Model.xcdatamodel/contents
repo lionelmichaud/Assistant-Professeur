@@ -13,6 +13,7 @@
         <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="progressCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="progresses.@count" usesScalarValueType="YES"/>
         <attribute name="url" optional="YES" attributeType="URI"/>
+        <relationship name="competencies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DCompEntity" inverseName="activities" inverseEntity="DCompEntity"/>
         <relationship name="documents" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DocumentEntity" inverseName="activity" inverseEntity="DocumentEntity"/>
         <relationship name="progresses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ActivityProgressEntity" inverseName="activity" inverseEntity="ActivityProgressEntity"/>
         <relationship name="sequence" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SequenceEntity" inverseName="activities" inverseEntity="SequenceEntity"/>
@@ -60,6 +61,7 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="knowledgesCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="knowledges.@count" usesScalarValueType="YES"/>
         <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="activities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ActivityEntity" inverseName="competencies" inverseEntity="ActivityEntity"/>
         <relationship name="knowledges" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DKnowledgeEntity" inverseName="competency" inverseEntity="DKnowledgeEntity"/>
         <relationship name="section" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DSectionEntity" inverseName="competencies" inverseEntity="DSectionEntity"/>
         <relationship name="workedCompetencies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WCompEntity" inverseName="disciplineCompetencies" inverseEntity="WCompEntity"/>

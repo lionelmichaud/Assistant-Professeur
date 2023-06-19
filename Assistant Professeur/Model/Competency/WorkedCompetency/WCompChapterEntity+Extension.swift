@@ -173,6 +173,20 @@ extension WCompChapterEntity {
         }
     }
 
+    /// Liste de tous les **Chapitres** de compétences travaillées triées satisfaisant au critères:
+    /// `cycle`
+    ///
+    /// Ordre de tri:
+    ///   1. Cycle
+    ///   2. Acronyme
+   static func sortedbyCycleAcronymTitle(
+        forCycle cycle: Cycle 
+    ) -> [WCompChapterEntity] {
+        allSortedbyCycleAcronymTitle().filter { chapter in
+            chapter.viewCycleEnum == cycle
+        }
+    }
+
     /// Créer une nouvelle instance et la sauvegarder dans le context
     /// - Important: Saves the context
     @discardableResult

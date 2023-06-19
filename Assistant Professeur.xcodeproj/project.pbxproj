@@ -326,6 +326,19 @@
 		79F770922A2B9F4E004E9089 /* CompetencySidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F770912A2B9F4E004E9089 /* CompetencySidebarView.swift */; };
 		79F79B832A2D1F1800DEE003 /* WCompEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F79B822A2D1F1800DEE003 /* WCompEntity+CoreDataClass.swift */; };
 		79F79B852A2D226700DEE003 /* WCompEntity+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F79B842A2D226700DEE003 /* WCompEntity+Extension.swift */; };
+		79F7A2772A40504600CEC3D5 /* DCompCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2762A40504600CEC3D5 /* DCompCapsule.swift */; };
+		79F7A2792A4053BE00CEC3D5 /* ActivityListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2782A4053BE00CEC3D5 /* ActivityListSection.swift */; };
+		79F7A27B2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27A2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift */; };
+		79F7A27D2A405D8F00CEC3D5 /* ConnectToActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27C2A405D8F00CEC3D5 /* ConnectToActivityModal.swift */; };
+		79F7A27F2A40888300CEC3D5 /* DCompTagRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27E2A40888300CEC3D5 /* DCompTagRow.swift */; };
+		79F7A2812A408ABE00CEC3D5 /* WCompCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */; };
+		79F7A2832A408B2C00CEC3D5 /* WCompTagRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2822A408B2C00CEC3D5 /* WCompTagRow.swift */; };
+		79F7A2852A409C5200CEC3D5 /* LevelInCyclePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2842A409C5200CEC3D5 /* LevelInCyclePicker.swift */; };
+		79F7A2872A40A9AF00CEC3D5 /* ActivityPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2862A40A9AF00CEC3D5 /* ActivityPicker.swift */; };
+		79F7A2892A40ADB900CEC3D5 /* SequencePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2882A40ADB900CEC3D5 /* SequencePicker.swift */; };
+		79F7A28B2A40AECE00CEC3D5 /* SequencePickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A28A2A40AECE00CEC3D5 /* SequencePickerRow.swift */; };
+		79F7A28D2A40CAA000CEC3D5 /* WCompChapterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A28C2A40CAA000CEC3D5 /* WCompChapterPicker.swift */; };
+		79F7A28F2A40CE7100CEC3D5 /* WCompPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A28E2A40CE7100CEC3D5 /* WCompPicker.swift */; };
 		79F8773229F425A300AB38C3 /* DigitalClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F8773129F425A300AB38C3 /* DigitalClockView.swift */; };
 		79FB2E492A3E4DFB00F05D61 /* ConnectToWCompModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FB2E482A3E4DFB00F05D61 /* ConnectToWCompModal.swift */; };
 		79FBB4D72991C2CC00B47484 /* Classe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */; };
@@ -659,6 +672,19 @@
 		79F770912A2B9F4E004E9089 /* CompetencySidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencySidebarView.swift; sourceTree = "<group>"; };
 		79F79B822A2D1F1800DEE003 /* WCompEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "WCompEntity+CoreDataClass.swift"; path = "../New Group/WCompEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79F79B842A2D226700DEE003 /* WCompEntity+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WCompEntity+Extension.swift"; sourceTree = "<group>"; };
+		79F7A2762A40504600CEC3D5 /* DCompCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompCapsule.swift; sourceTree = "<group>"; };
+		79F7A2782A4053BE00CEC3D5 /* ActivityListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityListSection.swift; sourceTree = "<group>"; };
+		79F7A27A2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociatedActivityBrowerRow.swift; sourceTree = "<group>"; };
+		79F7A27C2A405D8F00CEC3D5 /* ConnectToActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectToActivityModal.swift; sourceTree = "<group>"; };
+		79F7A27E2A40888300CEC3D5 /* DCompTagRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompTagRow.swift; sourceTree = "<group>"; };
+		79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompCapsule.swift; sourceTree = "<group>"; };
+		79F7A2822A408B2C00CEC3D5 /* WCompTagRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompTagRow.swift; sourceTree = "<group>"; };
+		79F7A2842A409C5200CEC3D5 /* LevelInCyclePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelInCyclePicker.swift; sourceTree = "<group>"; };
+		79F7A2862A40A9AF00CEC3D5 /* ActivityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPicker.swift; sourceTree = "<group>"; };
+		79F7A2882A40ADB900CEC3D5 /* SequencePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequencePicker.swift; sourceTree = "<group>"; };
+		79F7A28A2A40AECE00CEC3D5 /* SequencePickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequencePickerRow.swift; sourceTree = "<group>"; };
+		79F7A28C2A40CAA000CEC3D5 /* WCompChapterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompChapterPicker.swift; sourceTree = "<group>"; };
+		79F7A28E2A40CE7100CEC3D5 /* WCompPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompPicker.swift; sourceTree = "<group>"; };
 		79F8773129F425A300AB38C3 /* DigitalClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalClockView.swift; sourceTree = "<group>"; };
 		79FB2E482A3E4DFB00F05D61 /* ConnectToWCompModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectToWCompModal.swift; sourceTree = "<group>"; };
 		79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Classe+CoreDataClass.swift"; path = "Assistant Professeur/Model/Classe/Classe+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
@@ -791,9 +817,12 @@
 				79F5BEC62A3674AA003F112E /* DKnowListView.swift */,
 				7957A82F2A3759E400D64786 /* DKnowBrowserRow.swift */,
 				7957A8312A375D7C00D64786 /* DKnowEditorModal.swift */,
-				79FB2E482A3E4DFB00F05D61 /* ConnectToWCompModal.swift */,
 				796A17852A3F49E600413DDD /* KnowledgeListSection.swift */,
+				79FB2E482A3E4DFB00F05D61 /* ConnectToWCompModal.swift */,
 				796A17872A3F6C6600413DDD /* WCompListSection.swift */,
+				79F7A27C2A405D8F00CEC3D5 /* ConnectToActivityModal.swift */,
+				79F7A2782A4053BE00CEC3D5 /* ActivityListSection.swift */,
+				79F7A27A2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift */,
 			);
 			path = Knowledge;
 			sourceTree = "<group>";
@@ -805,6 +834,7 @@
 				798D24F32A2E085F008500D2 /* WCompChapterListView.swift */,
 				799EFBA52A2CFE45008E9775 /* WCompChapterBrowserRow.swift */,
 				796699D62A30BF0400DF14AB /* WCompChapterEditorModal.swift */,
+				79F7A28C2A40CAA000CEC3D5 /* WCompChapterPicker.swift */,
 			);
 			path = Chapter;
 			sourceTree = "<group>";
@@ -816,6 +846,9 @@
 				798D24F92A2E88CA008500D2 /* WCompListView.swift */,
 				791DEE172A2FFB7C00D0E248 /* WCompBrowserRow.swift */,
 				798D24FB2A2E9767008500D2 /* WCompEditorModal.swift */,
+				79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */,
+				79F7A2822A408B2C00CEC3D5 /* WCompTagRow.swift */,
+				79F7A28E2A40CE7100CEC3D5 /* WCompPicker.swift */,
 			);
 			path = Competency;
 			sourceTree = "<group>";
@@ -1125,6 +1158,8 @@
 				79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */,
 				7989B4D829A288E900383F84 /* LabeledSequenceView.swift */,
 				799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */,
+				79F7A2882A40ADB900CEC3D5 /* SequencePicker.swift */,
+				79F7A28A2A40AECE00CEC3D5 /* SequencePickerRow.swift */,
 			);
 			path = Sequence;
 			sourceTree = "<group>";
@@ -1143,6 +1178,7 @@
 				79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */,
 				7989B4D429A2752800383F84 /* LabeledActivityView.swift */,
 				799D2C7629CBADE2009C6336 /* ActivityDocumentList.swift */,
+				79F7A2862A40A9AF00CEC3D5 /* ActivityPicker.swift */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -1657,6 +1693,7 @@
 			children = (
 				79F7708F2A2B9B7E004E9089 /* CompetencySplitView.swift */,
 				79F770912A2B9F4E004E9089 /* CompetencySidebarView.swift */,
+				79F7A2842A409C5200CEC3D5 /* LevelInCyclePicker.swift */,
 				79C20A7E2A326CD300E43A07 /* DsciplineCompetency */,
 				799EFBA92A2D0260008E9775 /* WorkedCompetency */,
 			);
@@ -1692,6 +1729,8 @@
 				79FD21A32A33D76A00A8D925 /* DCompListView.swift */,
 				79FD21A72A34DAB300A8D925 /* DCompBrowserRow.swift */,
 				79FD21A52A34D41000A8D925 /* DCompEditorModal.swift */,
+				79F7A27E2A40888300CEC3D5 /* DCompTagRow.swift */,
+				79F7A2762A40504600CEC3D5 /* DCompCapsule.swift */,
 			);
 			path = Competency;
 			sourceTree = "<group>";
@@ -1892,15 +1931,19 @@
 				793D627F295F33D300477932 /* ColleViewModel.swift in Sources */,
 				79C20A802A326D0C00E43A07 /* DThemeListView.swift in Sources */,
 				79DEDAE9292585E300F508EF /* SchoolSplitView.swift in Sources */,
+				79F7A28D2A40CAA000CEC3D5 /* WCompChapterPicker.swift in Sources */,
 				79398D37296632D60013564D /* ExamDetail.swift in Sources */,
 				7920A5242957345A0092A7DD /* EleveLabelWithTrombineFlag.swift in Sources */,
 				79F770902A2B9B7E004E9089 /* CompetencySplitView.swift in Sources */,
 				79ECF204295A1607008F0282 /* ColleBrowserRow.swift in Sources */,
+				79F7A2872A40A9AF00CEC3D5 /* ActivityPicker.swift in Sources */,
 				791802A62A365E29001588B2 /* DKnowledgeEntity+Extensions.swift in Sources */,
 				79F41E732954D30F00EAAC52 /* EleveBrowserRow.swift in Sources */,
+				79F7A2832A408B2C00CEC3D5 /* WCompTagRow.swift in Sources */,
 				796521D22A14DC0C000C27D1 /* SchoolYearPref.swift in Sources */,
 				796699D72A30BF0400DF14AB /* WCompChapterEditorModal.swift in Sources */,
 				79EE3EA4296F6CF20075E9BD /* EleveTrombineStyling.swift in Sources */,
+				79F7A27B2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift in Sources */,
 				79398D30296616250013564D /* ClasseExamRow.swift in Sources */,
 				79A5737529BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift in Sources */,
 				79DEDB13292593C200F508EF /* SettingsClasse.swift in Sources */,
@@ -1909,6 +1952,7 @@
 				79F41E5E2954987F00EAAC52 /* ClasseAcronym.swift in Sources */,
 				7957A8322A375D7C00D64786 /* DKnowEditorModal.swift in Sources */,
 				79398D31296616250013564D /* ExamCreatorModal.swift in Sources */,
+				79F7A2812A408ABE00CEC3D5 /* WCompCapsule.swift in Sources */,
 				79ECF206295A16E2008F0282 /* EleveColleRow.swift in Sources */,
 				79BA2D48299C0084006325CC /* JsonImportExportMng.swift in Sources */,
 				79CD363929D989C900BF5ADC /* EmptyListMessage.swift in Sources */,
@@ -1962,6 +2006,7 @@
 				79FD21A02A33C82900A8D925 /* DCompViewModel.swift in Sources */,
 				793D6271295DCBBC00477932 /* MotifEditor.swift in Sources */,
 				79F41E5A2954903D00EAAC52 /* ClasseDetail.swift in Sources */,
+				79F7A2892A40ADB900CEC3D5 /* SequencePicker.swift in Sources */,
 				7937A2462986C57D00D0ED59 /* ExamTypeEnum.swift in Sources */,
 				796521D62A14EF1E000C27D1 /* DailySchedulePref.swift in Sources */,
 				793D6270295DCBBC00477932 /* MotifView.swift in Sources */,
@@ -2029,6 +2074,7 @@
 				79ECF202295A15F0008F0282 /* EleveObservRow.swift in Sources */,
 				792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */,
 				791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */,
+				79F7A27F2A40888300CEC3D5 /* DCompTagRow.swift in Sources */,
 				79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */,
 				790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */,
 				79B3083A29EE115300C69C79 /* Documentation.docc in Sources */,
@@ -2060,6 +2106,7 @@
 				79ECF1F42959F09F008F0282 /* colle+extensions.swift in Sources */,
 				796371FF297D575800ECDBC3 /* SequenceSidebarView.swift in Sources */,
 				7994E31F2972DE8400952D08 /* RoomSeatManager.swift in Sources */,
+				79F7A2852A409C5200CEC3D5 /* LevelInCyclePicker.swift in Sources */,
 				79637214297DBD6500ECDBC3 /* SettingsActivity.swift in Sources */,
 				79FD21952A338CAC00A8D925 /* DCompEntity+CoreDataClass.swift in Sources */,
 				7997531C297C17F400D1C66E /* ProgramEditorModal.swift in Sources */,
@@ -2083,6 +2130,7 @@
 				79F41E592954903D00EAAC52 /* ClasseEditor.swift in Sources */,
 				793EF8DD299D82A6002DDC64 /* ActivityProgress+Extensions.swift in Sources */,
 				792381192960B04F009E51B7 /* GroupPicturesView.swift in Sources */,
+				79F7A27D2A405D8F00CEC3D5 /* ConnectToActivityModal.swift in Sources */,
 				7940135629565B48007AD790 /* EleveViewModel.swift in Sources */,
 				79FFF42D295122F60037A327 /* ColorOptions.swift in Sources */,
 				795C2C2F296E2DCA00EDFF09 /* SeatLabel.swift in Sources */,
@@ -2095,6 +2143,7 @@
 				79DEDAFB2925897600F508EF /* ObservSidebarView.swift in Sources */,
 				798DD4D4298C352A00C47B2C /* StepsNotationView.swift in Sources */,
 				790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */,
+				79F7A28F2A40CE7100CEC3D5 /* WCompPicker.swift in Sources */,
 				79AFBFB62981C9DA001576DD /* ActivityCreatorModal.swift in Sources */,
 				7989B4DB29A28D0300383F84 /* ProgressState.swift in Sources */,
 				7994E3242972F4E500952D08 /* SchoolDocumentListSection.swift in Sources */,
@@ -2130,12 +2179,14 @@
 				79637208297D9B5B00ECDBC3 /* ActivitySideBar.swift in Sources */,
 				79DEDB2B2925996E00F508EF /* Preferences.swift in Sources */,
 				796521D42A14E0F3000C27D1 /* ElevePref.swift in Sources */,
+				79F7A28B2A40AECE00CEC3D5 /* SequencePickerRow.swift in Sources */,
 				79637212297DBCE200ECDBC3 /* SettingsSequence.swift in Sources */,
 				7989B4DF29A2A63000383F84 /* ClassSequenceProgressEditView.swift in Sources */,
 				793D6279295F29DD00477932 /* ColleEditor.swift in Sources */,
 				7989B4DD29A28F8E00383F84 /* CompletionSymbol.swift in Sources */,
 				798D24FC2A2E9767008500D2 /* WCompEditorModal.swift in Sources */,
 				7941BC662A030C5100EF9F30 /* Owner+Extensions.swift in Sources */,
+				79F7A2792A4053BE00CEC3D5 /* ActivityListSection.swift in Sources */,
 				79DEDB042925902800F508EF /* SchoolSidebarView.swift in Sources */,
 				7921F54C2925825800173F39 /* ModelEntityP.swift in Sources */,
 				79DEDB15292593C200F508EF /* SettingsGeneral.swift in Sources */,
@@ -2146,6 +2197,7 @@
 				79DEDB292925996E00F508EF /* UIPreferences.swift in Sources */,
 				792311382A312FDB008556E1 /* DThemeEntity+Extension.swift in Sources */,
 				79BA2D4C299C0287006325CC /* ImageImportExportMng.swift in Sources */,
+				79F7A2772A40504600CEC3D5 /* DCompCapsule.swift in Sources */,
 				79E40E732996AEBF006BBE49 /* Room+CoreDataClass.swift in Sources */,
 				79388A5329257045002AABB8 /* NavigationModel.swift in Sources */,
 				797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */,

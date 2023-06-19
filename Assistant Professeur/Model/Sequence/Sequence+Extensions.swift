@@ -208,6 +208,63 @@ extension SequenceEntity {
         self.id = UUID()
     }
 
+    /// Retourne toutes les activités triées satisfaisant au critères:
+    /// `discipline`, `cycle`, `level`
+    ///
+    /// Ordre de tri:
+    ///   1. Discipline
+    ///   2. Niveau de classe
+    ///   3. Numéro de séquence
+    static func sortedByDisciplineLevelSeq(
+        discipline: Discipline? = nil,
+        cycle: Cycle? = nil,
+        level: LevelClasse? = nil
+    ) -> [SequenceEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(
+                \SequenceEntity.program?.disciplineString,
+                 order: .forward
+            ),
+            SortDescriptor(
+                \SequenceEntity.program?.levelSortOrder,
+                 order: .forward
+            ),
+            SortDescriptor(
+                \SequenceEntity.viewNumber,
+                 order: .forward
+            )
+        ]
+        return all()
+            .filter { sequence in
+                var result = true
+
+                if let discipline {
+                    result =
+                    result &&
+                    sequence.program?.viewDisciplineEnum == discipline
+                }
+
+                if let cycle {
+                    if let level = sequence.program?.viewLevelEnum {
+                        result =
+                        result &&
+                        cycle.associatedLevels.contains(level)
+                    } else {
+                        result = false
+                    }
+                }
+
+                if let level {
+                    result =
+                    result &&
+                    sequence.program?.viewLevelEnum == level
+                }
+                return result
+            }
+            .sorted(using: sortComparators)
+    }
+
     /// Créer une nouvelle instance **SANS** la sauvegarder dans le context
     static func createWithoutSaving(
         name: String = "",

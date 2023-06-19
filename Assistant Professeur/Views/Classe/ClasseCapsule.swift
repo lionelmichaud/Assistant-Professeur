@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HelpersView
 
 struct ClasseCapsule: View {
     let classe: ClasseEntity

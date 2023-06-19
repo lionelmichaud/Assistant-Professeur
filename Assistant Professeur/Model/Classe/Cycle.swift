@@ -28,4 +28,14 @@ enum Cycle: String, PickableIdentifiableEnumP, Codable {
             case .cycle5: return "Cycle 5"
         }
     }
+
+    var associatedLevels: [LevelClasse] {
+        switch self {
+            case .cycle1: return []
+            case .cycle2: return [.nbCP, .naCE1, .n9CE2]
+            case .cycle3: return [.n8CM1, .n7CM2, .n6ieme]
+            case .cycle4: return [.n5ieme, .n4ieme, .n3ieme]
+            case .cycle5: return [.n2nd, .n1ere, .n0terminale]
+        }
+    }
 }
