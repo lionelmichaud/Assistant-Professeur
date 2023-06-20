@@ -12,47 +12,30 @@ struct SequenceList: View {
     @ObservedObject
     var program: ProgramEntity
 
+    var searchString: String = ""
+
     @Environment(\.managedObjectContext)
     private var managedObjectContext
 
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @State
-    private var searchString: String = ""
-
     var body: some View {
         Section {
-            if program.sequencesSortedByNumber.isNotEmpty {
-                List(selection: $navig.selectedSequenceMngObjId) {
-                    ForEach(
-                        program.filteredSequencesSortedByNumber(searchString: searchString),
-                        id: \.objectID
-                    ) { sequence in
-                        NavigationLink(value: sequence) {
-                            SequenceBrowserRow(sequence: sequence)
-                        }
-                    }
-                    .onMove(perform: moveItems)
-                    .onDelete(perform: deleteItems)
-                    .listRowSeparatorTint(.secondary)
-                    .emptyListPlaceHolder(program.filteredSequencesSortedByNumber(searchString: searchString)) {
-                        EmptyListMessage(
-                            title: "Aucune séquence trouvée."
-                        )
-                    }
+            ForEach(
+                program.filteredSequencesSortedByNumber(searchString: searchString),
+                id: \.objectID
+            ) { sequence in
+                NavigationLink(value: sequence) {
+                    SequenceBrowserRow(sequence: sequence)
                 }
-                .searchable(
-                    text: $searchString,
-//                    placement : .navigationBarDrawer(displayMode : .automatic),
-                    placement: .toolbar,
-                    prompt: "Nom de la séquence"
-                )
-
-            } else {
+            }
+            .onMove(perform: moveItems)
+            .onDelete(perform: deleteItems)
+            .listRowSeparatorTint(.secondary)
+            .emptyListPlaceHolder(program.filteredSequencesSortedByNumber(searchString: searchString)) {
                 EmptyListMessage(
-                    title: "Aucune séquence actuellement dans ce programme.",
-                    message: "Les séquences ajoutées apparaîtront ici."
+                    title: "Aucune séquence trouvée."
                 )
             }
         } header: {

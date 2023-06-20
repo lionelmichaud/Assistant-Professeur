@@ -45,10 +45,11 @@ extension SequenceStepperView {
             } icon: {
                 Text("S\(sequence.viewNumber)")
                     .padding(6)
-                    .background(Circle().stroke(.teal, lineWidth: 1))
+                    .background(Circle().stroke(Color.blue4, lineWidth: 1))
             }
-            .foregroundColor(.teal)
+            .foregroundColor(Color.blue4)
             .padding(.bottom, 6)
+
             if sequence.viewAnnotation.isNotEmpty {
                 Text("Problématique:")
                     .bold()
@@ -56,7 +57,18 @@ extension SequenceStepperView {
                     .padding(.leading)
                     .padding(.bottom, 6)
             }
-            DurationView(duration: sequence.durationWithoutMargin, withMargin: false)
+            // Compétences disciplinaires associées
+            if sequence.disciplineCompSortedByAcronym.isNotEmpty {
+                Text("Compétences disciplinaires associées:")
+                    .bold()
+                DCompTagRow(disciplineComps: sequence.disciplineCompSortedByAcronym)
+                    .padding(.bottom, 6)
+            }
+            // Durée de la séquence
+            DurationView(
+                duration: sequence.durationWithoutMargin,
+                withMargin: false
+            )
         }
         .textSelection(.enabled)
         .padding(8)
@@ -72,7 +84,7 @@ extension SequenceStepperView {
                     HStack {
                         Text(activity.viewName)
                             .bold()
-                            .foregroundColor(.teal)
+                            .foregroundColor(Color.blue4)
                             .textSelection(.enabled)
                         ForEach(classes) { classe in
                             if classe.currentActivity == activity {
@@ -110,26 +122,24 @@ extension SequenceStepperView {
                         duration: activity.duration,
                         withMargin: false
                     )
-                        .font(.callout)
-                        .bold()
-                        .padding(.bottom, 1)
-                    ActivitySymbolProject(
+                    .font(.callout)
+                    .bold()
+                    .padding(.bottom, 1)
+
+                    ActivityAllSymbols(
                         activity: activity,
-                        showTitle: true
+                        showTitle: true,
+                        axis: .horizontal
                     )
-                    .font(.footnote)
-                    ActivitySymbolTP(
-                        activity: activity,
-                        showTitle: true
-                    )
-                    ActivitySymbolEvalFormmative(
-                        activity: activity,
-                        showTitle: true
-                    )
-                    ActivitySymbolEvalSommative(
-                        activity: activity,
-                        showTitle: true
-                    )
+
+                    // Compétences disciplinaires associées
+                    if activity.allDisciplineCompetencies.isNotEmpty {
+                        DCompTagRow(
+                            disciplineComps: activity.allDisciplineCompetencies,
+                            font: .footnote
+                        )
+                        .padding([.top, .bottom], 1)
+                    }
                 }
                 .eraseToAnyView()
             }
@@ -139,7 +149,7 @@ extension SequenceStepperView {
         sequence
             .activitiesSortedByNumber
             .map { _ in
-                StepperLineOptions.custom(1, Color.teal)
+                StepperLineOptions.custom(1, Color.blue4)
             }
     }
 }

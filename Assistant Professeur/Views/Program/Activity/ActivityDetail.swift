@@ -41,11 +41,11 @@ struct ActivityDetail: View {
     }
 
     var body: some View {
-        VStack {
+        Group {
             if selectedActivityExists {
-                ActivityDetailGroupBox(activity: selectedActivity!)
-
                 List {
+                    ActivityDetailGroupBox(activity: selectedActivity!)
+                    
                     Section {
                         ActivityProgressesView(activity: selectedActivity!)
                     } header: {

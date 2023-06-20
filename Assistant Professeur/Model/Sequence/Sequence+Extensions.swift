@@ -10,7 +10,6 @@ import SwiftUI
 
 /// Une séquence d'un programme scolaire pour une dscipline et un niveau donnés
 extension SequenceEntity {
-
     // MARK: - Type Properties
 
     static var pref: ObservedObject<UserPreferences>.Wrapper!
@@ -107,6 +106,25 @@ extension SequenceEntity {
                 SortDescriptor(\ActivityEntity.number, order: .forward)
             ]
         return allActivities.sorted(using: sortComparators)
+    }
+
+    /// Liste des Compétences Disciplinaires triées par Acronym
+    var disciplineCompSortedByAcronym: [DCompEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(
+                    \DCompEntity.viewAcronym,
+                    order: .forward
+                )
+            ]
+        var withDuplicatesRemoved =
+            Array(Set(activitiesSortedByNumber
+                    .flatMap { activity in
+                        activity.allDisciplineCompetencies
+                    }))
+
+        return withDuplicatesRemoved
+            .sorted(using: sortComparators)
     }
 
     // MARK: - Méthodes
@@ -221,35 +239,35 @@ extension SequenceEntity {
         level: LevelClasse? = nil
     ) -> [SequenceEntity] {
         let sortComparators =
-        [
-            SortDescriptor(
-                \SequenceEntity.program?.disciplineString,
-                 order: .forward
-            ),
-            SortDescriptor(
-                \SequenceEntity.program?.levelSortOrder,
-                 order: .forward
-            ),
-            SortDescriptor(
-                \SequenceEntity.viewNumber,
-                 order: .forward
-            )
-        ]
+            [
+                SortDescriptor(
+                    \SequenceEntity.program?.disciplineString,
+                    order: .forward
+                ),
+                SortDescriptor(
+                    \SequenceEntity.program?.levelSortOrder,
+                    order: .forward
+                ),
+                SortDescriptor(
+                    \SequenceEntity.viewNumber,
+                    order: .forward
+                )
+            ]
         return all()
             .filter { sequence in
                 var result = true
 
                 if let discipline {
                     result =
-                    result &&
-                    sequence.program?.viewDisciplineEnum == discipline
+                        result &&
+                        sequence.program?.viewDisciplineEnum == discipline
                 }
 
                 if let cycle {
                     if let level = sequence.program?.viewLevelEnum {
                         result =
-                        result &&
-                        cycle.associatedLevels.contains(level)
+                            result &&
+                            cycle.associatedLevels.contains(level)
                     } else {
                         result = false
                     }
@@ -257,8 +275,8 @@ extension SequenceEntity {
 
                 if let level {
                     result =
-                    result &&
-                    sequence.program?.viewLevelEnum == level
+                        result &&
+                        sequence.program?.viewLevelEnum == level
                 }
                 return result
             }

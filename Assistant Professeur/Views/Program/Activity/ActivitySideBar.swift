@@ -24,6 +24,9 @@ struct ActivitySideBar: View {
     @State
     private var isEditing = false
 
+    @State
+    private var searchString: String = ""
+
     // MARK: - Computed Properties
 
     private var selectedSequenceNumber: String {
@@ -31,40 +34,46 @@ struct ActivitySideBar: View {
     }
 
     var body: some View {
-        VStack {
-            if sequence.program != nil {
-                Button {
-                    showSequenceSteps = true
-                } label: {
-                    SequenceDetailGroupBox(sequence: sequence)
+        Group {
+            if sequence.activitiesSortedByNumber.isNotEmpty {
+                List(selection: $navig.selectedActivityMngObjId) {
+                    if sequence.program != nil {
+                        Button {
+                            showSequenceSteps = true
+                        } label: {
+                            SequenceDetailGroupBox(sequence: sequence)
+                        }
+                        .buttonStyle(.plain)
+                    } else {
+                        Text("Programme associé introuvable")
+                            .foregroundStyle(.secondary)
+                            .font(.title2)
+                    }
+
+                    ActivityList(
+                        sequence: sequence,
+                        searchString: searchString
+                    )
                 }
-                .buttonStyle(.plain)
+                .searchable(
+                    text: $searchString,
+                    placement: .toolbar,
+                    prompt: "Nom de l'activité"
+                )
+
             } else {
-                Text("Programme associé introuvable")
-                    .foregroundStyle(.secondary)
-                    .font(.title2)
+                EmptyListMessage(
+                    title: "Aucune activitée actuellement dans cette séquence.",
+                    message: "Les activitées ajoutées apparaîtront ici.",
+                    showAsGroupBox: true
+                )
             }
-            ActivityList(sequence: sequence)
         }
         #if os(iOS)
         .navigationTitle("Séquence " + selectedSequenceNumber)
         #endif
         .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)
-
-        // Modal Sheet de création d'une nouvelle activité
-//        .sheet(
-//            isPresented: $isAddingNewActivity,
-//            onDismiss: SequenceEntity.rollback
-//        ) {
-//            if let sequenceId = navig.selectedSequenceId,
-//               let sequence = SequenceEntity.byObjectId(id: sequenceId) {
-//                NavigationStack {
-//                    ActivityCreatorModal(sequence: sequence)
-//                }
-//                .presentationDetents([.medium])
-//            }
-//        }
 
         // Modal Sheet de modification de la séquence
         .sheet(

@@ -12,46 +12,28 @@ struct ActivityList: View {
     @ObservedObject
     var sequence: SequenceEntity
 
+    var searchString: String = ""
+
     @Environment(\.managedObjectContext)
     private var managedObjectContext
 
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @State
-    private var searchString: String = ""
-
     var body: some View {
         Section {
-            if sequence.activitiesSortedByNumber.isNotEmpty {
-                List(selection: $navig.selectedActivityMngObjId) {
-                    ForEach(
-                        sequence.filteredActivitiesSortedByNumber(searchString: searchString),
-                        id: \.objectID
-                    ) { activity in
-                        ActivityBrowserRow(activity: activity)
-                    }
-                    .onMove(perform: moveItems)
-                    .onDelete(perform: deleteItems)
-                    .listRowSeparatorTint(.secondary)
-                    .emptyListPlaceHolder(sequence.filteredActivitiesSortedByNumber(searchString: searchString)) {
-                        EmptyListMessage(
-                            title: "Aucune activité trouvée."
-                        )
-                    }
-                }
-                .searchable(
-                    text: $searchString,
-//                    placement : .navigationBarDrawer(displayMode : .automatic),
-                    placement: .toolbar,
-                    prompt: "Nom de l'activité"
-                )
-
-            } else {
+            ForEach(
+                sequence.filteredActivitiesSortedByNumber(searchString: searchString),
+                id: \.objectID
+            ) { activity in
+                ActivityBrowserRow(activity: activity)
+            }
+            .onMove(perform: moveItems)
+            .onDelete(perform: deleteItems)
+            .listRowSeparatorTint(.secondary)
+            .emptyListPlaceHolder(sequence.filteredActivitiesSortedByNumber(searchString: searchString)) {
                 EmptyListMessage(
-                    title: "Aucune activitée actuellement dans cette séquence.",
-                    message: "Les activitées ajoutées apparaîtront ici.",
-                    showAsGroupBox: true
+                    title: "Aucune activité trouvée."
                 )
             }
         } header: {

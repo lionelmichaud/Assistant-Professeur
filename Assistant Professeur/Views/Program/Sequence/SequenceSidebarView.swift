@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 22/01/2023.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct SequenceSidebarView: View {
     @Binding
@@ -21,17 +21,39 @@ struct SequenceSidebarView: View {
     @State
     private var isEditing = false
 
+    @State
+    var searchString: String = ""
+
     var body: some View {
         VStack {
             if let programId = navig.selectedProgramMngObjId {
                 if let program = ProgramEntity.byObjectId(MngObjID: programId) {
-                    Button {
-                        showProgramSteps = true
-                    } label: {
-                        ProgramDetailGroupBox(program: program)
+                    if program.sequencesSortedByNumber.isNotEmpty {
+                        List(selection: $navig.selectedSequenceMngObjId) {
+                            Button {
+                                showProgramSteps = true
+                            } label: {
+                                ProgramDetailGroupBox(program: program)
+                            }
+                            .buttonStyle(.plain)
+
+                            SequenceList(
+                                program: program,
+                                searchString: searchString
+                            )
+                        }
+                        .searchable(
+                            text: $searchString,
+                            placement: .toolbar,
+                            prompt: "Nom de la séquence"
+                        )
+
+                    } else {
+                        EmptyListMessage(
+                            title: "Aucune séquence actuellement dans ce programme.",
+                            message: "Les séquences ajoutées apparaîtront ici."
+                        )
                     }
-                    .buttonStyle(.plain)
-                    SequenceList(program: program)
 
                 } else {
                     Text("Programme introuvable")

@@ -128,7 +128,7 @@ extension JsonImportExportMng {
 
                 // IMPORTER LES FICHIERS REQUIS
 
-                // Importer les données contenant les données du Owner du Modèle
+                // 1 - Importer les données contenant les données du Owner du Modèle
                 guard ownerJsonFile.startAccessingSecurityScopedResource() else {
                     alertTitle = "Échec"
                     alertMessage = "L'importation du fichier **\(ownerFileName)** a échouée!"
@@ -144,7 +144,7 @@ extension JsonImportExportMng {
                 importOwnerFromJson(fileUrl: ownerJsonFile)
                 ownerJsonFile.stopAccessingSecurityScopedResource()
 
-                // Importer les données des Schools et de leurs descendants
+                // 2 - Importer les données des Schools et de leurs descendants
                 // WARNING: Il faut que les Schools soient chargées AVANT
                 // les Programmes pour que les entités des Programmes puissent
                 // établir la connection avec les entités des Schools
@@ -162,7 +162,7 @@ extension JsonImportExportMng {
                 importSchoolsFromJson(fileUrl: schoolJsonFile)
                 schoolJsonFile.stopAccessingSecurityScopedResource()
 
-                // Importer les données des Programs et de leurs descendants
+                // 3 - Importer les données des Programs et de leurs descendants
                 // WARNING: Il faut que les Programs soient chargées AVANT
                 // les Compétences Disciplinaires pour que les entités
                 // des Compétences Disciplinaires puissent
@@ -181,7 +181,7 @@ extension JsonImportExportMng {
                 importProgramsFromJson(fileUrl: programJsonFile)
                 programJsonFile.stopAccessingSecurityScopedResource()
 
-                // Importer les données des Compétences Socle et de leurs descendants
+                // 4 - Importer les données des Compétences Socle et de leurs descendants
                 // WARNING: Il faut que les Compétences Socle soient chargées AVANT
                 // les Compétences Disciplinaires pour que les entités
                 // des Compétences Disciplinaires puissent
@@ -200,7 +200,7 @@ extension JsonImportExportMng {
                 importWCompetenciesFromJson(fileUrl: wCompetenciesJsonFile)
                 wCompetenciesJsonFile.stopAccessingSecurityScopedResource()
 
-                // Importer les données des Compétences Disciplinaires et de leurs descendants
+                // 5 - Importer les données des Compétences Disciplinaires et de leurs descendants
                 guard dCompetenciesJsonFile.startAccessingSecurityScopedResource() else {
                     alertTitle = "Échec"
                     alertMessage = "L'importation du fichier **\(dCompetenciesFileName)** a échouée!"

@@ -59,6 +59,7 @@ struct SequenceDetailGroupBox: View {
                     WebsiteView(url: sequence.url)
                 }
                 .padding(.top, 4)
+
             }
             .font(hClass == .compact ? .callout : .body)
             .horizontallyAligned(.leading)

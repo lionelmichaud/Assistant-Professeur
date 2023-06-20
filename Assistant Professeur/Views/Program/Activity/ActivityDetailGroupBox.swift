@@ -55,11 +55,10 @@ struct ActivityDetailGroupBox: View {
                         duration: activity.duration,
                         withMargin: false
                     )
-                    .padding(.top, 4)
                     Spacer()
                     WebsiteView(url: activity.url, showURL: true)
-                        .padding(.top, 4)
                 }
+                .padding(.top, 4)
 
                 ActivityAllSymbols(
                     activity: activity,
