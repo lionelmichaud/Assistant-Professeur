@@ -62,7 +62,6 @@ extension SequenceStepperView {
                 Text("Compétences disciplinaires associées:")
                     .bold()
                 DCompTagRow(disciplineComps: sequence.disciplineCompSortedByAcronym)
-                    .padding(.bottom, 6)
             }
             // Durée de la séquence
             DurationView(

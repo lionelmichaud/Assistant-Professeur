@@ -17,7 +17,7 @@ struct ActivitySymbolEvalSommative: View {
         Group {
             if activity.viewIsEvalSommative {
                 Label(
-                    "Éval Sommative ",
+                    "Éval Sommative",
                     systemImage: ActivityEntity.evalSommativeSymbol
                 )
                 .if(showTitle) {
@@ -46,7 +46,7 @@ struct ActivitySymbolEvalFormmative: View {
         Group {
             if activity.viewIsEvalFormative {
                 Label(
-                    "Éval Formative ",
+                    "Éval Formative",
                     systemImage: ActivityEntity.evalFormativeSymbol
                 )
                 .if(showTitle) {
@@ -75,7 +75,7 @@ struct ActivitySymbolTP: View {
         Group {
             if activity.viewIsTP {
                 Label(
-                    "TP ",
+                    "TP",
                     systemImage: ActivityEntity.tpSymbol
                 )
                 .if(showTitle) {
@@ -104,7 +104,7 @@ struct ActivitySymbolProject: View {
         Group {
             if activity.viewIsProject {
                 Label(
-                    "Projet ",
+                    "Projet",
                     systemImage: ActivityEntity.projectSymbol
                 )
                 .if(showTitle) {

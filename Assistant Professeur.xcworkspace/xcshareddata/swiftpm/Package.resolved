@@ -17,6 +17,15 @@
         "revision" : "c66fb84c640fbc312f4eead0b7ae2a77f93e0839",
         "version" : "1.6.7"
       }
+    },
+    {
+      "identity" : "tagkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danielsaidi/TagKit.git",
+      "state" : {
+        "revision" : "9a2a9386fa33ae1dffee83439f71056a6d64c97e",
+        "version" : "0.1.1"
+      }
     }
   ],
   "version" : 2

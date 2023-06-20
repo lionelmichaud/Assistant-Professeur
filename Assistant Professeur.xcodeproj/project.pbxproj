@@ -339,6 +339,8 @@
 		79F7A28B2A40AECE00CEC3D5 /* SequencePickerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A28A2A40AECE00CEC3D5 /* SequencePickerRow.swift */; };
 		79F7A28D2A40CAA000CEC3D5 /* WCompChapterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A28C2A40CAA000CEC3D5 /* WCompChapterPicker.swift */; };
 		79F7A28F2A40CE7100CEC3D5 /* WCompPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A28E2A40CE7100CEC3D5 /* WCompPicker.swift */; };
+		79F7A2942A42389100CEC3D5 /* TagCapsuleStyle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2932A42389100CEC3D5 /* TagCapsuleStyle+Extension.swift */; };
+		79F7A29A2A4258A700CEC3D5 /* TagKit in Frameworks */ = {isa = PBXBuildFile; productRef = 79F7A2992A4258A700CEC3D5 /* TagKit */; };
 		79F8773229F425A300AB38C3 /* DigitalClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F8773129F425A300AB38C3 /* DigitalClockView.swift */; };
 		79FB2E492A3E4DFB00F05D61 /* ConnectToWCompModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FB2E482A3E4DFB00F05D61 /* ConnectToWCompModal.swift */; };
 		79FBB4D72991C2CC00B47484 /* Classe+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */; };
@@ -685,6 +687,7 @@
 		79F7A28A2A40AECE00CEC3D5 /* SequencePickerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequencePickerRow.swift; sourceTree = "<group>"; };
 		79F7A28C2A40CAA000CEC3D5 /* WCompChapterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompChapterPicker.swift; sourceTree = "<group>"; };
 		79F7A28E2A40CE7100CEC3D5 /* WCompPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompPicker.swift; sourceTree = "<group>"; };
+		79F7A2932A42389100CEC3D5 /* TagCapsuleStyle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TagCapsuleStyle+Extension.swift"; sourceTree = "<group>"; };
 		79F8773129F425A300AB38C3 /* DigitalClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigitalClockView.swift; sourceTree = "<group>"; };
 		79FB2E482A3E4DFB00F05D61 /* ConnectToWCompModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectToWCompModal.swift; sourceTree = "<group>"; };
 		79FBB4D52991C2CC00B47484 /* Classe+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Classe+CoreDataClass.swift"; path = "Assistant Professeur/Model/Classe/Classe+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
@@ -715,6 +718,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79F7A29A2A4258A700CEC3D5 /* TagKit in Frameworks */,
 				7921F54A292575B400173F39 /* AppFoundation in Frameworks */,
 				7942F23829A5612E007E3C3B /* StepperView in Frameworks */,
 				79DEDAE22925849600F508EF /* HelpersView in Frameworks */,
@@ -982,6 +986,7 @@
 				7951B69E29B13E45006DC88D /* Warnings */,
 				79975314297B146600D1C66E /* Program */,
 				79F7708E2A2B9B68004E9089 /* Competencies */,
+				79F7A2952A423BFD00CEC3D5 /* Tags */,
 				79CD363829D989C900BF5ADC /* EmptyListMessage.swift */,
 			);
 			path = Views;
@@ -1700,6 +1705,14 @@
 			path = Competencies;
 			sourceTree = "<group>";
 		};
+		79F7A2952A423BFD00CEC3D5 /* Tags */ = {
+			isa = PBXGroup;
+			children = (
+				79F7A2932A42389100CEC3D5 /* TagCapsuleStyle+Extension.swift */,
+			);
+			path = Tags;
+			sourceTree = "<group>";
+		};
 		79FD218A2A3362C000A8D925 /* Theme */ = {
 			isa = PBXGroup;
 			children = (
@@ -1757,6 +1770,7 @@
 				79DEDAE12925849600F508EF /* HelpersView */,
 				79DEDB1B292594ED00F508EF /* FileAndFolder */,
 				7942F23729A5612E007E3C3B /* StepperView */,
+				79F7A2992A4258A700CEC3D5 /* TagKit */,
 			);
 			productName = "Assistant Professeur";
 			productReference = 79B6630129244C3F007B1FBD /* Assistant Professeur.app */;
@@ -1832,6 +1846,7 @@
 			mainGroup = 79B662F829244C3F007B1FBD;
 			packageReferences = (
 				7942F23629A5612E007E3C3B /* XCRemoteSwiftPackageReference "StepperView" */,
+				79F7A2982A4258A700CEC3D5 /* XCRemoteSwiftPackageReference "TagKit" */,
 			);
 			productRefGroup = 79B6630229244C3F007B1FBD /* Products */;
 			projectDirPath = "";
@@ -2071,6 +2086,7 @@
 				7921355D2978728A0036A5EA /* Activity+Extensions.swift in Sources */,
 				79637203297D826400ECDBC3 /* ProgramManager.swift in Sources */,
 				796793C72A12C0B80037173D /* UserPreferences.swift in Sources */,
+				79F7A2942A42389100CEC3D5 /* TagCapsuleStyle+Extension.swift in Sources */,
 				79ECF202295A15F0008F0282 /* EleveObservRow.swift in Sources */,
 				792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */,
 				791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */,
@@ -2630,6 +2646,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		79F7A2982A4258A700CEC3D5 /* XCRemoteSwiftPackageReference "TagKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielsaidi/TagKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2649,6 +2673,11 @@
 		79DEDB1B292594ED00F508EF /* FileAndFolder */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FileAndFolder;
+		};
+		79F7A2992A4258A700CEC3D5 /* TagKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 79F7A2982A4258A700CEC3D5 /* XCRemoteSwiftPackageReference "TagKit" */;
+			productName = TagKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 

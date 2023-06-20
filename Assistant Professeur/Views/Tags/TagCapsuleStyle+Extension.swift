@@ -1,0 +1,26 @@
+//
+//  TagCapsule.swift
+//  Assistant Professeur
+//
+//  Created by Lionel MICHAUD on 20/06/2023.
+//
+
+import HelpersView
+import SwiftUI
+import TagKit
+
+extension TagCapsuleStyle {
+    /// Style adapté aux compétences disciplinaires
+    static var disciplineCompTagStyle = TagCapsuleStyle(
+        foregroundColor: .primary,
+        backgroundColor: .blue7,
+        borderColor: .primary,
+        borderWidth: 1,
+        padding: .init(
+            top: 3,
+            leading: 6,
+            bottom: 3,
+            trailing: 6
+        )
+    )
+}
