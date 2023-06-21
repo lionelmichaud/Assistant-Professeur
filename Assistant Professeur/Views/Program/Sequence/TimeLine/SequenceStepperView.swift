@@ -57,11 +57,23 @@ extension SequenceStepperView {
                     .padding(.leading)
                     .padding(.bottom, 6)
             }
+            // Compétences socle associées
+            if sequence.workedCompSortedByAcronym.isNotEmpty {
+                Text("Compétences socle associées:")
+                    .bold()
+                WCompTagList(
+                    workedComps: sequence.workedCompSortedByAcronym,
+                    font: .footnote
+                )
+            }
             // Compétences disciplinaires associées
             if sequence.disciplineCompSortedByAcronym.isNotEmpty {
                 Text("Compétences disciplinaires associées:")
                     .bold()
-                DCompTagRow(disciplineComps: sequence.disciplineCompSortedByAcronym)
+                DCompTagList(
+                    disciplineComps: sequence.disciplineCompSortedByAcronym,
+                    font: .footnote
+                )
             }
             // Durée de la séquence
             DurationView(
@@ -133,7 +145,7 @@ extension SequenceStepperView {
 
                     // Compétences disciplinaires associées
                     if activity.allDisciplineCompetencies.isNotEmpty {
-                        DCompTagRow(
+                        DCompTagList(
                             disciplineComps: activity.allDisciplineCompetencies,
                             font: .footnote
                         )

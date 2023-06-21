@@ -25,7 +25,7 @@ struct WCompBrowserRow: View {
             .lineLimit(5)
             .textSelection(.enabled)
             if showDisciplineCompetencies {
-                DCompTagRow(disciplineComps: workedComp.disciplineCompSortedByAcronym)
+                DCompTagList(disciplineComps: workedComp.disciplineCompSortedByAcronym)
             }
         }
     }

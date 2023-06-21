@@ -13,6 +13,19 @@ extension TagCapsuleStyle {
     /// Style adapté aux compétences disciplinaires
     static var disciplineCompTagStyle = TagCapsuleStyle(
         foregroundColor: .primary,
+        backgroundColor: .blue6,
+        borderColor: .primary,
+        borderWidth: 1,
+        padding: .init(
+            top: 3,
+            leading: 6,
+            bottom: 3,
+            trailing: 6
+        )
+    )
+    /// Style adapté aux compétences socle travaillées
+    static var workedCompTagStyle = TagCapsuleStyle(
+        foregroundColor: .primary,
         backgroundColor: .blue7,
         borderColor: .primary,
         borderWidth: 1,

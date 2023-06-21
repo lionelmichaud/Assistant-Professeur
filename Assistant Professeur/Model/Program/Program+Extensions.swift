@@ -203,6 +203,43 @@ extension ProgramEntity {
         return allSequences.sorted(using: sortComparators)
     }
 
+    /// Liste des Compétences Disciplinaires triées par Acronym
+    var disciplineCompSortedByAcronym: [DCompEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(
+                \DCompEntity.viewAcronym,
+                 order: .forward
+            )
+        ]
+        let withDuplicatesRemoved =
+        Array(Set(sequencesSortedByNumber
+            .flatMap { sequence in
+                sequence.disciplineCompSortedByAcronym
+            }))
+        return withDuplicatesRemoved
+            .sorted(using: sortComparators)
+    }
+
+    /// Liste des Compétences du socle Travaillées triées par Acronym
+    var workedCompSortedByAcronym: [WCompEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(
+                \WCompEntity.viewAcronym,
+                 order: .forward
+            )
+        ]
+        let wComp =
+        disciplineCompSortedByAcronym
+            .flatMap { dComp in
+                dComp.allWorkedCompetencies
+            }
+        let withDuplicatesRemoved = Array(Set(wComp))
+        return withDuplicatesRemoved
+            .sorted(using: sortComparators)
+    }
+
     // MARK: - Méthodes
 
     /// Liste des séquences du programme filtrées et triées par numéro de séquence

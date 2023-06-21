@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HelpersView
 
 struct SequenceTimeLine: View {
     @EnvironmentObject

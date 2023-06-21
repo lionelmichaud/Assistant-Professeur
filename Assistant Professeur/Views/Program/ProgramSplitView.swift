@@ -102,14 +102,14 @@ struct ProgramSplitView: View {
                         showAsGroupBox: true
                     )
 
-                case .showActivityDetail:
-                    ActivityDetail()
-
                 case .showProgramSteps:
                     ProgramTimeLine()
 
                 case .showSequenceSteps:
                     SequenceTimeLine()
+
+                case .showActivityDetail:
+                    ActivityDetail()
             }
         }
         .navigationSplitViewStyle(.balanced)
@@ -168,7 +168,7 @@ struct ProgramSplitView: View {
                 from: .showNone,
                 to: .showActivityDetail,
                 postBlock: {
-                    navig.columnVisibility = .doubleColumn
+//                    navig.columnVisibility = .doubleColumn
                 }
             )
         sm.add(transition: transition10)
@@ -205,7 +205,7 @@ struct ProgramSplitView: View {
                 to: .showSequenceSteps,
                 postBlock: {
                     navig.selectedActivityMngObjId = nil
-                    navig.columnVisibility = .doubleColumn
+//                    navig.columnVisibility = .doubleColumn
                 }
             )
         sm.add(transition: transition13)
@@ -217,7 +217,7 @@ struct ProgramSplitView: View {
                 to: .showProgramSteps,
                 postBlock: {
                     navig.selectedActivityMngObjId = nil
-                    navig.columnVisibility = .doubleColumn
+//                    navig.columnVisibility = .doubleColumn
                 }
             )
         sm.add(transition: transition14)
@@ -266,7 +266,7 @@ struct ProgramSplitView: View {
                 to: .showSequenceSteps,
                 postBlock: {
                     navig.selectedActivityMngObjId = nil
-                    navig.columnVisibility = .doubleColumn
+//                    navig.columnVisibility = .doubleColumn
                 }
             )
         sm.add(transition: transition23)
@@ -278,7 +278,7 @@ struct ProgramSplitView: View {
                 to: .showProgramSteps,
                 postBlock: {
                     navig.selectedActivityMngObjId = nil
-                    navig.columnVisibility = .doubleColumn
+//                    navig.columnVisibility = .doubleColumn
                 }
             )
         sm.add(transition: transition24)
@@ -291,7 +291,7 @@ struct ProgramSplitView: View {
                 from: .showProgramSteps,
                 to: .showActivityDetail,
                 postBlock: {
-                    navig.columnVisibility = .doubleColumn
+//                    navig.columnVisibility = .doubleColumn
                 }
             )
         sm.add(transition: transition30)
@@ -327,7 +327,7 @@ struct ProgramSplitView: View {
             from: .showProgramSteps,
             to: .showSequenceSteps,
             postBlock: {
-                navig.columnVisibility = .doubleColumn
+//                navig.columnVisibility = .doubleColumn
             }
         )
         sm.add(transition: transition33)
@@ -340,7 +340,7 @@ struct ProgramSplitView: View {
                 from: .showSequenceSteps,
                 to: .showActivityDetail,
                 postBlock: {
-                    navig.columnVisibility = .doubleColumn
+//                    navig.columnVisibility = .doubleColumn
                 }
             )
         sm.add(transition: transition40)
@@ -375,7 +375,7 @@ struct ProgramSplitView: View {
             from: .showSequenceSteps,
             to: .showProgramSteps,
             postBlock: {
-                navig.columnVisibility = .doubleColumn
+//                navig.columnVisibility = .doubleColumn
             }
         )
         sm.add(transition: transition43)

@@ -330,9 +330,9 @@
 		79F7A2792A4053BE00CEC3D5 /* ActivityListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2782A4053BE00CEC3D5 /* ActivityListSection.swift */; };
 		79F7A27B2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27A2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift */; };
 		79F7A27D2A405D8F00CEC3D5 /* ConnectToActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27C2A405D8F00CEC3D5 /* ConnectToActivityModal.swift */; };
-		79F7A27F2A40888300CEC3D5 /* DCompTagRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27E2A40888300CEC3D5 /* DCompTagRow.swift */; };
+		79F7A27F2A40888300CEC3D5 /* DCompTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27E2A40888300CEC3D5 /* DCompTagList.swift */; };
 		79F7A2812A408ABE00CEC3D5 /* WCompCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */; };
-		79F7A2832A408B2C00CEC3D5 /* WCompTagRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2822A408B2C00CEC3D5 /* WCompTagRow.swift */; };
+		79F7A2832A408B2C00CEC3D5 /* WCompTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2822A408B2C00CEC3D5 /* WCompTagList.swift */; };
 		79F7A2852A409C5200CEC3D5 /* LevelInCyclePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2842A409C5200CEC3D5 /* LevelInCyclePicker.swift */; };
 		79F7A2872A40A9AF00CEC3D5 /* ActivityPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2862A40A9AF00CEC3D5 /* ActivityPicker.swift */; };
 		79F7A2892A40ADB900CEC3D5 /* SequencePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2882A40ADB900CEC3D5 /* SequencePicker.swift */; };
@@ -678,9 +678,9 @@
 		79F7A2782A4053BE00CEC3D5 /* ActivityListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityListSection.swift; sourceTree = "<group>"; };
 		79F7A27A2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociatedActivityBrowerRow.swift; sourceTree = "<group>"; };
 		79F7A27C2A405D8F00CEC3D5 /* ConnectToActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectToActivityModal.swift; sourceTree = "<group>"; };
-		79F7A27E2A40888300CEC3D5 /* DCompTagRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompTagRow.swift; sourceTree = "<group>"; };
+		79F7A27E2A40888300CEC3D5 /* DCompTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompTagList.swift; sourceTree = "<group>"; };
 		79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompCapsule.swift; sourceTree = "<group>"; };
-		79F7A2822A408B2C00CEC3D5 /* WCompTagRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompTagRow.swift; sourceTree = "<group>"; };
+		79F7A2822A408B2C00CEC3D5 /* WCompTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompTagList.swift; sourceTree = "<group>"; };
 		79F7A2842A409C5200CEC3D5 /* LevelInCyclePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelInCyclePicker.swift; sourceTree = "<group>"; };
 		79F7A2862A40A9AF00CEC3D5 /* ActivityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPicker.swift; sourceTree = "<group>"; };
 		79F7A2882A40ADB900CEC3D5 /* SequencePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequencePicker.swift; sourceTree = "<group>"; };
@@ -850,9 +850,9 @@
 				798D24F92A2E88CA008500D2 /* WCompListView.swift */,
 				791DEE172A2FFB7C00D0E248 /* WCompBrowserRow.swift */,
 				798D24FB2A2E9767008500D2 /* WCompEditorModal.swift */,
-				79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */,
-				79F7A2822A408B2C00CEC3D5 /* WCompTagRow.swift */,
 				79F7A28E2A40CE7100CEC3D5 /* WCompPicker.swift */,
+				79F7A2822A408B2C00CEC3D5 /* WCompTagList.swift */,
+				79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */,
 			);
 			path = Competency;
 			sourceTree = "<group>";
@@ -1317,9 +1317,9 @@
 		79975314297B146600D1C66E /* Program */ = {
 			isa = PBXGroup;
 			children = (
+				7981C21F29A805220085986D /* TimeLine */,
 				796371FD297D574B00ECDBC3 /* Sequence */,
 				79637206297D879100ECDBC3 /* Activity */,
-				7981C21F29A805220085986D /* TimeLine */,
 				7997531F297C3F9200D1C66E /* ProgramViewModel.swift */,
 				79975315297B148800D1C66E /* ProgramSplitView.swift */,
 				79975319297C17E300D1C66E /* ProgramSidebarView.swift */,
@@ -1742,7 +1742,7 @@
 				79FD21A32A33D76A00A8D925 /* DCompListView.swift */,
 				79FD21A72A34DAB300A8D925 /* DCompBrowserRow.swift */,
 				79FD21A52A34D41000A8D925 /* DCompEditorModal.swift */,
-				79F7A27E2A40888300CEC3D5 /* DCompTagRow.swift */,
+				79F7A27E2A40888300CEC3D5 /* DCompTagList.swift */,
 				79F7A2762A40504600CEC3D5 /* DCompCapsule.swift */,
 			);
 			path = Competency;
@@ -1954,7 +1954,7 @@
 				79F7A2872A40A9AF00CEC3D5 /* ActivityPicker.swift in Sources */,
 				791802A62A365E29001588B2 /* DKnowledgeEntity+Extensions.swift in Sources */,
 				79F41E732954D30F00EAAC52 /* EleveBrowserRow.swift in Sources */,
-				79F7A2832A408B2C00CEC3D5 /* WCompTagRow.swift in Sources */,
+				79F7A2832A408B2C00CEC3D5 /* WCompTagList.swift in Sources */,
 				796521D22A14DC0C000C27D1 /* SchoolYearPref.swift in Sources */,
 				796699D72A30BF0400DF14AB /* WCompChapterEditorModal.swift in Sources */,
 				79EE3EA4296F6CF20075E9BD /* EleveTrombineStyling.swift in Sources */,
@@ -2090,7 +2090,7 @@
 				79ECF202295A15F0008F0282 /* EleveObservRow.swift in Sources */,
 				792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */,
 				791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */,
-				79F7A27F2A40888300CEC3D5 /* DCompTagRow.swift in Sources */,
+				79F7A27F2A40888300CEC3D5 /* DCompTagList.swift in Sources */,
 				79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */,
 				790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */,
 				79B3083A29EE115300C69C79 /* Documentation.docc in Sources */,

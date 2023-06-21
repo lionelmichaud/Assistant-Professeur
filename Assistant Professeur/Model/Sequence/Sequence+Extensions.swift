@@ -117,12 +117,30 @@ extension SequenceEntity {
                     order: .forward
                 )
             ]
-        var withDuplicatesRemoved =
+        let withDuplicatesRemoved =
             Array(Set(activitiesSortedByNumber
                     .flatMap { activity in
                         activity.allDisciplineCompetencies
                     }))
+        return withDuplicatesRemoved
+            .sorted(using: sortComparators)
+    }
 
+    /// Liste des Compétences du socle Travaillées triées par Acronym
+    var workedCompSortedByAcronym: [WCompEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(
+                    \WCompEntity.viewAcronym,
+                    order: .forward
+                )
+            ]
+        let wComp =
+            disciplineCompSortedByAcronym
+                .flatMap { dComp in
+                    dComp.allWorkedCompetencies
+                }
+        let withDuplicatesRemoved = Array(Set(wComp))
         return withDuplicatesRemoved
             .sorted(using: sortComparators)
     }

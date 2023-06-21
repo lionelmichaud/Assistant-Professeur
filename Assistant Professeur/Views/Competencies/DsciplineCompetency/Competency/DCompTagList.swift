@@ -8,7 +8,7 @@
 import SwiftUI
 import TagKit
 
-struct DCompTagRow: View {
+struct DCompTagList: View {
     let disciplineComps: [DCompEntity]
     var font: Font = .callout
 

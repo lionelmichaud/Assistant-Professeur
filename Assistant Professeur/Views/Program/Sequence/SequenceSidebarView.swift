@@ -13,10 +13,7 @@ struct SequenceSidebarView: View {
     var showProgramSteps: Bool
 
     @EnvironmentObject
-    private var navig: NavigationModel
-
-//    @State
-//    private var isAddingNewSequence = false
+    private var nav: NavigationModel
 
     @State
     private var isEditing = false
@@ -26,16 +23,11 @@ struct SequenceSidebarView: View {
 
     var body: some View {
         VStack {
-            if let programId = navig.selectedProgramMngObjId {
+            if let programId = nav.selectedProgramMngObjId {
                 if let program = ProgramEntity.byObjectId(MngObjID: programId) {
                     if program.sequencesSortedByNumber.isNotEmpty {
-                        List(selection: $navig.selectedSequenceMngObjId) {
-                            Button {
-                                showProgramSteps = true
-                            } label: {
-                                ProgramDetailGroupBox(program: program)
-                            }
-                            .buttonStyle(.plain)
+                        List(selection: $nav.selectedSequenceMngObjId) {
+                            ProgramDetailGroupBox(program: program)
 
                             SequenceList(
                                 program: program,
@@ -77,26 +69,12 @@ struct SequenceSidebarView: View {
         .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)
 
-        // Modal Sheet de création d'une nouvelle séquence
-//        .sheet(
-//            isPresented: $isAddingNewSequence,
-//            onDismiss: ProgramEntity.rollback
-//        ) {
-//            if let programId = navig.selectedProgramId,
-//               let program = ProgramEntity.byObjectId(id: programId) {
-//                NavigationStack {
-//                    SequenceCreatorModal(program: program)
-//                }
-//                .presentationDetents([.large])
-//            }
-//        }
-
         // Modal Sheet de modification du programme
         .sheet(
             isPresented: $isEditing,
             onDismiss: ProgramEntity.rollback
         ) {
-            if let programId = navig.selectedProgramMngObjId,
+            if let programId = nav.selectedProgramMngObjId,
                let program = ProgramEntity.byObjectId(MngObjID: programId) {
                 NavigationStack {
                     ProgramEditorModal(program: program)
@@ -114,19 +92,30 @@ struct SequenceSidebarView: View {
 extension SequenceSidebarView {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
-        if let programId = navig.selectedProgramMngObjId,
+        if let programId = nav.selectedProgramMngObjId,
            ProgramEntity.byObjectId(MngObjID: programId) != nil {
             // Editer le Programme
             ToolbarItemGroup(placement: .automatic) {
-                Button("Modifier") {
-                    isEditing.toggle()
+                ControlGroup {
+                    Button {
+                        showProgramSteps.toggle()
+                    } label: {
+                        Image(systemName: "info.circle")
+                    }
+                    Button {
+                        isEditing.toggle()
+                    } label: {
+                        Image(systemName: "pencil.circle")
+                    }
                 }
+            } label: {
+                Label("Plus", systemImage: "ellipsis.circle")
             }
 
             // Ajouter une Séquence
             ToolbarItemGroup(placement: .status) {
                 Button {
-                    if let programId = navig.selectedProgramMngObjId {
+                    if let programId = nav.selectedProgramMngObjId {
                         if let program = ProgramEntity.byObjectId(MngObjID: programId) {
                             withAnimation {
                                 _ = SequenceEntity.create(

@@ -16,10 +16,7 @@ struct ActivitySideBar: View {
     var showSequenceSteps: Bool
 
     @EnvironmentObject
-    private var navig: NavigationModel
-
-//    @State
-//    private var isAddingNewActivity = false
+    private var nav: NavigationModel
 
     @State
     private var isEditing = false
@@ -36,14 +33,9 @@ struct ActivitySideBar: View {
     var body: some View {
         Group {
             if sequence.activitiesSortedByNumber.isNotEmpty {
-                List(selection: $navig.selectedActivityMngObjId) {
+                List(selection: $nav.selectedActivityMngObjId) {
                     if sequence.program != nil {
-                        Button {
-                            showSequenceSteps = true
-                        } label: {
-                            SequenceDetailGroupBox(sequence: sequence)
-                        }
-                        .buttonStyle(.plain)
+                        SequenceDetailGroupBox(sequence: sequence)
                     } else {
                         Text("Programme associé introuvable")
                             .foregroundStyle(.secondary)
@@ -95,9 +87,20 @@ extension ActivitySideBar {
     private func myToolBarContent() -> some ToolbarContent {
         // Editer la Séquence
         ToolbarItemGroup(placement: .automatic) {
-            Button("Modifier") {
-                isEditing.toggle()
+            ControlGroup {
+                Button {
+                    showSequenceSteps.toggle()
+                } label: {
+                    Image(systemName: "info.circle")
+                }
+                Button {
+                    isEditing.toggle()
+                } label: {
+                    Image(systemName: "pencil.circle")
+                }
             }
+        } label: {
+            Label("Plus", systemImage: "ellipsis.circle")
         }
 
         // Ajouter une Activité

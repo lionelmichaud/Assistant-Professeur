@@ -48,6 +48,25 @@ extension ProgramStepperView {
                 Text(program.viewAnnotation)
                     .padding(.bottom, 6)
             }
+            // Compétences socle associées
+            if program.workedCompSortedByAcronym.isNotEmpty {
+                Text("Compétences socle associées:")
+                    .bold()
+                WCompTagList(
+                    workedComps: program.workedCompSortedByAcronym,
+                    font: .footnote
+                )
+            }
+            // Compétences disciplinaires associées
+            if program.disciplineCompSortedByAcronym.isNotEmpty {
+                Text("Compétences disciplinaires associées:")
+                    .bold()
+                DCompTagList(
+                    disciplineComps: program.disciplineCompSortedByAcronym,
+                    font: .footnote
+                )
+            }
+            // Durée du programme annuel
             HStack {
                 DurationView(duration: program.durationWithoutMargin, withMargin: false)
                     .padding(.trailing)

@@ -180,6 +180,8 @@ extension ClasseDetail {
                     Text("La liste des élèves importée doit être au format CSV de \(pref.interoperability == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
                         Text("Cette action ne peut pas être annulée.")
                 }
+            } label: {
+                Label("Plus", systemImage: "ellipsis.circle")
             }
         }
     }
