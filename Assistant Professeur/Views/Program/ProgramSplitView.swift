@@ -31,6 +31,7 @@ private typealias DetailColumnStateMachine = StateMachine<DetailColumnState, Det
 private final class ProgramSplitViewModel: ObservableObject {
     // MARK: - Properties
 
+    @Published
     var detailColumnSM: DetailColumnStateMachine
 
     // MARK: - Computed Properties
@@ -55,7 +56,7 @@ struct ProgramSplitView: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @State
+    @StateObject
     private var vm: ProgramSplitViewModel
 
     @State
@@ -169,6 +170,7 @@ struct ProgramSplitView: View {
                 to: .showActivityDetail,
                 postBlock: {
 //                    navig.columnVisibility = .doubleColumn
+                    navig.columnVisibility = .all
                 }
             )
         sm.add(transition: transition10)
@@ -292,6 +294,7 @@ struct ProgramSplitView: View {
                 to: .showActivityDetail,
                 postBlock: {
 //                    navig.columnVisibility = .doubleColumn
+                    navig.columnVisibility = .all
                 }
             )
         sm.add(transition: transition30)
@@ -328,6 +331,7 @@ struct ProgramSplitView: View {
             to: .showSequenceSteps,
             postBlock: {
 //                navig.columnVisibility = .doubleColumn
+                navig.columnVisibility = .all
             }
         )
         sm.add(transition: transition33)
@@ -341,6 +345,7 @@ struct ProgramSplitView: View {
                 to: .showActivityDetail,
                 postBlock: {
 //                    navig.columnVisibility = .doubleColumn
+                    navig.columnVisibility = .all
                 }
             )
         sm.add(transition: transition40)
@@ -376,6 +381,7 @@ struct ProgramSplitView: View {
             to: .showProgramSteps,
             postBlock: {
 //                navig.columnVisibility = .doubleColumn
+                navig.columnVisibility = .all
             }
         )
         sm.add(transition: transition43)
@@ -384,7 +390,7 @@ struct ProgramSplitView: View {
             sm.enableLogging = true
         #endif
 
-        self.vm = ProgramSplitViewModel(detailColumnSM: sm)
+        self._vm = StateObject(wrappedValue: ProgramSplitViewModel(detailColumnSM: sm))
     }
 }
 
