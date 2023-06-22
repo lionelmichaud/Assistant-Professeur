@@ -73,7 +73,7 @@ struct ProgramSplitView: View {
             columnVisibility: $navig.columnVisibility
         ) {
             // 1ère colonne
-            ProgramSidebarView()
+            ProgramSidebar()
                 .navigationSplitViewColumnWidth(min: 250,
                                                 ideal: 300,
                                                 max: 500)
@@ -81,7 +81,7 @@ struct ProgramSplitView: View {
         } content: {
             // 2nde colonne
             NavigationStack(path: $navig.programPath) {
-                SequenceSidebarView(showProgramSteps: $showProgramSteps)
+                SequenceSidebar(showProgramSteps: $showProgramSteps)
                     .navigationSplitViewColumnWidth(min: 300,
                                                     ideal: 400,
                                                     max: 500)

@@ -112,7 +112,7 @@
 		795EED0B29677C76009AA6F4 /* EleveMarkRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0929677C76009AA6F4 /* EleveMarkRow.swift */; };
 		795EED0C29677C76009AA6F4 /* MarkListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EED0A29677C76009AA6F4 /* MarkListView.swift */; };
 		795F63F52A02D3D300E937C6 /* InfoPersoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795F63F42A02D3D300E937C6 /* InfoPersoView.swift */; };
-		796371FF297D575800ECDBC3 /* SequenceSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796371FE297D575800ECDBC3 /* SequenceSidebarView.swift */; };
+		796371FF297D575800ECDBC3 /* SequenceSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796371FE297D575800ECDBC3 /* SequenceSidebar.swift */; };
 		79637201297D707400ECDBC3 /* SequenceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637200297D707400ECDBC3 /* SequenceList.swift */; };
 		79637203297D826400ECDBC3 /* ProgramManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637202297D826400ECDBC3 /* ProgramManager.swift */; };
 		79637205297D85EF00ECDBC3 /* SequenceBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637204297D85EF00ECDBC3 /* SequenceBrowserRow.swift */; };
@@ -179,7 +179,7 @@
 		7994E3262972F4E500952D08 /* PdfDocumentViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E3232972F4E500952D08 /* PdfDocumentViewer.swift */; };
 		79975316297B148800D1C66E /* ProgramSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975315297B148800D1C66E /* ProgramSplitView.swift */; };
 		79975318297B173800D1C66E /* SettingsProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975317297B173800D1C66E /* SettingsProgram.swift */; };
-		7997531A297C17E300D1C66E /* ProgramSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975319297C17E300D1C66E /* ProgramSidebarView.swift */; };
+		7997531A297C17E300D1C66E /* ProgramSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975319297C17E300D1C66E /* ProgramSidebar.swift */; };
 		7997531C297C17F400D1C66E /* ProgramEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7997531B297C17F400D1C66E /* ProgramEditorModal.swift */; };
 		7997531E297C3D5B00D1C66E /* ProgramCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7997531D297C3D5B00D1C66E /* ProgramCreatorModal.swift */; };
 		79975320297C3F9200D1C66E /* ProgramViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7997531F297C3F9200D1C66E /* ProgramViewModel.swift */; };
@@ -359,6 +359,7 @@
 		79FD21A82A34DAB300A8D925 /* DCompBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FD21A72A34DAB300A8D925 /* DCompBrowserRow.swift */; };
 		79FE06D62A44B4B600DDA543 /* WCompChapterEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FE06D52A44B4B600DDA543 /* WCompChapterEditorModal.swift */; };
 		79FE06DA2A44B74D00DDA543 /* WCompChapterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FE06D92A44B74D00DDA543 /* WCompChapterViewModel.swift */; };
+		79FE06DC2A44E14900DDA543 /* ClasseTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FE06DB2A44E14900DDA543 /* ClasseTagList.swift */; };
 		79FFF42729511DF20037A327 /* ClasseBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42629511DF20037A327 /* ClasseBrowserRow.swift */; };
 		79FFF42929511E040037A327 /* ClasseCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42829511E040037A327 /* ClasseCreatorModal.swift */; };
 		79FFF42B295120100037A327 /* LevelClasse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42A295120100037A327 /* LevelClasse.swift */; };
@@ -483,7 +484,7 @@
 		795EED0929677C76009AA6F4 /* EleveMarkRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveMarkRow.swift; sourceTree = "<group>"; };
 		795EED0A29677C76009AA6F4 /* MarkListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkListView.swift; sourceTree = "<group>"; };
 		795F63F42A02D3D300E937C6 /* InfoPersoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPersoView.swift; sourceTree = "<group>"; };
-		796371FE297D575800ECDBC3 /* SequenceSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceSidebarView.swift; sourceTree = "<group>"; };
+		796371FE297D575800ECDBC3 /* SequenceSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceSidebar.swift; sourceTree = "<group>"; };
 		79637200297D707400ECDBC3 /* SequenceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceList.swift; sourceTree = "<group>"; };
 		79637202297D826400ECDBC3 /* ProgramManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramManager.swift; sourceTree = "<group>"; };
 		79637204297D85EF00ECDBC3 /* SequenceBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceBrowserRow.swift; sourceTree = "<group>"; };
@@ -550,7 +551,7 @@
 		7994E3232972F4E500952D08 /* PdfDocumentViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PdfDocumentViewer.swift; sourceTree = "<group>"; };
 		79975315297B148800D1C66E /* ProgramSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramSplitView.swift; sourceTree = "<group>"; };
 		79975317297B173800D1C66E /* SettingsProgram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsProgram.swift; sourceTree = "<group>"; };
-		79975319297C17E300D1C66E /* ProgramSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramSidebarView.swift; sourceTree = "<group>"; };
+		79975319297C17E300D1C66E /* ProgramSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramSidebar.swift; sourceTree = "<group>"; };
 		7997531B297C17F400D1C66E /* ProgramEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramEditorModal.swift; sourceTree = "<group>"; };
 		7997531D297C3D5B00D1C66E /* ProgramCreatorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramCreatorModal.swift; sourceTree = "<group>"; };
 		7997531F297C3F9200D1C66E /* ProgramViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramViewModel.swift; sourceTree = "<group>"; };
@@ -706,6 +707,7 @@
 		79FD21A72A34DAB300A8D925 /* DCompBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompBrowserRow.swift; sourceTree = "<group>"; };
 		79FE06D52A44B4B600DDA543 /* WCompChapterEditorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WCompChapterEditorModal.swift; sourceTree = "<group>"; };
 		79FE06D92A44B74D00DDA543 /* WCompChapterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WCompChapterViewModel.swift; sourceTree = "<group>"; };
+		79FE06DB2A44E14900DDA543 /* ClasseTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseTagList.swift; sourceTree = "<group>"; };
 		79FFF42629511DF20037A327 /* ClasseBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseBrowserRow.swift; sourceTree = "<group>"; };
 		79FFF42829511E040037A327 /* ClasseCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseCreatorModal.swift; sourceTree = "<group>"; };
 		79FFF42A295120100037A327 /* LevelClasse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelClasse.swift; sourceTree = "<group>"; };
@@ -1155,7 +1157,7 @@
 			isa = PBXGroup;
 			children = (
 				795804B829A69C9C00AEB7DA /* TimeLine */,
-				796371FE297D575800ECDBC3 /* SequenceSidebarView.swift */,
+				796371FE297D575800ECDBC3 /* SequenceSidebar.swift */,
 				79637200297D707400ECDBC3 /* SequenceList.swift */,
 				79637204297D85EF00ECDBC3 /* SequenceBrowserRow.swift */,
 				790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */,
@@ -1322,7 +1324,7 @@
 				79637206297D879100ECDBC3 /* Activity */,
 				7997531F297C3F9200D1C66E /* ProgramViewModel.swift */,
 				79975315297B148800D1C66E /* ProgramSplitView.swift */,
-				79975319297C17E300D1C66E /* ProgramSidebarView.swift */,
+				79975319297C17E300D1C66E /* ProgramSidebar.swift */,
 				79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */,
 				7997531D297C3D5B00D1C66E /* ProgramCreatorModal.swift */,
 				7997531B297C17F400D1C66E /* ProgramEditorModal.swift */,
@@ -1559,6 +1561,7 @@
 				79F38D0B29D74B17006C9B35 /* ClasseCapsule.swift */,
 				7951063D294FD9520015AC5C /* ClasseListSection.swift */,
 				796A17812A3F426500413DDD /* ClasseProgressSection.swift */,
+				79FE06DB2A44E14900DDA543 /* ClasseTagList.swift */,
 			);
 			path = Classe;
 			sourceTree = "<group>";
@@ -1942,7 +1945,7 @@
 				79F41E6E2954C83A00EAAC52 /* ElevesListView.swift in Sources */,
 				796A242729A17C16009B2A6C /* ClassProgressesView.swift in Sources */,
 				7951063E294FD9520015AC5C /* ClasseListSection.swift in Sources */,
-				7997531A297C17E300D1C66E /* ProgramSidebarView.swift in Sources */,
+				7997531A297C17E300D1C66E /* ProgramSidebar.swift in Sources */,
 				793D627F295F33D300477932 /* ColleViewModel.swift in Sources */,
 				79C20A802A326D0C00E43A07 /* DThemeListView.swift in Sources */,
 				79DEDAE9292585E300F508EF /* SchoolSplitView.swift in Sources */,
@@ -2120,9 +2123,10 @@
 				79E524BD295376EA00DA99A7 /* EventListSection.swift in Sources */,
 				798D24FE2A2E98C8008500D2 /* WCompViewModel.swift in Sources */,
 				79ECF1F42959F09F008F0282 /* colle+extensions.swift in Sources */,
-				796371FF297D575800ECDBC3 /* SequenceSidebarView.swift in Sources */,
+				796371FF297D575800ECDBC3 /* SequenceSidebar.swift in Sources */,
 				7994E31F2972DE8400952D08 /* RoomSeatManager.swift in Sources */,
 				79F7A2852A409C5200CEC3D5 /* LevelInCyclePicker.swift in Sources */,
+				79FE06DC2A44E14900DDA543 /* ClasseTagList.swift in Sources */,
 				79637214297DBD6500ECDBC3 /* SettingsActivity.swift in Sources */,
 				79FD21952A338CAC00A8D925 /* DCompEntity+CoreDataClass.swift in Sources */,
 				7997531C297C17F400D1C66E /* ProgramEditorModal.swift in Sources */,

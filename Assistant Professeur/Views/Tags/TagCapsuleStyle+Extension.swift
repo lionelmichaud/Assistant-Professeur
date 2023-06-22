@@ -9,7 +9,22 @@ import HelpersView
 import SwiftUI
 import TagKit
 
+/// Styles de capsules
 extension TagCapsuleStyle {
+    /// Style adapté aux classes
+    static var classeTagStyle = TagCapsuleStyle(
+        foregroundColor: .primary,
+        backgroundColor: .blue5,
+        borderColor: .primary,
+        borderWidth: 1,
+        padding: .init(
+            top: 3,
+            leading: 6,
+            bottom: 3,
+            trailing: 6
+        )
+    )
+
     /// Style adapté aux compétences disciplinaires
     static var disciplineCompTagStyle = TagCapsuleStyle(
         foregroundColor: .primary,
@@ -23,6 +38,7 @@ extension TagCapsuleStyle {
             trailing: 6
         )
     )
+
     /// Style adapté aux compétences socle travaillées
     static var workedCompTagStyle = TagCapsuleStyle(
         foregroundColor: .primary,

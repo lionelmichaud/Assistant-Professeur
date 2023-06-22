@@ -8,7 +8,7 @@
 import HelpersView
 import SwiftUI
 
-struct SequenceSidebarView: View {
+struct SequenceSidebar: View {
     @Binding
     var showProgramSteps: Bool
 
@@ -89,27 +89,23 @@ struct SequenceSidebarView: View {
 
 // MARK: Toolbar Content
 
-extension SequenceSidebarView {
+extension SequenceSidebar {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         if let programId = nav.selectedProgramMngObjId,
            ProgramEntity.byObjectId(MngObjID: programId) != nil {
             // Editer le Programme
             ToolbarItemGroup(placement: .automatic) {
-                ControlGroup {
-                    Button {
-                        showProgramSteps.toggle()
-                    } label: {
-                        Image(systemName: "info.circle")
-                    }
-                    Button {
-                        isEditing.toggle()
-                    } label: {
-                        Image(systemName: "pencil.circle")
-                    }
+                Button {
+                    showProgramSteps.toggle()
+                } label: {
+                    Image(systemName: "info.circle")
                 }
-            } label: {
-                Label("Plus", systemImage: "ellipsis.circle")
+                Button {
+                    isEditing.toggle()
+                } label: {
+                    Image(systemName: "pencil.circle")
+                }
             }
 
             // Ajouter une Séquence
