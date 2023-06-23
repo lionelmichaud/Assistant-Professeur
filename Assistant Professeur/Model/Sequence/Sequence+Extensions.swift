@@ -64,7 +64,7 @@ extension SequenceEntity {
 // MARK: - Extension Core Data
 
 extension SequenceEntity {
-    // MARK: - Computed properties
+    // MARK: - Gestion du temps
 
     /// Somme des durées des activités
     /// sans marge à la fin de la séquence
@@ -90,6 +90,8 @@ extension SequenceEntity {
             .formatted(.number.precision(.fractionLength(remainder == 0.0 ? 0 : 1)))
     }
 
+    // MARK: - Activités pédagogiques associées
+
     /// Liste des activités de la séquence non triées
     var allActivities: [ActivityEntity] {
         if let activities {
@@ -107,45 +109,6 @@ extension SequenceEntity {
             ]
         return allActivities.sorted(using: sortComparators)
     }
-
-    /// Liste des Compétences Disciplinaires triées par Acronym
-    var disciplineCompSortedByAcronym: [DCompEntity] {
-        let sortComparators =
-            [
-                SortDescriptor(
-                    \DCompEntity.viewAcronym,
-                    order: .forward
-                )
-            ]
-        let withDuplicatesRemoved =
-            Array(Set(activitiesSortedByNumber
-                    .flatMap { activity in
-                        activity.allDisciplineCompetencies
-                    }))
-        return withDuplicatesRemoved
-            .sorted(using: sortComparators)
-    }
-
-    /// Liste des Compétences du socle Travaillées triées par Acronym
-    var workedCompSortedByAcronym: [WCompEntity] {
-        let sortComparators =
-            [
-                SortDescriptor(
-                    \WCompEntity.viewAcronym,
-                    order: .forward
-                )
-            ]
-        let wComp =
-            disciplineCompSortedByAcronym
-                .flatMap { dComp in
-                    dComp.allWorkedCompetencies
-                }
-        let withDuplicatesRemoved = Array(Set(wComp))
-        return withDuplicatesRemoved
-            .sorted(using: sortComparators)
-    }
-
-    // MARK: - Méthodes
 
     /// Liste des activités de la Séquence filtrées et triées par numéro d'activité
     func filteredActivitiesSortedByNumber(
@@ -166,6 +129,74 @@ extension SequenceEntity {
             }
             .sorted(using: sortComparators)
     }
+
+    // MARK: - Compétences Disciplinaires associées
+
+    /// Liste des Compétences Disciplinaires triées par Acronym
+    var disciplineCompSortedByAcronym: [DCompEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(
+                    \DCompEntity.viewAcronym,
+                    order: .forward
+                )
+            ]
+        let withDuplicatesRemoved =
+            Array(Set(activitiesSortedByNumber
+                    .flatMap { activity in
+                        activity.allDisciplineCompetencies
+                    }))
+        return withDuplicatesRemoved
+            .sorted(using: sortComparators)
+    }
+
+    // MARK: - Connaissances Travaillées du socle associées
+
+    /// Liste des Compétences du socle Travaillées triées par Acronym
+    var workedCompSortedByAcronym: [WCompEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(
+                    \WCompEntity.viewAcronym,
+                    order: .forward
+                )
+            ]
+        let wComp =
+            disciplineCompSortedByAcronym
+                .flatMap { dComp in
+                    dComp.allWorkedCompetencies
+                }
+        let withDuplicatesRemoved = Array(Set(wComp))
+        return withDuplicatesRemoved
+            .sorted(using: sortComparators)
+    }
+
+    // MARK: - Documents associés
+
+    /// Nombre de documents liés à l'activité
+    var nbOfDocuments: Int {
+        Int(self.documentCount)
+    }
+
+    /// Liste des documents importants non triées
+    var allDocuments: [DocumentEntity] {
+        if let documents {
+            return (documents.allObjects as! [DocumentEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Liste des documents importants triées par ordre alphabétique
+    var documentsSortedByName: [DocumentEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(\DocumentEntity.docName, order: .forward)
+            ]
+        return allDocuments.sorted(using: sortComparators)
+    }
+
+    // MARK: - Gestion de la BDD
 
     /// Retourne l'état d'avancement de la progression d'une `classe` pour cette Séquence
     func statusFor(classe: ClasseEntity) -> ProgressState {
@@ -213,45 +244,14 @@ extension SequenceEntity {
         }
     }
 
-    /// Nombre de documents liés à l'activité
-    var nbOfDocuments: Int {
-        Int(self.documentCount)
-    }
-
-    /// Liste des documents importants non triées
-    var allDocuments: [DocumentEntity] {
-        if let documents {
-            return (documents.allObjects as! [DocumentEntity])
-        } else {
-            return []
-        }
-    }
-
-    /// Liste des documents importants triées par ordre alphabétique
-    var documentsSortedByName: [DocumentEntity] {
-        let sortComparators =
-            [
-                SortDescriptor(\DocumentEntity.docName, order: .forward)
-            ]
-        return allDocuments.sorted(using: sortComparators)
-    }
-
-    // MARK: - Type Methods
-
-    override public func awakeFromInsert() {
-        super.awakeFromInsert()
-        // Set defaults here
-        self.id = UUID()
-    }
-
-    /// Retourne toutes les activités triées satisfaisant au critères:
+    /// Retourne toutes les séquences triées satisfaisant au critères:
     /// `discipline`, `cycle`, `level`
     ///
     /// Ordre de tri:
     ///   1. Discipline
     ///   2. Niveau de classe
     ///   3. Numéro de séquence
-    static func sortedByDisciplineLevelSeq(
+    static func allSortedByDisciplineLevelNumber(
         discipline: Discipline? = nil,
         cycle: Cycle? = nil,
         level: LevelClasse? = nil
@@ -369,6 +369,12 @@ extension SequenceEntity {
                 }
             }
         }
+    }
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
     }
 }
 

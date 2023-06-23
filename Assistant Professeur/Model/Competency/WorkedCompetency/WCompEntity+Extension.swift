@@ -57,9 +57,7 @@ extension WCompEntity {
 // MARK: - Extension CoreData
 
 extension WCompEntity {
-    // MARK: - Type Computed Properties
-
-    // MARK: - Computed properties
+    // MARK: - Compétences Disciplinaires associées
 
     /// Liste des Compétences Disciplinaires non triées
     var allDisciplineCompetencies: [DCompEntity] {
@@ -82,17 +80,56 @@ extension WCompEntity {
         return allDisciplineCompetencies.sorted(using: sortComparators)
     }
 
-    override public func awakeFromInsert() {
-        super.awakeFromInsert()
-        // Set defaults here
-        self.id = UUID()
+    // MARK: - Séquences pédagogiques associées
+
+    /// Retourne toutes les séquences associées à cette compétence et triées.
+    ///
+    /// Ordre de tri:
+    ///   1. Discipline
+    ///   2. Niveau de classe
+    ///   3. Numéro de séquence
+    var allSequencesSortedByDisciplineLevelNumber: [SequenceEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(
+                    \SequenceEntity.program?.disciplineString,
+                    order: .forward
+                ),
+                SortDescriptor(
+                    \SequenceEntity.program?.levelSortOrder,
+                    order: .forward
+                ),
+                SortDescriptor(
+                    \SequenceEntity.viewNumber,
+                    order: .forward
+                )
+            ]
+        let allSequences = allDisciplineCompetencies.flatMap { dComp in
+            dComp.allActivities.compactMap { activity in
+                activity.sequence
+            }
+        }
+        return Array(Set(allSequences))
+            .sorted(using: sortComparators)
     }
 
-    // MARK: - Type Methods
-
-    static func allSortedbyAcronym() -> [WCompEntity] {
-        all().sorted(by: \.viewAcronym)
+    /// Retourne les séquences associées à cette compétence
+    /// de niveau `level` et triées.
+    ///
+    /// Ordre de tri:
+    ///   1. Discipline
+    ///   2. Niveau de classe
+    ///   3. Numéro de séquence
+    func sequencesSortedByDisciplineLevelNumber(
+        level: LevelClasse
+    ) -> [SequenceEntity] {
+        allSequencesSortedByDisciplineLevelNumber
+            .filter { sequence in
+                sequence.program?.levelEnum == level
+            }
     }
+
+    // MARK: - Gestion de la BDD
 
     /// Créer une nouvelle instance et la sauvegarder dans le context
     /// - Important: Saves the context
@@ -111,6 +148,11 @@ extension WCompEntity {
 
         try? Self.saveIfContextHasChanged()
         return comp
+    }
+
+    /// Toutes les Coméptences travaillées du socle triées par Acronym.
+    static func allSortedbyAcronym() -> [WCompEntity] {
+        all().sorted(by: \.viewAcronym)
     }
 
     /// Check the correctness and consistency of all database entities of this type.
@@ -150,6 +192,12 @@ extension WCompEntity {
                 }
             }
         }
+    }
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
     }
 }
 

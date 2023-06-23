@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 19/06/2023.
 //
 
-import HelpersView
 import SwiftUI
+import TagKit
 
 struct AssociatedActivityBrowerRow: View {
     let activity: ActivityEntity
@@ -19,14 +19,12 @@ struct AssociatedActivityBrowerRow: View {
         return HStack {
             layout {
                 if let level = activity.sequence?.program?.viewLevelEnum {
-                    Text(level.displayString)
-                        .foregroundColor(.primary)
-                        .font(.callout)
-                        .filledCapsuleStyling(
-                            withBackground: true,
-                            withBorder: true,
-                            fillColor: level.imageColor
-                        )
+                    TagCapsule(
+                        tag: level.displayString,
+                        style: .levelTagStyle(level: level)
+                    )
+                    .font(.callout)
+                    .bold()
                 }
                 HStack(spacing: 0) {
                     if let sequence = activity.sequence {

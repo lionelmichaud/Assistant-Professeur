@@ -58,9 +58,7 @@ extension DCompEntity {
 // MARK: - Extension CoreData
 
 extension DCompEntity {
-    // MARK: - Type Computed Properties
-
-    // MARK: - Computed properties
+    // MARK: - Connaissances Disciplinaires associées
 
     /// Liste des Connaissances Disciplinaires de la compétence, non triées
     var allKnowledges: [DKnowledgeEntity] {
@@ -83,6 +81,8 @@ extension DCompEntity {
         return allKnowledges.sorted(using: sortComparators)
     }
 
+    // MARK: - Connaissances Travaillées du socle associées
+
     /// Liste des Compétences Travaillées non triées
     var allWorkedCompetencies: [WCompEntity] {
         if let workedCompetencies {
@@ -95,14 +95,16 @@ extension DCompEntity {
     /// Liste des Compétences Travaillées triées par Acronym
     var workedCompSortedByAcronym: [WCompEntity] {
         let sortComparators =
-        [
-            SortDescriptor(
-                \WCompEntity.viewAcronym,
-                 order: .forward
-            )
-        ]
+            [
+                SortDescriptor(
+                    \WCompEntity.viewAcronym,
+                    order: .forward
+                )
+            ]
         return allWorkedCompetencies.sorted(using: sortComparators)
     }
+
+    // MARK: - Activités pédagogiques associées
 
     /// Liste des Activités associées non triées
     var allActivities: [ActivityEntity] {
@@ -121,28 +123,24 @@ extension DCompEntity {
     ///   2. Numéro d'activité
     var activitiesSortedByLevelSeqActNumber: [ActivityEntity] {
         let sortComparators =
-        [
-            SortDescriptor(
-                \ActivityEntity.sequence?.program?.levelSortOrder,
-                 order: .forward
-            ),
-            SortDescriptor(
-                \ActivityEntity.sequence?.number,
-                 order: .forward
-            ),
-            SortDescriptor(
-                \ActivityEntity.number,
-                 order: .forward
-            )
-        ]
+            [
+                SortDescriptor(
+                    \ActivityEntity.sequence?.program?.levelSortOrder,
+                    order: .forward
+                ),
+                SortDescriptor(
+                    \ActivityEntity.sequence?.number,
+                    order: .forward
+                ),
+                SortDescriptor(
+                    \ActivityEntity.number,
+                    order: .forward
+                )
+            ]
         return allActivities.sorted(using: sortComparators)
     }
 
-    // MARK: - Type Methods
-
-    static func allSortedByAcronym() -> [DCompEntity] {
-        all().sorted(by: \.viewAcronym)
-    }
+    // MARK: - Gestion de la BDD
 
     /// Créer une nouvelle instance et la sauvegarder dans le context
     /// - Important: Saves the context
@@ -161,6 +159,10 @@ extension DCompEntity {
 
         try? Self.saveIfContextHasChanged()
         return competency
+    }
+
+    static func allSortedByAcronym() -> [DCompEntity] {
+        all().sorted(by: \.viewAcronym)
     }
 
     /// Check the correctness and consistency of all database entities of this type.
@@ -202,13 +204,6 @@ extension DCompEntity {
         }
     }
 
-    // MARK: - Methods
-
-    override public func awakeFromInsert() {
-        super.awakeFromInsert()
-        // Set defaults here
-        self.id = UUID()
-    }
     /// Recherche si la **Connaissance** existe déjà dans cette **Compétence**.
     ///
     /// Si `thisObjectID` != `nil` alors on retourne true seulement
@@ -219,8 +214,14 @@ extension DCompEntity {
     ) -> Bool {
         allKnowledges.contains {
             $0.viewNumber == number &&
-            (thisObjectID == nil || $0.objectID != thisObjectID)
+                (thisObjectID == nil || $0.objectID != thisObjectID)
         }
+    }
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
     }
 }
 

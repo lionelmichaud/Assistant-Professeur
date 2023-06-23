@@ -141,7 +141,62 @@ extension ProgramEntity {
 // MARK: - Extension Core Data
 
 extension ProgramEntity {
-    // MARK: - Type Computed Properties
+    // MARK: - Gestion du temps
+
+    /// Somme des durées des séquences
+    /// sans marge à la fin de chaque séquence
+    var durationWithoutMargin: Double {
+        allSequences.reduce(0) { $0 + $1.durationWithoutMargin }
+    }
+
+    /// Somme des durées des séquences
+    /// + une marge d'une séance à la fin de chaque séquence
+    var durationWithMargin: Double {
+        allSequences.reduce(0) { $0 + $1.durationWithMargin }
+    }
+
+    // MARK: - Connaissances Disciplinaires associées
+
+    /// Liste des Compétences Disciplinaires triées par Acronym
+    var disciplineCompSortedByAcronym: [DCompEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(
+                    \DCompEntity.viewAcronym,
+                    order: .forward
+                )
+            ]
+        let withDuplicatesRemoved =
+            Array(Set(sequencesSortedByNumber
+                    .flatMap { sequence in
+                        sequence.disciplineCompSortedByAcronym
+                    }))
+        return withDuplicatesRemoved
+            .sorted(using: sortComparators)
+    }
+
+    // MARK: - Connaissances Travaillées du socle associées
+
+    /// Liste des Compétences du socle Travaillées triées par Acronym
+    var workedCompSortedByAcronym: [WCompEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(
+                    \WCompEntity.viewAcronym,
+                    order: .forward
+                )
+            ]
+        let wComp =
+            disciplineCompSortedByAcronym
+                .flatMap { dComp in
+                    dComp.allWorkedCompetencies
+                }
+        let withDuplicatesRemoved = Array(Set(wComp))
+        return withDuplicatesRemoved
+            .sorted(using: sortComparators)
+    }
+
+    // MARK: - Gestion de la BDD
 
     static var byDisciplineLevelSegpaNSSortDescriptor: [NSSortDescriptor] =
         [
@@ -171,20 +226,6 @@ extension ProgramEntity {
         return request
     }
 
-    // MARK: - Computed properties
-
-    /// Somme des durées des séquences
-    /// sans marge à la fin de chaque séquence
-    var durationWithoutMargin: Double {
-        allSequences.reduce(0) { $0 + $1.durationWithoutMargin }
-    }
-
-    /// Somme des durées des séquences
-    /// + une marge d'une séance à la fin de chaque séquence
-    var durationWithMargin: Double {
-        allSequences.reduce(0) { $0 + $1.durationWithMargin }
-    }
-
     /// Liste des séquences du programme non triées
     var allSequences: [SequenceEntity] {
         if let sequences {
@@ -201,43 +242,6 @@ extension ProgramEntity {
                 SortDescriptor(\SequenceEntity.number, order: .forward)
             ]
         return allSequences.sorted(using: sortComparators)
-    }
-
-    /// Liste des Compétences Disciplinaires triées par Acronym
-    var disciplineCompSortedByAcronym: [DCompEntity] {
-        let sortComparators =
-        [
-            SortDescriptor(
-                \DCompEntity.viewAcronym,
-                 order: .forward
-            )
-        ]
-        let withDuplicatesRemoved =
-        Array(Set(sequencesSortedByNumber
-            .flatMap { sequence in
-                sequence.disciplineCompSortedByAcronym
-            }))
-        return withDuplicatesRemoved
-            .sorted(using: sortComparators)
-    }
-
-    /// Liste des Compétences du socle Travaillées triées par Acronym
-    var workedCompSortedByAcronym: [WCompEntity] {
-        let sortComparators =
-        [
-            SortDescriptor(
-                \WCompEntity.viewAcronym,
-                 order: .forward
-            )
-        ]
-        let wComp =
-        disciplineCompSortedByAcronym
-            .flatMap { dComp in
-                dComp.allWorkedCompetencies
-            }
-        let withDuplicatesRemoved = Array(Set(wComp))
-        return withDuplicatesRemoved
-            .sorted(using: sortComparators)
     }
 
     // MARK: - Méthodes
@@ -262,12 +266,6 @@ extension ProgramEntity {
             .sorted(using: sortComparators)
     }
 
-    override public func awakeFromInsert() {
-        super.awakeFromInsert()
-        // Set defaults here
-        self.id = UUID()
-    }
-
     /// Retourne true si un object équivalent existe déjà dans le context.
     ///
     /// Si `objectID` != `nil` alors on retourne true seulement
@@ -280,9 +278,9 @@ extension ProgramEntity {
     ) -> Bool {
         all().contains {
             $0.viewDisciplineEnum == dscipline &&
-            $0.viewLevelEnum == classeLevel &&
-            $0.segpa == classeIsSegpa &&
-            (objectID == nil || $0.objectID != objectID)
+                $0.viewLevelEnum == classeLevel &&
+                $0.segpa == classeIsSegpa &&
+                (objectID == nil || $0.objectID != objectID)
         }
     }
 
@@ -344,6 +342,12 @@ extension ProgramEntity {
                 ))
             }
         }
+    }
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
     }
 }
 

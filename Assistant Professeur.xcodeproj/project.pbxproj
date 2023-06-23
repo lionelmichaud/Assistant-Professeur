@@ -35,6 +35,7 @@
 		792381192960B04F009E51B7 /* GroupPicturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792381162960B04F009E51B7 /* GroupPicturesView.swift */; };
 		7923811A2960B04F009E51B7 /* GroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792381172960B04F009E51B7 /* GroupView.swift */; };
 		7923811B2960B04F009E51B7 /* GroupsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792381182960B04F009E51B7 /* GroupsListView.swift */; };
+		792621EF2A45F0F800ADA8FB /* SequenceTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792621EE2A45F0F800ADA8FB /* SequenceTagList.swift */; };
 		7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7927E6C72980A12F007002CE /* SequenceEditorModal.swift */; };
 		792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */; };
 		7934D8A129E49D740031C8AA /* Eleve+ItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7934D8A029E49D740031C8AA /* Eleve+ItemProvider.swift */; };
@@ -414,6 +415,7 @@
 		792381162960B04F009E51B7 /* GroupPicturesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupPicturesView.swift; sourceTree = "<group>"; };
 		792381172960B04F009E51B7 /* GroupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupView.swift; sourceTree = "<group>"; };
 		792381182960B04F009E51B7 /* GroupsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsListView.swift; sourceTree = "<group>"; };
+		792621EE2A45F0F800ADA8FB /* SequenceTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceTagList.swift; sourceTree = "<group>"; };
 		7927E6C72980A12F007002CE /* SequenceEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceEditorModal.swift; sourceTree = "<group>"; };
 		792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailGroupBox.swift; sourceTree = "<group>"; };
 		7934D8A029E49D740031C8AA /* Eleve+ItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Eleve+ItemProvider.swift"; sourceTree = "<group>"; };
@@ -1167,6 +1169,7 @@
 				799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */,
 				79F7A2882A40ADB900CEC3D5 /* SequencePicker.swift */,
 				79F7A28A2A40AECE00CEC3D5 /* SequencePickerRow.swift */,
+				792621EE2A45F0F800ADA8FB /* SequenceTagList.swift */,
 			);
 			path = Sequence;
 			sourceTree = "<group>";
@@ -2152,6 +2155,7 @@
 				79FE06DA2A44B74D00DDA543 /* WCompChapterViewModel.swift in Sources */,
 				792381192960B04F009E51B7 /* GroupPicturesView.swift in Sources */,
 				79F7A27D2A405D8F00CEC3D5 /* ConnectToActivityModal.swift in Sources */,
+				792621EF2A45F0F800ADA8FB /* SequenceTagList.swift in Sources */,
 				7940135629565B48007AD790 /* EleveViewModel.swift in Sources */,
 				79FFF42D295122F60037A327 /* ColorOptions.swift in Sources */,
 				795C2C2F296E2DCA00EDFF09 /* SeatLabel.swift in Sources */,

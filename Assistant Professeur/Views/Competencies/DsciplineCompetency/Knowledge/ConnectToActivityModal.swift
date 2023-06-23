@@ -36,7 +36,7 @@ struct ConnectToActivityModal: View {
     /// Filtrer les séquences en fonction des Discipline, Cycle et Niveau de classe sélectionnés
     private var selectedSequences: [SequenceEntity] {
         if let cycle, let discipline {
-            return SequenceEntity.sortedByDisciplineLevelSeq(
+            return SequenceEntity.allSortedByDisciplineLevelNumber(
                 discipline: discipline,
                 cycle: cycle,
                 level: selectedLevel

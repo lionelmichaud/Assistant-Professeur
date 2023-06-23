@@ -45,7 +45,8 @@ struct WCompListView: View {
                     ) { competency in
                         WCompBrowserRow(
                             workedComp: competency,
-                            showDisciplineCompetencies: true
+                            showDisciplineCompetencies: true,
+                            showSequences: true
                         )
                         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                             // supprimer la compétence
