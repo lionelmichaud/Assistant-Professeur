@@ -141,7 +141,7 @@ extension DThemeEditorModal {
             text: $disciplineThemeVM.progressivity,
             axis: .vertical
         )
-        //.lineLimit(5)
+        // .lineLimit(5)
         .onSubmit {
             disciplineThemeVM.progressivity.trim()
         }

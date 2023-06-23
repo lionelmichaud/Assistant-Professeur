@@ -87,20 +87,16 @@ extension ActivitySideBar {
     private func myToolBarContent() -> some ToolbarContent {
         // Editer la Séquence
         ToolbarItemGroup(placement: .automatic) {
-            ControlGroup {
-                Button {
-                    showSequenceSteps.toggle()
-                } label: {
-                    Image(systemName: "info.circle")
-                }
-                Button {
-                    isEditing.toggle()
-                } label: {
-                    Image(systemName: "pencil.circle")
-                }
+            Button {
+                showSequenceSteps.toggle()
+            } label: {
+                Image(systemName: "info.circle")
             }
-        } label: {
-            Label("Plus", systemImage: "ellipsis.circle")
+            Button {
+                isEditing.toggle()
+            } label: {
+                Image(systemName: "pencil.circle")
+            }
         }
 
         // Ajouter une Activité

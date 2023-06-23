@@ -15,6 +15,8 @@ struct WCompChapterEditorModal: View {
     @StateObject
     private var workedCompChapterVM = WCompChapterViewModel()
 
+    var isEditing: Bool
+
     @Environment(\.dismiss)
     private var dismiss
 
@@ -57,7 +59,9 @@ struct WCompChapterEditorModal: View {
         }
         .onAppear {
             focus = .acronym
-            workedCompChapterVM.update(from: chapter)
+            if isEditing {
+                workedCompChapterVM.update(from: chapter)
+            }
         }
         .alert(
             alertTitle,
@@ -67,7 +71,7 @@ struct WCompChapterEditorModal: View {
         )
         .toolbar(content: myToolBarContent)
         #if os(iOS)
-            .navigationTitle("Modification")
+            .navigationTitle(isEditing ? "Modification de l'Élément" : "Nouvel Élément")
         #endif
     }
 }
@@ -134,25 +138,26 @@ extension WCompChapterEditorModal {
             }
         }
         ToolbarItem(placement: .confirmationAction) {
-            Button("Ok") {
+            Button(isEditing ? "Ok" : "Ajouter") {
                 // Ajouter un nouveau programme
                 if WCompChapterEntity.exists(
                     cycle: workedCompChapterVM.cycle,
-                    acronym: workedCompChapterVM.acronym
+                    acronym: workedCompChapterVM.acronym,
+                    thisObjectID: isEditing ? chapter.objectID : nil
                 ) {
                     // doublon
-                    alertTitle = "Ajout impossible"
+                    alertTitle = isEditing ? "Modification impossible" : "Ajout impossible"
                     alertMessage = "Un chapitre de compétences travaillées pour ce cycle existe déjà."
                     alertIsPresented.toggle()
 
                 } else if workedCompChapterVM.acronym.isEmpty {
-                    alertTitle = "Ajout impossible"
+                    alertTitle = isEditing ? "Modification impossible" : "Ajout impossible"
                     alertMessage = "L'acronyme de la compétence est obligatoire."
                     focus = .acronym
                     alertIsPresented.toggle()
 
                 } else if workedCompChapterVM.description.isEmpty {
-                    alertTitle = "Ajout impossible"
+                    alertTitle = isEditing ? "Modification impossible" : "Ajout impossible"
                     alertMessage = "La description de la compétence est obligatoire."
                     focus = .description
                     alertIsPresented.toggle()
@@ -160,8 +165,13 @@ extension WCompChapterEditorModal {
                 } else {
                     // Modifier le chapitre de compétences
                     withAnimation {
-                        workedCompChapterVM.update(this: chapter)
-                        try? WCompChapterEntity.saveIfContextHasChanged()
+                        if isEditing {
+                            workedCompChapterVM.update(this: chapter)
+                            try? WCompChapterEntity.saveIfContextHasChanged()
+                        } else {
+                            workedCompChapterVM
+                                .createAndSaveEntity()
+                        }
                     }
                     dismiss()
                 }
@@ -170,8 +180,8 @@ extension WCompChapterEditorModal {
     }
 }
 
-//struct WCompChapterEditorModal_Previews: PreviewProvider {
+// struct WCompChapterEditorModal_Previews: PreviewProvider {
 //    static var previews: some View {
 //        WorkedCompEditorModal()
 //    }
-//}
+// }

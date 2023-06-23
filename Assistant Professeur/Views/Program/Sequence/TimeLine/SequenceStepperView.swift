@@ -97,11 +97,10 @@ extension SequenceStepperView {
                             .bold()
                             .foregroundColor(Color.blue4)
                             .textSelection(.enabled)
-                        ForEach(classes) { classe in
-                            if classe.currentActivity == activity {
-                                ClasseCapsule(classe: classe)
-                            }
-                        }
+                        ClasseTagList(
+                            classes: classes.filter { $0.currentActivity == activity },
+                            font: .body
+                        )
                     }
                     Text(activity.viewAnnotation)
                         .textSelection(.enabled)

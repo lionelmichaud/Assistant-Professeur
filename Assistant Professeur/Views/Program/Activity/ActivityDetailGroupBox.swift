@@ -22,7 +22,7 @@ struct ActivityDetailGroupBox: View {
     private var documentToBeViewed: DocumentEntity?
 
     var body: some View {
-        GroupBox {
+        VStack {
             Group {
                 LabeledActivityView(activity: activity)
                     .bold()

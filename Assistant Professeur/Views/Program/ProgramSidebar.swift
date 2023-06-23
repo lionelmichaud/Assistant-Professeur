@@ -14,7 +14,7 @@ private let customLog = Logger(
     category: "ProgramSidebarView"
 )
 
-struct ProgramSidebarView: View {
+struct ProgramSidebar: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
 
@@ -104,7 +104,7 @@ struct ProgramSidebarView: View {
 
 // MARK: Toolbar Content
 
-extension ProgramSidebarView {
+extension ProgramSidebar {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         // Menu
@@ -150,12 +150,12 @@ struct ProgramSidebarView_Previews: PreviewProvider {
     static var previews: some View {
         initialize()
         return Group {
-            ProgramSidebarView()
+            ProgramSidebar()
                 .padding()
                 .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
                 .previewDevice("iPad mini (6th generation)")
-            ProgramSidebarView()
+            ProgramSidebar()
                 .padding()
                 .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
                 .environment(\.managedObjectContext, CoreDataManager.shared.context)

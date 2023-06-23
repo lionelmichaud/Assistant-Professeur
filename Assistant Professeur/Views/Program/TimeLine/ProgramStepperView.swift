@@ -94,9 +94,10 @@ extension ProgramStepperView {
                             .bold()
                             .foregroundColor(.teal)
                             .textSelection(.enabled)
-                        ForEach(classes) { classe in
-                            ClasseCapsule(classe: classe)
-                        }
+                        ClasseTagList(
+                            classes: classes,
+                            font: .body
+                        )
                     }
                     Text(sequence.viewAnnotation)
                         .textSelection(.enabled)

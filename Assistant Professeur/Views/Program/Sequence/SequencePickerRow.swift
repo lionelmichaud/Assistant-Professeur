@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TagKit
 
 struct SequencePickerRow: View {
     let sequence: SequenceEntity
@@ -13,14 +14,12 @@ struct SequencePickerRow: View {
     var body: some View {
         HStack {
             if let level = sequence.program?.viewLevelEnum {
-                Text(level.displayString)
-                    .foregroundColor(.primary)
-                    .font(.callout)
-                    .filledCapsuleStyling(
-                        withBackground: true,
-                        withBorder: true,
-                        fillColor: level.imageColor
-                    )
+                TagCapsule(
+                    tag: level.displayString,
+                    style: .levelTagStyle(level: level)
+                )
+                .font(.callout)
+                .bold()
             }
             Image(systemName: "\(sequence.viewNumber).circle")
                 .imageScale(.large)

@@ -8,7 +8,7 @@
 import AppFoundation
 import SwiftUI
 
-enum LevelClasse: String, PickableEnumP, Codable {
+enum LevelClasse: String, PickableEnumP, Codable, Identifiable {
     case nbCP
     case naCE1
     case n9CE2
@@ -21,6 +21,10 @@ enum LevelClasse: String, PickableEnumP, Codable {
     case n2nd
     case n1ere
     case n0terminale
+
+    var id: String {
+        self.rawValue
+    }
 
     var pickerString: String {
         switch self {
