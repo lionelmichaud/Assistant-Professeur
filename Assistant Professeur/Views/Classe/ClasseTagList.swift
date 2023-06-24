@@ -8,6 +8,20 @@
 import SwiftUI
 import TagKit
 
+struct LevelTag : View {
+    let level: LevelClasse
+    var font: Font = .callout
+
+    var body: some View {
+        TagCapsule(
+            tag: level.displayString,
+            style: .levelTagStyle(level: level)
+        )
+        .font(font)
+        .bold()
+    }
+}
+
 struct ClasseTag: View {
     let classe: ClasseEntity
     var font: Font = .callout

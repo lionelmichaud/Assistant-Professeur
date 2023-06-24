@@ -19,13 +19,12 @@ struct AssociatedActivityBrowerRow: View {
         return HStack {
             layout {
                 if let level = activity.sequence?.program?.viewLevelEnum {
-                    TagCapsule(
-                        tag: level.displayString,
-                        style: .levelTagStyle(level: level)
+                    LevelTag(
+                        level: level,
+                        font: .callout
                     )
-                    .font(.callout)
-                    .bold()
                 }
+                
                 HStack(spacing: 0) {
                     if let sequence = activity.sequence {
                         Image(systemName: "\(sequence.viewNumber).circle")

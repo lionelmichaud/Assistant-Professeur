@@ -5,9 +5,9 @@
 //  Created by Lionel MICHAUD on 07/06/2023.
 //
 
+import AppFoundation
 import SwiftUI
 import TagKit
-import AppFoundation
 
 struct WCompBrowserRow: View {
     @ObservedObject
@@ -48,14 +48,14 @@ struct WCompBrowserRow: View {
                     // Tags des séquences pédagogiques par année dans le cycle
                     if showSequences && levelSequences.isNotEmpty {
                         HStack {
-                            TagCapsule(
-                                tag: level.displayString,
-                                style: .levelTagStyle(level: level)
+                            LevelTag(
+                                level: level,
+                                font: .footnote
                             )
-                            .font(.footnote)
-                            .bold()
+
                             Image(systemName: "arrowshape.right.fill")
                                 .foregroundColor(level.imageColor)
+
                             SequenceTagList(
                                 sequences: levelSequences,
                                 font: .footnote

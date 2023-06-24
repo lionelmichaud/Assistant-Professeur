@@ -14,7 +14,7 @@ struct DCompPopOverContent: View {
     var body: some View {
         Text("\(Text(disciplineComp.viewAcronym).bold().foregroundColor(.secondary)): \(disciplineComp.viewDescription)")
             .font(.body)
-            .padding()
+            .padding(.horizontal)
             .frame(maxWidth: 500)
     }
 }
