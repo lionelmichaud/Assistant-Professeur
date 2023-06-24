@@ -22,7 +22,8 @@ struct SequenceBrowserRow: View {
 
             VStack(alignment: .leading) {
                 Text(sequence.viewName)
-                    .textSelection(.enabled)
+                Text(sequence.viewAnnotation)
+                    .foregroundColor(.secondary)
 
                 HStack {
                     DurationSquareView(

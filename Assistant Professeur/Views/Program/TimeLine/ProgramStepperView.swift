@@ -40,7 +40,7 @@ struct ProgramStepperView: View {
 
 extension ProgramStepperView {
     var headerView: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .leading) {
             ProgramDisciplineLevel(program: program)
                 .foregroundColor(.teal)
                 .padding(.bottom, 6)
@@ -83,24 +83,20 @@ extension ProgramStepperView {
         program
             .sequencesSortedByNumber
             .map { sequence in
-                let allClasses = ProgramManager.classesAssociatedTo(thisSequence: sequence)
-                let classes = allClasses.filter { classe in
-                    sequence.statusFor(classe: classe) == .inProgress
-                }
+                let classesInProgress =
+                    ProgramManager
+                        .classesAssociatedTo(thisSequence: sequence)
+                        .filter { sequence.statusFor(classe: $0) == .inProgress }
 
-                return VStack(alignment: .leading) {
-                    HStack {
-                        Text(sequence.viewName)
-                            .bold()
-                            .foregroundColor(.teal)
-                            .textSelection(.enabled)
-                        ClasseTagList(
-                            classes: classes,
-                            font: .body
-                        )
-                    }
-                    Text(sequence.viewAnnotation)
+                return VStack(alignment: .leading, spacing: 0) {
+                    Text(sequence.viewName)
+                        .bold()
+                        .foregroundColor(Color.blue4)
                         .textSelection(.enabled)
+                    ClasseTagList(
+                        classes: classesInProgress,
+                        font: .body
+                    )
                 }
                 .eraseToAnyView()
             }
@@ -113,7 +109,7 @@ extension ProgramStepperView {
                 StepperIndicationType
                     .custom(NumberedCircleView(
                         text: "S\(sequence.viewNumber)",
-                        color: .teal,
+                        color: Color.blue4,
                         triggerAnimation: true
                     )
                     .eraseToAnyView())

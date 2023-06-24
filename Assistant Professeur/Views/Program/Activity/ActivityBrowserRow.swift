@@ -22,7 +22,8 @@ struct ActivityBrowserRow: View {
 
             VStack(alignment: .leading) {
                 Text(activity.viewName)
-                    .textSelection(.enabled)
+                Text(activity.viewAnnotation)
+                    .foregroundColor(.secondary)
 
                 HStack {
                     DurationSquareView(

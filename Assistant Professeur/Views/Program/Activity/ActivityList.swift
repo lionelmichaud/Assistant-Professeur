@@ -21,9 +21,11 @@ struct ActivityList: View {
     private var navig: NavigationModel
 
     var body: some View {
-        Section {
+        let filteredActivities = sequence.filteredActivitiesSortedByNumber(searchString: searchString)
+
+        return Section {
             ForEach(
-                sequence.filteredActivitiesSortedByNumber(searchString: searchString),
+                filteredActivities,
                 id: \.objectID
             ) { activity in
                 ActivityBrowserRow(activity: activity)
@@ -31,9 +33,11 @@ struct ActivityList: View {
             .onMove(perform: moveItems)
             .onDelete(perform: deleteItems)
             .listRowSeparatorTint(.secondary)
-            .emptyListPlaceHolder(sequence.filteredActivitiesSortedByNumber(searchString: searchString)) {
+            .emptyListPlaceHolder(filteredActivities) {
                 EmptyListMessage(
-                    title: "Aucune activité trouvée."
+                    title: "Aucune activitée trouvée dans cette séquence.",
+                    message: "Les activitées ajoutées apparaîtront ici.",
+                    showAsGroupBox: true
                 )
             }
         } header: {

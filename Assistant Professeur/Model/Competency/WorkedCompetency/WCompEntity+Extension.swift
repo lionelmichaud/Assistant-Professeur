@@ -8,6 +8,7 @@
 import CoreData
 import Foundation
 
+/// Compétence travaillée du Socle de compétence
 extension WCompEntity {
     // MARK: - Computed properties
 

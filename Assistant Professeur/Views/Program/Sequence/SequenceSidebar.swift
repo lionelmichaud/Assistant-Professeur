@@ -25,27 +25,19 @@ struct SequenceSidebar: View {
         VStack {
             if let programId = nav.selectedProgramMngObjId {
                 if let program = ProgramEntity.byObjectId(MngObjID: programId) {
-                    if program.sequencesSortedByNumber.isNotEmpty {
-                        List(selection: $nav.selectedSequenceMngObjId) {
-                            ProgramDetailGroupBox(program: program)
+                    List(selection: $nav.selectedSequenceMngObjId) {
+                        ProgramDetailGroupBox(program: program)
 
-                            SequenceList(
-                                program: program,
-                                searchString: searchString
-                            )
-                        }
-                        .searchable(
-                            text: $searchString,
-                            placement: .toolbar,
-                            prompt: "Nom de la séquence"
-                        )
-
-                    } else {
-                        EmptyListMessage(
-                            title: "Aucune séquence actuellement dans ce programme.",
-                            message: "Les séquences ajoutées apparaîtront ici."
+                        SequenceList(
+                            program: program,
+                            searchString: searchString
                         )
                     }
+                    .searchable(
+                        text: $searchString,
+                        placement: .toolbar,
+                        prompt: "Nom de la séquence"
+                    )
 
                 } else {
                     Text("Programme introuvable")

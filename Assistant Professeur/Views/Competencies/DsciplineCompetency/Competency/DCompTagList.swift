@@ -12,6 +12,9 @@ struct DCompTagList: View {
     let disciplineComps: [DCompEntity]
     var font: Font = .callout
 
+    @State
+    private var tappedTag: DCompEntity?
+
     var body: some View {
         TagList(
             tags: disciplineComps.map { $0.viewAcronym },
@@ -24,8 +27,16 @@ struct DCompTagList: View {
                     style: .disciplineCompTagStyle
                 )
                 .font(font)
+                .onTapGesture {
+                    self.tappedTag = DCompEntity.disciplineCompetency(withAcronym: tag)
+                }
             }
         )
+        .popover(item: $tappedTag) { detail in
+            Text("\(Text(detail.viewAcronym).bold().foregroundColor(.secondary)): \(detail.viewDescription)")
+                .font(.body)
+                .frame(maxWidth: 500)
+        }
     }
 }
 

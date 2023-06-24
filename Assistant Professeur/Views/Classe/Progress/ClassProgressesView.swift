@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 18/02/2023.
 //
 
+import HelpersView
 import SwiftUI
 
 /// Situation de la progression d'une classe par Séquence / Activité

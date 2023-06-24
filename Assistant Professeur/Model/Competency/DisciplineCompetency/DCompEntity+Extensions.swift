@@ -8,6 +8,7 @@
 import CoreData
 import Foundation
 
+/// Compétence disciplinaire
 extension DCompEntity {
     // MARK: - Computed properties
 
@@ -161,8 +162,15 @@ extension DCompEntity {
         return competency
     }
 
+    /// Toutes les compétences disciplinaires triées par Acronym
     static func allSortedByAcronym() -> [DCompEntity] {
         all().sorted(by: \.viewAcronym)
+    }
+
+    static func disciplineCompetency(withAcronym: String) -> DCompEntity? {
+        all().filter { dComp in
+            dComp.viewAcronym == withAcronym
+        }.first
     }
 
     /// Check the correctness and consistency of all database entities of this type.

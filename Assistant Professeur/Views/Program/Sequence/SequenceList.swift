@@ -21,9 +21,11 @@ struct SequenceList: View {
     private var navig: NavigationModel
 
     var body: some View {
-        Section {
+        let filteredSequences = program.filteredSequencesSortedByNumber(searchString: searchString)
+        
+        return Section {
             ForEach(
-                program.filteredSequencesSortedByNumber(searchString: searchString),
+                filteredSequences,
                 id: \.objectID
             ) { sequence in
                 NavigationLink(value: sequence) {
@@ -33,9 +35,11 @@ struct SequenceList: View {
             .onMove(perform: moveItems)
             .onDelete(perform: deleteItems)
             .listRowSeparatorTint(.secondary)
-            .emptyListPlaceHolder(program.filteredSequencesSortedByNumber(searchString: searchString)) {
+            .emptyListPlaceHolder(filteredSequences) {
                 EmptyListMessage(
-                    title: "Aucune séquence trouvée."
+                    title: "Aucune séquence trouvée dans ce programme.",
+                    message: "Les séquences ajoutées apparaîtront ici.",
+                    showAsGroupBox: true
                 )
             }
         } header: {

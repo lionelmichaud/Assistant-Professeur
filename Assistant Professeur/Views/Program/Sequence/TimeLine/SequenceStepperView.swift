@@ -90,20 +90,20 @@ extension SequenceStepperView {
         sequence
             .activitiesSortedByNumber
             .map { activity in
-                let classes = ProgramManager.classesAssociatedTo(thisActivity: activity)
-                return VStack(alignment: .leading) {
-                    HStack {
-                        Text(activity.viewName)
-                            .bold()
-                            .foregroundColor(Color.blue4)
-                            .textSelection(.enabled)
-                        ClasseTagList(
-                            classes: classes.filter { $0.currentActivity == activity },
-                            font: .body
-                        )
-                    }
-                    Text(activity.viewAnnotation)
+                let classesInProgress =
+                    ProgramManager
+                        .classesAssociatedTo(thisActivity: activity)
+                        .filter { $0.currentActivity == activity }
+
+                return VStack(alignment: .leading, spacing: 0) {
+                    Text(activity.viewName)
+                        .bold()
+                        .foregroundColor(Color.blue4)
                         .textSelection(.enabled)
+                    ClasseTagList(
+                        classes: classesInProgress,
+                        font: .body
+                    )
                 }
                 .eraseToAnyView()
             }
@@ -116,7 +116,7 @@ extension SequenceStepperView {
                 StepperIndicationType
                     .custom(NumberedCircleView(
                         text: "A\(activity.viewNumber)",
-                        color: .teal,
+                        color: Color.blue4,
                         triggerAnimation: true
                     )
                     .eraseToAnyView())

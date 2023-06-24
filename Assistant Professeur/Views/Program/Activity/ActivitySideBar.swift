@@ -31,36 +31,25 @@ struct ActivitySideBar: View {
     }
 
     var body: some View {
-        Group {
-            if sequence.activitiesSortedByNumber.isNotEmpty {
-                List(selection: $nav.selectedActivityMngObjId) {
-                    if sequence.program != nil {
-                        SequenceDetailGroupBox(sequence: sequence)
-                    } else {
-                        Text("Programme associé introuvable")
-                            .foregroundStyle(.secondary)
-                            .font(.title2)
-                    }
-
-                    ActivityList(
-                        sequence: sequence,
-                        searchString: searchString
-                    )
-                }
-                .searchable(
-                    text: $searchString,
-                    placement: .toolbar,
-                    prompt: "Nom de l'activité"
-                )
-
+        List(selection: $nav.selectedActivityMngObjId) {
+            if sequence.program != nil {
+                SequenceDetailGroupBox(sequence: sequence)
             } else {
-                EmptyListMessage(
-                    title: "Aucune activitée actuellement dans cette séquence.",
-                    message: "Les activitées ajoutées apparaîtront ici.",
-                    showAsGroupBox: true
-                )
+                Text("Programme associé introuvable")
+                    .foregroundStyle(.secondary)
+                    .font(.title2)
             }
+
+            ActivityList(
+                sequence: sequence,
+                searchString: searchString
+            )
         }
+        .searchable(
+            text: $searchString,
+            placement: .toolbar,
+            prompt: "Nom de l'activité"
+        )
         #if os(iOS)
         .navigationTitle("Séquence " + selectedSequenceNumber)
         #endif
