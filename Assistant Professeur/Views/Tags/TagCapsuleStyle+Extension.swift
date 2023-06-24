@@ -29,8 +29,22 @@ extension TagCapsuleStyle {
 
     /// Style adapté aux Séquences pédagogiques
     static var sequenceTagStyle = TagCapsuleStyle(
-        foregroundColor: .primary,
+        foregroundColor: .black,
         backgroundColor: .blue4,
+        borderColor: .primary,
+        borderWidth: 1,
+        padding: .init(
+            top: 3,
+            leading: 6,
+            bottom: 3,
+            trailing: 6
+        )
+    )
+
+    /// Style adapté aux Activités pédagogiques
+    static var activityTagStyle = TagCapsuleStyle(
+        foregroundColor: .black,
+        backgroundColor: .blue2,
         borderColor: .primary,
         borderWidth: 1,
         padding: .init(

@@ -8,6 +8,39 @@
 import SwiftUI
 import TagKit
 
+struct DCompPopOverContent: View {
+    let disciplineComp: DCompEntity
+
+    var body: some View {
+        Text("\(Text(disciplineComp.viewAcronym).bold().foregroundColor(.secondary)): \(disciplineComp.viewDescription)")
+            .font(.body)
+            .padding()
+            .frame(maxWidth: 500)
+    }
+}
+
+struct DCompTag: View {
+    let disciplineComp: DCompEntity
+    var font: Font = .callout
+
+    @State
+    private var tappedTag: DCompEntity?
+
+    var body: some View {
+        TagCapsule(
+            tag: disciplineComp.viewAcronym,
+            style: .disciplineCompTagStyle
+        )
+        .font(font)
+        .onTapGesture {
+            self.tappedTag = disciplineComp
+        }
+        .popover(item: $tappedTag) { detail in
+            DCompPopOverContent(disciplineComp: detail)
+        }
+    }
+}
+
 struct DCompTagList: View {
     let disciplineComps: [DCompEntity]
     var font: Font = .callout
@@ -33,9 +66,7 @@ struct DCompTagList: View {
             }
         )
         .popover(item: $tappedTag) { detail in
-            Text("\(Text(detail.viewAcronym).bold().foregroundColor(.secondary)): \(detail.viewDescription)")
-                .font(.body)
-                .frame(maxWidth: 500)
+            DCompPopOverContent(disciplineComp: detail)
         }
     }
 }

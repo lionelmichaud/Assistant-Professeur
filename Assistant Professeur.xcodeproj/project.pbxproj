@@ -11,6 +11,7 @@
 		79012C6E2A39EB7300BF0772 /* CsvExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C6D2A39EB7300BF0772 /* CsvExport.swift */; };
 		79012C712A39F7A000BF0772 /* JsonImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C702A39F7A000BF0772 /* JsonImport.swift */; };
 		79012C732A39F84B00BF0772 /* JsonExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C722A39F84B00BF0772 /* JsonExport.swift */; };
+		790A10712A472C5500BA3F5C /* ActivityTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790A10702A472C5500BA3F5C /* ActivityTagList.swift */; };
 		790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */; };
 		790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */; };
 		790F76A229818858000A5C7D /* DurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F76A129818858000A5C7D /* DurationView.swift */; };
@@ -325,12 +326,10 @@
 		79F770922A2B9F4E004E9089 /* CompetencySidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F770912A2B9F4E004E9089 /* CompetencySidebarView.swift */; };
 		79F79B832A2D1F1800DEE003 /* WCompEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F79B822A2D1F1800DEE003 /* WCompEntity+CoreDataClass.swift */; };
 		79F79B852A2D226700DEE003 /* WCompEntity+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F79B842A2D226700DEE003 /* WCompEntity+Extension.swift */; };
-		79F7A2772A40504600CEC3D5 /* DCompCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2762A40504600CEC3D5 /* DCompCapsule.swift */; };
 		79F7A2792A4053BE00CEC3D5 /* ActivityListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2782A4053BE00CEC3D5 /* ActivityListSection.swift */; };
 		79F7A27B2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27A2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift */; };
 		79F7A27D2A405D8F00CEC3D5 /* ConnectToActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27C2A405D8F00CEC3D5 /* ConnectToActivityModal.swift */; };
 		79F7A27F2A40888300CEC3D5 /* DCompTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A27E2A40888300CEC3D5 /* DCompTagList.swift */; };
-		79F7A2812A408ABE00CEC3D5 /* WCompCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */; };
 		79F7A2832A408B2C00CEC3D5 /* WCompTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2822A408B2C00CEC3D5 /* WCompTagList.swift */; };
 		79F7A2852A409C5200CEC3D5 /* LevelInCyclePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2842A409C5200CEC3D5 /* LevelInCyclePicker.swift */; };
 		79F7A2872A40A9AF00CEC3D5 /* ActivityPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7A2862A40A9AF00CEC3D5 /* ActivityPicker.swift */; };
@@ -390,6 +389,7 @@
 		79012C6D2A39EB7300BF0772 /* CsvExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvExport.swift; sourceTree = "<group>"; };
 		79012C702A39F7A000BF0772 /* JsonImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonImport.swift; sourceTree = "<group>"; };
 		79012C722A39F84B00BF0772 /* JsonExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonExport.swift; sourceTree = "<group>"; };
+		790A10702A472C5500BA3F5C /* ActivityTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTagList.swift; sourceTree = "<group>"; };
 		790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAgenda.swift; sourceTree = "<group>"; };
 		790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceCreatorModal.swift; sourceTree = "<group>"; };
 		790F76A129818858000A5C7D /* DurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationView.swift; sourceTree = "<group>"; };
@@ -675,12 +675,10 @@
 		79F770912A2B9F4E004E9089 /* CompetencySidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencySidebarView.swift; sourceTree = "<group>"; };
 		79F79B822A2D1F1800DEE003 /* WCompEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "WCompEntity+CoreDataClass.swift"; path = "../New Group/WCompEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79F79B842A2D226700DEE003 /* WCompEntity+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WCompEntity+Extension.swift"; sourceTree = "<group>"; };
-		79F7A2762A40504600CEC3D5 /* DCompCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompCapsule.swift; sourceTree = "<group>"; };
 		79F7A2782A4053BE00CEC3D5 /* ActivityListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityListSection.swift; sourceTree = "<group>"; };
 		79F7A27A2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssociatedActivityBrowerRow.swift; sourceTree = "<group>"; };
 		79F7A27C2A405D8F00CEC3D5 /* ConnectToActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectToActivityModal.swift; sourceTree = "<group>"; };
 		79F7A27E2A40888300CEC3D5 /* DCompTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCompTagList.swift; sourceTree = "<group>"; };
-		79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompCapsule.swift; sourceTree = "<group>"; };
 		79F7A2822A408B2C00CEC3D5 /* WCompTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompTagList.swift; sourceTree = "<group>"; };
 		79F7A2842A409C5200CEC3D5 /* LevelInCyclePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelInCyclePicker.swift; sourceTree = "<group>"; };
 		79F7A2862A40A9AF00CEC3D5 /* ActivityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPicker.swift; sourceTree = "<group>"; };
@@ -856,7 +854,6 @@
 				798D24FB2A2E9767008500D2 /* WCompEditorModal.swift */,
 				79F7A28E2A40CE7100CEC3D5 /* WCompPicker.swift */,
 				79F7A2822A408B2C00CEC3D5 /* WCompTagList.swift */,
-				79F7A2802A408ABE00CEC3D5 /* WCompCapsule.swift */,
 			);
 			path = Competency;
 			sourceTree = "<group>";
@@ -1189,6 +1186,7 @@
 				7989B4D429A2752800383F84 /* LabeledActivityView.swift */,
 				799D2C7629CBADE2009C6336 /* ActivityDocumentList.swift */,
 				79F7A2862A40A9AF00CEC3D5 /* ActivityPicker.swift */,
+				790A10702A472C5500BA3F5C /* ActivityTagList.swift */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -1749,7 +1747,6 @@
 				79FD21A72A34DAB300A8D925 /* DCompBrowserRow.swift */,
 				79FD21A52A34D41000A8D925 /* DCompEditorModal.swift */,
 				79F7A27E2A40888300CEC3D5 /* DCompTagList.swift */,
-				79F7A2762A40504600CEC3D5 /* DCompCapsule.swift */,
 			);
 			path = Competency;
 			sourceTree = "<group>";
@@ -1972,7 +1969,6 @@
 				79F41E5E2954987F00EAAC52 /* ClasseAcronym.swift in Sources */,
 				7957A8322A375D7C00D64786 /* DKnowEditorModal.swift in Sources */,
 				79398D31296616250013564D /* ExamCreatorModal.swift in Sources */,
-				79F7A2812A408ABE00CEC3D5 /* WCompCapsule.swift in Sources */,
 				79ECF206295A16E2008F0282 /* EleveColleRow.swift in Sources */,
 				79BA2D48299C0084006325CC /* JsonImportExportMng.swift in Sources */,
 				79CD363929D989C900BF5ADC /* EmptyListMessage.swift in Sources */,
@@ -2080,6 +2076,7 @@
 				79FD21912A3386F600A8D925 /* DSectionListView.swift in Sources */,
 				794F6E12295CE1B700042B95 /* ObservEditor.swift in Sources */,
 				79FD218E2A337DCC00A8D925 /* DThemeBrowserView.swift in Sources */,
+				790A10712A472C5500BA3F5C /* ActivityTagList.swift in Sources */,
 				79F8773229F425A300AB38C3 /* DigitalClockView.swift in Sources */,
 				79FC04E5298DCC240093BC8B /* IndividualSteppedlMarkModal.swift in Sources */,
 				796A17862A3F49E600413DDD /* KnowledgeListSection.swift in Sources */,
@@ -2222,7 +2219,6 @@
 				79DEDB292925996E00F508EF /* UIPreferences.swift in Sources */,
 				792311382A312FDB008556E1 /* DThemeEntity+Extension.swift in Sources */,
 				79BA2D4C299C0287006325CC /* ImageImportExportMng.swift in Sources */,
-				79F7A2772A40504600CEC3D5 /* DCompCapsule.swift in Sources */,
 				79E40E732996AEBF006BBE49 /* Room+CoreDataClass.swift in Sources */,
 				79388A5329257045002AABB8 /* NavigationModel.swift in Sources */,
 				797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */,

@@ -21,7 +21,7 @@ struct WCompBrowserRow: View {
     }
 
     var description: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             // Description de la compétence travaillée
             Group {
                 Text(workedComp.viewAcronym)

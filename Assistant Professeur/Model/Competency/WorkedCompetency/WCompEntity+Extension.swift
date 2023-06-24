@@ -156,6 +156,12 @@ extension WCompEntity {
         all().sorted(by: \.viewAcronym)
     }
 
+    static func workedCompetency(withAcronym: String) -> WCompEntity? {
+        all().filter { wComp in
+            wComp.viewAcronym == withAcronym
+        }.first
+    }
+
     /// Check the correctness and consistency of all database entities of this type.
     /// - Parameters:
     ///   - errorList: Liste des erreurs trouvées.

@@ -1,41 +1,41 @@
 //
-//  SequenceTagList.swift
+//  ActivityTagList.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 23/06/2023.
+//  Created by Lionel MICHAUD on 24/06/2023.
 //
 
 import SwiftUI
 import TagKit
 
-struct SequenceTag: View {
-    let sequence: SequenceEntity
+struct ActivityTag: View {
+    let activity: ActivityEntity
     var font: Font = .callout
 
     var body: some View {
         TagCapsule(
-            tag: "S\(sequence.viewNumber)",
-            style: .sequenceTagStyle
+            tag: "A\(activity.viewNumber)",
+            style: .activityTagStyle
         )
         .font(font)
         .bold()
     }
 }
 
-struct SequenceTagList: View {
-    let sequences: [SequenceEntity]
+struct ActivityTagList: View {
+    let activities: [ActivityEntity]
     var font: Font = .callout
 
     var body: some View {
         TagList(
-            tags: sequences.map { "S\($0.viewNumber)" },
+            tags: activities.map { "A\($0.viewNumber)" },
             container: .scrollView,
             horizontalSpacing: 4,
             verticalSpacing: 4,
             tagView: { tag in
                 TagCapsule(
                     tag: tag,
-                    style: .sequenceTagStyle
+                    style: .activityTagStyle
                 )
                 .font(font)
                 .bold()
@@ -44,8 +44,8 @@ struct SequenceTagList: View {
     }
 }
 
-// struct SequenceTagList_Previews: PreviewProvider {
+//struct ActivityTagList_Previews: PreviewProvider {
 //    static var previews: some View {
-//        SequenceTagList()
+//        ActivityTagList()
 //    }
-// }
+//}

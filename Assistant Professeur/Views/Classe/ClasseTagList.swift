@@ -8,6 +8,19 @@
 import SwiftUI
 import TagKit
 
+struct ClasseTag: View {
+    let classe: ClasseEntity
+    var font: Font = .callout
+
+    var body: some View {
+        TagCapsule(
+            tag: classe.displayString,
+            style: .classeTagStyle
+        )
+        .font(font)
+    }
+}
+
 struct ClasseTagList: View {
     let classes: [ClasseEntity]
     var font: Font = .callout

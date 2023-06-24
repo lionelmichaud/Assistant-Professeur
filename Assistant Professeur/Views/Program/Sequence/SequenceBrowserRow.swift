@@ -16,26 +16,31 @@ struct SequenceBrowserRow: View {
     private var hClass
 
     var body: some View {
-        HStack {
-            Image(systemName: "\(sequence.viewNumber).circle")
-                .imageScale(.large)
+        Label(
+            title: {
+                VStack(alignment: .leading) {
+                    Text(sequence.viewName)
+                    Text(sequence.viewAnnotation)
+                        .foregroundColor(.secondary)
 
-            VStack(alignment: .leading) {
-                Text(sequence.viewName)
-                Text(sequence.viewAnnotation)
-                    .foregroundColor(.secondary)
-
-                HStack {
-                    DurationSquareView(
-                        duration: sequence.durationWithoutMargin,
-                        withMargin: true
-                    )
-                    Spacer()
-                    WebsiteView(url: sequence.url)
+                    HStack {
+                        DurationSquareView(
+                            duration: sequence.durationWithoutMargin,
+                            withMargin: true
+                        )
+                        Spacer()
+                        WebsiteView(url: sequence.url)
+                    }
                 }
+                .font(hClass == .compact ? .callout : .body)
+            },
+            icon: {
+                SequenceTag(
+                    sequence: sequence,
+                    font: hClass == .compact ? .callout : .body
+                ).frame(minWidth: 50)
             }
-        }
-        .font(hClass == .compact ? .callout : .body)
+        )
     }
 }
 

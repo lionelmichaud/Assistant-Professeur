@@ -7,6 +7,7 @@
 
 import StepperView
 import SwiftUI
+import TagKit
 
 struct ClassRailwayProgressView: View {
     @ObservedObject
@@ -27,20 +28,20 @@ struct ClassRailwayProgressView: View {
         ForEach(classeSequences) { sequence in
             if sequence.nbOfActivities > 0 && sequence.statusFor(classe: classe) == .inProgress {
                 GroupBox {
-                        sequenceTitleView(sequence: sequence)
-                            .padding(.bottom)
-                            .frame(maxWidth: .infinity)
-                        StepperView()
-                            .addSteps(steps(sequence: sequence))
-                            .indicators(indicators(sequence: sequence))
-                            .stepIndicatorMode(.horizontal)
-                            // .alignments(alignments(sequence: sequence))
-                            .lineOptions(StepperLineOptions.custom(4, Color.teal))
-                            // .stepLifeCycles(stepLifeCycles(sequence: sequence))
-                            // .autoSpacing(true)
-                            .spacing(hClass == .compact ? 35 : 75)
-                            // .loadingAnimationTime(0.01)
-                            .padding([.top, .leading])
+                    sequenceTitleView(sequence: sequence)
+                        .padding(.bottom)
+                        .frame(maxWidth: .infinity)
+                    StepperView()
+                        .addSteps(steps(sequence: sequence))
+                        .indicators(indicators(sequence: sequence))
+                        .stepIndicatorMode(.horizontal)
+                        // .alignments(alignments(sequence: sequence))
+                        .lineOptions(StepperLineOptions.custom(4, Color.teal))
+                        // .stepLifeCycles(stepLifeCycles(sequence: sequence))
+                        // .autoSpacing(true)
+                        .spacing(hClass == .compact ? 35 : 75)
+                        // .loadingAnimationTime(0.01)
+                        .padding([.top, .leading])
                 }
                 .padding(.horizontal)
                 .horizontallyAligned(.leading)
@@ -114,10 +115,9 @@ extension ClassRailwayProgressView {
                 name: sequence.statusFor(classe: classe).imageName,
                 size: 32
             )
-            NumberedCircleView(
-                text: "S\(sequence.viewNumber)",
-                color: .green,
-                triggerAnimation: false
+            SequenceTag(
+                sequence: sequence,
+                font: .body
             )
             Text(sequence.viewName)
         }

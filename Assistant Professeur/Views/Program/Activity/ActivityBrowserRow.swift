@@ -16,31 +16,36 @@ struct ActivityBrowserRow: View {
     private var hClass
 
     var body: some View {
-        HStack {
-            Image(systemName: "\(activity.viewNumber).circle")
-                .imageScale(.large)
+        Label(
+            title: {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(activity.viewName)
+                    Text(activity.viewAnnotation)
+                        .foregroundColor(.secondary)
 
-            VStack(alignment: .leading) {
-                Text(activity.viewName)
-                Text(activity.viewAnnotation)
-                    .foregroundColor(.secondary)
-
-                HStack {
-                    DurationSquareView(
-                        duration: activity.duration,
-                        withMargin: false
-                    )
-                    Spacer()
-                    ActivityAllSymbols(
-                        activity: activity,
-                        showTitle: false
-                    )
-                    .tint(.primary)
-                    // WebsiteView(url: activity.url)
+                    HStack {
+                        DurationSquareView(
+                            duration: activity.duration,
+                            withMargin: false
+                        )
+                        Spacer()
+                        ActivityAllSymbols(
+                            activity: activity,
+                            showTitle: false
+                        )
+                        .tint(.primary)
+                        WebsiteView(url: activity.url)
+                    }
                 }
+                .font(hClass == .compact ? .callout : .body)
+            },
+            icon: {
+                ActivityTag(
+                    activity: activity,
+                    font: hClass == .compact ? .callout : .body
+                ).frame(minWidth: 50)
             }
-        }
-        .font(hClass == .compact ? .callout : .body)
+        )
     }
 }
 
