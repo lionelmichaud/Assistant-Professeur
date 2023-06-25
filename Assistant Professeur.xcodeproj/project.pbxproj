@@ -191,6 +191,9 @@
 		799D2C7929CCD226009C6336 /* SequenceDocumentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */; };
 		799EFBA42A2CFC66008E9775 /* FileOperationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799EFBA32A2CFC66008E9775 /* FileOperationTypes.swift */; };
 		799EFBA62A2CFE45008E9775 /* WCompChapterBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799EFBA52A2CFE45008E9775 /* WCompChapterBrowserRow.swift */; };
+		79A56A552A48451800D1D4CC /* Mastery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A56A542A48451800D1D4CC /* Mastery.swift */; };
+		79A56A572A4888CC00D1D4CC /* WCompMasteryLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A56A562A4888CC00D1D4CC /* WCompMasteryLevels.swift */; };
+		79A56A592A48E8B300D1D4CC /* WCompMasteryEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A56A582A48E8B300D1D4CC /* WCompMasteryEdit.swift */; };
 		79A5737329BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A5737229BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift */; };
 		79A5737529BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A5737429BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift */; };
 		79A6AC9529F57DD0003705D0 /* ProgressClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6AC9429F57DCF003705D0 /* ProgressClockView.swift */; };
@@ -563,6 +566,9 @@
 		799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceDocumentList.swift; sourceTree = "<group>"; };
 		799EFBA32A2CFC66008E9775 /* FileOperationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileOperationTypes.swift; sourceTree = "<group>"; };
 		799EFBA52A2CFE45008E9775 /* WCompChapterBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompChapterBrowserRow.swift; sourceTree = "<group>"; };
+		79A56A542A48451800D1D4CC /* Mastery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mastery.swift; sourceTree = "<group>"; };
+		79A56A562A4888CC00D1D4CC /* WCompMasteryLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompMasteryLevels.swift; sourceTree = "<group>"; };
+		79A56A582A48E8B300D1D4CC /* WCompMasteryEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompMasteryEdit.swift; sourceTree = "<group>"; };
 		79A5737229BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DocumentEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79A5737429BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ActivityProgressEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79A6AC9429F57DCF003705D0 /* ProgressClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressClockView.swift; sourceTree = "<group>"; };
@@ -854,6 +860,8 @@
 				798D24FB2A2E9767008500D2 /* WCompEditorModal.swift */,
 				79F7A28E2A40CE7100CEC3D5 /* WCompPicker.swift */,
 				79F7A2822A408B2C00CEC3D5 /* WCompTagList.swift */,
+				79A56A562A4888CC00D1D4CC /* WCompMasteryLevels.swift */,
+				79A56A582A48E8B300D1D4CC /* WCompMasteryEdit.swift */,
 			);
 			path = Competency;
 			sourceTree = "<group>";
@@ -1236,6 +1244,7 @@
 		7974CD0F2A2BF761004B3716 /* Competency */ = {
 			isa = PBXGroup;
 			children = (
+				79A56A532A4844F500D1D4CC /* Mastery */,
 				798D24F22A2DD868008500D2 /* WorkedCompetency */,
 				792311342A312A91008556E1 /* DisciplineCompetency */,
 			);
@@ -1343,6 +1352,14 @@
 				791DEE1A2A3078F100D0E248 /* Competency */,
 			);
 			path = WorkedCompetency;
+			sourceTree = "<group>";
+		};
+		79A56A532A4844F500D1D4CC /* Mastery */ = {
+			isa = PBXGroup;
+			children = (
+				79A56A542A48451800D1D4CC /* Mastery.swift */,
+			);
+			path = Mastery;
 			sourceTree = "<group>";
 		};
 		79A6AC9629F59C9E003705D0 /* Timer */ = {
@@ -2004,11 +2021,13 @@
 				7957A8302A3759E400D64786 /* DKnowBrowserRow.swift in Sources */,
 				796A17882A3F6C6600413DDD /* WCompListSection.swift in Sources */,
 				795EED0B29677C76009AA6F4 /* EleveMarkRow.swift in Sources */,
+				79A56A552A48451800D1D4CC /* Mastery.swift in Sources */,
 				7957A8342A375DC400D64786 /* DKnowViewModel.swift in Sources */,
 				794F6E14295CEC0C00042B95 /* ObservViewModel.swift in Sources */,
 				79FD21972A33980800A8D925 /* DSectionBrowserView.swift in Sources */,
 				795EED0529673B88009AA6F4 /* Mark+Extensions.swift in Sources */,
 				79401350295624EF007AD790 /* Dsicipline.swift in Sources */,
+				79A56A572A4888CC00D1D4CC /* WCompMasteryLevels.swift in Sources */,
 				798383522A0FF38C00C4A4E2 /* PersonsContactsView.swift in Sources */,
 				799421892A02C714002999C4 /* UrgencyTelView.swift in Sources */,
 				7989B4D129A257DD00383F84 /* Activity+CoreDataClass.swift in Sources */,
@@ -2183,6 +2202,7 @@
 				79DEDB272925996E00F508EF /* Interoperability.swift in Sources */,
 				79637205297D85EF00ECDBC3 /* SequenceBrowserRow.swift in Sources */,
 				799EFBA42A2CFC66008E9775 /* FileOperationTypes.swift in Sources */,
+				79A56A592A48E8B300D1D4CC /* WCompMasteryEdit.swift in Sources */,
 				79E40E7C2997D83D006BBE49 /* Colle+CoreDataClass.swift in Sources */,
 				79134557296B6C620092E7CD /* TrombineInteractivView.swift in Sources */,
 				795804BA29A69CB800AEB7DA /* SequenceStepperView.swift in Sources */,

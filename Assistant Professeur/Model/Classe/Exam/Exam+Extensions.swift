@@ -119,7 +119,7 @@ extension ExamEntity {
         self.coef = coef
     }
 
-    /// Alouer une note à un élève pour une évaluation globale
+    /// Alouer une note à un élève pour une évaluation globale `.global`
     /// - Parameters:
     ///   - eleve: élève
     ///   - markType: type de note
@@ -145,11 +145,11 @@ extension ExamEntity {
         try? MarkEntity.saveIfContextHasChanged()
     }
 
-    /// Alouer une note à un élève pour une évaluation échelonnée
+    /// Alouer une note à un élève pour une évaluation échelonnée `.multiStep`
     /// - Parameters:
     ///   - eleve: élève
     ///   - markType: type de note
-    ///   - mark: la valeur de la note si `markType` ==  `.note`
+    ///   - marks: la valeur de la note si `markType` ==  `.note`
     func setSteppedMark(
         of eleve: EleveEntity,
         markType: MarkEnum,
@@ -181,6 +181,9 @@ extension ExamEntity {
     // MARK: - Properties
 
     /// Wrapper of `steps`
+    ///
+    /// Retourne la table des étapes seulement si le type d'évaluation est `.multiStep`.
+    /// Sinon retourne une table vide.
     /// - Important: *Saves the context to the store after modification is done*
     var viewSteps: StepsArray {
         get {
@@ -198,7 +201,7 @@ extension ExamEntity {
     }
 
     /// Décode l'attribut `steps` à partir d'une String `fromString`au format JSON.
-    func getSteps(fromString stepString: String?) -> StepsArray {
+    private func getSteps(fromString stepString: String?) -> StepsArray {
         if let stepString {
             let data = Data(stepString.utf8)
             return (try? JSONDecoder().decode(StepsArray.self, from: data)) ?? []
@@ -209,7 +212,7 @@ extension ExamEntity {
 
     /// Modifie l'attribut `steps` en encodant les étapes au format JSON.
     /// - Important: *Does NOT save the context to the store after modification is done*
-    func setSteps(_ steps: StepsArray) {
+    private func setSteps(_ steps: StepsArray) {
         guard let data = try? JSONEncoder().encode(steps),
               let string = String(data: data, encoding: .utf8) else {
             self.steps = ""

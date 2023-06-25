@@ -52,17 +52,17 @@ struct CompetencySplitView: View {
                 case let .disciplineCompetencies(discipline):
                     /// Compétences disciplinaires
                     NavigationStack(path: $nav.competencePath) {
-                        // Thème
+                        // Thème de Compétences disciplinaires
                         DThemeListView(discipline: discipline)
                             .navigationDestination(for: DThemeEntity.self) { theme in
-                                // Section
+                                // Section de Compétences disciplinaires
                                 DSectionListView(
                                     theme: theme,
                                     discipline: discipline
                                 )
                             }
                             .navigationDestination(for: DSectionEntity.self) { section in
-                                // Compétence
+                                // Compétence disciplinaires
                                 DCompListView(
                                     section: section,
                                     discipline: discipline
@@ -84,7 +84,13 @@ struct CompetencySplitView: View {
 
                 case .workedCompetencies:
                     /// Compétences travaillées
-                    WCompListView()
+                    NavigationStack {
+                        WCompListView()
+                            .navigationDestination(for: WCompEntity.self) { workedCompetency in
+                                // Critère de maîtrise d'une compétences
+                                WCompMasteryLevels(workedComp: workedCompetency)
+                            }
+                    }
 
                 case .disciplineCompetencies:
                     /// Connaissance disciplinaires

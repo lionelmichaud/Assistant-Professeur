@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F66" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F82" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="ActivityEntity" representedClassName="ActivityEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="documentCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="documents.@count" usesScalarValueType="YES"/>
@@ -261,6 +261,7 @@
         <attribute name="descrip" attributeType="String" defaultValueString=""/>
         <attribute name="disCompCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="disciplineCompetencies.@count" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="masteryDefinitions" attributeType="String" defaultValueString=""/>
         <attribute name="number" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="chapter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WCompChapterEntity" inverseName="competencies" inverseEntity="WCompChapterEntity"/>
         <relationship name="disciplineCompetencies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DCompEntity" inverseName="workedCompetencies" inverseEntity="DCompEntity"/>

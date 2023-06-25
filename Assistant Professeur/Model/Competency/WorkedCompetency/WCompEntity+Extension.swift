@@ -30,7 +30,7 @@ extension WCompEntity {
         }
     }
 
-    @objc(viewAcronym)
+    @objc
     var viewAcronym: String {
         (self.chapter?.viewAcronym ?? "??") + "." + String(self.viewNumber)
     }
@@ -52,6 +52,40 @@ extension WCompEntity {
     @objc
     var nbOfDisciplineCompetencies: Int {
         Int(disCompCount)
+    }
+
+    /// Wrapper of `masteryDefinition`
+    ///
+    /// - Important: *Saves the context to the store after modification is done*
+    var viewMasteryDefinitions: MasteryLevelDictionary {
+        get {
+            getMasteryDefinitions(fromString: masteryDefinitions)
+        }
+        set {
+            setMasteryDefinitions(newValue)
+            try? WCompEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Décode l'attribut `masteryDefinition` à partir d'une String `fromString`au format JSON.
+    private func getMasteryDefinitions(fromString masteryDefString: String?) -> MasteryLevelDictionary {
+        if let masteryDefString {
+            let data = Data(masteryDefString.utf8)
+            return (try? JSONDecoder().decode(MasteryLevelDictionary.self, from: data)) ?? [:]
+        } else {
+            return [:]
+        }
+    }
+
+    /// Modifie l'attribut `masteryDefinition` en encodant les étapes au format JSON.
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    private func setMasteryDefinitions(_ masteryDefinitions: MasteryLevelDictionary) {
+        guard let data = try? JSONEncoder().encode(masteryDefinitions),
+              let string = String(data: data, encoding: .utf8) else {
+            self.masteryDefinitions = ""
+            return
+        }
+        self.masteryDefinitions = string
     }
 }
 
@@ -178,6 +212,18 @@ extension WCompEntity {
                     id: comp.id
                 ))
             }
+            if comp.masteryDefinitions == nil || comp.masteryDefinitions!.isEmpty {
+                if tryToRepair {
+                    comp.setMasteryDefinitions(MasteryLevelDictionary())
+                } else {
+                    errorList.append(DataBaseError.outOfBound(
+                        entity: Self.entity().name!,
+                        name: comp.description,
+                        attribute: "masteryDefinitions",
+                        id: comp.id
+                    ))
+                }
+            }
             if comp.chapter == nil {
                 if tryToRepair {
                     do {
@@ -205,6 +251,7 @@ extension WCompEntity {
         super.awakeFromInsert()
         // Set defaults here
         self.id = UUID()
+        setMasteryDefinitions(MasteryLevelDictionary())
     }
 }
 
@@ -219,6 +266,7 @@ public extension WCompEntity {
            Chapitre    : \(String(describing: chapter?.viewAcronym))
            Numéro      : \(viewNumber)
            Description : \(viewDescription)
+           Niveaux de maîtrise: \(String(describing: masteryDefinitions)).withPrefixedSplittedLines("     ")
         """
         //           Compétences disciplinaires : \(String(describing: disciplineCompetencies).withPrefixedSplittedLines("     "))
     }

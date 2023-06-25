@@ -95,6 +95,10 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             errorList: &errorList, tryToRepair: tryToRepair
         )
 
+        if tryToRepair {
+            try? CoreDataManager.shared.saveIfContextHasChanged()
+        }
+
         #if DEBUG
             if errorList.isNotEmpty {
                 print("Liste des \(errorList.count) erreurs trouvées:")
