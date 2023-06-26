@@ -49,8 +49,12 @@ extension ClasseProgressSection {
                             .first(where: { $0.activity == activity })
                     Spacer()
                     if hClass == .compact {
-                        Text("Seq \(sequence.viewNumber) - Act \(activity.viewNumber) (\(currentActivityProgress!.progress, format: .percent))")
-                            .foregroundColor(.secondary)
+                        HStack {
+                            SequenceTag(sequence: sequence, font: .body)
+                            ActivityTag(activity: activity, font: .body)
+                            Text("(\(currentActivityProgress!.progress, format: .percent))")
+                                .foregroundColor(.secondary)
+                        }
                     } else {
                         Text("Séquence \(sequence.viewNumber) - Activité \(activity.viewNumber) (\(currentActivityProgress!.progress, format: .percent))")
                             .foregroundColor(.secondary)

@@ -23,9 +23,16 @@ struct SequenceDetailGroupBox: View {
 
     var body: some View {
         GroupBox {
-            Group {
-                LabeledSequenceView(sequence: sequence)
-                    .bold()
+            VStack(alignment: .leading) {
+                HStack {
+                    SequenceTag(
+                        sequence: sequence,
+                        font: hClass == .compact ? .body : .headline
+                    )
+                    Text(sequence.viewName)
+                        .textSelection(.enabled)
+                        .font(hClass == .compact ? .body : .title3)
+                }
 
                 // note sur la séquence
                 if pref.sequenceAnnotationEnabled && sequence.viewAnnotation.isNotEmpty {
@@ -61,7 +68,6 @@ struct SequenceDetailGroupBox: View {
                 .padding(.top, 4)
             }
             .font(hClass == .compact ? .callout : .body)
-            .horizontallyAligned(.leading)
         }
         .padding(.horizontal)
         #if os(macOS)
