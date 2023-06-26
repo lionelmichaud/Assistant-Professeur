@@ -29,7 +29,7 @@ enum MasteryLevel: Int, PickableEnumP, Codable, Identifiable {
             case .insuffisant: return "Insuffisant"
             case .fragile: return "Fragile"
             case .satisfaisant: return "Satisfaisant"
-            case .tresBonneMaitrise: return "Tres Bonne Maîtrise"
+            case .tresBonneMaitrise: return "Très Bonne Maîtrise"
         }
     }
 
