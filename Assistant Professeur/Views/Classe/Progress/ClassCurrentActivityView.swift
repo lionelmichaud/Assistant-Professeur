@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 18/02/2023.
 //
 
+import HelpersView
 import SwiftUI
 
 /// Activité en cours pour une classe donnée
@@ -19,19 +20,26 @@ struct ClassCurrentActivityView: View {
         ScrollView(.vertical, showsIndicators: true) {
             if let activity = classe.currentActivity,
                let sequence = activity.sequence {
+                let progressInSequence =
+                    classe.progressInSequence(sequence)
+                let currentActivityProgress =
+                    classe
+                        .sortedProgressesInSequence(sequence)
+                        .first(where: { $0.activity == activity })
+
                 ScrollView(.horizontal, showsIndicators: true) {
                     ClassRailwayProgressView(classe: classe)
                         .padding(.top)
                 }
 
-                Text("Sequence en cours")
+                Text("Sequence en cours \(Text("(avancement \(progressInSequence, format: .percent))").foregroundColor(.secondary))")
                     .font(.headline)
                     .bold()
                     .padding([.top, .leading])
                     .horizontallyAligned(.leading)
                 SequenceDetailGroupBox(sequence: sequence)
 
-                Text("Activité en cours")
+                Text("Activité en cours \(Text("(avancement \(currentActivityProgress!.progress, format: .percent))").foregroundColor(.secondary))")
                     .font(.headline)
                     .bold()
                     .padding([.top, .leading])

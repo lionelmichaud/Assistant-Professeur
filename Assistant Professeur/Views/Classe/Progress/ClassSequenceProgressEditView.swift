@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 19/02/2023.
 //
 
+import HelpersView
 import SwiftUI
 
 /// Situation de la progression d'une Classe pour une Séquence donnée
@@ -56,14 +57,18 @@ struct ClassSequenceProgressEditView: View {
                 Text("Aucune activité suivie par cette classe")
             }
         } label: {
-            HStack(alignment: .top) {
+            HStack(alignment: .center) {
                 CompletionSymbol(
                     status: sequence.statusFor(classe: classe)
                 )
-                LabeledSequenceView(sequence: sequence)
-                    .bold()
+                SequenceTag(
+                    sequence: sequence,
+                    font: hClass == .compact ? .body : .title3
+                )
+                Text(sequence.viewName)
+                    .font(hClass == .compact ? .body : .title3)
+                    .textSelection(.enabled)
             }
-            .font(hClass == .compact ? .body : .title3)
             .listRowSeparatorTint(.secondary, edges: .bottom)
         }
     }

@@ -22,10 +22,16 @@ struct ActivityDetailGroupBox: View {
     private var documentToBeViewed: DocumentEntity?
 
     var body: some View {
-        VStack {
-            Group {
-                LabeledActivityView(activity: activity)
-                    .bold()
+        GroupBox {
+            VStack(alignment: .leading) {
+                HStack {
+                    ActivityTag(
+                        activity: activity,
+                        font: hClass == .compact ? .callout : .body
+                    )
+                    Text(activity.viewName)
+                        .textSelection(.enabled)
+                }
 
                 // note sur le programme
                 if pref.activityAnnotationEnabled && activity.viewAnnotation.isNotEmpty {
@@ -70,7 +76,6 @@ struct ActivityDetailGroupBox: View {
                 DCompTagList(disciplineComps: activity.allDisciplineCompetencies)
             }
             .font(hClass == .compact ? .callout : .body)
-            .horizontallyAligned(.leading)
         }
         .padding(.horizontal)
         #if os(macOS)

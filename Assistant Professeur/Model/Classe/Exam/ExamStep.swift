@@ -10,14 +10,14 @@ import os
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
-    category: "ExamStepsTransformer"
+    category: "ExamStep"
 )
 
 typealias StepsArray = [ExamStep]
 
 /// Une étape d'évaluation
 struct ExamStep: Codable, Identifiable {
-    public static var supportsSecureCoding: Bool = true
+    //public static var supportsSecureCoding: Bool = true
 
     var id: UUID = UUID()
     var name: String = ""

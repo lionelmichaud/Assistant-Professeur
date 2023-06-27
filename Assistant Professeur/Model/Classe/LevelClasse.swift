@@ -8,6 +8,7 @@
 import AppFoundation
 import SwiftUI
 
+/// Niveau d'une classe du CP à la Terminale
 enum LevelClasse: String, PickableEnumP, Codable, Identifiable {
     case nbCP
     case naCE1

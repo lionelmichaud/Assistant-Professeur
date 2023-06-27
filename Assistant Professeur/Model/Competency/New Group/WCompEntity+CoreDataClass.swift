@@ -17,7 +17,7 @@ private let customLog = Logger(
 @objc(WCompEntity)
 public final class WCompEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
-        case id, number, descrip, chapter, disciplineCompetencies
+        case id, number, descrip, chapter, disciplineCompetencies, masteryDefinitions
     }
 
     public required convenience init(from decoder: Decoder) throws {
@@ -27,11 +27,7 @@ public final class WCompEntity: NSManagedObject, Codable, ModelEntityP {
         self.id = try container.decode(UUID.self, forKey: .id)
         self.number = try container.decode(Int16.self, forKey: .number)
         self.descrip = try container.decode(String.self, forKey: .descrip)
-
-        //        self.competencies = try container.decode(
-        //            Set<WorkedCompetencyEntity>.self,
-        //            forKey: .competencies
-        //        ) as NSSet
+        self.masteryDefinitions = try container.decode(String.self, forKey: .masteryDefinitions)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -39,10 +35,6 @@ public final class WCompEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(id, forKey: .id)
         try container.encode(number, forKey: .number)
         try container.encode(descrip, forKey: .descrip)
-
-//        try container.encode(
-//            disciplineCompetencies as! Set<DCompEntity>,
-//            forKey: .disciplineCompetencies
-//        )
+        try container.encode(masteryDefinitions, forKey: .masteryDefinitions)
     }
 }

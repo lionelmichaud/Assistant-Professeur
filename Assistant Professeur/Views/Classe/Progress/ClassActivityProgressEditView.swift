@@ -60,7 +60,7 @@ struct ClassActivityProgressEditView: View {
                         schoolName: schoolName
                     )
                 } else {
-                    Text("Impossible d'affciehr le chronomètre")
+                    Text("Impossible d'afficher le chronomètre")
                 }
             }
         }
@@ -76,7 +76,7 @@ struct ClassActivityProgressEditView: View {
                                 schoolName: schoolName
                             )
                         } else {
-                            Text("Impossible d'affciehr le chronomètre")
+                            Text("Impossible d'afficher le chronomètre")
                         }
                     }
                 }
@@ -90,16 +90,21 @@ extension ClassActivityProgressEditView {
     private var labelView: some View {
         Group {
             if let activity = progress.activity {
-                HStack(alignment: .top) {
-                    CompletionSymbol(status: progress.status)
-
-                    LabeledActivityView(activity: activity, font: .body)
-                        .bold(hClass == .regular)
+                HStack(alignment: .center) {
+                    CompletionSymbol(
+                        status: progress.status
+                    )
+                    ActivityTag(
+                        activity: activity,
+                        font: hClass == .compact ? .callout : .body
+                    )
+                    Text(activity.viewName)
+                        .font(hClass == .compact ? .callout : .body)
+                        .textSelection(.enabled)
                     Spacer(minLength: 2)
-
                     ActivityAllSymbols(
                         activity: activity,
-                        showTitle: false,
+                        showTitle: hClass == .regular ? true : false,
                         axis: hClass == .regular ? .horizontal : .vertical
                     )
                 }

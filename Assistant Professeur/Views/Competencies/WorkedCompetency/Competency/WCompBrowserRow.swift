@@ -20,27 +20,8 @@ struct WCompBrowserRow: View {
         workedComp.chapter?.cycleEnum
     }
 
-    var description: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            // Description de la compétence travaillée
-            Group {
-                Text(workedComp.viewAcronym)
-                    .fontWeight(.bold) +
-                    Text(". ") +
-                    Text(workedComp.viewDescription)
-                    .foregroundColor(.secondary)
-            }
-            .lineLimit(5)
-            .textSelection(.enabled)
-
-            // Tags des compétences disciplinaires associées
-            if showDisciplineCompetencies {
-                DCompTagList(
-                    disciplineComps: workedComp.disciplineCompSortedByAcronym,
-                    font: .footnote
-                )
-            }
-
+    var associatedSequences: some View {
+        Group {
             if let cycle {
                 ForEach(cycle.associatedLevels) { level in
                     let levelSequences = workedComp.sequencesSortedByDisciplineLevelNumber(level: level)
@@ -64,6 +45,38 @@ struct WCompBrowserRow: View {
                     }
                 }
             }
+        }
+    }
+
+    var description: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            // Description de la compétence travaillée
+            Group {
+                Text(workedComp.viewAcronym)
+                    .fontWeight(.bold) +
+                    Text(". ") +
+                    Text(workedComp.viewDescription)
+                    .foregroundColor(.secondary)
+            }
+            .lineLimit(5)
+            .textSelection(.enabled)
+
+            // Lien vers les critères de maîtrise de la compétences
+            NavigationLink(value: workedComp) {
+                Text("Critères de maîtrise")
+                    .padding([.top, .bottom])
+            }
+
+            // Tags des compétences disciplinaires associées
+            if showDisciplineCompetencies {
+                DCompTagList(
+                    disciplineComps: workedComp.disciplineCompSortedByAcronym,
+                    font: .footnote
+                )
+            }
+
+            // Tags des Séquences pédadgogiques associées, par nieveau de classe
+            associatedSequences
         }
     }
 
