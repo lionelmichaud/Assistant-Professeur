@@ -76,7 +76,10 @@ extension ProgramStepperView {
             }
         }
         .padding(8)
-        .background(RoundedRectangle(cornerRadius: 8).stroke(.teal, lineWidth: 1))
+        .background {
+            RoundedRectangle(cornerRadius: 8).stroke(.teal, lineWidth: 1)
+        }
+        .padding(.horizontal)
     }
 
     private var steps: [AnyView] {

@@ -68,12 +68,7 @@ struct TrombineInteractivView: View {
             ZStack(alignment: .topTrailing) {
                 ZStack(alignment: .bottom) {
                     // TODO: - Gérer ici la mise à jour de la photo pastruct drag and drop : View {
-                    if eleve.hasImageTrombine {
-                        Trombine(eleve: eleve)
-                    } else {
-                        Trombine(eleve: eleve)
-                            .foregroundColor(.secondary)
-                    }
+                    TrombineView(eleve: eleve)
 
                     // Légende basse: Points +/-
                     TrombinoscopeFooterView(eleve: eleve)
@@ -138,7 +133,7 @@ struct TrombinoscopeFooterView: View {
             }
             .buttonStyle(.bordered)
         }
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color.white).opacity(0.8))
+        .background(Color.white.opacity(0.8), in: RoundedRectangle(cornerRadius: 15))
     }
 }
 

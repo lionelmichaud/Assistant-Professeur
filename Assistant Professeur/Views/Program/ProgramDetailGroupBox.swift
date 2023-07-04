@@ -62,39 +62,39 @@ struct ProgramDetailGroupBox: View {
         .font(hClass == .compact ? .subheadline : .callout)
         .padding(.horizontal)
         #if os(macOS)
-        .sheet(isPresented: $isViewing) {
-            NavigationStack {
-                PdfDocumentViewer(document: program.document!)
+            .sheet(isPresented: $isViewing) {
+                NavigationStack {
+                    PdfDocumentViewer(document: program.document!)
+                }
             }
-        }
         #else
-        .fullScreenCover(isPresented: $isViewing) {
-            NavigationStack {
-                PdfDocumentViewer(document: program.document!)
-            }
-        }
+                .fullScreenCover(isPresented: $isViewing) {
+                    NavigationStack {
+                        PdfDocumentViewer(document: program.document!)
+                    }
+                }
         #endif
     }
 }
 
- struct ProgramDetail_Previews: PreviewProvider {
-     static func initialize() {
-         DataBaseManager.populateWithMockData(storeType: .inMemory)
-     }
+struct ProgramDetail_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
 
-     static var previews: some View {
-         initialize()
-         return Group {
-             ProgramDetailGroupBox(program: ProgramEntity.all().first!)
-                 .padding()
-                 .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
-                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
-                 .previewDevice("iPad mini (6th generation)")
-             ProgramDetailGroupBox(program: ProgramEntity.all().first!)
-                 .padding()
-                 .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
-                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
-                 .previewDevice("iPhone 13")
-         }
-     }
- }
+    static var previews: some View {
+        initialize()
+        return Group {
+            ProgramDetailGroupBox(program: ProgramEntity.all().first!)
+                .padding()
+                .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPad mini (6th generation)")
+            ProgramDetailGroupBox(program: ProgramEntity.all().first!)
+                .padding()
+                .environmentObject(NavigationModel(selectedProgramMngObjId: ProgramEntity.all().first!.objectID))
+                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+                .previewDevice("iPhone 13")
+        }
+    }
+}

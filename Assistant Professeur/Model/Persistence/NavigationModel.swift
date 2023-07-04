@@ -66,6 +66,8 @@ final class NavigationModel: ObservableObject, Codable {
     var programPath = NavigationPath()
     @Published
     var competencePath = NavigationPath()
+    @Published
+    var programDetailColumnState: ProgramDetailColumnState?
 
     /// TODO: - Trouver une autre solution
     @Published

@@ -7,6 +7,7 @@
 
 import HelpersView
 import SwiftUI
+import TagKit
 
 struct EleveLabelWithTrombineFlag: View {
     @ObservedObject
@@ -171,7 +172,10 @@ struct EleveLabelWithTrombineFlag: View {
 
             // Groupe
             if let group = eleve.group {
-                GroupCapsule(group: group)
+                TagCapsule(
+                    tag: group.displayString,
+                    style: .groupTagStyle
+                )
             }
 
             // Trombine
