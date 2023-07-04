@@ -194,6 +194,7 @@
 		79A56A552A48451800D1D4CC /* Mastery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A56A542A48451800D1D4CC /* Mastery.swift */; };
 		79A56A572A4888CC00D1D4CC /* WCompMasteryLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A56A562A4888CC00D1D4CC /* WCompMasteryLevels.swift */; };
 		79A56A592A48E8B300D1D4CC /* WCompMasteryEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A56A582A48E8B300D1D4CC /* WCompMasteryEdit.swift */; };
+		79A56A5C2A4B4DCA00D1D4CC /* Stateful in Frameworks */ = {isa = PBXBuildFile; productRef = 79A56A5B2A4B4DCA00D1D4CC /* Stateful */; };
 		79A5737329BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A5737229BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift */; };
 		79A5737529BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A5737429BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift */; };
 		79A6AC9529F57DD0003705D0 /* ProgressClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6AC9429F57DCF003705D0 /* ProgressClockView.swift */; };
@@ -730,6 +731,7 @@
 				7921F54A292575B400173F39 /* AppFoundation in Frameworks */,
 				7942F23829A5612E007E3C3B /* StepperView in Frameworks */,
 				79DEDAE22925849600F508EF /* HelpersView in Frameworks */,
+				79A56A5C2A4B4DCA00D1D4CC /* Stateful in Frameworks */,
 				79DEDB1C292594ED00F508EF /* FileAndFolder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1791,6 +1793,7 @@
 				79DEDB1B292594ED00F508EF /* FileAndFolder */,
 				7942F23729A5612E007E3C3B /* StepperView */,
 				79F7A2992A4258A700CEC3D5 /* TagKit */,
+				79A56A5B2A4B4DCA00D1D4CC /* Stateful */,
 			);
 			productName = "Assistant Professeur";
 			productReference = 79B6630129244C3F007B1FBD /* Assistant Professeur.app */;
@@ -1867,6 +1870,7 @@
 			packageReferences = (
 				7942F23629A5612E007E3C3B /* XCRemoteSwiftPackageReference "StepperView" */,
 				79F7A2982A4258A700CEC3D5 /* XCRemoteSwiftPackageReference "TagKit" */,
+				79A56A5A2A4B4DCA00D1D4CC /* XCRemoteSwiftPackageReference "Stateful" */,
 			);
 			productRefGroup = 79B6630229244C3F007B1FBD /* Products */;
 			projectDirPath = "";
@@ -2670,6 +2674,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		79A56A5A2A4B4DCA00D1D4CC /* XCRemoteSwiftPackageReference "Stateful" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/albertodebortoli/Stateful.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		79F7A2982A4258A700CEC3D5 /* XCRemoteSwiftPackageReference "TagKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielsaidi/TagKit.git";
@@ -2689,6 +2701,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7942F23629A5612E007E3C3B /* XCRemoteSwiftPackageReference "StepperView" */;
 			productName = StepperView;
+		};
+		79A56A5B2A4B4DCA00D1D4CC /* Stateful */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 79A56A5A2A4B4DCA00D1D4CC /* XCRemoteSwiftPackageReference "Stateful" */;
+			productName = Stateful;
 		};
 		79DEDAE12925849600F508EF /* HelpersView */ = {
 			isa = XCSwiftPackageProductDependency;

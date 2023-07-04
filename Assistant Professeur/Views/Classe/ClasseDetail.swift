@@ -8,6 +8,7 @@
 import AppFoundation
 import HelpersView
 import SwiftUI
+import TagKit
 
 struct ClasseDetail: View {
     @ObservedObject
@@ -135,17 +136,23 @@ extension ClasseDetail {
                 }
                 .disabled(!pref.eleve.trombineEnabled)
                 .popover(item: $randomEleve) { eleve in
-                    TrombineView(eleve: eleve)
-                        .scaledToFit()
-                        .frame(minWidth: 200, minHeight: 250)
+                    ZStack(alignment: .bottom) {
+                        TrombineView(eleve: eleve)
+                            .scaledToFit()
+                        // Légende basse: Points +/-
+                        TrombinoscopeFooterView(eleve: eleve)
+                    }
+                    .frame(width: 200)
                     Text(eleve.displayName2lines(.prenomNom))
                         .font(.headline)
                         .multilineTextAlignment(.center)
                         .bold()
                         .padding(4)
                     if let group = eleve.group {
-                        GroupCapsule(group: group)
-                            .padding(.bottom)
+                        TagCapsule(
+                            tag: group.displayString,
+                            style: .groupTagStyle
+                        )
                     }
                 }
 

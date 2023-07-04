@@ -10,41 +10,10 @@ import SwiftUI
 
 // MARK: - State Machine de l'état de la colonne "détail"
 
-private enum DetailColumnEvent {
-    case onActivitySelected
-    case onActivityDeselected
-    case onSelectedSequenceChanged
-    case onSelectedProgramChanged
-    case onShowSequenceStepsRequested
-    case onShowprogramStepsRequested
-}
-
-private enum DetailColumnState {
-    case showNone, showProgramSteps, showSequenceSteps, showActivityDetail
-}
-
-private typealias DetailColumnTransition = Transition<DetailColumnState, DetailColumnEvent>
-private typealias DetailColumnStateMachine = StateMachine<DetailColumnState, DetailColumnEvent>
-
-// MARK: - ViewModel
-
-private final class ProgramSplitViewModel: ObservableObject {
-    // MARK: - Properties
-
-    @Published
-    var detailColumnSM: DetailColumnStateMachine
-
-    // MARK: - Computed Properties
-
-    var detailColumnContent: DetailColumnState {
-        detailColumnSM.currentState
-    }
-
-    // MARK: - Initializer
-
-    init(detailColumnSM: DetailColumnStateMachine) {
-        self.detailColumnSM = detailColumnSM
-    }
+enum ProgramDetailColumnState {
+    case showProgramSteps
+    case showSequenceSteps
+    case showActivityDetail
 }
 
 // MARK: - View
@@ -56,17 +25,11 @@ struct ProgramSplitView: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @StateObject
-    private var vm: ProgramSplitViewModel
-
     @State
     private var showProgramSteps: Bool = false
 
     @State
     private var showSequenceSteps: Bool = false
-
-//    @State
-//    private var programPath = NavigationPath()
 
     var body: some View {
         NavigationSplitView(
@@ -74,17 +37,21 @@ struct ProgramSplitView: View {
         ) {
             // 1ère colonne
             ProgramSidebar()
-                .navigationSplitViewColumnWidth(min: 250,
-                                                ideal: 300,
-                                                max: 500)
+                .navigationSplitViewColumnWidth(
+                    min: 250,
+                    ideal: 300,
+                    max: 500
+                )
 
         } content: {
             // 2nde colonne
             NavigationStack(path: $navig.programPath) {
                 SequenceSidebar(showProgramSteps: $showProgramSteps)
-                    .navigationSplitViewColumnWidth(min: 300,
-                                                    ideal: 400,
-                                                    max: 500)
+                    .navigationSplitViewColumnWidth(
+                        min: 300,
+                        ideal: 400,
+                        max: 500
+                    )
                     .navigationDestination(for: SequenceEntity.self) { sequence in
                         ActivitySideBar(
                             sequence: sequence,
@@ -95,8 +62,8 @@ struct ProgramSplitView: View {
 
         } detail: {
             // Détail dans la 3ième colonne
-            switch vm.detailColumnSM.currentState {
-                case .showNone:
+            switch navig.programDetailColumnState {
+                case .none:
                     EmptyListMessage(
                         title: "Aucune activité sélectionnée.",
                         message: "Sélectionner une activité pour en visualiser le contenu.",
@@ -123,278 +90,44 @@ struct ProgramSplitView: View {
 
         // désélectionner la séquence et l'activité quand on change de programme
         .onChange(of: navig.selectedProgramMngObjId) { _ in
-            vm.detailColumnSM.process(event: .onSelectedProgramChanged)
+            navig.selectedSequenceMngObjId = nil
+            navig.selectedActivityMngObjId = nil
+            navig.columnVisibility = .all
+            navig.programDetailColumnState = nil
         }
 
         // désélectionner l'activité quand on change de séquence
-        .onChange(of: navig.selectedSequenceMngObjId) { [oldSequenceID = navig.selectedSequenceMngObjId] _ in
-            if oldSequenceID != nil {
-                vm.detailColumnSM.process(event: .onSelectedSequenceChanged)
-            }
+        .onChange(of: navig.selectedSequenceMngObjId) { _ in
+            navig.selectedActivityMngObjId = nil
+            navig.columnVisibility = .all
+            navig.programDetailColumnState = nil
         }
 
-        // escamoter la 1ère colonne quand une activité est sélectionnée
-        .onChange(of: navig.selectedActivityMngObjId) { newActivityId in
-            if newActivityId == nil {
-                vm.detailColumnSM.process(event: .onActivityDeselected)
-            } else {
-                vm.detailColumnSM.process(event: .onActivitySelected)
+        // afficher l'activité quand on en sélectionne une
+        .onChange(of: navig.selectedActivityMngObjId) { newValue in
+            if newValue != nil {
+                navig.columnVisibility = .all
+                navig.programDetailColumnState = .showActivityDetail
             }
         }
 
         .onChange(of: showProgramSteps) { show in
             if show {
-                vm.detailColumnSM.process(event: .onShowprogramStepsRequested)
+                navig.selectedActivityMngObjId = nil
+                navig.columnVisibility = .all
+                navig.programDetailColumnState = .showProgramSteps
                 showProgramSteps = false
             }
         }
 
         .onChange(of: showSequenceSteps) { show in
             if show {
-                vm.detailColumnSM.process(event: .onShowSequenceStepsRequested)
+                navig.selectedActivityMngObjId = nil
+                navig.columnVisibility = .all
+                navig.programDetailColumnState = .showSequenceSteps
                 showSequenceSteps = false
             }
         }
-    }
-
-    // MARK: - Initializer
-
-    init(navig: NavigationModel) {
-        let sm = DetailColumnStateMachine(initialState: .showNone)
-
-        // A partir de showNone
-        let transition10 =
-            DetailColumnTransition(
-                with: .onActivitySelected,
-                from: .showNone,
-                to: .showActivityDetail,
-                preBlock: {
-//                    navig.columnVisibility = .doubleColumn
-                    navig.columnVisibility = .all
-                }
-            )
-        sm.add(transition: transition10)
-
-        let transition11 =
-            DetailColumnTransition(
-                with: .onSelectedSequenceChanged,
-                from: .showNone,
-                to: .showNone,
-                preBlock: {
-                    navig.selectedActivityMngObjId = nil
-                    navig.columnVisibility = .all
-                }
-            )
-        sm.add(transition: transition11)
-
-        let transition12 =
-            DetailColumnTransition(
-                with: .onSelectedProgramChanged,
-                from: .showNone,
-                to: .showNone,
-                preBlock: {
-                    navig.selectedSequenceMngObjId = nil
-                    navig.selectedActivityMngObjId = nil
-                    navig.columnVisibility = .all
-                }
-            )
-        sm.add(transition: transition12)
-
-        let transition13 =
-            DetailColumnTransition(
-                with: .onShowSequenceStepsRequested,
-                from: .showNone,
-                to: .showSequenceSteps,
-                preBlock: {
-                    navig.selectedActivityMngObjId = nil
-                    navig.columnVisibility = .all
-//                    navig.columnVisibility = .doubleColumn
-                }
-            )
-        sm.add(transition: transition13)
-
-        let transition14 =
-            DetailColumnTransition(
-                with: .onShowprogramStepsRequested,
-                from: .showNone,
-                to: .showProgramSteps,
-                preBlock: {
-                    navig.selectedActivityMngObjId = nil
-                    navig.columnVisibility = .all
-//                    navig.columnVisibility = .doubleColumn
-                }
-            )
-        sm.add(transition: transition14)
-
-        // A partir de showActivityDetail
-        let transition20 =
-            DetailColumnTransition(
-                with: .onActivityDeselected,
-                from: .showActivityDetail,
-                to: .showNone,
-                preBlock: {
-                    navig.columnVisibility = .all
-                }
-            )
-        sm.add(transition: transition20)
-
-        let transition21 =
-            DetailColumnTransition(
-                with: .onSelectedSequenceChanged,
-                from: .showActivityDetail,
-                to: .showNone,
-                preBlock: {
-                    navig.selectedActivityMngObjId = nil
-                    navig.columnVisibility = .all
-                }
-            )
-        sm.add(transition: transition21)
-
-        let transition22 =
-            DetailColumnTransition(
-                with: .onSelectedProgramChanged,
-                from: .showActivityDetail,
-                to: .showNone,
-                preBlock: {
-                    navig.selectedSequenceMngObjId = nil
-                    navig.selectedActivityMngObjId = nil
-                    navig.columnVisibility = .all
-                }
-            )
-        sm.add(transition: transition22)
-
-        let transition23 =
-            DetailColumnTransition(
-                with: .onShowSequenceStepsRequested,
-                from: .showActivityDetail,
-                to: .showSequenceSteps,
-                preBlock: {
-                    navig.selectedActivityMngObjId = nil
-                    navig.columnVisibility = .all
-//                    navig.columnVisibility = .doubleColumn
-                }
-            )
-        sm.add(transition: transition23)
-
-        let transition24 =
-            DetailColumnTransition(
-                with: .onShowprogramStepsRequested,
-                from: .showActivityDetail,
-                to: .showProgramSteps,
-                preBlock: {
-                    navig.selectedActivityMngObjId = nil
-                    navig.columnVisibility = .all
-//                    navig.columnVisibility = .doubleColumn
-                }
-            )
-        sm.add(transition: transition24)
-
-        // A partir de showProgramSteps
-
-        let transition30 =
-            DetailColumnTransition(
-                with: .onActivitySelected,
-                from: .showProgramSteps,
-                to: .showActivityDetail,
-                preBlock: {
-//                    navig.columnVisibility = .doubleColumn
-                    navig.columnVisibility = .all
-                }
-            )
-        sm.add(transition: transition30)
-
-        let transition31 =
-            DetailColumnTransition(
-                with: .onSelectedSequenceChanged,
-                from: .showProgramSteps,
-                to: .showProgramSteps,
-                preBlock: {
-                    navig.selectedActivityMngObjId = nil
-//                    navig.columnVisibility = .all
-                }
-            )
-        sm.add(transition: transition31)
-
-        let transition32 =
-        DetailColumnTransition(
-            with: .onSelectedProgramChanged,
-            from: .showProgramSteps,
-            to: .showNone,
-            preBlock: {
-                navig.selectedSequenceMngObjId = nil
-                navig.selectedActivityMngObjId = nil
-                navig.columnVisibility = .all
-            }
-        )
-        sm.add(transition: transition32)
-
-        let transition33 =
-        DetailColumnTransition(
-            with: .onShowSequenceStepsRequested,
-            from: .showProgramSteps,
-            to: .showSequenceSteps,
-            preBlock: {
-//                navig.columnVisibility = .doubleColumn
-                navig.columnVisibility = .all
-            }
-        )
-        sm.add(transition: transition33)
-
-        // A partir de showSequenceSteps
-
-        let transition40 =
-            DetailColumnTransition(
-                with: .onActivitySelected,
-                from: .showSequenceSteps,
-                to: .showActivityDetail,
-                preBlock: {
-//                    navig.columnVisibility = .doubleColumn
-                    navig.columnVisibility = .all
-                }
-            )
-        sm.add(transition: transition40)
-
-        let transition41 =
-            DetailColumnTransition(
-                with: .onSelectedSequenceChanged,
-                from: .showSequenceSteps,
-                to: .showSequenceSteps,
-                preBlock: {
-                    navig.selectedActivityMngObjId = nil
-                }
-            )
-        sm.add(transition: transition41)
-
-        let transition42 =
-        DetailColumnTransition(
-            with: .onSelectedProgramChanged,
-            from: .showSequenceSteps,
-            to: .showNone,
-            preBlock: {
-                navig.selectedSequenceMngObjId = nil
-                navig.selectedActivityMngObjId = nil
-                navig.columnVisibility = .all
-            }
-        )
-        sm.add(transition: transition42)
-
-        let transition43 =
-        DetailColumnTransition(
-            with: .onShowprogramStepsRequested,
-            from: .showSequenceSteps,
-            to: .showProgramSteps,
-            preBlock: {
-//                navig.columnVisibility = .doubleColumn
-                navig.columnVisibility = .all
-            }
-        )
-        sm.add(transition: transition43)
-
-        #if DEBUG
-            sm.enableLogging = true
-        #endif
-
-        self._vm = StateObject(wrappedValue: ProgramSplitViewModel(detailColumnSM: sm))
     }
 }
 

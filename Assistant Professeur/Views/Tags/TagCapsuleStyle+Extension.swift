@@ -27,7 +27,21 @@ extension TagCapsuleStyle {
         )
     }
 
-    /// Style adapté aux Séquences pédagogiques
+    /// Style adapté aux Groupes
+    static var groupTagStyle = TagCapsuleStyle(
+        foregroundColor: .primary,
+        backgroundColor: .blue5,
+        borderColor: .primary,
+        borderWidth: 2,
+        padding: .init(
+            top: 5,
+            leading: 6,
+            bottom: 5,
+            trailing: 6
+        )
+    )
+
+  /// Style adapté aux Séquences pédagogiques
     static var sequenceTagStyle = TagCapsuleStyle(
         foregroundColor: .black,
         backgroundColor: .blue4,

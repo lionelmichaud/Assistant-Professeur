@@ -86,7 +86,7 @@ struct ContentView: View {
                 .badge(ObservEntity.cardinal() + ColleEntity.cardinal())
 
             // Les programmes scolaires
-            ProgramSplitView(navig: navigationModel)
+            ProgramSplitView()
                 .tabItem {
                     Label(
                         NavigationModel.TabSelection.program.rawValue,
