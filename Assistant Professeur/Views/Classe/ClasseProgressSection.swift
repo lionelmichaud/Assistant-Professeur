@@ -24,7 +24,7 @@ struct ClasseProgressSection: View {
                 // Progression glogale
                 progressView
             } header: {
-                Text("Progession")
+                Text("Progression")
                     .font(.callout)
                     .foregroundColor(.secondary)
                     .fontWeight(.bold)
@@ -66,7 +66,7 @@ extension ClasseProgressSection {
 
     private var progressView: some View {
         NavigationLink(value: ClasseNavigationRoute.progress(classe)) {
-            Label("Progression", systemImage: ProgramEntity.defaultImageName)
+            Label("Actualiser la progression", systemImage: ProgramEntity.defaultImageName)
                 .fontWeight(.bold)
         }
     }
