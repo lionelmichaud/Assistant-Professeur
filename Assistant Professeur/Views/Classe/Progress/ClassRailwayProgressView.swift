@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 27/02/2023.
 //
 
+import HelpersView
 import StepperView
 import SwiftUI
 import TagKit
@@ -18,34 +19,42 @@ struct ClassRailwayProgressView: View {
 
     // MARK: - Properties
 
-    private var classeSequences: [SequenceEntity] {
-        classe.allFollowedSequencesSortedBySequenceNumber
-    }
+    @State
+    private var classeSequences = [SequenceEntity]()
 
     // MARK: - Methods
 
     var body: some View {
         ForEach(classeSequences) { sequence in
-            if sequence.nbOfActivities > 0 && sequence.statusFor(classe: classe) == .inProgress {
-                GroupBox {
-                    sequenceTitleView(sequence: sequence)
-                        .padding(.bottom)
-                        .frame(maxWidth: .infinity)
-                    StepperView()
-                        .addSteps(steps(sequence: sequence))
-                        .indicators(indicators(sequence: sequence))
-                        .stepIndicatorMode(.horizontal)
-                        // .alignments(alignments(sequence: sequence))
-                        .lineOptions(StepperLineOptions.custom(4, Color.teal))
-                        // .stepLifeCycles(stepLifeCycles(sequence: sequence))
-                        // .autoSpacing(true)
-                        .spacing(hClass == .compact ? 35 : 75)
-                        // .loadingAnimationTime(0.01)
-                        .padding([.top, .leading])
-                }
-                .padding(.horizontal)
-                .horizontallyAligned(.leading)
+            let sortedProgressesInSequence = classe
+                .sortedProgressesInSequence(sequence)
+
+            GroupBox {
+                sequenceTitleView(sequence: sequence)
+                    .padding(.bottom)
+                    .frame(maxWidth: .infinity)
+                StepperView()
+                    .indicators(indicators(progresses: sortedProgressesInSequence))
+                    .addSteps(steps(progresses: sortedProgressesInSequence))
+                    .stepIndicatorMode(.horizontal)
+                    // .alignments(alignments(sequence: sequence))
+                    .lineOptions(StepperLineOptions.custom(4, Color.teal))
+                    // .stepLifeCycles(stepLifeCycles(sequence: sequence))
+                    // .autoSpacing(true)
+                    .spacing(hClass == .compact ? 35 : 75)
+                    // .loadingAnimationTime(0.01)
+                    .padding([.top, .leading])
             }
+            .padding(.horizontal)
+            .horizontallyAligned(.leading)
+        }
+        .task {
+            classeSequences =
+                classe
+                    .allFollowedSequencesSortedBySequenceNumber
+                    .filter { sequence in
+                        sequence.nbOfActivities > 0 && sequence.statusFor(classe: classe) == .inProgress
+                    }
         }
     }
 }
@@ -53,9 +62,8 @@ struct ClassRailwayProgressView: View {
 // MARK: - Subviews
 
 extension ClassRailwayProgressView {
-    private func steps(sequence: SequenceEntity) -> [AnyView] {
-        classe
-            .sortedProgressesInSequence(sequence)
+    private func steps(progresses: [ActivityProgressEntity]) -> [AnyView] {
+        progresses
             .map { progress in
                 HStack {
                     NumberedCircleView(
@@ -75,9 +83,8 @@ extension ClassRailwayProgressView {
             }
     }
 
-    private func indicators(sequence: SequenceEntity) -> [StepperIndicationType<AnyView>] {
-        classe
-            .sortedProgressesInSequence(sequence)
+    private func indicators(progresses: [ActivityProgressEntity]) -> [StepperIndicationType<AnyView>] {
+        progresses
             .map { progress in
                 StepperIndicationType
                     .custom(IndicatorImageView(
@@ -85,19 +92,6 @@ extension ClassRailwayProgressView {
                         size: 30
                     )
                     .eraseToAnyView())
-            }
-    }
-
-    private func stepLifeCycles(sequence: SequenceEntity) -> [StepLifeCycle] {
-        classe
-            .sortedProgressesInSequence(sequence)
-            .map { progress in
-                switch progress.status {
-                    case .notStarted: return .pending
-                    case .inProgress: return .pending
-                    case .completed: return .completed
-                    case .invalid: return .pending
-                }
             }
     }
 

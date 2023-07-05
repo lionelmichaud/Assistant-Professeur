@@ -19,7 +19,7 @@ enum EventManager {
     /// Retourne la liste de tous les événements du clalendrier `calName`
     /// survenant dans la `period` et dont le titre contient **"Conseil - `classe`"**.
     /// - Parameters:
-    ///   - classe: La classe recherchée.
+    ///   - classe: Acronym de la classe recherchée.
     ///   - calName: Nom du calendrier où ajouter l'événement.
     ///   - schoolYear: Intervalle de temps de l'année scolaire en cours.
     /// - Important: Convention de nommage:
@@ -45,7 +45,7 @@ enum EventManager {
     /// survenant dans la `period` et dont le titre contient "`discipline` - `classe`".
     /// - Parameters:
     ///   - discipline: La discipline recherchée.
-    ///   - classe: La classe recherchée.
+    ///   - classe: Acronym de la classe recherchée.
     ///   - calName: Nom du calendrier où ajouter l'événement.
     ///   - period: Intervalle de temps de recherche.
     /// - Important: Convention de nommage:
@@ -73,13 +73,13 @@ enum EventManager {
     /// de la journée en cours et dont  le titre contient "`discipline` - `classe`".
     /// - Parameters:
     ///   - discipline: La discipline recherchée.
-    ///   - classe: La classe recherchée.
+    ///   - classe: Acronym de la classe recherchée.
     ///   - calName: Nom du calendrier où ajouter l'événement.
     /// - Important: Convention de nommage:
     ///     Nom du calendrier = **Nom de l'établissement**
     ///     Titre de l'événement = **"discipline - \(classe)"**
-    ///     où **discipline** = "TECHNO"
-    ///     et **classe** =" 5E2S"
+    ///     où **discipline** = acronyme e.g. "TECHNO"
+    ///     et **classe** = acronym e.g. "5E2S"
    static func getTodaySeances(
         forDiscipline discipline: Discipline,
         forClasse classe: String,

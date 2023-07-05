@@ -21,17 +21,20 @@ struct ClassCurrentActivityView: View {
             if let activity = classe.currentActivity,
                let sequence = activity.sequence {
                 let progressInSequence =
-                    classe.progressInSequence(sequence)
+                    classe
+                        .progressInSequence(sequence)
                 let currentActivityProgress =
                     classe
                         .sortedProgressesInSequence(sequence)
                         .first(where: { $0.activity == activity })
 
+                // Chemin de fer de la séquence en cours
                 ScrollView(.horizontal, showsIndicators: true) {
                     ClassRailwayProgressView(classe: classe)
                         .padding(.top)
                 }
 
+                // Présentation de la séquence en cours
                 Text("Sequence en cours \(Text("(avancement \(progressInSequence, format: .percent))").foregroundColor(.secondary))")
                     .font(.headline)
                     .bold()
@@ -39,6 +42,7 @@ struct ClassCurrentActivityView: View {
                     .horizontallyAligned(.leading)
                 SequenceDetailGroupBox(sequence: sequence)
 
+                // Présentation de l'activité en cours
                 Text("Activité en cours \(Text("(avancement \(currentActivityProgress!.progress, format: .percent))").foregroundColor(.secondary))")
                     .font(.headline)
                     .bold()

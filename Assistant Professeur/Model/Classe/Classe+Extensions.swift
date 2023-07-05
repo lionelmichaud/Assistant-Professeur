@@ -307,7 +307,10 @@ extension ClasseEntity {
             .sorted(using: sortComparators)
     }
 
-    /// Retourne l'activité en cours de cette classe
+    /// Retourne l'activité en cours de cette classe.
+    ///
+    /// Si plusieurs activités sont en cours dans plusieurs séquences différentes alors
+    /// c'est l'activité de la séquence de plus petit numéro qui est retournée.
     var currentActivity: ActivityEntity? {
         let progresses = allProgressesSortedBySequenceActivityNumber
         for idx in progresses.indices {
