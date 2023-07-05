@@ -45,7 +45,9 @@ extension SequenceStepperView {
             } icon: {
                 Text("S\(sequence.viewNumber)")
                     .padding(6)
-                    .background(Circle().stroke(Color.blue4, lineWidth: 1))
+                    .background(
+                        Circle().stroke(Color.blue4, lineWidth: 1)
+                    )
             }
             .foregroundColor(Color.blue4)
             .padding(.bottom, 6)

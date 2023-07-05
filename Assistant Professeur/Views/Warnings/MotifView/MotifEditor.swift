@@ -27,7 +27,9 @@ struct MotifEditor: View {
                 TextEditor(text: $description)
                     .lineLimit(1...)
                     .multilineTextAlignment(.leading)
-                    .background(RoundedRectangle(cornerRadius: 8).stroke(.secondary))
+                    .background(
+                        RoundedRectangle(cornerRadius: 8).stroke(.secondary)
+                    )
                     .frame(minHeight: 20)
             }
         }

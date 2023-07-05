@@ -12,10 +12,16 @@ struct WCompPopOverContent: View {
     let workedComp: WCompEntity
 
     var body: some View {
-        Text("\(Text(workedComp.viewAcronym).bold().foregroundColor(.secondary)): \(workedComp.viewDescription)")
-            .font(.body)
-            .padding(.horizontal)
-            .frame(maxWidth: 500)
+        ZStack {
+            // Scaled-up background
+            Color.blue7
+                .scaleEffect(1.5)
+            
+            Text("\(Text(workedComp.viewAcronym).bold().foregroundColor(.secondary)): \(workedComp.viewDescription)")
+                .font(.body)
+                .padding(.horizontal)
+                .frame(maxWidth: 500)
+        }
     }
 }
 

@@ -29,7 +29,9 @@ struct ActivityProgressSlider: View {
         }
         .tint(.mint)
         .padding(6)
-        .background(Capsule().stroke(Color.mint, lineWidth: 2))
+        .background(
+            Capsule().stroke(Color.mint, lineWidth: 2)
+        )
     }
 }
 

@@ -12,10 +12,16 @@ struct DCompPopOverContent: View {
     let disciplineComp: DCompEntity
 
     var body: some View {
-        Text("\(Text(disciplineComp.viewAcronym).bold().foregroundColor(.secondary)): \(disciplineComp.viewDescription)")
-            .font(.body)
-            .padding(.horizontal)
-            .frame(maxWidth: 500)
+        ZStack {
+            // Scaled-up background
+            Color.blue6
+                .scaleEffect(1.5)
+            
+            Text("\(Text(disciplineComp.viewAcronym).bold().foregroundColor(.secondary)): \(disciplineComp.viewDescription)")
+                .font(.body)
+                .padding(.horizontal)
+                .frame(maxWidth: 500)
+        }
     }
 }
 
