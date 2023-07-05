@@ -65,7 +65,7 @@
 		793C29D42953C08100E7F65B /* RessourceListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793C29D12953C08100E7F65B /* RessourceListSection.swift */; };
 		793C29D52953C08100E7F65B /* RessourceEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793C29D22953C08100E7F65B /* RessourceEditor.swift */; };
 		793C29D62953C08100E7F65B /* SchoolRessourceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793C29D32953C08100E7F65B /* SchoolRessourceRow.swift */; };
-		793C5D242A1A837C00FB2691 /* TimerVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793C5D232A1A837C00FB2691 /* TimerVM.swift */; };
+		793C5D242A1A837C00FB2691 /* TodaySeances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793C5D232A1A837C00FB2691 /* TodaySeances.swift */; };
 		793D626F295DCBBC00477932 /* MotifLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793D626C295DCBBC00477932 /* MotifLabel.swift */; };
 		793D6270295DCBBC00477932 /* MotifView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793D626D295DCBBC00477932 /* MotifView.swift */; };
 		793D6271295DCBBC00477932 /* MotifEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793D626E295DCBBC00477932 /* MotifEditor.swift */; };
@@ -442,7 +442,7 @@
 		793C29D12953C08100E7F65B /* RessourceListSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RessourceListSection.swift; sourceTree = "<group>"; };
 		793C29D22953C08100E7F65B /* RessourceEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RessourceEditor.swift; sourceTree = "<group>"; };
 		793C29D32953C08100E7F65B /* SchoolRessourceRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolRessourceRow.swift; sourceTree = "<group>"; };
-		793C5D232A1A837C00FB2691 /* TimerVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerVM.swift; sourceTree = "<group>"; };
+		793C5D232A1A837C00FB2691 /* TodaySeances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodaySeances.swift; sourceTree = "<group>"; };
 		793D626C295DCBBC00477932 /* MotifLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotifLabel.swift; sourceTree = "<group>"; };
 		793D626D295DCBBC00477932 /* MotifView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotifView.swift; sourceTree = "<group>"; };
 		793D626E295DCBBC00477932 /* MotifEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotifEditor.swift; sourceTree = "<group>"; };
@@ -1371,7 +1371,7 @@
 				79B298E729EC5F2C008BAF50 /* SeanceTimerView.swift */,
 				79A6AC9429F57DCF003705D0 /* ProgressClockView.swift */,
 				79F8773129F425A300AB38C3 /* DigitalClockView.swift */,
-				793C5D232A1A837C00FB2691 /* TimerVM.swift */,
+				793C5D232A1A837C00FB2691 /* TodaySeances.swift */,
 			);
 			path = Timer;
 			sourceTree = "<group>";
@@ -2063,7 +2063,7 @@
 				796A242329A137E7009B2A6C /* ActivityClassProgressView.swift in Sources */,
 				795C2C2A296E2DCA00EDFF09 /* RoomPlanEditView.swift in Sources */,
 				79975318297B173800D1C66E /* SettingsProgram.swift in Sources */,
-				793C5D242A1A837C00FB2691 /* TimerVM.swift in Sources */,
+				793C5D242A1A837C00FB2691 /* TodaySeances.swift in Sources */,
 				793C29CF2953BE4E00E7F65B /* Ressource+Extensions.swift in Sources */,
 				796B6A7D2A0BD24600F00929 /* ContactsManager.swift in Sources */,
 				79FFF42929511E040037A327 /* ClasseCreatorModal.swift in Sources */,

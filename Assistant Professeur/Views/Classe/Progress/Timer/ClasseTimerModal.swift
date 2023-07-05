@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Fenêtre modale de présentation d'un chronomètre de séance
 struct ClasseTimerModal: View {
     var discipline: Discipline
     var classeName: String
