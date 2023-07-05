@@ -32,7 +32,7 @@ struct ClasseInfosView: View {
             }
         }
         .emptyListPlaceHolder(conseils) {
-            Text("Aucune conseil prévu pour cette classe")
+            Text("Aucun conseil prévu pour cette classe")
         }
     }
 
@@ -81,7 +81,7 @@ struct ClasseInfosView: View {
         .task {
             if let school = classe.school {
                 conseils = await EventManager.getAllConseils(
-                    forClasse: classe.displayString,
+                    forClasseName: classe.displayString,
                     inCalendarNamed: school.viewName,
                     during: pref.schoolYear.interval
                 )
