@@ -194,8 +194,11 @@ public extension ActivityProgressEntity {
 
         PROGRESSION:
            Classe   : \(String(describing: classe?.displayString))
+           Séquence : \(String(describing: activity?.sequence?.viewName))
            Activité : \(String(describing: activity?.viewName))
            Progrès  : \(progress * 100.0) %
+           Début    : \(startDate?.stringShortDate ?? "-")
+           Fin      : \(endDate?.stringShortDate ?? "-")
         """
     }
 }
