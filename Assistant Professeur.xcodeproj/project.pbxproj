@@ -295,6 +295,7 @@
 		79E524BD295376EA00DA99A7 /* EventListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BB295376E900DA99A7 /* EventListSection.swift */; };
 		79E524BE295376EA00DA99A7 /* EventEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BC295376E900DA99A7 /* EventEditor.swift */; };
 		79E7B8772A587EEE008E8B83 /* ClassNextSeancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E7B8762A587EED008E8B83 /* ClassNextSeancesView.swift */; };
+		79E7B87B2A58A050008E8B83 /* NextSeanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E7B87A2A58A050008E8B83 /* NextSeanceRow.swift */; };
 		79E923C52961E94D00EDB7CA /* GroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E923C42961E94D00EDB7CA /* GroupManager.swift */; };
 		79ECF1F42959F09F008F0282 /* colle+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F32959F09F008F0282 /* colle+extensions.swift */; };
 		79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */; };
@@ -650,6 +651,7 @@
 		79E524BB295376E900DA99A7 /* EventListSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListSection.swift; sourceTree = "<group>"; };
 		79E524BC295376E900DA99A7 /* EventEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEditor.swift; sourceTree = "<group>"; };
 		79E7B8762A587EED008E8B83 /* ClassNextSeancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ClassNextSeancesView.swift; path = "Assistant Professeur/Model/Events/ClassNextSeancesView.swift"; sourceTree = SOURCE_ROOT; };
+		79E7B87A2A58A050008E8B83 /* NextSeanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextSeanceRow.swift; sourceTree = "<group>"; };
 		79E923C42961E94D00EDB7CA /* GroupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupManager.swift; sourceTree = "<group>"; };
 		79ECF1F32959F09F008F0282 /* colle+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "colle+extensions.swift"; sourceTree = "<group>"; };
 		79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveObservLabel.swift; sourceTree = "<group>"; };
@@ -1122,6 +1124,7 @@
 		795804B529A6969400AEB7DA /* Progress */ = {
 			isa = PBXGroup;
 			children = (
+				796A17812A3F426500413DDD /* ClasseProgressSection.swift */,
 				79A8E7BD29AF6109006D0EAA /* IndicatorImageView.swift */,
 				79A6AC9629F59C9E003705D0 /* Timer */,
 				79E7B8782A587F44008E8B83 /* CurrentActivity */,
@@ -1585,7 +1588,6 @@
 				79ECF1FA2959F915008F0282 /* ClasseObservLabel.swift */,
 				79F38D0B29D74B17006C9B35 /* ClasseCapsule.swift */,
 				7951063D294FD9520015AC5C /* ClasseListSection.swift */,
-				796A17812A3F426500413DDD /* ClasseProgressSection.swift */,
 				79FE06DB2A44E14900DDA543 /* ClasseTagList.swift */,
 			);
 			path = Classe;
@@ -1692,6 +1694,7 @@
 			isa = PBXGroup;
 			children = (
 				79E7B8762A587EED008E8B83 /* ClassNextSeancesView.swift */,
+				79E7B87A2A58A050008E8B83 /* NextSeanceRow.swift */,
 			);
 			path = NextSeances;
 			sourceTree = "<group>";
@@ -2287,6 +2290,7 @@
 				79FD21932A338A9200A8D925 /* DSectionEntity+CoreDataClass.swift in Sources */,
 				796699DB2A30D38E00DF14AB /* DataBaseError.swift in Sources */,
 				799EFBA62A2CFE45008E9775 /* WCompChapterBrowserRow.swift in Sources */,
+				79E7B87B2A58A050008E8B83 /* NextSeanceRow.swift in Sources */,
 				797AD2B429913B4C00BE5D37 /* School+CoreDataClass.swift in Sources */,
 				79F41E712954D2F900EAAC52 /* EleveLabel.swift in Sources */,
 				793C29D42953C08100E7F65B /* RessourceListSection.swift in Sources */,

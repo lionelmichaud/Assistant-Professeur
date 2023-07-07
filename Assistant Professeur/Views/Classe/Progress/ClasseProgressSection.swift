@@ -14,6 +14,9 @@ struct ClasseProgressSection: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
+    @State
+    private var classeSeances: DateIntervalSeances = .init()
+
     var body: some View {
         if let progresses = classe.progresses,
            progresses.count != 0 {
@@ -67,6 +70,35 @@ extension ClasseProgressSection {
         }
     }
 
+    private var nextSeancesView: some View {
+        NavigationLink(value: ClasseNavigationRoute.nextSeances(classe)) {
+            HStack {
+                Label("Prochains cours", systemImage: ProgramEntity.defaultImageName)
+                if classeSeances.seances.isNotEmpty {
+                    Spacer()
+                    Text(formattedDate(classeSeances.seances.first!.startDate))
+                        .foregroundColor(.secondary)
+                        .bold(false)
+                }
+            }
+            .fontWeight(.bold)
+            .task {
+                // Liste des Séances à venir pour cette classe
+                if let schoolName = classe.school?.viewName {
+                    await $classeSeances.loadSeances(
+                        forDiscipline: classe.disciplineEnum,
+                        forClasse: classe.displayString,
+                        schoolName: schoolName,
+                        during: DateInterval(
+                            start: Date.now,
+                            end: 3.months.fromNow!
+                        )
+                    )
+                }
+            }
+        }
+    }
+
     private var progressView: some View {
         NavigationLink(value: ClasseNavigationRoute.progress(classe)) {
             Label("Actualiser la progression", systemImage: ProgramEntity.defaultImageName)
@@ -74,13 +106,26 @@ extension ClasseProgressSection {
         }
     }
 
-    private var nextSeancesView: some View {
-        NavigationLink(value: ClasseNavigationRoute.nextSeances(classe)) {
-            Label("Prochains cours", systemImage: ProgramEntity.defaultImageName)
-                .fontWeight(.bold)
+    private func formattedDate(_ date: Date) -> String {
+        let delta = date.days(between: Date.now)
+        switch delta {
+            case 1:
+                return "demain"
+
+            case 2:
+                return "après-demain"
+
+            case 3 ... 6:
+                return "\(date.formatted(Date.FormatStyle().weekday(.wide))) prochain"
+
+            default:
+                return date
+                    .formatted(Date.FormatStyle()
+                        .weekday(.wide)
+                        .day(.twoDigits)
+                        .month(.twoDigits))
         }
     }
-
 }
 
 struct ClasseProgressionSection_Previews: PreviewProvider {
