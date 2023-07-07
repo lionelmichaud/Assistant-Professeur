@@ -19,6 +19,9 @@ struct ClassSequenceProgressEditView: View {
     @ObservedObject
     var classe: ClasseEntity
 
+    @Binding
+    var progressChanged: Bool
+
     @Environment(\.horizontalSizeClass)
     private var hClass
 
@@ -32,10 +35,14 @@ struct ClassSequenceProgressEditView: View {
         DisclosureGroup(isExpanded: $isExpanded) {
             ProgressView(value: classe.progressInSequence(sequence))
                 .tint(.mint)
+
             ForEach(sortedProgressesInSequence) { progress in
-                ClassActivityProgressEditView(progress: progress)
-                    .padding(.leading)
-                    .listRowSeparatorTint(.secondary, edges: .bottom)
+                ClassActivityProgressEditView(
+                    progress: progress,
+                    progressChanged: $progressChanged
+                )
+                .padding(.leading)
+                .listRowSeparatorTint(.secondary, edges: .bottom)
             }
             .emptyListPlaceHolder(sortedProgressesInSequence) {
                 Text("Aucune activité suivie par cette classe")

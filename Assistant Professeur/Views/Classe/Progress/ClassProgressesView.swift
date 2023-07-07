@@ -21,6 +21,9 @@ struct ClassProgressesView: View {
     @State
     private var classeSeances: DateIntervalSeances = .init()
 
+    @State
+    var progressChanged: Bool = false
+
     var body: some View {
         List {
             ProgressView(value: classe.progressInProgram())
@@ -29,14 +32,17 @@ struct ClassProgressesView: View {
             ForEach(classeSequences) { sequence in
                 ClassSequenceProgressEditView(
                     sequence: sequence,
-                    classe: classe
+                    classe: classe,
+                    progressChanged: $progressChanged
                 )
             }
             .emptyListPlaceHolder(classeSequences) {
                 Text("Aucune séquence suivie par cette classe")
             }
         }
-        .task {
+        .task(id: progressChanged) {
+            progressChanged = false
+            
             // Liste des Séquences suivies par une classe triée par numéro de Séquence
             classeSequences = classe.allFollowedSequencesSortedBySequenceNumber
 

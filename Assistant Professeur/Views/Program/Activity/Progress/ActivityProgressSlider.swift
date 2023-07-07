@@ -11,6 +11,9 @@ struct ActivityProgressSlider: View {
     @ObservedObject
     var progress: ActivityProgressEntity
 
+    @Binding
+    var progressChanged: Bool
+
     var body: some View {
         Slider(
             value: $progress.progress,
@@ -25,6 +28,7 @@ struct ActivityProgressSlider: View {
         } onEditingChanged: { editing in
             if !editing {
                 try? ActivityProgressEntity.saveIfContextHasChanged()
+                progressChanged = true
             }
         }
         .tint(.mint)
@@ -32,6 +36,9 @@ struct ActivityProgressSlider: View {
         .background(
             Capsule().stroke(Color.mint, lineWidth: 2)
         )
+        .onAppear {
+            progressChanged = false
+        }
     }
 }
 
@@ -63,12 +70,18 @@ struct ActivityProgressSlider_Previews: PreviewProvider {
         let progress = classe.allProgresses.first!
         return Group {
             List {
-                ActivityProgressSlider(progress: progress)
+                ActivityProgressSlider(
+                    progress: progress,
+                    progressChanged: .constant(false)
+                )
             }
             .padding()
             .previewDevice("iPad mini (6th generation)")
             List {
-                ActivityProgressSlider(progress: progress)
+                ActivityProgressSlider(
+                    progress: progress,
+                    progressChanged: .constant(false)
+                )
             }
             .padding()
             .previewDevice("iPhone 13")

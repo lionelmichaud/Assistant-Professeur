@@ -20,7 +20,8 @@ struct ActivityClassProgressView: View {
     var body: some View {
         LabeledContent {
             VStack {
-                ActivityProgressSlider(progress: progress)
+                ActivityProgressSlider(progress: progress,
+                                       progressChanged: .constant(false))
 
                 TextField(
                     "",

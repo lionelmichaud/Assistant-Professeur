@@ -14,6 +14,9 @@ struct ClassActivityProgressEditView: View {
     @ObservedObject
     var progress: ActivityProgressEntity
 
+    @Binding
+    var progressChanged: Bool
+
     @EnvironmentObject
     private var navig: NavigationModel
 
@@ -88,7 +91,7 @@ extension ClassActivityProgressEditView {
             case 1:
                 return "dem."
 
-            case 2...6:
+            case 2 ... 6:
                 return date
                     .formatted(Date.FormatStyle()
                         .weekday(.abbreviated))
@@ -212,7 +215,7 @@ extension ClassActivityProgressEditView {
         }
     }
 
-    private var progression: some View {
+    private var annotation: some View {
         TextField(
             "",
             text: $progress.annotation.bound,
@@ -230,11 +233,14 @@ extension ClassActivityProgressEditView {
     private var regularView: some View {
         VStack(alignment: .leading) {
             LabeledContent("Progression") {
-                ActivityProgressSlider(progress: progress)
-                    .frame(minWidth: 250)
+                ActivityProgressSlider(
+                    progress: progress,
+                    progressChanged: $progressChanged
+                )
+                .frame(minWidth: 250)
             }
 
-            progression
+            annotation
 
             buttons
         }
@@ -243,9 +249,12 @@ extension ClassActivityProgressEditView {
 
     private var compactView: some View {
         VStack(alignment: .leading) {
-            ActivityProgressSlider(progress: progress)
+            ActivityProgressSlider(
+                progress: progress,
+                progressChanged: $progressChanged
+            )
 
-            progression
+            annotation
 
             buttons
         }
@@ -266,12 +275,18 @@ struct ClassActivityProgressView_Previews: PreviewProvider {
         //            let progress = ClasseEntity.all().first!.currentActivity
         return Group {
             List {
-                ClassActivityProgressEditView(progress: progress)
+                ClassActivityProgressEditView(
+                    progress: progress,
+                    progressChanged: .constant(false)
+                )
             }
             .padding()
             .previewDevice("iPad mini (6th generation)")
             List {
-                ClassActivityProgressEditView(progress: progress)
+                ClassActivityProgressEditView(
+                    progress: progress,
+                    progressChanged: .constant(false)
+                )
             }
             .padding()
             .previewDevice("iPhone 13")
