@@ -39,6 +39,7 @@
 		792621EF2A45F0F800ADA8FB /* SequenceTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792621EE2A45F0F800ADA8FB /* SequenceTagList.swift */; };
 		7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7927E6C72980A12F007002CE /* SequenceEditorModal.swift */; };
 		792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */; };
+		792E82BA2A570C6400FE95E8 /* SequenceSeanceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792E82B92A570C6400FE95E8 /* SequenceSeanceCoordinator.swift */; };
 		7934D8A129E49D740031C8AA /* Eleve+ItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7934D8A029E49D740031C8AA /* Eleve+ItemProvider.swift */; };
 		7937A24229859A5500D0ED59 /* ExamStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A24129859A5500D0ED59 /* ExamStep.swift */; };
 		7937A2442986AD9100D0ED59 /* CloudKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */; };
@@ -187,6 +188,7 @@
 		79975320297C3F9200D1C66E /* ProgramViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7997531F297C3F9200D1C66E /* ProgramViewModel.swift */; };
 		79975322297C4AEF00D1C66E /* ProgramBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */; };
 		79975324297C4ED900D1C66E /* ProgramDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */; };
+		799817752A562A9F00CD8F43 /* DateIntervalSeances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799817742A562A9F00CD8F43 /* DateIntervalSeances.swift */; };
 		799D2C7729CBADE2009C6336 /* ActivityDocumentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799D2C7629CBADE2009C6336 /* ActivityDocumentList.swift */; };
 		799D2C7929CCD226009C6336 /* SequenceDocumentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */; };
 		799EFBA42A2CFC66008E9775 /* FileOperationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799EFBA32A2CFC66008E9775 /* FileOperationTypes.swift */; };
@@ -422,6 +424,7 @@
 		792621EE2A45F0F800ADA8FB /* SequenceTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceTagList.swift; sourceTree = "<group>"; };
 		7927E6C72980A12F007002CE /* SequenceEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceEditorModal.swift; sourceTree = "<group>"; };
 		792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailGroupBox.swift; sourceTree = "<group>"; };
+		792E82B92A570C6400FE95E8 /* SequenceSeanceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceSeanceCoordinator.swift; sourceTree = "<group>"; };
 		7934D8A029E49D740031C8AA /* Eleve+ItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Eleve+ItemProvider.swift"; sourceTree = "<group>"; };
 		7937A24129859A5500D0ED59 /* ExamStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamStep.swift; sourceTree = "<group>"; };
 		7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitViewModel.swift; sourceTree = "<group>"; };
@@ -563,6 +566,7 @@
 		7997531F297C3F9200D1C66E /* ProgramViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramViewModel.swift; sourceTree = "<group>"; };
 		79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramBrowserRow.swift; sourceTree = "<group>"; };
 		79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailGroupBox.swift; sourceTree = "<group>"; };
+		799817742A562A9F00CD8F43 /* DateIntervalSeances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateIntervalSeances.swift; sourceTree = "<group>"; };
 		799D2C7629CBADE2009C6336 /* ActivityDocumentList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDocumentList.swift; sourceTree = "<group>"; };
 		799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceDocumentList.swift; sourceTree = "<group>"; };
 		799EFBA32A2CFC66008E9775 /* FileOperationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileOperationTypes.swift; sourceTree = "<group>"; };
@@ -1096,6 +1100,9 @@
 			children = (
 				795415A72A129BBF00B86746 /* EventManager.swift */,
 				796521CE2A13FBC7000C27D1 /* Zones.swift */,
+				793C5D232A1A837C00FB2691 /* TodaySeances.swift */,
+				799817742A562A9F00CD8F43 /* DateIntervalSeances.swift */,
+				792E82B92A570C6400FE95E8 /* SequenceSeanceCoordinator.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -1371,7 +1378,6 @@
 				79B298E729EC5F2C008BAF50 /* SeanceTimerView.swift */,
 				79A6AC9429F57DCF003705D0 /* ProgressClockView.swift */,
 				79F8773129F425A300AB38C3 /* DigitalClockView.swift */,
-				793C5D232A1A837C00FB2691 /* TodaySeances.swift */,
 			);
 			path = Timer;
 			sourceTree = "<group>";
@@ -1945,6 +1951,7 @@
 				7986A8572989B1A2007471BE /* GroupGlobalMarkModal.swift in Sources */,
 				79FD219B2A339BE700A8D925 /* DSectionEntity+Extension.swift in Sources */,
 				798B8260296CAC84004A24A8 /* ImportExportManager.swift in Sources */,
+				792E82BA2A570C6400FE95E8 /* SequenceSeanceCoordinator.swift in Sources */,
 				79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */,
 				795695D92A2CCB6700435FDB /* WCompChapterEntity+CoreDataClass.swift in Sources */,
 				7994E3252972F4E500952D08 /* DocumentRow.swift in Sources */,
@@ -2014,6 +2021,7 @@
 				7994E3262972F4E500952D08 /* PdfDocumentViewer.swift in Sources */,
 				79D573472927EEDE00B0B7B8 /* SchoolViewModel.swift in Sources */,
 				7974CD0E2A2BF358004B3716 /* Cycle.swift in Sources */,
+				799817752A562A9F00CD8F43 /* DateIntervalSeances.swift in Sources */,
 				7981280629F1CB3500A3817E /* AgendaManager.swift in Sources */,
 				799421862A02BFDC002999C4 /* SchoolSidebarToolbar.swift in Sources */,
 				7923811A2960B04F009E51B7 /* GroupView.swift in Sources */,

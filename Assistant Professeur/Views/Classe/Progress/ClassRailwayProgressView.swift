@@ -19,13 +19,18 @@ struct ClassRailwayProgressView: View {
 
     // MARK: - Properties
 
+    private let horizon = 3 // mois
+
     @State
-    private var classeSequences = [SequenceEntity]()
+    private var classeSequencesEnCours = [SequenceEntity]()
+
+    @State
+    private var classeSeances: DateIntervalSeances = .init()
 
     // MARK: - Methods
 
     var body: some View {
-        ForEach(classeSequences) { sequence in
+        ForEach(classeSequencesEnCours) { sequence in
             let sortedProgressesInSequence = classe
                 .sortedProgressesInSequence(sequence)
 
@@ -34,27 +39,62 @@ struct ClassRailwayProgressView: View {
                     .padding(.bottom)
                     .frame(maxWidth: .infinity)
                 StepperView()
-                    .indicators(indicators(progresses: sortedProgressesInSequence))
-                    .addSteps(steps(progresses: sortedProgressesInSequence))
+                    .indicators(
+                        indicators(classeProgresses: sortedProgressesInSequence)
+                    )
+                    .addSteps(
+                        steps(
+                            classeProgresses: sortedProgressesInSequence,
+                            classeSeances: classeSeances
+                        )
+                    )
                     .stepIndicatorMode(.horizontal)
+                    .lineOptions(
+                        StepperLineOptions.custom(4, Color.teal)
+                    )
+                    .spacing(hClass == .compact ? 50 : 75)
                     // .alignments(alignments(sequence: sequence))
-                    .lineOptions(StepperLineOptions.custom(4, Color.teal))
                     // .stepLifeCycles(stepLifeCycles(sequence: sequence))
                     // .autoSpacing(true)
-                    .spacing(hClass == .compact ? 35 : 75)
                     // .loadingAnimationTime(0.01)
                     .padding([.top, .leading])
             }
             .padding(.horizontal)
-            .horizontallyAligned(.leading)
+        }
+        .emptyListPlaceHolder(classeSequencesEnCours) {
+            Text("Aucune séquence en cours ou à venir pour cette classe")
         }
         .task {
-            classeSequences =
+            // Séquences en cours pour cette classe
+            classeSequencesEnCours =
                 classe
                     .allFollowedSequencesSortedBySequenceNumber
                     .filter { sequence in
-                        sequence.nbOfActivities > 0 && sequence.statusFor(classe: classe) == .inProgress
+                        sequence.nbOfActivities > 0 &&
+                            sequence.statusFor(classe: classe) == .inProgress
                     }
+
+            // Liste des Progressions de la classe triée par numéro de Séquence / Activité
+            let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+
+            // Liste des Séances à venir pour cette classe
+            if let schoolName = classe.school?.viewName {
+                await $classeSeances.loadSeances(
+                    forDiscipline: classe.disciplineEnum,
+                    forClasse: classe.displayString,
+                    schoolName: schoolName,
+                    during: DateInterval(
+                        start: Date.now,
+                        end: horizon.months.fromNow!
+                    )
+                )
+
+                // Synchroniser les Progressions avec les Séances
+                SequenceSeanceCoordinator.synchronize(
+                    classeProgresses: sortedClasseProgresses,
+                    withSeances: classeSeances
+                )
+            }
         }
     }
 }
@@ -62,20 +102,65 @@ struct ClassRailwayProgressView: View {
 // MARK: - Subviews
 
 extension ClassRailwayProgressView {
-    private func steps(progresses: [ActivityProgressEntity]) -> [AnyView] {
+    private func formattedDate(_ date: Date) -> String {
+        let delta = date.days(between: Date.now)
+        switch delta {
+            case 1:
+                return "dem."
+
+            case 2 ... 6:
+                return date
+                    .formatted(Date.FormatStyle()
+                        .weekday(.abbreviated))
+
+            default:
+                return date
+                    .formatted(Date.FormatStyle()
+                        .day(.twoDigits)
+                        .month(.twoDigits))
+        }
+    }
+
+    private func steps(
+        classeProgresses progresses: [ActivityProgressEntity],
+        // paramètre non utilisé mais oblige la vue à se rafraichire quand le paramètre change
+        classeSeances _: DateIntervalSeances
+    ) -> [AnyView] {
         progresses
             .map { progress in
                 HStack {
+                    // Tag de l'activité
                     NumberedCircleView(
                         text: "A\(progress.activity!.viewNumber)",
                         color: .teal,
                         triggerAnimation: false
                     )
+                    // Nombre de séances / Dates des séances à venir
                     VStack(alignment: .leading) {
-                        Text(progress.activity!.viewDurationString)
-                        if progress.progress > 0 && progress.progress < 1 {
-                            Text(progress.progress, format: .percent)
-                                .font(.footnote)
+                        switch progress.status {
+                            case .completed:
+                                // Nombre de séances
+                                Text("\(progress.activity!.viewDurationString)s")
+
+                            case .inProgress, .notStarted:
+                                // Nombre de séances
+                                Text("\(progress.activity!.viewDurationString)s")
+                                    .font(.footnote)
+
+                                if let startDate = progress.startDate {
+                                    // Date à laquelle débutera l'activité
+                                    Text(formattedDate(startDate))
+                                        .font(.footnote)
+                                    if let endDate = progress.endDate,
+                                       endDate.day != startDate.day {
+                                        // Date à laquelle se terminera l'activité
+                                        Text(formattedDate(endDate))
+                                            .font(.footnote)
+                                    }
+                                }
+
+                            case .invalid:
+                                EmptyView()
                         }
                     }
                 }
@@ -83,7 +168,9 @@ extension ClassRailwayProgressView {
             }
     }
 
-    private func indicators(progresses: [ActivityProgressEntity]) -> [StepperIndicationType<AnyView>] {
+    private func indicators(
+        classeProgresses progresses: [ActivityProgressEntity]
+    ) -> [StepperIndicationType<AnyView>] {
         progresses
             .map { progress in
                 StepperIndicationType

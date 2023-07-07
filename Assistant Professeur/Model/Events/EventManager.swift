@@ -49,10 +49,10 @@ enum EventManager {
     ///   - calName: Nom du calendrier où ajouter l'événement.
     ///   - period: Intervalle de temps de recherche.
     /// - Important: Convention de nommage:
-    ///     Nom du calendrier = **Nom de l'établissement**
-    ///     Titre de l'événement = **"discipline - \(classe)"**
-    ///     où **discipline** = "TECHNO"
-    ///     et **classe** =" 5E2S"
+    ///  * Nom du calendrier = **Nom de l'établissement**
+    ///  * Titre de l'événement = **"discipline - \(classe)"**
+    ///  * où **discipline** = "TECHNO"
+    ///  * et **classe** =" 5E2S"
     static func getAllSeances(
         forDiscipline discipline: Discipline,
         forClasseName classe: String,
@@ -76,10 +76,10 @@ enum EventManager {
     ///   - classe: Acronym de la classe recherchée.
     ///   - calName: Nom du calendrier où ajouter l'événement.
     /// - Important: Convention de nommage:
-    ///     Nom du calendrier = **Nom de l'établissement**
-    ///     Titre de l'événement = **"discipline - \(classe)"**
-    ///     où **discipline** = acronyme e.g. "TECHNO"
-    ///     et **classe** = acronym e.g. "5E2S"
+    ///  * Nom du calendrier = **Nom de l'établissement**
+    ///  * Titre de l'événement = **"discipline - \(classe)"**
+    ///  * où **discipline** = "TECHNO"
+    ///  * et **classe** =" 5E2S"
    static func getTodaySeances(
         forDiscipline discipline: Discipline,
         forClasse classe: String,
@@ -127,8 +127,9 @@ enum EventManager {
         endDate: Date
     ) async -> [EKEvent] {
         let eventStore = EKEventStore()
+        eventStore.reset()
         do {
-            try await eventStore.requestAccess(to: .event)
+            let granted = try await eventStore.requestAccess(to: .event)
 
             // Find the calendar named `calName`
             guard let myCalendar = try getOrCreateCalendar(named: calName) else {

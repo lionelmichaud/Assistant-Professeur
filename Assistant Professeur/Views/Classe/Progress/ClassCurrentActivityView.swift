@@ -35,7 +35,7 @@ struct ClassCurrentActivityView: View {
                 }
 
                 // Présentation de la séquence en cours
-                Text("Sequence en cours \(Text("(avancement \(progressInSequence, format: .percent))").foregroundColor(.secondary))")
+                Text("Sequence en cours \(Text("(avancement \(progressInSequence, format: .percent.precision(.fractionLength(0)))").foregroundColor(.secondary))")
                     .font(.headline)
                     .bold()
                     .padding([.top, .leading])
@@ -43,7 +43,7 @@ struct ClassCurrentActivityView: View {
                 SequenceDetailGroupBox(sequence: sequence)
 
                 // Présentation de l'activité en cours
-                Text("Activité en cours \(Text("(avancement \(currentActivityProgress!.progress, format: .percent))").foregroundColor(.secondary))")
+                Text("Activité en cours \(Text("(avancement \(currentActivityProgress!.progress, format: .percent.precision(.fractionLength(0))))").foregroundColor(.secondary))")
                     .font(.headline)
                     .bold()
                     .padding([.top, .leading])

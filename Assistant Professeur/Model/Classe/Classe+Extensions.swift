@@ -257,21 +257,7 @@ extension ClasseEntity {
         return request
     }
 
-    // MARK: - Computed Properties Progresses
-
-    /// Nombre de progression pour cette classe.
-    var nbOfProgresses: Int {
-        Int(progressCount)
-    }
-
-    /// Liste des progressions des classes pour cette classe non triées
-    var allProgresses: [ActivityProgressEntity] {
-        if let progresses {
-            return (progresses.allObjects as! [ActivityProgressEntity])
-        } else {
-            return []
-        }
-    }
+    // MARK: - Computed Properties Sequences
 
     /// Retourne la liste des séquences suivies par une classe triée.
     ///
@@ -289,6 +275,22 @@ extension ClasseEntity {
         }
         return Array(seqSet)
             .sorted(using: sortComparators)
+    }
+
+    // MARK: - Computed Properties Progresses
+
+    /// Nombre de progressions pour cette classe.
+    var nbOfProgresses: Int {
+        Int(progressCount)
+    }
+
+    /// Liste des progressions des classes pour cette classe non triées
+    var allProgresses: [ActivityProgressEntity] {
+        if let progresses {
+            return (progresses.allObjects as! [ActivityProgressEntity])
+        } else {
+            return []
+        }
     }
 
     /// Retourne la liste des progressions de la classe.

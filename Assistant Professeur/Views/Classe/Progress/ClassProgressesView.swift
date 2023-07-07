@@ -13,42 +13,53 @@ struct ClassProgressesView: View {
     @ObservedObject
     var classe: ClasseEntity
 
-    private var progresses: [ActivityProgressEntity] {
-        classe.allProgresses
-    }
+    private let horizon = 3 // mois
 
-    /// Liste des séquences suivies par cette classe triées
-    ///
-    /// Ordre de tri des séquences:
-    ///   1. Numéro de séquences
-    private var sequences: [SequenceEntity] {
-        let sortComparators = [
-            SortDescriptor(\SequenceEntity.viewNumber, order: .forward)
-        ]
+    @State
+    private var classeSequences = [SequenceEntity]()
 
-        var sequences = [SequenceEntity]()
-
-        progresses.forEach { progress in
-            if let sequence = progress.activity?.sequence,
-               !sequences.contains(sequence) {
-                sequences.append(sequence)
-            }
-        }
-        return sequences.sorted(using: sortComparators)
-    }
+    @State
+    private var classeSeances: DateIntervalSeances = .init()
 
     var body: some View {
         List {
             ProgressView(value: classe.progressInProgram())
-                .tint(.mint)
-            ForEach(sequences) { sequence in
+                .tint(.teal)
+
+            ForEach(classeSequences) { sequence in
                 ClassSequenceProgressEditView(
                     sequence: sequence,
                     classe: classe
                 )
             }
-            .emptyListPlaceHolder(sequences) {
+            .emptyListPlaceHolder(classeSequences) {
                 Text("Aucune séquence suivie par cette classe")
+            }
+        }
+        .task {
+            // Liste des Séquences suivies par une classe triée par numéro de Séquence
+            classeSequences = classe.allFollowedSequencesSortedBySequenceNumber
+
+            // Liste des Progressions de la classe triée par numéro de Séquence / Activité
+            let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+
+            // Liste des Séances à venir pour cette classe
+            if let schoolName = classe.school?.viewName {
+                await $classeSeances.loadSeances(
+                    forDiscipline: classe.disciplineEnum,
+                    forClasse: classe.displayString,
+                    schoolName: schoolName,
+                    during: DateInterval(
+                        start: Date.now,
+                        end: horizon.months.fromNow!
+                    )
+                )
+
+                // Synchroniser les Progressions avec les Séances
+                SequenceSeanceCoordinator.synchronize(
+                    classeProgresses: sortedClasseProgresses,
+                    withSeances: classeSeances
+                )
             }
         }
         #if os(iOS)
