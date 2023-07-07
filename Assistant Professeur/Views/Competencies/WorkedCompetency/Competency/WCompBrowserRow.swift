@@ -64,6 +64,7 @@ struct WCompBrowserRow: View {
             // Lien vers les critères de maîtrise de la compétences
             NavigationLink(value: workedComp) {
                 Text("Critères de maîtrise")
+                    .foregroundColor(.primary)
                     .padding([.top, .bottom])
             }
 

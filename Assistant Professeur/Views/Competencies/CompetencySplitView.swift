@@ -46,23 +46,23 @@ struct CompetencySplitView: View {
                     .padding(.horizontal)
 
                 case .workedCompetencies:
-                    /// Compétences travaillées
+                    // Compétences travaillées
                     WCompChapterListView()
 
                 case let .disciplineCompetencies(discipline):
-                    /// Compétences disciplinaires
+                    // Compétences disciplinaires
                     NavigationStack(path: $nav.competencePath) {
                         // Thème de Compétences disciplinaires
                         DThemeListView(discipline: discipline)
+                            // Section de Compétences disciplinaires
                             .navigationDestination(for: DThemeEntity.self) { theme in
-                                // Section de Compétences disciplinaires
                                 DSectionListView(
                                     theme: theme,
                                     discipline: discipline
                                 )
                             }
+                            // Compétence disciplinaires
                             .navigationDestination(for: DSectionEntity.self) { section in
-                                // Compétence disciplinaires
                                 DCompListView(
                                     section: section,
                                     discipline: discipline
@@ -83,18 +83,24 @@ struct CompetencySplitView: View {
                     )
 
                 case .workedCompetencies:
-                    /// Compétences travaillées
+                    // Compétences travaillées
                     NavigationStack {
                         WCompListView()
+                            // Critère de maîtrise d'une compétences travaillées
                             .navigationDestination(for: WCompEntity.self) { workedCompetency in
-                                // Critère de maîtrise d'une compétences
                                 WCompMasteryLevels(workedComp: workedCompetency)
                             }
                     }
 
                 case .disciplineCompetencies:
-                    /// Connaissance disciplinaires
-                    DKnowListView()
+                    // Connaissance disciplinaires
+                    NavigationStack {
+                        DKnowListView()
+                            // Critère de maîtrise d'une compétences travaillées
+                            .navigationDestination(for: WCompEntity.self) { workedCompetency in
+                                WCompMasteryLevels(workedComp: workedCompetency)
+                            }
+                    }
             }
         }
         .navigationSplitViewStyle(.balanced)
