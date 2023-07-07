@@ -35,7 +35,7 @@ struct ClassCurrentActivityView: View {
                 }
 
                 // Présentation de la séquence en cours
-                Text("Sequence en cours \(Text("(avancement \(progressInSequence, format: .percent.precision(.fractionLength(0)))").foregroundColor(.secondary))")
+                Text("Sequence en cours \(Text("(avancement \(progressInSequence, format: .percent.precision(.fractionLength(0))))").foregroundColor(.secondary))")
                     .font(.headline)
                     .bold()
                     .padding([.top, .leading])
