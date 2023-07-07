@@ -26,18 +26,20 @@ extension SchoolSidebarView {
             }
         }
 
-        // Préférences utilisateur et Menu
-        ToolbarItemGroup(placement: .automatic) {
-            // Edition des préférences utilisateur
+        // Edition des préférences utilisateur
+        ToolbarItem(placement: .navigationBarLeading) {
             Button {
                 isEditingPreferences = true
             } label: {
                 Label(
                     "Préférences",
-                    systemImage: "gear"
+                    systemImage: "slider.horizontal.3"
                 )
             }
+        }
 
+        // Préférences utilisateur et Menu
+        ToolbarItem(placement: .navigationBarTrailing) {
             Menu {
                 Section {
                     // A propos

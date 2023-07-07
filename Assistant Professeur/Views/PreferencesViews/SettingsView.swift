@@ -50,8 +50,10 @@ struct SettingsView: View {
         }
         .toolbar {
             ToolbarItem {
-                Button("Fermer") {
+                Button {
                     dismiss()
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
                 }
             }
         }

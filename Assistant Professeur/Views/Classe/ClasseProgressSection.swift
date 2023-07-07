@@ -18,10 +18,13 @@ struct ClasseProgressSection: View {
         if let progresses = classe.progresses,
            progresses.count != 0 {
             Section {
-                // Activité actuelle
+                // Activité en cours
                 currentActivityView
 
-                // Progression glogale
+                // Cours à venir
+                nextSeancesView
+
+                // Actualisation de la progression glogale
                 progressView
             } header: {
                 Text("Progression")
@@ -70,6 +73,14 @@ extension ClasseProgressSection {
                 .fontWeight(.bold)
         }
     }
+
+    private var nextSeancesView: some View {
+        NavigationLink(value: ClasseNavigationRoute.nextSeances(classe)) {
+            Label("Prochains cours", systemImage: ProgramEntity.defaultImageName)
+                .fontWeight(.bold)
+        }
+    }
+
 }
 
 struct ClasseProgressionSection_Previews: PreviewProvider {

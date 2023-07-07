@@ -294,6 +294,7 @@
 		79E40E8A2997FD45006BBE49 /* Group+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E40E892997FD44006BBE49 /* Group+CoreDataClass.swift */; };
 		79E524BD295376EA00DA99A7 /* EventListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BB295376E900DA99A7 /* EventListSection.swift */; };
 		79E524BE295376EA00DA99A7 /* EventEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E524BC295376E900DA99A7 /* EventEditor.swift */; };
+		79E7B8772A587EEE008E8B83 /* ClassNextSeancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E7B8762A587EED008E8B83 /* ClassNextSeancesView.swift */; };
 		79E923C52961E94D00EDB7CA /* GroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E923C42961E94D00EDB7CA /* GroupManager.swift */; };
 		79ECF1F42959F09F008F0282 /* colle+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F32959F09F008F0282 /* colle+extensions.swift */; };
 		79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */; };
@@ -517,7 +518,7 @@
 		796A17852A3F49E600413DDD /* KnowledgeListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnowledgeListSection.swift; sourceTree = "<group>"; };
 		796A17872A3F6C6600413DDD /* WCompListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompListSection.swift; sourceTree = "<group>"; };
 		796A242229A137E7009B2A6C /* ActivityClassProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityClassProgressView.swift; sourceTree = "<group>"; };
-		796A242429A178DF009B2A6C /* ClassCurrentActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassCurrentActivityView.swift; sourceTree = "<group>"; };
+		796A242429A178DF009B2A6C /* ClassCurrentActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ClassCurrentActivityView.swift; path = "../New Group1/ClassCurrentActivityView.swift"; sourceTree = "<group>"; };
 		796A242629A17C16009B2A6C /* ClassProgressesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassProgressesView.swift; sourceTree = "<group>"; };
 		796B6A7C2A0BD24600F00929 /* ContactsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
 		796B6A7F2A0C42BD00F00929 /* SchoolInfosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SchoolInfosView.swift; path = "Assistant Professeur/Model/Persistence/SchoolInfosView.swift"; sourceTree = SOURCE_ROOT; };
@@ -648,6 +649,7 @@
 		79E40E892997FD44006BBE49 /* Group+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Group+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Classe/Group/Group+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		79E524BB295376E900DA99A7 /* EventListSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListSection.swift; sourceTree = "<group>"; };
 		79E524BC295376E900DA99A7 /* EventEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEditor.swift; sourceTree = "<group>"; };
+		79E7B8762A587EED008E8B83 /* ClassNextSeancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ClassNextSeancesView.swift; path = "Assistant Professeur/Model/Events/ClassNextSeancesView.swift"; sourceTree = SOURCE_ROOT; };
 		79E923C42961E94D00EDB7CA /* GroupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupManager.swift; sourceTree = "<group>"; };
 		79ECF1F32959F09F008F0282 /* colle+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "colle+extensions.swift"; sourceTree = "<group>"; };
 		79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveObservLabel.swift; sourceTree = "<group>"; };
@@ -1120,14 +1122,11 @@
 		795804B529A6969400AEB7DA /* Progress */ = {
 			isa = PBXGroup;
 			children = (
-				79A6AC9629F59C9E003705D0 /* Timer */,
-				796A242429A178DF009B2A6C /* ClassCurrentActivityView.swift */,
-				79ABF56229AD52FC00B8299B /* ClassRailwayProgressView.swift */,
-				796A242629A17C16009B2A6C /* ClassProgressesView.swift */,
-				7989B4DE29A2A63000383F84 /* ClassSequenceProgressEditView.swift */,
-				7989B4D229A2733D00383F84 /* ClassActivityProgressEditView.swift */,
 				79A8E7BD29AF6109006D0EAA /* IndicatorImageView.swift */,
-				7989B4DC29A28F8E00383F84 /* CompletionSymbol.swift */,
+				79A6AC9629F59C9E003705D0 /* Timer */,
+				79E7B8782A587F44008E8B83 /* CurrentActivity */,
+				79E7B8752A587ED7008E8B83 /* NextSeances */,
+				79E7B8792A588012008E8B83 /* ProgressUpdate */,
 			);
 			path = Progress;
 			sourceTree = "<group>";
@@ -1689,6 +1688,34 @@
 			path = Event;
 			sourceTree = "<group>";
 		};
+		79E7B8752A587ED7008E8B83 /* NextSeances */ = {
+			isa = PBXGroup;
+			children = (
+				79E7B8762A587EED008E8B83 /* ClassNextSeancesView.swift */,
+			);
+			path = NextSeances;
+			sourceTree = "<group>";
+		};
+		79E7B8782A587F44008E8B83 /* CurrentActivity */ = {
+			isa = PBXGroup;
+			children = (
+				796A242429A178DF009B2A6C /* ClassCurrentActivityView.swift */,
+				79ABF56229AD52FC00B8299B /* ClassRailwayProgressView.swift */,
+			);
+			path = CurrentActivity;
+			sourceTree = "<group>";
+		};
+		79E7B8792A588012008E8B83 /* ProgressUpdate */ = {
+			isa = PBXGroup;
+			children = (
+				796A242629A17C16009B2A6C /* ClassProgressesView.swift */,
+				7989B4DE29A2A63000383F84 /* ClassSequenceProgressEditView.swift */,
+				7989B4D229A2733D00383F84 /* ClassActivityProgressEditView.swift */,
+				7989B4DC29A28F8E00383F84 /* CompletionSymbol.swift */,
+			);
+			path = ProgressUpdate;
+			sourceTree = "<group>";
+		};
 		79F41E5F29549AE400EAAC52 /* Appreciation */ = {
 			isa = PBXGroup;
 			children = (
@@ -2083,6 +2110,7 @@
 				79F41E682954B1E500EAAC52 /* TroubleDys.swift in Sources */,
 				794F6E0E295CDC9100042B95 /* ColleCreatorModal.swift in Sources */,
 				79BF1DA829290F5A005D6CF3 /* Classe+Extensions.swift in Sources */,
+				79E7B8772A587EEE008E8B83 /* ClassNextSeancesView.swift in Sources */,
 				79F41E6F2954C83A00EAAC52 /* ElevesTableView.swift in Sources */,
 				795804B729A696CC00AEB7DA /* SequenceTimeLine.swift in Sources */,
 				79AFBFB42981A4B0001576DD /* SequenceDetailGroupBox.swift in Sources */,
