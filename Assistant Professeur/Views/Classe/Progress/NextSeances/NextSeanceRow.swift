@@ -9,12 +9,18 @@ import EventKit
 import SwiftUI
 
 struct NextSeanceRow: View {
-    var seance: EKEvent
+    var seance: Seance
+
+    @Environment(\.horizontalSizeClass)
+    private var hClass
 
     var body: some View {
         GroupBox {
             HStack {
-                horaireView
+                if hClass == .regular {
+                    horaireView
+                    Divider()
+                }
                 infoView
             }
             .frame(
@@ -22,27 +28,50 @@ struct NextSeanceRow: View {
                 alignment: .leading
             )
         } label: {
-            Text(formattedDate(seance.startDate))
-                .bold()
+            labelView
         }
     }
 }
 
+// MARK: - Subviews
+
 extension NextSeanceRow {
+    private var groupBoxLabelSuite: String {
+        if hClass == .regular {
+            return ""
+        } else {
+            return seance.event.startDate.formatted(date: .omitted, time: .shortened) +
+            " à " +
+            seance.event.endDate.formatted(date: .omitted, time: .shortened)
+        }
+    }
+
+    private var labelView: some View {
+        HStack {
+            Text(formattedDate(seance.event.startDate))
+                .foregroundColor(.blue2)
+                .bold()
+            Spacer()
+            Text(groupBoxLabelSuite)
+                .foregroundColor(.secondary)
+        }
+    }
+
+    /// Dates de début et de fin de la séance
     private var horaireView: some View {
         HStack(spacing: 4) {
             Image(systemName: "clock")
                 .resizable()
-                .frame(width: 30, height: 30)
+                .frame(width: 25, height: 25)
             VStack(alignment: .leading) {
                 Text(
-                    seance.startDate,
+                    seance.event.startDate,
                     format: .dateTime
                         .hour(.twoDigits(amPM: .omitted))
                         .minute(.twoDigits)
                 )
                 Text(
-                    seance.endDate,
+                    seance.event.endDate,
                     format: .dateTime
                         .hour(.twoDigits(amPM: .omitted))
                         .minute(.twoDigits)
@@ -55,7 +84,18 @@ extension NextSeanceRow {
     }
 
     private var infoView: some View {
-        Text("Info")
+        VStack(alignment: .leading) {
+            ForEach(seance.activities) { activity in
+                HStack(alignment: .center, spacing: 4) {
+                    SequenceTagWithPopOver(sequence: activity.sequence!)
+                    ActivityTag(activity: activity)
+                    Text(activity.viewName)
+                }
+                if activity != seance.activities.last {
+                    Divider()
+                }
+            }
+        }
     }
 
     private func formattedDate(_ date: Date) -> String {

@@ -47,6 +47,29 @@ struct SequenceTag: View {
     }
 }
 
+struct SequenceTagWithPopOver: View {
+    let sequence: SequenceEntity
+    var font: Font = .callout
+
+    @State
+    private var isPresented: Bool = false
+
+    var body: some View {
+        TagCapsule(
+            tag: "S\(sequence.viewNumber)",
+            style: .sequenceTagStyle
+        )
+        .font(font)
+        .bold()
+        .onTapGesture {
+            isPresented = true
+        }
+        .popover(isPresented: $isPresented) {
+            SequencePopOverContent(sequence: sequence)
+        }
+    }
+}
+
 struct SequenceTagList: View {
     let sequences: [SequenceEntity]
     var font: Font = .callout

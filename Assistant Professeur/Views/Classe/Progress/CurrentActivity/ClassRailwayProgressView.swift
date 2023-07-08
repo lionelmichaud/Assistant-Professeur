@@ -79,7 +79,7 @@ struct ClassRailwayProgressView: View {
 
             // Liste des Séances à venir pour cette classe
             if let schoolName = classe.school?.viewName {
-                await $classeSeances.loadSeances(
+                await $classeSeances.loadSeancesFromCalendar(
                     forDiscipline: classe.disciplineEnum,
                     forClasse: classe.displayString,
                     schoolName: schoolName,

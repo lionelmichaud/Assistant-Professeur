@@ -13,13 +13,13 @@ import SwiftUI
 /// Refer to : [Calling Mutating Async Functions from SwiftUI Views](https://diegolavalle.com/posts/2022-11-29-calling-mutating-async-functions/)
 @MainActor
 extension Binding where Value == DateIntervalSeances {
-    func loadSeances(
+    func loadSeancesFromCalendar(
         forDiscipline discipline: Discipline,
         forClasse classe: String,
         schoolName: String,
         during period: DateInterval
     ) async {
-        await wrappedValue.loadSeances(
+        await wrappedValue.loadSeancesFromCalendar(
             forDiscipline: discipline,
             forClasse: classe,
             schoolName: schoolName,
@@ -28,10 +28,16 @@ extension Binding where Value == DateIntervalSeances {
     }
 }
 
-/// Un cours et son contenu pédagogique
+/// Un cours et son contenu en activités pédagogique.
+/// Plusieurs activités peuvent être abordées pendant le même cours.
 struct Seance: Hashable {
     var event: EKEvent
     var activities = [ActivityEntity]()
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(event)
+        hasher.combine(activities)
+    }
 }
 
 /// Recherche dans l'App Calendar les séances d'une classe
@@ -49,7 +55,18 @@ struct DateIntervalSeances {
 
     init() {}
 
-    // MARK: - Properties
+    // MARK: - Subscript
+
+    subscript(idx: Int) -> Seance {
+        get {
+            self.seances[idx]
+        }
+        set {
+            self.seances[idx] = newValue
+        }
+    }
+
+    // MARK: - Methods
 
     /// Charge toutes les séance de la `period` pour les
     /// `discipline`, `classe` et `schoolName`.
@@ -58,7 +75,7 @@ struct DateIntervalSeances {
     ///   - classe: La classe recherchée.
     ///   - schoolName: L'école recherchée.
     ///   - period: Intervalle de temps de recherche.
-    mutating func loadSeances(
+    mutating func loadSeancesFromCalendar(
         forDiscipline discipline: Discipline,
         forClasse classe: String,
         schoolName: String,

@@ -71,7 +71,7 @@ extension ClasseProgressSection {
     private var nextSeancesView: some View {
         NavigationLink(value: ClasseNavigationRoute.nextSeances(classe)) {
             HStack {
-                Label("Prochains cours", systemImage: ProgramEntity.defaultImageName)
+                Label("Prochains cours", systemImage: "clock")
                 if classeSeances.seances.isNotEmpty {
                     Spacer()
                     Text(formattedDate(classeSeances.seances.first!.event.startDate))
@@ -83,7 +83,7 @@ extension ClasseProgressSection {
             .task {
                 // Liste des Séances à venir pour cette classe
                 if let schoolName = classe.school?.viewName {
-                    await $classeSeances.loadSeances(
+                    await $classeSeances.loadSeancesFromCalendar(
                         forDiscipline: classe.disciplineEnum,
                         forClasse: classe.displayString,
                         schoolName: schoolName,

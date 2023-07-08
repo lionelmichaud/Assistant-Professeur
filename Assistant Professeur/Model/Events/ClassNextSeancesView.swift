@@ -20,7 +20,7 @@ struct ClassNextSeancesView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
             ForEach(classeSeances.seances, id: \.self) { seance in
-                NextSeanceRow(seance: seance.event)
+                NextSeanceRow(seance: seance)
             }
         }
         .padding(.horizontal)
@@ -31,7 +31,7 @@ struct ClassNextSeancesView: View {
 
             // Liste des Séances à venir pour cette classe
             if let schoolName = classe.school?.viewName {
-                await $classeSeances.loadSeances(
+                await $classeSeances.loadSeancesFromCalendar(
                     forDiscipline: classe.disciplineEnum,
                     forClasse: classe.displayString,
                     schoolName: schoolName,
@@ -43,8 +43,8 @@ struct ClassNextSeancesView: View {
 
                 // Synchroniser les Progressions avec les Séances
                 SequenceSeanceCoordinator.synchronize(
-                    classeProgresses: sortedClasseProgresses,
-                    withSeances: classeSeances
+                    classeSeances: &classeSeances,
+                    withProgresses: sortedClasseProgresses
                 )
             }
         }
