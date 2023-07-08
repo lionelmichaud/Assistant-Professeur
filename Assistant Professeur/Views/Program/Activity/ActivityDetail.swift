@@ -50,9 +50,7 @@ struct ActivityDetail: View {
                         ActivityProgressesView(activity: selectedActivity!)
                     } header: {
                         Text("Progression des Classes")
-                            .font(.callout)
-                            .foregroundColor(.secondary)
-                            .fontWeight(.bold)
+                            .style(.sectionHeader)
                     }
                 }
             } else {

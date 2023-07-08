@@ -38,9 +38,7 @@ struct EventListSection: View {
 
         } header: {
             Text("Événements (\(school.nbOfEvents))")
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
+                .style(.sectionHeader)
         }
     }
 

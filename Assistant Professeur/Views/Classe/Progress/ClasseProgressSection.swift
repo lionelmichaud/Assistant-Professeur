@@ -31,9 +31,7 @@ struct ClasseProgressSection: View {
                 progressView
             } header: {
                 Text("Progression")
-                    .font(.callout)
-                    .foregroundColor(.secondary)
-                    .fontWeight(.bold)
+                    .style(.sectionHeader)
             }
         }
     }
@@ -76,7 +74,7 @@ extension ClasseProgressSection {
                 Label("Prochains cours", systemImage: ProgramEntity.defaultImageName)
                 if classeSeances.seances.isNotEmpty {
                     Spacer()
-                    Text(formattedDate(classeSeances.seances.first!.startDate))
+                    Text(formattedDate(classeSeances.seances.first!.event.startDate))
                         .foregroundColor(.secondary)
                         .bold(false)
                 }

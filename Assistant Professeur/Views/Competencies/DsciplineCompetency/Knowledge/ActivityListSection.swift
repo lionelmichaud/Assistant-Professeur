@@ -54,10 +54,7 @@ struct ActivityListSection: View {
 
         } header: {
             Text("Activités pédagogiques associées")
-                .font(.headline)
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
+                .style(.sectionHeader)
         }
 
         // Modal Sheet d'ajout d'une compétence travaillée

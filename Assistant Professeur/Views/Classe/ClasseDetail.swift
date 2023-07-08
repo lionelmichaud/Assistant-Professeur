@@ -149,10 +149,7 @@ extension ClasseDetail {
                         .bold()
                         .padding(4)
                     if let group = eleve.group {
-                        TagCapsule(
-                            tag: group.displayString,
-                            style: .groupTagStyle
-                        )
+                        GroupTag(group: group, font: .body)
                     }
                 }
 

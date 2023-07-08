@@ -18,6 +18,7 @@ struct SettingsClasse: View {
                 Toggle("Annotation", isOn: $pref.classeAnnotationEnabled)
             } header: {
                 Text("Champs")
+                    .style(.sectionHeader)
             } footer: {
                 Text("Inclure ces champs de saisie pour chaque classe")
             }

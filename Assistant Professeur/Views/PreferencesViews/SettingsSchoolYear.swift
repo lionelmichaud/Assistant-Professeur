@@ -30,6 +30,7 @@ struct SettingsSchoolYear: View {
                     .foregroundColor(.secondary)
             } header: {
                 Text("Zone scolaire")
+                    .style(.sectionHeader)
             }
 
             Section {
@@ -51,6 +52,7 @@ struct SettingsSchoolYear: View {
                 }
             } header: {
                 Text("Année scolaire")
+                    .style(.sectionHeader)
             }
 
             Section {
@@ -81,6 +83,7 @@ struct SettingsSchoolYear: View {
                 .horizontallyAligned(.center)
             } header: {
                 Text("Vacances de Toussaint")
+                    .style(.sectionHeader)
             }
 
             Section {
@@ -111,6 +114,7 @@ struct SettingsSchoolYear: View {
                 .horizontallyAligned(.center)
             } header: {
                 Text("Vacances de Noël")
+                    .style(.sectionHeader)
             }
 
             Section {
@@ -141,6 +145,7 @@ struct SettingsSchoolYear: View {
                 .horizontallyAligned(.center)
             } header: {
                 Text("Vacances d'hiver")
+                    .style(.sectionHeader)
             }
 
             Section {
@@ -171,6 +176,7 @@ struct SettingsSchoolYear: View {
                 .horizontallyAligned(.center)
             } header: {
                 Text("Vacances de printemps")
+                    .style(.sectionHeader)
             }
         }
         .padding(.bottom, 34)

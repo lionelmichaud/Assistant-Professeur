@@ -43,9 +43,7 @@ struct ActivityList: View {
         } header: {
             HStack {
                 Text("Activités de cette Séquence (\(sequence.nbOfActivities))")
-                    .font(.callout)
-                    .foregroundColor(.secondary)
-                    .fontWeight(.bold)
+                    .style(.sectionHeader)
                 Spacer()
             }
             .padding(.top)

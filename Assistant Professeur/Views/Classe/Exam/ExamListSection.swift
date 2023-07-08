@@ -42,9 +42,7 @@ struct ExamListSection: View {
             .onDelete(perform: deleteItems)
         } header: {
             Text("Evaluations (\(classe.nbOfExams))")
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
+                .style(.sectionHeader)
         }
     }
 

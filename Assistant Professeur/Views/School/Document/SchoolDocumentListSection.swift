@@ -118,9 +118,7 @@ struct SchoolDocumentListSection: View {
 
         } header: {
             Text("Documents (\(school.nbOfDocuments))")
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
+                .style(.sectionHeader)
         }
     }
 

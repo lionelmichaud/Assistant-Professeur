@@ -21,11 +21,12 @@ struct SettingsEleve: View {
                 Toggle("Annotation", isOn: $pref.eleve.annotationEnabled)
             } header: {
                 Text("Champs")
+                    .style(.sectionHeader)
             } footer: {
                 Text("Inclure ces champs de saisie pour chaque élève")
             }
 
-            Section("Bonus / Malus") {
+            Section {
                 Toggle("Afficher", isOn: $pref.eleve.bonusEnabled)
                 if pref.eleve.bonusEnabled {
                     Stepper(
@@ -73,6 +74,9 @@ struct SettingsEleve: View {
                         Text("Cette action ne peut pas être annulée.")
                     }
                 }
+            } header: {
+                Text("Bonus / Malus")
+                    .style(.sectionHeader)
             }
         }
         #if os(iOS)

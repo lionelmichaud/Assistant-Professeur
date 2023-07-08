@@ -17,6 +17,7 @@ struct SettingsProgram: View {
                 Toggle("Annotation", isOn: $pref.programAnnotationEnabled)
             } header: {
                 Text("Champs")
+                    .style(.sectionHeader)
             } footer: {
                 Text("Ajouter un champ de saisie d'annotation à chaque programme")
             }

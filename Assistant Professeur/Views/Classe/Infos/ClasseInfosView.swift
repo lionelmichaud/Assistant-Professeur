@@ -68,9 +68,7 @@ struct ClasseInfosView: View {
                 conseilList
             } header: {
                 Text("Conseils de classe")
-                    .font(.callout)
-                    .foregroundColor(.secondary)
-                    .fontWeight(.bold)
+                    .style(.sectionHeader)
             }
 
             // Salle de classe utilisée

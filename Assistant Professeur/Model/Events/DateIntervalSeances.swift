@@ -28,7 +28,14 @@ extension Binding where Value == DateIntervalSeances {
     }
 }
 
+/// Un cours et son contenu pédagogique
+struct Seance: Hashable {
+    var event: EKEvent
+    var activities = [ActivityEntity]()
+}
+
 /// Recherche dans l'App Calendar les séances d'une classe
+/// et les synchronise avec les séquences pédagogiques.
 /// - Warning: A utiliser avec le proxy ci-dessus
 ///
 /// Refer to : [Calling Mutating Async Functions from SwiftUI Views](https://diegolavalle.com/posts/2022-11-29-calling-mutating-async-functions/)
@@ -36,7 +43,7 @@ struct DateIntervalSeances {
     // MARK: - Properties
 
     /// Séances de la période
-    private(set) var seances = [EKEvent]()
+    private(set) var seances = [Seance]()
 
     // MARK: - Initializers
 
@@ -62,7 +69,9 @@ struct DateIntervalSeances {
             forClasseName: classe,
             inCalendarNamed: schoolName,
             during: period
-        )
+        ).map { event in
+            Seance(event: event)
+        }
     }
 
     func print() {

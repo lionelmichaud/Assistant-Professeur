@@ -73,10 +73,7 @@ struct KnowledgeListSection: View {
             }
         } header: {
             Text("Connaissances disciplinaires")
-                .font(.headline)
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
+                .style(.sectionHeader)
         }
 
         // Modal Sheet de création d'une connaissance

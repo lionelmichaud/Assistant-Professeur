@@ -12,23 +12,24 @@ struct SequencePopOverContent: View {
     let sequence: SequenceEntity
 
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                TagCapsule(
-                    tag: "S\(sequence.viewNumber)",
-                    style: .sequenceTagStyle
-                )
-                .font(.callout)
-                .bold()
-                Text(sequence.viewName)
-                    .bold()
+        ZStack {
+            // Scaled-up background
+            Color.gray
+                .scaleEffect(1.5)
+
+            VStack(alignment: .leading) {
+                HStack {
+                    SequenceTag(sequence: sequence)
+                    Text(sequence.viewName)
+                        .bold()
+                }
+                Text(sequence.viewAnnotation)
+                    .foregroundColor(.secondary)
             }
-            Text(sequence.viewAnnotation)
-                .foregroundColor(.secondary)
+            .font(.body)
+            .padding(.horizontal)
+            .frame(maxWidth: 500)
         }
-        .font(.body)
-        .padding(.horizontal)
-        .frame(maxWidth: 500)
     }
 }
 

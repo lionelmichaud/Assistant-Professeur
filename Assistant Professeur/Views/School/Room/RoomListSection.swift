@@ -67,9 +67,7 @@ struct RoomListSection: View {
             )
         } header: {
             Text("Salles de classe (\(school.nbOfRooms))")
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
+                .style(.sectionHeader)
         }
     }
 

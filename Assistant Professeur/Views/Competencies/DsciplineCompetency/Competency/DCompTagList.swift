@@ -14,7 +14,7 @@ struct DCompPopOverContent: View {
     var body: some View {
         ZStack {
             // Scaled-up background
-            Color.blue6
+            Color.disciplineCompTag
                 .scaleEffect(1.5)
             
             Text("\(Text(disciplineComp.viewAcronym).bold().foregroundColor(.secondary)): \(disciplineComp.viewDescription)")

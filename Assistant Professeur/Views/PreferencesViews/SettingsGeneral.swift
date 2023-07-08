@@ -39,6 +39,7 @@ struct SettingsGeneral: View {
                 .pickerStyle(.segmented)
             } header: {
                 Text("Affichage")
+                    .style(.sectionHeader)
             }
             // .listRowSeparator(.hidden)
         }

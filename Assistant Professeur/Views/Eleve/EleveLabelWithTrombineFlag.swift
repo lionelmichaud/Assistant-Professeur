@@ -172,10 +172,7 @@ struct EleveLabelWithTrombineFlag: View {
 
             // Groupe
             if let group = eleve.group {
-                TagCapsule(
-                    tag: group.displayString,
-                    style: .groupTagStyle
-                )
+                GroupTag(group: group, font: .body)
             }
 
             // Trombine

@@ -28,7 +28,7 @@ struct ActivitySymbolEvalSommative: View {
                 .filledCapsuleStyling(
                     withBackground: true,
                     withBorder: true,
-                    fillColor: .blue3
+                    fillColor: .activitySymbol
                 )
             } else {
                 EmptyView()
@@ -57,7 +57,7 @@ struct ActivitySymbolEvalFormmative: View {
                 .filledCapsuleStyling(
                     withBackground: true,
                     withBorder: true,
-                    fillColor: .blue3
+                    fillColor: .activitySymbol
                 )
             } else {
                 EmptyView()
@@ -86,7 +86,7 @@ struct ActivitySymbolTP: View {
                 .filledCapsuleStyling(
                     withBackground: true,
                     withBorder: true,
-                    fillColor: .blue3
+                    fillColor: .activitySymbol
                 )
             } else {
                 EmptyView()
@@ -115,7 +115,7 @@ struct ActivitySymbolProject: View {
                 .filledCapsuleStyling(
                     withBackground: true,
                     withBorder: true,
-                    fillColor: .blue3
+                    fillColor: .activitySymbol
                 )
             } else {
                 EmptyView()

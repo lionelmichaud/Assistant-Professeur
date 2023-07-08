@@ -20,7 +20,7 @@ struct ClassNextSeancesView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
             ForEach(classeSeances.seances, id: \.self) { seance in
-                NextSeanceRow(seance: seance)
+                NextSeanceRow(seance: seance.event)
             }
         }
         .padding(.horizontal)

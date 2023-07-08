@@ -13,8 +13,14 @@ struct NextSeanceRow: View {
 
     var body: some View {
         GroupBox {
-            horaireView
-                .frame(maxWidth: .infinity)
+            HStack {
+                horaireView
+                infoView
+            }
+            .frame(
+                maxWidth: .infinity,
+                alignment: .leading
+            )
         } label: {
             Text(formattedDate(seance.startDate))
                 .bold()
@@ -46,6 +52,10 @@ extension NextSeanceRow {
             .fontWeight(.semibold)
         }
         .foregroundColor(.secondary)
+    }
+
+    private var infoView: some View {
+        Text("Info")
     }
 
     private func formattedDate(_ date: Date) -> String {

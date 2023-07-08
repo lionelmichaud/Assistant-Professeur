@@ -10,15 +10,34 @@ import Foundation
 
 enum SequenceSeanceCoordinator {
     static func synchronize(
-        classeProgresses progresses: [ActivityProgressEntity],
-        withSeances seances: DateIntervalSeances
+        classeSeances intervalSeances: DateIntervalSeances,
+        withProgresses progresses: [ActivityProgressEntity]
     ) {
-        let nbSeances: Int = seances.seances.count
+        SequenceSeanceCoordinator.synchronize(
+            classeProgresses: progresses,
+            withSeances: intervalSeances
+        )
+
+        intervalSeances.seances.forEach { seance in
+            
+        }
+    }
+
+    /// Renseigne les dates de début et de fin des activités d'une classe
+    /// en fonction des séances à venir de la classe.
+    /// - Parameters:
+    ///   - progresses: progression de chaque activité de la classe
+    ///   - seances: séances à venir de la classe
+    static func synchronize(
+        classeProgresses progresses: [ActivityProgressEntity],
+        withSeances intervalSeances: DateIntervalSeances
+    ) {
+        let nbSeances: Int = intervalSeances.seances.count
         guard nbSeances > 0 else {
             return
         }
         var cumulatedDuration = 0.0
-        var nbOfSeanceRequired: Double = 0.0
+        var nbOfSeanceRequired = 0.0
 
         progresses.forEach { progress in
             guard let activity = progress.activity else {
@@ -45,7 +64,7 @@ enum SequenceSeanceCoordinator {
             // Date de début de l'activité
             let startIdx = Int(cumulatedDuration.rounded(.towardZero))
             if startIdx < nbSeances {
-                progress.startDate = seances.seances[startIdx].startDate
+                progress.startDate = intervalSeances.seances[startIdx].event.startDate
             } else {
                 progress.startDate = nil
             }
@@ -61,7 +80,7 @@ enum SequenceSeanceCoordinator {
                 endIdx = Int(cumulatedDuration.rounded(.towardZero))
             }
             if endIdx < nbSeances {
-                progress.endDate = seances.seances[endIdx].endDate
+                progress.endDate = intervalSeances.seances[endIdx].event.endDate
             } else {
                 progress.endDate = nil
             }

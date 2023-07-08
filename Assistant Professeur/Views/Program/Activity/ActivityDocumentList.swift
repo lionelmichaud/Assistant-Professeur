@@ -103,9 +103,7 @@ struct ActivityDocumentList: View {
 
         } header: {
             Text("Documents (\(activity.nbOfDocuments))")
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
+                .style(.sectionHeader)
         }
     }
 

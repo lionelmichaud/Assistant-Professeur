@@ -45,9 +45,7 @@ struct SequenceList: View {
         } header: {
             HStack {
                 Text("Séquences de ce Programme (\(program.nbOfSequences))")
-                    .font(.callout)
-                    .foregroundColor(.secondary)
-                    .fontWeight(.bold)
+                    .style(.sectionHeader)
                 Spacer()
             }
             .padding(.top)
