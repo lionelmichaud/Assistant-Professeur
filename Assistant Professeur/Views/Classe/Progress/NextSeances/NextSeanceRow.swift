@@ -14,6 +14,9 @@ struct NextSeanceRow: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
+    @State
+    private var documentToBeViewed: DocumentEntity?
+
     var body: some View {
         GroupBox {
             HStack {
@@ -89,14 +92,45 @@ extension NextSeanceRow {
                 HStack(alignment: .center, spacing: 4) {
                     SequenceTagWithPopOver(sequence: activity.sequence!)
                     ActivityTag(activity: activity)
-                    Text(activity.viewName)
+                    VStack(alignment: .leading) {
+                        Text(activity.viewName)
+                        ForEach(activity.documentsSortedByName) { document in
+                            Button {
+                                documentToBeViewed = document
+                            } label: {
+                                Label(
+                                    document.viewName,
+                                    systemImage: DocumentEntity.defaultImageName
+                                )
+                            }
+                            .padding(.top, 4)
+                        }
+                    }
+                    Spacer()
+                    ActivityAllSymbols(
+                        activity: activity,
+                        showTitle: false
+                    )
                 }
                 if activity != seance.activities.last {
                     Divider()
                 }
             }
         }
-    }
+#if os(macOS)
+        .sheet(item: $documentToBeViewed) { doc in
+            NavigationStack {
+                PdfDocumentViewer(document: doc)
+            }
+        }
+#else
+        .fullScreenCover(item: $documentToBeViewed) { doc in
+            NavigationStack {
+                PdfDocumentViewer(document: doc)
+            }
+        }
+#endif
+}
 
     private func formattedDate(_ date: Date) -> String {
         let delta = date.days(between: Date.now)
