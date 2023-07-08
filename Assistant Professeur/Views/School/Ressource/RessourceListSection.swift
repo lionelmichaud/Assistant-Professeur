@@ -35,9 +35,7 @@ struct RessourceListSection: View {
 
         } header: {
             Text("Ressources (\(school.nbOfRessourceTypes))")
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
+                .style(.sectionHeader)
         }
     }
 

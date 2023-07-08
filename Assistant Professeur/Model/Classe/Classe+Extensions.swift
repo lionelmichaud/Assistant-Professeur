@@ -257,21 +257,7 @@ extension ClasseEntity {
         return request
     }
 
-    // MARK: - Computed Properties Progresses
-
-    /// Nombre de progression pour cette classe.
-    var nbOfProgresses: Int {
-        Int(progressCount)
-    }
-
-    /// Liste des progressions des classes pour cette classe non triées
-    var allProgresses: [ActivityProgressEntity] {
-        if let progresses {
-            return (progresses.allObjects as! [ActivityProgressEntity])
-        } else {
-            return []
-        }
-    }
+    // MARK: - Computed Properties Sequences
 
     /// Retourne la liste des séquences suivies par une classe triée.
     ///
@@ -291,6 +277,22 @@ extension ClasseEntity {
             .sorted(using: sortComparators)
     }
 
+    // MARK: - Computed Properties Progresses
+
+    /// Nombre de progressions pour cette classe.
+    var nbOfProgresses: Int {
+        Int(progressCount)
+    }
+
+    /// Liste des progressions des classes pour cette classe non triées
+    var allProgresses: [ActivityProgressEntity] {
+        if let progresses {
+            return (progresses.allObjects as! [ActivityProgressEntity])
+        } else {
+            return []
+        }
+    }
+
     /// Retourne la liste des progressions de la classe.
     /// Les progressions trouvées sont triées.
     ///
@@ -307,7 +309,10 @@ extension ClasseEntity {
             .sorted(using: sortComparators)
     }
 
-    /// Retourne l'activité en cours de cette classe
+    /// Retourne l'activité en cours de cette classe.
+    ///
+    /// Si plusieurs activités sont en cours dans plusieurs séquences différentes alors
+    /// c'est l'activité de la séquence de plus petit numéro qui est retournée.
     var currentActivity: ActivityEntity? {
         let progresses = allProgressesSortedBySequenceActivityNumber
         for idx in progresses.indices {

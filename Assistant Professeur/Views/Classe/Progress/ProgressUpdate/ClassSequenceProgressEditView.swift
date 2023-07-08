@@ -9,26 +9,18 @@ import HelpersView
 import SwiftUI
 
 /// Situation de la progression d'une Classe pour une Séquence donnée
+/// permettant de mettre à jour la progression de la classe
 struct ClassSequenceProgressEditView: View {
-    // MARK: - Initializer
-
-    init(
-        sequence: SequenceEntity,
-        classe: ClasseEntity
-    ) {
-        self.sequence = sequence
-        self.classe = classe
-        self._isExpanded =
-            State(initialValue: sequence.statusFor(classe: classe) == .inProgress)
-    }
-
     // MARK: - Properties
 
     @ObservedObject
-    private var sequence: SequenceEntity
+    var sequence: SequenceEntity
 
     @ObservedObject
-    private var classe: ClasseEntity
+    var classe: ClasseEntity
+
+    @Binding
+    var progressChanged: Bool
 
     @Environment(\.horizontalSizeClass)
     private var hClass
@@ -36,22 +28,21 @@ struct ClassSequenceProgressEditView: View {
     @State
     private var isExpanded: Bool = false
 
-    /// Retourne la liste des progresssions d'activités de classe triée pour la classe et la séquence sélectionnées
-    ///
-    /// Ordre de tri des progressions:
-    ///   1. Numéro d'activité
-    private var sortedProgressesInSequence: [ActivityProgressEntity] {
-        classe.sortedProgressesInSequence(sequence)
-    }
+    @State
+    private var sortedProgressesInSequence = [ActivityProgressEntity]()
 
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
             ProgressView(value: classe.progressInSequence(sequence))
                 .tint(.mint)
+
             ForEach(sortedProgressesInSequence) { progress in
-                ClassActivityProgressEditView(progress: progress)
-                    .padding(.leading)
-                    .listRowSeparatorTint(.secondary, edges: .bottom)
+                ClassActivityProgressEditView(
+                    progress: progress,
+                    progressChanged: $progressChanged
+                )
+                .padding(.leading)
+                .listRowSeparatorTint(.secondary, edges: .bottom)
             }
             .emptyListPlaceHolder(sortedProgressesInSequence) {
                 Text("Aucune activité suivie par cette classe")
@@ -70,6 +61,13 @@ struct ClassSequenceProgressEditView: View {
                     .textSelection(.enabled)
             }
             .listRowSeparatorTint(.secondary, edges: .bottom)
+        }
+        .onAppear {
+            // Liste des progresssions d'activités triée pour la classe et la séquence sélectionnées
+            isExpanded = sequence.statusFor(classe: classe) == .inProgress
+        }
+        .task {
+            sortedProgressesInSequence = classe.sortedProgressesInSequence(sequence)
         }
     }
 }

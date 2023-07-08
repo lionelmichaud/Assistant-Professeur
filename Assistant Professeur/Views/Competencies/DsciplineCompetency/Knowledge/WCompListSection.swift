@@ -51,10 +51,7 @@ struct WCompListSection: View {
 
         } header: {
             Text("Compétences du scole travaillées")
-                .font(.headline)
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
+                .style(.sectionHeader)
         }
 
         // Modal Sheet d'ajout d'une compétence travaillée

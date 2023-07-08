@@ -10,6 +10,7 @@ import AVFoundation
 import HelpersView
 import SwiftUI
 
+/// Présentation d'un chronomètre de séance
 struct SeanceTimerView: View {
     var discipline: Discipline
     var classeName : String
@@ -65,7 +66,7 @@ struct SeanceTimerView: View {
     private var hClass
 
     @State
-    private var timerVM: TimerVM = .init()
+    private var timerVM: TodaySeances = .init()
 
     private let period = TimeInterval(2) // seconds
 
@@ -86,56 +87,6 @@ struct SeanceTimerView: View {
             return "-"
         } else {
             return "-\(alertRemainingMinutes) minutes"
-        }
-    }
-
-    @ViewBuilder
-    private func compactView(date: Date, seance: DateInterval) -> some View {
-        VStack {
-            VStack {
-                // heure de fin de la séance de travail
-                Text("Fin de la séance à **\(seance.end.formatted(date: .omitted, time: .shortened))**")
-                    .font(.title)
-
-                ProgressClockView(
-                    trimValue: cursorValue(for: date)!,
-                    color: timerZone(for: date).color,
-                    elapsedTime: elapsedTime(for: date),
-                    remainingTime: remainingTime(for: date),
-                    warningNotif: $warningAlarmIsActivited,
-                    alertNotif: $alertAlarmIsActivated
-                )
-                .padding(lineWidth)
-            }
-
-            // seuils d'alerte
-            reglageSeuilView
-        }
-    }
-
-    @ViewBuilder
-    private func regularView(date: Date, seance: DateInterval) -> some View {
-        HStack {
-            VStack {
-                // heure de fin de la séance de travail
-                Text("Fin de la séance à **\(seance.end.formatted(date: .omitted, time: .shortened))**")
-                    .font(.title)
-
-                ProgressClockView(
-                    trimValue: cursorValue(for: date)!,
-                    color: timerZone(for: date).color,
-                    elapsedTime: elapsedTime(for: date),
-                    remainingTime: remainingTime(for: date),
-                    warningNotif: $warningAlarmIsActivited,
-                    alertNotif: $alertAlarmIsActivated
-                )
-                .padding(lineWidth / 2)
-            }
-
-            VStack {
-                // seuils d'alerte
-                reglageSeuilView
-            }
         }
     }
 
@@ -269,6 +220,56 @@ struct SeanceTimerView: View {
 // MARK: - Subviews
 
 extension SeanceTimerView {
+    @ViewBuilder
+    private func compactView(date: Date, seance: DateInterval) -> some View {
+        VStack {
+            VStack {
+                // heure de fin de la séance de travail
+                Text("Fin de la séance à **\(seance.end.formatted(date: .omitted, time: .shortened))**")
+                    .font(.title)
+
+                ProgressClockView(
+                    trimValue: cursorValue(for: date)!,
+                    color: timerZone(for: date).color,
+                    elapsedTime: elapsedTime(for: date),
+                    remainingTime: remainingTime(for: date),
+                    warningNotif: $warningAlarmIsActivited,
+                    alertNotif: $alertAlarmIsActivated
+                )
+                .padding(lineWidth)
+            }
+
+            // seuils d'alerte
+            reglageSeuilView
+        }
+    }
+
+    @ViewBuilder
+    private func regularView(date: Date, seance: DateInterval) -> some View {
+        HStack {
+            VStack {
+                // heure de fin de la séance de travail
+                Text("Fin de la séance à **\(seance.end.formatted(date: .omitted, time: .shortened))**")
+                    .font(.title)
+
+                ProgressClockView(
+                    trimValue: cursorValue(for: date)!,
+                    color: timerZone(for: date).color,
+                    elapsedTime: elapsedTime(for: date),
+                    remainingTime: remainingTime(for: date),
+                    warningNotif: $warningAlarmIsActivited,
+                    alertNotif: $alertAlarmIsActivated
+                )
+                .padding(lineWidth / 2)
+            }
+
+            VStack {
+                // seuils d'alerte
+                reglageSeuilView
+            }
+        }
+    }
+
     private var reglageSeuilView: some View {
         VStack {
             Stepper(

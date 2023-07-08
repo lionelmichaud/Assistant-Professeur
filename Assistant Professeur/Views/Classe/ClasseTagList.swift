@@ -22,6 +22,19 @@ struct LevelTag : View {
     }
 }
 
+struct GroupTag: View {
+    let group: GroupEntity
+    var font: Font = .callout
+
+    var body: some View {
+        TagCapsule(
+            tag: group.displayString,
+            style: .groupTagStyle
+        )
+        .font(font)
+    }
+}
+
 struct ClasseTag: View {
     let classe: ClasseEntity
     var font: Font = .callout

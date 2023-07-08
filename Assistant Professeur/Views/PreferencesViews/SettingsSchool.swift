@@ -17,6 +17,7 @@ struct SettingsSchool: View {
                 Toggle("Annotation", isOn: $pref.schoolAnnotationEnabled)
             } header: {
                 Text("Champs")
+                    .style(.sectionHeader)
             } footer: {
                 Text("Ajouter un champ de saisie d'annotation à chaque établissement")
             }

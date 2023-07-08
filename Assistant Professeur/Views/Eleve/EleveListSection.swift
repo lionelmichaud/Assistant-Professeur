@@ -28,9 +28,7 @@ struct EleveListSection: View {
             groupsView
         } header: {
             Text("Elèves (\(classe.nbOfEleves))")
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
+                .style(.sectionHeader)
         }
     }
 }

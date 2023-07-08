@@ -17,6 +17,7 @@ struct SettingsSequence: View {
                 Toggle("Annotation", isOn: $pref.sequenceAnnotationEnabled)
             } header: {
                 Text("Champs")
+                    .style(.sectionHeader)
             } footer: {
                 Text("Ajouter un champ de saisie d'annotation à chaque séquence")
             }
@@ -34,6 +35,7 @@ struct SettingsSequence: View {
                 }
             } header: {
                 Text("Marge temporelle entre deux séquences pédagogiques")
+                    .style(.sectionHeader)
             } footer: {
                 Text("Ajouter éventuellement une marge temporelle d'une ou plusieurs séances entre deux séquences pédagogiques.")
             }

@@ -14,7 +14,7 @@ struct WCompPopOverContent: View {
     var body: some View {
         ZStack {
             // Scaled-up background
-            Color.blue7
+            Color.workedCompTag
                 .scaleEffect(1.5)
             
             Text("\(Text(workedComp.viewAcronym).bold().foregroundColor(.secondary)): \(workedComp.viewDescription)")

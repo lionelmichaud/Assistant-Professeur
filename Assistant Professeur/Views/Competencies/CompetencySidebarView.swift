@@ -40,9 +40,7 @@ struct CompetencySidebarView: View {
 
             } header: {
                 Text("Compétences disciplinaires")
-                    .font(.callout)
-                    .foregroundColor(.secondary)
-                    .fontWeight(.bold)
+                    .style(.sectionHeader)
             }
         }
         .onChange(

@@ -63,9 +63,7 @@ struct ProgramSidebar: View {
                         }
                     } header: {
                         Text("\(section.id)")
-                            .font(.callout)
-                            .foregroundColor(.secondary)
-                            .fontWeight(.bold)
+                            .style(.sectionHeader)
                     }
                 }
             }

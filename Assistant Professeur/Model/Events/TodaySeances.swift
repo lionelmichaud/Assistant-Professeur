@@ -8,7 +8,7 @@
 import EventKit
 import Foundation
 
-struct TimerVM {
+struct TodaySeances {
     // MARK: - Properties
 
     /// Séances du jour

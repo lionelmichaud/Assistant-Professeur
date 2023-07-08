@@ -9,18 +9,13 @@ import SwiftUI
 
 /// Situation de la progression d'une classe par Activité d'une Séquence donnée
 struct ClassActivityProgressEditView: View {
-    // MARK: - Initializer
-
-    init(progress: ActivityProgressEntity) {
-        self.progress = progress
-        self._isExpanded =
-            State(initialValue: progress.status == .inProgress)
-    }
-
     // MARK: - Properties
 
     @ObservedObject
-    private var progress: ActivityProgressEntity
+    var progress: ActivityProgressEntity
+
+    @Binding
+    var progressChanged: Bool
 
     @EnvironmentObject
     private var navig: NavigationModel
@@ -47,6 +42,9 @@ struct ClassActivityProgressEditView: View {
             }
         } label: {
             labelView
+        }
+        .onAppear {
+            isExpanded = progress.status == .inProgress
         }
         #if os(macOS)
         .sheet(isPresented: $isShowingActivityTimer) {
@@ -87,21 +85,81 @@ struct ClassActivityProgressEditView: View {
 // MARK: - Subviews
 
 extension ClassActivityProgressEditView {
+    private func formattedDate(_ date: Date) -> String {
+        let delta = date.days(between: Date.now)
+        switch delta {
+            case 1:
+                return "dem."
+
+            case 2 ... 6:
+                return date
+                    .formatted(Date.FormatStyle()
+                        .weekday(.abbreviated))
+
+            default:
+                return date
+                    .formatted(Date.FormatStyle()
+                        .day(.twoDigits)
+                        .month(.twoDigits))
+        }
+    }
+
     private var labelView: some View {
         Group {
             if let activity = progress.activity {
                 HStack(alignment: .center) {
-                    CompletionSymbol(
-                        status: progress.status
-                    )
-                    ActivityTag(
-                        activity: activity,
-                        font: hClass == .compact ? .callout : .body
-                    )
+                    VStack {
+                        HStack {
+                            CompletionSymbol(
+                                status: progress.status
+                            )
+
+                            ActivityTag(
+                                activity: activity,
+                                font: hClass == .compact ? .callout : .body
+                            )
+                        }
+                        if (progress.status == .inProgress || progress.status == .notStarted) &&
+                            hClass == .compact {
+                            if let startDate = progress.startDate {
+                                VStack {
+                                    // Date à laquelle débutera l'activité
+                                    Text(formattedDate(startDate))
+                                        .font(.callout)
+                                    if let endDate = progress.endDate,
+                                       endDate.day != startDate.day {
+                                        // Date à laquelle se terminera l'activité
+                                        Text(formattedDate(endDate))
+                                            .font(.callout)
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     Text(activity.viewName)
                         .font(hClass == .compact ? .callout : .body)
                         .textSelection(.enabled)
+
                     Spacer(minLength: 2)
+
+                    if (progress.status == .inProgress || progress.status == .notStarted) &&
+                        hClass == .regular {
+                        if let startDate = progress.startDate {
+                            VStack {
+                                // Date à laquelle débutera l'activité
+                                Text(formattedDate(startDate))
+                                    .font(.callout)
+                                if let endDate = progress.endDate,
+                                   endDate.day != startDate.day {
+                                    // Date à laquelle se terminera l'activité
+                                    Text(formattedDate(endDate))
+                                        .font(.callout)
+                                }
+                            }
+                        }
+                    }
+
                     ActivityAllSymbols(
                         activity: activity,
                         showTitle: hClass == .regular ? true : false,
@@ -157,7 +215,7 @@ extension ClassActivityProgressEditView {
         }
     }
 
-    private var description: some View {
+    private var annotation: some View {
         TextField(
             "",
             text: $progress.annotation.bound,
@@ -175,11 +233,14 @@ extension ClassActivityProgressEditView {
     private var regularView: some View {
         VStack(alignment: .leading) {
             LabeledContent("Progression") {
-                ActivityProgressSlider(progress: progress)
-                    .frame(minWidth: 250)
+                ActivityProgressSlider(
+                    progress: progress,
+                    progressChanged: $progressChanged
+                )
+                .frame(minWidth: 250)
             }
 
-            description
+            annotation
 
             buttons
         }
@@ -188,9 +249,12 @@ extension ClassActivityProgressEditView {
 
     private var compactView: some View {
         VStack(alignment: .leading) {
-            ActivityProgressSlider(progress: progress)
+            ActivityProgressSlider(
+                progress: progress,
+                progressChanged: $progressChanged
+            )
 
-            description
+            annotation
 
             buttons
         }
@@ -211,12 +275,18 @@ struct ClassActivityProgressView_Previews: PreviewProvider {
         //            let progress = ClasseEntity.all().first!.currentActivity
         return Group {
             List {
-                ClassActivityProgressEditView(progress: progress)
+                ClassActivityProgressEditView(
+                    progress: progress,
+                    progressChanged: .constant(false)
+                )
             }
             .padding()
             .previewDevice("iPad mini (6th generation)")
             List {
-                ClassActivityProgressEditView(progress: progress)
+                ClassActivityProgressEditView(
+                    progress: progress,
+                    progressChanged: .constant(false)
+                )
             }
             .padding()
             .previewDevice("iPhone 13")

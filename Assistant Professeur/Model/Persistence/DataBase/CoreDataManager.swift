@@ -181,7 +181,7 @@ class CoreDataManager {
         // Only initialize the schema when building the app with the
         // Debug build configuration.
         #if DEBUG
-            // LIGNE À DESACTIVER sous la cible "My Mac (Designed for iPad)"
+            /// LIGNE À DESACTIVER sous la cible "My Mac (Designed for iPad)"
              initializeCloudKitSchema()
         #endif
     }

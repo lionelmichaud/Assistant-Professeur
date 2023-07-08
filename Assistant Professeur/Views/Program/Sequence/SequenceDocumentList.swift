@@ -103,9 +103,7 @@ struct SequenceDocumentList: View {
 
         } header: {
             Text("Documents (\(sequence.nbOfDocuments))")
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
+                .style(.sectionHeader)
         }
     }
 

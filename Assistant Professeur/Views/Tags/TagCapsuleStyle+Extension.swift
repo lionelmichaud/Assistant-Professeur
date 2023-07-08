@@ -16,7 +16,7 @@ extension TagCapsuleStyle {
         TagCapsuleStyle(
             foregroundColor: .black,
             backgroundColor: level.imageColor,
-            borderColor: .primary,
+            borderColor: .borderTag,
             borderWidth: 1,
             padding: .init(
                 top: 3,
@@ -29,9 +29,9 @@ extension TagCapsuleStyle {
 
     /// Style adapté aux Groupes
     static var groupTagStyle = TagCapsuleStyle(
-        foregroundColor: .primary,
-        backgroundColor: .blue5,
-        borderColor: .primary,
+        foregroundColor: .foregroundTag,
+        backgroundColor: .groupTag,
+        borderColor: .borderTag,
         borderWidth: 2,
         padding: .init(
             top: 5,
@@ -44,8 +44,8 @@ extension TagCapsuleStyle {
   /// Style adapté aux Séquences pédagogiques
     static var sequenceTagStyle = TagCapsuleStyle(
         foregroundColor: .black,
-        backgroundColor: .blue4,
-        borderColor: .primary,
+        backgroundColor: .sequenceTag,
+        borderColor: .borderTag,
         borderWidth: 1,
         padding: .init(
             top: 3,
@@ -58,8 +58,8 @@ extension TagCapsuleStyle {
     /// Style adapté aux Activités pédagogiques
     static var activityTagStyle = TagCapsuleStyle(
         foregroundColor: .black,
-        backgroundColor: .blue2,
-        borderColor: .primary,
+        backgroundColor: .activityTag,
+        borderColor: .borderTag,
         borderWidth: 1,
         padding: .init(
             top: 3,
@@ -71,9 +71,9 @@ extension TagCapsuleStyle {
 
     /// Style adapté aux Classes
     static var classeTagStyle = TagCapsuleStyle(
-        foregroundColor: .primary,
-        backgroundColor: .blue5,
-        borderColor: .primary,
+        foregroundColor: .foregroundTag,
+        backgroundColor: .classeTag,
+        borderColor: .borderTag,
         borderWidth: 1,
         padding: .init(
             top: 3,
@@ -85,9 +85,9 @@ extension TagCapsuleStyle {
 
     /// Style adapté aux Compétences disciplinaires
     static var disciplineCompTagStyle = TagCapsuleStyle(
-        foregroundColor: .primary,
-        backgroundColor: .blue6,
-        borderColor: .primary,
+        foregroundColor: .foregroundTag,
+        backgroundColor: .disciplineCompTag,
+        borderColor: .borderTag,
         borderWidth: 1,
         padding: .init(
             top: 3,
@@ -99,9 +99,9 @@ extension TagCapsuleStyle {
 
     /// Style adapté aux Compétences socle travaillées
     static var workedCompTagStyle = TagCapsuleStyle(
-        foregroundColor: .primary,
-        backgroundColor: .blue7,
-        borderColor: .primary,
+        foregroundColor: .foregroundTag,
+        backgroundColor: .workedCompTag,
+        borderColor: .borderTag,
         borderWidth: 1,
         padding: .init(
             top: 3,

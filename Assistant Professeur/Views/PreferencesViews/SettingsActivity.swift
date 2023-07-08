@@ -17,6 +17,7 @@ struct SettingsActivity: View {
                 Toggle("Annotation", isOn: $pref.activityAnnotationEnabled)
             } header: {
                 Text("Champs")
+                    .style(.sectionHeader)
             } footer: {
                 Text("Ajouter un champ de saisie d'annotation à chaque activité")
             }

@@ -46,10 +46,10 @@ extension SequenceStepperView {
                 Text("S\(sequence.viewNumber)")
                     .padding(6)
                     .background(
-                        Circle().stroke(Color.blue4, lineWidth: 1)
+                        Circle().stroke(Color.sequenceTag, lineWidth: 1)
                     )
             }
-            .foregroundColor(Color.blue4)
+            .foregroundColor(Color.sequenceTag)
             .padding(.bottom, 6)
 
             if sequence.viewAnnotation.isNotEmpty {
@@ -103,7 +103,7 @@ extension SequenceStepperView {
                 return VStack(alignment: .leading, spacing: 0) {
                     Text(activity.viewName)
                         .bold()
-                        .foregroundColor(Color.blue4)
+                        .foregroundColor(Color.activityTag)
                         .textSelection(.enabled)
                     ClasseTagList(
                         classes: classesInProgress,
@@ -121,7 +121,7 @@ extension SequenceStepperView {
                 StepperIndicationType
                     .custom(NumberedCircleView(
                         text: "A\(activity.viewNumber)",
-                        color: Color.blue4,
+                        color: Color.activityTag,
                         triggerAnimation: true
                     )
                     .eraseToAnyView())
@@ -164,7 +164,7 @@ extension SequenceStepperView {
         sequence
             .activitiesSortedByNumber
             .map { _ in
-                StepperLineOptions.custom(1, Color.blue4)
+                StepperLineOptions.custom(1, Color.activityTag)
             }
     }
 }

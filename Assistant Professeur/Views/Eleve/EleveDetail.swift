@@ -98,10 +98,7 @@ struct EleveDetail: View {
             }
         } header: {
             Text("Observations (\(eleve.nbOfObservs))")
-                .font(.headline)
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
+                .style(.sectionHeader)
         }
 //        .headerProminence(.increased)
     }
@@ -142,10 +139,7 @@ struct EleveDetail: View {
             }
         } header: {
             Text("Colles (\(eleve.nbOfColles))")
-                .font(.headline)
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
+                .style(.sectionHeader)
         }
     }
 

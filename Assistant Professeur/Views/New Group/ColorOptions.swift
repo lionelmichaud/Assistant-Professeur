@@ -21,7 +21,7 @@ struct ColorOptions {
         .primary
     ]
 
-    static var `default` : Color = Color.primary
+    static var `default`: Color = .primary
 
     static func random() -> Color {
         if let element = ColorOptions.all.randomElement() {
@@ -29,6 +29,5 @@ struct ColorOptions {
         } else {
             return .primary
         }
-
     }
 }

@@ -16,6 +16,7 @@ enum ClasseNavigationRoute: Hashable, Codable {
     case exam(ClasseEntity, ExamEntity)
     case activity(ClasseEntity)
     case progress(ClasseEntity)
+    case nextSeances(ClasseEntity)
 
     static func == (lhs: ClasseNavigationRoute, rhs: ClasseNavigationRoute) -> Bool {
         switch (lhs, rhs) {
@@ -42,6 +43,9 @@ enum ClasseNavigationRoute: Hashable, Codable {
                 return classel.id == classer.id
 
             case let (.progress(classel), .progress(classer)):
+                return classel.id == classer.id
+
+            case let (.nextSeances(classel), .nextSeances(classer)):
                 return classel.id == classer.id
 
             default: return false
@@ -73,6 +77,9 @@ enum ClasseNavigationRoute: Hashable, Codable {
                 hasher.combine(classe.id)
             case let .progress(classe):
                 hasher.combine("progress")
+                hasher.combine(classe.id)
+            case let .nextSeances(classe):
+                hasher.combine("nextSeances")
                 hasher.combine(classe.id)
         }
     }
