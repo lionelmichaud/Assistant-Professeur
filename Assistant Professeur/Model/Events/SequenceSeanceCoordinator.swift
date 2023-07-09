@@ -10,7 +10,7 @@ import Foundation
 
 enum SequenceSeanceCoordinator {
     /// Renseigne les dates de début et de fin des activités d'une classe
-    /// en fonction des séances de `intervalSeances`.
+    /// qui n'ont pas encore été achevées en fonction des séances de `intervalSeances`.
     /// Renseigne les activités pédagogiques abordées lors de chacune des séances
     /// de `intervalSeances` en exploitant les `progresses`.
     /// - Parameters:
@@ -71,7 +71,7 @@ enum SequenceSeanceCoordinator {
     }
 
     /// Renseigne les dates de début et de fin des activités d'une classe
-    /// en fonction des séances de `intervalSeances`.
+    /// qui n'ont pas encore été achevées en fonction des séances de `intervalSeances`.
     /// - Parameters:
     ///   - progresses: progression de chaque activité de la classe
     ///   - intervalSeances: séances à venir de la classe
