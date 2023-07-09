@@ -19,7 +19,7 @@ struct ClassNextSeancesView: View {
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
-            ForEach(classeSeances.seances, id: \.self) { seance in
+            ForEach(classeSeances.seances) { seance in
                 NextSeanceRow(seance: seance)
             }
         }

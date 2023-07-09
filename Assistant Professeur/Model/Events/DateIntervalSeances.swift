@@ -30,14 +30,10 @@ extension Binding where Value == DateIntervalSeances {
 
 /// Un cours et son contenu en activités pédagogique.
 /// Plusieurs activités peuvent être abordées pendant le même cours.
-struct Seance: Hashable {
+struct Seance: Identifiable {
+    var id = UUID()
     var event: EKEvent
     var activities = [ActivityEntity]()
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(event)
-        hasher.combine(activities)
-    }
 }
 
 /// Recherche dans l'App Calendar les séances d'une classe
