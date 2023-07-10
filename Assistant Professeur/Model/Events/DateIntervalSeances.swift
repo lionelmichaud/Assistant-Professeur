@@ -21,7 +21,7 @@ extension Binding where Value == DateIntervalSeances {
     ) async {
         await wrappedValue.loadSeancesFromCalendar(
             forDiscipline: discipline,
-            forClasse: classe,
+            forClasseName: classe,
             schoolName: schoolName,
             during: period
         )
@@ -32,6 +32,7 @@ extension Binding where Value == DateIntervalSeances {
 /// Plusieurs activités peuvent être abordées pendant le même cours.
 struct Seance: Identifiable {
     var id = UUID()
+    var classeName: String?
     var event: EKEvent
     var activities = [ActivityEntity]()
 }
@@ -45,11 +46,17 @@ struct DateIntervalSeances {
     // MARK: - Properties
 
     /// Séances de la période
-    private(set) var seances = [Seance]()
+    private(set) var seances: [Seance]
 
     // MARK: - Initializers
 
-    init() {}
+    init() {
+        self.seances = [Seance]()
+    }
+
+    init(from seances: [Seance]) {
+        self.seances = seances
+    }
 
     // MARK: - Subscript
 
@@ -73,7 +80,7 @@ struct DateIntervalSeances {
     ///   - period: Intervalle de temps de recherche.
     mutating func loadSeancesFromCalendar(
         forDiscipline discipline: Discipline,
-        forClasse classe: String,
+        forClasseName classe: String,
         schoolName: String,
         during period: DateInterval
     ) async {
@@ -83,7 +90,7 @@ struct DateIntervalSeances {
             inCalendarNamed: schoolName,
             during: period
         ).map { event in
-            Seance(event: event)
+            Seance(classeName: classe, event: event)
         }
     }
 

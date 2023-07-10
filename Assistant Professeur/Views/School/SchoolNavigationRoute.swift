@@ -26,7 +26,7 @@ enum SchoolNavigationRoute: Hashable, Codable {
             case let .infos(school):
                 hasher.combine("infos")
                 hasher.combine(school.id)
-                
+
             case let .nextSeances(school):
                 hasher.combine("nextSeances")
                 hasher.combine(school.id)

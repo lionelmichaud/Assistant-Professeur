@@ -80,7 +80,7 @@ enum EventManager {
     ///  * Titre de l'événement = **"discipline - \(classe)"**
     ///  * où **discipline** = "TECHNO"
     ///  * et **classe** =" 5E2S"
-   static func getTodaySeances(
+    static func getTodaySeances(
         forDiscipline discipline: Discipline,
         forClasse classe: String,
         inCalendarNamed calName: String
@@ -123,16 +123,20 @@ enum EventManager {
     static func getEvents(
         withTitleIncluding title: String? = nil,
         inCalendarNamed calName: String,
+        // inEventStore eventStore: EKEventStore,
         startDate: Date,
         endDate: Date
     ) async -> [EKEvent] {
         let eventStore = EKEventStore()
-        eventStore.reset()
+        // eventStore.reset()
         do {
             let granted = try await eventStore.requestAccess(to: .event)
 
             // Find the calendar named `calName`
-            guard let myCalendar = try getOrCreateCalendar(named: calName) else {
+            guard let myCalendar = try getOrCreateCalendar(
+                named: calName,
+                inEventStore: eventStore
+            ) else {
                 return []
             }
 
@@ -183,7 +187,10 @@ enum EventManager {
             try await eventStore.requestAccess(to: .event)
 
             // Find the calendar named `calName`
-            guard let myCalendar = try getOrCreateCalendar(named: calName) else {
+            guard let myCalendar = try getOrCreateCalendar(
+                named: calName,
+                inEventStore: eventStore
+            ) else {
                 return false
             }
 
@@ -244,8 +251,10 @@ enum EventManager {
     /// Si le calendrier n'existe pas, il est créé.
     /// - Parameter calName: Nom du calendrier recherché.
     /// - Returns: Le clendrier nommé `calName`.
-    private static func getOrCreateCalendar(named calName: String) throws -> EKCalendar? {
-        let eventStore = EKEventStore()
+    private static func getOrCreateCalendar(
+        named calName: String,
+        inEventStore eventStore: EKEventStore
+    ) throws -> EKCalendar? {
         let calendars = eventStore.calendars(for: .event)
 
         if let existingCalendar = calendars.first(where: { $0.title == calName }) {
@@ -256,7 +265,7 @@ enum EventManager {
             let newCalendar = EKCalendar(for: .event, eventStore: eventStore)
             newCalendar.title = calName
 
-            guard let source = bestPossibleEKSource() else {
+            guard let source = bestPossibleEKSource(of: eventStore) else {
                 // source is required, otherwise calendar cannot be saved
                 customLog.log(
                     level: .error,
@@ -277,8 +286,7 @@ enum EventManager {
         }
     }
 
-    private static func bestPossibleEKSource() -> EKSource? {
-        let eventStore = EKEventStore()
+    private static func bestPossibleEKSource(of eventStore: EKEventStore) -> EKSource? {
         let `default` = eventStore.defaultCalendarForNewEvents?.source
         let iCloud = eventStore.sources.first(where: { $0.title == "iCloud" }) // this is fragile, user can rename the source
         let local = eventStore.sources.first(where: { $0.sourceType == .local })
