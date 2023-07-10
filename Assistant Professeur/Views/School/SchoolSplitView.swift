@@ -22,8 +22,14 @@ struct SchoolSplitView: View {
             // Détail dans la 2ième colonne
             NavigationStack {
                 SchoolEditor()
-                    .navigationDestination(for: SchoolEntity.self) { school in
-                        SchoolInfosView(school: school)
+                    .navigationDestination(for: SchoolNavigationRoute.self) { route in
+                        switch route {
+                            case let .infos(school):
+                                SchoolInfosView(school: school)
+
+                            case let .nextSeances(school):
+                                SchoolNextSeancesView(school: school)
+                        }
                     }
             }
         }

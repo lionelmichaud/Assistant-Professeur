@@ -20,7 +20,15 @@ struct ClassNextSeancesView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
             ForEach(classeSeances.seances) { seance in
-                NextSeanceRow(seance: seance)
+                SeanceRow(seance: seance)
+            }
+            .emptyListPlaceHolder(classeSeances.seances) {
+                EmptyListMessage(
+                    symbolName: "clock",
+                    title: "Aucun cours trouvé dans votre agenda.",
+                    message: "Les cours plannifiés dans votre agenda pour cette casse apparaîtront ici.",
+                    showAsGroupBox: true
+                )
             }
         }
         .padding(.horizontal)

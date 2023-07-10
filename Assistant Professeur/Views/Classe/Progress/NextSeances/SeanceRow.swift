@@ -8,8 +8,9 @@
 import EventKit
 import SwiftUI
 
-struct NextSeanceRow: View {
+struct SeanceRow: View {
     var seance: Seance
+    let classeName: String? = nil
 
     @Environment(\.horizontalSizeClass)
     private var hClass
@@ -38,14 +39,14 @@ struct NextSeanceRow: View {
 
 // MARK: - Subviews
 
-extension NextSeanceRow {
+extension SeanceRow {
     private var groupBoxLabelSuite: String {
         if hClass == .regular {
             return ""
         } else {
             return seance.event.startDate.formatted(date: .omitted, time: .shortened) +
-            " à " +
-            seance.event.endDate.formatted(date: .omitted, time: .shortened)
+                " à " +
+                seance.event.endDate.formatted(date: .omitted, time: .shortened)
         }
     }
 
@@ -55,6 +56,14 @@ extension NextSeanceRow {
                 .foregroundColor(.blue2)
                 .bold()
             Spacer()
+
+            if let classeName = seance.classeName {
+                Text(classeName)
+                    .foregroundColor(.blue2)
+                    .bold()
+                Spacer()
+            }
+
             Text(groupBoxLabelSuite)
                 .foregroundColor(.secondary)
         }
@@ -62,7 +71,7 @@ extension NextSeanceRow {
 
     /// Dates de début et de fin de la séance
     private var horaireView: some View {
-        HStack(spacing: 4) {
+        HStack {
             Image(systemName: "clock")
                 .resizable()
                 .frame(width: 25, height: 25)
@@ -89,9 +98,21 @@ extension NextSeanceRow {
     private var infoView: some View {
         VStack(alignment: .leading) {
             ForEach(seance.activities) { activity in
-                HStack(alignment: .center, spacing: 4) {
-                    SequenceTagWithPopOver(sequence: activity.sequence!)
-                    ActivityTag(activity: activity)
+                HStack(alignment: .center) {
+                    VStack {
+                        if let discipline = activity.sequence?.program?.disciplineEnum {
+                            Text(discipline.acronym)
+                                .foregroundColor(.secondary)
+                        }
+                        HStack {
+                            if let sequence = activity.sequence {
+                                SequenceTagWithPopOver(sequence: sequence)
+                            }
+                            ActivityTag(activity: activity)
+                        }
+                    }
+                    Divider()
+
                     VStack(alignment: .leading) {
                         Text(activity.viewName)
                         ForEach(activity.documentsSortedByName) { document in
@@ -106,6 +127,7 @@ extension NextSeanceRow {
                             .padding(.top, 4)
                         }
                     }
+
                     Spacer()
                     ActivityAllSymbols(
                         activity: activity,
@@ -117,29 +139,29 @@ extension NextSeanceRow {
                 }
             }
         }
-#if os(macOS)
+        #if os(macOS)
         .sheet(item: $documentToBeViewed) { doc in
             NavigationStack {
                 PdfDocumentViewer(document: doc)
             }
         }
-#else
-        .fullScreenCover(item: $documentToBeViewed) { doc in
-            NavigationStack {
-                PdfDocumentViewer(document: doc)
-            }
-        }
-#endif
-}
+        #else
+                .fullScreenCover(item: $documentToBeViewed) { doc in
+                    NavigationStack {
+                        PdfDocumentViewer(document: doc)
+                    }
+                }
+        #endif
+    }
 
     private func formattedDate(_ date: Date) -> String {
         let delta = date.days(between: Date.now)
         switch delta {
             case 1:
-                return "demain"
+                return "Demain"
 
             case 2:
-                return "après-demain"
+                return "Après-demain"
 
             case 3 ... 6:
                 return "\(date.formatted(Date.FormatStyle().weekday(.wide))) prochain"

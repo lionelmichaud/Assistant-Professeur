@@ -195,15 +195,15 @@ struct ContentView: View {
     /// Afficher une alerte en cas de problème d'initialisation de l'App
     private func checkAppInitFailure() {
         switch AppState.shared.initError {
-            case .none:
+            case .none,
+                 .failedToInitializeCloudKitSchema:
                 initAlertIsPresented = false
 
             case .failedToLoadUserData,
                  .failedToInitialize,
                  .failedToLoadApplicationData,
                  .failedToCheckCompatibility,
-                 .failedToLoadPersistentStores,
-                 .failedToInitializeCloudKitSchema:
+                 .failedToLoadPersistentStores:
                 initAlertIsPresented = true
         }
     }
