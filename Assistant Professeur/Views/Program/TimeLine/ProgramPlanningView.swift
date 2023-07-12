@@ -56,37 +56,21 @@ struct ProgramPlanningView: View {
     @State
     private var data = ProgramPlanningGraphData()
 
-    var sequences: [SequenceEntity] {
+    private let lineWidth = CGFloat(4)
+    private let lineOffset = CGFloat(-10)
+
+    private var sequences: [SequenceEntity] {
         program.sequencesSortedByNumber
     }
 
     var body: some View {
         Chart {
-            BarMark(
-                xStart: .value("Début", data.schoolYear.interval.start, unit: .month),
-                xEnd: .value("Fin", data.schoolYear.interval.end, unit: .day),
-                y: .value("Année Scolaire", "Année Scolaire")
-            )
-            .foregroundStyle(.green)
+            // élongation de l'année scolaire
+            schoolYearMark
+
+            // élongation des séquences pédagogiques
             ForEach(data.sequences) { sequence in
-                BarMark(
-                    xStart: .value("Début", sequence.dateInterval.start, unit: .day),
-                    xEnd: .value("Fin", sequence.dateInterval.end, unit: .day),
-                    y: .value("Séquence", "S\(sequence.number) \(sequence.name)")
-                )
-                .foregroundStyle(by: .value("serie", sequence.serie.plotableValue))
-//                RuleMark(
-//                    xStart: .value("Début", sequence.viewNumber),
-//                    xEnd: .value("Fin", sequence.viewNumber + 1),
-//                    y: .value("Séquence", sequence.viewName)
-//                )
-//                .foregroundStyle(.green)
-//                RuleMark(
-//                    xStart: .value("Début", sequence.viewNumber+1),
-//                    xEnd: .value("Fin", sequence.viewNumber + 2),
-//                    y: .value("Séquence", sequence.viewName)
-//                )
-//                .foregroundStyle(.red)
+                sequenceMark(sequence: sequence)
             }
         }
         .chartForegroundStyleScale([
@@ -94,16 +78,75 @@ struct ProgramPlanningView: View {
             ProgramPlanningGraphData.Serie.vacance.rawValue: .gray
         ])
         .padding(.horizontal)
-        .dynamicTypeSize(.xxxLarge)
+        .dynamicTypeSize(.xxLarge)
         .task {
             buidChartDatum()
         }
     }
 }
 
+// MARK: - Chart Content Items
+
+extension ProgramPlanningView {
+    private var schoolYearMark: some ChartContent {
+        RuleMark(
+            xStart: .value("Début", data.schoolYear.interval.start, unit: .month),
+            xEnd: .value("Fin", data.schoolYear.interval.end, unit: .day),
+            y: .value("Année Scolaire", "Année Scolaire")
+        )
+        .foregroundStyle(.green)
+        // barre
+        .lineStyle(StrokeStyle(lineWidth: lineWidth))
+        .offset(y: lineOffset)
+        // date de début
+        .annotation(position: .bottom, alignment: .leading) {
+            Text(data.schoolYear.interval.start.formatted(date: .numeric, time: .omitted))
+                .dynamicTypeSize(.small)
+                .foregroundColor(.secondary)
+        }
+        // date de fin
+        .annotation(position: .bottom, alignment: .trailing) {
+            Text(data.schoolYear.interval.end.formatted(date: .numeric, time: .omitted))
+                .dynamicTypeSize(.small)
+                .foregroundColor(.secondary)
+        }
+    }
+
+    private func sequenceMark(sequence: ProgramPlanningGraphData.SequenceData) -> some ChartContent {
+        RuleMark(
+            xStart: .value("Début", sequence.dateInterval.start, unit: .day),
+            xEnd: .value("Fin", sequence.dateInterval.end, unit: .day),
+            y: .value("Séquence", "S\(sequence.number) \(sequence.name)")
+        )
+        .foregroundStyle(by: .value("serie", sequence.serie.plotableValue))
+        // barre
+        .lineStyle(
+            StrokeStyle(lineWidth: sequence.serie == .activity ? lineWidth * 2 : lineWidth)
+        )
+        .offset(y: -lineWidth / 2.0)
+        // date de début
+//        .annotation(position: .top, alignment: .leading) {
+//            if sequence.id == data.sequences.first!.id {
+//                Text(sequence.dateInterval.start.formatted(date: .numeric, time: .omitted))
+//                    .dynamicTypeSize(.small)
+//                    .foregroundColor(.secondary)
+//            }
+//        }
+        // date de fin
+//        .annotation(position: .bottom, alignment: .trailing) {
+//            if sequence.id == data.sequences.last!.id {
+//                Text(sequence.dateInterval.end.formatted(date: .numeric, time: .omitted))
+//                    .dynamicTypeSize(.small)
+//                    .foregroundColor(.secondary)
+//            }
+//        }
+    }
+}
+
 // MARK: - Construction des données du graphique
 
 extension ProgramPlanningView {
+    /// élongation de l'année scolaire
     private func buidChartDatum() {
         // Initialiser les données avec l'année et les vacances scolaires
         data = ProgramPlanningGraphData(schoolYear: pref.schoolYear)

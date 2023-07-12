@@ -1102,64 +1102,33 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "99A812BE-9887-40ED-B2E1-16DA186B75EE"
+            uuid = "8CCF01E4-57B6-4B9B-949A-567E194D7EE2"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Assistant Professeur/Model/Program/ProgramManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "279"
-            endingLineNumber = "279"
+            startingLineNumber = "385"
+            endingLineNumber = "385"
             landmarkName = "getProgramActivitiesPeriods(program:schoolYear:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "99A812BE-9887-40ED-B2E1-16DA186B75EE - c8b0513400019de0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Assistant_Professeur.SequenceEntity) -&gt; () in static Assistant_Professeur.ProgramManager.getProgramActivitiesPeriods(program: Assistant_Professeur.ProgramEntity, schoolYear: Assistant_Professeur.SchoolYearPref) -&gt; Swift.Array&lt;Assistant_Professeur.PlanningData.SequenceData&gt;"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Program/ProgramManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "279"
-                  endingLineNumber = "279"
-                  offsetFromSymbolStart = "5152">
-               </Location>
-               <Location
-                  uuid = "99A812BE-9887-40ED-B2E1-16DA186B75EE - c8b0513400019de0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Assistant_Professeur.SequenceEntity) -&gt; () in static Assistant_Professeur.ProgramManager.getProgramActivitiesPeriods(program: Assistant_Professeur.ProgramEntity, schoolYear: Assistant_Professeur.SchoolYearPref) -&gt; Swift.Array&lt;Assistant_Professeur.PlanningData.SequenceData&gt;"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Program/ProgramManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "279"
-                  endingLineNumber = "279"
-                  offsetFromSymbolStart = "5256">
-               </Location>
-               <Location
-                  uuid = "99A812BE-9887-40ED-B2E1-16DA186B75EE - 2cb2b02ec1490edd"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Assistant_Professeur.SequenceEntity) -&gt; () in static Assistant_Professeur.ProgramManager.getProgramActivitiesPeriods(program: Assistant_Professeur.ProgramEntity, schoolYear: Assistant_Professeur.SchoolYearPref) -&gt; Swift.Array&lt;Assistant_Professeur.ProgramPlanningGraphData.SequenceData&gt;"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Program/ProgramManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "279"
-                  endingLineNumber = "279"
-                  offsetFromSymbolStart = "5256">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "543F8CB8-A2F1-49CE-9F52-CD465A00FD4C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Assistant Professeur/Model/Program/ProgramManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "410"
+            endingLineNumber = "410"
+            landmarkName = "getProgramActivitiesPeriods(program:schoolYear:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
