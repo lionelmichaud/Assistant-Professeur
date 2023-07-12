@@ -33,6 +33,7 @@ struct SettingsSchoolYear: View {
                     .style(.sectionHeader)
             }
 
+            // Année scolaire
             Section {
                 HStack {
                     Text("du")
@@ -55,128 +56,38 @@ struct SettingsSchoolYear: View {
                     .style(.sectionHeader)
             }
 
-            Section {
-                HStack {
-                    Text("du")
-                    DatePicker(
-                        "Début",
-                        selection: $pref.schoolYear.autumnVacation.start,
-                        displayedComponents: .date
-                    )
-                    .labelsHidden()
-                    Text("au")
-                    DatePicker(
-                        "Fin",
-                        selection: $pref.schoolYear.autumnVacation.end,
-                        displayedComponents: .date
-                    )
-                    .labelsHidden()
+            // Périodes de vacances scolaires
+            ForEach($pref.schoolYear.vacances) { $vacance in
+                Section {
+                    HStack {
+                        Text("du")
+                        DatePicker(
+                            "Début",
+                            selection: $vacance.interval.start,
+                            displayedComponents: .date
+                        )
+                        .labelsHidden()
+                        Text("au")
+                        DatePicker(
+                            "Fin",
+                            selection: $vacance.interval.end,
+                            displayedComponents: .date
+                        )
+                        .labelsHidden()
+                    }
+                    Button {
+                        saveOrUpdate(
+                            eventTitle: vacance.name,
+                            eventDateInterval: vacance.interval
+                        )
+                    } label: {
+                        Text("Mettre à jour l'App Calendrier")
+                    }
+                    .horizontallyAligned(.center)
+                } header: {
+                    Text(vacance.name)
+                        .style(.sectionHeader)
                 }
-                Button {
-                    saveEvent(
-                        eventTitle: "Vacances de Toussaint",
-                        eventDateInterval: pref.schoolYear.autumnVacation
-                    )
-                } label: {
-                    Text("Mettre à jour l'App Calendrier")
-                }
-                .horizontallyAligned(.center)
-            } header: {
-                Text("Vacances de Toussaint")
-                    .style(.sectionHeader)
-            }
-
-            Section {
-                HStack {
-                    Text("du")
-                    DatePicker(
-                        "Début",
-                        selection: $pref.schoolYear.noelVacation.start,
-                        displayedComponents: .date
-                    )
-                    .labelsHidden()
-                    Text("au")
-                    DatePicker(
-                        "Fin",
-                        selection: $pref.schoolYear.noelVacation.end,
-                        displayedComponents: .date
-                    )
-                    .labelsHidden()
-                }
-                Button {
-                    saveEvent(
-                        eventTitle: "Vacances de Noël",
-                        eventDateInterval: pref.schoolYear.noelVacation
-                    )
-                } label: {
-                    Text("Mettre à jour l'App Calendrier")
-                }
-                .horizontallyAligned(.center)
-            } header: {
-                Text("Vacances de Noël")
-                    .style(.sectionHeader)
-            }
-
-            Section {
-                HStack {
-                    Text("du")
-                    DatePicker(
-                        "Début",
-                        selection: $pref.schoolYear.winterVacation.start,
-                        displayedComponents: .date
-                    )
-                    .labelsHidden()
-                    Text("au")
-                    DatePicker(
-                        "Fin",
-                        selection: $pref.schoolYear.winterVacation.end,
-                        displayedComponents: .date
-                    )
-                    .labelsHidden()
-                }
-                Button {
-                    saveEvent(
-                        eventTitle: "Vacances d'hiver",
-                        eventDateInterval: pref.schoolYear.winterVacation
-                    )
-                } label: {
-                    Text("Mettre à jour l'App Calendrier")
-                }
-                .horizontallyAligned(.center)
-            } header: {
-                Text("Vacances d'hiver")
-                    .style(.sectionHeader)
-            }
-
-            Section {
-                HStack {
-                    Text("du")
-                    DatePicker(
-                        "Début",
-                        selection: $pref.schoolYear.paqueVacation.start,
-                        displayedComponents: .date
-                    )
-                    .labelsHidden()
-                    Text("au")
-                    DatePicker(
-                        "Fin",
-                        selection: $pref.schoolYear.paqueVacation.end,
-                        displayedComponents: .date
-                    )
-                    .labelsHidden()
-                }
-                Button {
-                    saveEvent(
-                        eventTitle: "Vacances de printemps",
-                        eventDateInterval: pref.schoolYear.paqueVacation
-                    )
-                } label: {
-                    Text("Mettre à jour l'App Calendrier")
-                }
-                .horizontallyAligned(.center)
-            } header: {
-                Text("Vacances de printemps")
-                    .style(.sectionHeader)
             }
         }
         .padding(.bottom, 34)
@@ -191,7 +102,7 @@ struct SettingsSchoolYear: View {
         #endif
     }
 
-    private func saveEvent(
+    private func saveOrUpdate(
         eventTitle: String,
         eventDateInterval: DateInterval
     ) {

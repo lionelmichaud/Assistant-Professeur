@@ -157,6 +157,9 @@ extension SeanceRow {
     private func formattedDate(_ date: Date) -> String {
         let delta = date.days(between: Date.now)
         switch delta {
+            case 0:
+                return "Aujourd'hui"
+
             case 1:
                 return "Demain"
 

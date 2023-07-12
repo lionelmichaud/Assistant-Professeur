@@ -126,7 +126,7 @@
 		79637210297DA91200ECDBC3 /* ActivityDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7963720F297DA91200ECDBC3 /* ActivityDetail.swift */; };
 		79637212297DBCE200ECDBC3 /* SettingsSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637211297DBCE200ECDBC3 /* SettingsSequence.swift */; };
 		79637214297DBD6500ECDBC3 /* SettingsActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79637213297DBD6500ECDBC3 /* SettingsActivity.swift */; };
-		796521CF2A13FBC7000C27D1 /* Zones.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796521CE2A13FBC7000C27D1 /* Zones.swift */; };
+		796521CF2A13FBC7000C27D1 /* ZoneScolaire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796521CE2A13FBC7000C27D1 /* ZoneScolaire.swift */; };
 		796521D22A14DC0C000C27D1 /* SchoolYearPref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796521D12A14DC0C000C27D1 /* SchoolYearPref.swift */; };
 		796521D42A14E0F3000C27D1 /* ElevePref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796521D32A14E0F3000C27D1 /* ElevePref.swift */; };
 		796521D62A14EF1E000C27D1 /* DailySchedulePref.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796521D52A14EF1E000C27D1 /* DailySchedulePref.swift */; };
@@ -152,6 +152,7 @@
 		7981280629F1CB3500A3817E /* AgendaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981280529F1CB3500A3817E /* AgendaManager.swift */; };
 		7981C22129A8054A0085986D /* ProgramTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981C22029A8054A0085986D /* ProgramTimeLine.swift */; };
 		7981C22329A807110085986D /* ProgramStepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981C22229A807110085986D /* ProgramStepperView.swift */; };
+		7982B3512A5C9004007A0C9A /* ProgramPlanningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7982B3502A5C9004007A0C9A /* ProgramPlanningView.swift */; };
 		7983834F2A0FEB9200C4A4E2 /* ContactEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7983834E2A0FEB9200C4A4E2 /* ContactEnum.swift */; };
 		798383522A0FF38C00C4A4E2 /* PersonsContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798383512A0FF38C00C4A4E2 /* PersonsContactsView.swift */; };
 		798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798458E92939529D00B74538 /* AnnotationEditView.swift */; };
@@ -210,6 +211,7 @@
 		79AFBFB42981A4B0001576DD /* SequenceDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */; };
 		79AFBFB62981C9DA001576DD /* ActivityCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AFBFB52981C9DA001576DD /* ActivityCreatorModal.swift */; };
 		79AFBFB82981D264001576DD /* ActivityEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AFBFB72981D264001576DD /* ActivityEditorModal.swift */; };
+		79B1C8142A5F1EB5006E6B37 /* ProgramPlanningGraphData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B1C8132A5F1EB5006E6B37 /* ProgramPlanningGraphData.swift */; };
 		79B298E829EC5F2C008BAF50 /* SeanceTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B298E729EC5F2C008BAF50 /* SeanceTimerView.swift */; };
 		79B3083A29EE115300C69C79 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 79B3083929EE115300C69C79 /* Documentation.docc */; };
 		79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B6630429244C3F007B1FBD /* Assistant_ProfesseurApp.swift */; };
@@ -508,7 +510,7 @@
 		7963720F297DA91200ECDBC3 /* ActivityDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetail.swift; sourceTree = "<group>"; };
 		79637211297DBCE200ECDBC3 /* SettingsSequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSequence.swift; sourceTree = "<group>"; };
 		79637213297DBD6500ECDBC3 /* SettingsActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsActivity.swift; sourceTree = "<group>"; };
-		796521CE2A13FBC7000C27D1 /* Zones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zones.swift; sourceTree = "<group>"; };
+		796521CE2A13FBC7000C27D1 /* ZoneScolaire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoneScolaire.swift; sourceTree = "<group>"; };
 		796521D12A14DC0C000C27D1 /* SchoolYearPref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolYearPref.swift; sourceTree = "<group>"; };
 		796521D32A14E0F3000C27D1 /* ElevePref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevePref.swift; sourceTree = "<group>"; };
 		796521D52A14EF1E000C27D1 /* DailySchedulePref.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailySchedulePref.swift; sourceTree = "<group>"; };
@@ -534,6 +536,7 @@
 		7981280529F1CB3500A3817E /* AgendaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AgendaManager.swift; path = "Assistant Professeur/Views/Classe/Progress/ActivityTimer/AgendaManager.swift"; sourceTree = SOURCE_ROOT; };
 		7981C22029A8054A0085986D /* ProgramTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramTimeLine.swift; sourceTree = "<group>"; };
 		7981C22229A807110085986D /* ProgramStepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramStepperView.swift; sourceTree = "<group>"; };
+		7982B3502A5C9004007A0C9A /* ProgramPlanningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProgramPlanningView.swift; path = "../New Group/ProgramPlanningView.swift"; sourceTree = "<group>"; };
 		7983834E2A0FEB9200C4A4E2 /* ContactEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactEnum.swift; sourceTree = "<group>"; };
 		798383512A0FF38C00C4A4E2 /* PersonsContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonsContactsView.swift; sourceTree = "<group>"; };
 		798458E92939529D00B74538 /* AnnotationEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationEditView.swift; sourceTree = "<group>"; };
@@ -591,6 +594,7 @@
 		79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceDetailGroupBox.swift; sourceTree = "<group>"; };
 		79AFBFB52981C9DA001576DD /* ActivityCreatorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCreatorModal.swift; sourceTree = "<group>"; };
 		79AFBFB72981D264001576DD /* ActivityEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityEditorModal.swift; sourceTree = "<group>"; };
+		79B1C8132A5F1EB5006E6B37 /* ProgramPlanningGraphData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramPlanningGraphData.swift; sourceTree = "<group>"; };
 		79B298E729EC5F2C008BAF50 /* SeanceTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SeanceTimerView.swift; path = "Assistant Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"; sourceTree = SOURCE_ROOT; };
 		79B3083929EE115300C69C79 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		79B6630129244C3F007B1FBD /* Assistant Professeur.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Assistant Professeur.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1115,7 +1119,7 @@
 			isa = PBXGroup;
 			children = (
 				795415A72A129BBF00B86746 /* EventManager.swift */,
-				796521CE2A13FBC7000C27D1 /* Zones.swift */,
+				796521CE2A13FBC7000C27D1 /* ZoneScolaire.swift */,
 				793C5D232A1A837C00FB2691 /* TodaySeances.swift */,
 				799817742A562A9F00CD8F43 /* DateIntervalSeances.swift */,
 				792E82B92A570C6400FE95E8 /* SequenceSeanceCoordinator.swift */,
@@ -1287,6 +1291,7 @@
 			children = (
 				7981C22029A8054A0085986D /* ProgramTimeLine.swift */,
 				7981C22229A807110085986D /* ProgramStepperView.swift */,
+				79B1C8122A5F1E9B006E6B37 /* ProgramPlanningGraph */,
 			);
 			path = TimeLine;
 			sourceTree = "<group>";
@@ -1394,6 +1399,15 @@
 				79F8773129F425A300AB38C3 /* DigitalClockView.swift */,
 			);
 			path = Timer;
+			sourceTree = "<group>";
+		};
+		79B1C8122A5F1E9B006E6B37 /* ProgramPlanningGraph */ = {
+			isa = PBXGroup;
+			children = (
+				7982B3502A5C9004007A0C9A /* ProgramPlanningView.swift */,
+				79B1C8132A5F1EB5006E6B37 /* ProgramPlanningGraphData.swift */,
+			);
+			path = ProgramPlanningGraph;
 			sourceTree = "<group>";
 		};
 		79B662F829244C3F007B1FBD = {
@@ -2064,6 +2078,7 @@
 				79975320297C3F9200D1C66E /* ProgramViewModel.swift in Sources */,
 				79F38D0C29D74B17006C9B35 /* ClasseCapsule.swift in Sources */,
 				7986A8592989CE73007471BE /* GroupSteppedlMarkModal.swift in Sources */,
+				7982B3512A5C9004007A0C9A /* ProgramPlanningView.swift in Sources */,
 				79ECF1FC2959F915008F0282 /* ClasseObservLabel.swift in Sources */,
 				79A8E7BE29AF6109006D0EAA /* IndicatorImageView.swift in Sources */,
 				796A17802A3F416D00413DDD /* EleveListSection.swift in Sources */,
@@ -2153,7 +2168,7 @@
 				79CAE16F2A13807C001FF13D /* SettingsSchoolYear.swift in Sources */,
 				79E923C52961E94D00EDB7CA /* GroupManager.swift in Sources */,
 				79401354295659B6007AD790 /* EleveNameGroupBox.swift in Sources */,
-				796521CF2A13FBC7000C27D1 /* Zones.swift in Sources */,
+				796521CF2A13FBC7000C27D1 /* ZoneScolaire.swift in Sources */,
 				7989B4D929A288E900383F84 /* LabeledSequenceView.swift in Sources */,
 				79FD21A42A33D76A00A8D925 /* DCompListView.swift in Sources */,
 				79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */,
@@ -2311,6 +2326,7 @@
 				797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */,
 				79E40E812997D8BB006BBE49 /* Observ+CoreDataClass.swift in Sources */,
 				798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */,
+				79B1C8142A5F1EB5006E6B37 /* ProgramPlanningGraphData.swift in Sources */,
 				79FD21932A338A9200A8D925 /* DSectionEntity+CoreDataClass.swift in Sources */,
 				796699DB2A30D38E00DF14AB /* DataBaseError.swift in Sources */,
 				799EFBA62A2CFE45008E9775 /* WCompChapterBrowserRow.swift in Sources */,

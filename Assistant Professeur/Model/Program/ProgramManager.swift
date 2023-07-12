@@ -5,10 +5,17 @@
 //  Created by Lionel MICHAUD on 22/01/2023.
 //
 
+import AppFoundation
 import Foundation
+import os
 import SwiftUI
 
-struct ProgramManager {
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "ProgramManager"
+)
+
+enum ProgramManager {
     /// Déplacer la `sequence` à l'intérieur de la liste des séquences d'un `program`
     /// - Warning: Les modifications ne sont pas auvegardées dans le contexte.
     /// - Parameters:
@@ -125,7 +132,6 @@ struct ProgramManager {
         )
 
         let request = ProgramEntity.requestAllSortedbyDisciplineLevelSegpa
-
         let predicate = NSPredicate(
             format: "%K = %@ AND %K = %@ AND %K = %@",
             #keyPath(ProgramEntity.discipline),
@@ -174,14 +180,12 @@ struct ProgramManager {
         guard let program = sequence.program else {
             return []
         }
-
         let (discipline, level, segpa) = (
             program.discipline,
             program.level,
             program.segpa
         )
         let request = ClasseEntity.requestAllSortedbySchoolThenClasseLevelNumber
-
         let predicate = NSPredicate(
             format: "%K = %@ AND %K = %@ AND %K = %@",
             #keyPath(ClasseEntity.discipline),
@@ -212,14 +216,12 @@ struct ProgramManager {
         guard let program = activity.sequence?.program else {
             return []
         }
-
         let (discipline, level, segpa) = (
             program.discipline,
             program.level,
             program.segpa
         )
         let request = ClasseEntity.requestAllSortedbySchoolThenClasseLevelNumber
-
         let predicate = NSPredicate(
             format: "%K = %@ AND %K = %@ AND %K = %@",
             #keyPath(ClasseEntity.discipline),
@@ -238,5 +240,219 @@ struct ProgramManager {
         } catch {
             return []
         }
+    }
+
+    /// La période de vacance est entièrement inclue dans la dernière partie de la séquence
+    fileprivate static func manageFullOverlap(
+        sequence: SequenceEntity,
+        sequenceInterval: DateInterval,
+        intersection: DateInterval,
+        sequencesData: inout [SequenceData]
+    ) -> DateInterval {
+        // Ajouter la partie 1ère partie de la séquence avant les vacances
+        let premierePartie = DateInterval(
+            start: sequenceInterval.start,
+            end: intersection.start
+        )
+        sequencesData.append(
+            SequenceData(
+                name: sequence.viewName,
+                number: sequence.viewNumber,
+                serie: .activity,
+                dateInterval: premierePartie
+            )
+        )
+        // Calculer la durée restante de la séquence
+        let dureeRestante = sequenceInterval.duration - premierePartie.duration
+        // Créer une seconde partie de cette durée commencant à la fin de période de vacance
+        let secondePartie = DateInterval(
+            start: intersection.end,
+            duration: dureeRestante
+        )
+
+        return secondePartie
+    }
+
+    /// La période de vacance recouvre la fin de la dernière partie de la séquence
+    fileprivate static func manageSequenceEndOverlap(
+        sequence: SequenceEntity,
+        sequenceInterval: DateInterval,
+        vacanceInterval: DateInterval,
+        sequencesData: inout [SequenceData]
+    ) -> DateInterval {
+        // Ajouter la partie 1ère partie de la séquence avant les vacances
+        let premierePartie = DateInterval(
+            start: sequenceInterval.start,
+            end: vacanceInterval.start
+        )
+        sequencesData.append(
+            SequenceData(
+                name: sequence.viewName,
+                number: sequence.viewNumber,
+                serie: .activity,
+                dateInterval: premierePartie
+            )
+        )
+        // Calculer la durée restante de la séquence
+        let dureeRestante = sequenceInterval.duration - premierePartie.duration
+        // Créer une seconde partie de cette durée commencant à la fin de période de vacance
+        let secondePartie = DateInterval(
+            start: vacanceInterval.end,
+            duration: dureeRestante
+        )
+
+        return secondePartie
+    }
+
+    /// La période de vacance recouvre le début de la dernière partie de la séquence
+    fileprivate static func manageSequenceStartOverlap(
+        sequence _: SequenceEntity,
+        sequenceInterval: DateInterval,
+        intersection: DateInterval,
+        sequencesData _: inout [SequenceData]
+    ) -> DateInterval {
+        // Décaler la séquence vers la droite de la durée de recouvement avec les vacances
+        let timeShift = intersection.duration
+
+        return sequenceInterval.formShift(by: timeShift)
+    }
+
+    static func getSequenceActivitiesPeriods(
+        sequence: SequenceEntity,
+        currentDate: inout Date,
+        nbHeurePerWeek: Double,
+        schoolYear: SchoolYearPref
+    ) -> [SequenceData] {
+        var sequenceData = [SequenceData]()
+
+        // Calcul de la date de fin de la séquence sans vacance au milieu
+        let nbHeures = sequence.durationWithMargin
+        let nbWeeks = nbHeures / nbHeurePerWeek
+        let duration = TimeInterval(nbWeeks * 7 * 24 * 60 * 60)
+        let sequenceMinimumInterval = DateInterval(
+            start: currentDate,
+            duration: duration
+        )
+//        print("Séquence: \(sequence.viewNumber)")
+//        print("  nbHeures: \(nbHeures)")
+//        print("  nbWeeks : \(nbWeeks)")
+//        print("  Début: \(sequenceMinimumInterval.start.formatted(date: .abbreviated, time: .shortened))")
+//        print("  Fin  : \(sequenceMinimumInterval.end.formatted(date: .abbreviated, time: .shortened))")
+
+        // Retirer les vacances de la séquence
+        // Note: les vacances doivent être ordonnées par date croissante
+        var sequenceLastInterval = sequenceMinimumInterval
+        schoolYear.vacances.forEach { vacance in
+            // Si il y a un recouvrement entre la séquence et la période de vacance
+            if let intersection =
+                sequenceLastInterval
+                    .intersection(with: vacance.interval) {
+                let couple = (sequenceLastInterval, intersection)
+                switch couple {
+                    case let (sequenceInterval, intersection) where intersection == vacance.interval:
+                        /// La période de vacance est entièrement inclue dans la dernière partie de la séquence
+                        /// print("recouvrement complet de \(vacance.name)")
+                        let secondePartie = manageFullOverlap(
+                            sequence: sequence,
+                            sequenceInterval: sequenceInterval,
+                            intersection: intersection,
+                            sequencesData: &sequenceData
+                        )
+                        // Itérer avec cette seconde partie pour la prochaine période de vacance
+                        sequenceLastInterval = secondePartie
+
+                    case let (sequenceInterval, intersection) where intersection.start == sequenceInterval.start:
+                        /// La période de vacance recouvre le début de la dernière partie de la séquence
+                        /// Note: on ne devrait jamais passer par là car la fin de la séquence précédente est forcément hors vacances scolaires
+                        /// print("recouvrement du début de la séquence par \(vacance.name)")
+                        let shiftedSequenceInterval = manageSequenceStartOverlap(
+                            sequence: sequence,
+                            sequenceInterval: sequenceInterval,
+                            intersection: intersection,
+                            sequencesData: &sequenceData
+                        )
+                        // Itérer avec cette seconde partie pour la prochaine période de vacance
+                        sequenceLastInterval = shiftedSequenceInterval
+                        customLog.log(
+                            level: .debug,
+                            "On ne devrait jamais passer par là car la fin de la séquence précédente est forcément hors vacances scolaires"
+                        )
+
+                    case let (sequenceInterval, intersection) where intersection.end == sequenceInterval.end:
+                        /// La période de vacance recouvre la fin de la dernière partie de la séquence
+                        /// print("recouvrement de la fin de la séquence par \(vacance.name)")
+                        let secondePartie = manageSequenceEndOverlap(
+                            sequence: sequence,
+                            sequenceInterval: sequenceInterval,
+                            vacanceInterval: vacance.interval,
+                            sequencesData: &sequenceData
+                        )
+                        // Itérer avec cette seconde partie pour la prochaine période de vacance
+                        sequenceLastInterval = secondePartie
+
+                    default:
+                        // aucun recouvrement
+                        // Note: on ne devrait jamais passer par là car il y a recouvrement (if)
+                        print("aucun recouvrement avec \(vacance.name)")
+                        customLog.log(
+                            level: .error,
+                            "On ne devrait jamais passer par là car il y a recouvrement entre la séquence et les vacance (voir if)"
+                        )
+                }
+            }
+        }
+        // Incrémente la date courante à la date de fin de la séquence
+        currentDate = sequenceLastInterval.end
+
+        sequenceData.append(
+            SequenceData(
+                name: sequence.viewName,
+                number: sequence.viewNumber,
+                serie: .activity,
+                dateInterval: sequenceLastInterval
+            )
+        )
+        sequenceData[0].isFirstInterval = true
+
+        return sequenceData
+    }
+
+    /// Déterminsation des périodes d'activité d'un programme en fonction
+    /// du calendrier scolaire.
+    /// - Parameters:
+    ///   - program: Programme annuel
+    ///   - schoolYear: Caractéristiques de l'année scolaire
+    /// - Returns: Périodes d'activité d'un programme
+    /// - Precondition: Les vacances doivent être ordonnées par date croissante.
+    static func getProgramActivitiesPeriods(
+        program: ProgramEntity,
+        schoolYear: SchoolYearPref
+    ) -> [SequenceData] {
+        let nbHeurePerWeek =
+            program
+                .disciplineEnum
+                .nbHeurePerWeek(level: program.levelEnum)
+        var sequencesData = [SequenceData]()
+        var currentDate = schoolYear.interval.start
+
+        program.sequencesSortedByNumber.forEach { sequence in
+            let sequenceData = getSequenceActivitiesPeriods(
+                sequence: sequence,
+                currentDate: &currentDate,
+                nbHeurePerWeek: nbHeurePerWeek,
+                schoolYear: schoolYear
+            )
+            sequencesData += sequenceData
+        }
+        // Tag le premier interval de la séquence
+        if sequencesData.isNotEmpty {
+            sequencesData[sequencesData.startIndex].isFirstInterval = true
+        }
+
+        // Tag le dernier interval de de la dernière séquence
+        if sequencesData.isNotEmpty {
+            sequencesData[sequencesData.endIndex - 1].isLastInterval = true
+        }
+        return sequencesData
     }
 }
