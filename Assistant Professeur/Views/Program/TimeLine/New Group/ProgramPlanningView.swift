@@ -9,45 +9,6 @@ import AppFoundation
 import Charts
 import SwiftUI
 
-/// Données nécessaires au Graph du Planning annuel des séquences pédagogiques
-struct ProgramPlanningGraphData {
-    // MARK: - Types
-
-    enum Serie: String {
-        case activity = "Activité"
-        case vacance = "Vacance"
-
-        var plotableValue: String {
-            rawValue
-        }
-    }
-
-    /// Intervalle d'activité d'une séquence
-    struct SequenceData: Identifiable {
-        var name: String = ""
-        var number: Int = 1
-        var serie = Serie.activity
-        var dateInterval = DateInterval()
-        var isFirstInterval = false
-        var isLastInterval = false
-
-        var id: Int { number }
-    }
-
-    // MARK: - Properties
-
-    var schoolYear = SchoolYearPref()
-    var sequences = [SequenceData]()
-
-    // MARK: - Initilizers
-
-    init() {}
-
-    init(schoolYear: SchoolYearPref) {
-        self.schoolYear = schoolYear
-    }
-}
-
 struct ProgramPlanningView: View {
     @ObservedObject
     var program: ProgramEntity
@@ -76,8 +37,8 @@ struct ProgramPlanningView: View {
             }
         }
         .chartForegroundStyleScale([
-            ProgramPlanningGraphData.Serie.activity.rawValue: .blue,
-            ProgramPlanningGraphData.Serie.vacance.rawValue: .gray
+            SequenceData.Serie.activity: .blue,
+            SequenceData.Serie.vacance: .gray
         ])
         .padding(.horizontal)
         .dynamicTypeSize(.xxLarge)
@@ -114,13 +75,13 @@ extension ProgramPlanningView {
         }
     }
 
-    private func sequenceMark(sequence: ProgramPlanningGraphData.SequenceData) -> some ChartContent {
+    private func sequenceMark(sequence: SequenceData) -> some ChartContent {
         RuleMark(
             xStart: .value("Début", sequence.dateInterval.start, unit: .day),
             xEnd: .value("Fin", sequence.dateInterval.end, unit: .day),
-            y: .value("Séquence", "S\(sequence.number) \(sequence.name)")
+            y: .value("Séquence", sequence)
         )
-        .foregroundStyle(by: .value("serie", sequence.serie.plotableValue))
+        .foregroundStyle(by: .value("serie", sequence.serie))
         // barre
         .lineStyle(
             StrokeStyle(lineWidth: sequence.serie == .activity ? lineWidth * 2 : lineWidth)
@@ -167,7 +128,7 @@ extension ProgramPlanningView {
                 data
                     .sequences
                     .append(
-                        ProgramPlanningGraphData.SequenceData(
+                        SequenceData(
                             name: sequence.viewName,
                             number: sequence.viewNumber,
                             serie: .vacance,
