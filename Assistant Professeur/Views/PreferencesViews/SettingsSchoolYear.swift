@@ -33,6 +33,7 @@ struct SettingsSchoolYear: View {
                     .style(.sectionHeader)
             }
 
+            // Année scolaire
             Section {
                 HStack {
                     Text("du")
@@ -55,6 +56,7 @@ struct SettingsSchoolYear: View {
                     .style(.sectionHeader)
             }
 
+            // Vacances d'automne
             Section {
                 HStack {
                     Text("du")
@@ -73,7 +75,7 @@ struct SettingsSchoolYear: View {
                     .labelsHidden()
                 }
                 Button {
-                    saveEvent(
+                    saveOrUpdate(
                         eventTitle: "Vacances de Toussaint",
                         eventDateInterval: pref.schoolYear.autumnVacation
                     )
@@ -86,6 +88,7 @@ struct SettingsSchoolYear: View {
                     .style(.sectionHeader)
             }
 
+            // Vacances de Noël
             Section {
                 HStack {
                     Text("du")
@@ -104,7 +107,7 @@ struct SettingsSchoolYear: View {
                     .labelsHidden()
                 }
                 Button {
-                    saveEvent(
+                    saveOrUpdate(
                         eventTitle: "Vacances de Noël",
                         eventDateInterval: pref.schoolYear.noelVacation
                     )
@@ -117,6 +120,7 @@ struct SettingsSchoolYear: View {
                     .style(.sectionHeader)
             }
 
+            // Vacances d'hiver
             Section {
                 HStack {
                     Text("du")
@@ -135,7 +139,7 @@ struct SettingsSchoolYear: View {
                     .labelsHidden()
                 }
                 Button {
-                    saveEvent(
+                    saveOrUpdate(
                         eventTitle: "Vacances d'hiver",
                         eventDateInterval: pref.schoolYear.winterVacation
                     )
@@ -148,6 +152,7 @@ struct SettingsSchoolYear: View {
                     .style(.sectionHeader)
             }
 
+            // Vacances de Paques
             Section {
                 HStack {
                     Text("du")
@@ -166,7 +171,7 @@ struct SettingsSchoolYear: View {
                     .labelsHidden()
                 }
                 Button {
-                    saveEvent(
+                    saveOrUpdate(
                         eventTitle: "Vacances de printemps",
                         eventDateInterval: pref.schoolYear.paqueVacation
                     )
@@ -191,7 +196,7 @@ struct SettingsSchoolYear: View {
         #endif
     }
 
-    private func saveEvent(
+    private func saveOrUpdate(
         eventTitle: String,
         eventDateInterval: DateInterval
     ) {

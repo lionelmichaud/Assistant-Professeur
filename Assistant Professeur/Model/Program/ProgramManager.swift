@@ -5,10 +5,11 @@
 //  Created by Lionel MICHAUD on 22/01/2023.
 //
 
+import AppFoundation
 import Foundation
 import SwiftUI
 
-struct ProgramManager {
+enum ProgramManager {
     /// Déplacer la `sequence` à l'intérieur de la liste des séquences d'un `program`
     /// - Warning: Les modifications ne sont pas auvegardées dans le contexte.
     /// - Parameters:
@@ -238,5 +239,53 @@ struct ProgramManager {
         } catch {
             return []
         }
+    }
+
+    /// Déterminsation des périodes d'activité d'un programme en fonction
+    /// du calendrier scolaire.
+    /// - Parameters:
+    ///   - program: Programme annuel
+    ///   - schoolYear: Caractéristiques de l'année scolaire
+    /// - Returns: Périodes d'activité d'un programme
+    static func getProgramActivitiesPeriods(
+        program: ProgramEntity,
+        schoolYear: SchoolYearPref
+    ) -> [PlanningData.SequenceData] {
+        let nbHeurePerWeek =
+            program
+                .disciplineEnum
+                .nbHeurePerWeek(level: program.levelEnum)
+        var sequencesData = [PlanningData.SequenceData]()
+        var currentDate = schoolYear.interval.start
+
+        program.sequencesSortedByNumber.forEach { sequence in
+            let nbHeures = sequence.durationWithMargin
+            let nbWeeks = Int((nbHeures / nbHeurePerWeek).rounded(.towardZero))
+            let duration = TimeInterval(nbWeeks * 7 * 24 * 60 * 60)
+//            let nbDays = Int(nbSeances.truncatingRemainder(dividingBy: NbSeancesPerWeek) * 7)
+//            let endDate = (nbWeeks.weeks + nbDays.days).from(currentDate)
+            let sequenceMinimumInterval = DateInterval(
+                start: currentDate,
+                duration: duration
+            )
+            print("Séquence: \(sequence.viewNumber)")
+            print("  Début: \(currentDate.formatted(date: .abbreviated, time: .shortened))")
+            print("  Fin: \(currentDate.formatted(date: .abbreviated, time: .shortened))")
+
+            var activityInterval = DateInterval(
+                start: sequence.viewNumber.months.from(Date.now)!,
+                end: (sequence.viewNumber + 1).months.from(Date.now)!
+            )
+            sequencesData.append(
+                PlanningData.SequenceData(
+                    name: sequence.viewName,
+                    number: sequence.viewNumber,
+                    serie: .activity,
+                    dateInterval: activityInterval
+                )
+            )
+        }
+
+        return sequencesData
     }
 }

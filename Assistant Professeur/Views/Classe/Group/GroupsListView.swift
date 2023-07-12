@@ -121,9 +121,7 @@ struct GroupsListView: View {
                 []
         ) { _ in
         }
-        .toolbar {
-            myToolBarContent()
-        }
+        .toolbar(content: myToolBarContent)
     }
 
     private func drop(at _: Int, _: [NSItemProvider]) {

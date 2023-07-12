@@ -11,11 +11,24 @@ struct ProgramTimeLine: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
+    enum ViewMode: Int {
+        case steps
+        case planning
+    }
+
+    @State
+    private var presentation: ViewMode = .steps
+
     var body: some View {
         VStack {
             if let programId = navig.selectedProgramMngObjId {
                 if let program = ProgramEntity.byObjectId(MngObjID: programId) {
-                    ProgramStepperView(program: program)
+                    switch presentation {
+                        case .steps:
+                            ProgramStepperView(program: program)
+                        case .planning:
+                            ProgramPlanningView(program: program)
+                    }
                 } else {
                     Text("Programme introuvable")
                         .foregroundStyle(.secondary)
@@ -36,6 +49,23 @@ struct ProgramTimeLine: View {
         .navigationTitle("Déroulement du programme")
         #endif
         .navigationBarTitleDisplayModeInline()
+        .toolbar(content: myToolBarContent)
+    }
+}
+
+// MARK: Toolbar Content
+
+extension ProgramTimeLine {
+    @ToolbarContentBuilder
+    private func myToolBarContent() -> some ToolbarContent {
+        // Choix du style de présentation
+        ToolbarItemGroup(placement: .automatic) {
+            Picker("Présentation", selection: $presentation) {
+                Image(systemName: "list.bullet").tag(ViewMode.steps)
+                Image(systemName: "chart.bar.fill").tag(ViewMode.planning)
+            }
+            .pickerStyle(.segmented)
+        }
     }
 }
 
