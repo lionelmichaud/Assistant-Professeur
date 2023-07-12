@@ -413,7 +413,7 @@ enum ProgramManager {
                 }
             }
 
-            // Incrément de la date courante à la date de fin de la séquence
+            // Incrémente la date courante à la date de fin de la séquence
             currentDate = sequenceLastInterval.end
 
             sequencesData.append(
@@ -424,6 +424,15 @@ enum ProgramManager {
                     dateInterval: sequenceLastInterval
                 )
             )
+            // Tags le premier interval de la séquence
+            if sequencesData.isNotEmpty {
+                sequencesData[sequencesData.startIndex].isFirstInterval = true
+            }
+        }
+
+        // Tags le dernier interval de de la dernière séquence
+        if sequencesData.isNotEmpty {
+            sequencesData[sequencesData.endIndex-1].isLastInterval = true
         }
         return sequencesData
     }

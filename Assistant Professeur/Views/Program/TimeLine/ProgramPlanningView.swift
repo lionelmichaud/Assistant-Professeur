@@ -28,6 +28,8 @@ struct ProgramPlanningGraphData {
         var number: Int = 1
         var serie = Serie.activity
         var dateInterval = DateInterval()
+        var isFirstInterval = false
+        var isLastInterval = false
 
         var id: Int { number }
     }
@@ -125,21 +127,21 @@ extension ProgramPlanningView {
         )
         .offset(y: -lineWidth / 2.0)
         // date de début
-//        .annotation(position: .top, alignment: .leading) {
-//            if sequence.id == data.sequences.first!.id {
-//                Text(sequence.dateInterval.start.formatted(date: .numeric, time: .omitted))
-//                    .dynamicTypeSize(.small)
-//                    .foregroundColor(.secondary)
-//            }
-//        }
+        .annotation(position: .top, alignment: .leading) {
+            if sequence.isFirstInterval {
+                Text(sequence.dateInterval.start.formatted(date: .numeric, time: .omitted))
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            }
+        }
         // date de fin
-//        .annotation(position: .bottom, alignment: .trailing) {
-//            if sequence.id == data.sequences.last!.id {
-//                Text(sequence.dateInterval.end.formatted(date: .numeric, time: .omitted))
-//                    .dynamicTypeSize(.small)
-//                    .foregroundColor(.secondary)
-//            }
-//        }
+        .annotation(position: .bottom, alignment: .trailing) {
+            if sequence.isLastInterval {
+                Text(sequence.dateInterval.end.formatted(date: .numeric, time: .omitted))
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            }
+        }
     }
 }
 

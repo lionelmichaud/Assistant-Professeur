@@ -1102,22 +1102,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8CCF01E4-57B6-4B9B-949A-567E194D7EE2"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Program/ProgramManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "385"
-            endingLineNumber = "385"
-            landmarkName = "getProgramActivitiesPeriods(program:schoolYear:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "543F8CB8-A2F1-49CE-9F52-CD465A00FD4C"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -1125,8 +1109,8 @@
             filePath = "Assistant Professeur/Model/Program/ProgramManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "410"
-            endingLineNumber = "410"
+            startingLineNumber = "407"
+            endingLineNumber = "407"
             landmarkName = "getProgramActivitiesPeriods(program:schoolYear:)"
             landmarkType = "7">
          </BreakpointContent>
