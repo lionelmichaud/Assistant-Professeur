@@ -40,6 +40,26 @@ struct ProgramPlanningView: View {
             SequenceData.Serie.activity: .blue,
             SequenceData.Serie.vacance: .gray
         ])
+        .chartXAxis {
+            AxisMarks(values: .stride(by: .month, count: 1)) { value in
+                if let date = value.as(Date.self) {
+                    let month = Calendar.current.component(.month, from: date)
+                    switch month {
+                        case 1, 4, 7, 10:
+                            AxisValueLabel {
+                                Text(date, format: .dateTime.month(.abbreviated).year(.twoDigits))
+                                    .foregroundColor(.primary)
+                            }
+                            AxisGridLine(stroke: StrokeStyle(lineWidth: 1))
+                        default:
+                            AxisGridLine()
+                    }
+                }
+            }
+//            AxisMarks(values: .stride(by: .weekOfYear, count: 1)) { value in
+//                AxisGridLine()
+//            }
+        }
         .padding(.horizontal)
         .dynamicTypeSize(.xxLarge)
         .task {
@@ -51,6 +71,7 @@ struct ProgramPlanningView: View {
 // MARK: - Chart Content Items
 
 extension ProgramPlanningView {
+    /// Ligne de l'année scolaire
     private var schoolYearMark: some ChartContent {
         RuleMark(
             xStart: .value("Début", data.schoolYear.interval.start, unit: .month),
@@ -63,18 +84,25 @@ extension ProgramPlanningView {
         .offset(y: lineOffset)
         // date de début
         .annotation(position: .bottom, alignment: .leading) {
-            Text(data.schoolYear.interval.start.formatted(date: .numeric, time: .omitted))
-                .dynamicTypeSize(.small)
-                .foregroundColor(.secondary)
+            Text(
+                data.schoolYear.interval.start,
+                format: .dateTime.day().month(.abbreviated).year(.twoDigits)
+            )
+            .dynamicTypeSize(.small)
+            .foregroundColor(.secondary)
         }
         // date de fin
         .annotation(position: .bottom, alignment: .trailing) {
-            Text(data.schoolYear.interval.end.formatted(date: .numeric, time: .omitted))
-                .dynamicTypeSize(.small)
-                .foregroundColor(.secondary)
+            Text(
+                data.schoolYear.interval.end,
+                format: .dateTime.day().month(.abbreviated).year(.twoDigits)
+            )
+            .dynamicTypeSize(.small)
+            .foregroundColor(.secondary)
         }
     }
 
+    /// Ligne d'une séquence
     private func sequenceMark(sequence: SequenceData) -> some ChartContent {
         RuleMark(
             xStart: .value("Début", sequence.dateInterval.start, unit: .day),
@@ -84,23 +112,32 @@ extension ProgramPlanningView {
         .foregroundStyle(by: .value("serie", sequence.serie))
         // barre
         .lineStyle(
-            StrokeStyle(lineWidth: sequence.serie == .activity ? lineWidth * 2 : lineWidth)
+            StrokeStyle(
+                lineWidth: sequence.serie == .activity ? lineWidth * 2 : lineWidth,
+                lineCap: sequence.serie == .activity ? .round : .butt
+            )
         )
         .offset(y: -lineWidth / 2.0)
         // date de début
         .annotation(position: .top, alignment: .leading) {
             if sequence.isFirstInterval {
-                Text(sequence.dateInterval.start.formatted(date: .numeric, time: .omitted))
-                    .font(.caption2)
-                    .foregroundColor(.secondary)
+                Text(
+                    sequence.dateInterval.start,
+                    format: .dateTime.day().month(.abbreviated)
+                )
+                .font(.caption2)
+                .foregroundColor(.secondary)
             }
         }
         // date de fin
         .annotation(position: .bottom, alignment: .trailing) {
             if sequence.isLastInterval {
-                Text(sequence.dateInterval.end.formatted(date: .numeric, time: .omitted))
-                    .font(.caption2)
-                    .foregroundColor(.secondary)
+                Text(
+                    sequence.dateInterval.end,
+                    format: .dateTime.day().month(.abbreviated)
+                )
+                .font(.caption2)
+                .foregroundColor(.secondary)
             }
         }
     }
@@ -109,7 +146,7 @@ extension ProgramPlanningView {
 // MARK: - Construction des données du graphique
 
 extension ProgramPlanningView {
-    /// élongation de l'année scolaire
+    /// Fabrication des données du graphique
     private func buidChartDatum() {
         // Initialiser les données avec l'année et les vacances scolaires
         data = ProgramPlanningGraphData(schoolYear: pref.schoolYear)

@@ -333,11 +333,11 @@ enum ProgramManager {
             start: currentDate,
             duration: duration
         )
-        print("Séquence: \(sequence.viewNumber)")
-        print("  nbHeures: \(nbHeures)")
-        print("  nbWeeks : \(nbWeeks)")
-        print("  Début: \(sequenceMinimumInterval.start.formatted(date: .abbreviated, time: .shortened))")
-        print("  Fin  : \(sequenceMinimumInterval.end.formatted(date: .abbreviated, time: .shortened))")
+//        print("Séquence: \(sequence.viewNumber)")
+//        print("  nbHeures: \(nbHeures)")
+//        print("  nbWeeks : \(nbWeeks)")
+//        print("  Début: \(sequenceMinimumInterval.start.formatted(date: .abbreviated, time: .shortened))")
+//        print("  Fin  : \(sequenceMinimumInterval.end.formatted(date: .abbreviated, time: .shortened))")
 
         // Retirer les vacances de la séquence
         // Note: les vacances doivent être ordonnées par date croissante
