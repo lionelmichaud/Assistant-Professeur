@@ -9,7 +9,10 @@ import AppFoundation
 import Charts
 import SwiftUI
 
-struct PlanningData {
+/// Données nécessaires au Graph du Planning annuel des séquences pédagogiques
+struct ProgramPlanningGraphData {
+    // MARK: - Types
+
     enum Serie: String {
         case activity = "Activité"
         case vacance = "Vacance"
@@ -19,6 +22,7 @@ struct PlanningData {
         }
     }
 
+    /// Intervalle d'activité d'une séquence
     struct SequenceData: Identifiable {
         var name: String = ""
         var number: Int = 1
@@ -28,8 +32,18 @@ struct PlanningData {
         var id: Int { number }
     }
 
+    // MARK: - Properties
+
     var schoolYear = SchoolYearPref()
     var sequences = [SequenceData]()
+
+    // MARK: - Initilizers
+
+    init() {}
+
+    init(schoolYear: SchoolYearPref) {
+        self.schoolYear = schoolYear
+    }
 }
 
 struct ProgramPlanningView: View {
@@ -40,7 +54,7 @@ struct ProgramPlanningView: View {
     private var pref: UserPreferences
 
     @State
-    private var data = PlanningData()
+    private var data = ProgramPlanningGraphData()
 
     var sequences: [SequenceEntity] {
         program.sequencesSortedByNumber
@@ -76,8 +90,8 @@ struct ProgramPlanningView: View {
             }
         }
         .chartForegroundStyleScale([
-            PlanningData.Serie.activity.rawValue: .blue,
-            PlanningData.Serie.vacance.rawValue: .gray
+            ProgramPlanningGraphData.Serie.activity.rawValue: .blue,
+            ProgramPlanningGraphData.Serie.vacance.rawValue: .gray
         ])
         .padding(.horizontal)
         .dynamicTypeSize(.xxxLarge)
@@ -91,11 +105,11 @@ struct ProgramPlanningView: View {
 
 extension ProgramPlanningView {
     private func buidChartDatum() {
-        // Année et vacances scolaires
-        data.schoolYear = pref.schoolYear
+        // Initialiser les données avec l'année et les vacances scolaires
+        data = ProgramPlanningGraphData(schoolYear: pref.schoolYear)
 
         // Calcul des périodes d'activité de chaque séquence du programme
-        var programSequencesData = ProgramManager.getProgramActivitiesPeriods(
+        let programSequencesData = ProgramManager.getProgramActivitiesPeriods(
             program: program,
             schoolYear: data.schoolYear
         )
@@ -104,46 +118,18 @@ extension ProgramPlanningView {
         // Calcul des périodes de vacance de chaque séquence du programme
         sequences.forEach { sequence in
             // Ajout des périodes de vacances de la Séquence
-            data
-                .sequences
-                .append(
-                    PlanningData.SequenceData(
-                        name: sequence.viewName,
-                        number: sequence.viewNumber,
-                        serie: .vacance,
-                        dateInterval: data.schoolYear.autumnVacation
+            data.schoolYear.vacances.forEach { vacance in
+                data
+                    .sequences
+                    .append(
+                        ProgramPlanningGraphData.SequenceData(
+                            name: sequence.viewName,
+                            number: sequence.viewNumber,
+                            serie: .vacance,
+                            dateInterval: vacance.interval
+                        )
                     )
-                )
-            data
-                .sequences
-                .append(
-                    PlanningData.SequenceData(
-                        name: sequence.viewName,
-                        number: sequence.viewNumber,
-                        serie: .vacance,
-                        dateInterval: data.schoolYear.noelVacation
-                    )
-                )
-            data
-                .sequences
-                .append(
-                    PlanningData.SequenceData(
-                        name: sequence.viewName,
-                        number: sequence.viewNumber,
-                        serie: .vacance,
-                        dateInterval: data.schoolYear.winterVacation
-                    )
-                )
-            data
-                .sequences
-                .append(
-                    PlanningData.SequenceData(
-                        name: sequence.viewName,
-                        number: sequence.viewNumber,
-                        serie: .vacance,
-                        dateInterval: data.schoolYear.paqueVacation
-                    )
-                )
+            }
         }
     }
 }

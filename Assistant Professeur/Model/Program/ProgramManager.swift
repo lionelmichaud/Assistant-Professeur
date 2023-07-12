@@ -250,15 +250,16 @@ enum ProgramManager {
     static func getProgramActivitiesPeriods(
         program: ProgramEntity,
         schoolYear: SchoolYearPref
-    ) -> [PlanningData.SequenceData] {
+    ) -> [ProgramPlanningGraphData.SequenceData] {
         let nbHeurePerWeek =
             program
                 .disciplineEnum
                 .nbHeurePerWeek(level: program.levelEnum)
-        var sequencesData = [PlanningData.SequenceData]()
+        var sequencesData = [ProgramPlanningGraphData.SequenceData]()
         var currentDate = schoolYear.interval.start
 
         program.sequencesSortedByNumber.forEach { sequence in
+            // Calcul de la date de fin de la séquence sans vacance au milieu
             let nbHeures = sequence.durationWithMargin
             let nbWeeks = Int((nbHeures / nbHeurePerWeek).rounded(.towardZero))
             let duration = TimeInterval(nbWeeks * 7 * 24 * 60 * 60)
@@ -269,19 +270,24 @@ enum ProgramManager {
                 duration: duration
             )
             print("Séquence: \(sequence.viewNumber)")
-            print("  Début: \(currentDate.formatted(date: .abbreviated, time: .shortened))")
-            print("  Fin: \(currentDate.formatted(date: .abbreviated, time: .shortened))")
+            print("  nbHeures: \(nbHeures)")
+            print("  nbWeeks : \(nbWeeks)")
+            print("  Début: \(sequenceMinimumInterval.start.formatted(date: .abbreviated, time: .shortened))")
+            print("  Fin  : \(sequenceMinimumInterval.end.formatted(date: .abbreviated, time: .shortened))")
 
-            var activityInterval = DateInterval(
-                start: sequence.viewNumber.months.from(Date.now)!,
-                end: (sequence.viewNumber + 1).months.from(Date.now)!
-            )
+            // Incrément de la date courante à la date de fin de la séquence
+            currentDate = sequenceMinimumInterval.end
+
+//            var activityInterval = DateInterval(
+//                start: sequence.viewNumber.months.from(Date.now)!,
+//                end: (sequence.viewNumber + 1).months.from(Date.now)!
+//            )
             sequencesData.append(
-                PlanningData.SequenceData(
+                ProgramPlanningGraphData.SequenceData(
                     name: sequence.viewName,
                     number: sequence.viewNumber,
                     serie: .activity,
-                    dateInterval: activityInterval
+                    dateInterval: sequenceMinimumInterval
                 )
             )
         }
