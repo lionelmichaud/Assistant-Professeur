@@ -93,6 +93,8 @@
 		7951063E294FD9520015AC5C /* ClasseListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951063D294FD9520015AC5C /* ClasseListSection.swift */; };
 		7951B6A029B13E6F006DC88D /* WarningSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951B69F29B13E6F006DC88D /* WarningSplitView.swift */; };
 		7951B6A229B14012006DC88D /* WarningSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7951B6A129B14012006DC88D /* WarningSidebarView.swift */; };
+		79531D052A60A50900252A29 /* UserPref+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79531D042A60A50900252A29 /* UserPref+Extensions.swift */; };
+		79531D072A60A53200252A29 /* UserPref+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79531D062A60A53200252A29 /* UserPref+CoreDataClass.swift */; };
 		795415A82A129BBF00B86746 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795415A72A129BBF00B86746 /* EventManager.swift */; };
 		795695D92A2CCB6700435FDB /* WCompChapterEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795695D82A2CCB6700435FDB /* WCompChapterEntity+CoreDataClass.swift */; };
 		7957A8302A3759E400D64786 /* DKnowBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A82F2A3759E400D64786 /* DKnowBrowserRow.swift */; };
@@ -477,6 +479,8 @@
 		7951063D294FD9520015AC5C /* ClasseListSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseListSection.swift; sourceTree = "<group>"; };
 		7951B69F29B13E6F006DC88D /* WarningSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningSplitView.swift; sourceTree = "<group>"; };
 		7951B6A129B14012006DC88D /* WarningSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningSidebarView.swift; sourceTree = "<group>"; };
+		79531D042A60A50900252A29 /* UserPref+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserPref+Extensions.swift"; sourceTree = "<group>"; };
+		79531D062A60A53200252A29 /* UserPref+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserPref+CoreDataClass.swift"; sourceTree = "<group>"; };
 		795415A72A129BBF00B86746 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		795695D82A2CCB6700435FDB /* WCompChapterEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WCompChapterEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		7957A82F2A3759E400D64786 /* DKnowBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKnowBrowserRow.swift; sourceTree = "<group>"; };
@@ -1235,6 +1239,8 @@
 				796521D12A14DC0C000C27D1 /* SchoolYearPref.swift */,
 				796521D32A14E0F3000C27D1 /* ElevePref.swift */,
 				796521D52A14EF1E000C27D1 /* DailySchedulePref.swift */,
+				79531D042A60A50900252A29 /* UserPref+Extensions.swift */,
+				79531D062A60A53200252A29 /* UserPref+CoreDataClass.swift */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -2157,6 +2163,7 @@
 				795804B729A696CC00AEB7DA /* SequenceTimeLine.swift in Sources */,
 				79AFBFB42981A4B0001576DD /* SequenceDetailGroupBox.swift in Sources */,
 				79388A4529256819002AABB8 /* CoreDataManager.swift in Sources */,
+				79531D052A60A50900252A29 /* UserPref+Extensions.swift in Sources */,
 				795CB1952958F668006EF060 /* Motif.swift in Sources */,
 				795415A82A129BBF00B86746 /* EventManager.swift in Sources */,
 				79F41E662954B1DC00EAAC52 /* Sexe.swift in Sources */,
@@ -2242,6 +2249,7 @@
 				791DEE182A2FFB7C00D0E248 /* WCompBrowserRow.swift in Sources */,
 				79637210297DA91200ECDBC3 /* ActivityDetail.swift in Sources */,
 				79A6AC9829F59DEA003705D0 /* ClasseTimerModal.swift in Sources */,
+				79531D072A60A53200252A29 /* UserPref+CoreDataClass.swift in Sources */,
 				795C2C2C296E2DCA00EDFF09 /* DraggableSeatLabel.swift in Sources */,
 				79F41E6129549AE400EAAC52 /* AppreciationView.swift in Sources */,
 				79A5737329BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift in Sources */,

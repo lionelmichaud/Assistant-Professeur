@@ -104,13 +104,15 @@ extension OwnerEntity {
 // MARK: - Extension Core Data
 
 extension OwnerEntity {
-    // MARK: - Type Methods
+    // MARK: - Methods
 
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         // Set defaults here
         self.id = UUID()
     }
+
+    // MARK: - Type Methods
 
     /// Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
     static func initializeEntity(userName: PersonNameComponents?) {
