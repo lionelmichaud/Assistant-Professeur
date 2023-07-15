@@ -9,13 +9,13 @@ import SwiftUI
 
 struct SettingsClasse: View {
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     var body: some View {
         List {
             Section {
-                Toggle("Appréciation", isOn: $pref.classeAppreciationEnabled)
-                Toggle("Annotation", isOn: $pref.classeAnnotationEnabled)
+                Toggle("Appréciation", isOn: $pref.viewClasseAppreciationEnabled)
+                Toggle("Annotation", isOn: $pref.viewClasseAnnotationEnabled)
             } header: {
                 Text("Champs")
                     .style(.sectionHeader)

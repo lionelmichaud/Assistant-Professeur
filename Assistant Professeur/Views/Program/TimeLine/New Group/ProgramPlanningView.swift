@@ -14,7 +14,7 @@ struct ProgramPlanningView: View {
     var program: ProgramEntity
 
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     @State
     private var data = ProgramPlanningGraphData()
@@ -149,7 +149,7 @@ extension ProgramPlanningView {
     /// Fabrication des données du graphique
     private func buidChartDatum() {
         // Initialiser les données avec l'année et les vacances scolaires
-        data = ProgramPlanningGraphData(schoolYear: pref.schoolYear)
+        data = ProgramPlanningGraphData(schoolYear: pref.viewSchoolYearPref)
 
         // Calcul des périodes d'activité de chaque séquence du programme
         let programSequencesData = ProgramManager.getProgramActivitiesPeriods(

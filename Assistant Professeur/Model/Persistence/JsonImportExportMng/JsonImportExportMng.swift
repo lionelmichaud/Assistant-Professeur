@@ -8,8 +8,9 @@
 import Foundation
 
 /// Export/Import vers/depuis des fichiers JSON
-enum JsonImportExportMng { // swiftlint:disable:this type_body_length
+enum JsonImportExportMng {
     static let ownerFileName = String(describing: OwnerEntity.self) + ".json"
+    static let userPrefFileName = String(describing: UserPrefEntity.self) + ".json"
     static let schoolsFileName = String(describing: SchoolEntity.self) + ".json"
     static let programsFileName = String(describing: ProgramEntity.self) + ".json"
     static let wCompetenciesFileName = String(describing: WCompChapterEntity.self) + ".json"

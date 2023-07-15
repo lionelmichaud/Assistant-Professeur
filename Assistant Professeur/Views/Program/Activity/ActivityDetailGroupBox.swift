@@ -16,7 +16,7 @@ struct ActivityDetailGroupBox: View {
     private var hClass
 
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     @State
     private var documentToBeViewed: DocumentEntity?
@@ -34,7 +34,7 @@ struct ActivityDetailGroupBox: View {
                 }
 
                 // note sur le programme
-                if pref.activityAnnotationEnabled && activity.viewAnnotation.isNotEmpty {
+                if pref.viewActivityAnnotationEnabled && activity.viewAnnotation.isNotEmpty {
                     AnnotationView(
                         annotation: activity.viewAnnotation,
                         scrollable: true,

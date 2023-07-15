@@ -16,7 +16,7 @@ struct SequenceDetailGroupBox: View {
     private var hClass
 
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     @State
     private var documentToBeViewed: DocumentEntity?
@@ -35,7 +35,7 @@ struct SequenceDetailGroupBox: View {
                 }
 
                 // note sur la séquence
-                if pref.sequenceAnnotationEnabled && sequence.viewAnnotation.isNotEmpty {
+                if pref.viewSequenceAnnotationEnabled && sequence.viewAnnotation.isNotEmpty {
                     AnnotationView(
                         annotation: sequence.viewAnnotation,
                         scrollable: true,

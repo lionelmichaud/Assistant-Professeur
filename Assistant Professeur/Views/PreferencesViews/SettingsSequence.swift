@@ -9,12 +9,12 @@ import SwiftUI
 
 struct SettingsSequence: View {
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     var body: some View {
         List {
             Section {
-                Toggle("Annotation", isOn: $pref.sequenceAnnotationEnabled)
+                Toggle("Annotation", isOn: $pref.viewSequenceAnnotationEnabled)
             } header: {
                 Text("Champs")
                     .style(.sectionHeader)
@@ -23,13 +23,13 @@ struct SettingsSequence: View {
             }
 
             Section {
-                Stepper(value : $pref.margeInterSequence,
+                Stepper(value : $pref.viewMargeInterSequence,
                         in    : 0 ... 3,
                         step  : 1) {
                     HStack {
                         Text("Nombre de séances")
                         Spacer()
-                        Text("\(pref.margeInterSequence.formatted(.number))")
+                        Text("\(pref.viewMargeInterSequence.formatted(.number))")
                             .foregroundColor(.secondary)
                     }
                 }
@@ -50,6 +50,6 @@ struct SettingsSequence: View {
 struct SettingsSequence_Previews: PreviewProvider {
     static var previews: some View {
         SettingsSequence()
-            .environmentObject(UserPreferences())
+            .environmentObject(UserPrefEntity())
     }
 }

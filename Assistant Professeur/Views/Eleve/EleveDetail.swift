@@ -28,7 +28,7 @@ struct EleveDetail: View {
     private var bonusIsExpanded = false
 
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     // MARK: - Computed properties
 
@@ -43,8 +43,8 @@ struct EleveDetail: View {
     private var bonusView: some View {
         Stepper(
             value: $eleve.viewBonus,
-            in: -pref.eleve.maxBonusMalus ... pref.eleve.maxBonusMalus,
-            step: pref.eleve.maxBonusIncrement
+            in: -pref.viewElevePref.maxBonusMalus ... pref.viewElevePref.maxBonusMalus,
+            step: pref.viewElevePref.maxBonusIncrement
         ) {
             HStack {
                 Label(
@@ -153,15 +153,15 @@ struct EleveDetail: View {
 
             List {
                 // appréciation sur l'élève
-                if pref.eleve.appreciationEnabled {
+                if pref.viewElevePref.appreciationEnabled {
                     AppreciationView(appreciation: $eleve.viewAppreciation)
                 }
                 // annotation sur l'élève
-                if pref.eleve.annotationEnabled {
+                if pref.viewElevePref.annotationEnabled {
                     AnnotationEditView(annotation: $eleve.viewAnnotation)
                 }
                 // bonus/malus de l'élève
-                if pref.eleve.bonusEnabled {
+                if pref.viewElevePref.bonusEnabled {
                     bonusView
                 }
                 // observations sur l'élève

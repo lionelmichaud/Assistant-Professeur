@@ -171,18 +171,18 @@ extension UserPrefEntity {
 
     /// Wrapper of `schoolYear`
     /// - Important: *Saves the context to the store after modification is done*
-    var viewSchoolYear: SchoolYearPref {
+    var viewSchoolYearPref: SchoolYearPref {
         get {
-            getSchoolYear(fromString: schoolYear)
+            getSchoolYearPref(fromString: schoolYear)
         }
         set {
-            setSchoolYear(newValue)
+            setSchoolYearPref(newValue)
             try? UserPrefEntity.saveIfContextHasChanged()
         }
     }
 
     /// Décode l'attribut `schoolYear` à partir d'une String `fromString`au format JSON.
-    private func getSchoolYear(fromString: String?) -> SchoolYearPref {
+    private func getSchoolYearPref(fromString: String?) -> SchoolYearPref {
         if let fromString {
             let data = Data(fromString.utf8)
             return (try? JSONDecoder().decode(SchoolYearPref.self, from: data)) ?? SchoolYearPref()
@@ -193,7 +193,7 @@ extension UserPrefEntity {
 
     /// Modifie l'attribut `schoolYear` en encodant les étapes au format JSON.
     /// - Important: *Does NOT save the context to the store after modification is done*
-    private func setSchoolYear(_ schoolYear: SchoolYearPref) {
+    private func setSchoolYearPref(_ schoolYear: SchoolYearPref) {
         guard let data = try? JSONEncoder().encode(schoolYear),
               let string = String(data: data, encoding: .utf8) else {
             self.schoolYear = ""
@@ -204,18 +204,18 @@ extension UserPrefEntity {
 
     /// Wrapper of `eleve`
     /// - Important: *Saves the context to the store after modification is done*
-    var viewEleve: ElevePref {
+    var viewElevePref: ElevePref {
         get {
-            getEleve(fromString: eleve)
+            getElevePref(fromString: eleve)
         }
         set {
-            setEleve(newValue)
+            setElevePref(newValue)
             try? UserPrefEntity.saveIfContextHasChanged()
         }
     }
 
     /// Décode l'attribut `eleve` à partir d'une String `fromString`au format JSON.
-    private func getEleve(fromString: String?) -> ElevePref {
+    private func getElevePref(fromString: String?) -> ElevePref {
         if let fromString {
             let data = Data(fromString.utf8)
             return (try? JSONDecoder().decode(ElevePref.self, from: data)) ?? ElevePref()
@@ -226,7 +226,7 @@ extension UserPrefEntity {
 
     /// Modifie l'attribut `eleve` en encodant les étapes au format JSON.
     /// - Important: *Does NOT save the context to the store after modification is done*
-    private func setEleve(_ eleve: ElevePref) {
+    private func setElevePref(_ eleve: ElevePref) {
         guard let data = try? JSONEncoder().encode(eleve),
               let string = String(data: data, encoding: .utf8) else {
             self.eleve = ""
@@ -239,6 +239,10 @@ extension UserPrefEntity {
 // MARK: - Extension Core Data
 
 extension UserPrefEntity {
+    static var shared: UserPrefEntity {
+        UserPrefEntity.all().first!
+    }
+
     // MARK: - Methods
 
     override public func awakeFromInsert() {
@@ -252,15 +256,25 @@ extension UserPrefEntity {
     /// Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
     static func initializeEntity() {
         // créer le record unique des préférences de l'utilisateur de l'appli
-        create()
+        createShared()
     }
 
     @discardableResult
-    static func create() -> UserPrefEntity? {
+    private static func createShared() -> UserPrefEntity? {
         guard UserPrefEntity.cardinal() == 0 else {
             return nil
         }
         let userPref = UserPrefEntity.create()
+
+        let elevePref = ElevePref()
+        userPref.setElevePref(elevePref)
+
+        let horairePref = DailySchedulePref()
+        userPref.setHoraire(horairePref)
+
+        let schoolYearPref = SchoolYearPref()
+        userPref.setSchoolYearPref(schoolYearPref)
+
         try? UserPrefEntity.saveIfContextHasChanged()
 
         return userPref
@@ -275,7 +289,7 @@ extension UserPrefEntity {
     ) {
         if cardinal() == 0 {
             if tryToRepair {
-                create()
+                createShared()
             }
             if cardinal() == 0 {
                 errorList.append(DataBaseError.some(

@@ -69,7 +69,7 @@ struct SettingsView_Previews: PreviewProvider {
         initialize()
         return Group {
             SettingsView()
-                .environmentObject(UserPreferences())
+                .environmentObject(UserPrefEntity())
                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
                 .previewDevice("iPad mini (6th generation)")
             SettingsView()

@@ -45,10 +45,6 @@ extension GroupEntity {
 // MARK: - Extension Core Data
 
 extension GroupEntity {
-    // MARK: - Type Properties
-
-    static var pref: ObservedObject<UserPreferences>.Wrapper!
-
     // MARK: - Type Computed Properties
 
     static var byClasseThenNumberNSSortDescriptor: [NSSortDescriptor] =
@@ -190,7 +186,7 @@ extension GroupEntity {
     ///   - searchString: caractères à rechercher dnas les noms/prénom ou nombre à rechercher dans le n° de groupe
     /// - Returns: Liste des élèves du groupe satisfaisant *au moins à l'un des critères* définis en paramètre
     func filteredElevesSortedByName(searchString: String) -> [EleveEntity] {
-        let sortComparators = GroupEntity.pref.nameSortOrder.wrappedValue == .nomPrenom ?
+        let sortComparators = UserPrefEntity.shared.nameSortOrderEnum == .nomPrenom ?
             [
                 SortDescriptor(\EleveEntity.familyName, order: .forward),
                 SortDescriptor(\EleveEntity.givenName, order: .forward)

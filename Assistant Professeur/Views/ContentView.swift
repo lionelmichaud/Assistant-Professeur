@@ -17,10 +17,13 @@ private let customLog = Logger(
 )
 
 struct ContentView: View {
-    @AppStorage("userPreferences")
-    private var userPreferencesData: Data?
     @StateObject
-    private var userPreferencesModel = UserPreferences()
+    private var userPreferencesModel: UserPrefEntity = {
+        // Créer le record unique des préférences
+        // de l'utilisateur de l'appli s'il n'existe pas encore.
+        UserPrefEntity.initializeEntity()
+        return UserPrefEntity.shared
+    }()
 
     @SceneStorage("navigation")
     private var navigationData: Data?
@@ -165,29 +168,6 @@ struct ContentView: View {
             // dans navigationData et les faire persister dans SceneStorage
             for await _ in navigationModel.objectWillChangeSequence {
                 navigationData = navigationModel.jsonData
-            }
-        }
-        // Persistence dans AppStorage des préférences utilisateur
-        .task {
-            if let userPreferencesData {
-                // Remplacer les préférences initiales par celles récupérées à partir
-                // du décodage des dernières valeurs stockées dans AppStorage
-                userPreferencesModel.jsonData = userPreferencesData
-            }
-
-            // Injecter l'ObservedObject dans les Classes qui ne sont pas des View
-            // et qui l'utilisent comme une "static property"
-            EleveEntity.pref = $userPreferencesModel
-            ClasseEntity.pref = $userPreferencesModel
-            GroupEntity.pref = $userPreferencesModel
-            ExamEntity.pref = $userPreferencesModel
-            SequenceEntity.pref = $userPreferencesModel
-            // AgendaManager.pref = $userPreferencesModel
-
-            // Encoder les nouvelles préférences (qui viennent de changer)
-            // dans userPreferencesData et les faire persister dans AppStorage
-            for await _ in userPreferencesModel.objectWillChangeSequence {
-                userPreferencesData = userPreferencesModel.jsonData
             }
         }
     }

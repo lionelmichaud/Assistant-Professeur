@@ -211,10 +211,6 @@ extension ClasseEntity {
 // MARK: - Extension Core Data
 
 extension ClasseEntity {
-    // MARK: - Type Properties
-
-    static var pref: ObservedObject<UserPreferences>.Wrapper!
-
     // MARK: - Type Computed Properties
 
     static var bySchoolThenClasseLevelNumberNSSortDescriptor: [NSSortDescriptor] =
@@ -585,7 +581,7 @@ extension ClasseEntity {
         filterColle: Bool = false,
         filterFlag: Bool = false
     ) -> [EleveEntity] {
-        let sortComparators = ClasseEntity.pref.nameSortOrder.wrappedValue == .nomPrenom ?
+        let sortComparators = UserPrefEntity.shared.nameSortOrderEnum == .nomPrenom ?
             [
                 SortDescriptor(\EleveEntity.familyName, order: .forward),
                 SortDescriptor(\EleveEntity.givenName, order: .forward)
@@ -635,7 +631,7 @@ extension ClasseEntity {
     ///
     /// Les élèves trouvés sont triés en utilisant les péréférences `nameSortOrder`.
     func unseatedEleves() -> [EleveEntity] {
-        let sortComparators = ClasseEntity.pref.nameSortOrder.wrappedValue == .nomPrenom ?
+        let sortComparators = UserPrefEntity.shared.nameSortOrderEnum == .nomPrenom ?
             [
                 SortDescriptor(\EleveEntity.familyName, order: .forward),
                 SortDescriptor(\EleveEntity.givenName, order: .forward)
