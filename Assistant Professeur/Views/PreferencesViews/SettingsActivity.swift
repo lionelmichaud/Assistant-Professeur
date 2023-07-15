@@ -9,12 +9,12 @@ import SwiftUI
 
 struct SettingsActivity: View {
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     var body: some View {
         List {
             Section {
-                Toggle("Annotation", isOn: $pref.activityAnnotationEnabled)
+                Toggle("Annotation", isOn: $pref.viewActivityAnnotationEnabled)
             } header: {
                 Text("Champs")
                     .style(.sectionHeader)
@@ -32,6 +32,6 @@ struct SettingsActivity: View {
 struct SettingsActivity_Previews: PreviewProvider {
     static var previews: some View {
         SettingsActivity()
-            .environmentObject(UserPreferences())
+            .environmentObject(UserPrefEntity())
     }
 }

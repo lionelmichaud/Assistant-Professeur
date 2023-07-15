@@ -15,8 +15,6 @@ import SwiftUI
 extension EleveEntity {
     // MARK: - Type Properties
 
-    static var pref: ObservedObject<UserPreferences>.Wrapper!
-
     #if canImport(UIKit)
         static let defaultTrombineNativeImage: UIImage = .init(systemName: "questionmark.app.dashed")!
     #elseif canImport(AppKit)
@@ -177,7 +175,7 @@ extension EleveEntity {
 
     @objc
     var displayName: String {
-        switch EleveEntity.pref.nameDisplayOrder.wrappedValue {
+        switch UserPrefEntity.shared.nameDisplayOrderEnum {
             case .prenomNom:
                 return "\(givenName ?? "") \(familyName ?? "")"
             case .nomPrenom:
@@ -187,7 +185,7 @@ extension EleveEntity {
 
     @objc
     var sortName: String {
-        switch EleveEntity.pref.nameSortOrder.wrappedValue {
+        switch UserPrefEntity.shared.nameSortOrderEnum {
             case .prenomNom:
                 return "\(givenName ?? "") \(familyName ?? "")"
             case .nomPrenom:
@@ -462,7 +460,7 @@ extension EleveEntity {
     ///   7. Nom de l'élève
     static var requestAllSortedBySchoolNameClasseGroupeEleveName: NSFetchRequest<EleveEntity> {
         let request = EleveEntity.fetchRequest()
-        if pref.nameSortOrder.wrappedValue == .nomPrenom {
+        if UserPrefEntity.shared.nameSortOrderEnum == .nomPrenom {
             request.sortDescriptors =
                 EleveEntity.bySchoolNameClasseGroupeEleveFamilyNameNSSortDescriptor
         } else {
@@ -603,7 +601,7 @@ extension EleveEntity {
         searchString _: String
     ) -> NSFetchRequest<EleveEntity> {
         let request = EleveEntity.fetchRequest()
-        if pref.nameSortOrder.wrappedValue == .nomPrenom {
+        if UserPrefEntity.shared.nameSortOrderEnum == .nomPrenom {
             request.sortDescriptors =
                 EleveEntity.bySchoolNameClasseEleveFamilyNameNSSortDescriptor
         } else {

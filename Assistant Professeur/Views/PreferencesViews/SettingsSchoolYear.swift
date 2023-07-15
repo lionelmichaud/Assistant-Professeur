@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SettingsSchoolYear: View {
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     @State
     private var alertTitle = ""
@@ -22,11 +22,11 @@ struct SettingsSchoolYear: View {
             // Zone scolaire
             Section {
                 CasePicker(
-                    pickedCase: $pref.schoolYear.zone,
+                    pickedCase: $pref.viewSchoolYearPref.zone,
                     label: "Zone scolaire"
                 )
                 .pickerStyle(.segmented)
-                Text("\(pref.schoolYear.zone.academy)")
+                Text("\(pref.viewSchoolYearPref.zone.academy)")
                     .foregroundColor(.secondary)
             } header: {
                 Text("Zone scolaire")
@@ -39,14 +39,14 @@ struct SettingsSchoolYear: View {
                     Text("du")
                     DatePicker(
                         "Début",
-                        selection: $pref.schoolYear.interval.start,
+                        selection: $pref.viewSchoolYearPref.interval.start,
                         displayedComponents: .date
                     )
                     .labelsHidden()
                     Text("au")
                     DatePicker(
                         "Fin",
-                        selection: $pref.schoolYear.interval.end,
+                        selection: $pref.viewSchoolYearPref.interval.end,
                         displayedComponents: .date
                     )
                     .labelsHidden()
@@ -57,7 +57,7 @@ struct SettingsSchoolYear: View {
             }
 
             // Périodes de vacances scolaires
-            ForEach($pref.schoolYear.vacances) { $vacance in
+            ForEach($pref.viewSchoolYearPref.vacances) { $vacance in
                 Section {
                     HStack {
                         Text("du")
@@ -110,8 +110,8 @@ struct SettingsSchoolYear: View {
             let success = await EventManager.saveOrUpdate(
                 eventTitle: eventTitle,
                 eventDateInterval: eventDateInterval,
-                toCalendarNamed: pref.schoolYear.calName,
-                during: pref.schoolYear.interval
+                toCalendarNamed: pref.viewSchoolYearPref.calName,
+                during: pref.viewSchoolYearPref.interval
             )
             if success {
                 alertTitle = "L'événement a été enregistré."
@@ -127,6 +127,6 @@ struct SettingsSchoolYear: View {
 struct SettingsSchoolYear_Previews: PreviewProvider {
     static var previews: some View {
         SettingsSchoolYear()
-            .environmentObject(UserPreferences())
+            .environmentObject(UserPrefEntity())
     }
 }

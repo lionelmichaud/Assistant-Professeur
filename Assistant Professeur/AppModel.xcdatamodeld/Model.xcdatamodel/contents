@@ -251,6 +251,22 @@
         <relationship name="documents" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DocumentEntity" inverseName="sequence" inverseEntity="DocumentEntity"/>
         <relationship name="program" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProgramEntity" inverseName="sequences" inverseEntity="ProgramEntity"/>
     </entity>
+    <entity name="UserPrefEntity" representedClassName="UserPrefEntity" syncable="YES" codeGenerationType="category">
+        <attribute name="activityAnnotationEnabled" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="classeAnnotationEnabled" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="classeAppreciationEnabled" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="eleve" attributeType="String" defaultValueString=""/>
+        <attribute name="horaire" attributeType="String" defaultValueString=""/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="interoperability" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="margeInterSequence" optional="YES" attributeType="Integer 16" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="nameDisplayOrder" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="nameSortOrder" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="programAnnotationEnabled" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="schoolAnnotationEnabled" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="schoolYear" attributeType="String" defaultValueString=""/>
+        <attribute name="sequenceAnnotationEnabled" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+    </entity>
     <entity name="WCompChapterEntity" representedClassName="WCompChapterEntity" syncable="YES" codeGenerationType="category">
         <attribute name="acronym" attributeType="String" defaultValueString=""/>
         <attribute name="compCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="competencies.@count" usesScalarValueType="YES"/>

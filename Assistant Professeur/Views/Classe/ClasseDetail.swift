@@ -18,7 +18,7 @@ struct ClasseDetail: View {
     private var managedObjectContext
 
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     @State
     private var isShowingImportListeDialog = false
@@ -86,7 +86,7 @@ struct ClasseDetail: View {
             ) = CsvImportExportMng
                 .importElevesListe(
                     for: classe,
-                    interoperability: pref.interoperability,
+                    interoperability: pref.interoperabilityEnum,
                     result: result
                 )
         }
@@ -134,7 +134,7 @@ extension ClasseDetail {
                     Image(systemName: "dice.fill")
                         .imageScale(.large)
                 }
-                .disabled(!pref.eleve.trombineEnabled)
+                .disabled(!pref.viewElevePref.trombineEnabled)
                 .popover(item: $randomEleve) { eleve in
                     ZStack(alignment: .bottom) {
                         TrombineView(eleve: eleve)
@@ -181,7 +181,7 @@ extension ClasseDetail {
                         importCsvFile = true
                     }
                 } message: {
-                    Text("La liste des élèves importée doit être au format CSV de \(pref.interoperability == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
+                    Text("La liste des élèves importée doit être au format CSV de \(pref.interoperabilityEnum == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
                         Text("Cette action ne peut pas être annulée.")
                 }
             } label: {

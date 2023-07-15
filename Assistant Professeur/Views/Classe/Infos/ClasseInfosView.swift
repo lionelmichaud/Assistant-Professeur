@@ -14,7 +14,7 @@ struct ClasseInfosView: View {
     var classe: ClasseEntity
 
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     /// Conseils de classe
     @State
@@ -54,11 +54,11 @@ struct ClasseInfosView: View {
         List {
             Section {
                 // appréciation sur la classe
-                if pref.classeAppreciationEnabled {
+                if pref.viewClasseAppreciationEnabled {
                     AppreciationView(appreciation: $classe.viewAppreciation)
                 }
                 // annotation sur la classe
-                if pref.classeAnnotationEnabled {
+                if pref.viewClasseAnnotationEnabled {
                     AnnotationEditView(annotation: $classe.viewAnnotation)
                 }
             }
@@ -81,7 +81,7 @@ struct ClasseInfosView: View {
                 conseils = await EventManager.getAllConseils(
                     forClasseName: classe.displayString,
                     inCalendarNamed: school.viewName,
-                    during: pref.schoolYear.interval
+                    during: pref.viewSchoolYearPref.interval
                 )
             }
         }

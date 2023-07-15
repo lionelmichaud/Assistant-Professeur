@@ -301,10 +301,6 @@ extension ExamEntity {
 // MARK: - Extension Core Data
 
 extension ExamEntity {
-    // MARK: - Type Properties
-
-    static var pref: ObservedObject<UserPreferences>.Wrapper!
-
     // MARK: - Type Methods
 
     /// Check the correctness and consistency of all database entities of this type.
@@ -394,7 +390,7 @@ extension ExamEntity {
     ///   - searchString: caractères à rechercher dans les noms/prénom ou nombre à rechercher dans le n° de groupe
     /// - Returns: Liste des notes des élèves de la classe satisfaisant *au moins à l'un des critères* définis en paramètre
     func sortedMarksByEleveName(searchString: String = "") -> [MarkEntity] {
-        let sortComparators = ExamEntity.pref.nameSortOrder.wrappedValue == .nomPrenom ?
+        let sortComparators = UserPrefEntity.shared.nameSortOrderEnum == .nomPrenom ?
             [
                 SortDescriptor(\MarkEntity.eleve?.familyName, order: .forward),
                 SortDescriptor(\MarkEntity.eleve?.givenName, order: .forward)

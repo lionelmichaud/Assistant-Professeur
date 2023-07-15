@@ -13,7 +13,7 @@ struct EleveMarkRow: View {
     var mark: MarkEntity
 
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     @Environment(\.horizontalSizeClass)
     private var hClass
@@ -193,7 +193,7 @@ extension EleveMarkRow {
                 .foregroundColor(mark.eleve!.sexEnum.color)
         }
         .buttonStyle(.borderless)
-        .disabled(!pref.eleve.trombineEnabled)
+        .disabled(!pref.viewElevePref.trombineEnabled)
         .popover(item: $selectedEleve) { eleve in
             TrombineView(eleve: eleve)
                 .scaledToFit()

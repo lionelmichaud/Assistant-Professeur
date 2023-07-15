@@ -21,6 +21,11 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             errorList: &errorList, tryToRepair: tryToRepair
         )
 
+        // Utilisateur
+        UserPrefEntity.checkConsistency(
+            errorList: &errorList, tryToRepair: tryToRepair
+        )
+
         // Etablissements
         RoomEntity.checkConsistency(
             errorList: &errorList, tryToRepair: tryToRepair
@@ -114,6 +119,8 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
     static func isEmpty() -> Bool {
         OwnerEntity.cardinal() == 0 &&
 
+            UserPrefEntity.cardinal() == 0 &&
+
             SchoolEntity.cardinal() == 0 &&
             DocumentEntity.cardinal() == 0 &&
             EventEntity.cardinal() == 0 &&
@@ -147,6 +154,13 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
         // Suppression des données personnelle de l'utilisateur de l'application
         do {
             try OwnerEntity.deleteAll()
+        } catch {
+            failed = true
+        }
+
+        // Suppression des préférences de l'utilisateur de l'application
+        do {
+            try UserPrefEntity.deleteAll()
         } catch {
             failed = true
         }

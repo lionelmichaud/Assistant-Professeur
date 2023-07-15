@@ -73,6 +73,19 @@ extension JsonImportExportMng {
                         alertIsPresented: alertIsPresented
                     )
                 }
+                /// Rechercher le fichier contenant les données du Préférences Utilisateur du Modèle
+                guard let userPrefJsonFile = filesUrl.first(where: { fileUrl in
+                    fileUrl.lastPathComponent == userPrefFileName
+                }) else {
+                    alertTitle = "Échec"
+                    alertMessage = "Le fichier **\(userPrefFileName)** n'a pas été trouvé"
+                    alertIsPresented = true
+                    return (
+                        alertTitle: alertTitle,
+                        alertMessage: alertMessage,
+                        alertIsPresented: alertIsPresented
+                    )
+                }
                 /// Rechercher le fichier contenant la branche des Programmes du Modèle
                 guard let programJsonFile = filesUrl.first(where: { fileUrl in
                     fileUrl.lastPathComponent == programsFileName
@@ -127,6 +140,22 @@ extension JsonImportExportMng {
                 }
 
                 // IMPORTER LES FICHIERS REQUIS
+
+                // 0 - Importer les données contenant les Préferences Utilisateurdu Modèle
+                guard userPrefJsonFile.startAccessingSecurityScopedResource() else {
+                    alertTitle = "Échec"
+                    alertMessage = "L'importation du fichier **\(userPrefFileName)** a échouée!"
+                    alertIsPresented = true
+
+                    return (
+                        alertTitle: alertTitle,
+                        alertMessage: alertMessage,
+                        alertIsPresented: alertIsPresented
+                    )
+                }
+                // TODO: - A tester
+                importUserPrefFromJson(fileUrl: userPrefJsonFile)
+                userPrefJsonFile.stopAccessingSecurityScopedResource()
 
                 // 1 - Importer les données contenant les données du Owner du Modèle
                 guard ownerJsonFile.startAccessingSecurityScopedResource() else {
@@ -234,7 +263,19 @@ extension JsonImportExportMng {
 
     // MARK: - Importation des fichiers JSON
 
-    // TODO: - A tester
+    /// TODO: - A tester
+    /// Importer les données contenant les Préférences Utilisateur du Modèle depuis un fichier au format JSON
+    private static func importUserPrefFromJson(fileUrl: URL) {
+        let userPref = fileUrl.decode(
+            UserPrefEntity.self,
+            from: ""
+        )
+        #if DEBUG
+            print(String(describing: userPref))
+        #endif
+    }
+
+    /// TODO: - A tester
     /// Importer les données contenant les données du Owner du Modèle depuis un fichier au format JSON
     private static func importOwnerFromJson(fileUrl: URL) {
         let owner = fileUrl.decode(
@@ -268,7 +309,7 @@ extension JsonImportExportMng {
         #endif
     }
 
-    // TODO: - A tester
+    /// TODO: - A tester
     /// Importer les Compétences Scocle depuis des fichiers au format JSON
     private static func importWCompetenciesFromJson(fileUrl: URL) {
         let wCompChapters = fileUrl.decode(
@@ -280,7 +321,7 @@ extension JsonImportExportMng {
         #endif
     }
 
-    // TODO: - A tester
+    /// TODO: - A tester
     /// Importer les Compétences Disciplinaires depuis des fichiers au format JSON
     private static func importDCompetenciesFromJson(fileUrl: URL) {
         let dCompThemes = fileUrl.decode(

@@ -14,12 +14,12 @@ struct SchoolInfosView: View {
     var school: SchoolEntity
 
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     var body: some View {
         List {
             // note sur la classe
-            if pref.schoolAnnotationEnabled {
+            if pref.viewSchoolAnnotationEnabled {
                 AnnotationEditView(annotation: $school.viewAnnotation)
             }
             // Coordonnées de l'établissement

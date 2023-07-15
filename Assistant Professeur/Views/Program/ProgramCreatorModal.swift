@@ -19,7 +19,7 @@ struct ProgramCreatorModal: View {
     private var hClass
 
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     @State
     private var alertTitle = ""
@@ -55,7 +55,7 @@ struct ProgramCreatorModal: View {
                 }
             }
 
-            if pref.programAnnotationEnabled {
+            if pref.viewProgramAnnotationEnabled {
                 TextField(
                     "Annotation",
                     text: $programVM.annotation,

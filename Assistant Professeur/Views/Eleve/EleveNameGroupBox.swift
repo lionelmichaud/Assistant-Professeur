@@ -15,7 +15,7 @@ struct EleveNameGroupBox: View {
     var isEditing: Bool
 
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     /// Focused filed manager
     enum FocusableField: Hashable {
@@ -75,7 +75,7 @@ struct EleveNameGroupBox: View {
                     // priorité 1
                     HStack {
                         sexEditView
-                        if pref.nameDisplayOrder == .nomPrenom {
+                        if pref.nameDisplayOrderEnum == .nomPrenom {
                             nomEditView
                             prenomEditView
                         } else {
@@ -86,7 +86,7 @@ struct EleveNameGroupBox: View {
                     // priorité 2
                     VStack {
                         sexEditView
-                        if pref.nameDisplayOrder == .nomPrenom {
+                        if pref.nameDisplayOrderEnum == .nomPrenom {
                             nomEditView
                             prenomEditView
                         } else {
@@ -101,7 +101,7 @@ struct EleveNameGroupBox: View {
             }
         }
         .onAppear {
-            focus = pref.nameDisplayOrder == .nomPrenom ? .familyName : .givenName
+            focus = pref.nameDisplayOrderEnum == .nomPrenom ? .familyName : .givenName
         }
     }
 }

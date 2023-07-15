@@ -12,7 +12,7 @@ struct EleveListSection: View {
     var classe: ClasseEntity
 
     @EnvironmentObject
-    private var pref: UserPreferences
+    private var pref: UserPrefEntity
 
     var body: some View {
         Section {
@@ -20,7 +20,7 @@ struct EleveListSection: View {
             elevesListView
 
             // trombinoscope
-            if pref.eleve.trombineEnabled {
+            if pref.viewElevePref.trombineEnabled {
                 trombinoscopeView
             }
 
