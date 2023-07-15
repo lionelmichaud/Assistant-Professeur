@@ -14,29 +14,27 @@ struct AssociatedActivityBrowerRow: View {
 
     var body: some View {
         let layout = verticallyStacked ?
-            AnyLayout(VStackLayout()) :
-            AnyLayout(HStackLayout())
-        return HStack {
-            layout {
+            AnyLayout(VStackLayout(alignment: .leading)) :
+            AnyLayout(HStackLayout(alignment: .center))
+        return layout {
+            HStack(alignment: .center) {
                 if let level = activity.sequence?.program?.viewLevelEnum {
-                    LevelTag(
-                        level: level,
-                        font: .callout
-                    )
+                    LevelTag(level: level)
                 }
-                
-                HStack(spacing: 0) {
-                    if let sequence = activity.sequence {
-                        Image(systemName: "\(sequence.viewNumber).circle")
-                            .imageScale(.large)
-                            .foregroundColor(.primary)
-                    }
-                    Image(systemName: "\(activity.viewNumber).circle")
-                        .imageScale(.large)
-                        .foregroundColor(.secondary)
+                if let sequence = activity.sequence {
+                    SequenceTagWithPopOver(sequence: sequence)
                 }
+                ActivityTag(activity: activity)
+            }
+
+            if let sequence = activity.sequence,
+               verticallyStacked {
+                Text(sequence.viewName)
+                    .lineLimit(1)
             }
             Text(activity.viewName)
+                .lineLimit(1)
+                .foregroundColor(.secondary)
         }
     }
 }

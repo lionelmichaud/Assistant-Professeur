@@ -14,15 +14,10 @@ struct SequencePickerRow: View {
     var body: some View {
         HStack {
             if let level = sequence.program?.viewLevelEnum {
-                LevelTag(
-                    level: level,
-                    font: .callout
-                )
+                LevelTag(level: level)
             }
 
-            Image(systemName: "\(sequence.viewNumber).circle")
-                .imageScale(.large)
-                .foregroundColor(.primary)
+            SequenceTag(sequence: sequence)
             
             Text(sequence.viewName)
         }

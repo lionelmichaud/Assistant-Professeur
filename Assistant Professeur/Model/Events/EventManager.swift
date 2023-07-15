@@ -130,7 +130,7 @@ enum EventManager {
         let eventStore = EKEventStore()
         // eventStore.reset()
         do {
-            let granted = try await eventStore.requestAccess(to: .event)
+            _ = try await eventStore.requestAccess(to: .event)
 
             // Find the calendar named `calName`
             guard let myCalendar = try getOrCreateCalendar(

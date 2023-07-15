@@ -10,6 +10,7 @@ import Foundation
 
 /// Discipline d'enseignement
 enum Discipline: String, PickableIdentifiableEnumP, Codable {
+    case technologie
     case artPla
     case francais
     case histoireGeo
@@ -20,9 +21,9 @@ enum Discipline: String, PickableIdentifiableEnumP, Codable {
     case musique
     case nsi
     case physique
+    case si
     case snt
     case svt
-    case technologie
     case general
     case autre
 
@@ -54,6 +55,8 @@ enum Discipline: String, PickableIdentifiableEnumP, Codable {
                 return "Musique"
             case .artPla:
                 return "Arts Plastiques"
+            case .si:
+                return "Sciences de l'Ingénieur"
             case .svt:
                 return "SVT"
             case .nsi:
@@ -89,6 +92,8 @@ enum Discipline: String, PickableIdentifiableEnumP, Codable {
                 return "MUS"
             case .artPla:
                 return "ARTPLA"
+            case .si:
+                return "SI"
             case .svt:
                 return "SVT"
             case .nsi:
@@ -113,6 +118,7 @@ enum Discipline: String, PickableIdentifiableEnumP, Codable {
             case .musique: return 1
             case .nsi: return 2
             case .physique: return 1.5
+            case .si: return 1.5
             case .snt: return 1.5
             case .svt: return 1.5
             case .technologie: return 1.5

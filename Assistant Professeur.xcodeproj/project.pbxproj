@@ -844,9 +844,9 @@
 			children = (
 				7957A8332A375DC400D64786 /* DKnowViewModel.swift */,
 				79F5BEC62A3674AA003F112E /* DKnowListView.swift */,
+				796A17852A3F49E600413DDD /* KnowledgeListSection.swift */,
 				7957A82F2A3759E400D64786 /* DKnowBrowserRow.swift */,
 				7957A8312A375D7C00D64786 /* DKnowEditorModal.swift */,
-				796A17852A3F49E600413DDD /* KnowledgeListSection.swift */,
 				79FB2E482A3E4DFB00F05D61 /* ConnectToWCompModal.swift */,
 				796A17872A3F6C6600413DDD /* WCompListSection.swift */,
 				79F7A27C2A405D8F00CEC3D5 /* ConnectToActivityModal.swift */,
@@ -1564,7 +1564,7 @@
 			children = (
 				79FD218A2A3362C000A8D925 /* Theme */,
 				79FD218F2A33868F00A8D925 /* Section */,
-				79FD219E2A33C7E500A8D925 /* Competency */,
+				79FD219E2A33C7E500A8D925 /* DiscipCompetency */,
 				791802A72A367212001588B2 /* Knowledge */,
 			);
 			path = DsciplineCompetency;
@@ -1829,7 +1829,7 @@
 			name = Section;
 			sourceTree = "<group>";
 		};
-		79FD219E2A33C7E500A8D925 /* Competency */ = {
+		79FD219E2A33C7E500A8D925 /* DiscipCompetency */ = {
 			isa = PBXGroup;
 			children = (
 				79FD219F2A33C82900A8D925 /* DCompViewModel.swift */,
@@ -1838,7 +1838,7 @@
 				79FD21A52A34D41000A8D925 /* DCompEditorModal.swift */,
 				79F7A27E2A40888300CEC3D5 /* DCompTagList.swift */,
 			);
-			path = Competency;
+			path = DiscipCompetency;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

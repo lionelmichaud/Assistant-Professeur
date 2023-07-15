@@ -241,7 +241,10 @@ enum ProgramManager {
             return []
         }
     }
+}
 
+// MARK: - Détermination des périodes d'activité d'un Programme
+extension ProgramManager {
     /// La période de vacance est entièrement inclue dans la dernière partie de la séquence
     fileprivate static func manageFullOverlap(
         sequence: SequenceEntity,
@@ -317,6 +320,15 @@ enum ProgramManager {
         return sequenceInterval.formShift(by: timeShift)
     }
 
+    /// Détermination des périodes d'activité d'une séquence en fonction
+    /// du calendrier scolaire.
+    /// - Parameters:
+    ///   - sequence: Séquence pédagogique
+    ///   - currentDate: Date/Heure de début de la séquence
+    ///   - nbHeurePerWeek: Nombre dheures de cours en moyenne par semaine pour cette discipline
+    ///   - schoolYear: Caractéristiques de l'année scolaire
+    /// - Returns: Périodes d'activité d'une séquence
+    /// - Precondition: Les vacances doivent être ordonnées par date croissante.
     static func getSequenceActivitiesPeriods(
         sequence: SequenceEntity,
         currentDate: inout Date,
@@ -417,7 +429,7 @@ enum ProgramManager {
         return sequenceData
     }
 
-    /// Déterminsation des périodes d'activité d'un programme en fonction
+    /// Détermination des périodes d'activité d'un programme en fonction
     /// du calendrier scolaire.
     /// - Parameters:
     ///   - program: Programme annuel
