@@ -10,6 +10,8 @@ import Foundation
 
 /// Calendrier d'une année scolaire
 struct SchoolYearPref: Codable {
+    // MARK: - Type Definitions
+
     /// Une période de vacance
     struct Vacance: Codable, Identifiable {
         /// Nom de la période de vacance
@@ -18,6 +20,8 @@ struct SchoolYearPref: Codable {
         var interval: DateInterval
         var id: String { name }
     }
+
+    // MARK: - Type Properties
 
     /// Année scolaire en cours (1ère des deux années couvertes parl'année scolaire).
     ///
@@ -30,15 +34,23 @@ struct SchoolYearPref: Codable {
         }
     }
 
-    // TODO: - A mettre en préférence
+    // MARK: - Properties
+
+    /// Nom du calendrier de l'année scolaire dans l'App Calendar
     var calName: String = "Année Scolaire"
+    // TODO: - A mettre en préférence
 
     var zone: ZoneScolaire = .ZoneC
 
+    // MARK: - Computed Properties
+
+    /// interval de temps de l'année scolaire entière
     var interval = DateInterval(
         start: Calendar.current.date(from: currentSchoolYear.years + 9.months)!,
         end: Calendar.current.date(from: (currentSchoolYear + 1).years + 7.months + 7.days)!
     )
+
+    /// Périodes de vacances scolaires
     var vacances: [Vacance] = [
         Vacance(
             name: "Vacances d'automne",
