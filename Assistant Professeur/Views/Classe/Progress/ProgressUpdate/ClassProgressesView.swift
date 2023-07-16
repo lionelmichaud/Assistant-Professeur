@@ -19,7 +19,7 @@ struct ClassProgressesView: View {
     private var classeSequences = [SequenceEntity]()
 
     @State
-    private var classeSeances: DateIntervalSeances = .init()
+    private var classeSeances: SeancesInDateInterval = .init()
 
     @State
     var progressChanged: Bool = false

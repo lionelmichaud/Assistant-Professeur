@@ -19,7 +19,7 @@ enum SequenceSeanceCoordinator {
     /// - Attention: Seules les progressions non encore achevées sont utilisées.
     /// - Precondition: Les `progresses` doivent être triés par Séquences/Activités croissantes.
     static func synchronize(
-        classeSeances intervalSeances: inout DateIntervalSeances,
+        classeSeances intervalSeances: inout SeancesInDateInterval,
         withProgresses progresses: [ActivityProgressEntity]
     ) {
         SequenceSeanceCoordinator.synchronize(
@@ -79,7 +79,7 @@ enum SequenceSeanceCoordinator {
     /// - Precondition: Les `progresses` doivent être triés par Séquences/Activités croissantes.
     static func synchronize(
         classeProgresses progresses: [ActivityProgressEntity],
-        withSeances intervalSeances: DateIntervalSeances
+        withSeances intervalSeances: SeancesInDateInterval
     ) {
         let nbSeances: Int = intervalSeances.seances.count
         guard nbSeances > 0 else {

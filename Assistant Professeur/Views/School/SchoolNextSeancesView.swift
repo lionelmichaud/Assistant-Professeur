@@ -15,7 +15,7 @@ struct SchoolNextSeancesView: View {
     private let horizon = 3 // mois
 
     @State
-    private var schoolSeances: DateIntervalSeances = .init()
+    private var schoolSeances: SeancesInDateInterval = .init()
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
@@ -47,7 +47,7 @@ struct SchoolNextSeancesView: View {
                             sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
                         }
 
-                        var classeSeances: DateIntervalSeances = .init()
+                        var classeSeances: SeancesInDateInterval = .init()
                         var forDiscipline = Discipline.autre
                         var forClasseName = ""
 
@@ -89,7 +89,7 @@ struct SchoolNextSeancesView: View {
             })
 
             // Ajouter les séances de cette classe à celles de l'établissement
-            schoolSeances = DateIntervalSeances(from: foundSeances)
+            schoolSeances = SeancesInDateInterval(from: foundSeances)
         }
         #if os(iOS)
         .navigationTitle("Cours à venir")

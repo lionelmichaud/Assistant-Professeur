@@ -25,7 +25,7 @@ struct ClassRailwayProgressView: View {
     private var classeSequencesEnCours = [SequenceEntity]()
 
     @State
-    private var classeSeances: DateIntervalSeances = .init()
+    private var classeSeances: SeancesInDateInterval = .init()
 
     // MARK: - Methods
 
@@ -124,7 +124,7 @@ extension ClassRailwayProgressView {
     private func steps(
         classeProgresses progresses: [ActivityProgressEntity],
         // paramètre non utilisé mais oblige la vue à se rafraichire quand le paramètre change
-        classeSeances _: DateIntervalSeances
+        classeSeances _: SeancesInDateInterval
     ) -> [AnyView] {
         progresses
             .map { progress in

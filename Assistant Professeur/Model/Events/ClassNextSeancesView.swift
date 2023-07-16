@@ -15,7 +15,7 @@ struct ClassNextSeancesView: View {
     private let horizon = 3 // mois
 
     @State
-    private var classeSeances: DateIntervalSeances = .init()
+    private var classeSeances: SeancesInDateInterval = .init()
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
@@ -37,7 +37,7 @@ struct ClassNextSeancesView: View {
             // Liste des Progressions de la classe triée par numéro de Séquence / Activité
             let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
 
-            // Liste des Séances à venir pour cette classe
+            // Suite des Séances à venir pour cette classe sur un `horizon`
             if let schoolName = classe.school?.viewName {
                 await $classeSeances.loadSeancesFromCalendar(
                     forDiscipline: classe.disciplineEnum,

@@ -15,7 +15,7 @@ struct ClasseProgressSection: View {
     private var hClass
 
     @State
-    private var classeSeances: DateIntervalSeances = .init()
+    private var classeSeances: SeancesInDateInterval = .init()
 
     var body: some View {
         if let progresses = classe.progresses,
