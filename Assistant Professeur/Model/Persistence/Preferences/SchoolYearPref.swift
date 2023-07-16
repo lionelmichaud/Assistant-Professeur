@@ -8,15 +8,20 @@
 import AppFoundation
 import Foundation
 
+/// Calendrier d'une année scolaire
 struct SchoolYearPref: Codable {
-    // Période de vacance
+    /// Une période de vacance
     struct Vacance: Codable, Identifiable {
+        /// Nom de la période de vacance
         var name: String
+        /// Interval de temps de la période de vacance
         var interval: DateInterval
         var id: String { name }
     }
 
-    /// Année scolaire en cours (1ère des deux années couvertes)
+    /// Année scolaire en cours (1ère des deux années couvertes parl'année scolaire).
+    ///
+    /// Exemple: pour l'année scolaire 2023/2024 retourne 2023.
     static var currentSchoolYear: Int {
         if Date.now.month >= 9 {
             return Date.now.year
@@ -25,7 +30,8 @@ struct SchoolYearPref: Codable {
         }
     }
 
-    var calName: String = "Scolaire"
+    // TODO: - A mettre en préférence
+    var calName: String = "Année Scolaire"
 
     var zone: ZoneScolaire = .ZoneC
 

@@ -39,14 +39,15 @@ struct ClassNextSeancesView: View {
 
             // Suite des Séances à venir pour cette classe sur un `horizon`
             if let schoolName = classe.school?.viewName {
+                let horizon = DateInterval(
+                    start: Date.now,
+                    end: horizon.months.fromNow!
+                )
                 await $classeSeances.loadSeancesFromCalendar(
                     forDiscipline: classe.disciplineEnum,
                     forClasse: classe.displayString,
                     schoolName: schoolName,
-                    during: DateInterval(
-                        start: Date.now,
-                        end: horizon.months.fromNow!
-                    )
+                    during: horizon
                 )
 
                 // Synchroniser les Progressions avec les Séances
