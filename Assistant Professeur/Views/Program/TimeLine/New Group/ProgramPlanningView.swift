@@ -13,8 +13,8 @@ struct ProgramPlanningView: View {
     @ObservedObject
     var program: ProgramEntity
 
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     @State
     private var data = ProgramPlanningGraphData()
@@ -35,6 +35,15 @@ struct ProgramPlanningView: View {
             ForEach(data.sequences) { sequence in
                 sequenceMark(sequence: sequence)
             }
+            RuleMark(x: .value("Aujourd'hui", Date.now))
+                .foregroundStyle(.red)
+                .lineStyle(
+                    StrokeStyle(
+                        lineWidth: 0.75,
+                        lineCap: .round,
+                        dash: [10, 5]
+                    )
+                )
         }
         .chartForegroundStyleScale([
             SequenceData.Serie.activity: .blue,

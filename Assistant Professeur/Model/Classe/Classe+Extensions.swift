@@ -6,8 +6,8 @@
 //
 
 import CoreData
-import SwiftUI
 import os
+import SwiftUI
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -519,29 +519,56 @@ extension ClasseEntity {
             .sorted(using: sortComparators)
     }
 
-    /// Retourne la progression (en % de temps) de la classe pour la séquence sélectionnée.
-    func progressInSequence(_ sequence: SequenceEntity) -> Double {
+    /// Retourne la progression réelle (en % de temps) de la classe pour la séquence sélectionnée.
+    func actualProgressInSequence(_ sequence: SequenceEntity) -> Double {
         let progressesInSequence = self.sortedProgressesInSequence(sequence)
         let nbOfSeanceInSequence = sequence.durationWithoutMargin
         let nbOfSeanceCompleted: Double = progressesInSequence.reduce(0.0) {
             $0 + $1.progress * ($1.activity?.duration ?? 0)
         }
-        return nbOfSeanceCompleted / nbOfSeanceInSequence
+        if nbOfSeanceInSequence == 0 {
+            return 0
+        } else {
+            return nbOfSeanceCompleted / nbOfSeanceInSequence
+        }
     }
 
-    /// Retourne la progression (en % de temps) de la classe dans le programme annuel.
-    func progressInProgram() -> Double {
+    /// Retourne la progression réelle (en % de temps) de la classe dans le programme annuel.
+    func actualProgressInProgram() -> Double {
         let sequencesInProgram = self.allFollowedSequencesSortedBySequenceNumber
         let (nbOfSeanceInProgram, nbOfSeanceCompleted): (Double, Double) =
             sequencesInProgram
                 .reduce((0.0, 0.0)) { nb, sequence in
                     (
                         nb.0 + sequence.durationWithoutMargin,
-                        nb.1 + progressInSequence(sequence) * sequence.durationWithoutMargin
+                        nb.1 + actualProgressInSequence(sequence) * sequence.durationWithoutMargin
                     )
                 }
+        if nbOfSeanceInProgram == 0 {
+            return 0
+        } else {
+            return nbOfSeanceCompleted / nbOfSeanceInProgram
+        }
+    }
+
+    /// Retourne la progression théorique (en % de temps) de la classe dans le programme annuel à la date courante.
+    func theoricalProgressInProgram() -> Double {
+        let nbOfSeanceCompleted = 15.0
+
+        let sequencesInProgram = self.allFollowedSequencesSortedBySequenceNumber
+        let nbOfSeanceInProgram: Double =
+            sequencesInProgram
+                .reduce(0.0) { nb, sequence in
+                    nb + sequence.durationWithoutMargin
+                }
+
         print(nbOfSeanceInProgram, nbOfSeanceCompleted)
-        return nbOfSeanceCompleted / nbOfSeanceInProgram
+
+        if nbOfSeanceInProgram == 0 {
+            return 0
+        } else {
+            return nbOfSeanceCompleted / nbOfSeanceInProgram
+        }
     }
 
     // MARK: - Méthodes Groupes

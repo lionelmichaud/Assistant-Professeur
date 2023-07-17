@@ -5,14 +5,13 @@
 //  Created by Lionel MICHAUD on 06/07/2023.
 //
 
-import EventKit
 import Foundation
 import SwiftUI
 
 /// Proxy vers DateIntervalSeances
 /// Refer to : [Calling Mutating Async Functions from SwiftUI Views](https://diegolavalle.com/posts/2022-11-29-calling-mutating-async-functions/)
 @MainActor
-extension Binding where Value == DateIntervalSeances {
+extension Binding where Value == SeancesInDateInterval {
     func loadSeancesFromCalendar(
         forDiscipline discipline: Discipline,
         forClasse classe: String,
@@ -32,28 +31,35 @@ extension Binding where Value == DateIntervalSeances {
 /// Plusieurs activités peuvent être abordées pendant le même cours.
 struct Seance: Identifiable {
     var id = UUID()
-    var classeName: String?
-    var event: EKEvent
+    /// Acronym de la classe concernée par la séance ou nom de la période de vacance
+    var name: String?
+    /// Evénement correspondant à la séance
+    var interval: DateInterval
+    /// Activité pédagogique menée pendant la séance
     var activities = [ActivityEntity]()
+    /// True si cette séance est en réalité une période de vacance
+    var isVacance: Bool = false
 }
 
-/// Recherche dans l'App Calendar les séances d'une classe
-/// et les synchronise avec les séquences pédagogiques.
+/// Suite de séances (cours) pour une classe donnée et sur un horizon de temps donné.
+/// Recherche dans l'App Calendar les séances à venir d'une classe.
 /// - Warning: A utiliser avec le proxy ci-dessus
 ///
 /// Refer to : [Calling Mutating Async Functions from SwiftUI Views](https://diegolavalle.com/posts/2022-11-29-calling-mutating-async-functions/)
-struct DateIntervalSeances {
+struct SeancesInDateInterval {
     // MARK: - Properties
 
     /// Séances de la période
-    private(set) var seances: [Seance]
+    var seances: [Seance]
 
     // MARK: - Initializers
 
+    /// Initiialize une suite de séances vide (ne contenant aucune séance)
     init() {
         self.seances = [Seance]()
     }
 
+    /// Initiialize une suite de séances avec pour contenu initial les `seances`.
     init(from seances: [Seance]) {
         self.seances = seances
     }
@@ -71,7 +77,7 @@ struct DateIntervalSeances {
 
     // MARK: - Methods
 
-    /// Charge toutes les séance de la `period` pour les
+    /// Charge depsui l'App Calendar toutes les séance de la `period` pour les
     /// `discipline`, `classe` et `schoolName`.
     /// - Parameters:
     ///   - discipline: La discipline recherchée.
@@ -90,7 +96,13 @@ struct DateIntervalSeances {
             inCalendarNamed: schoolName,
             during: period
         ).map { event in
-            Seance(classeName: classe, event: event)
+            Seance(
+                name: classe,
+                interval: DateInterval(
+                    start: event.startDate,
+                    end: event.endDate
+                )
+            )
         }
     }
 

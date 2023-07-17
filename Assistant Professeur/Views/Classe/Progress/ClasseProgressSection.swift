@@ -15,7 +15,7 @@ struct ClasseProgressSection: View {
     private var hClass
 
     @State
-    private var classeSeances: DateIntervalSeances = .init()
+    private var classeSeances: SeancesInDateInterval = .init()
 
     var body: some View {
         if let progresses = classe.progresses,
@@ -74,7 +74,7 @@ extension ClasseProgressSection {
                 Label("Prochains cours", systemImage: "clock")
                 if classeSeances.seances.isNotEmpty {
                     Spacer()
-                    Text(formattedDate(classeSeances.seances.first!.event.startDate))
+                    Text(formattedDate(classeSeances.seances.first!.interval.start))
                         .foregroundColor(.secondary)
                         .bold(false)
                 }

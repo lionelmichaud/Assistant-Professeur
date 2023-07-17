@@ -63,7 +63,7 @@ extension NavigationModel {
                 case .program: return "Programmes"
                 case .sequence: return "Séquences"
                 case .activity: return "Activités"
-                case .schoolYear: return "Scolarité"
+                case .schoolYear: return "Année scolaire"
             }
         }
     }

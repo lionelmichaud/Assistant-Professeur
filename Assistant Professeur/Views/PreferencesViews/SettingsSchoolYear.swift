@@ -9,8 +9,8 @@ import HelpersView
 import SwiftUI
 
 struct SettingsSchoolYear: View {
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     @State
     private var alertTitle = ""

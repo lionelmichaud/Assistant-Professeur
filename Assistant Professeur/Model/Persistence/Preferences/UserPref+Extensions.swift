@@ -7,6 +7,7 @@
 
 import CoreData
 import Foundation
+import HelpersView
 
 extension UserPrefEntity {
     /// Wrapper of `interoperability`
@@ -239,16 +240,35 @@ extension UserPrefEntity {
 // MARK: - Extension Core Data
 
 extension UserPrefEntity {
+    // MARK: - Type Computed Properties
+
     static var shared: UserPrefEntity {
-        UserPrefEntity.all().first!
+        // Créer le record unique de l'utilisateur de l'appli s'il n'en existe pas encore.
+        if let newlyCreated = createSharedIfDoesNotExist() {
+            return newlyCreated
+        }
+
+        // S'il y a plusieurs records: garder seulement le plus ancien
+        removeAllButTheOldest()
+        return UserPrefEntity.allSortedbyCreationDate().first!
     }
 
-    // MARK: - Methods
+    static var byCreationDateNSSortDescriptor: [NSSortDescriptor] =
+        [
+            NSSortDescriptor(
+                keyPath: \UserPrefEntity.creationDate,
+                ascending: true
+            )
+        ]
 
-    override public func awakeFromInsert() {
-        super.awakeFromInsert()
-        // Set defaults here
-        self.id = UUID()
+    /// Requête pour toutes les préférences triées.
+    ///
+    /// Ordre de tri:
+    ///   1. Date de création
+    static var requestAllSortedbyCreationDate: NSFetchRequest<UserPrefEntity> {
+        let request = UserPrefEntity.fetchRequest()
+        request.sortDescriptors = UserPrefEntity.byCreationDateNSSortDescriptor
+        return request
     }
 
     // MARK: - Type Methods
@@ -256,11 +276,13 @@ extension UserPrefEntity {
     /// Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
     static func initializeEntity() {
         // créer le record unique des préférences de l'utilisateur de l'appli
-        createShared()
+        createSharedIfDoesNotExist()
     }
 
+    /// Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
+    /// Retourne l'objet créé ou nil si l'objet existait déjà.
     @discardableResult
-    private static func createShared() -> UserPrefEntity? {
+    private static func createSharedIfDoesNotExist() -> UserPrefEntity? {
         guard UserPrefEntity.cardinal() == 0 else {
             return nil
         }
@@ -280,6 +302,30 @@ extension UserPrefEntity {
         return userPref
     }
 
+    /// Retourne tous les établissements triées.
+    ///
+    /// Ordre de tri:
+    ///   1. Niveau d'école
+    ///   2. Nom de l'école
+    static func allSortedbyCreationDate() -> [UserPrefEntity] {
+        do {
+            return try UserPrefEntity
+                .context
+                .fetch(UserPrefEntity.requestAllSortedbyCreationDate)
+        } catch {
+            return []
+        }
+    }
+
+    static func removeAllButTheOldest() {
+        let nbItemsToRemove = cardinal() - 1
+
+        if nbItemsToRemove > 0 {
+            var allItems = allSortedbyCreationDate()
+            allItems.removeSubrange(1 ..< allItems.endIndex)
+        }
+    }
+
     /// Check the correctness and consistency of all database entities of this type.
     /// - Parameters:
     ///   - errorList: Liste des erreurs trouvées.
@@ -289,7 +335,7 @@ extension UserPrefEntity {
     ) {
         if cardinal() == 0 {
             if tryToRepair {
-                createShared()
+                createSharedIfDoesNotExist()
             }
             if cardinal() == 0 {
                 errorList.append(DataBaseError.some(
@@ -298,15 +344,10 @@ extension UserPrefEntity {
                     id: nil
                 ))
             }
+
         } else if cardinal() > 1 {
             if tryToRepair {
-                let nbItemsToRemove = cardinal() - 1
-                var allItems = all()
-                for _ in 1 ... nbItemsToRemove {
-                    if let lastItem = allItems.popLast() {
-                        try? lastItem.delete()
-                    }
-                }
+                removeAllButTheOldest()
             }
             if cardinal() > 1 {
                 errorList.append(DataBaseError.some(
@@ -316,5 +357,14 @@ extension UserPrefEntity {
                 ))
             }
         }
+    }
+
+    // MARK: - Methods
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
+        self.creationDate = Date.now
     }
 }

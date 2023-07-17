@@ -12,8 +12,8 @@ struct EleveMarkRow: View {
     @ObservedObject
     var mark: MarkEntity
 
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     @Environment(\.horizontalSizeClass)
     private var hClass

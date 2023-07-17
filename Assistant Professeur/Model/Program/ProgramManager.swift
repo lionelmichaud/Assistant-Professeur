@@ -117,6 +117,43 @@ enum ProgramManager {
         // Supprimer l'élément
         ActivityEntity.context.delete(orderedActivities[index])
     }
+}
+
+// MARK: - Références croisées Program / Sequence / Activité / Classe
+
+extension ProgramManager {
+    /// Retourne l'unique Programme qui doit être suivi par la `classe`.
+    ///
+    /// Les séquences sont triées
+    /// - Returns: liste des Séquences qui doivent être suivies
+    static func programAssociatedTo(
+        thisClasse classe: ClasseEntity
+    ) -> ProgramEntity? {
+        let (discipline, level, segpa) = (
+            classe.discipline,
+            classe.level,
+            classe.segpa
+        )
+
+        let request = ProgramEntity.requestAllSortedbyDisciplineLevelSegpa
+        let predicate = NSPredicate(
+            format: "%K = %@ AND %K = %@ AND %K = %@",
+            #keyPath(ProgramEntity.discipline),
+            discipline!,
+            #keyPath(ProgramEntity.level),
+            level!,
+            #keyPath(ProgramEntity.segpa),
+            segpa as NSNumber
+        )
+
+        request.predicate = predicate
+
+        do {
+            return try ProgramEntity.context.fetch(request).first
+        } catch {
+            return nil
+        }
+    }
 
     /// Retourne la liste des Séquences qui doivent être suivies par la `classe`.
     ///
@@ -147,10 +184,10 @@ enum ProgramManager {
         do {
             let programs = try ProgramEntity.context.fetch(request)
             let sequences =
-                programs
-                    .flatMap { program in
-                        program.sequencesSortedByNumber
-                    }
+            programs
+                .flatMap { program in
+                    program.sequencesSortedByNumber
+                }
             return sequences
         } catch {
             return []
@@ -244,6 +281,7 @@ enum ProgramManager {
 }
 
 // MARK: - Détermination des périodes d'activité d'un Programme
+
 extension ProgramManager {
     /// La période de vacance est entièrement inclue dans la dernière partie de la séquence
     fileprivate static func manageFullOverlap(

@@ -110,8 +110,8 @@ struct TrombinoscopeFooterView: View {
     @ObservedObject
     var eleve: EleveEntity
 
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     var body: some View {
         HStack(spacing: 0) {

@@ -21,18 +21,27 @@ struct SeanceRow: View {
     var body: some View {
         GroupBox {
             HStack {
-                if hClass == .regular {
+                if hClass == .regular && !seance.isVacance {
                     horaireView
                     Divider()
                 }
-                infoView
+                if seance.isVacance {
+                    vacancesInfoView
+                } else {
+                    coursInfoView
+                }
             }
             .frame(
                 maxWidth: .infinity,
                 alignment: .leading
             )
+
         } label: {
-            labelView
+            if seance.isVacance {
+                vacancesLabelView
+            } else {
+                coursLabelView
+            }
         }
     }
 }
@@ -44,20 +53,33 @@ extension SeanceRow {
         if hClass == .regular {
             return ""
         } else {
-            return seance.event.startDate.formatted(date: .omitted, time: .shortened) +
+            return seance.interval.start.formatted(date: .omitted, time: .shortened) +
                 " à " +
-                seance.event.endDate.formatted(date: .omitted, time: .shortened)
+                seance.interval.end.formatted(date: .omitted, time: .shortened)
         }
     }
 
-    private var labelView: some View {
+    private var vacancesLabelView: some View {
         HStack {
-            Text(formattedDate(seance.event.startDate))
+            Text(formattedDate(seance.interval.start))
+            Spacer()
+            Image(systemName: "arrowshape.right")
+                .symbolVariant(.fill)
+            Spacer()
+            Text(formattedDate(seance.interval.end))
+        }
+        .foregroundColor(.orange)
+        .bold()
+    }
+
+    private var coursLabelView: some View {
+        HStack {
+            Text(formattedDate(seance.interval.start))
                 .foregroundColor(.blue2)
                 .bold()
             Spacer()
 
-            if let classeName = seance.classeName {
+            if let classeName = seance.name {
                 Text(classeName)
                     .foregroundColor(.blue2)
                     .bold()
@@ -77,13 +99,13 @@ extension SeanceRow {
                 .frame(width: 25, height: 25)
             VStack(alignment: .leading) {
                 Text(
-                    seance.event.startDate,
+                    seance.interval.start,
                     format: .dateTime
                         .hour(.twoDigits(amPM: .omitted))
                         .minute(.twoDigits)
                 )
                 Text(
-                    seance.event.endDate,
+                    seance.interval.end,
                     format: .dateTime
                         .hour(.twoDigits(amPM: .omitted))
                         .minute(.twoDigits)
@@ -95,15 +117,17 @@ extension SeanceRow {
         .foregroundColor(.secondary)
     }
 
-    private var infoView: some View {
+    private var coursInfoView: some View {
         VStack(alignment: .leading) {
             ForEach(seance.activities) { activity in
                 HStack(alignment: .center) {
                     VStack {
+                        // Discipline
                         if let discipline = activity.sequence?.program?.disciplineEnum {
                             Text(discipline.acronym)
                                 .foregroundColor(.secondary)
                         }
+                        // Tags Séquence/Activité
                         HStack {
                             if let sequence = activity.sequence {
                                 SequenceTagWithPopOver(sequence: sequence)
@@ -113,6 +137,7 @@ extension SeanceRow {
                     }
                     Divider()
 
+                    // Nom de la activité / Documents utilisés
                     VStack(alignment: .leading) {
                         Text(activity.viewName)
                         ForEach(activity.documentsSortedByName) { document in
@@ -152,6 +177,15 @@ extension SeanceRow {
                     }
                 }
         #endif
+    }
+
+    private var vacancesInfoView: some View {
+        Text(seance.name ?? "Vacances")
+            .font(.title3)
+            .foregroundColor(.secondary)
+            .padding(.vertical)
+            .frame(maxWidth: .infinity)
+            .background(.gray.opacity(0.25))
     }
 
     private func formattedDate(_ date: Date) -> String {

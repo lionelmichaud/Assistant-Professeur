@@ -196,6 +196,46 @@ extension ProgramEntity {
             .sorted(using: sortComparators)
     }
 
+    // MARK: - Séquences associées
+
+    /// Liste des séquences du programme non triées
+    var allSequences: [SequenceEntity] {
+        if let sequences {
+            return (sequences.allObjects as! [SequenceEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Liste des séquences du programme triées par numéro de séquence
+    var sequencesSortedByNumber: [SequenceEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(\SequenceEntity.number, order: .forward)
+        ]
+        return allSequences.sorted(using: sortComparators)
+    }
+
+    /// Liste des séquences du programme filtrées et triées par numéro de séquence
+    func filteredSequencesSortedByNumber(
+        searchString: String
+    ) -> [SequenceEntity] {
+        guard searchString.isNotEmpty else {
+            return sequencesSortedByNumber
+        }
+
+        let sortComparators =
+        [
+            SortDescriptor(\SequenceEntity.number, order: .forward)
+        ]
+        return allSequences
+            .filter { seq in
+                let string = searchString.lowercased()
+                return seq.name!.lowercased().contains(string)
+            }
+            .sorted(using: sortComparators)
+    }
+
     // MARK: - Gestion de la BDD
 
     static var byDisciplineLevelSegpaNSSortDescriptor: [NSSortDescriptor] =
@@ -226,44 +266,20 @@ extension ProgramEntity {
         return request
     }
 
-    /// Liste des séquences du programme non triées
-    var allSequences: [SequenceEntity] {
-        if let sequences {
-            return (sequences.allObjects as! [SequenceEntity])
-        } else {
+    /// Retourne tous les programmes triés.
+    ///
+    /// Ordre de tri:
+    ///   1. Discipline
+    ///   2. Niveau de la Classe
+    ///   3. SGPA ou non
+    static func allSortedbyDisciplineLevelSegpa() -> [ProgramEntity] {
+        do {
+            return try ProgramEntity
+                .context
+                .fetch(ProgramEntity.requestAllSortedbyDisciplineLevelSegpa)
+        } catch {
             return []
         }
-    }
-
-    /// Liste des séquences du programme triées par numéro de séquence
-    var sequencesSortedByNumber: [SequenceEntity] {
-        let sortComparators =
-            [
-                SortDescriptor(\SequenceEntity.number, order: .forward)
-            ]
-        return allSequences.sorted(using: sortComparators)
-    }
-
-    // MARK: - Méthodes
-
-    /// Liste des séquences du programme filtrées et triées par numéro de séquence
-    func filteredSequencesSortedByNumber(
-        searchString: String
-    ) -> [SequenceEntity] {
-        guard searchString.isNotEmpty else {
-            return sequencesSortedByNumber
-        }
-
-        let sortComparators =
-            [
-                SortDescriptor(\SequenceEntity.number, order: .forward)
-            ]
-        return allSequences
-            .filter { seq in
-                let string = searchString.lowercased()
-                return seq.name!.lowercased().contains(string)
-            }
-            .sorted(using: sortComparators)
     }
 
     /// Retourne true si un object équivalent existe déjà dans le context.
@@ -281,18 +297,6 @@ extension ProgramEntity {
                 $0.viewLevelEnum == classeLevel &&
                 $0.segpa == classeIsSegpa &&
                 (objectID == nil || $0.objectID != objectID)
-        }
-    }
-
-    // MARK: - Type Methods
-
-    static func allSortedbyDisciplineLevelSegpa() -> [ProgramEntity] {
-        do {
-            return try ProgramEntity
-                .context
-                .fetch(ProgramEntity.requestAllSortedbyDisciplineLevelSegpa)
-        } catch {
-            return []
         }
     }
 

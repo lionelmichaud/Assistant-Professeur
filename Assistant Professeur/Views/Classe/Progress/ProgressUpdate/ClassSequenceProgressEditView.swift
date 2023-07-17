@@ -33,8 +33,8 @@ struct ClassSequenceProgressEditView: View {
 
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
-            ProgressView(value: classe.progressInSequence(sequence))
-                .tint(.mint)
+            ProgressView(value: classe.actualProgressInSequence(sequence))
+                .tint(.green)
 
             ForEach(sortedProgressesInSequence) { progress in
                 ClassActivityProgressEditView(

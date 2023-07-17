@@ -22,7 +22,7 @@ struct ClassCurrentActivityView: View {
                let sequence = activity.sequence {
                 let progressInSequence =
                     classe
-                        .progressInSequence(sequence)
+                        .actualProgressInSequence(sequence)
                 let currentActivityProgress =
                     classe
                         .sortedProgressesInSequence(sequence)

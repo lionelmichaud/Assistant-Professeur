@@ -19,15 +19,52 @@ struct ClassProgressesView: View {
     private var classeSequences = [SequenceEntity]()
 
     @State
-    private var classeSeances: DateIntervalSeances = .init()
+    private var classeSeances: SeancesInDateInterval = .init()
 
     @State
-    var progressChanged: Bool = false
+    private var progressChanged: Bool = false
+
+    @State
+    private var actualProgressInProgram: Double = 0.0
+
+    @State
+    private var theoricalProgressInProgram: Double = 0.0
+
+    @State
+    private var delta: Int?
+
+    private var barColor: Color {
+        if let delta {
+            return delta < 0 ? .red : .green
+        } else {
+            return .green
+        }
+    }
 
     var body: some View {
         List {
-            ProgressView(value: classe.progressInProgram())
-                .tint(.teal)
+            VStack(alignment: .leading) {
+                Text("Progression théorique: \(Int(theoricalProgressInProgram * 100.0))%")
+                    .foregroundColor(.teal)
+                ProgressView(value: theoricalProgressInProgram)
+                    .tint(.teal)
+
+                ProgressView(value: actualProgressInProgram)
+                    .tint(barColor)
+                HStack {
+                    Text("Progression réelle: \(Int(actualProgressInProgram * 100.0))%")
+                    Spacer()
+                    if let delta {
+                        if delta < 0 {
+                            Text("en retard de \(-delta) séances")
+                        } else {
+                            Text("en avance de \(delta) séances")
+                        }
+                    }
+                }
+                .foregroundColor(barColor)
+            }
+            .font(.footnote)
 
             ForEach(classeSequences) { sequence in
                 ClassSequenceProgressEditView(
@@ -42,7 +79,7 @@ struct ClassProgressesView: View {
         }
         .task(id: progressChanged) {
             progressChanged = false
-            
+
             // Liste des Séquences suivies par une classe triée par numéro de Séquence
             classeSequences = classe.allFollowedSequencesSortedBySequenceNumber
 
@@ -66,6 +103,18 @@ struct ClassProgressesView: View {
                     classeProgresses: sortedClasseProgresses,
                     withSeances: classeSeances
                 )
+            }
+
+            // Avancement réel de la classe dans le programme annuel
+            actualProgressInProgram = classe.actualProgressInProgram()
+
+            // Avancement théorique de la classe dans le programme annuel
+            theoricalProgressInProgram = classe.theoricalProgressInProgram()
+
+            if let program = ProgramManager.programAssociatedTo(thisClasse: classe) {
+                delta = Int((actualProgressInProgram - theoricalProgressInProgram) * program.durationWithoutMargin)
+            } else {
+                delta = nil
             }
         }
         #if os(iOS)

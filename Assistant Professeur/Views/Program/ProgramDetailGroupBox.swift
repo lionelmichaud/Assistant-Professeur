@@ -15,8 +15,8 @@ struct ProgramDetailGroupBox: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     @State
     private var isViewing = false

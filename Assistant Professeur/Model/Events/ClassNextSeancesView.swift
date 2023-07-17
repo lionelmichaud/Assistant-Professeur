@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 07/07/2023.
 //
 
+import EventKit
 import HelpersView
 import SwiftUI
 
@@ -12,10 +13,14 @@ struct ClassNextSeancesView: View {
     @ObservedObject
     var classe: ClasseEntity
 
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
+
     private let horizon = 3 // mois
+    // TODO: - A mettre en préférence
 
     @State
-    private var classeSeances: DateIntervalSeances = .init()
+    private var classeSeances: SeancesInDateInterval = .init()
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
@@ -37,16 +42,17 @@ struct ClassNextSeancesView: View {
             // Liste des Progressions de la classe triée par numéro de Séquence / Activité
             let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
 
-            // Liste des Séances à venir pour cette classe
+            // Suite des Séances à venir pour cette classe sur un `horizon`
             if let schoolName = classe.school?.viewName {
+                let horizon = DateInterval(
+                    start: Date.now,
+                    end: horizon.months.fromNow!
+                )
                 await $classeSeances.loadSeancesFromCalendar(
                     forDiscipline: classe.disciplineEnum,
                     forClasse: classe.displayString,
                     schoolName: schoolName,
-                    during: DateInterval(
-                        start: Date.now,
-                        end: horizon.months.fromNow!
-                    )
+                    during: horizon
                 )
 
                 // Synchroniser les Progressions avec les Séances
@@ -54,6 +60,27 @@ struct ClassNextSeancesView: View {
                     classeSeances: &classeSeances,
                     withProgresses: sortedClasseProgresses
                 )
+
+                // Insérer des pseudo-séances pour chaque période
+                // de vacances inclue dans la période
+                let vacancesIncludedInPeriod =
+                    pref.viewSchoolYearPref
+                        .vacancesContained(in: horizon)
+                
+                vacancesIncludedInPeriod.forEach { vacance in
+                    for idx in classeSeances.seances.startIndex ... classeSeances.seances.endIndex - 2
+                        where (classeSeances[idx].interval.end ... classeSeances[idx + 1].interval.start).contains(vacance.interval.start) {
+                        let pseudoSeance = Seance(
+                            name: vacance.name,
+                            interval: vacance.interval,
+                            isVacance: true
+                        )
+                        classeSeances
+                            .seances
+                            .insert(pseudoSeance, at: idx+1)
+                        break
+                    }
+                }
             }
         }
         #if os(iOS)
