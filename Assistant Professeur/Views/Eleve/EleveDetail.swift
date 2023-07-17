@@ -27,8 +27,8 @@ struct EleveDetail: View {
     @State
     private var bonusIsExpanded = false
 
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     // MARK: - Computed properties
 

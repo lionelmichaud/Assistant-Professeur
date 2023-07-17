@@ -14,8 +14,8 @@ struct EleveNameGroupBox: View {
 
     var isEditing: Bool
 
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     /// Focused filed manager
     enum FocusableField: Hashable {

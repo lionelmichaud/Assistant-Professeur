@@ -11,8 +11,8 @@ struct EleveListSection: View {
     @ObservedObject
     var classe: ClasseEntity
 
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     var body: some View {
         Section {

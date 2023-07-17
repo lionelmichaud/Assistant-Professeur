@@ -243,7 +243,14 @@ extension UserPrefEntity {
     // MARK: - Type Computed Properties
 
     static var shared: UserPrefEntity {
-        UserPrefEntity.allSortedbyCreationDate().first!
+        // Créer le record unique de l'utilisateur de l'appli s'il n'en existe pas encore.
+        if let newlyCreated = createSharedIfDoesNotExist() {
+            return newlyCreated
+        }
+
+        // S'il y a plusieurs records: garder seulement le plus ancien
+        removeAllButTheOldest()
+        return UserPrefEntity.allSortedbyCreationDate().first!
     }
 
     static var byCreationDateNSSortDescriptor: [NSSortDescriptor] =
@@ -269,13 +276,13 @@ extension UserPrefEntity {
     /// Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
     static func initializeEntity() {
         // créer le record unique des préférences de l'utilisateur de l'appli
-        createShared()
+        createSharedIfDoesNotExist()
     }
 
     /// Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
     /// Retourne l'objet créé ou nil si l'objet existait déjà.
     @discardableResult
-    private static func createShared() -> UserPrefEntity? {
+    private static func createSharedIfDoesNotExist() -> UserPrefEntity? {
         guard UserPrefEntity.cardinal() == 0 else {
             return nil
         }
@@ -315,7 +322,7 @@ extension UserPrefEntity {
 
         if nbItemsToRemove > 0 {
             var allItems = allSortedbyCreationDate()
-            allItems.removeSubrange(1..<allItems.endIndex)
+            allItems.removeSubrange(1 ..< allItems.endIndex)
         }
     }
 
@@ -328,7 +335,7 @@ extension UserPrefEntity {
     ) {
         if cardinal() == 0 {
             if tryToRepair {
-                createShared()
+                createSharedIfDoesNotExist()
             }
             if cardinal() == 0 {
                 errorList.append(DataBaseError.some(

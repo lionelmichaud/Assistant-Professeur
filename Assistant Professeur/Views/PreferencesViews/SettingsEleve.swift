@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SettingsEleve: View {
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     @State private var isShowingBonusResetConfirmDialog = false
 

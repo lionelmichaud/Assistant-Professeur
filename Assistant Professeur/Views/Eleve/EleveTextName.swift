@@ -15,8 +15,8 @@ struct EleveTextName: View {
     var fontWidth: Font.Width = .condensed
     var fontWeight: Font.Weight = .bold
 
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     var body: some View {
         Text(eleve.displayName(pref.nameDisplayOrderEnum))

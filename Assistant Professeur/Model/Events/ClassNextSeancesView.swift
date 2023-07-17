@@ -13,8 +13,8 @@ struct ClassNextSeancesView: View {
     @ObservedObject
     var classe: ClasseEntity
 
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     private let horizon = 3 // mois
     // TODO: - A mettre en préférence

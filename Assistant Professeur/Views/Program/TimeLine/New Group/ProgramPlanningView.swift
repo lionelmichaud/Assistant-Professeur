@@ -13,8 +13,8 @@ struct ProgramPlanningView: View {
     @ObservedObject
     var program: ProgramEntity
 
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     @State
     private var data = ProgramPlanningGraphData()

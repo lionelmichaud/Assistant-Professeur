@@ -17,8 +17,8 @@ struct ClasseDetail: View {
     @Environment(\.managedObjectContext)
     private var managedObjectContext
 
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     @State
     private var isShowingImportListeDialog = false

@@ -13,8 +13,8 @@ struct ClasseInfosView: View {
     @ObservedObject
     var classe: ClasseEntity
 
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     /// Conseils de classe
     @State

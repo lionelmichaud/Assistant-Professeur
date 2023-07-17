@@ -17,14 +17,6 @@ private let customLog = Logger(
 )
 
 struct ContentView: View {
-    @StateObject
-    private var userPreferencesModel: UserPrefEntity = {
-        // Créer le record unique des préférences
-        // de l'utilisateur de l'appli s'il n'existe pas encore.
-        UserPrefEntity.initializeEntity()
-        return UserPrefEntity.shared
-    }()
-
     @SceneStorage("navigation")
     private var navigationData: Data?
     @StateObject
@@ -112,7 +104,6 @@ struct ContentView: View {
             }
         }
         .environmentObject(navigationModel)
-        .environmentObject(userPreferencesModel)
 
         // Alerte en cas d'erreur d'initilisation de l'App
         .alert(

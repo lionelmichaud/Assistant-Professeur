@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SettingsClasse: View {
-    @EnvironmentObject
-    private var pref: UserPrefEntity
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
 
     var body: some View {
         List {
