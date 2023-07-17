@@ -85,7 +85,7 @@ struct SchoolNextSeancesView: View {
 
             // remettre les séances dans l'ordre (async => désordre)
             foundSeances.sort(by: {
-                $0.event.startDate < $1.event.startDate
+                $0.interval.start < $1.interval.start
             })
 
             // Ajouter les séances de cette classe à celles de l'établissement

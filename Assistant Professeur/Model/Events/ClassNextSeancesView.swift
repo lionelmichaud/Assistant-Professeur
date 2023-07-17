@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 07/07/2023.
 //
 
+import EventKit
 import HelpersView
 import SwiftUI
 
@@ -12,7 +13,11 @@ struct ClassNextSeancesView: View {
     @ObservedObject
     var classe: ClasseEntity
 
+    @EnvironmentObject
+    private var pref: UserPrefEntity
+
     private let horizon = 3 // mois
+    // TODO: - A mettre en préférence
 
     @State
     private var classeSeances: SeancesInDateInterval = .init()
@@ -55,6 +60,27 @@ struct ClassNextSeancesView: View {
                     classeSeances: &classeSeances,
                     withProgresses: sortedClasseProgresses
                 )
+
+                // Insérer des pseudo-séances pour chaque période
+                // de vacances inclue dans la période
+                let vacancesIncludedInPeriod =
+                    pref.viewSchoolYearPref
+                        .vacancesContained(in: horizon)
+                
+                vacancesIncludedInPeriod.forEach { vacance in
+                    for idx in classeSeances.seances.startIndex ... classeSeances.seances.endIndex - 2
+                        where (classeSeances[idx].interval.end ... classeSeances[idx + 1].interval.start).contains(vacance.interval.start) {
+                        let pseudoSeance = Seance(
+                            name: vacance.name,
+                            interval: vacance.interval,
+                            isVacance: true
+                        )
+                        classeSeances
+                            .seances
+                            .insert(pseudoSeance, at: idx+1)
+                        break
+                    }
+                }
             }
         }
         #if os(iOS)

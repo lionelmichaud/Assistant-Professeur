@@ -28,11 +28,8 @@ enum SequenceSeanceCoordinator {
         )
 
         for seanceIdx in intervalSeances.seances.indices {
-            guard let seanceStartDate = intervalSeances[seanceIdx].event.startDate,
-                  let seanceEndDate = intervalSeances[seanceIdx].event.endDate else {
-                // la séance n'est pas datée, on passe à la suivante
-                continue
-            }
+            let seanceStartDate = intervalSeances[seanceIdx].interval.start
+            let seanceEndDate = intervalSeances[seanceIdx].interval.end
 
             // rechercher toutes les progressions qui commencent ou se terminent
             // durant la séance
@@ -113,7 +110,7 @@ enum SequenceSeanceCoordinator {
             // Date de début de l'activité
             let startIdx = Int(cumulatedDuration.rounded(.towardZero))
             if startIdx < nbSeances {
-                progress.startDate = intervalSeances[startIdx].event.startDate
+                progress.startDate = intervalSeances[startIdx].interval.start
             } else {
                 progress.startDate = nil
             }
@@ -129,7 +126,7 @@ enum SequenceSeanceCoordinator {
                 endIdx = Int(cumulatedDuration.rounded(.towardZero))
             }
             if endIdx < nbSeances {
-                progress.endDate = intervalSeances[endIdx].event.endDate
+                progress.endDate = intervalSeances[endIdx].interval.end
             } else {
                 progress.endDate = nil
             }

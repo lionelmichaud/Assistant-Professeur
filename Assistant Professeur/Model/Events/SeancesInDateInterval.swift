@@ -5,7 +5,6 @@
 //  Created by Lionel MICHAUD on 06/07/2023.
 //
 
-import EventKit
 import Foundation
 import SwiftUI
 
@@ -32,12 +31,14 @@ extension Binding where Value == SeancesInDateInterval {
 /// Plusieurs activités peuvent être abordées pendant le même cours.
 struct Seance: Identifiable {
     var id = UUID()
-    /// Acronym de la classe concernée par la séance
-    var classeName: String?
+    /// Acronym de la classe concernée par la séance ou nom de la période de vacance
+    var name: String?
     /// Evénement correspondant à la séance
-    var event: EKEvent
+    var interval: DateInterval
     /// Activité pédagogique menée pendant la séance
     var activities = [ActivityEntity]()
+    /// True si cette séance est en réalité une période de vacance
+    var isVacance: Bool = false
 }
 
 /// Suite de séances (cours) pour une classe donnée et sur un horizon de temps donné.
@@ -49,7 +50,7 @@ struct SeancesInDateInterval {
     // MARK: - Properties
 
     /// Séances de la période
-    private(set) var seances: [Seance]
+    var seances: [Seance]
 
     // MARK: - Initializers
 
@@ -95,7 +96,13 @@ struct SeancesInDateInterval {
             inCalendarNamed: schoolName,
             during: period
         ).map { event in
-            Seance(classeName: classe, event: event)
+            Seance(
+                name: classe,
+                interval: DateInterval(
+                    start: event.startDate,
+                    end: event.endDate
+                )
+            )
         }
     }
 
