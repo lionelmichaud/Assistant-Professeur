@@ -60,13 +60,15 @@ struct PersonsContactsView: View {
                 }
             }
             .emptyListPlaceHolder(contacts) {
-                Text("Aucun contact dans cet établissement")
+                Text("Aucun contact trouvé dans votre appli **Contacts** pour cet établissement.")
             }
         } header: {
             Label("Contacts", systemImage: "person")
                 .font(.callout)
                 .foregroundColor(.secondary)
                 .fontWeight(.bold)
+        } footer: {
+            Text("Les contacts de votre appli **Contacts**, enregistrés dans la liste nommée **\(school.viewName)** sont affichés ici.")
         }
         .task {
             contacts = await ContactManager

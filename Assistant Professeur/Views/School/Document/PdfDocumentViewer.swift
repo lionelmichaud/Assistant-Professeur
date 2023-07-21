@@ -48,25 +48,29 @@ struct PdfDocumentViewer: View {
 
     var body: some View {
         Group {
-            if pdfImages.isNotEmpty {
-                ScrollView(
-                    [.vertical, .horizontal],
-                    showsIndicators: true
-                ) {
-                    pdfImages[pgNumber]
-                }
-            } else {
-                VStack(alignment: .center) {
-                    Text(pdfImages.isEmpty ? "Document PDF introuvable." : "Chargement")
-                        .font(.title2)
-                        .foregroundColor(.secondary)
-                    // ajouter un document PDF
-                    Button("Ajouter un document") {
-                        isImportingPdfFile = true
+            GeometryReader { gr in
+                if pdfImages.isNotEmpty {
+                    ScrollView(
+                        [.vertical, .horizontal],
+                        showsIndicators: true
+                    ) {
+                        pdfImages[pgNumber]
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: gr.size.width, alignment: .topLeading)
                     }
-                    .buttonStyle(.borderless)
-                    .padding(.top)
-                    // Importer un fichier PDF
+                } else {
+                    VStack(alignment: .center) {
+                        Text(pdfImages.isEmpty ? "Document PDF introuvable." : "Chargement")
+                            .font(.title2)
+                            .foregroundColor(.secondary)
+                        // ajouter un document PDF
+                        Button("Ajouter un document") {
+                            isImportingPdfFile = true
+                        }
+                        .buttonStyle(.borderless)
+                        .padding(.top)
+                    }
                 }
             }
         }
