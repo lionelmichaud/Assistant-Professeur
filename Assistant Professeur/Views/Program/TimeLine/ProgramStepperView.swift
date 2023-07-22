@@ -14,23 +14,26 @@ struct ProgramStepperView: View {
     @ObservedObject
     var program: ProgramEntity
 
-    var body: some View {
-        ScrollView(Axis.Set.vertical, showsIndicators: false) {
-            headerView
+    let forPdfExport: Bool
 
-            if program.nbOfSequences > 0 {
-                StepperView()
-                    .addSteps(steps)
-                    .indicators(indicators)
-                    .addPitStops(pitStops)
-                    .pitStopLineOptions(pitStopLineOptions)
-                    .spacing(100)
-                    .loadingAnimationTime(0.01)
-                    // .autoSpacing(true)
-                    // .lineOptions(StepperLineOptions.custom(1, Color.teal))
-                    // .spacing(80) // auto calculates spacing between steps based on the content.
-                    .padding([.horizontal, .top])
-                    .padding(.bottom, 50)
+    var body: some View {
+        if forPdfExport {
+            VStack(alignment: .center) {
+                headerView
+
+                if program.nbOfSequences > 0 {
+                    stepperView
+                }
+            }
+            .padding()
+
+        } else {
+            ScrollView(Axis.Set.vertical, showsIndicators: false) {
+                headerView
+
+                if program.nbOfSequences > 0 {
+                    stepperView
+                }
             }
         }
     }
@@ -80,6 +83,21 @@ extension ProgramStepperView {
             RoundedRectangle(cornerRadius: 8).stroke(.teal, lineWidth: 1)
         }
         .padding(.horizontal)
+    }
+
+    var stepperView: some View {
+        StepperView()
+            .addSteps(steps)
+            .indicators(indicators)
+            .addPitStops(pitStops)
+            .pitStopLineOptions(pitStopLineOptions)
+            .spacing(100)
+            .loadingAnimationTime(0.01)
+            // .autoSpacing(true)
+            // .lineOptions(StepperLineOptions.custom(1, Color.teal))
+            // .spacing(80) // auto calculates spacing between steps based on the content.
+            .padding([.horizontal, .top])
+            .padding(.bottom, 50)
     }
 
     private var steps: [AnyView] {

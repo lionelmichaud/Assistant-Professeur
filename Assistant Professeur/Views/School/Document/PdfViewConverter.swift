@@ -8,7 +8,54 @@
 import PDFKit
 import SwiftUI
 
+/// Convertion de PDF => Image ou View => PDF
 enum PdfViewConverter {
+    // MARK: - View => PDF
+
+    /// Render a SwiftUI view `content` to a PDF and stores it into a `fileUrl`.
+    /// - Parameters:
+    ///   - content: View à convertir en PDF
+    ///   - fileUrl: URL du fichier dans lequel stocker le PDF
+    /// - Returns: `true` si la convertion a réussie
+    @MainActor
+    static func renderAsPDF(
+        content: some View,
+        to fileUrl: URL,
+        withProposedSize proposedSize: ProposedViewSize = .unspecified
+    ) -> Bool {
+        var result = true
+
+        // 1: Renderer for the `content` view
+        let renderer = ImageRenderer(content: content)
+        renderer.proposedSize = proposedSize
+
+        // 3: Start the rendering process
+        renderer.render { size, renderer in
+            // 4: Tell SwiftUI our PDF should be the same size as the views we're rendering
+            var mediaBox = CGRect(origin: .zero, size: size)
+
+            // 5: Create the CGContext for our PDF pages
+            guard let pdfContext = CGContext(fileUrl as CFURL, mediaBox: &mediaBox, nil) else {
+                result = false
+                return
+            }
+
+            // 6: Start a new PDF page
+            pdfContext.beginPDFPage(nil)
+
+            // 7: Render the SwiftUI view data onto the page
+            renderer(pdfContext)
+
+            // 8: End the page and close the file
+            pdfContext.endPDFPage()
+            pdfContext.closePDF()
+        }
+
+        return result
+    }
+
+    // MARK: - PDF => Image
+
     /// Extrait les pages du document PDF sous forme d'image `Image`
     /// - Returns: Array d'images
     static func getPdfImages(pdfDocument: PDFDocument?) -> [Image] {

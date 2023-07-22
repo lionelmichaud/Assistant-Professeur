@@ -322,7 +322,10 @@ extension UserPrefEntity {
 
         if nbItemsToRemove > 0 {
             var allItems = allSortedbyCreationDate()
-            allItems.removeSubrange(1 ..< allItems.endIndex)
+            allItems[1 ..< allItems.endIndex].forEach { userPref in
+                try? userPref.delete()
+            }
+            try? UserPrefEntity.saveIfContextHasChanged()
         }
     }
 
