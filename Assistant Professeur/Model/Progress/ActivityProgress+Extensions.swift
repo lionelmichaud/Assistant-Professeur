@@ -59,6 +59,14 @@ extension ActivityProgressEntity {
     func setProgress(_ newProgress: Double) {
         self.progress = newProgress
     }
+
+    /// Toggle l'attribut `isPrinted` de la progression
+    /// - Important: *Saves the context to the store after modification is done*
+    func toggleIsPrinted() {
+        isPrinted.toggle()
+        try? ActivityProgressEntity.saveIfContextHasChanged()
+    }
+
 }
 
 // MARK: - Extension Core Data
@@ -196,6 +204,7 @@ public extension ActivityProgressEntity {
            Classe   : \(String(describing: classe?.displayString))
            Séquence : \(String(describing: activity?.sequence?.viewName))
            Activité : \(String(describing: activity?.viewName))
+           Imprimé  : \(isPrinted.frenchString)
            Progrès  : \(progress * 100.0) %
            Début    : \(startDate?.stringShortDate ?? "-")
            Fin      : \(endDate?.stringShortDate ?? "-")
