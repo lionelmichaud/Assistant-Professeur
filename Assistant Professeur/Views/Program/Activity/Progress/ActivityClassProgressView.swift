@@ -12,28 +12,51 @@ struct ActivityClassProgressView: View {
     var progress: ActivityProgressEntity
 
     @EnvironmentObject
-    private var navig : NavigationModel
+    private var navig: NavigationModel
 
     @Environment(\.horizontalSizeClass)
     private var hClass
 
+    private var isPrintedCheckBox: some View {
+        // checkbox isPrinted
+        Button {
+            progress.toggleIsPrinted()
+        } label: {
+            Label(
+                title: {
+                    Text("Support de cours imprimés")
+                }, icon: {
+                    Image(systemName: progress.isPrinted ? "checkmark.circle.fill" : "circle")
+                        .foregroundColor(progress.isPrinted ? .green : .gray)
+                }
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
     var body: some View {
         LabeledContent {
-            VStack {
-                ActivityProgressSlider(progress: progress,
-                                       progressChanged: .constant(false))
+            VStack(alignment: .leading) {
+                ActivityProgressSlider(
+                    progress: progress,
+                    progressChanged: .constant(false)
+                )
 
                 TextField(
                     "",
                     text: $progress.annotation.bound,
-                    prompt: Text("description")
+                    prompt: Text("description"),
+                    axis: .vertical
                 )
                 .onSubmit {
                     try? ActivityProgressEntity.saveIfContextHasChanged()
                 }
+                .multilineTextAlignment(.leading)
                 .lineLimit(5)
                 .font(hClass == .compact ? .callout : .body)
                 .textFieldStyle(.roundedBorder)
+
+                isPrintedCheckBox
             }
         } label: {
             Button {

@@ -230,6 +230,23 @@ extension ClassActivityProgressEditView {
         }
     }
 
+    private var isPrintedCheckBox: some View {
+        // checkbox isPrinted
+        Button {
+            progress.toggleIsPrinted()
+        } label: {
+            Label(
+                title: {
+                    Text("Support de cours imprimés")
+                }, icon: {
+                    Image(systemName: progress.isPrinted ? "checkmark.circle.fill" : "circle")
+                        .foregroundColor(progress.isPrinted ? .green : .gray)
+                }
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
     private var regularView: some View {
         VStack(alignment: .leading) {
             LabeledContent("Progression") {
@@ -241,6 +258,8 @@ extension ClassActivityProgressEditView {
             }
 
             annotation
+
+            isPrintedCheckBox
 
             buttons
         }
@@ -255,6 +274,8 @@ extension ClassActivityProgressEditView {
             )
 
             annotation
+
+            isPrintedCheckBox
 
             buttons
         }
