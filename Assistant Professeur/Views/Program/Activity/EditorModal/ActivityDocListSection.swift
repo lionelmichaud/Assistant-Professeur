@@ -17,7 +17,7 @@ private let customLog = Logger(
 )
 
 /// Vue de la liste des documents importants de l'activité
-struct ActivityDocumentList: View {
+struct ActivityDocListSection: View {
     @ObservedObject
     var activity: ActivityEntity
 

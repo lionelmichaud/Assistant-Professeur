@@ -17,8 +17,8 @@ struct DCompBrowserRow: View {
         Group {
             Text(competency.viewAcronym)
                 .fontWeight(.bold) +
-            Text(". ") +
-            Text(competency.viewDescription)
+                Text(". ") +
+                Text(competency.viewDescription)
                 .foregroundColor(.secondary)
         }
         .lineLimit(5)
@@ -29,9 +29,7 @@ struct DCompBrowserRow: View {
         if showIcon {
             Label(
                 title: {
-                    VStack {
-                        description
-                    }
+                    description
                 },
                 icon: {
                     Image(systemName: DCompEntity.defaultImageName)
