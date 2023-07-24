@@ -147,8 +147,8 @@ extension DSectionEditorModal {
         ToolbarItem(placement: .confirmationAction) {
             Button(isEditing ? "Ok" : "Ajouter") {
                 // Ajouter un nouveau programme
-                if inTheme.exists(
-                    number: disciplineSectionVM.number,
+                if inTheme.sectionExists(
+                    sectionNumber: disciplineSectionVM.number,
                     thisObjectID: isEditing ? section.objectID : nil
                 ) {
                     // doublon

@@ -90,29 +90,6 @@ extension DSectionEntity {
         return request
     }
 
-    // MARK: - Computed properties
-
-    /// Liste des compétences Disciplinaires de la section, non triées
-    var allCompetencies: [DCompEntity] {
-        if let competencies {
-            return (competencies.allObjects as! [DCompEntity])
-        } else {
-            return []
-        }
-    }
-
-    /// Liste des Compétences Disciplinaires de la section, triées par numéro
-    var allCompetenciesSortedByNumber: [DCompEntity] {
-        let sortComparators =
-            [
-                SortDescriptor(
-                    \DCompEntity.number,
-                    order: .forward
-                )
-            ]
-        return allCompetencies.sorted(using: sortComparators)
-    }
-
     // MARK: - Type Methods
 
     static func allSortedbyAcronym() -> [DSectionEntity] {
@@ -145,6 +122,45 @@ extension DSectionEntity {
         try? Self.saveIfContextHasChanged()
         return section
     }
+    // MARK: - Section de Compétences
+
+    /// Liste des compétences Disciplinaires de la section, non triées
+    var allCompetencies: [DCompEntity] {
+        if let competencies {
+            return (competencies.allObjects as! [DCompEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Liste des Compétences Disciplinaires de la section, triées par numéro
+    var allCompetenciesSortedByNumber: [DCompEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(
+                \DCompEntity.number,
+                 order: .forward
+            )
+        ]
+        return allCompetencies.sorted(using: sortComparators)
+    }
+
+
+    /// Recherche si la **Competence** existe déjà dans cette **Section**.
+    ///
+    /// Si `thisObjectID` != `nil` alors on retourne true seulement
+    /// si un objet existant possède un identifiant différent de `thisObjectID`.
+    func competencyExists(
+        number: Int,
+        thisObjectID: NSManagedObjectID? = nil
+    ) -> Bool {
+        allCompetencies.contains {
+            $0.viewNumber == number &&
+            (thisObjectID == nil || $0.objectID != thisObjectID)
+        }
+    }
+
+    // MARK: - Contrôle de la BDD
 
     /// Check the correctness and consistency of all database entities of this type.
     /// - Parameters:
@@ -199,20 +215,6 @@ extension DSectionEntity {
         super.awakeFromInsert()
         // Set defaults here
         self.id = UUID()
-    }
-
-    /// Recherche si la **Competence** existe déjà dans cette **Section**.
-    ///
-    /// Si `thisObjectID` != `nil` alors on retourne true seulement
-    /// si un objet existant possède un identifiant différent de `thisObjectID`.
-    func exists(
-        number: Int,
-        thisObjectID: NSManagedObjectID? = nil
-    ) -> Bool {
-        allCompetencies.contains {
-            $0.viewNumber == number &&
-                (thisObjectID == nil || $0.objectID != thisObjectID)
-        }
     }
 }
 

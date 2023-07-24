@@ -25,16 +25,19 @@ struct ActivityEditorModal: View {
     enum FocusableField: Hashable {
         case title
         case annotation
-        case none
+        case duration
+        case url
 
         mutating func moveToNext() {
             switch self {
                 case .title:
                     self = .annotation
                 case .annotation:
-                    self = .none
-                case .none:
-                    self = .none
+                    self = .duration
+                case .duration:
+                    self = .url
+                case .url:
+                    self = .title
             }
         }
     }
@@ -47,6 +50,7 @@ struct ActivityEditorModal: View {
 
     var body: some View {
         Form {
+            // Titre
             TextField(
                 "Titre",
                 text: $activity.name.bound,
@@ -55,8 +59,10 @@ struct ActivityEditorModal: View {
             .lineLimit(5)
             .font(hClass == .compact ? .callout : .body)
             .textFieldStyle(.roundedBorder)
+            .submitLabel(.next)
             .focused($focus, equals: .title)
 
+            // Annotation
             if pref.viewActivityAnnotationEnabled {
                 TextField(
                     "Annotation",
@@ -69,11 +75,7 @@ struct ActivityEditorModal: View {
                 .focused($focus, equals: .annotation)
             }
 
-            // édition de la liste des documents utiles
-            ActivityDocumentList(activity: activity)
-
-            WebsiteEditView(website: $activity.url)
-
+            // Nombre de séances nécessaires
             AmountEditView(
                 label: "Durée",
                 comment: "nombre de séances",
@@ -81,6 +83,7 @@ struct ActivityEditorModal: View {
                 validity: .greaterThanOrEqualTo(limit: 0),
                 currency: false
             )
+            .focused($focus, equals: .duration)
 
             Toggle(isOn: $activity.isProject) {
                 Label(
@@ -106,6 +109,16 @@ struct ActivityEditorModal: View {
                     systemImage: ActivityEntity.evalSommativeSymbol
                 )
             }
+
+            // Liste des documents utiles
+            ActivityDocListSection(activity: activity)
+
+            // URL associée
+            WebsiteEditView(website: $activity.url)
+                .focused($focus, equals: .url)
+
+            // Compétences disciplinaires associées
+            ActivityDCompListSection(activity: activity)
         }
         .onSubmit {
             focus?.moveToNext()
@@ -113,6 +126,7 @@ struct ActivityEditorModal: View {
         .onAppear {
             focus = .title
         }
+        .interactiveDismissDisabled()
         #if os(iOS)
         .navigationTitle("Activité")
         #endif

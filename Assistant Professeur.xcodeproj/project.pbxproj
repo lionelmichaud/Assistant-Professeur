@@ -193,7 +193,7 @@
 		79975322297C4AEF00D1C66E /* ProgramBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */; };
 		79975324297C4ED900D1C66E /* ProgramDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */; };
 		799817752A562A9F00CD8F43 /* SeancesInDateInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799817742A562A9F00CD8F43 /* SeancesInDateInterval.swift */; };
-		799D2C7729CBADE2009C6336 /* ActivityDocumentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799D2C7629CBADE2009C6336 /* ActivityDocumentList.swift */; };
+		799D2C7729CBADE2009C6336 /* ActivityDocListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799D2C7629CBADE2009C6336 /* ActivityDocListSection.swift */; };
 		799D2C7929CCD226009C6336 /* SequenceDocumentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */; };
 		799EFBA42A2CFC66008E9775 /* FileOperationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799EFBA32A2CFC66008E9775 /* FileOperationTypes.swift */; };
 		799EFBA62A2CFE45008E9775 /* WCompChapterBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799EFBA52A2CFE45008E9775 /* WCompChapterBrowserRow.swift */; };
@@ -227,6 +227,8 @@
 		79BA2D48299C0084006325CC /* JsonImportExportMng.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BA2D47299C0084006325CC /* JsonImportExportMng.swift */; };
 		79BA2D4A299C00CD006325CC /* CsvImportExportMng.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BA2D49299C00CD006325CC /* CsvImportExportMng.swift */; };
 		79BA2D4C299C0287006325CC /* ImageImportExportMng.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BA2D4B299C0287006325CC /* ImageImportExportMng.swift */; };
+		79BE3DA32A6EB933002AB97A /* ActivityDCompListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE3DA22A6EB933002AB97A /* ActivityDCompListSection.swift */; };
+		79BE3DA52A6EBEB7002AB97A /* ConnectToDCompModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BE3DA42A6EBEB7002AB97A /* ConnectToDCompModal.swift */; };
 		79BF1DA229280ED7005D6CF3 /* School+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA129280ED7005D6CF3 /* School+Extensions.swift */; };
 		79BF1DA42928E37B005D6CF3 /* SchoolCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA32928E37B005D6CF3 /* SchoolCreatorModal.swift */; };
 		79BF1DA52928E37B005D6CF3 /* SchoolCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BF1DA32928E37B005D6CF3 /* SchoolCreatorModal.swift */; };
@@ -577,7 +579,7 @@
 		79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramBrowserRow.swift; sourceTree = "<group>"; };
 		79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetailGroupBox.swift; sourceTree = "<group>"; };
 		799817742A562A9F00CD8F43 /* SeancesInDateInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeancesInDateInterval.swift; sourceTree = "<group>"; };
-		799D2C7629CBADE2009C6336 /* ActivityDocumentList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDocumentList.swift; sourceTree = "<group>"; };
+		799D2C7629CBADE2009C6336 /* ActivityDocListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDocListSection.swift; sourceTree = "<group>"; };
 		799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceDocumentList.swift; sourceTree = "<group>"; };
 		799EFBA32A2CFC66008E9775 /* FileOperationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileOperationTypes.swift; sourceTree = "<group>"; };
 		799EFBA52A2CFE45008E9775 /* WCompChapterBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompChapterBrowserRow.swift; sourceTree = "<group>"; };
@@ -614,6 +616,8 @@
 		79BA2D47299C0084006325CC /* JsonImportExportMng.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonImportExportMng.swift; sourceTree = "<group>"; };
 		79BA2D49299C00CD006325CC /* CsvImportExportMng.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvImportExportMng.swift; sourceTree = "<group>"; };
 		79BA2D4B299C0287006325CC /* ImageImportExportMng.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageImportExportMng.swift; sourceTree = "<group>"; };
+		79BE3DA22A6EB933002AB97A /* ActivityDCompListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDCompListSection.swift; sourceTree = "<group>"; };
+		79BE3DA42A6EBEB7002AB97A /* ConnectToDCompModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectToDCompModal.swift; sourceTree = "<group>"; };
 		79BF1DA129280ED7005D6CF3 /* School+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "School+Extensions.swift"; sourceTree = "<group>"; };
 		79BF1DA32928E37B005D6CF3 /* SchoolCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolCreatorModal.swift; sourceTree = "<group>"; };
 		79BF1DA729290F5A005D6CF3 /* Classe+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Classe+Extensions.swift"; sourceTree = "<group>"; };
@@ -1210,17 +1214,16 @@
 		79637206297D879100ECDBC3 /* Activity */ = {
 			isa = PBXGroup;
 			children = (
+				79BE3DA12A6EADDB002AB97A /* EditorModal */,
 				795804B429A6965B00AEB7DA /* Progress */,
 				79637207297D9B5B00ECDBC3 /* ActivitySideBar.swift */,
 				79637209297DA2DB00ECDBC3 /* ActivityList.swift */,
 				7963720B297DA37E00ECDBC3 /* ActivityBrowserRow.swift */,
 				79AFBFB52981C9DA001576DD /* ActivityCreatorModal.swift */,
-				79AFBFB72981D264001576DD /* ActivityEditorModal.swift */,
 				7963720F297DA91200ECDBC3 /* ActivityDetail.swift */,
 				792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */,
 				79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */,
 				7989B4D429A2752800383F84 /* LabeledActivityView.swift */,
-				799D2C7629CBADE2009C6336 /* ActivityDocumentList.swift */,
 				79F7A2862A40A9AF00CEC3D5 /* ActivityPicker.swift */,
 				790A10702A472C5500BA3F5C /* ActivityTagList.swift */,
 			);
@@ -1476,6 +1479,17 @@
 				79B6632229244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift */,
 			);
 			path = "Assistant ProfesseurUITests";
+			sourceTree = "<group>";
+		};
+		79BE3DA12A6EADDB002AB97A /* EditorModal */ = {
+			isa = PBXGroup;
+			children = (
+				79AFBFB72981D264001576DD /* ActivityEditorModal.swift */,
+				799D2C7629CBADE2009C6336 /* ActivityDocListSection.swift */,
+				79BE3DA22A6EB933002AB97A /* ActivityDCompListSection.swift */,
+				79BE3DA42A6EBEB7002AB97A /* ConnectToDCompModal.swift */,
+			);
+			path = EditorModal;
 			sourceTree = "<group>";
 		};
 		79BF1DA029280E8B005D6CF3 /* School */ = {
@@ -2015,7 +2029,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				79975316297B148800D1C66E /* ProgramSplitView.swift in Sources */,
-				799D2C7729CBADE2009C6336 /* ActivityDocumentList.swift in Sources */,
+				799D2C7729CBADE2009C6336 /* ActivityDocListSection.swift in Sources */,
 				7986A8572989B1A2007471BE /* GroupGlobalMarkModal.swift in Sources */,
 				79FD219B2A339BE700A8D925 /* DSectionEntity+Extension.swift in Sources */,
 				798B8260296CAC84004A24A8 /* ImportExportManager.swift in Sources */,
@@ -2228,6 +2242,7 @@
 				79ECF1F42959F09F008F0282 /* colle+extensions.swift in Sources */,
 				796371FF297D575800ECDBC3 /* SequenceSidebar.swift in Sources */,
 				7994E31F2972DE8400952D08 /* RoomSeatManager.swift in Sources */,
+				79BE3DA32A6EB933002AB97A /* ActivityDCompListSection.swift in Sources */,
 				79F7A2852A409C5200CEC3D5 /* LevelInCyclePicker.swift in Sources */,
 				79FE06DC2A44E14900DDA543 /* ClasseTagList.swift in Sources */,
 				79637214297DBD6500ECDBC3 /* SettingsActivity.swift in Sources */,
@@ -2317,6 +2332,7 @@
 				79DEDB042925902800F508EF /* SchoolSidebarView.swift in Sources */,
 				7921F54C2925825800173F39 /* ModelEntityP.swift in Sources */,
 				79DEDB15292593C200F508EF /* SettingsGeneral.swift in Sources */,
+				79BE3DA52A6EBEB7002AB97A /* ConnectToDCompModal.swift in Sources */,
 				79F79B832A2D1F1800DEE003 /* WCompEntity+CoreDataClass.swift in Sources */,
 				794F6E11295CE1B700042B95 /* ObservDetail.swift in Sources */,
 				790F76A229818858000A5C7D /* DurationView.swift in Sources */,

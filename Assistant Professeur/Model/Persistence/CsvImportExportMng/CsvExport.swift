@@ -150,7 +150,7 @@ extension CsvImportExportMng {
     static func exportDCompetencies() {
         // TODO: - Implémenter export CSV des Compétences
         var total = DataFrame()
-        DThemeEntity.allSortedbyDiscCycleTitle()
+        DThemeEntity.allSortedByDiscCycleTitle()
             .forEach { theme in
                 let dataFrame = dCompThemeDataFrame(de: theme)
                 #if DEBUG

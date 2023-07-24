@@ -1,16 +1,17 @@
 //
-//  ActivityListSection.swift
+//  ActivityDCompListSection.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 19/06/2023.
+//  Created by Lionel MICHAUD on 24/07/2023.
 //
 
-import HelpersView
 import SwiftUI
+import HelpersView
 
-struct ActivityListSection: View {
+struct ActivityDCompListSection: View {
+
     @ObservedObject
-    var dCompetency: DCompEntity
+    var activity: ActivityEntity
 
     @State
     private var isAddingObject = false
@@ -22,53 +23,52 @@ struct ActivityListSection: View {
                 isAddingObject.toggle()
             } label: {
                 Label(
-                    "Associer une activité pédagogique",
+                    "Associer une compétence disciplinaire",
                     systemImage: "plus.circle.fill"
                 )
             }
             .buttonStyle(.borderless)
 
-            ForEach(dCompetency.activitiesSortedByLevelSeqActNumber) { activity in
-                AssociatedActivityBrowerRow(
-                    activity: activity,
-                    verticallyStacked: true
+            ForEach(activity.disciplineCompSortedByAcronym) { dCompetency in
+                DCompBrowserRow(
+                    competency: dCompetency,
+                    showIcon: true
                 )
                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                    // supprimer le lien vers l'activité
+                    // supprimer le lien vers la compétence disciplinaire
                     Button(role: .destructive) {
                         activity.removeFromCompetencies(dCompetency)
-                        try? DCompEntity.saveIfContextHasChanged()
                     } label: {
                         Label("Dissocier", systemImage: "minus.circle")
                     }
                 }
             }
-            .emptyListPlaceHolder(dCompetency.activitiesSortedByLevelSeqActNumber) {
+            .emptyListPlaceHolder(activity.disciplineCompSortedByAcronym) {
                 EmptyListMessage(
-                    title: "Aucune activité pédagogique associée.",
+                    title: "Aucune compétence disciplinaire associée.",
                     showAsGroupBox: false
                 )
             }
 
         } header: {
-            Text("Activités pédagogiques associées")
+            Text("Compétences disciplinaires associées")
                 .style(.sectionHeader)
         }
 
-        // Modal Sheet d'ajout d'une activité
+        // Modal Sheet d'ajout d'une compétence disciplinaire
         .sheet(
             isPresented: $isAddingObject
         ) {
             NavigationStack {
-                ConnectToActivityModal(competency: dCompetency)
+                ConnectToDCompModal(activity: activity)
             }
             .presentationDetents([.medium])
         }
     }
 }
 
-// struct ActivityListSection_Previews: PreviewProvider {
+//struct ActivityDCompListSection_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ActivityListSection()
+//        ActivityDCompListSection()
 //    }
-// }
+//}

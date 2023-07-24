@@ -95,6 +95,16 @@ enum LevelClasse: String, PickableEnumP, Codable, Identifiable {
         }
     }
 
+    var cycle: Cycle {
+        switch self {
+            case .nbCP, .naCE1, .n9CE2: return .cycle2
+            case .n8CM1, .n7CM2, .n6ieme: return .cycle3
+            case .n5ieme, .n4ieme, .n3ieme: return .cycle4
+            case .n2nd, .n1ere, .n0terminale: return .cycle5
+        }
+
+    }
+
     func isCompatible(
         withSchool school: SchoolEntity
     ) -> Bool {

@@ -22,7 +22,6 @@ struct ConnectToActivityModal: View {
     private var selectedActivity: ActivityEntity = .all().first!
 
     @Environment(\.dismiss)
-
     private var dismiss
 
     private var discipline: Discipline? {
@@ -107,6 +106,7 @@ struct ConnectToActivityModal: View {
                 self.selectedActivity = firstActivity
             }
         }
+        .interactiveDismissDisabled()
         #if os(iOS)
         .navigationTitle("Activité pédagogique associée")
         #endif
@@ -120,7 +120,7 @@ struct ConnectToActivityModal: View {
             }
             if selectedActivities.isNotEmpty && selectedSequences.isNotEmpty {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Ok") {
+                    Button("Associer") {
                         selectedActivity.addToCompetencies(competency)
                         try? DCompEntity.saveIfContextHasChanged()
                         dismiss()

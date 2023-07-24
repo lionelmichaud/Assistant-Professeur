@@ -126,7 +126,7 @@ extension DCompEditorModal {
         ToolbarItem(placement: .confirmationAction) {
             Button(isEditing ? "Ok" : "Ajouter") {
                 // Ajouter un nouveau programme
-                if inSection.exists(
+                if inSection.competencyExists(
                     number: disciplineCompVM.number,
                     thisObjectID: isEditing ? competency.objectID : nil
                 ) {

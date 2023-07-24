@@ -176,26 +176,6 @@ extension DThemeEntity {
         return request
     }
 
-    // MARK: - Computed properties
-
-    /// Liste des **Sections** de compétences disciplinaires non triées
-    var allSections: [DSectionEntity] {
-        if let sections {
-            return (sections.allObjects as! [DSectionEntity])
-        } else {
-            return []
-        }
-    }
-
-    /// Liste des **Sections** de compétences disciplinaires triées par numéro
-    var allSectionsSortedByNumber: [DSectionEntity] {
-        let sortComparators =
-            [
-                SortDescriptor(\DSectionEntity.number, order: .forward)
-            ]
-        return allSections.sorted(using: sortComparators)
-    }
-
     // MARK: - Type Methods
 
     /// Nombre de thèmes dans cette `discipline`
@@ -229,7 +209,7 @@ extension DThemeEntity {
     ///   1. Discipline
     ///   2. Cycle
     ///   3. Titre du thème
-    static func allSortedbyDiscCycleTitle() -> [DThemeEntity] {
+    static func allSortedByDiscCycleTitle() -> [DThemeEntity] {
         do {
             return try DThemeEntity
                 .context
@@ -237,6 +217,23 @@ extension DThemeEntity {
         } catch {
             return []
         }
+    }
+
+    /// Liste dles **Thèmes** de compétences disciplinaires triées par titre
+    /// qui appartiennent à `discipline`, pour le `cycle`.
+    ///
+    /// Ordre de tri:
+    ///   1. Titre du thème
+    static func sortedByTitle(
+        forCycle cycle: Cycle,
+        forDiscipline discipline: Discipline
+    ) -> [DThemeEntity] {
+        all()
+            .filter {
+                $0.viewCycleEnum == cycle &&
+                    $0.viewDisciplineEnum == discipline
+            }
+            .sorted(by: \.viewAcronym)
     }
 
     /// Créer une nouvelle instance et la sauvegarder dans le context
@@ -260,6 +257,42 @@ extension DThemeEntity {
         try? Self.saveIfContextHasChanged()
         return theme
     }
+
+    // MARK: - Section de Compétences
+
+    /// Liste des **Sections** de compétences disciplinaires non triées
+    var allSections: [DSectionEntity] {
+        if let sections {
+            return (sections.allObjects as! [DSectionEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Liste des **Sections** de compétences disciplinaires triées par numéro
+    var allSectionsSortedByNumber: [DSectionEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(\DSectionEntity.number, order: .forward)
+            ]
+        return allSections.sorted(using: sortComparators)
+    }
+
+    /// Recherche si la **Section** existe déjà dans ce **Theme**.
+    ///
+    /// Si `thisObjectID` != `nil` alors on retourne true seulement
+    /// si un objet existant possède un identifiant différent de `thisObjectID`.
+    func sectionExists(
+        sectionNumber: Int,
+        thisObjectID: NSManagedObjectID? = nil
+    ) -> Bool {
+        allSections.contains {
+            $0.viewNumber == sectionNumber &&
+                (thisObjectID == nil || $0.objectID != thisObjectID)
+        }
+    }
+
+    // MARK: - Contrôle de la BDD
 
     /// Check the correctness and consistency of all database entities of this type.
     /// - Parameters:
@@ -318,20 +351,6 @@ extension DThemeEntity {
         // Set defaults here
         self.id = UUID()
     }
-
-    /// Recherche si la **Section** existe déjà dans ce **Theme**.
-    ///
-    /// Si `thisObjectID` != `nil` alors on retourne true seulement
-    /// si un objet existant possède un identifiant différent de `thisObjectID`.
-    func exists(
-        number: Int,
-        thisObjectID: NSManagedObjectID? = nil
-    ) -> Bool {
-        allSections.contains {
-            $0.viewNumber == number &&
-                (thisObjectID == nil || $0.objectID != thisObjectID)
-        }
-    }
 }
 
 // MARK: - Extension Debug
@@ -347,7 +366,7 @@ public extension DThemeEntity {
            Code          : \(viewAcronym)
            Description   : \(viewDescription)
            Progressivité : \(viewProgressivity)
-           Sections      : \(String(describing: sections).withPrefixedSplittedLines("     "))
+           Sections      : \(String(describing: allSectionsSortedByNumber).withPrefixedSplittedLines("     "))
         """
     }
 }
