@@ -150,7 +150,7 @@ extension SequenceStepperView {
                     // Compétences disciplinaires associées
                     if activity.allDisciplineCompetencies.isNotEmpty {
                         DCompTagList(
-                            disciplineComps: activity.allDisciplineCompetencies,
+                            disciplineComps: activity.disciplineCompSortedByAcronym,
                             font: .footnote
                         )
                         .padding([.top, .bottom], 1)

@@ -52,7 +52,6 @@ struct ConnectToDCompModal: View {
                     forCycle: cycle,
                     forDiscipline: discipline
                 )
-                print(dThemes)
             }
         }
         #if os(iOS)
@@ -73,7 +72,6 @@ struct ConnectToDCompModal: View {
                             DCompEntity.byObjectId(MngObjID: dCompObjectId)
                         }
                         let set = NSSet(array: dComps)
-                        print(dComps)
                         activity.addToCompetencies(set)
                         dismiss()
                     }
