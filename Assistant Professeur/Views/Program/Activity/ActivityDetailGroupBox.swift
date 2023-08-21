@@ -73,7 +73,7 @@ struct ActivityDetailGroupBox: View {
                 .padding(.top, 4)
 
                 // Compétences disciplinaires associées
-                DCompTagList(disciplineComps: activity.allDisciplineCompetencies)
+                DCompTagList(disciplineComps: activity.disciplineCompSortedByAcronym)
             }
             .font(hClass == .compact ? .callout : .body)
         }

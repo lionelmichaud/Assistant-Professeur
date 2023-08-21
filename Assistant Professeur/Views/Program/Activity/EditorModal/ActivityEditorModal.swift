@@ -109,6 +109,16 @@ struct ActivityEditorModal: View {
                     systemImage: ActivityEntity.evalSommativeSymbol
                 )
             }
+            .onChange(of: activity.isEval) { newValue in
+                // Vérifier si on vient de faire de cette activité une Evaluation Sommative
+                if newValue {
+                    // Associer toutes les compétences disciplinaires de la séquence à cette activité
+                    if let disciplineCompSortedByAcronym = activity.sequence?.disciplineCompSortedByAcronym {
+                        let set = NSSet(array: disciplineCompSortedByAcronym)
+                        activity.addToCompetencies(set)
+                    }
+                }
+            }
 
             // Liste des documents utiles
             ActivityDocListSection(activity: activity)
