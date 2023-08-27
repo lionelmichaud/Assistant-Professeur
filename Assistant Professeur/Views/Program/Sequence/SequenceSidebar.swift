@@ -91,12 +91,18 @@ extension SequenceSidebar {
                 Button {
                     showProgramSteps.toggle()
                 } label: {
-                    Image(systemName: "info.circle")
+                    Label(
+                        "Infos",
+                        systemImage: "info.circle"
+                    )
                 }
                 Button {
                     isEditing.toggle()
                 } label: {
-                    Image(systemName: "pencil")
+                    Label(
+                        "Modifier",
+                        systemImage: "pencil"
+                    )
                 }
             }
 
