@@ -817,11 +817,12 @@ public extension ClasseEntity {
            Niveau  : \(levelString)
            Numéro  : \(numero)
            SEGPA   : \(segpa.frenchString)
-           Heures  : \(heures)
            Flagged : \(isFlagged.frenchString)
-           Appréciation: '\(viewAppreciation)'
-           Annotation  : '\(viewAnnotation)'
-           Nb élèves   : \(elevesCount)
+           Appréciation : '\(viewAppreciation)'
+           Annotation   : '\(viewAnnotation)'
+           Discipline   : \(disciplineEnum)
+           Heures       : \(heures)
+           Nb élèves    : \(elevesCount)
            RoomID  : \(String(describing: room))
            Examens : \(String(describing: examsSortedByDate).withPrefixedSplittedLines("     "))
            Eleves  : \(String(describing: elevesSortedByName).withPrefixedSplittedLines("     "))
