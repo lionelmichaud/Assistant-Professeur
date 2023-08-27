@@ -86,8 +86,8 @@ extension SequenceSidebar {
     private func myToolBarContent() -> some ToolbarContent {
         if let programId = nav.selectedProgramMngObjId,
            ProgramEntity.byObjectId(MngObjID: programId) != nil {
-            // Editer le Programme
             ToolbarItemGroup(placement: .automatic) {
+                // Afficher la vue Stepper du Programme
                 Button {
                     showProgramSteps.toggle()
                 } label: {
@@ -96,6 +96,8 @@ extension SequenceSidebar {
                         systemImage: "info.circle"
                     )
                 }
+
+                // Modifier le Programme
                 Button {
                     isEditing.toggle()
                 } label: {
