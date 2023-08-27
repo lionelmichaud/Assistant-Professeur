@@ -24,7 +24,7 @@ enum EventManager {
     ///   - schoolYear: Intervalle de temps de l'année scolaire en cours.
     /// - Important: Convention de nommage:
     ///     Nom du calendrier = **Nom de l'établissement**
-    ///     Titre de l'événement = **"Conseil - \(classe)"**
+    ///     Titre de l'événement = **"Conseil - classe"**
     ///     où **classe** = 5E2S
     static func getAllConseils(
         forClasseName classe: String,
