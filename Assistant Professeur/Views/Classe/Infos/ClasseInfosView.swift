@@ -20,6 +20,9 @@ struct ClasseInfosView: View {
     @State
     private var conseils = [EKEvent]()
 
+    @State
+    private var popOverIsPresented: Bool = false
+
     private var conseilList: some View {
         ForEach(conseils, id: \.eventIdentifier) { conseil in
             VStack {
@@ -66,9 +69,22 @@ struct ClasseInfosView: View {
             // Conseils de classe
             Section {
                 conseilList
+                    .popover(isPresented: $popOverIsPresented) {
+                        Text("Nom requis pour l'événement du calendrier: \"**Conseil - Classe**\"")
+                            .foregroundColor(.primary)
+                            .padding()
+                    }
             } header: {
-                Text("Conseils de classe")
-                    .style(.sectionHeader)
+                HStack {
+                    Text("Conseils de classe")
+                        .style(.sectionHeader)
+                    // Afficher le PopOver d'information surle format à utiliser
+                    Button {
+                        popOverIsPresented = true
+                    } label: {
+                        Image(systemName: "info.circle")
+                    }
+                }
             }
 
             // Salle de classe utilisée
