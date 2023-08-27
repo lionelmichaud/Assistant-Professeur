@@ -80,7 +80,7 @@ extension ClasseProgressSection {
                 }
             }
             .fontWeight(.bold)
-            .task {
+            .task(id: classe.displayString + (classe.school?.viewName ?? "")) { // actualiser si on sélectionne une autre classe
                 // Liste des Séances à venir pour cette classe
                 if let schoolName = classe.school?.viewName {
                     await $classeSeances.loadSeancesFromCalendar(
