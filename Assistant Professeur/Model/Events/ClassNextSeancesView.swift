@@ -22,6 +22,21 @@ struct ClassNextSeancesView: View {
     @State
     private var classeSeances: SeancesInDateInterval = .init()
 
+    @State
+    private var popOverIsPresented: Bool = false
+
+    private var infoView: some View {
+        VStack {
+            Text("Pour apparaître ici les noms des événements")
+            Text("du calendrier de cet établissement doivent contenir:")
+            Text("\"**Acronyme Discipline - Classe**\"\n")
+            Text("Exemple: pour la discipline de \(classe.disciplineEnum.pickerString),")
+            Text("et la classe de \(classe.displayString): \"**\(classe.disciplineEnum.acronym) - \(classe.displayString)**\"")
+        }
+        .foregroundColor(.primary)
+        .padding()
+    }
+
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
             ForEach(classeSeances.seances) { seance in
@@ -30,8 +45,8 @@ struct ClassNextSeancesView: View {
             .emptyListPlaceHolder(classeSeances.seances) {
                 EmptyListMessage(
                     symbolName: "clock",
-                    title: "Aucun cours trouvé dans votre agenda.",
-                    message: "Les cours plannifiés dans votre agenda pour cette casse apparaîtront ici.",
+                    title: "Aucun événement trouvé dans le calendrier de cet établissement pour cette classe.",
+                    message: "Les événements plannifiés dans votre agenda pour cette classe apparaîtront ici.",
                     showAsGroupBox: true
                 )
             }
@@ -66,25 +81,40 @@ struct ClassNextSeancesView: View {
                 let vacancesIncludedInPeriod =
                     pref.viewSchoolYearPref
                         .vacancesContained(in: horizon)
-                
+
                 vacancesIncludedInPeriod.forEach { vacance in
-                    for idx in classeSeances.seances.startIndex ... classeSeances.seances.endIndex - 2
-                        where (classeSeances[idx].interval.end ... classeSeances[idx + 1].interval.start).contains(vacance.interval.start) {
-                        let pseudoSeance = Seance(
-                            name: vacance.name,
-                            interval: vacance.interval,
-                            isVacance: true
-                        )
-                        classeSeances
-                            .seances
-                            .insert(pseudoSeance, at: idx+1)
-                        break
+                    if classeSeances.seances.count >= 2 {
+                        for idx in classeSeances.seances.startIndex ... classeSeances.seances.endIndex - 2
+                            where (classeSeances[idx].interval.end ... classeSeances[idx + 1].interval.start).contains(vacance.interval.start) {
+                            let pseudoSeance = Seance(
+                                name: vacance.name,
+                                interval: vacance.interval,
+                                isVacance: true
+                            )
+                            classeSeances
+                                .seances
+                                .insert(pseudoSeance, at: idx + 1)
+                            break
+                        }
                     }
                 }
             }
         }
         #if os(iOS)
         .navigationTitle("Cours à venir")
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                // Afficher le PopOver d'information surle format à utiliser
+                Button {
+                    popOverIsPresented = true
+                } label: {
+                    Image(systemName: "info.circle")
+                }
+                .popover(isPresented: $popOverIsPresented) {
+                    infoView
+                }
+            }
+        }
         #endif
         .navigationBarTitleDisplayModeInline()
     }
