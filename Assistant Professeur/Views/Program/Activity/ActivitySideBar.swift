@@ -22,6 +22,9 @@ struct ActivitySideBar: View {
     private var isEditing = false
 
     @State
+    private var isDuplicating = false
+
+    @State
     private var searchString: String = ""
 
     // MARK: - Computed Properties
@@ -76,15 +79,32 @@ extension ActivitySideBar {
     private func myToolBarContent() -> some ToolbarContent {
         // Editer la Séquence
         ToolbarItemGroup(placement: .automatic) {
+            // Afficher la vue Stepper de la séquence
             Button {
                 showSequenceSteps.toggle()
             } label: {
-                Image(systemName: "info.circle")
+                Label(
+                    "Infos", systemImage: "info.circle"
+                )
             }
+            
+            // Modifier la séquence
             Button {
                 isEditing.toggle()
             } label: {
-                Image(systemName: "pencil")
+                Label(
+                    "Modifier", systemImage: "pencil"
+                )
+            }
+
+            // Dupliquer la séquence
+            Button {
+                isDuplicating.toggle()
+            } label: {
+                Label(
+                    "Dupliquer la séquence dans un autre programme",
+                    systemImage: "doc.on.doc.fill"
+                )
             }
         }
 

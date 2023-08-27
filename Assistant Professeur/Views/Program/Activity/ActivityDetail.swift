@@ -15,6 +15,9 @@ struct ActivityDetail: View {
     @State
     private var isEditing = false
 
+    @State
+    private var isDuplicating = false
+
     // MARK: - Computed Properties
 
     private var selectedActivityId: NSManagedObjectID? {
@@ -92,10 +95,21 @@ extension ActivityDetail {
         if selectedActivityExists {
             // Editer l'activité
             ToolbarItemGroup(placement: .automatic) {
+                // Modifier l'activité
                 Button {
                     isEditing.toggle()
                 } label: {
                     Label("Modifier", systemImage: "pencil")
+                }
+                
+                // Dupliquer l'activité
+                Button {
+                    isDuplicating.toggle()
+                } label: {
+                    Label(
+                        "Dupliquer l'activité dans une autre séquence",
+                        systemImage: "doc.on.doc.fill"
+                    )
                 }
             }
         }

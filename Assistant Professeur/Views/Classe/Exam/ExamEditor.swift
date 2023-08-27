@@ -65,7 +65,6 @@ extension ExamEditor {
                             otherClasse.levelEnum == classe.levelEnum &&
                             otherClasse.objectID != classe.objectID
                     }
-                print(otherClassesOfSameLevel)
 
                 // dupliquer l'exam pour chacune des autres classes
                 otherClassesOfSameLevel.forEach { classe in
