@@ -128,9 +128,33 @@ enum EventManager {
         endDate: Date
     ) async -> [EKEvent] {
         let eventStore = EKEventStore()
-        // eventStore.reset()
+        eventStore.reset()
         do {
-            _ = try await eventStore.requestAccess(to: .event)
+            // TODO: - To access the user’s Calendar data, all sandboxed macOS apps must include the com.apple.security.personal-information.calendars entitlement. To learn more about entitlements related to App Sandbox, see Enabling App Sandbox.
+            let accessGranted = try await eventStore.requestAccess(to: .event)
+            let authorizationStatus = EKEventStore.authorizationStatus(for: .event)
+
+            guard authorizationStatus == .authorized else {
+                var reason = ""
+                switch authorizationStatus {
+                    case .notDetermined:
+                        reason = "notDetermined"
+                    case .restricted:
+                        reason = "restricted"
+                    case .denied:
+                        reason = "denied"
+                    case .authorized:
+                        reason = "authorized"
+                    @unknown default:
+                        reason = "@unknown"
+                }
+
+                customLog.log(
+                    level: .error,
+                    "Access to user's events not granted ! authorizationStatus = \(reason)"
+                )
+                return []
+            }
 
             // Find the calendar named `calName`
             guard let myCalendar = try getOrCreateCalendar(
