@@ -96,7 +96,7 @@ extension SequenceSidebar {
                 Button {
                     isEditing.toggle()
                 } label: {
-                    Image(systemName: "pencil.circle")
+                    Image(systemName: "pencil")
                 }
             }
 

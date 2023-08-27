@@ -92,8 +92,10 @@ extension ActivityDetail {
         if selectedActivityExists {
             // Editer l'activité
             ToolbarItemGroup(placement: .automatic) {
-                Button("Modifier") {
+                Button {
                     isEditing.toggle()
+                } label: {
+                    Label("Modifier", systemImage: "pencil")
                 }
             }
         }
