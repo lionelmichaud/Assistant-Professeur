@@ -101,7 +101,7 @@ extension ActivityDetail {
                 } label: {
                     Label("Modifier", systemImage: "pencil")
                 }
-                
+
                 // Dupliquer l'activité
                 Button {
                     isDuplicating.toggle()
