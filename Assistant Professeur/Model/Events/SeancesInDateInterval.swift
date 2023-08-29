@@ -7,25 +7,28 @@
 
 import Foundation
 import SwiftUI
+import EventKit
 
 /// Proxy vers DateIntervalSeances
 /// Refer to : [Calling Mutating Async Functions from SwiftUI Views](https://diegolavalle.com/posts/2022-11-29-calling-mutating-async-functions/)
-@MainActor
-extension Binding where Value == SeancesInDateInterval {
-    func loadSeancesFromCalendar(
-        forDiscipline discipline: Discipline,
-        forClasse classe: String,
-        schoolName: String,
-        during period: DateInterval
-    ) async {
-        await wrappedValue.loadSeancesFromCalendar(
-            forDiscipline: discipline,
-            forClasseName: classe,
-            schoolName: schoolName,
-            during: period
-        )
-    }
-}
+//@MainActor
+//extension Binding where Value == SeancesInDateInterval {
+//    func loadSeancesFromCalendar(
+//        forDiscipline discipline: Discipline,
+//        forClasse classe: String,
+//        inCalendar calendar: EKCalendar,
+//        inEventStore eventStore: EKEventStore,
+//        during period: DateInterval
+//    ) async {
+//        await wrappedValue.loadSeancesFromCalendar(
+//            forDiscipline: discipline,
+//            forClasseName: classe,
+//            inCalendar: calendar,
+//            inEventStore: eventStore,
+//            during: period
+//        )
+//    }
+//}
 
 /// Un cours et son contenu en activités pédagogique.
 /// Plusieurs activités peuvent être abordées pendant le même cours.
@@ -87,13 +90,15 @@ struct SeancesInDateInterval {
     mutating func loadSeancesFromCalendar(
         forDiscipline discipline: Discipline,
         forClasseName classe: String,
-        schoolName: String,
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore,
         during period: DateInterval
-    ) async {
-        self.seances = await EventManager.getAllSeances(
+    ) {
+        self.seances = EventManager.getAllSeances(
             forDiscipline: discipline,
             forClasseName: classe,
-            inCalendarNamed: schoolName,
+            inCalendar: calendar,
+            inEventStore: eventStore,
             during: period
         ).map { event in
             Seance(

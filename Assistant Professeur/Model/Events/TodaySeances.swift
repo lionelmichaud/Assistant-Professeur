@@ -29,12 +29,14 @@ struct TodaySeances {
     mutating func loadTodaySeances(
         forDiscipline discipline: Discipline,
         forClasse classe: String,
-        schoolName: String
-    ) async {
-        self.seances = await EventManager.getTodaySeances(
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore
+    ) {
+        self.seances = EventManager.getTodaySeances(
             forDiscipline: discipline,
             forClasse: classe,
-            inCalendarNamed: schoolName
+            inCalendar: calendar,
+            inEventStore: eventStore
         )
     }
 

@@ -7,6 +7,7 @@
 
 import EventKit
 import HelpersView
+import os
 import SwiftUI
 
 struct ClasseInfosView: View {
@@ -23,6 +24,21 @@ struct ClasseInfosView: View {
     @State
     private var popOverIsPresented: Bool = false
 
+    @State
+    private var eventStore = EKEventStore()
+
+    @State
+    private var calendar: EKCalendar?
+
+    @State
+    private var alertTitle = ""
+
+    @State
+    private var alertMessage = ""
+
+    @State
+    private var alertIsPresented = false
+
     private var conseilList: some View {
         ForEach(conseils, id: \.eventIdentifier) { conseil in
             VStack {
@@ -30,7 +46,7 @@ struct ClasseInfosView: View {
                     Text(conseil.startDate.formatted(date: .complete, time: .standard))
                 if let location = conseil.location {
                     Text("Lieu: ").foregroundColor(.secondary) +
-                    Text(location)
+                        Text(location)
                 }
             }
         }
@@ -92,13 +108,41 @@ struct ClasseInfosView: View {
                 roomView
             }
         }
-        .task {
+        .alert(
+            alertTitle,
+            isPresented: $alertIsPresented,
+            actions: {},
+            message: { Text(alertMessage) }
+        )
+        .task(id: classe.objectID) {
             if let school = classe.school {
-                conseils = await EventManager.getAllConseils(
-                    forClasseName: classe.displayString,
-                    inCalendarNamed: school.viewName,
-                    during: pref.viewSchoolYearPref.interval
-                )
+                // Demander les droits d'accès aux calendriers de l'utilisateur
+                (
+                    alertIsPresented,
+                    alertTitle,
+                    alertMessage
+                ) = await EventManager.requestCalendarAccess(eventStore: eventStore)
+
+                if !alertIsPresented {
+                    // Récupérer le calendrier
+                    (
+                        calendar,
+                        alertIsPresented,
+                        alertTitle,
+                        alertMessage
+                    ) = EventManager.getOrCreateCalendar(named: school.viewName,
+                                                         inEventStore: eventStore)
+
+                    if let calendar {
+                        // Récupérer les dates de conseils de classe
+                        conseils = EventManager.getAllConseils(
+                            forClasseName: classe.displayString,
+                            inCalendar: calendar,
+                            inEventStore: eventStore,
+                            during: pref.viewSchoolYearPref.interval
+                        )
+                    }
+                }
             }
         }
     }

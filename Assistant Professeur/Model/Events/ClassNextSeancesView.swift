@@ -25,6 +25,21 @@ struct ClassNextSeancesView: View {
     @State
     private var popOverIsPresented: Bool = false
 
+    @State
+    private var eventStore = EKEventStore()
+
+    @State
+    private var calendar: EKCalendar?
+
+    @State
+    private var alertTitle = ""
+
+    @State
+    private var alertMessage = ""
+
+    @State
+    private var alertIsPresented = false
+
     private var infoView: some View {
         VStack {
             Text("Pour apparaître ici les noms des événements")
@@ -53,48 +68,77 @@ struct ClassNextSeancesView: View {
         }
         .padding(.horizontal)
         .verticallyAligned(.top)
+        .alert(
+            alertTitle,
+            isPresented: $alertIsPresented,
+            actions: {},
+            message: { Text(alertMessage) }
+        )
         .task {
-            // Liste des Progressions de la classe triée par numéro de Séquence / Activité
-            let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
-
             // Suite des Séances à venir pour cette classe sur un `horizon`
             if let schoolName = classe.school?.viewName {
-                let horizon = DateInterval(
-                    start: Date.now,
-                    end: horizon.months.fromNow!
-                )
-                await $classeSeances.loadSeancesFromCalendar(
-                    forDiscipline: classe.disciplineEnum,
-                    forClasse: classe.displayString,
-                    schoolName: schoolName,
-                    during: horizon
-                )
+                // Demander les droits d'accès aux calendriers de l'utilisateur
+                (
+                    alertIsPresented,
+                    alertTitle,
+                    alertMessage
+                ) = await EventManager.requestCalendarAccess(eventStore: eventStore)
 
-                // Synchroniser les Progressions avec les Séances
-                SequenceSeanceCoordinator.synchronize(
-                    classeSeances: &classeSeances,
-                    withProgresses: sortedClasseProgresses
-                )
+                if !alertIsPresented {
+                    // Récupérer le calendrier
+                    (
+                        calendar,
+                        alertIsPresented,
+                        alertTitle,
+                        alertMessage
+                    ) = EventManager.getOrCreateCalendar(
+                        named: schoolName,
+                        inEventStore: eventStore
+                    )
 
-                // Insérer des pseudo-séances pour chaque période
-                // de vacances inclue dans la période
-                let vacancesIncludedInPeriod =
-                    pref.viewSchoolYearPref
-                        .vacancesContained(in: horizon)
+                    if let calendar {
+                        // Liste des Progressions de la classe triée par numéro de Séquence / Activité
+                        let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
 
-                vacancesIncludedInPeriod.forEach { vacance in
-                    if classeSeances.seances.count >= 2 {
-                        for idx in classeSeances.seances.startIndex ... classeSeances.seances.endIndex - 2
-                            where (classeSeances[idx].interval.end ... classeSeances[idx + 1].interval.start).contains(vacance.interval.start) {
-                            let pseudoSeance = Seance(
-                                name: vacance.name,
-                                interval: vacance.interval,
-                                isVacance: true
-                            )
-                            classeSeances
-                                .seances
-                                .insert(pseudoSeance, at: idx + 1)
-                            break
+                        let horizon = DateInterval(
+                            start: Date.now,
+                            end: horizon.months.fromNow!
+                        )
+                        classeSeances.loadSeancesFromCalendar(
+                            forDiscipline: classe.disciplineEnum,
+                            forClasseName: classe.displayString,
+                            inCalendar: calendar,
+                            inEventStore: eventStore,
+                            during: horizon
+                        )
+
+                        // Synchroniser les Progressions avec les Séances
+                        SequenceSeanceCoordinator.synchronize(
+                            classeSeances: &classeSeances,
+                            withProgresses: sortedClasseProgresses
+                        )
+
+                        // Insérer des pseudo-séances pour chaque période
+                        // de vacances inclue dans la période
+                        let vacancesIncludedInPeriod =
+                            pref.viewSchoolYearPref
+                                .vacancesContained(in: horizon)
+
+                        vacancesIncludedInPeriod.forEach { vacance in
+                            if classeSeances.seances.count >= 2 {
+                                for idx in classeSeances.seances.startIndex ... classeSeances.seances.endIndex - 2
+                                    where (classeSeances[idx].interval.end ... classeSeances[idx + 1].interval.start).contains(vacance.interval.start) {
+                                    let pseudoSeance = Seance(
+                                        name: vacance.name,
+                                        interval: vacance.interval,
+                                        isVacance: true
+                                    )
+                                    classeSeances
+                                        .seances
+                                        .insert(pseudoSeance, at: idx + 1)
+                                    break
+                                }
+                            }
                         }
                     }
                 }
@@ -102,6 +146,7 @@ struct ClassNextSeancesView: View {
         }
         #if os(iOS)
         .navigationTitle("Cours à venir")
+        #endif
         .toolbar {
             ToolbarItem(placement: .automatic) {
                 // Afficher le PopOver d'information surle format à utiliser
@@ -115,7 +160,6 @@ struct ClassNextSeancesView: View {
                 }
             }
         }
-        #endif
         .navigationBarTitleDisplayModeInline()
     }
 }

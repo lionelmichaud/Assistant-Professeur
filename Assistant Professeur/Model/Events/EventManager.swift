@@ -16,6 +16,57 @@ private let customLog = Logger(
 
 /// Gestionnaire d'Evénements. Synchronize l'appli avec l'app Calendrier.
 enum EventManager {
+    static func requestCalendarAccess(
+        eventStore: EKEventStore
+    ) async -> (
+        alertIsPresented: Bool,
+        alertTitle: String,
+        alertMessage: String
+    ) {
+        // TODO: - To access the user’s Calendar data, all sandboxed macOS apps must include the com.apple.security.personal-information.calendars entitlement. To learn more about entitlements related to App Sandbox, see Enabling App Sandbox.
+        do {
+            if try await eventStore.requestAccess(to: .event) {
+                // Succès
+                return (false, "", "")
+
+            } else {
+                // Echec
+                let authorizationStatus = EKEventStore.authorizationStatus(for: .event)
+                var reason = ""
+                switch authorizationStatus {
+                    case .notDetermined:
+                        reason = "indéfinie"
+                    case .restricted:
+                        reason = "accès restreint"
+                    case .denied:
+                        reason = "accès refusé"
+                    case .authorized:
+                        reason = "accès autorisé"
+                    @unknown default:
+                        reason = "inconnue"
+                }
+                let alertTitle: String = "Accès au calendrier non autorisé: raison \(reason)"
+                customLog.log(level: .error, "\(alertTitle, privacy: .public)")
+                return (
+                    alertIsPresented: true,
+                    alertTitle: alertTitle,
+                    alertMessage: "The app doesn't have permission to access calendar data. Please grant the app access to Calendar in Settings."
+                )
+            }
+
+        } catch {
+            customLog.log(
+                level: .error,
+                "Echec de la demande d'accès au Calendrier: \(error.localizedDescription)"
+            )
+            return (
+                alertIsPresented: true,
+                alertTitle: "Echec de la demande d'accès au Calendrier",
+                alertMessage: error.localizedDescription
+            )
+        }
+    }
+
     /// Retourne la liste de tous les événements du clalendrier `calName`
     /// survenant dans la `period` et dont le titre contient **"Conseil - `classe`"**.
     /// - Parameters:
@@ -28,14 +79,16 @@ enum EventManager {
     ///     où **classe** = 5E2S
     static func getAllConseils(
         forClasseName classe: String,
-        inCalendarNamed calName: String,
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore,
         during schoolYear: DateInterval
-    ) async -> [EKEvent] {
+    ) -> [EKEvent] {
         let eventName = "Conseil - \(classe)"
 
-        return await getEvents(
+        return getEvents(
             withTitleIncluding: eventName,
-            inCalendarNamed: calName,
+            inCalendar: calendar,
+            inEventStore: eventStore,
             startDate: schoolYear.start,
             endDate: schoolYear.end
         )
@@ -56,14 +109,16 @@ enum EventManager {
     static func getAllSeances(
         forDiscipline discipline: Discipline,
         forClasseName classe: String,
-        inCalendarNamed calName: String,
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore,
         during period: DateInterval
-    ) async -> [EKEvent] {
+    ) -> [EKEvent] {
         let eventName = "\(discipline.acronym) - \(classe)"
 
-        return await getEvents(
+        return getEvents(
             withTitleIncluding: eventName,
-            inCalendarNamed: calName,
+            inCalendar: calendar,
+            inEventStore: eventStore,
             startDate: period.start,
             endDate: period.end
         )
@@ -83,16 +138,18 @@ enum EventManager {
     static func getTodaySeances(
         forDiscipline discipline: Discipline,
         forClasse classe: String,
-        inCalendarNamed calName: String
-    ) async -> [EKEvent] {
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore
+    ) -> [EKEvent] {
         let startOfDay = Calendar.current.startOfDay(for: .now)
         let secondsInOneDay = 60 * 60 * 24.0
         let endOfDay = startOfDay.addingTimeInterval(secondsInOneDay)
         let eventName = "\(discipline.acronym) - \(classe)"
 
-        return await getEvents(
+        return getEvents(
             withTitleIncluding: eventName,
-            inCalendarNamed: calName,
+            inCalendar: calendar,
+            inEventStore: eventStore,
             startDate: startOfDay,
             endDate: endOfDay
         )
@@ -103,14 +160,16 @@ enum EventManager {
     /// - Parameters:
     ///   - calName: Nom du calendrier où ajouter l'événement.
     static func getTodaySeances(
-        inCalendarNamed calName: String
-    ) async -> [EKEvent] {
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore
+    ) -> [EKEvent] {
         let startOfDay = Calendar.current.startOfDay(for: .now)
         let oneDay = 60 * 60 * 24.0
         let endOfDay = startOfDay.addingTimeInterval(oneDay)
 
-        return await getEvents(
-            inCalendarNamed: calName,
+        return getEvents(
+            inCalendar: calendar,
+            inEventStore: eventStore,
             startDate: startOfDay,
             endDate: endOfDay
         )
@@ -122,70 +181,26 @@ enum EventManager {
     /// Si `title` = `nil` alors ne tient pas compte de ce filtre.
     static func getEvents(
         withTitleIncluding title: String? = nil,
-        inCalendarNamed calName: String,
-        // inEventStore eventStore: EKEventStore,
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore,
         startDate: Date,
         endDate: Date
-    ) async -> [EKEvent] {
-        let eventStore = EKEventStore()
-        eventStore.reset()
-        do {
-            // TODO: - To access the user’s Calendar data, all sandboxed macOS apps must include the com.apple.security.personal-information.calendars entitlement. To learn more about entitlements related to App Sandbox, see Enabling App Sandbox.
-            let accessGranted = try await eventStore.requestAccess(to: .event)
-            let authorizationStatus = EKEventStore.authorizationStatus(for: .event)
+    ) -> [EKEvent] {
+        // Find the calendar named `calName`
+        let predicate = eventStore.predicateForEvents(
+            withStart: startDate,
+            end: endDate,
+            calendars: [calendar]
+        )
 
-            guard authorizationStatus == .authorized else {
-                var reason = ""
-                switch authorizationStatus {
-                    case .notDetermined:
-                        reason = "notDetermined"
-                    case .restricted:
-                        reason = "restricted"
-                    case .denied:
-                        reason = "denied"
-                    case .authorized:
-                        reason = "authorized"
-                    @unknown default:
-                        reason = "@unknown"
-                }
-
-                customLog.log(
-                    level: .error,
-                    "Access to user's events not granted ! authorizationStatus = \(reason)"
-                )
-                return []
+        let existingEvents = eventStore.events(matching: predicate)
+        if let title {
+            let selectedEvents = existingEvents.filter { event in
+                event.title.contains(title)
             }
-
-            // Find the calendar named `calName`
-            guard let myCalendar = try getOrCreateCalendar(
-                named: calName,
-                inEventStore: eventStore
-            ) else {
-                return []
-            }
-
-            let predicate = eventStore.predicateForEvents(
-                withStart: startDate,
-                end: endDate,
-                calendars: [myCalendar]
-            )
-
-            let existingEvents = eventStore.events(matching: predicate)
-            if let title {
-                let selectedEvents = existingEvents.filter { event in
-                    event.title.contains(title)
-                }
-                return selectedEvents
-            } else {
-                return existingEvents
-            }
-
-        } catch {
-            customLog.log(
-                level: .error,
-                "Error accessing events: \(error.localizedDescription)"
-            )
-            return []
+            return selectedEvents
+        } else {
+            return existingEvents
         }
     }
 
@@ -203,26 +218,16 @@ enum EventManager {
     static func saveOrUpdate(
         eventTitle: String,
         eventDateInterval: DateInterval,
-        toCalendarNamed calName: String,
-        during period: DateInterval
+        during period: DateInterval,
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore
     ) async -> Bool {
-        let eventStore = EKEventStore()
         do {
-            try await eventStore.requestAccess(to: .event)
-
-            // Find the calendar named `calName`
-            guard let myCalendar = try getOrCreateCalendar(
-                named: calName,
-                inEventStore: eventStore
-            ) else {
-                return false
-            }
-
             // Check if an event with the same title exists in the "myCalendar" calendar
             let predicate = eventStore.predicateForEvents(
                 withStart: period.start,
                 end: period.end,
-                calendars: [myCalendar]
+                calendars: [calendar]
             )
 
             let existingEvents = eventStore.events(matching: predicate)
@@ -248,7 +253,7 @@ enum EventManager {
                 newEvent.title = eventTitle
                 newEvent.startDate = eventDateInterval.start
                 newEvent.endDate = eventDateInterval.end
-                newEvent.calendar = myCalendar
+                newEvent.calendar = calendar
 
                 try eventStore.save(
                     newEvent,
@@ -265,9 +270,80 @@ enum EventManager {
         } catch {
             customLog.log(
                 level: .error,
-                "Error accessing or saving event: \(error.localizedDescription)"
+                "Error creating event: \(error.localizedDescription)"
             )
             return false
+        }
+    }
+
+    /// Cherche un calendrier  nommé `calName` dans l'app Calendrier.
+    /// Si le calendrier n'existe pas, il est créé.
+    /// - Parameter calName: Nom du calendrier recherché.
+    /// - Returns: Le clendrier nommé `calName`.
+    static func getOrCreateCalendar(
+        named calName: String,
+        inEventStore eventStore: EKEventStore
+    ) -> (
+        calendar: EKCalendar?,
+        alertIsPresented: Bool,
+        alertTitle: String,
+        alertMessage: String
+    ) {
+        let calendars = eventStore.calendars(for: .event)
+
+        if let existingCalendar = calendars.first(where: { $0.title == calName }) {
+            // Succès
+            return (
+                calendar: existingCalendar,
+                alertIsPresented: false,
+                alertTitle: "",
+                alertMessage: ""
+            )
+
+        } else {
+            // Créer le calendrier
+            let newCalendar = EKCalendar(for: .event, eventStore: eventStore)
+            newCalendar.title = calName
+
+            guard let source = bestPossibleEKSource(of: eventStore) else {
+                // source is required, otherwise calendar cannot be saved
+                customLog.log(
+                    level: .error,
+                    "Calendar source not found!"
+                )
+                // Echec
+                return (
+                    calendar: nil,
+                    alertIsPresented: true,
+                    alertTitle: "Calendrier \(calName) introuvable.",
+                    alertMessage: "Echec de la tentative de création du calendrier: destination du calendrier introuvable."
+                )
+            }
+            newCalendar.source = source
+
+            do {
+                // Save the new calendar to the event store
+                try eventStore.saveCalendar(newCalendar, commit: true)
+                customLog.log(
+                    level: .info,
+                    "Calendar named \(calName) created and saved successfully!"
+                )
+                // Succès
+                return (
+                    calendar: newCalendar,
+                    alertIsPresented: false,
+                    alertTitle: "",
+                    alertMessage: ""
+                )
+            } catch {
+                // Echec
+                return (
+                    calendar: nil,
+                    alertIsPresented: true,
+                    alertTitle: "Calendrier \(calName) introuvable.",
+                    alertMessage: "Echec de la tentative de création du calendrier."
+                )
+            }
         }
     }
 
@@ -303,7 +379,7 @@ enum EventManager {
             try eventStore.saveCalendar(newCalendar, commit: true)
             customLog.log(
                 level: .info,
-                "Calendar created and saved successfully!"
+                "Calendar named \(calName) created and saved successfully!"
             )
 
             return newCalendar

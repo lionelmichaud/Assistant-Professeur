@@ -2552,8 +2552,8 @@
 				INFOPLIST_FILE = "Assistant-Professeur-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Assistant Professeur";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cette application demande l'accès à votre agenda pour synchroniser votre emploi du temps";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Cette application demande l'accès à vos contacts pour synchroniser vos contacts professionnels";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cette application demande l'accès à votre agenda pour se synchroniser avec votre emploi du temps";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Cette application demande l'accès à vos contacts pour se synchroniser avec vos contacts professionnels";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -2600,8 +2600,8 @@
 				INFOPLIST_FILE = "Assistant-Professeur-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Assistant Professeur";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cette application demande l'accès à votre agenda pour synchroniser votre emploi du temps";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Cette application demande l'accès à vos contacts pour synchroniser vos contacts professionnels";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cette application demande l'accès à votre agenda pour se synchroniser avec votre emploi du temps";
+				INFOPLIST_KEY_NSContactsUsageDescription = "Cette application demande l'accès à vos contacts pour se synchroniser avec vos contacts professionnels";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

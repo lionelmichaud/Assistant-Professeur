@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 16/05/2023.
 //
 
+import EventKit
 import HelpersView
 import SwiftUI
 
@@ -13,7 +14,17 @@ struct SettingsSchoolYear: View {
     private var pref = UserPrefEntity.shared
 
     @State
+    private var eventStore = EKEventStore()
+
+    @State
+    private var calendar: EKCalendar?
+
+    @State
     private var alertTitle = ""
+
+    @State
+    private var alertMessage = ""
+
     @State
     private var alertIsPresented = false
 
@@ -94,7 +105,8 @@ struct SettingsSchoolYear: View {
         .alert(
             alertTitle,
             isPresented: $alertIsPresented,
-            actions: {}
+            actions: {},
+            message: { Text(alertMessage) }
         )
         #if os(iOS)
         .navigationTitle("Année scolaire")
@@ -107,18 +119,41 @@ struct SettingsSchoolYear: View {
         eventDateInterval: DateInterval
     ) {
         Task {
-            let success = await EventManager.saveOrUpdate(
-                eventTitle: eventTitle,
-                eventDateInterval: eventDateInterval,
-                toCalendarNamed: pref.viewSchoolYearPref.calName,
-                during: pref.viewSchoolYearPref.interval
-            )
-            if success {
-                alertTitle = "L'événement a été enregistré."
-                alertIsPresented.toggle()
-            } else {
-                alertTitle = "L'enregistrement à échoué."
-                alertIsPresented.toggle()
+            // Demander les droits d'accès aux calendriers de l'utilisateur
+            (
+                alertIsPresented,
+                alertTitle,
+                alertMessage
+            ) = await EventManager.requestCalendarAccess(eventStore: eventStore)
+
+            if !alertIsPresented {
+                // Récupérer le calendrier
+                (
+                    calendar,
+                    alertIsPresented,
+                    alertTitle,
+                    alertMessage
+                ) = EventManager.getOrCreateCalendar(
+                    named: pref.viewSchoolYearPref.calName,
+                    inEventStore: eventStore
+                )
+
+                if let calendar {
+                    let success = await EventManager.saveOrUpdate(
+                        eventTitle: eventTitle,
+                        eventDateInterval: eventDateInterval,
+                        during: pref.viewSchoolYearPref.interval,
+                        inCalendar: calendar,
+                        inEventStore: eventStore
+                    )
+                    if success {
+                        alertTitle = "L'événement a été enregistré."
+                        alertIsPresented.toggle()
+                    } else {
+                        alertTitle = "L'enregistrement à échoué."
+                        alertIsPresented.toggle()
+                    }
+                }
             }
         }
     }

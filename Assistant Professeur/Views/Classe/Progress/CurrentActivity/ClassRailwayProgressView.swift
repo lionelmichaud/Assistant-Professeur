@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 27/02/2023.
 //
 
+import EventKit
 import HelpersView
 import StepperView
 import SwiftUI
@@ -26,6 +27,21 @@ struct ClassRailwayProgressView: View {
 
     @State
     private var classeSeances: SeancesInDateInterval = .init()
+
+    @State
+    private var eventStore = EKEventStore()
+
+    @State
+    private var calendar: EKCalendar?
+
+    @State
+    private var alertTitle = ""
+
+    @State
+    private var alertMessage = ""
+
+    @State
+    private var alertIsPresented = false
 
     // MARK: - Methods
 
@@ -64,6 +80,12 @@ struct ClassRailwayProgressView: View {
         .emptyListPlaceHolder(classeSequencesEnCours) {
             Text("Aucune séquence en cours ou à venir pour cette classe")
         }
+        .alert(
+            alertTitle,
+            isPresented: $alertIsPresented,
+            actions: {},
+            message: { Text(alertMessage) }
+        )
         .task {
             // Séquences en cours pour cette classe
             classeSequencesEnCours =
@@ -79,21 +101,44 @@ struct ClassRailwayProgressView: View {
 
             // Liste des Séances à venir pour cette classe
             if let schoolName = classe.school?.viewName {
-                await $classeSeances.loadSeancesFromCalendar(
-                    forDiscipline: classe.disciplineEnum,
-                    forClasse: classe.displayString,
-                    schoolName: schoolName,
-                    during: DateInterval(
-                        start: Date.now,
-                        end: horizon.months.fromNow!
-                    )
-                )
+                // Demander les droits d'accès aux calendriers de l'utilisateur
+                (
+                    alertIsPresented,
+                    alertTitle,
+                    alertMessage
+                ) = await EventManager.requestCalendarAccess(eventStore: eventStore)
 
-                // Synchroniser les Progressions avec les Séances
-                SequenceSeanceCoordinator.synchronize(
-                    classeProgresses: sortedClasseProgresses,
-                    withSeances: classeSeances
-                )
+                if !alertIsPresented {
+                    // Récupérer le calendrier
+                    (
+                        calendar,
+                        alertIsPresented,
+                        alertTitle,
+                        alertMessage
+                    ) = EventManager.getOrCreateCalendar(
+                        named: schoolName,
+                        inEventStore: eventStore
+                    )
+
+                    if let calendar {
+                        classeSeances.loadSeancesFromCalendar(
+                            forDiscipline: classe.disciplineEnum,
+                            forClasseName: classe.displayString,
+                            inCalendar: calendar,
+                            inEventStore: eventStore,
+                            during: DateInterval(
+                                start: Date.now,
+                                end: horizon.months.fromNow!
+                            )
+                        )
+
+                        // Synchroniser les Progressions avec les Séances
+                        SequenceSeanceCoordinator.synchronize(
+                            classeProgresses: sortedClasseProgresses,
+                            withSeances: classeSeances
+                        )
+                    }
+                }
             }
         }
     }

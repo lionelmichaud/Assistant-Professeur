@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 18/02/2023.
 //
 
+import EventKit
 import HelpersView
 import SwiftUI
 
@@ -32,6 +33,21 @@ struct ClassProgressesView: View {
 
     @State
     private var delta: Int?
+
+    @State
+    private var eventStore = EKEventStore()
+
+    @State
+    private var calendar: EKCalendar?
+
+    @State
+    private var alertTitle = ""
+
+    @State
+    private var alertMessage = ""
+
+    @State
+    private var alertIsPresented = false
 
     private var barColor: Color {
         if let delta {
@@ -77,32 +93,61 @@ struct ClassProgressesView: View {
                 Text("Aucune séquence suivie par cette classe")
             }
         }
+        .alert(
+            alertTitle,
+            isPresented: $alertIsPresented,
+            actions: {},
+            message: { Text(alertMessage) }
+        )
         .task(id: progressChanged) {
             progressChanged = false
 
             // Liste des Séquences suivies par une classe triée par numéro de Séquence
             classeSequences = classe.allFollowedSequencesSortedBySequenceNumber
 
-            // Liste des Progressions de la classe triée par numéro de Séquence / Activité
-            let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
-
             // Liste des Séances à venir pour cette classe
             if let schoolName = classe.school?.viewName {
-                await $classeSeances.loadSeancesFromCalendar(
-                    forDiscipline: classe.disciplineEnum,
-                    forClasse: classe.displayString,
-                    schoolName: schoolName,
-                    during: DateInterval(
-                        start: Date.now,
-                        end: horizon.months.fromNow!
-                    )
-                )
+                // Demander les droits d'accès aux calendriers de l'utilisateur
+                (
+                    alertIsPresented,
+                    alertTitle,
+                    alertMessage
+                ) = await EventManager.requestCalendarAccess(eventStore: eventStore)
 
-                // Synchroniser les Progressions avec les Séances
-                SequenceSeanceCoordinator.synchronize(
-                    classeProgresses: sortedClasseProgresses,
-                    withSeances: classeSeances
-                )
+                if !alertIsPresented {
+                    // Récupérer le calendrier
+                    (
+                        calendar,
+                        alertIsPresented,
+                        alertTitle,
+                        alertMessage
+                    ) = EventManager.getOrCreateCalendar(
+                        named: schoolName,
+                        inEventStore: eventStore
+                    )
+
+                    if let calendar {
+                        // Liste des Progressions de la classe triée par numéro de Séquence / Activité
+                        let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+
+                        classeSeances.loadSeancesFromCalendar(
+                            forDiscipline: classe.disciplineEnum,
+                            forClasseName: classe.displayString,
+                            inCalendar: calendar,
+                            inEventStore: eventStore,
+                            during: DateInterval(
+                                start: Date.now,
+                                end: horizon.months.fromNow!
+                            )
+                        )
+
+                        // Synchroniser les Progressions avec les Séances
+                        SequenceSeanceCoordinator.synchronize(
+                            classeProgresses: sortedClasseProgresses,
+                            withSeances: classeSeances
+                        )
+                    }
+                }
             }
 
             // Avancement réel de la classe dans le programme annuel

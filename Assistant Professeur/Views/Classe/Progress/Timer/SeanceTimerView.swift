@@ -9,6 +9,7 @@ import AppFoundation
 import AVFoundation
 import HelpersView
 import SwiftUI
+import EventKit
 
 /// Présentation d'un chronomètre de séance
 struct SeanceTimerView: View {
@@ -72,6 +73,21 @@ struct SeanceTimerView: View {
 
     private let notificationFeedback = UINotificationFeedbackGenerator()
 
+    @State
+    private var eventStore = EKEventStore()
+
+    @State
+    private var calendar: EKCalendar?
+
+    @State
+    private var alertTitle = ""
+
+    @State
+    private var alertMessage = ""
+
+    @State
+    private var alertIsPresented = false
+
     // MARK: - Computed Properties
 
     private var warningString: String {
@@ -103,13 +119,41 @@ struct SeanceTimerView: View {
                     .font(.title)
             }
         }
-        .task {
-            /// Charge les heures de cours du jour
-            await timerVM.loadTodaySeances(
-                forDiscipline: discipline,
-                forClasse: classeName,
-                schoolName: schoolName
-            )
+        .alert(
+            alertTitle,
+            isPresented: $alertIsPresented,
+            actions: {},
+            message: { Text(alertMessage) }
+        )
+        .task(id: classeName) {
+            // Demander les droits d'accès aux calendriers de l'utilisateur
+            (
+                alertIsPresented,
+                alertTitle,
+                alertMessage
+            ) = await EventManager.requestCalendarAccess(eventStore: eventStore)
+
+            if !alertIsPresented {
+                // Récupérer le calendrier
+                (
+                    calendar,
+                    alertIsPresented,
+                    alertTitle,
+                    alertMessage
+                ) = EventManager.getOrCreateCalendar(named: schoolName,
+                                                     inEventStore: eventStore)
+
+                if let calendar {
+                    // Récupérer les dates de conseils de classe
+                    /// Charge les heures de cours du jour
+                    timerVM.loadTodaySeances(
+                        forDiscipline: discipline,
+                        forClasse: classeName,
+                        inCalendar: calendar,
+                        inEventStore: eventStore
+                    )
+                }
+            }
         }
     }
 

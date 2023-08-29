@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import EventKit
 
 struct ClasseProgressSection: View {
     @ObservedObject
@@ -16,6 +17,21 @@ struct ClasseProgressSection: View {
 
     @State
     private var classeSeances: SeancesInDateInterval = .init()
+
+    @State
+    private var eventStore = EKEventStore()
+
+    @State
+    private var calendar: EKCalendar?
+
+    @State
+    private var alertTitle = ""
+
+    @State
+    private var alertMessage = ""
+
+    @State
+    private var alertIsPresented = false
 
     var body: some View {
         if let progresses = classe.progresses,
@@ -80,18 +96,48 @@ extension ClasseProgressSection {
                 }
             }
             .fontWeight(.bold)
-            .task(id: classe.displayString + (classe.school?.viewName ?? "")) { // actualiser si on sélectionne une autre classe
+            .alert(
+                alertTitle,
+                isPresented: $alertIsPresented,
+                actions: {},
+                message: { Text(alertMessage) }
+            )
+            .task(id: classe.objectID) { // actualiser si on sélectionne une autre classe
                 // Liste des Séances à venir pour cette classe
                 if let schoolName = classe.school?.viewName {
-                    await $classeSeances.loadSeancesFromCalendar(
-                        forDiscipline: classe.disciplineEnum,
-                        forClasse: classe.displayString,
-                        schoolName: schoolName,
-                        during: DateInterval(
-                            start: Date.now,
-                            end: 3.months.fromNow!
+                    // Demander les droits d'accès aux calendriers de l'utilisateur
+                    (
+                        alertIsPresented,
+                        alertTitle,
+                        alertMessage
+                    ) = await EventManager.requestCalendarAccess(eventStore: eventStore)
+
+                    if !alertIsPresented {
+                        // Récupérer le calendrier
+                        (
+                            calendar,
+                            alertIsPresented,
+                            alertTitle,
+                            alertMessage
+                        ) = EventManager.getOrCreateCalendar(
+                            named: schoolName,
+                            inEventStore: eventStore
                         )
-                    )
+
+                        if let calendar {
+                            // Récupérer les dates de conseils de classe
+                            classeSeances.loadSeancesFromCalendar(
+                                forDiscipline: classe.disciplineEnum,
+                                forClasseName: classe.displayString,
+                                inCalendar: calendar,
+                                inEventStore: eventStore,
+                                during: DateInterval(
+                                    start: Date.now,
+                                    end: 3.months.fromNow!
+                                )
+                            )
+                        }
+                    }
                 }
             }
         }
