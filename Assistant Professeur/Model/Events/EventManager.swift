@@ -67,11 +67,38 @@ enum EventManager {
         }
     }
 
-    /// Retourne la liste de tous les événements du clalendrier `calName`
+    /// Retourne la liste de tous les événements du clalendrier `calendar`
+    /// survenant dans la `period` et dont le titre contient **"Arrêt notes - `classeLevel`"**.
+    /// - Parameters:
+    ///   - classeLevel: Acronym du niveau de classe recherchée.
+    ///   - calendar: Calendrier où rechercher l'événement.
+    ///   - schoolYear: Intervalle de temps de l'année scolaire en cours.
+    /// - Important: Convention de nommage:
+    ///     Nom du calendrier = **Nom de l'établissement**
+    ///     Titre de l'événement = **"Arrêt notes - classeLevel"**
+    ///     où **classeLevel** = 5E
+    static func getAllArretsNotes(
+        forClasseLevel classeLevel: LevelClasse,
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore,
+        during schoolYear: DateInterval
+    ) -> [EKEvent] {
+        let eventName = "Arrêt notes - \(classeLevel.displayString)"
+
+        return getEvents(
+            withTitleIncluding: eventName,
+            inCalendar: calendar,
+            inEventStore: eventStore,
+            startDate: schoolYear.start,
+            endDate: schoolYear.end
+        )
+    }
+
+    /// Retourne la liste de tous les événements du clalendrier `calendar`
     /// survenant dans la `period` et dont le titre contient **"Conseil - `classe`"**.
     /// - Parameters:
     ///   - classe: Acronym de la classe recherchée.
-    ///   - calName: Nom du calendrier où ajouter l'événement.
+    ///   - calendar: Calendrier où rechercher l'événement.
     ///   - schoolYear: Intervalle de temps de l'année scolaire en cours.
     /// - Important: Convention de nommage:
     ///     Nom du calendrier = **Nom de l'établissement**
@@ -99,7 +126,7 @@ enum EventManager {
     /// - Parameters:
     ///   - discipline: La discipline recherchée.
     ///   - classe: Acronym de la classe recherchée.
-    ///   - calName: Nom du calendrier où ajouter l'événement.
+    ///   - calendar: Calendrier où rechercher l'événement.
     ///   - period: Intervalle de temps de recherche.
     /// - Important: Convention de nommage:
     ///  * Nom du calendrier = **Nom de l'établissement**
@@ -129,7 +156,7 @@ enum EventManager {
     /// - Parameters:
     ///   - discipline: La discipline recherchée.
     ///   - classe: Acronym de la classe recherchée.
-    ///   - calName: Nom du calendrier où ajouter l'événement.
+    ///   - calendar: Calendrier où rechercher l'événement.
     /// - Important: Convention de nommage:
     ///  * Nom du calendrier = **Nom de l'établissement**
     ///  * Titre de l'événement = **"discipline - \(classe)"**
@@ -158,7 +185,7 @@ enum EventManager {
     /// Retourne la liste de tous les événements du clalendrier `calName`
     /// de la journée en cours.
     /// - Parameters:
-    ///   - calName: Nom du calendrier où ajouter l'événement.
+    ///   - calendar: Calendrier où rechercher l'événement.
     static func getTodaySeances(
         inCalendar calendar: EKCalendar,
         inEventStore eventStore: EKEventStore
@@ -212,7 +239,7 @@ enum EventManager {
     /// - Parameters:
     ///   - eventTitle: Nom de l'événement.
     ///   - eventDateInterval: Intervalle de temps de l'événement.
-    ///   - calName: Nom du calendrier où ajouter l'événement.
+    ///   - calendar: Calendrier où ajouter l'événement.
     ///   - period: Intervalle de temps de recherche.
     /// - Returns: True si l'enregistrement à réussi.
     static func saveOrUpdate(
@@ -344,45 +371,6 @@ enum EventManager {
                     alertMessage: "Echec de la tentative de création du calendrier."
                 )
             }
-        }
-    }
-
-    /// Cherche un calendrier  nommé `calName` dans l'app Calendrier.
-    /// Si le calendrier n'existe pas, il est créé.
-    /// - Parameter calName: Nom du calendrier recherché.
-    /// - Returns: Le clendrier nommé `calName`.
-    private static func getOrCreateCalendar(
-        named calName: String,
-        inEventStore eventStore: EKEventStore
-    ) throws -> EKCalendar? {
-        let calendars = eventStore.calendars(for: .event)
-
-        if let existingCalendar = calendars.first(where: { $0.title == calName }) {
-            return existingCalendar
-
-        } else {
-            // Créer le calendrier
-            let newCalendar = EKCalendar(for: .event, eventStore: eventStore)
-            newCalendar.title = calName
-
-            guard let source = bestPossibleEKSource(of: eventStore) else {
-                // source is required, otherwise calendar cannot be saved
-                customLog.log(
-                    level: .error,
-                    "Calendar source not found!"
-                )
-                return nil
-            }
-            newCalendar.source = source
-
-            // Save the new calendar to the event store
-            try eventStore.saveCalendar(newCalendar, commit: true)
-            customLog.log(
-                level: .info,
-                "Calendar named \(calName) created and saved successfully!"
-            )
-
-            return newCalendar
         }
     }
 

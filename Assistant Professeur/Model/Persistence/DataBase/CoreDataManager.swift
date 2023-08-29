@@ -137,6 +137,7 @@ class CoreDataManager {
         //        )
     }
 
+    // Debug build configuration.
     #if DEBUG
         /// Initialization of the 'in memory' Container for Previews and Tests.
         ///
@@ -181,40 +182,42 @@ class CoreDataManager {
         // Only initialize the schema when building the app with the
         // Debug build configuration.
         #if DEBUG
-            /// LIGNE À DESACTIVER sous la cible "My Mac (Designed for iPad)"
-             initializeCloudKitSchema()
+            // LIGNE À DESACTIVER sous la cible "My Mac (Designed for iPad)"
+            //initializeCloudKitSchema()
         #endif
     }
 
-    /// Initialization of the the CloudKit Schema from the App Schema.
-    ///
-    /// Shall be done in development build only.
-    /// - Warning: Shall NOT BE DONE on MacOs (crashes).
-    private func initializeCloudKitSchema() {
-        do {
-            // Use the container to initialize the development schema.
-            try persistentCloudKitContainer.initializeCloudKitSchema(
-                options: []
-                // options: [.printSchema]
-            )
-            print(">> Initialization of the development schema completed")
-        } catch {
-            // Handle any errors.
-            AppState.shared.initError = .failedToInitializeCloudKitSchema
-            customLog.log(
-                level: .error,
-                ">> Failed to initialize the development schema in ClouKit: \(error.localizedDescription)"
-            )
-        }
+    #if DEBUG
+        /// Initialization of the the CloudKit Schema from the App Schema.
+        ///
+        /// Shall be done in development build only.
+        /// - Warning: Shall NOT BE DONE on MacOs (crashes).
+        private func initializeCloudKitSchema() {
+            do {
+                // Use the container to initialize the development schema.
+                try persistentCloudKitContainer.initializeCloudKitSchema(
+                    options: []
+                    // options: [.printSchema]
+                )
+                print(">> Initialization of the development schema completed")
+            } catch {
+                // Handle any errors.
+                AppState.shared.initError = .failedToInitializeCloudKitSchema
+                customLog.log(
+                    level: .error,
+                    ">> Failed to initialize the development schema in ClouKit: \(error.localizedDescription)"
+                )
+            }
 
-        // TODO: - DEBUG
-        let directories = NSSearchPathForDirectoriesInDomains(
-            .documentDirectory,
-            .userDomainMask,
-            true
-        )
-        print(">> Document directory: \(directories[0])")
-    }
+            // TODO: - DEBUG
+            let directories = NSSearchPathForDirectoriesInDomains(
+                .documentDirectory,
+                .userDomainMask,
+                true
+            )
+            print(">> Document directory: \(directories[0])")
+        }
+    #endif
 
     // MARK: - Methods
 

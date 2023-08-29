@@ -22,7 +22,13 @@ struct ClasseInfosView: View {
     private var conseils = [EKEvent]()
 
     @State
-    private var popOverIsPresented: Bool = false
+    private var arretsNotes = [EKEvent]()
+
+    @State
+    private var popOverConseilIsPresented: Bool = false
+
+    @State
+    private var popOverArretIsPresented: Bool = false
 
     @State
     private var eventStore = EKEventStore()
@@ -39,14 +45,26 @@ struct ClasseInfosView: View {
     @State
     private var alertIsPresented = false
 
+    private var arretNotesList: some View {
+        ForEach(arretsNotes, id: \.eventIdentifier) { arretNotes in
+            VStack {
+                Text("Date: ").foregroundColor(.secondary) +
+                Text(arretNotes.startDate.formatted(date: .complete, time: .standard))
+            }
+        }
+        .emptyListPlaceHolder(arretsNotes) {
+            Text("Aucune date d'arrêt des notes prévue pour cette classe")
+        }
+    }
+
     private var conseilList: some View {
         ForEach(conseils, id: \.eventIdentifier) { conseil in
             VStack {
                 Text("Date: ").foregroundColor(.secondary) +
-                    Text(conseil.startDate.formatted(date: .complete, time: .standard))
+                Text(conseil.startDate.formatted(date: .complete, time: .standard))
                 if let location = conseil.location {
                     Text("Lieu: ").foregroundColor(.secondary) +
-                        Text(location)
+                    Text(location)
                 }
             }
         }
@@ -82,10 +100,31 @@ struct ClasseInfosView: View {
                 }
             }
 
+            // arrêt des notes avant conseil de classe
+            Section {
+                arretNotesList
+                    .popover(isPresented: $popOverArretIsPresented) {
+                        Text("Nom requis pour l'événement du calendrier: \"**Arrêt notes - Niveau**\"")
+                            .foregroundColor(.primary)
+                            .padding()
+                    }
+            } header: {
+                HStack {
+                    Text("Arrêt des notes")
+                        .style(.sectionHeader)
+                    // Afficher le PopOver d'information sur le format à utiliser
+                    Button {
+                        popOverArretIsPresented = true
+                    } label: {
+                        Image(systemName: "info.circle")
+                    }
+                }
+            }
+
             // Conseils de classe
             Section {
                 conseilList
-                    .popover(isPresented: $popOverIsPresented) {
+                    .popover(isPresented: $popOverConseilIsPresented) {
                         Text("Nom requis pour l'événement du calendrier: \"**Conseil - Classe**\"")
                             .foregroundColor(.primary)
                             .padding()
@@ -94,9 +133,9 @@ struct ClasseInfosView: View {
                 HStack {
                     Text("Conseils de classe")
                         .style(.sectionHeader)
-                    // Afficher le PopOver d'information surle format à utiliser
+                    // Afficher le PopOver d'information sur le format à utiliser
                     Button {
-                        popOverIsPresented = true
+                        popOverConseilIsPresented = true
                     } label: {
                         Image(systemName: "info.circle")
                     }
@@ -134,6 +173,13 @@ struct ClasseInfosView: View {
                                                          inEventStore: eventStore)
 
                     if let calendar {
+                        // Récupérer les dates d'arrêt des notes avant conseils de classe
+                        arretsNotes = EventManager.getAllArretsNotes(
+                            forClasseLevel: classe.levelEnum,
+                            inCalendar: calendar,
+                            inEventStore: eventStore,
+                            during: pref.viewSchoolYearPref.interval
+                        )
                         // Récupérer les dates de conseils de classe
                         conseils = EventManager.getAllConseils(
                             forClasseName: classe.displayString,

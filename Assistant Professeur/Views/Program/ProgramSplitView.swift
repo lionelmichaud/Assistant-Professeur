@@ -38,7 +38,7 @@ struct ProgramSplitView: View {
             // 1ère colonne
             ProgramSidebar()
                 .navigationSplitViewColumnWidth(
-                    min: 250,
+                    min: 300,
                     ideal: 300,
                     max: 500
                 )
@@ -48,9 +48,9 @@ struct ProgramSplitView: View {
             NavigationStack(path: $navig.programPath) {
                 SequenceSidebar(showProgramSteps: $showProgramSteps)
                     .navigationSplitViewColumnWidth(
-                        min: 300,
-                        ideal: 400,
-                        max: 500
+                        min: 400,
+                        ideal: 500,
+                        max: 800
                     )
                     .navigationDestination(for: SequenceEntity.self) { sequence in
                         ActivitySideBar(
