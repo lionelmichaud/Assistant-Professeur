@@ -69,6 +69,20 @@ struct SequenceEditorModal: View {
                 .focused($focus, equals: .annotation)
             }
 
+            // marge post-séquence
+            Stepper(
+                value: $sequence.margePostSequence,
+                in: -2 ... 2,
+                step: 1
+            ) {
+                HStack {
+                    Text("Marge post-séquence")
+                    Spacer()
+                    Text("\(sequence.margePostSequence) séances")
+                        .foregroundColor(.secondary)
+                }
+            }
+
             // édition de la liste des documents utiles
             SequenceDocumentList(sequence: sequence)
 

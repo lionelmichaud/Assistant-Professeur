@@ -29,6 +29,7 @@ struct DurationView: View {
 struct DurationSquareView: View {
     var duration: Double
     var withMargin: Bool
+    var margin: Int
 
     var body: some View {
         let q = Int(duration.rounded(.towardZero))
@@ -52,8 +53,8 @@ struct DurationSquareView: View {
                             .fill(Color.blue5)
                             .frame(width: 10 * r, height: 10, alignment: .center)
                     }
-                    if withMargin {
-                        Text("+1")
+                    if withMargin && margin != 0 {
+                        Text("+\(margin)")
                     }
                 }
             }
@@ -75,6 +76,6 @@ struct DurationView_Previews: PreviewProvider {
 
 struct DurationSquareView_Previews: PreviewProvider {
     static var previews: some View {
-        DurationSquareView(duration: 12.5, withMargin: true)
+        DurationSquareView(duration: 12.5, withMargin: true, margin: 2)
     }
 }

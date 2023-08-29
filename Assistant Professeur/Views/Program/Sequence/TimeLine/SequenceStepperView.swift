@@ -135,7 +135,8 @@ extension SequenceStepperView {
                 VStack(alignment: .leading) {
                     DurationSquareView(
                         duration: activity.duration,
-                        withMargin: false
+                        withMargin: false,
+                        margin: 0
                     )
                     .font(.callout)
                     .bold()

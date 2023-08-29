@@ -145,7 +145,8 @@ extension ProgramStepperView {
                     HStack {
                         DurationSquareView(
                             duration: sequence.durationWithoutMargin,
-                            withMargin: true
+                            withMargin: true,
+                            margin: Int(sequence.margePostSequence)
                         )
                         Spacer()
                         WebsiteView(url: sequence.url)

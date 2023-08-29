@@ -26,7 +26,8 @@ struct ActivityBrowserRow: View {
                     HStack {
                         DurationSquareView(
                             duration: activity.duration,
-                            withMargin: false
+                            withMargin: false,
+                            margin: 0
                         )
                         Spacer()
                         ActivityAllSymbols(
