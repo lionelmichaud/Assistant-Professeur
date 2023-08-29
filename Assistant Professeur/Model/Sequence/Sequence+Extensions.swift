@@ -77,7 +77,7 @@ extension SequenceEntity {
     /// Somme des durées des activités en nombre de séances
     /// + une marge d'une séance à la fin de la séquence
     var durationWithMargin: Double {
-        durationWithoutMargin + Double(UserPrefEntity.shared.viewMargeInterSequence)
+        durationWithoutMargin + Double(margePostSequence)
     }
 
     var durationWithMarginString: String {
@@ -312,6 +312,7 @@ extension SequenceEntity {
 
         sequence.name = name
         sequence.number = Int16(nbSeqInProgram + 1)
+        sequence.margePostSequence = Int16(UserPrefEntity.shared.viewMargeInterSequence)
         sequence.annotation = annotation
         sequence.url = url
         return sequence

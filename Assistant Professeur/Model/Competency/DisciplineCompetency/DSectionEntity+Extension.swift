@@ -145,7 +145,6 @@ extension DSectionEntity {
         return allCompetencies.sorted(using: sortComparators)
     }
 
-
     /// Recherche si la **Competence** existe déjà dans cette **Section**.
     ///
     /// Si `thisObjectID` != `nil` alors on retourne true seulement

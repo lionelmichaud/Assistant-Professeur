@@ -59,7 +59,8 @@ struct ActivityDetailGroupBox: View {
                 HStack {
                     DurationSquareView(
                         duration: activity.duration,
-                        withMargin: false
+                        withMargin: false,
+                        margin: 0
                     )
                     Spacer()
                     WebsiteView(url: activity.url, showURL: true)
