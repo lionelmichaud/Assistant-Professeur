@@ -28,6 +28,7 @@ enum ContactManager {
     static func organizationContact(organizationName: String) async -> CNContact? {
         let store = CNContactStore()
         do {
+            // TODO: - Gérer comme pour les événements du Calendrier
             try await store.requestAccess(for: .contacts)
 
             do {

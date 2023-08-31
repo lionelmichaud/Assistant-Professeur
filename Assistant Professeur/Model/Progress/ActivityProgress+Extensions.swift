@@ -7,6 +7,12 @@
 
 import CoreData
 import Foundation
+import os
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "ActivityProgressEntity"
+)
 
 /// La progression d'une classe dans une activité scolaire
 extension ActivityProgressEntity {
@@ -66,7 +72,6 @@ extension ActivityProgressEntity {
         isPrinted.toggle()
         try? ActivityProgressEntity.saveIfContextHasChanged()
     }
-
 }
 
 // MARK: - Extension Core Data
@@ -123,27 +128,40 @@ extension ActivityProgressEntity {
     /// - Parameters:
     ///   - errorList: Liste des erreurs trouvées.
     static func checkConsistency(
-        errorList: inout DataBaseErrorList
+        errorList: inout DataBaseErrorList,
+        tryToRepair: Bool
     ) {
+        func appendNoOwnerError(progress: ActivityProgressEntity) {
+            let logString = "\(progress.activity?.viewName ?? "activity = nil") / \(progress.classe?.displayString ?? "classe  = nil")"
+            errorList.append(DataBaseError.noOwner(
+                entity: Self.entity().name!,
+                name: logString,
+                id: progress.id
+            ))
+            customLog.log(level: .error, "\(logString, privacy: .public)")
+        }
+
         all().forEach { progress in
-            if progress.classe == nil {
-                errorList.append(DataBaseError.noOwner(
-                    entity: Self.entity().name!,
-                    name: "",
-                    id: progress.id
-                ))
+            if progress.classe == nil || progress.activity == nil {
+                if tryToRepair {
+                    do {
+                        let logString = "trying to delete entity of type \(Self.entity().name!) : \(progress.activity?.viewName ?? "activity = nil") / \(progress.classe?.displayString ?? "classe  = nil")"
+                        customLog.log(level: .error, "\(logString, privacy: .public)")
+                        // la destruction est sauvegardée
+                        try progress.delete()
+
+                    } catch {
+                        appendNoOwnerError(progress: progress)
+                    }
+                } else {
+                    appendNoOwnerError(progress: progress)
+                }
             }
-            if progress.activity == nil {
-                errorList.append(DataBaseError.noOwner(
-                    entity: Self.entity().name!,
-                    name: "",
-                    id: progress.id
-                ))
-            }
+
             if !(0.0 ... 1.0).contains(progress.progress) {
                 errorList.append(DataBaseError.outOfBound(
                     entity: Self.entity().name!,
-                    name: "",
+                    name: "progress = \(progress.progress)",
                     attribute: "progress",
                     id: progress.id
                 ))

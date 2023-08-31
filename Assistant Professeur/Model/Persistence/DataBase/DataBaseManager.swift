@@ -75,7 +75,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             errorList: &errorList, tryToRepair: tryToRepair
         )
         ActivityProgressEntity.checkConsistency(
-            errorList: &errorList
+            errorList: &errorList, tryToRepair: tryToRepair
         )
 
         // Compétences travaillées du socle

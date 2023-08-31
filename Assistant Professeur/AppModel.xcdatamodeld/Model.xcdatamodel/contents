@@ -45,7 +45,7 @@
         <relationship name="eleves" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EleveEntity" inverseName="classe" inverseEntity="EleveEntity"/>
         <relationship name="exams" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ExamEntity" inverseName="classe" inverseEntity="ExamEntity"/>
         <relationship name="groups" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GroupEntity" inverseName="classe" inverseEntity="GroupEntity"/>
-        <relationship name="progresses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ActivityProgressEntity" inverseName="classe" inverseEntity="ActivityProgressEntity"/>
+        <relationship name="progresses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ActivityProgressEntity" inverseName="classe" inverseEntity="ActivityProgressEntity"/>
         <relationship name="room" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RoomEntity" inverseName="classes" inverseEntity="RoomEntity"/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="classes" inverseEntity="SchoolEntity"/>
     </entity>

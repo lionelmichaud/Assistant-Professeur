@@ -6,12 +6,6 @@
 //
 
 import Foundation
-import os
-
-private let customLog = Logger(
-    subsystem: "com.michaud.lionel.Assistant-Professeur",
-    category: "ExamStep"
-)
 
 typealias StepsArray = [ExamStep]
 
