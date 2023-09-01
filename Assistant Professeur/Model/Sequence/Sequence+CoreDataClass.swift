@@ -18,7 +18,7 @@ private let customLog = Logger(
 @objc(SequenceEntity)
 public final class SequenceEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
-        case id, annotation
+        case id, annotation, margePostSequence
         case name, number, url
         case activities, documents
     }
@@ -31,6 +31,7 @@ public final class SequenceEntity: NSManagedObject, Codable, ModelEntityP {
         self.id = try container.decode(UUID.self, forKey: .id)
         self.name = try container.decode(String.self, forKey: .name)
         self.number = try container.decode(Int16.self, forKey: .number)
+        self.margePostSequence = try container.decode(Int16.self, forKey: .margePostSequence)
         self.annotation = try container.decodeIfPresent(String.self, forKey: .annotation)
         self.url = try container.decodeIfPresent(URL.self, forKey: .url)
 
@@ -57,6 +58,7 @@ public final class SequenceEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encode(number, forKey: .number)
+        try container.encode(margePostSequence, forKey: .margePostSequence)
         try container.encodeIfPresent(annotation, forKey: .annotation)
         try container.encodeIfPresent(url, forKey: .url)
 

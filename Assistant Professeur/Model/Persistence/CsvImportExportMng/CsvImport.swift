@@ -78,7 +78,7 @@ extension CsvImportExportMng {
                                 "Error reading file: \(error.localizedDescription)"
                             )
                             alertTitle = "Échec"
-                            alertMessage = "L'importation du fichier a échouée"
+                            alertMessage = "L'importation des données du fichier a échouée"
                             alertIsPresented.toggle()
                         }
                     }
@@ -98,8 +98,9 @@ extension CsvImportExportMng {
     /// et les ajouter à la `classe`.
     ///
     /// Le format utilisé est proche de celui des exports depuis PRONOTE:
-    ///   - Colonne nommée "Élève": nom et prénom séparés par un espace
-    ///   - Colonne nommée "Sexe": 'G' pour garçon
+    ///   - Colonne nommée "Nom": nom
+    ///   - Colonne nommée "Prén.": prénom
+    ///   - Colonne nommée "S": 'Masculin' pour garçon
     ///
     /// - Parameters:
     ///   - data: Contenu du fichier à importer
@@ -108,10 +109,15 @@ extension CsvImportExportMng {
         from data: Data,
         dans classe: ClasseEntity
     ) throws {
-        let nameColumn = ColumnID("Élève", String.self)
-        let sexeColumn = ColumnID("Sexe", String.self)
+        // Libellé des colonnes dans le fichier CSV
+        let nameColumnStr = "Nom"
+        let givenNameColumnStr = "Prén."
+        let sexeColumnStr = "S"
 
-        let columnNames = [nameColumn.name, sexeColumn.name]
+        let nameColumn = ColumnID(nameColumnStr, String.self)
+        let givenNameColumn = ColumnID(givenNameColumnStr, String.self)
+        let sexeColumn = ColumnID(sexeColumnStr, String.self)
+        let columnNames = [nameColumn.name, givenNameColumn.name, sexeColumn.name]
 
         let options = CSVReadingOptions(
             hasHeaderRow: true,
@@ -125,6 +131,7 @@ extension CsvImportExportMng {
             columns: columnNames,
             types: [
                 nameColumn.name: .string,
+                givenNameColumn.name: .string,
                 sexeColumn.name: .string
             ],
             options: options
@@ -135,25 +142,27 @@ extension CsvImportExportMng {
             throw CsvImporterError.incompatibleColumnNames
         }
 
-        dataFrame.transformColumn("Sexe") { data in
-            data == "G" ? "male" : "female"
+        dataFrame.transformColumn(sexeColumn) { data in
+            data == "Masculin" ? "male" : "female"
         }
 
         return dataFrame
-            .filter(on: "Élève", String.self) {
-                if let name = $0 {
-                    return !name.contains("Eleve")
+            .filter(on: nameColumnStr, String.self) { name in
+                if let name {
+                    return !name.contains("Nom")
                 } else {
                     return false
                 }
             }
             .rows
             .forEach { row in
-                if let nom = row["Élève", String.self]?.split(separator: " ") {
+                if let nom = row[nameColumnStr, String.self] {
+                    let givenName = row[givenNameColumnStr, String.self] ?? ""
+                    let sexe = (row[sexeColumnStr, String.self] == "male") ? Sexe.male : Sexe.female
                     EleveEntity.create(
-                        familyName: String(nom[0]),
-                        givenName: String(nom.last!).capitalized,
-                        sex: (row["Sexe", String.self] == "male") ? .male : .female,
+                        familyName: nom,
+                        givenName: givenName,
+                        sex: sexe,
                         dans: classe
                     )
                 }
@@ -165,7 +174,7 @@ extension CsvImportExportMng {
     ///
     /// Le format utilisé est proche de celui des exports depuis Ecole Directe:
     ///   - Colonne nommée "Nom": nom (sans espace) et prénom séparés par un espace
-    ///   - Colonne nommée "Sexe": 'G' pour garçon
+    ///   - Colonne nommée "Sexe": 'M' pour garçon
     ///
     /// - Parameters:
     ///   - data: Contenu du fichier à importer

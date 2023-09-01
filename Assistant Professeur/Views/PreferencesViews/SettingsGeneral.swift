@@ -15,12 +15,37 @@ struct SettingsGeneral: View {
     var body: some View {
         List {
             // Type d'interopérabilité avec les ENT
-            Text("Type d'interopérabilité avec les ENT")
+            Text("Importation de listes d'élèves au format")
             CasePicker(
                 pickedCase: $pref.interoperabilityEnum,
                 label: "Interopérabilté avec"
             )
             .pickerStyle(.segmented)
+            VStack(alignment: .leading) {
+                Text("Les fichiers **`\(pref.interoperabilityEnum.pickerString)`** importés doivent être au format CSV:")
+                switch pref.interoperabilityEnum {
+                    case .proNote:
+                        Group {
+                            Text("1) Les fichiers liste d'élèves doivent contenir 2 colonnes nommées: **`Nom`**; **`Prén.`**; **`S`**.")
+                                .padding(.top, 2)
+                            Text("2) La colonne **`S`** contient le sexe avec pour convention **`Masculin`** ou **`Féminin`**.")
+                                .padding(.top, 2)
+                        }
+                        .padding(.leading)
+
+                    case .ecoleDirecte:
+                        Group {
+                            Text("1) Les fichiers liste d'élèves doivent contenir 3 colonnes nommées: **`Nom`**; **`Sexe`**.")
+                                .padding(.top, 2)
+                            Text("2) La colonne **`Nom`** contient les nom (sans espace) et prénom séparés par un espace.")
+                                .padding(.top, 2)
+                            Text("3) La colonne **`Sexe`** contient le sexe avec pour convention **`M`** ou **`F`**.")
+                                .padding(.top, 2)
+                        }
+                        .padding(.leading)
+                }
+            }
+            .foregroundColor(.secondary)
 
             Section {
                 // Ordre d'affichage des noms des élèves
