@@ -121,21 +121,11 @@ struct ClassProgressesView: View {
                     alertIsPresented,
                     alertTitle,
                     alertMessage
-                ) = await EventManager.requestCalendarAccess(eventStore: eventStore)
-
-                if !alertIsPresented {
-                    // Récupérer le calendrier
-                    (
-                        calendar,
-                        alertIsPresented,
-                        alertTitle,
-                        alertMessage
-                    ) = EventManager.getOrCreateCalendar(
-                        named: schoolName,
-                        inEventStore: eventStore
-                    )
-
-                    if let calendar {
+                ) = await EventManager.shared
+                    .requestCalendarAccess(
+                        eventStore: eventStore,
+                        calendarName: schoolName
+                    ) { calendar in
                         // Liste des Progressions de la classe triée par numéro de Séquence / Activité
                         let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
 
@@ -156,7 +146,6 @@ struct ClassProgressesView: View {
                             withSeances: classeSeances
                         )
                     }
-                }
             }
 
             // Avancement réel de la classe dans le programme annuel

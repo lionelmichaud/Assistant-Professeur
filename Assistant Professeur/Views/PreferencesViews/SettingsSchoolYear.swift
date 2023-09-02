@@ -124,22 +124,12 @@ struct SettingsSchoolYear: View {
                 alertIsPresented,
                 alertTitle,
                 alertMessage
-            ) = await EventManager.requestCalendarAccess(eventStore: eventStore)
-
-            if !alertIsPresented {
-                // Récupérer le calendrier
-                (
-                    calendar,
-                    alertIsPresented,
-                    alertTitle,
-                    alertMessage
-                ) = EventManager.getOrCreateCalendar(
-                    named: pref.viewSchoolYearPref.calName,
-                    inEventStore: eventStore
-                )
-
-                if let calendar {
-                    let success = await EventManager.saveOrUpdate(
+            ) = await EventManager.shared
+                .requestCalendarAccess(
+                    eventStore: eventStore,
+                    calendarName: pref.viewSchoolYearPref.calName
+                ) { calendar in
+                    let success = await EventManager.shared.saveOrUpdate(
                         eventTitle: eventTitle,
                         eventDateInterval: eventDateInterval,
                         during: pref.viewSchoolYearPref.interval,
@@ -154,7 +144,6 @@ struct SettingsSchoolYear: View {
                         alertIsPresented.toggle()
                     }
                 }
-            }
         }
     }
 }

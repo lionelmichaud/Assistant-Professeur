@@ -106,21 +106,11 @@ struct ClassRailwayProgressView: View {
                     alertIsPresented,
                     alertTitle,
                     alertMessage
-                ) = await EventManager.requestCalendarAccess(eventStore: eventStore)
-
-                if !alertIsPresented {
-                    // Récupérer le calendrier
-                    (
-                        calendar,
-                        alertIsPresented,
-                        alertTitle,
-                        alertMessage
-                    ) = EventManager.getOrCreateCalendar(
-                        named: schoolName,
-                        inEventStore: eventStore
-                    )
-
-                    if let calendar {
+                ) = await EventManager.shared
+                    .requestCalendarAccess(
+                        eventStore: eventStore,
+                        calendarName: schoolName
+                    ) { calendar in
                         classeSeances.loadSeancesFromCalendar(
                             forDiscipline: classe.disciplineEnum,
                             forClasseName: classe.displayString,
@@ -138,7 +128,6 @@ struct ClassRailwayProgressView: View {
                             withSeances: classeSeances
                         )
                     }
-                }
             }
         }
     }

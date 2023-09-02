@@ -82,21 +82,11 @@ struct ClassNextSeancesView: View {
                     alertIsPresented,
                     alertTitle,
                     alertMessage
-                ) = await EventManager.requestCalendarAccess(eventStore: eventStore)
-
-                if !alertIsPresented {
-                    // Récupérer le calendrier
-                    (
-                        calendar,
-                        alertIsPresented,
-                        alertTitle,
-                        alertMessage
-                    ) = EventManager.getOrCreateCalendar(
-                        named: schoolName,
-                        inEventStore: eventStore
-                    )
-
-                    if let calendar {
+                ) = await EventManager.shared
+                    .requestCalendarAccess(
+                        eventStore: eventStore,
+                        calendarName: schoolName
+                    ) { calendar in
                         // Liste des Progressions de la classe triée par numéro de Séquence / Activité
                         let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
 
@@ -121,13 +111,13 @@ struct ClassNextSeancesView: View {
                         // Insérer des pseudo-séances pour chaque période
                         // de vacances inclue dans la période
                         let vacancesIncludedInPeriod =
-                            pref.viewSchoolYearPref
-                                .vacancesContained(in: horizon)
+                        pref.viewSchoolYearPref
+                            .vacancesContained(in: horizon)
 
                         vacancesIncludedInPeriod.forEach { vacance in
                             if classeSeances.seances.count >= 2 {
                                 for idx in classeSeances.seances.startIndex ... classeSeances.seances.endIndex - 2
-                                    where (classeSeances[idx].interval.end ... classeSeances[idx + 1].interval.start).contains(vacance.interval.start) {
+                                where (classeSeances[idx].interval.end ... classeSeances[idx + 1].interval.start).contains(vacance.interval.start) {
                                     let pseudoSeance = Seance(
                                         name: vacance.name,
                                         interval: vacance.interval,
@@ -141,7 +131,7 @@ struct ClassNextSeancesView: View {
                             }
                         }
                     }
-                }
+
             }
         }
         #if os(iOS)
