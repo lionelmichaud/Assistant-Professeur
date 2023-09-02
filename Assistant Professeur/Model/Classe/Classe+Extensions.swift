@@ -352,6 +352,7 @@ extension ClasseEntity {
             .sorted(using: sortComparators)
     }
 
+    /// Retourne le groupe 0 d'élèves non affectés à un groupe.
     var groupOfUngroupedEleves: GroupEntity {
         if let foundGroup = self.allGroups.first(where: { $0.number == 0 }) {
             return foundGroup
@@ -503,6 +504,8 @@ extension ClasseEntity {
         self.id = UUID()
     }
 
+    // MARK: - Methods Progresses
+
     /// Retourne la liste des progresssions d'activités de la classe dans la séquence sélectionnée triée
     ///
     /// Ordre de tri des progressions:
@@ -534,7 +537,17 @@ extension ClasseEntity {
     }
 
     /// Retourne la progression réelle (en % de temps) de la classe dans le programme annuel.
-    func actualProgressInProgram() -> Double {
+    ///
+    /// Return:
+    /// * **nbOfSeanceActualyCompleted**: nombre de séance réellement complétées.
+    /// * **nbOfSeanceInProgram**: nombre de séance totales contenus dans le programme.
+    /// * **actualProgress**: avancement réel courant [0, 1].
+    func actualProgressInProgram() ->
+        (
+            nbOfSeanceActualyCompleted: Double,
+            nbOfSeanceInProgram: Double,
+            actualProgress: Double // [0, 1]
+        ) {
         let sequencesInProgram = self.allFollowedSequencesSortedBySequenceNumber
         let (nbOfSeanceInProgram, nbOfSeanceCompleted): (Double, Double) =
             sequencesInProgram
@@ -544,16 +557,48 @@ extension ClasseEntity {
                         nb.1 + actualProgressInSequence(sequence) * sequence.durationWithoutMargin
                     )
                 }
-        if nbOfSeanceInProgram == 0 {
-            return 0
-        } else {
-            return nbOfSeanceCompleted / nbOfSeanceInProgram
+        var actualProgress = 0.0
+        if nbOfSeanceInProgram != 0 {
+            actualProgress = nbOfSeanceCompleted / nbOfSeanceInProgram
         }
+
+        return (
+            nbOfSeanceActualyCompleted: nbOfSeanceCompleted,
+            nbOfSeanceInProgram: nbOfSeanceInProgram,
+            actualProgress: actualProgress
+        )
     }
 
     /// Retourne la progression théorique (en % de temps) de la classe dans le programme annuel à la date courante.
-    func theoricalProgressInProgram() -> Double {
-        let nbOfSeanceCompleted = 15.0
+    ///
+    /// Return:
+    /// * **nbOfSeanceSuposidelyCompleted**: nombre de séance supposées complétées à la date courante.
+    /// * **nbOfSeanceInProgram**: nombre de séance totales contenus dans le programme.
+    /// * **theoricalProgress**: avancement théorique à la date courantet [0, 1].
+    func theoricalProgressInProgram() ->
+        (
+            nbOfSeanceSuposidelyCompleted: Double,
+            nbOfSeanceInProgram: Double,
+            theoricalProgress: Double // [0, 1]
+        ) {
+        guard let program = ProgramManager.programAssociatedTo(thisClasse: self) else {
+            customLog.log(
+                level: .error,
+                "Pas de programme associé à la classe \(self.displayString)"
+            )
+            return (
+                nbOfSeanceSuposidelyCompleted: 0,
+                nbOfSeanceInProgram: 0,
+                theoricalProgress: 0
+            )
+        }
+
+        // Nombre de séances qui devraient être complétées à la date courante
+        let nbOfSeanceSuposidlyCompleted = ProgramManager.nbOfSeanceSuposidlyCompleted(
+            program: program,
+            schoolYear: UserPrefEntity.shared.viewSchoolYearPref,
+            atThisDate: Date.now
+        )
 
         let sequencesInProgram = self.allFollowedSequencesSortedBySequenceNumber
         let nbOfSeanceInProgram: Double =
@@ -562,13 +607,18 @@ extension ClasseEntity {
                     nb + sequence.durationWithoutMargin
                 }
 
-        print(nbOfSeanceInProgram, nbOfSeanceCompleted)
+        //print(nbOfSeanceInProgram, nbOfSeanceSuposidlyCompleted)
 
-        if nbOfSeanceInProgram == 0 {
-            return 0
-        } else {
-            return nbOfSeanceCompleted / nbOfSeanceInProgram
+        var theoricalProgress = 0.0
+        if nbOfSeanceInProgram != 0 {
+            theoricalProgress = nbOfSeanceSuposidlyCompleted / nbOfSeanceInProgram
         }
+
+        return (
+            nbOfSeanceSuposidelyCompleted: nbOfSeanceSuposidlyCompleted,
+            nbOfSeanceInProgram: nbOfSeanceInProgram,
+            theoricalProgress: theoricalProgress
+        )
     }
 
     // MARK: - Méthodes Groupes

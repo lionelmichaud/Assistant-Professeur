@@ -20,8 +20,6 @@ struct Vacance: Codable, Identifiable {
 
 /// Calendrier d'une année scolaire
 struct SchoolYearPref: Codable {
-    // MARK: - Type Definitions
-
     // MARK: - Type Properties
 
     /// Année scolaire en cours (1ère des deux années couvertes parl'année scolaire).

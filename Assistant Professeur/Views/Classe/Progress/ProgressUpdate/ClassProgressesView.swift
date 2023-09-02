@@ -26,8 +26,14 @@ struct ClassProgressesView: View {
     private var progressChanged: Bool = false
 
     @State
+    private var nbOfSeanceActualyCompleted: Double = 0.0
+    @State
+    private var nbOfSeanceInProgram: Double = 0.0
+    @State
     private var actualProgressInProgram: Double = 0.0
 
+    @State
+    private var nbOfSeanceSuposidelyCompleted: Double = 0.0
     @State
     private var theoricalProgressInProgram: Double = 0.0
 
@@ -71,10 +77,13 @@ struct ClassProgressesView: View {
                     Text("Progression réelle: \(Int(actualProgressInProgram * 100.0))%")
                     Spacer()
                     if let delta {
-                        if delta < 0 {
-                            Text("en retard de \(-delta) séances")
-                        } else {
-                            Text("en avance de \(delta) séances")
+                        switch delta {
+                            case ...(-1):
+                                Text("en retard de \(-delta) séances")
+                            case 1...:
+                                Text("en avance de \(delta) séances")
+                            default:
+                                Text("")
                         }
                     }
                 }
@@ -151,16 +160,20 @@ struct ClassProgressesView: View {
             }
 
             // Avancement réel de la classe dans le programme annuel
-            actualProgressInProgram = classe.actualProgressInProgram()
+            (
+                nbOfSeanceActualyCompleted,
+                nbOfSeanceInProgram,
+                actualProgressInProgram
+            ) = classe.actualProgressInProgram()
 
             // Avancement théorique de la classe dans le programme annuel
-            theoricalProgressInProgram = classe.theoricalProgressInProgram()
+            (
+                nbOfSeanceSuposidelyCompleted,
+                nbOfSeanceInProgram,
+                theoricalProgressInProgram
+            ) = classe.theoricalProgressInProgram()
 
-            if let program = ProgramManager.programAssociatedTo(thisClasse: classe) {
-                delta = Int((actualProgressInProgram - theoricalProgressInProgram) * program.durationWithoutMargin)
-            } else {
-                delta = nil
-            }
+            delta = Int(nbOfSeanceActualyCompleted - nbOfSeanceSuposidelyCompleted)
         }
         #if os(iOS)
         .navigationTitle("Progression en \(classe.discipline!)")
