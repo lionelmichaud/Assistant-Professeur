@@ -94,6 +94,7 @@ struct SettingsSchoolYear: View {
                     } label: {
                         Text("Mettre à jour l'App Calendrier")
                     }
+                    .disabled(!EventManager.shared.isAccessAuthorized)
                     .horizontallyAligned(.center)
                 } header: {
                     Text(vacance.name)

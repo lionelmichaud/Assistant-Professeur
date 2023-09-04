@@ -58,8 +58,10 @@ struct EventManager {
                     alertIsPresented,
                     alertTitle,
                     alertMessage
-                ) = getOrCreateCalendar(named: calendarName,
-                                        inEventStore: eventStore)
+                ) = getOrCreateCalendar(
+                    named: calendarName,
+                    inEventStore: eventStore
+                )
                 if let calendar {
                     // Succès
                     perform(calendar)
@@ -68,7 +70,7 @@ struct EventManager {
                     return (
                         alertIsPresented: alertIsPresented,
                         alertTitle: alertTitle,
-                        alertMessage:alertMessage
+                        alertMessage: alertMessage
                     )
                 }
 
@@ -103,15 +105,21 @@ struct EventManager {
             }
 
         } catch {
-            customLog.log(
-                level: .error,
-                "Echec de la demande d'accès au Calendrier: \(error.localizedDescription)"
-            )
-            return (
-                alertIsPresented: true,
-                alertTitle: "Echec de la demande d'accès au Calendrier",
-                alertMessage: error.localizedDescription
-            )
+            if !isAccessChecked {
+                customLog.log(
+                    level: .error,
+                    "Echec de la demande d'accès au Calendrier: \(error.localizedDescription)"
+                )
+                self.autorizationStatus = EKEventStore.authorizationStatus(for: .event)
+                return (
+                    alertIsPresented: true,
+                    alertTitle: "Echec de la demande d'accès au Calendrier",
+                    alertMessage: error.localizedDescription
+                )
+            } else {
+                // Echec déjà signalé
+                return (false, "", "")
+            }
         }
     }
 
@@ -134,8 +142,10 @@ struct EventManager {
                     alertIsPresented,
                     alertTitle,
                     alertMessage
-                ) = getOrCreateCalendar(named: calendarName,
-                                        inEventStore: eventStore)
+                ) = getOrCreateCalendar(
+                    named: calendarName,
+                    inEventStore: eventStore
+                )
                 if let calendar {
                     // Succès
                     await perform(calendar)
@@ -144,7 +154,7 @@ struct EventManager {
                     return (
                         alertIsPresented: alertIsPresented,
                         alertTitle: alertTitle,
-                        alertMessage:alertMessage
+                        alertMessage: alertMessage
                     )
                 }
 
@@ -179,70 +189,23 @@ struct EventManager {
             }
 
         } catch {
-            customLog.log(
-                level: .error,
-                "Echec de la demande d'accès au Calendrier: \(error.localizedDescription)"
-            )
-            return (
-                alertIsPresented: true,
-                alertTitle: "Echec de la demande d'accès au Calendrier",
-                alertMessage: error.localizedDescription
-            )
+            if !isAccessChecked {
+                customLog.log(
+                    level: .error,
+                    "Echec de la demande d'accès au Calendrier: \(error.localizedDescription)"
+                )
+                self.autorizationStatus = EKEventStore.authorizationStatus(for: .event)
+                return (
+                    alertIsPresented: true,
+                    alertTitle: "Echec de la demande d'accès au Calendrier",
+                    alertMessage: error.localizedDescription
+                )
+            } else {
+                // Echec déjà signalé
+                return (false, "", "")
+            }
         }
     }
-
-//    mutating func requestCalendarAccess(
-//        eventStore: EKEventStore
-//    ) async -> (
-//        alertIsPresented: Bool,
-//        alertTitle: String,
-//        alertMessage: String
-//    ) {
-//        // TODO: - To access the user’s Calendar data, all sandboxed macOS apps must include the com.apple.security.personal-information.calendars entitlement. To learn more about entitlements related to App Sandbox, see Enabling App Sandbox.
-//        do {
-//            if try await eventStore.requestAccess(to: .event) {
-//                // Succès
-//                self.autorizationStatus = EKEventStore.authorizationStatus(for: .event)
-//                return (false, "", "")
-//
-//            } else {
-//                // Echec
-//                let authorizationStatus = EKEventStore.authorizationStatus(for: .event)
-//                self.autorizationStatus = authorizationStatus
-//                var reason = ""
-//                switch authorizationStatus {
-//                    case .notDetermined:
-//                        reason = "indéfinie"
-//                    case .restricted:
-//                        reason = "accès restreint"
-//                    case .denied:
-//                        reason = "accès refusé"
-//                    case .authorized:
-//                        reason = "accès autorisé"
-//                    @unknown default:
-//                        reason = "inconnue"
-//                }
-//                let alertTitle: String = "Accès au calendrier non autorisé: raison \(reason)"
-//                customLog.log(level: .error, "\(alertTitle, privacy: .public)")
-//                return (
-//                    alertIsPresented: true,
-//                    alertTitle: alertTitle,
-//                    alertMessage: "The app doesn't have permission to access calendar data. Please grant the app access to Calendar in Settings."
-//                )
-//            }
-//
-//        } catch {
-//            customLog.log(
-//                level: .error,
-//                "Echec de la demande d'accès au Calendrier: \(error.localizedDescription)"
-//            )
-//            return (
-//                alertIsPresented: true,
-//                alertTitle: "Echec de la demande d'accès au Calendrier",
-//                alertMessage: error.localizedDescription
-//            )
-//        }
-//    }
 
     /// Retourne la liste de tous les événements du clalendrier `calendar`
     /// survenant dans la `period` et dont le titre contient **"Arrêt notes - `classeLevel`"**.
@@ -424,7 +387,7 @@ struct EventManager {
         during period: DateInterval,
         inCalendar calendar: EKCalendar,
         inEventStore eventStore: EKEventStore
-    ) async -> Bool {
+    ) -> Bool {
         do {
             // Check if an event with the same title exists in the "myCalendar" calendar
             let predicate = eventStore.predicateForEvents(
@@ -512,14 +475,14 @@ struct EventManager {
                 // source is required, otherwise calendar cannot be saved
                 customLog.log(
                     level: .error,
-                    "Calendar source not found!"
+                    "Echec de l'opération sur le calendrier. Source \(calName) du calendrier introuvable."
                 )
                 // Echec
                 return (
                     calendar: nil,
                     alertIsPresented: true,
-                    alertTitle: "Calendrier \(calName) introuvable.",
-                    alertMessage: "Echec de la tentative de création du calendrier: destination du calendrier introuvable."
+                    alertTitle: "Echec de l'opération sur le calendrier.",
+                    alertMessage: "Source \(calName) du calendrier introuvable."
                 )
             }
             newCalendar.source = source
@@ -539,12 +502,16 @@ struct EventManager {
                     alertMessage: ""
                 )
             } catch {
+                customLog.log(
+                    level: .error,
+                    "Echec de l'opération sur le calendrier. La création d'un nouveau calendrier \(calName) a échouée."
+                )
                 // Echec
                 return (
                     calendar: nil,
                     alertIsPresented: true,
-                    alertTitle: "Calendrier \(calName) introuvable.",
-                    alertMessage: "Echec de la tentative de création du calendrier."
+                    alertTitle: "Echec de l'opération sur le calendrier.",
+                    alertMessage: "La création d'un nouveau calendrier \(calName) a échouée."
                 )
             }
         }
