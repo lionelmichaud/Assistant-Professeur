@@ -107,6 +107,7 @@ extension ClasseProgressSection {
                 if let schoolName = classe.school?.viewName {
                     // Demander les droits d'accès aux calendriers de l'utilisateur
                     (
+                        calendar,
                         alertIsPresented,
                         alertTitle,
                         alertMessage
@@ -114,19 +115,20 @@ extension ClasseProgressSection {
                         .requestCalendarAccess(
                             eventStore: eventStore,
                             calendarName: schoolName
-                        ) { calendar in
-                            // Récupérer les dates de conseils de classe
-                            classeSeances.loadSeancesFromCalendar(
-                                forDiscipline: classe.disciplineEnum,
-                                forClasseName: classe.displayString,
-                                inCalendar: calendar,
-                                inEventStore: eventStore,
-                                during: DateInterval(
-                                    start: Date.now,
-                                    end: 3.months.fromNow!
-                                )
+                        )
+                    if let calendar {
+                        // Récupérer les dates de conseils de classe
+                        classeSeances.loadSeancesFromCalendar(
+                            forDiscipline: classe.disciplineEnum,
+                            forClasseName: classe.displayString,
+                            inCalendar: calendar,
+                            inEventStore: eventStore,
+                            during: DateInterval(
+                                start: Date.now,
+                                end: 3.months.fromNow!
                             )
-                        }
+                        )
+                    }
                 }
             }
         }

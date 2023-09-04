@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.SwiftErrorBreakpoint">
          <BreakpointContent
             uuid = "6EB686AF-C267-4236-ADD8-E7792C3EAF4A"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No">
          </BreakpointContent>
@@ -17,7 +17,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.RuntimeIssueBreakpoint">
          <BreakpointContent
             uuid = "147DDC06-FB91-4CD7-96F3-97DD470E2604"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             breakpointStackSelectionBehavior = "1"

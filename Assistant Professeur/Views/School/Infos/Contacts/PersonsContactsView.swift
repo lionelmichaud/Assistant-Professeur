@@ -27,6 +27,9 @@ struct PersonsContactsView: View {
     private var contacts = [CNContact]()
 
     @State
+    private var contactGroup: CNGroup?
+
+    @State
     private var contactSortOrder: ContactManager.SortOrder = .byJobTitle
 
     @State
@@ -87,17 +90,19 @@ struct PersonsContactsView: View {
         )
         .task(id: contactSortOrder) {
             (
+                contactGroup,
                 alertIsPresented,
                 alertTitle,
                 alertMessage
             ) = await ContactManager.shared.requestContactsAccess(
                 contactStore: contactStore,
                 groupName: school.viewName
-            ) { group in
+            )
+            if let contactGroup {
                 do {
                     contacts = try ContactManager.shared.allPersonContacts(
                         inOrganizationName: school.viewName,
-                        inContactGroup: group,
+                        inContactGroup: contactGroup,
                         inContactStore: contactStore,
                         sortedBy: contactSortOrder
                     )

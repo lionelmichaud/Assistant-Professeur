@@ -122,6 +122,7 @@ struct SettingsSchoolYear: View {
         Task {
             // Demander les droits d'accès aux calendriers de l'utilisateur
             (
+                calendar,
                 alertIsPresented,
                 alertTitle,
                 alertMessage
@@ -129,22 +130,25 @@ struct SettingsSchoolYear: View {
                 .requestCalendarAccess(
                     eventStore: eventStore,
                     calendarName: pref.viewSchoolYearPref.calName
-                ) { calendar in
-                    let success = await EventManager.shared.saveOrUpdate(
-                        eventTitle: eventTitle,
-                        eventDateInterval: eventDateInterval,
-                        during: pref.viewSchoolYearPref.interval,
-                        inCalendar: calendar,
-                        inEventStore: eventStore
-                    )
-                    if success {
-                        alertTitle = "L'événement a été enregistré."
-                        alertIsPresented.toggle()
-                    } else {
-                        alertTitle = "L'enregistrement à échoué."
-                        alertIsPresented.toggle()
-                    }
+                )
+            if let calendar {
+                let success = EventManager.saveOrUpdate(
+                    eventTitle: eventTitle,
+                    eventDateInterval: eventDateInterval,
+                    during: pref.viewSchoolYearPref.interval,
+                    inCalendar: calendar,
+                    inEventStore: eventStore
+                )
+                if success {
+                    alertTitle = "L'événement a été enregistré."
+                    alertMessage = ""
+                    alertIsPresented.toggle()
+                } else {
+                    alertTitle = "L'enregistrement à échoué."
+                    alertMessage = ""
+                    alertIsPresented.toggle()
                 }
+            }
         }
     }
 }

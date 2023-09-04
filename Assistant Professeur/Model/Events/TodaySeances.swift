@@ -32,7 +32,7 @@ struct TodaySeances {
         inCalendar calendar: EKCalendar,
         inEventStore eventStore: EKEventStore
     ) {
-        self.seances = EventManager.shared.getTodaySeances(
+        self.seances = EventManager.getTodaySeances(
             forDiscipline: discipline,
             forClasse: classe,
             inCalendar: calendar,

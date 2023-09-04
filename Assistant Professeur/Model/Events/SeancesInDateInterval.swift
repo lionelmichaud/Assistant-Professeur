@@ -94,7 +94,7 @@ struct SeancesInDateInterval {
         inEventStore eventStore: EKEventStore,
         during period: DateInterval
     ) {
-        self.seances = EventManager.shared.getAllSeances(
+        self.seances = EventManager.getAllSeances(
             forDiscipline: discipline,
             forClasseName: classe,
             inCalendar: calendar,

@@ -7,14 +7,14 @@
 
 import AppFoundation
 import AVFoundation
+import EventKit
 import HelpersView
 import SwiftUI
-import EventKit
 
 /// Présentation d'un chronomètre de séance
 struct SeanceTimerView: View {
     var discipline: Discipline
-    var classeName : String
+    var classeName: String
     var schoolName: String
     var lineWidth: Double = 40.0
     var test: Bool = false
@@ -128,6 +128,7 @@ struct SeanceTimerView: View {
         .task(id: classeName) {
             // Demander les droits d'accès aux calendriers de l'utilisateur
             (
+                calendar,
                 alertIsPresented,
                 alertTitle,
                 alertMessage
@@ -135,16 +136,17 @@ struct SeanceTimerView: View {
                 .requestCalendarAccess(
                     eventStore: eventStore,
                     calendarName: schoolName
-                ) { calendar in
-                    // Récupérer les dates de conseils de classe
-                    /// Charge les heures de cours du jour
-                    timerVM.loadTodaySeances(
-                        forDiscipline: discipline,
-                        forClasse: classeName,
-                        inCalendar: calendar,
-                        inEventStore: eventStore
-                    )
-                }
+                )
+            if let calendar {
+                // Récupérer les dates de conseils de classe
+                // Charge les heures de cours du jour
+                timerVM.loadTodaySeances(
+                    forDiscipline: discipline,
+                    forClasse: classeName,
+                    inCalendar: calendar,
+                    inEventStore: eventStore
+                )
+            }
         }
     }
 
@@ -358,7 +360,7 @@ struct SeanceTimerView_Previews: PreviewProvider {
                 test: true
             )
             .previewDevice("iPad mini (6th generation)")
-            
+
             SeanceTimerView(
                 discipline: classe.disciplineEnum,
                 classeName: classe.displayString,

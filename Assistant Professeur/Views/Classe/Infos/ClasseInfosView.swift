@@ -49,7 +49,7 @@ struct ClasseInfosView: View {
         ForEach(arretsNotes, id: \.eventIdentifier) { arretNotes in
             VStack {
                 Text("Date: ").foregroundColor(.secondary) +
-                Text(arretNotes.startDate.formatted(date: .complete, time: .standard))
+                    Text(arretNotes.startDate.formatted(date: .complete, time: .standard))
             }
         }
         .emptyListPlaceHolder(arretsNotes) {
@@ -61,10 +61,10 @@ struct ClasseInfosView: View {
         ForEach(conseils, id: \.eventIdentifier) { conseil in
             VStack {
                 Text("Date: ").foregroundColor(.secondary) +
-                Text(conseil.startDate.formatted(date: .complete, time: .standard))
+                    Text(conseil.startDate.formatted(date: .complete, time: .standard))
                 if let location = conseil.location {
                     Text("Lieu: ").foregroundColor(.secondary) +
-                    Text(location)
+                        Text(location)
                 }
             }
         }
@@ -155,7 +155,9 @@ struct ClasseInfosView: View {
         )
         .task(id: classe.objectID) {
             if let school = classe.school {
+                // Demander les droits d'accès aux calendriers de l'utilisateur
                 (
+                    calendar,
                     alertIsPresented,
                     alertTitle,
                     alertMessage
@@ -163,23 +165,23 @@ struct ClasseInfosView: View {
                     .requestCalendarAccess(
                         eventStore: eventStore,
                         calendarName: school.viewName
-                    ) { calendar in
-                        // Récupérer les dates d'arrêt des notes avant conseils de classe
-                        arretsNotes = EventManager.shared.getAllArretsNotes(
-                            forClasseLevel: classe.levelEnum,
-                            inCalendar: calendar,
-                            inEventStore: eventStore,
-                            during: pref.viewSchoolYearPref.interval
-                        )
-                        // Récupérer les dates de conseils de classe
-                        conseils = EventManager.shared.getAllConseils(
-                            forClasseName: classe.displayString,
-                            inCalendar: calendar,
-                            inEventStore: eventStore,
-                            during: pref.viewSchoolYearPref.interval
-                        )
-                    }
-
+                    )
+                if let calendar {
+                    // Récupérer les dates d'arrêt des notes avant conseils de classe
+                    arretsNotes = EventManager.getAllArretsNotes(
+                        forClasseLevel: classe.levelEnum,
+                        inCalendar: calendar,
+                        inEventStore: eventStore,
+                        during: pref.viewSchoolYearPref.interval
+                    )
+                    // Récupérer les dates de conseils de classe
+                    conseils = EventManager.getAllConseils(
+                        forClasseName: classe.displayString,
+                        inCalendar: calendar,
+                        inEventStore: eventStore,
+                        during: pref.viewSchoolYearPref.interval
+                    )
+                }
             }
         }
     }

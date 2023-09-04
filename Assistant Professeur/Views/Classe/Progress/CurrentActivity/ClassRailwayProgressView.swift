@@ -103,6 +103,7 @@ struct ClassRailwayProgressView: View {
             if let schoolName = classe.school?.viewName {
                 // Demander les droits d'accès aux calendriers de l'utilisateur
                 (
+                    calendar,
                     alertIsPresented,
                     alertTitle,
                     alertMessage
@@ -110,24 +111,25 @@ struct ClassRailwayProgressView: View {
                     .requestCalendarAccess(
                         eventStore: eventStore,
                         calendarName: schoolName
-                    ) { calendar in
-                        classeSeances.loadSeancesFromCalendar(
-                            forDiscipline: classe.disciplineEnum,
-                            forClasseName: classe.displayString,
-                            inCalendar: calendar,
-                            inEventStore: eventStore,
-                            during: DateInterval(
-                                start: Date.now,
-                                end: horizon.months.fromNow!
-                            )
+                    )
+                if let calendar {
+                    classeSeances.loadSeancesFromCalendar(
+                        forDiscipline: classe.disciplineEnum,
+                        forClasseName: classe.displayString,
+                        inCalendar: calendar,
+                        inEventStore: eventStore,
+                        during: DateInterval(
+                            start: Date.now,
+                            end: horizon.months.fromNow!
                         )
+                    )
 
-                        // Synchroniser les Progressions avec les Séances
-                        SequenceSeanceCoordinator.synchronize(
-                            classeProgresses: sortedClasseProgresses,
-                            withSeances: classeSeances
-                        )
-                    }
+                    // Synchroniser les Progressions avec les Séances
+                    SequenceSeanceCoordinator.synchronize(
+                        classeProgresses: sortedClasseProgresses,
+                        withSeances: classeSeances
+                    )
+                }
             }
         }
     }

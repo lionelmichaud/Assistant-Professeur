@@ -118,6 +118,7 @@ struct ClassProgressesView: View {
             if let schoolName = classe.school?.viewName {
                 // Demander les droits d'accès aux calendriers de l'utilisateur
                 (
+                    calendar,
                     alertIsPresented,
                     alertTitle,
                     alertMessage
@@ -125,27 +126,28 @@ struct ClassProgressesView: View {
                     .requestCalendarAccess(
                         eventStore: eventStore,
                         calendarName: schoolName
-                    ) { calendar in
-                        // Liste des Progressions de la classe triée par numéro de Séquence / Activité
-                        let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+                    )
+                if let calendar {
+                    // Liste des Progressions de la classe triée par numéro de Séquence / Activité
+                    let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
 
-                        classeSeances.loadSeancesFromCalendar(
-                            forDiscipline: classe.disciplineEnum,
-                            forClasseName: classe.displayString,
-                            inCalendar: calendar,
-                            inEventStore: eventStore,
-                            during: DateInterval(
-                                start: Date.now,
-                                end: horizon.months.fromNow!
-                            )
+                    classeSeances.loadSeancesFromCalendar(
+                        forDiscipline: classe.disciplineEnum,
+                        forClasseName: classe.displayString,
+                        inCalendar: calendar,
+                        inEventStore: eventStore,
+                        during: DateInterval(
+                            start: Date.now,
+                            end: horizon.months.fromNow!
                         )
+                    )
 
-                        // Synchroniser les Progressions avec les Séances
-                        SequenceSeanceCoordinator.synchronize(
-                            classeProgresses: sortedClasseProgresses,
-                            withSeances: classeSeances
-                        )
-                    }
+                    // Synchroniser les Progressions avec les Séances
+                    SequenceSeanceCoordinator.synchronize(
+                        classeProgresses: sortedClasseProgresses,
+                        withSeances: classeSeances
+                    )
+                }
             }
 
             // Avancement réel de la classe dans le programme annuel

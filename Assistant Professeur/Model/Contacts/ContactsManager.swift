@@ -46,9 +46,9 @@ struct ContactManager {
 
     mutating func requestContactsAccess(
         contactStore: CNContactStore,
-        groupName: String,
-        perform: (CNGroup) -> Void
+        groupName: String
     ) async -> (
+        contactGroup: CNGroup?,
         alertIsPresented: Bool,
         alertTitle: String,
         alertMessage: String
@@ -68,10 +68,10 @@ struct ContactManager {
                 )
                 if let group {
                     // Succès
-                    perform(group)
-                    return (false, "", "")
+                    return (group, false, "", "")
                 } else {
                     return (
+                        contactGroup: nil,
                         alertIsPresented: alertIsPresented,
                         alertTitle: alertTitle,
                         alertMessage: alertMessage
@@ -80,7 +80,7 @@ struct ContactManager {
 
             } else if isAccessChecked {
                 // Echec déjà signalé
-                return (false, "", "")
+                return (nil, false, "", "")
 
             } else {
                 // Echec jamais signalé
@@ -102,6 +102,7 @@ struct ContactManager {
                 let alertTitle: String = "Accès au Contacts non autorisé: raison \(reason)"
                 customLog.log(level: .error, "\(alertTitle, privacy: .public)")
                 return (
+                    contactGroup: nil,
                     alertIsPresented: true,
                     alertTitle: alertTitle,
                     alertMessage: "The app doesn't have permission to access Contacts data. Please grant the app access to Contacts in Settings."
@@ -116,13 +117,14 @@ struct ContactManager {
                 )
                 self.autorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
                 return (
+                    contactGroup: nil,
                     alertIsPresented: true,
                     alertTitle: "Echec de la demande d'accès au Contacts",
                     alertMessage: error.localizedDescription
                 )
             } else {
                 // Echec déjà signalé
-                return (false, "", "")
+                return (nil, false, "", "")
             }
         }
     }

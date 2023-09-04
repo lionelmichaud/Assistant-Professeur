@@ -151,22 +151,23 @@ struct SchoolContactEditView: View {
             focus = SchoolContactEditView.FocusableField.none
             Task {
                 (
+                    contactGroup,
                     alertIsPresented,
                     alertTitle,
                     alertMessage
                 ) = await ContactManager.shared.requestContactsAccess(
                     contactStore: contactStore,
                     groupName: school.viewName
-                ) { group in
-                    contactGroup = group
+                )
+                if let contactGroup {
                     do {
                         if let schoolContact = try ContactManager.shared
                             .organizationContact(
-                                inContactGroup: group,
+                                inContactGroup: contactGroup,
                                 inContactStore: contactStore,
                                 withOrganizationName: school.viewName
                             ),
-                            let contact = ContactEnum(from: schoolContact) {
+                           let contact = ContactEnum(from: schoolContact) {
                             if case let ContactEnum.organization(_, phoneNumber, emailAddress, urlAddress, street, city, postalCode) = contact {
                                 self.phoneNumber = phoneNumber
                                 self.emailAddress = emailAddress
