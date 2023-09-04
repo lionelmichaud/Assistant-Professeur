@@ -243,7 +243,7 @@ extension UserPrefEntity {
     // MARK: - Type Computed Properties
 
     static var shared: UserPrefEntity {
-        // Créer le record unique de l'utilisateur de l'appli s'il n'en existe pas encore.
+        // Créer le record unique des préférences de l'utilisateur de l'appli s'il n'en existe pas encore.
         if let newlyCreated = createSharedIfDoesNotExist() {
             return newlyCreated
         }

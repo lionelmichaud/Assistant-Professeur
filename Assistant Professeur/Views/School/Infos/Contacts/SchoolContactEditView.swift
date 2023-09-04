@@ -6,8 +6,15 @@
 //
 
 import AppFoundation
+import Contacts
 import HelpersView
+import os
 import SwiftUI
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "SchoolContactEditView"
+)
 
 struct SchoolContactEditView: View {
     @ObservedObject
@@ -49,6 +56,8 @@ struct SchoolContactEditView: View {
     @State
     private var alertTitle = ""
     @State
+    private var alertMessage = ""
+    @State
     private var alertIsPresented = false
 
     @State
@@ -63,6 +72,12 @@ struct SchoolContactEditView: View {
     private var postalCode: String = ""
     @State
     private var city: String = ""
+
+    @State
+    private var contactStore = CNContactStore()
+
+    @State
+    private var contactGroup: CNGroup?
 
     var body: some View {
         Section {
@@ -110,6 +125,7 @@ struct SchoolContactEditView: View {
                 Text("Mettre à jour l'app Contacts")
             }
             .buttonStyle(.borderless)
+            .disabled(!ContactManager.shared.isAccessAuthorized)
             .horizontallyAligned(.center)
         } header: {
             Label(
@@ -128,20 +144,46 @@ struct SchoolContactEditView: View {
         .alert(
             alertTitle,
             isPresented: $alertIsPresented,
-            actions: {}
+            actions: {},
+            message: { Text(alertMessage) }
         )
         .onAppear {
             focus = SchoolContactEditView.FocusableField.none
             Task {
-                if let schoolContact = await ContactManager.organizationContact(organizationName: school.viewName),
-                   let contact = ContactEnum(from: schoolContact) {
-                    if case let ContactEnum.organization(_, phoneNumber, emailAddress, urlAddress, street, city, postalCode) = contact {
-                        self.phoneNumber = phoneNumber
-                        self.emailAddress = emailAddress
-                        self.urlAddress = urlAddress
-                        self.street = street
-                        self.city = city
-                        self.postalCode = postalCode
+                (
+                    alertIsPresented,
+                    alertTitle,
+                    alertMessage
+                ) = await ContactManager.shared.requestContactsAccess(
+                    contactStore: contactStore,
+                    groupName: school.viewName
+                ) { group in
+                    contactGroup = group
+                    do {
+                        if let schoolContact = try ContactManager.shared
+                            .organizationContact(
+                                inContactGroup: group,
+                                inContactStore: contactStore,
+                                withOrganizationName: school.viewName
+                            ),
+                            let contact = ContactEnum(from: schoolContact) {
+                            if case let ContactEnum.organization(_, phoneNumber, emailAddress, urlAddress, street, city, postalCode) = contact {
+                                self.phoneNumber = phoneNumber
+                                self.emailAddress = emailAddress
+                                self.urlAddress = urlAddress
+                                self.street = street
+                                self.city = city
+                                self.postalCode = postalCode
+                            }
+                        }
+                    } catch {
+                        customLog.log(
+                            level: .error,
+                            "La tentative de récupération des contacts dans l'appli **Contacts** pour cet établissement a échouée."
+                        )
+                        alertTitle = "Echec"
+                        alertMessage = "La tentative de récupération des vos contacts dans votre appli **Contacts** pour cet établissement a échouée."
+                        alertIsPresented = true
                     }
                 }
             }
@@ -149,28 +191,32 @@ struct SchoolContactEditView: View {
     }
 
     private func saveContact() {
-        Task {
-            let contact =
-                ContactEnum.organization(
-                    organization: school.viewName,
-                    phoneNumber: phoneNumber,
-                    emailAddress: emailAddress,
-                    urlAddress: urlAddress,
-                    street: street,
-                    city: city,
-                    postalCode: postalCode
-                )
-            let success = await ContactManager.saveOrUpdate(
-                contact: contact,
-                toGroupNamed: school.viewName
+        let contact =
+            ContactEnum.organization(
+                organization: school.viewName,
+                phoneNumber: phoneNumber,
+                emailAddress: emailAddress,
+                urlAddress: urlAddress,
+                street: street,
+                city: city,
+                postalCode: postalCode
             )
-            if success {
-                alertTitle = "Le contact a été enregistré."
-                alertIsPresented.toggle()
-            } else {
-                alertTitle = "L'enregistrement à échoué."
-                alertIsPresented.toggle()
-            }
+        guard let contactGroup else {
+            return
+        }
+        if ContactManager.shared
+            .saveOrUpdate(
+                contact: contact,
+                inContactGroup: contactGroup,
+                inContactStore: contactStore
+            ) {
+            alertTitle = "Le contact a été enregistré."
+            alertMessage = ""
+            alertIsPresented.toggle()
+        } else {
+            alertTitle = "Echec"
+            alertMessage = "La tentative d'enregistrement des ce contact dans votre appli **Contacts** pour cet établissement a échouée."
+            alertIsPresented.toggle()
         }
     }
 }

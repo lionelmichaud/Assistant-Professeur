@@ -116,7 +116,7 @@ extension OwnerEntity {
 
     /// Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
     static func initializeEntity(userName: PersonNameComponents?) {
-        // créer le record unique de l'utilisateur de l'appli
+        // créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore
         create(
             familyName: userName?.familyName ?? "",
             givenName: userName?.givenName ?? "",
@@ -124,7 +124,7 @@ extension OwnerEntity {
         )
     }
 
-    /// Créer un utilisateur de l'appli s'il n'en existe aucun.
+    /// Créer un utilisateur de l'appli **s'il n'en existe aucun**.
     /// - Important: Sauvegarder le Context.
     ///
     /// Sauvegarder le Context.

@@ -26,10 +26,10 @@ struct ContentView: View {
     private var cloudKitVM = CloudKitViewModel()
 
     @State
-    private var initAlertIsPresented = false
+    private var isInitAlertIsPresented = false
 
     @State
-    private var iCloudAlertIsPresented = false
+    private var isiCloudAlertIsPresented = false
 
     var body: some View {
         TabView(selection: $navigationModel.selectedTab) {
@@ -107,7 +107,7 @@ struct ContentView: View {
 
         // Alerte en cas d'erreur d'initilisation de l'App
         .alert(
-            isPresented: $initAlertIsPresented,
+            isPresented: $isInitAlertIsPresented,
             error: AppState.shared.initError
         ) { error in
             Button("OK", role: .cancel) {
@@ -122,7 +122,7 @@ struct ContentView: View {
 
         // Alerte en cas d'erreur de connection iCloud
         .alert(
-            isPresented: $iCloudAlertIsPresented,
+            isPresented: $isiCloudAlertIsPresented,
             error: cloudKitVM.iCloudError
         ) { error in
             Button("OK", role: .cancel) {
@@ -137,7 +137,7 @@ struct ContentView: View {
 
         .onChange(of: cloudKitVM.iCloudError) { value in
             if value != .available {
-                iCloudAlertIsPresented.toggle()
+                isiCloudAlertIsPresented.toggle()
             }
         }
         // Synchronous initializaing of the View
@@ -168,14 +168,14 @@ struct ContentView: View {
         switch AppState.shared.initError {
             case .none,
                  .failedToInitializeCloudKitSchema:
-                initAlertIsPresented = false
+                isInitAlertIsPresented = false
 
             case .failedToLoadUserData,
                  .failedToInitialize,
                  .failedToLoadApplicationData,
                  .failedToCheckCompatibility,
                  .failedToLoadPersistentStores:
-                initAlertIsPresented = true
+                isInitAlertIsPresented = true
         }
     }
 }

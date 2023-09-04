@@ -155,40 +155,31 @@ struct ClasseInfosView: View {
         )
         .task(id: classe.objectID) {
             if let school = classe.school {
-                // Demander les droits d'accès aux calendriers de l'utilisateur
                 (
                     alertIsPresented,
                     alertTitle,
                     alertMessage
-                ) = await EventManager.requestCalendarAccess(eventStore: eventStore)
-
-                if !alertIsPresented {
-                    // Récupérer le calendrier
-                    (
-                        calendar,
-                        alertIsPresented,
-                        alertTitle,
-                        alertMessage
-                    ) = EventManager.getOrCreateCalendar(named: school.viewName,
-                                                         inEventStore: eventStore)
-
-                    if let calendar {
+                ) = await EventManager.shared
+                    .requestCalendarAccess(
+                        eventStore: eventStore,
+                        calendarName: school.viewName
+                    ) { calendar in
                         // Récupérer les dates d'arrêt des notes avant conseils de classe
-                        arretsNotes = EventManager.getAllArretsNotes(
+                        arretsNotes = EventManager.shared.getAllArretsNotes(
                             forClasseLevel: classe.levelEnum,
                             inCalendar: calendar,
                             inEventStore: eventStore,
                             during: pref.viewSchoolYearPref.interval
                         )
                         // Récupérer les dates de conseils de classe
-                        conseils = EventManager.getAllConseils(
+                        conseils = EventManager.shared.getAllConseils(
                             forClasseName: classe.displayString,
                             inCalendar: calendar,
                             inEventStore: eventStore,
                             during: pref.viewSchoolYearPref.interval
                         )
                     }
-                }
+
             }
         }
     }

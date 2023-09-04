@@ -8,17 +8,35 @@
 import AppFoundation
 import Contacts
 import HelpersView
+import os
 import SwiftUI
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "PersonsContactsView"
+)
 
 struct PersonsContactsView: View {
     @ObservedObject
     var school: SchoolEntity
 
     @State
+    private var contactStore = CNContactStore()
+
+    @State
     private var contacts = [CNContact]()
 
     @State
     private var contactSortOrder: ContactManager.SortOrder = .byJobTitle
+
+    @State
+    private var alertTitle = ""
+
+    @State
+    private var alertMessage = ""
+
+    @State
+    private var alertIsPresented = false
 
     var body: some View {
         Section {
@@ -27,15 +45,6 @@ struct PersonsContactsView: View {
                 Text("Tri par Titre").tag(ContactManager.SortOrder.byJobTitle)
             }
             .pickerStyle(.segmented)
-            .onChange(of: contactSortOrder) { newOrder in
-                Task(priority: .background) {
-                        contacts = await ContactManager
-                            .allPersonContacts(
-                                inOrganizationName: school.viewName,
-                                sortedBy: newOrder
-                            )
-                    }
-            }
             ForEach(contacts, id: \.identifier) { contact in
                 DisclosureGroup(label(contact)) {
                     if hasJobTitle(contact) {
@@ -70,12 +79,38 @@ struct PersonsContactsView: View {
         } footer: {
             Text("Les contacts de votre appli **Contacts**, enregistrés dans la liste nommée **\(school.viewName)** sont affichés ici.")
         }
-        .task {
-            contacts = await ContactManager
-                .allPersonContacts(
-                    inOrganizationName: school.viewName,
-                    sortedBy: contactSortOrder
-                )
+        .alert(
+            alertTitle,
+            isPresented: $alertIsPresented,
+            actions: {},
+            message: { Text(alertMessage) }
+        )
+        .task(id: contactSortOrder) {
+            (
+                alertIsPresented,
+                alertTitle,
+                alertMessage
+            ) = await ContactManager.shared.requestContactsAccess(
+                contactStore: contactStore,
+                groupName: school.viewName
+            ) { group in
+                do {
+                    contacts = try ContactManager.shared.allPersonContacts(
+                        inOrganizationName: school.viewName,
+                        inContactGroup: group,
+                        inContactStore: contactStore,
+                        sortedBy: contactSortOrder
+                    )
+                } catch {
+                    customLog.log(
+                        level: .error,
+                        "La tentative de récupération des contacts dans l'appli **Contacts** pour cet établissement à échouée."
+                    )
+                    alertTitle = "Echec"
+                    alertMessage = "La tentative de récupération des vos contacts dans votre appli **Contacts** pour cet établissement à échouée."
+                    alertIsPresented = true
+                }
+            }
         }
     }
 

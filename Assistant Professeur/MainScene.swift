@@ -16,7 +16,7 @@ struct MainScene: Scene {
     // MARK: - Environment Properties
 
     @Environment(\.scenePhase)
-    var scenePhase
+    private var scenePhase
 
     // MARK: - Properties
 

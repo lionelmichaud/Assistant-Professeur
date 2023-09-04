@@ -110,21 +110,11 @@ extension ClasseProgressSection {
                         alertIsPresented,
                         alertTitle,
                         alertMessage
-                    ) = await EventManager.requestCalendarAccess(eventStore: eventStore)
-
-                    if !alertIsPresented {
-                        // Récupérer le calendrier
-                        (
-                            calendar,
-                            alertIsPresented,
-                            alertTitle,
-                            alertMessage
-                        ) = EventManager.getOrCreateCalendar(
-                            named: schoolName,
-                            inEventStore: eventStore
-                        )
-
-                        if let calendar {
+                    ) = await EventManager.shared
+                        .requestCalendarAccess(
+                            eventStore: eventStore,
+                            calendarName: schoolName
+                        ) { calendar in
                             // Récupérer les dates de conseils de classe
                             classeSeances.loadSeancesFromCalendar(
                                 forDiscipline: classe.disciplineEnum,
@@ -137,7 +127,6 @@ extension ClasseProgressSection {
                                 )
                             )
                         }
-                    }
                 }
             }
         }

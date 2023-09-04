@@ -184,10 +184,10 @@ extension ProgramManager {
         do {
             let programs = try ProgramEntity.context.fetch(request)
             let sequences =
-            programs
-                .flatMap { program in
-                    program.sequencesSortedByNumber
-                }
+                programs
+                    .flatMap { program in
+                        program.sequencesSortedByNumber
+                    }
             return sequences
         } catch {
             return []
@@ -389,7 +389,7 @@ extension ProgramManager {
 //        print("  Début: \(sequenceMinimumInterval.start.formatted(date: .abbreviated, time: .shortened))")
 //        print("  Fin  : \(sequenceMinimumInterval.end.formatted(date: .abbreviated, time: .shortened))")
 
-        // Retirer les vacances de la séquence
+        // Retirer les vacances de la séquence en segmentant la séquence
         // Note: les vacances doivent être ordonnées par date croissante
         var sequenceLastInterval = sequenceMinimumInterval
         schoolYear.vacances.forEach { vacance in
@@ -442,8 +442,8 @@ extension ProgramManager {
 
                     default:
                         // aucun recouvrement
-                        // Note: on ne devrait jamais passer par là car il y a recouvrement (if)
-                        print("aucun recouvrement avec \(vacance.name)")
+                        // Note: on ne devrait jamais passer par là car il y a recouvrement (if let)
+                        // print("aucun recouvrement avec \(vacance.name)")
                         customLog.log(
                             level: .error,
                             "On ne devrait jamais passer par là car il y a recouvrement entre la séquence et les vacance (voir if)"
@@ -478,11 +478,14 @@ extension ProgramManager {
         program: ProgramEntity,
         schoolYear: SchoolYearPref
     ) -> [SequenceData] {
+        // Nombre de séances de cours par semaine
         let nbHeurePerWeek =
             program
                 .disciplineEnum
                 .nbHeurePerWeek(level: program.levelEnum)
         var sequencesData = [SequenceData]()
+
+        // Date de début de l'année
         var currentDate = schoolYear.interval.start
 
         program.sequencesSortedByNumber.forEach { sequence in
@@ -494,6 +497,7 @@ extension ProgramManager {
             )
             sequencesData += sequenceData
         }
+
         // Tag le premier interval de la séquence
         if sequencesData.isNotEmpty {
             sequencesData[sequencesData.startIndex].isFirstInterval = true
@@ -504,5 +508,63 @@ extension ProgramManager {
             sequencesData[sequencesData.endIndex - 1].isLastInterval = true
         }
         return sequencesData
+    }
+
+    static func nbOfSeanceSuposidlyCompleted(
+        program: ProgramEntity,
+        schoolYear: SchoolYearPref,
+        atThisDate date: Date
+    ) -> Double {
+        let programActivitiesPeriods = getProgramActivitiesPeriods(
+            program: program,
+            schoolYear: schoolYear
+        )
+        guard let firstPeriod = programActivitiesPeriods.first,
+              date > firstPeriod.dateInterval.start else {
+            return 0.0
+        }
+
+        // Recherche du numéro de la séquence en cours à la `date`
+        var currentSequenceNumber: Int
+        var idx = 0
+        var iteratedPeriod = programActivitiesPeriods[idx]
+        repeat {
+            currentSequenceNumber = iteratedPeriod.number
+            idx += 1
+            iteratedPeriod = programActivitiesPeriods[idx]
+        } while iteratedPeriod.dateInterval.end < date
+
+        // Cumuler le nb de séances de toutes les séquences entièrement complétées
+        let sequencesInProgram = program.sequencesSortedByNumber
+        let nbSeancesInFullyCompletedSequences: Double =
+            sequencesInProgram
+                .reduce(0.0) { nb, sequence in
+                    if sequence.viewNumber < currentSequenceNumber {
+                        return nb + sequence.durationWithoutMargin
+                    } else {
+                        return nb
+                    }
+                }
+
+        // Ajouter le nb de séances complétées dans la séquence en cours
+        //   Nombre de séances de cours par semaine
+        let nbSeancePerWeek =
+            program
+                .disciplineEnum
+                .nbHeurePerWeek(level: program.levelEnum)
+
+        //   Cumuler la durée écoulée dans la Séquence en cours
+        let nbSeanceInPartiallyCompletedSequence: Double =
+            programActivitiesPeriods
+                .reduce(0.0) { (nb: Double, period: SequenceData) in
+                    if period.number == currentSequenceNumber {
+                        let nbWeek = Double(period.dateInterval.duration) / Double(7 * 24 * 60 * 60)
+                        return nb + nbWeek / nbSeancePerWeek
+                    } else {
+                        return nb
+                    }
+                }
+
+        return nbSeancesInFullyCompletedSequences + nbSeanceInPartiallyCompletedSequence
     }
 }
