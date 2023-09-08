@@ -130,7 +130,7 @@ struct ElevesTableView: View {
                 text: $searchString,
 //                placement: .navigationBarDrawer(displayMode: .automatic),
                 placement: .toolbar,
-                prompt: "Nom, Prénom ou n° de groupe"
+                prompt: "Nom,Prénom,groupe,commentaire"
             )
             .onChange(of: sortOrder) { _ in
                 print("Sort order changed")

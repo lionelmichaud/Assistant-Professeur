@@ -274,6 +274,15 @@ extension EleveEntity {
         }
     }
 
+    /// Retourne true si l'élève stisfait à *au moins à l'un des critères*.
+    ///
+    /// Les critères sont:
+    /// 1) Le *nom* contient `searchString`.
+    /// 1) Le *prénom* contient `searchString`.
+    /// 1) Le *groupe* contient `searchString`.
+    /// 1) *L'annotation* contient `searchString`.
+    /// 1) *L'appréciation* contient `searchString`.
+    ///
     func satisfiesTo(searchString: String) -> Bool {
         if searchString.isNotEmpty {
             if searchString.containsOnlyDigits {
@@ -285,7 +294,9 @@ extension EleveEntity {
                 // filtrage sur nom et prénom
                 let string = searchString.lowercased()
                 return familyName!.lowercased().contains(string) ||
-                    givenName!.lowercased().contains(string)
+                    givenName!.lowercased().contains(string) ||
+                    (viewAnnotation.isNotEmpty && viewAnnotation.lowercased().contains(string)) ||
+                    (viewAppreciation.isNotEmpty && viewAppreciation.lowercased().contains(string))
             }
         } else {
             return true
