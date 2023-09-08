@@ -37,14 +37,14 @@ struct SequenceList: View {
             .listRowSeparatorTint(.secondary)
             .emptyListPlaceHolder(filteredSequences) {
                 EmptyListMessage(
-                    title: "Aucune séquence trouvée dans ce programme.",
+                    title: "Aucune séquence trouvée dans cette progression.",
                     message: "Les séquences ajoutées apparaîtront ici.",
                     showAsGroupBox: true
                 )
             }
         } header: {
             HStack {
-                Text("Séquences de ce Programme (\(program.nbOfSequences))")
+                Text("Séquences de cette progression (\(program.nbOfSequences))")
                     .style(.sectionHeader)
                 Spacer()
             }

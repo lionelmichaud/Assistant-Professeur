@@ -40,7 +40,7 @@ struct SequenceSidebar: View {
                     )
 
                 } else {
-                    Text("Programme introuvable")
+                    Text("Progression introuvable")
                         .foregroundStyle(.secondary)
                         .font(.title2)
                 }
@@ -48,15 +48,15 @@ struct SequenceSidebar: View {
             } else {
                 EmptyListMessage(
                     symbolName: ProgramEntity.defaultImageName,
-                    title: "Aucun programme sélectionné.",
-                    message: "Sélectionner un programme pour en visualiser les séquences ici.",
+                    title: "Aucune progression sélectionnée.",
+                    message: "Sélectionner une progression pour en visualiser les séquences ici.",
                     showAsGroupBox: true
                 )
                 .padding(.horizontal)
             }
         }
         #if os(iOS)
-        .navigationTitle("Programme")
+        .navigationTitle("Progression")
         #endif
         .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)

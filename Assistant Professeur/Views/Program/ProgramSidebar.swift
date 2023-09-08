@@ -70,13 +70,13 @@ struct ProgramSidebar: View {
             .emptyListPlaceHolder(programsSections) {
                 EmptyListMessage(
                     symbolName: ProgramEntity.defaultImageName,
-                    title: "Aucun programme actuellement.",
-                    message: "Les programmes ajoutés apparaîtront ici."
+                    title: "Aucune progression actuellement.",
+                    message: "Les progressions ajoutées apparaîtront ici."
                 )
             }
         }
         #if os(iOS)
-        .navigationTitle("Programmes")
+        .navigationTitle("Progression")
         #endif
         .toolbar(content: myToolBarContent)
 

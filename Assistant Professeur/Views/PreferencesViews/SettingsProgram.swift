@@ -19,11 +19,11 @@ struct SettingsProgram: View {
                 Text("Champs")
                     .style(.sectionHeader)
             } footer: {
-                Text("Ajouter un champ de saisie d'annotation à chaque programme")
+                Text("Ajouter un champ de saisie d'annotation à chaque progression")
             }
         }
         #if os(iOS)
-        .navigationTitle("Préférences Programmes")
+        .navigationTitle("Préférences Progressions")
         .navigationBarTitleDisplayMode(.inline)
         #endif
     }

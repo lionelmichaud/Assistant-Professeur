@@ -38,7 +38,7 @@ struct ActivitySideBar: View {
             if sequence.program != nil {
                 SequenceDetailGroupBox(sequence: sequence)
             } else {
-                Text("Programme associé introuvable")
+                Text("Progression associée introuvable")
                     .foregroundStyle(.secondary)
                     .font(.title2)
             }

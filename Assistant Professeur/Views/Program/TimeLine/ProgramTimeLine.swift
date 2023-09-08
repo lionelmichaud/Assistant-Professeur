@@ -42,7 +42,7 @@ struct ProgramTimeLine: View {
                             ProgramPlanningView(program: program)
                     }
                 } else {
-                    Text("Programme introuvable")
+                    Text("Progression introuvable")
                         .foregroundStyle(.secondary)
                         .font(.title2)
                 }
@@ -50,15 +50,15 @@ struct ProgramTimeLine: View {
             } else {
                 EmptyListMessage(
                     symbolName: ProgramEntity.defaultImageName,
-                    title: "Aucun programme sélectionné.",
-                    message: "Sélectionner un programme pour en visualiser les séquences.",
+                    title: "Aucune progression sélectionné.",
+                    message: "Sélectionner une progression pour en visualiser les séquences.",
                     showAsGroupBox: true
                 )
                 .padding(.horizontal)
             }
         }
         #if os(iOS)
-        .navigationTitle("Déroulement du programme")
+        .navigationTitle("Déroulement de la progression")
         #endif
         .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)
@@ -111,7 +111,7 @@ extension ProgramTimeLine {
 
                 switch presentation {
                     case .steps:
-                        let fileName = "Séquences du Programme de \(program.disciplineString) classe de \(program.levelString).pdf"
+                        let fileName = "Séquences de la Progression de \(program.disciplineString) classe de \(program.levelString).pdf"
                         let fileUrl = cachesUrl.appending(component: fileName)
                         if PdfViewConverter.renderAsPDF(
                             content: ProgramStepperView(
@@ -127,7 +127,7 @@ extension ProgramTimeLine {
                         }
 
                     case .planning:
-                        let fileName = "Planning du Programme de \(program.disciplineString) classe de \(program.levelString).pdf"
+                        let fileName = "Planning de la Progression de \(program.disciplineString) classe de \(program.levelString).pdf"
                         let fileUrl = cachesUrl.appending(component: fileName)
                         if PdfViewConverter.renderAsPDF(
                             content: ProgramPlanningPDF(

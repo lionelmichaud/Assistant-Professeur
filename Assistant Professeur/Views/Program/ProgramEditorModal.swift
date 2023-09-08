@@ -143,7 +143,7 @@ struct ProgramEditorModal: View {
             message: { Text(alertMessage) }
         )
         #if os(iOS)
-        .navigationTitle("Programme")
+        .navigationTitle("Progression")
         #endif
         .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)

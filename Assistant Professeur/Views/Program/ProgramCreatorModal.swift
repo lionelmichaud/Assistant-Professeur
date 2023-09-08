@@ -76,7 +76,7 @@ struct ProgramCreatorModal: View {
         )
         .toolbar(content: myToolBarContent)
         #if os(iOS)
-            .navigationTitle("Nouveau Programme")
+            .navigationTitle("Nouvelle Progression")
         #endif
     }
 }

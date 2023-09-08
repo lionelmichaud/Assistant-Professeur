@@ -16,7 +16,7 @@ extension NavigationModel {
         case classe = "Mes Classes"
         case eleve = "Mes Elèves"
         case warning = "Avertissements"
-        case program = "Mes Programmes"
+        case program = "Mes Progressions"
         case competence = "Les Compétences"
 
         var imageName: String {
@@ -60,7 +60,7 @@ extension NavigationModel {
                 case .school: return "Établissements"
                 case .classe: return "Classes"
                 case .eleve: return "Élèves"
-                case .program: return "Programmes"
+                case .program: return "Progressions"
                 case .sequence: return "Séquences"
                 case .activity: return "Activités"
                 case .schoolYear: return "Année scolaire"
