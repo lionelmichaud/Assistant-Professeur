@@ -647,16 +647,16 @@ extension ClasseEntity {
     /// Si un critère vaut `false` alors on ne filtre pas sur ce critère.
     ///
     /// - Parameters:
-    ///   - searchString: caractères à rechercher dnas les noms/prénom ou nombre à rechercher dans le n° de groupe
-    ///   - filterObservation: si `true` alors ne conserver que les élèves avec des observation **non-consignées** OU **non-vérifiées**
-    ///   - filterColle: si `true` alors ne conserver que que les élèves avec des colles **non-consignées**
-    ///   - filterFlag: si `true` alors ne conserver que que les élèves **flagés**
+    ///   - searchString: caractères à rechercher dans les **noms/prénom/groupe/annotation/appréciation** à rechercher
+    ///   - withObservation: si `true` alors ne conserver que les élèves avec des observation **non-consignées** OU **non-vérifiées**
+    ///   - withColle: si `true` alors ne conserver que que les élèves avec des colles **non-consignées**
+    ///   - withFlag: si `true` alors ne conserver que que les élèves **flagés**
     /// - Returns: Liste des élèves de la classe satisfaisant *au moins à l'un des critères* définis en paramètre
     func filteredElevesSortedByName(
         searchString: String,
-        filterObservation: Bool = false,
-        filterColle: Bool = false,
-        filterFlag: Bool = false
+        withObservation: Bool = false,
+        withColle: Bool = false,
+        withFlag: Bool = false
     ) -> [EleveEntity] {
         let sortComparators = UserPrefEntity.shared.nameSortOrderEnum == .nomPrenom ?
             [
@@ -678,10 +678,10 @@ extension ClasseEntity {
                 lazy var nbColleWithActionToDo: Int = eleve.nbOfColles(isConsignee: false)
 
                 return eleve.satisfiesTo(searchString: searchString) &&
-                    ((!filterObservation && !filterColle && !filterFlag) ||
-                        (filterObservation && (nbObservWithActionToDo > 0)) ||
-                        (filterColle && nbColleWithActionToDo > 0) ||
-                        (filterFlag && eleve.isFlagged))
+                    ((!withObservation && !withColle && !withFlag) ||
+                        (withObservation && (nbObservWithActionToDo > 0)) ||
+                        (withColle && nbColleWithActionToDo > 0) ||
+                        (withFlag && eleve.isFlagged))
             }
             .sorted(using: sortComparators)
     }

@@ -105,7 +105,7 @@ struct GroupsListView: View {
                     text: $searchString,
                     placement: .navigationBarDrawer(displayMode: .automatic),
                     // placement: .toolbar,
-                    prompt: "Nom ou Prénom de l'élève"
+                    prompt: "Nom,Prénom,groupe,commentaire"
                 )
                 .autocorrectionDisabled()
             }

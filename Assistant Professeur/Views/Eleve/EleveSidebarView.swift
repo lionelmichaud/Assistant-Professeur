@@ -53,7 +53,7 @@ struct EleveSidebarView: View {
             text: $searchString,
 //            placement : .navigationBarDrawer(displayMode : .automatic),
             placement: .toolbar,
-            prompt: "Nom ou Prénom de l'élève"
+            prompt: "Nom,Prénom,groupe,commentaire"
         )
         .autocorrectionDisabled()
         .toolbar {
@@ -104,12 +104,12 @@ struct EleveSidebarSchoolSubview: View {
     @State
     private var isClasseExpanded = true
 
-    private func eleveInClasse(_ classe: ClasseEntity) -> [EleveEntity] {
+    private func filteredEleveInClasse(_ classe: ClasseEntity) -> [EleveEntity] {
         classe.filteredElevesSortedByName(
             searchString: searchString,
-            filterObservation: navigationModel.filterObservation,
-            filterColle: navigationModel.filterColle,
-            filterFlag: navigationModel.filterFlag
+            withObservation: navigationModel.filterObservation,
+            withColle: navigationModel.filterColle,
+            withFlag: navigationModel.filterFlag
         )
     }
 
@@ -119,7 +119,7 @@ struct EleveSidebarSchoolSubview: View {
             if classe.nbOfEleves != 0 {
                 DisclosureGroup {
                     // pour chaque Elève
-                    ForEach(eleveInClasse(classe), id: \.objectID) { eleve in
+                    ForEach(filteredEleveInClasse(classe), id: \.objectID) { eleve in
                         EleveBrowserRow(eleve: eleve)
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 // supprimer un élève
