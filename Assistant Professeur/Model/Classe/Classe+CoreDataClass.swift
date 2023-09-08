@@ -20,7 +20,7 @@ public final class ClasseEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
         case id, level, numero, segpa, isFlagged
         case annotation, appreciation, discipline, heures
-        case eleves, groups, exams, roomID
+        case eleves, groups, exams, documents, roomID
     }
 
     /// Conformance to Decodable
@@ -47,6 +47,7 @@ public final class ClasseEntity: NSManagedObject, Codable, ModelEntityP {
         self.eleves = try container.decode(Set<EleveEntity>.self, forKey: .eleves) as NSSet
 
         self.exams = try container.decode(Set<ExamEntity>.self, forKey: .exams) as NSSet
+        self.documents = try container.decode(Set<DocumentEntity>.self, forKey: .documents) as NSSet
 
         // Les rooms doivent être chargés AVANT les classes pour que les classes puissent
         // établir la connection avec les rooms. Voir SchoolEntity.init(from decoder: Decoder)
@@ -78,6 +79,7 @@ public final class ClasseEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(eleves as! Set<EleveEntity>, forKey: .eleves)
         try container.encode(groups as! Set<GroupEntity>, forKey: .groups)
         try container.encode(exams as! Set<ExamEntity>, forKey: .exams)
+        try container.encode(documents as! Set<DocumentEntity>, forKey: .documents)
         try container.encodeIfPresent(room?.id, forKey: .roomID)
     }
 }

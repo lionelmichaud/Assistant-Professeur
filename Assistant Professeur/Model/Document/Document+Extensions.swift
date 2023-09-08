@@ -107,6 +107,34 @@ extension DocumentEntity {
     }
 
     @discardableResult
+    /// Créer et ajouter un nouveau document PDF à la classe.
+    /// - Parameters:
+    ///   - classe: classe
+    ///   - data: contenu du document PDF
+    ///   - name: nom du document
+    /// - Returns: Document créé.
+    /// - Important: *Saves the context to the store after modification is done*
+    static func create(
+        dans classe: ClasseEntity,
+        withData data: Data?,
+        withName name: String
+    ) -> DocumentEntity {
+        let doc = DocumentEntity.create()
+        // établissement d'appartenance.
+        // mandatory
+        doc.classe = classe
+
+        if let data {
+            doc.pdfData = data
+        }
+        doc.docName = name
+
+        try? ClasseEntity.saveIfContextHasChanged()
+
+        return doc
+    }
+
+    @discardableResult
     /// Créer et ajouter un nouveau document PDF au programme scolaire.
     /// - Parameters:
     ///   - program: programme scolaire
@@ -128,8 +156,6 @@ extension DocumentEntity {
             doc.pdfData = data
         }
         doc.docName = name
-
-//        try? ProgramEntity.saveIfContextHasChanged()
 
         return doc
     }
@@ -156,8 +182,6 @@ extension DocumentEntity {
             doc.pdfData = data
         }
         doc.docName = name
-
-//        try? SequenceEntity.saveIfContextHasChanged()
 
         return doc
     }
@@ -197,6 +221,7 @@ extension DocumentEntity {
     ) {
         all().forEach { doc in
             if doc.school == nil &&
+                doc.classe == nil &&
                 doc.program == nil &&
                 doc.sequence == nil &&
                 doc.activity == nil {
@@ -272,6 +297,8 @@ public extension DocumentEntity {
             """
         if let school {
             owner = "   school: \(school.displayString)"
+        } else if let classe {
+            owner = "   classe: \(classe.displayString)"
         } else if let program {
             owner = "   program: \(program.disciplineString)"
         } else if let sequence {

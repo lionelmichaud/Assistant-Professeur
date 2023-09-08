@@ -222,7 +222,22 @@ struct SchoolSidebarView: View {
         .fileMover(
             isPresented: $isExportingModel,
             files: isExportingModel ? fileExportOperation.urls : []
-        ) { _ in
+        ) { result in
+            switch result {
+                case let .failure(error):
+                    customLog.log(
+                        level: .fault,
+                        "Error exporting JSON files: \(error.localizedDescription)"
+                    )
+                    alertTitle = "Échec"
+                    alertMessage = "L'exportation des fichiers a échouée!"
+                    alertIsPresented = true
+
+                case .success:
+                    alertTitle = "Exportation terminée."
+                    alertMessage = ""
+                    alertIsPresented = true
+            }
         }
     }
 }
