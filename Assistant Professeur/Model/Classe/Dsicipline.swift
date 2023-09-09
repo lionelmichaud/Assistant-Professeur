@@ -105,7 +105,7 @@ enum Discipline: String, PickableIdentifiableEnumP, Codable {
         }
     }
     
-    func nbHeurePerWeek(level: LevelClasse) -> Double {
+    func nbHeurePerWeek(level: LevelClasse) -> Double { // swiftlint:disable:this cyclomatic_complexity
         // TODO: - Adapter en fonction du niveau de la classe
         switch self {
             case .artPla: return 1

@@ -15,7 +15,7 @@ private let customLog = Logger(
 )
 
 /// Gestionnaire d'Evénements. Synchronize l'appli avec l'app Calendrier.
-struct EventManager {
+struct EventManager { // swiftlint:disable:this type_body_length
     // MARK: - SINGLETON
 
     static var shared = EventManager()

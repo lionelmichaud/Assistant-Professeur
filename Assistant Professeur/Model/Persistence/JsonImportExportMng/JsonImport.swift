@@ -19,7 +19,7 @@ extension JsonImportExportMng {
 
     /// Peupler la base de donnée à patir des données importées des fichiers  JSON sélectionnés.
     /// - Parameter filesUrl: URLs des fichiers sélectionnés
-    static func importJsonData(
+    static func importJsonData( // swiftlint:disable:this cyclomatic_complexity
         result: Result<[URL], Error>,
         resetNavigationData: () -> Void
     ) -> (

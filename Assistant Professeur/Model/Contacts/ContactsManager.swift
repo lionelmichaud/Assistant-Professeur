@@ -15,7 +15,7 @@ private let customLog = Logger(
 )
 
 /// Gestionnaire de Contacts. Synchronize l'appli avec l'app Contacts.
-struct ContactManager {
+struct ContactManager { // swiftlint:disable:this type_body_length
     enum SortOrder {
         case byJobTitle
         case byName

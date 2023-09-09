@@ -321,7 +321,7 @@ extension UserPrefEntity {
         let nbItemsToRemove = cardinal() - 1
 
         if nbItemsToRemove > 0 {
-            var allItems = allSortedbyCreationDate()
+            let allItems = allSortedbyCreationDate()
             allItems[1 ..< allItems.endIndex].forEach { userPref in
                 try? userPref.delete()
             }

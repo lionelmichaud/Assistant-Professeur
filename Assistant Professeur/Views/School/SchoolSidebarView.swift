@@ -313,31 +313,31 @@ extension SchoolSidebarView {
     /// Importer tous les fichiers JSON, JPEG et PNG depuis le Bundle Application
     func importFromApp() {
         // Copier les fichiers contenus dans le Bundle de l'application vers le répertoire Document de l'utilisateur
-        do {
-            //            try PersistenceManager().forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
-        } catch {
-            alertTitle = "Échec"
-            alertMessage = "L'importation des fichiers a échouée!"
-            // trigger second alert
-            DispatchQueue.main.async {
-                alertIsPresented.toggle()
-            }
-        }
-        do {
-            // Initialiser les objets du model à partir des fichiers JSON
-            //            try schoolStore.loadFromJSON(fromFolder: nil)
-            //            try classeStore.loadFromJSON(fromFolder: nil)
-            //            try eleveStore.loadFromJSON(fromFolder: nil)
-            //            try colleStore.loadFromJSON(fromFolder: nil)
-            //            try observStore.loadFromJSON(fromFolder: nil)
-        } catch {
-            alertTitle = "Échec"
-            alertMessage = "La lecture des fichiers importés a échouée!"
-            // trigger second alert
-            DispatchQueue.main.async {
-                alertIsPresented.toggle()
-            }
-        }
+//        do {
+//            try PersistenceManager().forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
+//        } catch {
+//            alertTitle = "Échec"
+//            alertMessage = "L'importation des fichiers a échouée!"
+//            // trigger second alert
+//            DispatchQueue.main.async {
+//                alertIsPresented.toggle()
+//            }
+//        }
+//        do {
+//            // Initialiser les objets du model à partir des fichiers JSON
+//            try schoolStore.loadFromJSON(fromFolder: nil)
+//            try classeStore.loadFromJSON(fromFolder: nil)
+//            try eleveStore.loadFromJSON(fromFolder: nil)
+//            try colleStore.loadFromJSON(fromFolder: nil)
+//            try observStore.loadFromJSON(fromFolder: nil)
+//        } catch {
+//            alertTitle = "Échec"
+//            alertMessage = "La lecture des fichiers importés a échouée!"
+//            // trigger second alert
+//            DispatchQueue.main.async {
+//                alertIsPresented.toggle()
+//            }
+//        }
         // eleveStore.sort()
     }
 }
