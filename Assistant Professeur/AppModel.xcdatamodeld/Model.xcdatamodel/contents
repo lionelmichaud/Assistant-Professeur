@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22G90" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22G91" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="ActivityEntity" representedClassName="ActivityEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="documentCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="documents.@count" usesScalarValueType="YES"/>
@@ -32,6 +32,7 @@
         <attribute name="annotation" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="appreciation" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="discipline" attributeType="String" defaultValueString=""/>
+        <attribute name="documentsCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="documents.@count" usesScalarValueType="YES"/>
         <attribute name="elevesCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="eleves.@count" usesScalarValueType="YES"/>
         <attribute name="examsCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="exams.@count" usesScalarValueType="YES"/>
         <attribute name="groupCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="groups.@count" usesScalarValueType="YES"/>
@@ -42,6 +43,7 @@
         <attribute name="numero" attributeType="Integer 32" defaultValueString="1" usesScalarValueType="YES"/>
         <attribute name="progressCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="progresses.@count" usesScalarValueType="YES"/>
         <attribute name="segpa" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <relationship name="documents" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DocumentEntity" inverseName="classe" inverseEntity="DocumentEntity"/>
         <relationship name="eleves" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="EleveEntity" inverseName="classe" inverseEntity="EleveEntity"/>
         <relationship name="exams" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ExamEntity" inverseName="classe" inverseEntity="ExamEntity"/>
         <relationship name="groups" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="GroupEntity" inverseName="classe" inverseEntity="GroupEntity"/>
@@ -80,6 +82,7 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="pdfData" optional="YES" attributeType="Binary"/>
         <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ActivityEntity" inverseName="documents" inverseEntity="ActivityEntity"/>
+        <relationship name="classe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="documents" inverseEntity="ClasseEntity"/>
         <relationship name="program" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProgramEntity" inverseName="document" inverseEntity="ProgramEntity"/>
         <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SchoolEntity" inverseName="documents" inverseEntity="SchoolEntity"/>
         <relationship name="sequence" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SequenceEntity" inverseName="documents" inverseEntity="SequenceEntity"/>

@@ -100,7 +100,7 @@ struct ClasseInfosView: View {
                 }
             }
 
-            // arrêt des notes avant conseil de classe
+            // Section arrêt des notes avant conseil de classe
             Section {
                 arretNotesList
                     .popover(isPresented: $popOverArretIsPresented) {
@@ -121,7 +121,7 @@ struct ClasseInfosView: View {
                 }
             }
 
-            // Conseils de classe
+            // Section Conseils de classe
             Section {
                 conseilList
                     .popover(isPresented: $popOverConseilIsPresented) {
@@ -142,7 +142,10 @@ struct ClasseInfosView: View {
                 }
             }
 
-            // Salle de classe utilisée
+            // Section liste des documents utiles
+            ClasseDocumentListSection(classe: classe)
+
+            // Section Salle de classe utilisée
             Section {
                 roomView
             }
@@ -153,6 +156,10 @@ struct ClasseInfosView: View {
             actions: {},
             message: { Text(alertMessage) }
         )
+        #if os(iOS)
+        .navigationTitle("Informations sur \(classe.displayString)")
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
         .task(id: classe.objectID) {
             if let school = classe.school {
                 // Demander les droits d'accès aux calendriers de l'utilisateur

@@ -98,6 +98,7 @@
 		79531D072A60A53200252A29 /* UserPref+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79531D062A60A53200252A29 /* UserPref+CoreDataClass.swift */; };
 		795415A82A129BBF00B86746 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795415A72A129BBF00B86746 /* EventManager.swift */; };
 		795695D92A2CCB6700435FDB /* WCompChapterEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795695D82A2CCB6700435FDB /* WCompChapterEntity+CoreDataClass.swift */; };
+		795716142AAD10E500DECA1F /* ClasseDocumentListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795716132AAD10E500DECA1F /* ClasseDocumentListSection.swift */; };
 		7957A8302A3759E400D64786 /* DKnowBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A82F2A3759E400D64786 /* DKnowBrowserRow.swift */; };
 		7957A8322A375D7C00D64786 /* DKnowEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A8312A375D7C00D64786 /* DKnowEditorModal.swift */; };
 		7957A8342A375DC400D64786 /* DKnowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A8332A375DC400D64786 /* DKnowViewModel.swift */; };
@@ -484,6 +485,7 @@
 		79531D062A60A53200252A29 /* UserPref+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserPref+CoreDataClass.swift"; sourceTree = "<group>"; };
 		795415A72A129BBF00B86746 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		795695D82A2CCB6700435FDB /* WCompChapterEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WCompChapterEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		795716132AAD10E500DECA1F /* ClasseDocumentListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseDocumentListSection.swift; sourceTree = "<group>"; };
 		7957A82F2A3759E400D64786 /* DKnowBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKnowBrowserRow.swift; sourceTree = "<group>"; };
 		7957A8312A375D7C00D64786 /* DKnowEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKnowEditorModal.swift; sourceTree = "<group>"; };
 		7957A8332A375DC400D64786 /* DKnowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKnowViewModel.swift; sourceTree = "<group>"; };
@@ -928,6 +930,7 @@
 			isa = PBXGroup;
 			children = (
 				79225B512A26BC38005030B5 /* ClasseInfosView.swift */,
+				795716132AAD10E500DECA1F /* ClasseDocumentListSection.swift */,
 			);
 			path = Infos;
 			sourceTree = "<group>";
@@ -2235,6 +2238,7 @@
 				79ECF1FF295A02EE008F0282 /* EleveDetail.swift in Sources */,
 				7937A2492987F7B400D0ED59 /* StepsListView.swift in Sources */,
 				797AD2B229902BCE00BE5D37 /* ActivityProgressesView.swift in Sources */,
+				795716142AAD10E500DECA1F /* ClasseDocumentListSection.swift in Sources */,
 				79A6AC9529F57DD0003705D0 /* ProgressClockView.swift in Sources */,
 				79FD219D2A33BB3700A8D925 /* DSectionViewModel.swift in Sources */,
 				79E524BD295376EA00DA99A7 /* EventListSection.swift in Sources */,

@@ -127,6 +127,7 @@ extension JsonImportExportMng {
     }
 
     /// Exporter les annexes PDF des Documents associés aux Schools
+    /// et retourner la liste des noms de fichiers exportés.
     ///
     /// Les fichiers PDF sont enregistrés dans le dossier `cache`.
     /// - Returns: La liste des noms de fichiers exportés.

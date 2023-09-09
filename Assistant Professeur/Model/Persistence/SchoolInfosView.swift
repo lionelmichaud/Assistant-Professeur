@@ -75,7 +75,7 @@ struct SchoolInfosView: View {
         }
         // .listStyle(.plain)
         #if os(iOS)
-        .navigationTitle("Informations")
+        .navigationTitle("Informations sur \(school.displayString)")
         .navigationBarTitleDisplayMode(.inline)
         #endif
     }

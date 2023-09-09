@@ -140,6 +140,11 @@ extension ClasseEntity {
         Int(groupCount)
     }
 
+    /// Nombre de documents importants dans l'établissement
+    var nbOfDocuments: Int {
+        Int(self.documentsCount)
+    }
+
     /// Nombre d'évaluations de la Classe
     var nbOfExams: Int {
         Int(examsCount)
@@ -325,6 +330,26 @@ extension ClasseEntity {
             return progresses.first?.activity
         }
         return nil
+    }
+
+    // MARK: - Computed Properties Documents
+
+    /// Liste des documents importants de l'établissement non triées
+    var allDocuments: [DocumentEntity] {
+        if let documents {
+            return (documents.allObjects as! [DocumentEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Liste des documents importants de l'établissement triées par ordre alphabétique
+    var documentsSortedByName: [DocumentEntity] {
+        let sortComparators =
+        [
+            SortDescriptor(\DocumentEntity.docName, order: .forward)
+        ]
+        return allDocuments.sorted(using: sortComparators)
     }
 
     // MARK: - Computed Properties Groups
@@ -872,7 +897,8 @@ public extension ClasseEntity {
            Annotation   : '\(viewAnnotation)'
            Discipline   : \(disciplineEnum)
            Heures       : \(heures)
-           Nb élèves    : \(elevesCount)
+           Nb élèves    : \(nbOfEleves)
+           Nb documents : \(nbOfDocuments)
            RoomID  : \(String(describing: room))
            Examens : \(String(describing: examsSortedByDate).withPrefixedSplittedLines("     "))
            Eleves  : \(String(describing: elevesSortedByName).withPrefixedSplittedLines("     "))
