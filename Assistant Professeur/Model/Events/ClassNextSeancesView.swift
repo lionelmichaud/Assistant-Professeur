@@ -61,7 +61,7 @@ struct ClassNextSeancesView: View {
                 EmptyListMessage(
                     symbolName: "clock",
                     title: "Aucun événement trouvé dans le calendrier de cet établissement pour cette classe.",
-                    message: "Les événements plannifiés dans votre agenda pour cette classe apparaîtront ici.",
+                    message: "Les événements plannifiés dans votre agenda pour cet établissement et cette classe apparaîtront ici.",
                     showAsGroupBox: true
                 )
             }
