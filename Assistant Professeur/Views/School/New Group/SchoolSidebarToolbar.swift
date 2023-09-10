@@ -47,11 +47,12 @@ extension SchoolSidebarView {
                         isShowingAbout = true
                     } label: {
                         Label(
-                            "A propos",
+                            "À propos",
                             systemImage: "info.circle"
                         )
                     }
-
+                }
+                Section {
                     // Numéros d'urgence
                     Button {
                         isShowingUrgencyTel = true
@@ -73,81 +74,83 @@ extension SchoolSidebarView {
                     }
                 }
 
-                Menu("Importer") {
-                    // Importer des fichiers JPEG pour le trombinoscope
-                    Button(role: .destructive) {
-                        isShowingImportTrombineDialog = true
-                    } label: {
-                        Label(
-                            "Importer des photos pour le trombinoscope",
-                            systemImage: "person.crop.rectangle.stack.fill"
-                        )
-                    }
-
-                    // Importer les données depuis des fichiers au format JSON
-                    Button(role: .destructive) {
-                        isShowingJsonImportConfirmDialog = true
-                    } label: {
-                        Label(
-                            "Importer les données depuis une archive",
-                            systemImage: "square.and.arrow.down"
-                        )
-                    }
-
-                    // Importer des fichiers depuis le Bundle Application
-                    Button(role: .destructive) {
-                        isShowingAppImportConfirmDialog = true
-                    } label: {
-                        Label(
-                            "Importer les données contenues dans l'Application",
-                            systemImage: "square.and.arrow.down"
-                        )
-                    }
-                }
-
-                Menu("Exporter") {
-                    // Exporter les données dans des fichiers au format JSON
-                    Button {
-                        let exportedFilesUrl = JsonImportExportMng.exportToJsonFiles()
-                        fileExportOperation = .exportJsonModel(annexFileNames: exportedFilesUrl)
-                        isExportingModel = true
-                    } label: {
-                        Label(
-                            "Archiver vos données vers des fichiers",
-                            systemImage: "square.and.arrow.up"
-                        )
-                    }
-                    // Exporter les données dans des fichiers au format CSV
-                    Button {
-                        CsvImportExportMng.exportEleves()
-                        fileExportOperation = .exportCsvEleveList
-                        isExportingModel = true
-                    } label: {
-                        Label(
-                            "Exporter les listes d'élèves au format CSV",
-                            systemImage: "square.and.arrow.up"
-                        )
-                    }
-                    Button {
-                        CsvImportExportMng.exportPrograms()
-                        fileExportOperation = .exportCsvPrograms
-                        isExportingModel = true
-                    } label: {
-                        Label(
-                            "Exporter les programmes en CSV",
-                            systemImage: "square.and.arrow.up"
-                        )
-                    }
-                    if isPad() || isMac() {
-                        Button {
-                            CsvImportExportMng.exportCompetencies()
-                            fileExportOperation = .exportCsvCompetencies
-                            isExportingModel.toggle()
+                Section {
+                    Menu("Importer") {
+                        // Importer des fichiers JPEG pour le trombinoscope
+                        Button(role: .destructive) {
+                            isShowingImportTrombineDialog = true
                         } label: {
                             Label(
-                                "Exporter les compétences en CSV",
+                                "Importer des photos pour le trombinoscope",
+                                systemImage: "person.crop.rectangle.stack.fill"
+                            )
+                        }
+                        
+                        // Importer les données depuis des fichiers au format JSON
+                        Button(role: .destructive) {
+                            isShowingJsonImportConfirmDialog = true
+                        } label: {
+                            Label(
+                                "Importer les données depuis une archive",
+                                systemImage: "square.and.arrow.down"
+                            )
+                        }
+                        
+                        // Importer des fichiers depuis le Bundle Application
+                        Button(role: .destructive) {
+                            isShowingAppImportConfirmDialog = true
+                        } label: {
+                            Label(
+                                "Importer les données contenues dans l'Application",
+                                systemImage: "square.and.arrow.down"
+                            )
+                        }
+                    }
+                    
+                    Menu("Exporter") {
+                        // Exporter les données dans des fichiers au format JSON
+                        Button {
+                            let exportedFilesUrl = JsonImportExportMng.exportToJsonFiles()
+                            fileExportOperation = .exportJsonModel(annexFileNames: exportedFilesUrl)
+                            isExportingModel = true
+                        } label: {
+                            Label(
+                                "Archiver vos données vers des fichiers",
                                 systemImage: "square.and.arrow.up"
                             )
+                        }
+                        // Exporter les données dans des fichiers au format CSV
+                        Button {
+                            CsvImportExportMng.exportEleves()
+                            fileExportOperation = .exportCsvEleveList
+                            isExportingModel = true
+                        } label: {
+                            Label(
+                                "Exporter les listes d'élèves au format CSV",
+                                systemImage: "square.and.arrow.up"
+                            )
+                        }
+                        Button {
+                            CsvImportExportMng.exportPrograms()
+                            fileExportOperation = .exportCsvPrograms
+                            isExportingModel = true
+                        } label: {
+                            Label(
+                                "Exporter les programmes en CSV",
+                                systemImage: "square.and.arrow.up"
+                            )
+                        }
+                        if isPad() || isMac() {
+                            Button {
+                                CsvImportExportMng.exportCompetencies()
+                                fileExportOperation = .exportCsvCompetencies
+                                isExportingModel.toggle()
+                            } label: {
+                                Label(
+                                    "Exporter les compétences en CSV",
+                                    systemImage: "square.and.arrow.up"
+                                )
+                            }
                         }
                     }
                 }
@@ -168,7 +171,7 @@ extension SchoolSidebarView {
                         isShowingDeleteConfirmDialog = true
                     } label: {
                         Label(
-                            "Supprimer toutes vos données",
+                            "Supprimer toutes les données",
                             systemImage: "trash"
                         )
                     }
@@ -205,7 +208,7 @@ extension SchoolSidebarView {
                     }
                 }
             } message: {
-                Text("L'importation va remplacer vos données actuelles par celles contenues dans les fichiers importés.\n") +
+                Text("L'importation va remplacer les données actuelles par celles contenues dans les fichiers importés.\n") +
                     Text("Cette action ne peut pas être annulée.")
             }
 
@@ -221,7 +224,7 @@ extension SchoolSidebarView {
                     }
                 }
             } message: {
-                Text("L'importation va remplacer vos données actuelles par celles contenues dans l'Application.\n") +
+                Text("L'importation va remplacer les données actuelles par celles contenues dans l'Application.\n") +
                     Text("Cette action ne peut pas être annulée.")
             }
 

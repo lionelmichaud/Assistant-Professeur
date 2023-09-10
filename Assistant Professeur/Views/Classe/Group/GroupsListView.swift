@@ -163,6 +163,7 @@ extension GroupsListView {
                     isEditing.toggle()
                 }
                 .buttonStyle(.bordered)
+                .disabled(!isEditing && classe.nbOfGroups == 1)
             }
         }
 

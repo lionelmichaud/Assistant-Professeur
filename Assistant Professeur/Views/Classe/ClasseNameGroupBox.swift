@@ -32,7 +32,7 @@ struct ClasseNameGroupBox: View {
             }
 
             /// SEGPA ou pas
-            if classe.school!.levelEnum == .college {
+            if let school = classe.school, school.levelEnum == .college {
                 Toggle(isOn: $classe.viewSegpa.animation()) {
                     Text("SEGPA")
                 }
