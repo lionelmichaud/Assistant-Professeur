@@ -658,6 +658,13 @@ extension EleveEntity {
         self.id = UUID()
     }
 
+    /// Supprime la photo de l'élève.
+    /// - Important: *Saves the context to the store after modification is done*
+    func deleteTrombine() {
+        trombine = nil
+        try? EleveEntity.saveIfContextHasChanged()
+    }
+
     func sortedObservations(
         isConsignee: Bool? = nil,
         isVerified: Bool? = nil

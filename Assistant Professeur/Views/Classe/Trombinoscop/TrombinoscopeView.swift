@@ -32,6 +32,9 @@ struct TrombinoscopeView: View {
     private var isShowingResetBonuConfirmDialog: Bool = false
 
     @State
+    private var isShowingDeleteTrombinesConfirmDialog: Bool = false
+
+    @State
     private var searchString: String = ""
 
     @State
@@ -59,28 +62,61 @@ struct TrombinoscopeView: View {
         }
         .padding(2)
         .toolbar {
+            // Effacements
             ToolbarItemGroup(placement: .destructiveAction) {
-                Button(role: .destructive) {
-                    isShowingResetBonuConfirmDialog.toggle()
-                } label: {
-                    Image(systemName: "eraser.fill")
-                        .tint(.red)
-                }
-                // Confirmation de Reset des Bonus / Malus de tous les élèves
-                .confirmationDialog(
-                    "Effacement des Bonus / Malus",
-                    isPresented: $isShowingResetBonuConfirmDialog,
-                    titleVisibility: .visible
-                ) {
-                    Button("Effacer", role: .destructive) {
-                        withAnimation {
-                            resetBonusMalus()
-                        }
+                Menu {
+                    Button(role: .destructive) {
+                        isShowingResetBonuConfirmDialog.toggle()
+                    } label: {
+                        Label(
+                            "Remise à zéro des Bonus / Malus",
+                            systemImage: "eraser.fill"
+                        ).tint(.red)
                     }
-                } message: {
-                    Text("Cette action remettra à zéro le bonus / malus de tous les élèves de la classe.")
+
+                    Button(role: .destructive) {
+                        isShowingDeleteTrombinesConfirmDialog.toggle()
+                    } label: {
+                        Label(
+                            "Supprimer les photos",
+                            systemImage: "eraser.fill"
+                        ).tint(.red)
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                        // Confirmation de suppression des photos de tous les élèves
+                        .confirmationDialog(
+                            "Suppression des photos",
+                            isPresented: $isShowingDeleteTrombinesConfirmDialog,
+                            titleVisibility: .visible
+                        ) {
+                            Button("Effacer", role: .destructive) {
+                                withAnimation {
+                                    deleteAllTrombines()
+                                }
+                            }
+                        } message: {
+                            Text("Cette action supprimera les photos de tous les élèves de la classe.")
+                        }
+                        // Confirmation de Reset des Bonus / Malus de tous les élèves
+                        .confirmationDialog(
+                            "Effacement des Bonus/Malus",
+                            isPresented: $isShowingResetBonuConfirmDialog,
+                            titleVisibility: .visible
+                        ) {
+                            Button("Effacer", role: .destructive) {
+                                withAnimation {
+                                    resetAllBonusMalus()
+                                }
+                            }
+                        } message: {
+                            Text("Cette action remettra à zéro le bonus / malus de tous les élèves de la classe.")
+                        }
                 }
+                .disabled(classe.nbOfEleves == 0)
             }
+
+            // Choix du mode d'affichage
             ToolbarItemGroup(placement: .automatic) {
                 Picker("Présentation", selection: $pictureSize.animation()) {
                     Image(systemName: "minus.magnifyingglass")
@@ -104,18 +140,26 @@ struct TrombinoscopeView: View {
         .autocorrectionDisabled()
     }
 
-    private func resetBonusMalus() {
+    // MARK: - Methods
+
+    private func resetAllBonusMalus() {
         classe.allEleves.forEach { eleve in
             eleve.bonus = 0
         }
         try? ClasseEntity.saveIfContextHasChanged()
     }
+
+    private func deleteAllTrombines() {
+        classe.allEleves.forEach { eleve in
+            eleve.deleteTrombine()
+        }
+    }
 }
 
- struct TrombinoscopeView_Previews: PreviewProvider {
-     static func initialize() {
-         DataBaseManager.populateWithMockData(storeType: .inMemory)
-     }
+struct TrombinoscopeView_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
 
     static var previews: some View {
         initialize()
@@ -135,4 +179,4 @@ struct TrombinoscopeView: View {
             .previewDevice("iPhone 13")
         }
     }
- }
+}
