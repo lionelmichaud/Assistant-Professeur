@@ -19,6 +19,9 @@ struct SchoolNextSeancesView: View {
     private var schoolSeances: SeancesInDateInterval = .init()
 
     @State
+    private var popOverIsPresented: Bool = false
+
+    @State
     private var eventStore = EKEventStore()
 
     @State
@@ -32,6 +35,18 @@ struct SchoolNextSeancesView: View {
 
     @State
     private var alertIsPresented = false
+
+    private var infoView: some View {
+        VStack {
+            Text("Pour apparaître ici les noms des événements")
+            Text("du calendrier de cet établissement doivent contenir:")
+            Text("\"**Acronyme Discipline - Classe**\"\n")
+            Text("Exemple: pour la discipline de \(Discipline.technologie.pickerString),")
+            Text("et la classe de 4ième 2: \"**TECHNO - 4E2)**\"")
+        }
+        .foregroundColor(.primary)
+        .padding()
+    }
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
@@ -130,6 +145,19 @@ struct SchoolNextSeancesView: View {
         #if os(iOS)
         .navigationTitle("Cours à venir")
         #endif
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                // Afficher le PopOver d'information surle format à utiliser
+                Button {
+                    popOverIsPresented = true
+                } label: {
+                    Image(systemName: "info.circle")
+                }
+                .popover(isPresented: $popOverIsPresented) {
+                    infoView
+                }
+            }
+        }
         .navigationBarTitleDisplayModeInline()
     }
 }

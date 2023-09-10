@@ -104,7 +104,7 @@ struct ClasseInfosView: View {
             Section {
                 arretNotesList
                     .popover(isPresented: $popOverArretIsPresented) {
-                        Text("Nom requis pour l'événement du calendrier: \"**Arrêt notes - Niveau**\"")
+                        Text("Nom requis pour l'événement du calendrier de cet établissement: \"**Arrêt notes - Niveau**\". Exemple: \"**Arrêt notes - 5E**\"")
                             .foregroundColor(.primary)
                             .padding()
                     }
@@ -119,13 +119,15 @@ struct ClasseInfosView: View {
                         Image(systemName: "info.circle")
                     }
                 }
+            } footer: {
+                Text("Les événements du calendrier de cet établissement nommés \"**Arrêt notes - Niveau**\" apparaissent ici.")
             }
 
             // Section Conseils de classe
             Section {
                 conseilList
                     .popover(isPresented: $popOverConseilIsPresented) {
-                        Text("Nom requis pour l'événement du calendrier: \"**Conseil - Classe**\"")
+                        Text("Nom requis pour l'événement du calendrier de cet établissement: \"**Conseil - Classe**\". Exemple: \"**Conseil - 5E2**\"")
                             .foregroundColor(.primary)
                             .padding()
                     }
@@ -140,6 +142,8 @@ struct ClasseInfosView: View {
                         Image(systemName: "info.circle")
                     }
                 }
+            } footer: {
+                Text("Les événements du calendrier de cet établissement nommés \"**Conseil - Classe**\" apparaissent ici.")
             }
 
             // Section liste des documents utiles
