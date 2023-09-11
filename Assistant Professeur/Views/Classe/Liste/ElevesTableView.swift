@@ -11,6 +11,16 @@ struct ElevesTableView: View {
     @ObservedObject
     var classe: ClasseEntity
 
+    // MARK: - Internal Type
+
+    struct TransfertDetails {
+        var eleves = [EleveEntity]()
+        var oldClasse: ClasseEntity? = nil
+        var newClasse: ClasseEntity? = nil
+    }
+
+    // MARK: - Private
+
     @EnvironmentObject
     private var navigationModel: NavigationModel
 
@@ -40,11 +50,39 @@ struct ElevesTableView: View {
     @State
     private var searchString: String = ""
 
+    @State
+    private var isShowingChangeClasseConfirmDialog = false
+
+    @State
+    private var transfertDetails = TransfertDetails()
+
     // MARK: - Computed Properties
 
     private var selectedEleve: EleveEntity? {
         if let first = selection.first {
             return EleveEntity.byObjectIdentifier(objectID: first)
+        } else {
+            return nil
+        }
+    }
+
+    private var selectedEleves: [EleveEntity] {
+        selection.compactMap { selection in
+            EleveEntity.byObjectIdentifier(objectID: selection)
+        }
+    }
+
+    private var selectedElevesSchool: SchoolEntity? {
+        if let first = selection.first {
+            return EleveEntity.byObjectIdentifier(objectID: first)?.classe?.school
+        } else {
+            return nil
+        }
+    }
+
+    private var selectedElevesClasse: ClasseEntity? {
+        if let first = selection.first {
+            return EleveEntity.byObjectIdentifier(objectID: first)?.classe
         } else {
             return nil
         }
@@ -190,8 +228,31 @@ extension ElevesTableView {
                     systemImage: "info.circle"
                 )
             }
-            .disabled(selection.count != 1 || EleveEntity
-                .byObjectIdentifier(objectID: selection.first!) == nil)
+            .disabled(selection.count != 1 ||
+                EleveEntity.byObjectIdentifier(objectID: selection.first!) == nil)
+            // Confirmation du changement de classe d'un élève
+            .confirmationDialog(
+                "Changement de classe",
+                isPresented: $isShowingChangeClasseConfirmDialog,
+                titleVisibility: .visible,
+                presenting: transfertDetails
+            ) { transfertDetails in
+                Button("Transférer", role: .destructive) {
+                    transfertDetails
+                        .eleves
+                        .forEach { eleve in
+                            if let newClasse = transfertDetails.newClasse {
+                                eleve.changerDeClasse(newClasse: newClasse)
+                            }
+                        }
+                }
+            } message: { transfertDetails in
+                VStack {
+                    Text("Transférer les élèves de la classe de \(transfertDetails.oldClasse!.displayString) vers la la classe de \(transfertDetails.newClasse!.displayString).")
+                    Text("Cette action ne peut pas être annulée.")
+                        .padding(.top)
+                }
+            }
         }
 
         ToolbarItem(placement: .primaryAction) {
@@ -295,6 +356,29 @@ extension ElevesTableView {
                 )
             }
             .disabled(selection.count != 1)
+
+            if selection.isNotEmpty && selectedElevesSchool != nil {
+                Menu("Changer de classe") {
+                    // Pour chaque classe de l'établissement
+                    ForEach(selectedElevesSchool!.classesSortedByLevelNumber) { classe in
+                        Button {
+                            transfertDetails = .init(
+                                eleves: selectedEleves,
+                                oldClasse: selectedElevesClasse,
+                                newClasse: classe
+                            )
+                            isShowingChangeClasseConfirmDialog.toggle()
+                        } label: {
+                            Label {
+                                Text(classe.displayString)
+                            } icon: {
+                                Image(systemName: ClasseEntity.defaultImageName)
+                                    .foregroundColor(classe.levelEnum.imageColor)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

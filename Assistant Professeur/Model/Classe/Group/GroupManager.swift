@@ -27,6 +27,7 @@ enum GroupManager {
     }
 
     /// Retire un `eleve`de son groupe et le rend non affecté
+    /// en l'affectant au grouep 0 des élèves non affectés.
     static func unassignFromItsGroup(eleve: EleveEntity) {
         eleve.group = eleve.classe!.groupOfUngroupedEleves
         try? EleveEntity.saveIfContextHasChanged()

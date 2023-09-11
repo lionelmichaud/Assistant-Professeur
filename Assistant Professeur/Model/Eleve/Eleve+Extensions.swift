@@ -564,6 +564,7 @@ extension EleveEntity {
                 }
             }
 
+            // TODO: - Réparer
             if eleve.hasAddTime && !eleve.hasTrouble {
                 errorList.append(DataBaseError.internalInconsistency(
                     entity: Self.entity().name!,
@@ -573,6 +574,18 @@ extension EleveEntity {
                     id: eleve.id
                 ))
             }
+
+            // TODO: - Réparer si l'élève an'ppartient à aucun groupe de sa classe (=> groupe 0)
+            if eleve.group == nil {
+                errorList.append(DataBaseError.outOfBound(
+                    entity: Self.entity().name!,
+                    name: eleve.displayName,
+                    attribute: "group",
+                    id: eleve.id
+                ))
+            }
+
+            // TODO: - Vérifier qu les notes de l'élèves sont associées à une évaluation des sa classe (et pas à une autres classe)
         }
     }
 
@@ -624,7 +637,7 @@ extension EleveEntity {
 
     // MARK: - Computed Properties
 
-    /// Liste des élèves de la classe non triées
+    /// Liste des colles de l'élève non triées
     var allColles: [ColleEntity] {
         if let colles {
             return (colles.allObjects as! [ColleEntity])
@@ -633,10 +646,19 @@ extension EleveEntity {
         }
     }
 
-    /// Liste des élèves de la classe non triées
+    /// Liste des observations de l'élève non triées
     var allObservs: [ObservEntity] {
         if let observs {
             return (observs.allObjects as! [ObservEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Liste des notes de l'élève non triées
+    var allMarks: [MarkEntity] {
+        if let marks {
+            return (marks.allObjects as! [MarkEntity])
         } else {
             return []
         }
@@ -664,6 +686,26 @@ extension EleveEntity {
         trombine = nil
         try? EleveEntity.saveIfContextHasChanged()
     }
+
+    /// Changer l'élève de classe.
+    ///
+    /// Après transfert l'élève n'appartient à aucun groupe de s anouvelle classe,
+    /// n'a plus de place attribuée dans la salle de classe
+    /// et toutes ses notes d'évluation sont supprimées.
+    /// - Parameter newClasse: Nouvelle classe de l'élève.
+    /// - Important: *Saves the context to the store after modification is done*
+    func changerDeClasse(newClasse: ClasseEntity) {
+        self.classe = newClasse
+        self.seat = nil
+        self.group = newClasse.groupOfUngroupedEleves
+        self.allMarks.forEach { mark in
+            try? mark.delete()
+        }
+
+        try? EleveEntity.saveIfContextHasChanged()
+    }
+
+    // MARK: - Methods Observations
 
     func sortedObservations(
         isConsignee: Bool? = nil,
@@ -712,6 +754,8 @@ extension EleveEntity {
                     }
         }
     }
+
+    // MARK: - Methods Colles
 
     func sortedColles(
         isConsignee: Bool? = nil,

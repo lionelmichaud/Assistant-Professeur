@@ -25,6 +25,12 @@ struct EleveDetail: View {
     private var isAddingNewColle = false
 
     @State
+    private var isShowingChangeClasseConfirmDialog = false
+
+    @State
+    private var newClasse: ClasseEntity?
+
+    @State
     private var bonusIsExpanded = false
 
     @ObservedObject
@@ -40,6 +46,122 @@ struct EleveDetail: View {
         navigationModel.filterColle
     }
 
+    var body: some View {
+        VStack {
+            // nom
+            EleveNameGroupBox(
+                eleve: eleve,
+                isEditing: isEditing
+            )
+
+            List {
+                // appréciation sur l'élève
+                if pref.viewElevePref.appreciationEnabled {
+                    AppreciationView(appreciation: $eleve.viewAppreciation)
+                }
+                // annotation sur l'élève
+                if pref.viewElevePref.annotationEnabled {
+                    AnnotationEditView(annotation: $eleve.viewAnnotation)
+                }
+                // bonus/malus de l'élève
+                if pref.viewElevePref.bonusEnabled {
+                    bonusView
+                }
+                // observations sur l'élève
+                observationsView
+                // colles de l'élève
+                collesView
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .confirmationAction) {
+                Button {
+                    // Appliquer les modifications faites à l'élève
+                    if isEditing {
+                        // supprimer les caractères blancs au début et à la fin
+                        eleve.viewFamilyName = eleve.viewFamilyName.trimmed.uppercased()
+                        eleve.viewGivenName.trim()
+                    }
+                    withAnimation {
+                        isEditing.toggle()
+                    }
+                } label: {
+                    Text(isEditing ? "Ok" : "Modifier")
+                }
+            }
+
+            ToolbarItemGroup(placement: .destructiveAction) {
+                Menu {
+                    Menu("changer de classe") {
+                        if let school = eleve.classe?.school {
+                            // Pour chaque classe de l'établissemeent
+                            ForEach(school.classesSortedByLevelNumber) { classe in
+                                if classe.objectID != eleve.classe?.objectID {
+                                    Button {
+                                        newClasse = classe
+                                        isShowingChangeClasseConfirmDialog.toggle()
+                                    } label: {
+                                        Label {
+                                            Text(classe.displayString)
+
+                                        } icon: {
+                                            Image(systemName: ClasseEntity.defaultImageName)
+                                                .foregroundColor(classe.levelEnum.imageColor)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } label: {
+                    Label("Autres actions", systemImage: "ellipsis.circle")
+                        .imageScale(.large)
+                        .padding(4)
+                }
+                // Confirmation du changement de classe d'un élève
+                .confirmationDialog(
+                    "Changement de classe",
+                    isPresented: $isShowingChangeClasseConfirmDialog,
+                    titleVisibility: .visible,
+                    presenting: newClasse
+                ) { newClasse in
+                    Button("Transférer", role: .destructive) {
+                        eleve.changerDeClasse(newClasse: newClasse)
+                    }
+                } message: { newClasse in
+                    VStack {
+                        Text("Transférer l'élève de la classe de \(eleve.classe!.displayString) vers la la classe de \(newClasse.displayString).")
+                        Text("Cette action ne peut pas être annulée.")
+                            .padding(.top)
+                    }
+                }
+            }
+        }
+        #if os(iOS)
+        .navigationTitle("Élève")
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .onAppear {
+            bonusIsExpanded = (eleve.bonus != 0)
+        }
+        .sheet(isPresented: $isAddingNewObserv) {
+            NavigationStack {
+                ObservCreatorModal(eleve: eleve)
+                    .presentationDetents([.medium])
+            }
+        }
+        .sheet(isPresented: $isAddingNewColle) {
+            NavigationStack {
+                ColleCreatorModal(eleve: eleve)
+                    .presentationDetents([.medium])
+            }
+        }
+    }
+}
+
+// MARK: - Subviews
+
+extension EleveDetail {
     private var bonusView: some View {
         Stepper(
             value: $eleve.viewBonus,
@@ -100,7 +222,7 @@ struct EleveDetail: View {
             Text("Observations (\(eleve.nbOfObservs))")
                 .style(.sectionHeader)
         }
-//        .headerProminence(.increased)
+        //        .headerProminence(.increased)
     }
 
     private var collesView: some View {
@@ -142,88 +264,23 @@ struct EleveDetail: View {
                 .style(.sectionHeader)
         }
     }
-
-    var body: some View {
-        VStack {
-            // nom
-            EleveNameGroupBox(
-                eleve: eleve,
-                isEditing: isEditing
-            )
-
-            List {
-                // appréciation sur l'élève
-                if pref.viewElevePref.appreciationEnabled {
-                    AppreciationView(appreciation: $eleve.viewAppreciation)
-                }
-                // annotation sur l'élève
-                if pref.viewElevePref.annotationEnabled {
-                    AnnotationEditView(annotation: $eleve.viewAnnotation)
-                }
-                // bonus/malus de l'élève
-                if pref.viewElevePref.bonusEnabled {
-                    bonusView
-                }
-                // observations sur l'élève
-                observationsView
-                // colles de l'élève
-                collesView
-            }
-        }
-        .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-                Button {
-                    // Appliquer les modifications faites à l'élève
-                    if isEditing {
-                        // supprimer les caractères blancs au début et à la fin
-                        eleve.viewFamilyName = eleve.viewFamilyName.trimmed.uppercased()
-                        eleve.viewGivenName.trim()
-                    }
-                    withAnimation {
-                        isEditing.toggle()
-                    }
-                } label: {
-                    Text(isEditing ? "Ok" : "Modifier")
-                }
-            }
-        }
-        #if os(iOS)
-        .navigationTitle("Élève")
-        .navigationBarTitleDisplayMode(.inline)
-        #endif
-        .onAppear {
-            bonusIsExpanded = (eleve.bonus != 0)
-        }
-        .sheet(isPresented: $isAddingNewObserv) {
-            NavigationStack {
-                ObservCreatorModal(eleve: eleve)
-                    .presentationDetents([.medium])
-            }
-        }
-        .sheet(isPresented: $isAddingNewColle) {
-            NavigationStack {
-                ColleCreatorModal(eleve: eleve)
-                    .presentationDetents([.medium])
-            }
-        }
-    }
 }
 
- struct EleveDetail_Previews: PreviewProvider {
-     static func initialize() {
-         DataBaseManager.populateWithMockData(storeType: .inMemory)
-     }
+struct EleveDetail_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
 
-     static var previews: some View {
-         initialize()
-         return Group {
-             EleveDetail(eleve: EleveEntity.all().first!)
-                 .previewDevice("iPad mini (6th generation)")
+    static var previews: some View {
+        initialize()
+        return Group {
+            EleveDetail(eleve: EleveEntity.all().first!)
+                .previewDevice("iPad mini (6th generation)")
 
-             EleveDetail(eleve: EleveEntity.all().first!)
-                 .previewDevice("iPhone 13")
-         }
-         .environmentObject(NavigationModel(selectedEleveMngObjId: EleveEntity.all().first!.objectID))
-         .environment(\.managedObjectContext, CoreDataManager.shared.context)
-     }
- }
+            EleveDetail(eleve: EleveEntity.all().first!)
+                .previewDevice("iPhone 13")
+        }
+        .environmentObject(NavigationModel(selectedEleveMngObjId: EleveEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+    }
+}
