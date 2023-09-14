@@ -430,7 +430,33 @@ extension ClasseEntity {
         filteredElevesSortedByName(searchString: "")
     }
 
-    // MARK: - Type Methods
+    // MARK: - Computed Properties Bonus/Malus
+
+    /// Bonus/Malus moyen de la classe
+    var averageBonus: Double {
+        guard self.nbOfEleves != 0 else {
+            return 0
+        }
+        return self.allEleves.sum(for: \.viewBonus).double() / self.nbOfEleves.double()
+    }
+
+    /// Bonus/Malus minimum de la classe
+    var minBonus: Int {
+        guard self.nbOfEleves != 0 else {
+            return 0
+        }
+        return self.allEleves.min(\.viewBonus)
+    }
+
+    /// Bonus/Malus maximum de la classe
+    var maxBonus: Int {
+        guard self.nbOfEleves != 0 else {
+            return 0
+        }
+        return self.allEleves.max(\.viewBonus)
+    }
+
+   // MARK: - Type Methods
 
     /// Créer une nouvelle classe et l'ajouter à l'établissement `school`
     /// - Important: Sauvegarder le Context.
