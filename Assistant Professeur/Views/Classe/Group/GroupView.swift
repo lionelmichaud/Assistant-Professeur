@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 16/10/2022.
 //
 
+import CoreData
 import SwiftUI
 
 /// Liste des élèves d'un groupe donné
@@ -23,6 +24,9 @@ struct GroupView: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
 
+    @State
+    private var permutationEleve: EleveEntity?
+
     // MARK: - Computed Properties
 
     private var groupIsEditable: Bool {
@@ -34,7 +38,7 @@ struct GroupView: View {
     var body: some View {
         Group {
             if groupIsEditable && isEditing {
-                // ajouter au groupe un élève parmis ceux qui ne sont affectés à aucun groupe
+                // Ajouter au groupe un élève parmis ceux qui ne font pas partis du groupe
                 Menu {
                     ForEach(classe.elevesSortedByName) { eleve in
                         Button {
@@ -50,6 +54,7 @@ struct GroupView: View {
                                 systemImage: EleveEntity.defaultImageName
                             )
                         }
+                        .disabled(eleve.group == groupe)
                     }
                 } label: {
                     Label(
@@ -86,6 +91,17 @@ struct GroupView: View {
                             }
                         }
                     }
+
+                    // permuter l'élève avec un élève d'un autre groupe
+                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                        if groupIsEditable && isEditing {
+                            Button {
+                                permutationEleve = eleve
+                            } label: {
+                                Text("Permuter avec...")
+                            }
+                        }
+                    }
             }
 
             if groupIsEditable && isEditing {
@@ -102,6 +118,57 @@ struct GroupView: View {
                 }
             }
         }
+
+        .sheet(item: $permutationEleve) { eleve in
+            NavigationStack {
+                SelectElevePermuterDialog(eleve: eleve)
+                    .presentationDetents([.medium])
+            }
+        }
+    }
+}
+
+/// Dialogue de sélection de l'élève avec qui permuter et exécution de la pertutation
+struct SelectElevePermuterDialog: View {
+    let eleve: EleveEntity
+
+    @Environment(\.dismiss)
+    private var dismiss
+
+    @State
+    private var selectedEleve: EleveEntity? // EleveEntity.ID?
+
+    var body: some View {
+        List {
+            Picker(selection: $selectedEleve) {
+                ForEach(eleve.classe!.elevesSortedByName) { eleve in
+                    Text(eleve.displayName).tag(Optional(eleve))
+                }
+            } label: {
+                Label("Cet élève", systemImage: EleveEntity.defaultImageName)
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Annuler", role: .cancel) {
+                    dismiss()
+                }
+            }
+            ToolbarItem {
+                Button("Ok") {
+                    if let selectedEleve {
+                        withAnimation {
+                            GroupManager.permuter(thisEleve: eleve,
+                                                  withThisEleve: selectedEleve)
+                        }
+                    }
+                    dismiss()
+                }
+            }
+        }
+        #if os(iOS)
+        .navigationTitle("Permuter avec...")
+        #endif
     }
 }
 

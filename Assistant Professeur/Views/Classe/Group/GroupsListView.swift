@@ -8,7 +8,7 @@
 import AppFoundation
 import SwiftUI
 
-/// Liste des groupes d'une classe présentant la liste des élèves de chaque groupe
+/// Liste des groupes d'une classe présentant, pour chaque groupe, la liste des élèves du groupe
 struct GroupsListView: View {
     @ObservedObject
     var classe: ClasseEntity

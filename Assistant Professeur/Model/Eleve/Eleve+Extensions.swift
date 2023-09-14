@@ -215,12 +215,25 @@ extension EleveEntity {
         Int(collesCount)
     }
 
+    /// Retourne le numéro su groupe d'appartenance de l'élève.
+    /// Retourne 0 si l'élève n'appartient à aucun groupe.
     var groupInt: Int {
         Int(group?.number ?? 0)
     }
 
+    /// Retourne True si l'élève n'appartient à aucun groupe.
+    var isUngrouped: Bool {
+        groupInt == 0
+    }
+
+    /// Retourne True si l'élève appartient à un groupe.
+    var isGrouped: Bool {
+        groupInt > 0
+    }
+
     // MARK: - Methods
 
+    /// Retourne True sir les deux élèves portent les même **Nom** et **Prénoms**.
     func isSameAs(_ eleve: EleveEntity) -> Bool {
         self.familyName == eleve.familyName &&
             self.givenName == eleve.givenName

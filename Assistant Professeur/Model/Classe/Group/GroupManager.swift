@@ -18,6 +18,7 @@ enum GroupManager {
     /// Affecte un `eleve`au groupe n°`toGroupNumber`de sa classe
     /// - Parameters:
     ///   - toGroupNumber: groupe d'affectation
+    /// - Important: The context has changes and **is commited**
     static func assign(
         eleve: EleveEntity,
         toGroupNumber: Int
@@ -28,9 +29,41 @@ enum GroupManager {
 
     /// Retire un `eleve`de son groupe et le rend non affecté
     /// en l'affectant au grouep 0 des élèves non affectés.
+    /// - Important: The context has changes and **is commited**
     static func unassignFromItsGroup(eleve: EleveEntity) {
         eleve.group = eleve.classe!.groupOfUngroupedEleves
         try? EleveEntity.saveIfContextHasChanged()
+    }
+
+    /// permuter deux élèves entre leur groupe respectif.
+    /// - Parameters:
+    ///   - eleve1: Elève à permuter
+    ///   - eleve2: Avec cet élève
+    /// - Important: The context has changes and **is commited**
+    static func permuter(
+        thisEleve eleve1: EleveEntity,
+        withThisEleve eleve2: EleveEntity
+    ) {
+        guard eleve1.isGrouped && eleve2.isGrouped else {
+            customLog.log(
+                level: .error,
+                "Tentative de permuter deux élèves dont l'un au moins n'appartient à aucun groupe."
+            )
+            return
+        }
+        guard eleve1.classe == eleve2.classe else {
+            customLog.log(
+                level: .error,
+                "Tentative de permuter deux élèves qui n'appartiennent pas à la même classe."
+            )
+            return
+        }
+        if let groupe1Number = eleve1.group?.viewNumber,
+           let groupe2Number = eleve2.group?.viewNumber {
+            eleve1.group = eleve1.classe!.groupe(number: groupe2Number)
+            eleve2.group = eleve2.classe!.groupe(number: groupe1Number)
+            try? EleveEntity.saveIfContextHasChanged()
+        }
     }
 
     /// Former les groupes par ordre alphabétique dans la `classe`.

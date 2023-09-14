@@ -15,8 +15,8 @@ struct ElevesTableView: View {
 
     struct TransfertDetails {
         var eleves = [EleveEntity]()
-        var oldClasse: ClasseEntity? = nil
-        var newClasse: ClasseEntity? = nil
+        var oldClasse: ClasseEntity?
+        var newClasse: ClasseEntity?
     }
 
     // MARK: - Private
