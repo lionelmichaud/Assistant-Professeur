@@ -141,8 +141,9 @@ struct SelectElevePermuterDialog: View {
     var body: some View {
         List {
             Picker(selection: $selectedEleve) {
-                ForEach(eleve.classe!.elevesSortedByName) { eleve in
-                    Text(eleve.displayName).tag(Optional(eleve))
+                ForEach(eleve.classe!.elevesSortedByName) { eleve2 in
+                    Text("\(eleve2.displayName) (groupe \(eleve2.group?.number ?? 0))").tag(Optional(eleve2))
+                        .disabled(eleve2.group == eleve.group)
                 }
             } label: {
                 Label("Cet élève", systemImage: EleveEntity.defaultImageName)
@@ -167,7 +168,8 @@ struct SelectElevePermuterDialog: View {
             }
         }
         #if os(iOS)
-        .navigationTitle("Permuter avec...")
+        .navigationTitle("Permuter \(eleve.displayName) avec...")
+        .navigationBarTitleDisplayMode(.inline)
         #endif
     }
 }
