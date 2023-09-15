@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct BonusMalusView: View {
+/// Affiche les statistiques de Bonus / Malus d'une classe avec ou sans le nom de la classe
+struct BonusMalusGroupBox: View {
     let minBonus: Int
     let maxBonus: Int
     let averageBonus: Double
@@ -32,11 +33,12 @@ struct BonusMalusView: View {
                     format: .number
                 )
             }
+            .frame(maxWidth: 200)
         } label: {
             VStack {
                 Label("Bonus / Malus", systemImage: "plusminus")
                     .bold()
-                
+
                 if let showClasse {
                     HStack {
                         Image(systemName: ClasseEntity.defaultImageName)

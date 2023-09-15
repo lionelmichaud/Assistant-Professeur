@@ -98,7 +98,7 @@ struct ClasseInfosView: View {
                 if pref.viewClasseAnnotationEnabled {
                     AnnotationEditView(annotation: $classe.viewAnnotation)
                 }
-                BonusMalusView(
+                BonusMalusGroupBox(
                     minBonus: classe.minBonus,
                     maxBonus: classe.maxBonus,
                     averageBonus: classe.averageBonus,

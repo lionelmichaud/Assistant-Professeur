@@ -11,8 +11,10 @@
 		79012C6E2A39EB7300BF0772 /* CsvExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C6D2A39EB7300BF0772 /* CsvExport.swift */; };
 		79012C712A39F7A000BF0772 /* JsonImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C702A39F7A000BF0772 /* JsonImport.swift */; };
 		79012C732A39F84B00BF0772 /* JsonExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C722A39F84B00BF0772 /* JsonExport.swift */; };
-		790510BB2AB377ED006CCC5B /* BonusMalusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510BA2AB377ED006CCC5B /* BonusMalusView.swift */; };
+		790510BB2AB377ED006CCC5B /* BonusMalusGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510BA2AB377ED006CCC5B /* BonusMalusGroupBox.swift */; };
 		790510BE2AB4B54A006CCC5B /* SchoolBonusMalusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510BD2AB4B54A006CCC5B /* SchoolBonusMalusView.swift */; };
+		790510C02AB4C462006CCC5B /* SchoolBonusMalusList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510BF2AB4C462006CCC5B /* SchoolBonusMalusList.swift */; };
+		790510C22AB4C4B3006CCC5B /* SchoolBonusMalusChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510C12AB4C4B3006CCC5B /* SchoolBonusMalusChart.swift */; };
 		790A10712A472C5500BA3F5C /* ActivityTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790A10702A472C5500BA3F5C /* ActivityTagList.swift */; };
 		790A2AF32A6ACB55002A2900 /* PdfViewConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790A2AF22A6ACB55002A2900 /* PdfViewConverter.swift */; };
 		790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */; };
@@ -406,8 +408,10 @@
 		79012C6D2A39EB7300BF0772 /* CsvExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvExport.swift; sourceTree = "<group>"; };
 		79012C702A39F7A000BF0772 /* JsonImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonImport.swift; sourceTree = "<group>"; };
 		79012C722A39F84B00BF0772 /* JsonExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonExport.swift; sourceTree = "<group>"; };
-		790510BA2AB377ED006CCC5B /* BonusMalusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusView.swift; sourceTree = "<group>"; };
+		790510BA2AB377ED006CCC5B /* BonusMalusGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusGroupBox.swift; sourceTree = "<group>"; };
 		790510BD2AB4B54A006CCC5B /* SchoolBonusMalusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolBonusMalusView.swift; sourceTree = "<group>"; };
+		790510BF2AB4C462006CCC5B /* SchoolBonusMalusList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolBonusMalusList.swift; sourceTree = "<group>"; };
+		790510C12AB4C4B3006CCC5B /* SchoolBonusMalusChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolBonusMalusChart.swift; sourceTree = "<group>"; };
 		790A10702A472C5500BA3F5C /* ActivityTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTagList.swift; sourceTree = "<group>"; };
 		790A2AF22A6ACB55002A2900 /* PdfViewConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfViewConverter.swift; sourceTree = "<group>"; };
 		790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAgenda.swift; sourceTree = "<group>"; };
@@ -810,7 +814,7 @@
 		790510B92AB377C2006CCC5B /* BonusMalus */ = {
 			isa = PBXGroup;
 			children = (
-				790510BA2AB377ED006CCC5B /* BonusMalusView.swift */,
+				790510BA2AB377ED006CCC5B /* BonusMalusGroupBox.swift */,
 			);
 			path = BonusMalus;
 			sourceTree = "<group>";
@@ -819,6 +823,8 @@
 			isa = PBXGroup;
 			children = (
 				790510BD2AB4B54A006CCC5B /* SchoolBonusMalusView.swift */,
+				790510BF2AB4C462006CCC5B /* SchoolBonusMalusList.swift */,
+				790510C12AB4C4B3006CCC5B /* SchoolBonusMalusChart.swift */,
 			);
 			path = BonusMalus;
 			sourceTree = "<group>";
@@ -2132,6 +2138,7 @@
 				79D573472927EEDE00B0B7B8 /* SchoolViewModel.swift in Sources */,
 				7974CD0E2A2BF358004B3716 /* Cycle.swift in Sources */,
 				799817752A562A9F00CD8F43 /* SeancesInDateInterval.swift in Sources */,
+				790510C02AB4C462006CCC5B /* SchoolBonusMalusList.swift in Sources */,
 				7981280629F1CB3500A3817E /* AgendaManager.swift in Sources */,
 				799421862A02BFDC002999C4 /* SchoolSidebarToolbar.swift in Sources */,
 				7923811A2960B04F009E51B7 /* GroupView.swift in Sources */,
@@ -2181,6 +2188,7 @@
 				79FBB4D72991C2CC00B47484 /* Classe+CoreDataClass.swift in Sources */,
 				796A242329A137E7009B2A6C /* ActivityClassProgressView.swift in Sources */,
 				795C2C2A296E2DCA00EDFF09 /* RoomPlanEditView.swift in Sources */,
+				790510C22AB4C4B3006CCC5B /* SchoolBonusMalusChart.swift in Sources */,
 				79975318297B173800D1C66E /* SettingsProgram.swift in Sources */,
 				793C5D242A1A837C00FB2691 /* TodaySeances.swift in Sources */,
 				793C29CF2953BE4E00E7F65B /* Ressource+Extensions.swift in Sources */,
@@ -2344,7 +2352,7 @@
 				79F60D092996A02200981385 /* Ressource+CoreDataClass.swift in Sources */,
 				793C29D62953C08100E7F65B /* SchoolRessourceRow.swift in Sources */,
 				79E40E6C2996A3A3006BBE49 /* Event+CoreDataClass.swift in Sources */,
-				790510BB2AB377ED006CCC5B /* BonusMalusView.swift in Sources */,
+				790510BB2AB377ED006CCC5B /* BonusMalusGroupBox.swift in Sources */,
 				796A242529A178DF009B2A6C /* ClassCurrentActivityView.swift in Sources */,
 				79398D352966224A0013564D /* ExamViewModel.swift in Sources */,
 				79637208297D9B5B00ECDBC3 /* ActivitySideBar.swift in Sources */,
