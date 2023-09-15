@@ -22,8 +22,8 @@ struct ClasseColleLabel: View {
     var body: some View {
         let number = nbCollesNonNotifee
         ViewThatFits {
-            template(number: number, large: true)
-            template(number: number, large: false)
+            template(number: classe.nbOfColles(isConsignee: false), large: true)
+            template(number: classe.nbOfColles(isConsignee: false), large: false)
         }
     }
 

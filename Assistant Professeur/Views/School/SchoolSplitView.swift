@@ -29,6 +29,9 @@ struct SchoolSplitView: View {
 
                             case let .nextSeances(school):
                                 SchoolNextSeancesView(school: school)
+
+                            case let .bonusMalus(school):
+                                SchoolBonusMalusView(school: school)
                         }
                     }
             }

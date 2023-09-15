@@ -9,6 +9,7 @@ import Foundation
 enum SchoolNavigationRoute: Hashable, Codable {
     case infos(SchoolEntity)
     case nextSeances(SchoolEntity)
+    case bonusMalus(SchoolEntity)
 
     static func == (lhs: SchoolNavigationRoute, rhs: SchoolNavigationRoute) -> Bool {
         switch (lhs, rhs) {
@@ -16,6 +17,9 @@ enum SchoolNavigationRoute: Hashable, Codable {
                 return (schooll.id == schoolr.id)
 
             case let (.nextSeances(schooll), .nextSeances(schoolr)):
+                return schooll.id == schoolr.id
+
+            case let (.bonusMalus(schooll), .bonusMalus(schoolr)):
                 return schooll.id == schoolr.id
 
             default: return false
@@ -29,6 +33,10 @@ enum SchoolNavigationRoute: Hashable, Codable {
 
             case let .nextSeances(school):
                 hasher.combine("nextSeances")
+                hasher.combine(school.id)
+
+            case let .bonusMalus(school):
+                hasher.combine("bonusMalus")
                 hasher.combine(school.id)
         }
     }

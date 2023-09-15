@@ -19,6 +19,7 @@ struct ClasseSidebarView: View {
     private var classesSections: SectionedFetchResults<String, ClasseEntity>
 
     var body: some View {
+        // Liste des classes par établissement
         List(selection: $navigationModel.selectedClasseMngObjId) {
             // pour chaque Etablissement
             ForEach(classesSections) { section in
@@ -95,10 +96,10 @@ struct ClasseSidebarSchoolSubview: View {
     }
 }
 
- struct ClasseSidebarView_Previews: PreviewProvider {
-     static func initialize() {
-         DataBaseManager.populateWithMockData(storeType: .inMemory)
-     }
+struct ClasseSidebarView_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
 
     static var previews: some View {
         initialize()
@@ -114,4 +115,4 @@ struct ClasseSidebarSchoolSubview: View {
                 .previewDevice("iPhone 13")
         }
     }
- }
+}

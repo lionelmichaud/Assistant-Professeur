@@ -7,6 +7,7 @@
 
 import CoreData
 import Foundation
+import HelpersView
 
 /// Un établissement scolaire
 extension SchoolEntity {
@@ -246,10 +247,10 @@ extension SchoolEntity {
         name: String,
         level: LevelSchool,
         annotation: String = "",
-        mailAddressSchool : String = "",
-        urlMailSchool     : URL?   = nil,
-        idMailSchool      : String = "",
-        pwdMailSchool     : String = ""
+        mailAddressSchool: String = "",
+        urlMailSchool: URL? = nil,
+        idMailSchool: String = "",
+        pwdMailSchool: String = ""
     ) -> SchoolEntity {
         let school = SchoolEntity.create()
         school.name = name
@@ -257,9 +258,9 @@ extension SchoolEntity {
         school.annotation = annotation
 
         school.mailAddressSchool = mailAddressSchool
-        school.urlMailSchool     = urlMailSchool
-        school.idMailSchool      = idMailSchool
-        school.pwdMailSchool     = pwdMailSchool
+        school.urlMailSchool = urlMailSchool
+        school.idMailSchool = idMailSchool
+        school.pwdMailSchool = pwdMailSchool
 
         try? SchoolEntity.saveIfContextHasChanged()
         return school
@@ -280,82 +281,47 @@ extension SchoolEntity {
         }
     }
 
-    // MARK: - Computed Properties
+    var heures: Double {
+        allClasses.sum(for: \.heures)
+    }
+
+    // MARK: - Computed Properties Bonus/Malus
+
+    /// Bonus/Malus moyen de la classe
+    var averageBonus: Double {
+        guard self.nbOfClasses != 0 else {
+            return 0
+        }
+        return self.allClasses.sum(for: \.averageBonus) / self.nbOfClasses.double()
+    }
+
+    /// Bonus/Malus minimum de la classe
+    var minBonus: Int {
+        guard self.nbOfClasses != 0 else {
+            return 0
+        }
+        return self.allClasses.min(\.minBonus)
+    }
+
+    /// Bonus/Malus maximum de la classe
+    var maxBonus: Int {
+        guard self.nbOfClasses != 0 else {
+            return 0
+        }
+        return self.allClasses.max(\.maxBonus)
+    }
+
+    // MARK: - Computed Properties Classes
 
     /// Nombre de classes dans l'établissement
     var nbOfClasses: Int {
         Int(self.classesCount)
     }
 
-    /// Nombre d'élèves dans l'établissement
-    var nbOfEleves: Int {
-        allClasses.sum(for: \.nbOfEleves)
-    }
-
-    /// Nombre d'événements dans l'établissement
-    var nbOfEvents: Int {
-        Int(self.eventsCount)
-    }
-
-    /// Nombre de documents importants dans l'établissement
-    var nbOfDocuments: Int {
-        Int(self.documentsCount)
-    }
-
-    /// Nombre de salles de classes utilisées dans l'établissement
-    var nbOfRooms: Int {
-        Int(self.roomsCount)
-    }
-
-    /// Nombre de types de ressources différentes utilisées dans l'établissement
-    var nbOfRessourceTypes: Int {
-        Int(self.ressourcesCount)
-    }
-
-    var heures: Double {
-        allClasses.sum(for: \.heures)
-    }
-
     /// Liste des classes de l'établissement non triées
     var allClasses: [ClasseEntity] {
         if let classes {
             return (classes.allObjects as! [ClasseEntity])
-        } else {
-            return []
-        }
-    }
-
-    /// Liste des événements de l'établissement non triées
-    var allEvents: [EventEntity] {
-        if let events {
-            return (events.allObjects as! [EventEntity])
-        } else {
-            return []
-        }
-    }
-
-    /// Liste des ressources de l'établissement non triées
-    var allRessources: [RessourceEntity] {
-        if let ressources {
-            return (ressources.allObjects as! [RessourceEntity])
-        } else {
-            return []
-        }
-    }
-
-    /// Liste des salles de classe de l'établissement non triées
-    var allRooms: [RoomEntity] {
-        if let rooms {
-            return (rooms.allObjects as! [RoomEntity])
-        } else {
-            return []
-        }
-    }
-
-    /// Liste des documents importants de l'établissement non triées
-    var allDocuments: [DocumentEntity] {
-        if let documents {
-            return (documents.allObjects as! [DocumentEntity])
         } else {
             return []
         }
@@ -372,13 +338,27 @@ extension SchoolEntity {
         return allClasses.sorted(using: sortComparators)
     }
 
-    /// Liste des ressources de l'établissement non triées par ordre alphabétique
-    var ressourcesSortedByName: [RessourceEntity] {
-        let sortComparators =
-            [
-                SortDescriptor(\RessourceEntity.name, order: .forward)
-            ]
-        return allRessources.sorted(using: sortComparators)
+    // MARK: - Computed Properties Elèves
+
+    /// Nombre d'élèves dans l'établissement
+    var nbOfEleves: Int {
+        allClasses.sum(for: \.nbOfEleves)
+    }
+
+    // MARK: - Computed Properties Event
+
+    /// Nombre d'événements dans l'établissement
+    var nbOfEvents: Int {
+        Int(self.eventsCount)
+    }
+
+    /// Liste des événements de l'établissement non triées
+    var allEvents: [EventEntity] {
+        if let events {
+            return (events.allObjects as! [EventEntity])
+        } else {
+            return []
+        }
     }
 
     /// Liste des événements importants de l'établissement triées par date
@@ -390,13 +370,20 @@ extension SchoolEntity {
         return allEvents.sorted(using: sortComparators)
     }
 
-    /// Liste des salles de classe de l'établissement triées par ordre alphabétique
-    var roomsSortedByName: [RoomEntity] {
-        let sortComparators =
-            [
-                SortDescriptor(\RoomEntity.name, order: .forward)
-            ]
-        return allRooms.sorted(using: sortComparators)
+    // MARK: - Computed Properties Documents
+
+    /// Nombre de documents importants dans l'établissement
+    var nbOfDocuments: Int {
+        Int(self.documentsCount)
+    }
+
+    /// Liste des documents importants de l'établissement non triées
+    var allDocuments: [DocumentEntity] {
+        if let documents {
+            return (documents.allObjects as! [DocumentEntity])
+        } else {
+            return []
+        }
     }
 
     /// Liste des documents importants de l'établissement triées par ordre alphabétique
@@ -406,6 +393,56 @@ extension SchoolEntity {
                 SortDescriptor(\DocumentEntity.docName, order: .forward)
             ]
         return allDocuments.sorted(using: sortComparators)
+    }
+
+    // MARK: - Computed Properties Rooms
+
+    /// Nombre de salles de classes utilisées dans l'établissement
+    var nbOfRooms: Int {
+        Int(self.roomsCount)
+    }
+
+    /// Liste des salles de classe de l'établissement non triées
+    var allRooms: [RoomEntity] {
+        if let rooms {
+            return (rooms.allObjects as! [RoomEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Liste des salles de classe de l'établissement triées par ordre alphabétique
+    var roomsSortedByName: [RoomEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(\RoomEntity.name, order: .forward)
+            ]
+        return allRooms.sorted(using: sortComparators)
+    }
+
+    // MARK: - Computed Properties Ressources
+
+    /// Nombre de types de ressources différentes utilisées dans l'établissement
+    var nbOfRessourceTypes: Int {
+        Int(self.ressourcesCount)
+    }
+
+    /// Liste des ressources de l'établissement non triées
+    var allRessources: [RessourceEntity] {
+        if let ressources {
+            return (ressources.allObjects as! [RessourceEntity])
+        } else {
+            return []
+        }
+    }
+
+    /// Liste des ressources de l'établissement non triées par ordre alphabétique
+    var ressourcesSortedByName: [RessourceEntity] {
+        let sortComparators =
+            [
+                SortDescriptor(\RessourceEntity.name, order: .forward)
+            ]
+        return allRessources.sorted(using: sortComparators)
     }
 
     // MARK: - Methods

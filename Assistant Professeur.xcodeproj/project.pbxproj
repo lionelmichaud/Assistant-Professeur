@@ -11,6 +11,8 @@
 		79012C6E2A39EB7300BF0772 /* CsvExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C6D2A39EB7300BF0772 /* CsvExport.swift */; };
 		79012C712A39F7A000BF0772 /* JsonImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C702A39F7A000BF0772 /* JsonImport.swift */; };
 		79012C732A39F84B00BF0772 /* JsonExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C722A39F84B00BF0772 /* JsonExport.swift */; };
+		790510BB2AB377ED006CCC5B /* BonusMalusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510BA2AB377ED006CCC5B /* BonusMalusView.swift */; };
+		790510BE2AB4B54A006CCC5B /* SchoolBonusMalusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510BD2AB4B54A006CCC5B /* SchoolBonusMalusView.swift */; };
 		790A10712A472C5500BA3F5C /* ActivityTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790A10702A472C5500BA3F5C /* ActivityTagList.swift */; };
 		790A2AF32A6ACB55002A2900 /* PdfViewConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790A2AF22A6ACB55002A2900 /* PdfViewConverter.swift */; };
 		790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */; };
@@ -404,6 +406,8 @@
 		79012C6D2A39EB7300BF0772 /* CsvExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvExport.swift; sourceTree = "<group>"; };
 		79012C702A39F7A000BF0772 /* JsonImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonImport.swift; sourceTree = "<group>"; };
 		79012C722A39F84B00BF0772 /* JsonExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonExport.swift; sourceTree = "<group>"; };
+		790510BA2AB377ED006CCC5B /* BonusMalusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusView.swift; sourceTree = "<group>"; };
+		790510BD2AB4B54A006CCC5B /* SchoolBonusMalusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolBonusMalusView.swift; sourceTree = "<group>"; };
 		790A10702A472C5500BA3F5C /* ActivityTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTagList.swift; sourceTree = "<group>"; };
 		790A2AF22A6ACB55002A2900 /* PdfViewConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfViewConverter.swift; sourceTree = "<group>"; };
 		790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAgenda.swift; sourceTree = "<group>"; };
@@ -803,6 +807,22 @@
 			path = Events;
 			sourceTree = "<group>";
 		};
+		790510B92AB377C2006CCC5B /* BonusMalus */ = {
+			isa = PBXGroup;
+			children = (
+				790510BA2AB377ED006CCC5B /* BonusMalusView.swift */,
+			);
+			path = BonusMalus;
+			sourceTree = "<group>";
+		};
+		790510BC2AB4B51D006CCC5B /* BonusMalus */ = {
+			isa = PBXGroup;
+			children = (
+				790510BD2AB4B54A006CCC5B /* SchoolBonusMalusView.swift */,
+			);
+			path = BonusMalus;
+			sourceTree = "<group>";
+		};
 		79134555296B6AD80092E7CD /* Trombinoscop */ = {
 			isa = PBXGroup;
 			children = (
@@ -1019,6 +1039,7 @@
 				7951B69E29B13E45006DC88D /* Warnings */,
 				79975314297B146600D1C66E /* Program */,
 				79F7708E2A2B9B68004E9089 /* Competencies */,
+				790510B92AB377C2006CCC5B /* BonusMalus */,
 				79F7A2952A423BFD00CEC3D5 /* Tags */,
 				79CD363829D989C900BF5ADC /* EmptyListMessage.swift */,
 			);
@@ -1593,6 +1614,7 @@
 		79DEDAE32925855B00F508EF /* School */ = {
 			isa = PBXGroup;
 			children = (
+				790510BC2AB4B51D006CCC5B /* BonusMalus */,
 				796B6A7E2A0C42AE00F00929 /* Infos */,
 				79E00C512A5B7F6400362743 /* Progress */,
 				799421872A02C6E5002999C4 /* Toolbar */,
@@ -2192,6 +2214,7 @@
 				796521CF2A13FBC7000C27D1 /* ZoneScolaire.swift in Sources */,
 				7989B4D929A288E900383F84 /* LabeledSequenceView.swift in Sources */,
 				79FD21A42A33D76A00A8D925 /* DCompListView.swift in Sources */,
+				790510BE2AB4B54A006CCC5B /* SchoolBonusMalusView.swift in Sources */,
 				79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */,
 				798DD4D2298C318F00C47B2C /* ExamListSection.swift in Sources */,
 				79FD21912A3386F600A8D925 /* DSectionListView.swift in Sources */,
@@ -2321,6 +2344,7 @@
 				79F60D092996A02200981385 /* Ressource+CoreDataClass.swift in Sources */,
 				793C29D62953C08100E7F65B /* SchoolRessourceRow.swift in Sources */,
 				79E40E6C2996A3A3006BBE49 /* Event+CoreDataClass.swift in Sources */,
+				790510BB2AB377ED006CCC5B /* BonusMalusView.swift in Sources */,
 				796A242529A178DF009B2A6C /* ClassCurrentActivityView.swift in Sources */,
 				79398D352966224A0013564D /* ExamViewModel.swift in Sources */,
 				79637208297D9B5B00ECDBC3 /* ActivitySideBar.swift in Sources */,

@@ -17,7 +17,6 @@ struct ClasseBrowserRow: View {
             Image(systemName: ClasseEntity.defaultImageName)
                 .sfSymbolStyling()
                 .foregroundColor(classe.levelEnum.imageColor)
-
             Text(classe.displayString)
                 .fontWeight(.bold)
             if classe.isFlagged {
@@ -33,6 +32,7 @@ struct ClasseBrowserRow: View {
 
             Text("\(classe.nbOfEleves) élèves")
                 .foregroundStyle(.secondary)
+                .frame(width: 75)
                 .padding(.leading)
 
             Image(systemName: "clock")
@@ -73,7 +73,7 @@ struct ClasseBrowserRow: View {
                     Spacer()
                     Text("\(classe.heures.formatted(.number.precision(.fractionLength(1)))) heures")
                 }
-                .font(.footnote)
+                .font(.callout)
                 .foregroundStyle(.secondary)
             }
         }

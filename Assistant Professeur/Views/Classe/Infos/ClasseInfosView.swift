@@ -98,27 +98,12 @@ struct ClasseInfosView: View {
                 if pref.viewClasseAnnotationEnabled {
                     AnnotationEditView(annotation: $classe.viewAnnotation)
                 }
-                LabeledContent {
-                    GroupBox {
-                        LabeledContent(
-                            "Maximum",
-                            value: classe.maxBonus,
-                            format: .number
-                        )
-                        LabeledContent(
-                            "Moyenne",
-                            value: classe.averageBonus,
-                            format: .number.precision(.fractionLength(2))
-                        )
-                        LabeledContent(
-                            "Minimum",
-                            value: classe.minBonus,
-                            format: .number
-                        )
-                    }
-                } label: {
-                    Label("Bonus / Malus", systemImage: "plusminus")
-                }
+                BonusMalusView(
+                    minBonus: classe.minBonus,
+                    maxBonus: classe.maxBonus,
+                    averageBonus: classe.averageBonus,
+                    showClasse: nil
+                )
             }
 
             // Section arrêt des notes avant conseil de classe

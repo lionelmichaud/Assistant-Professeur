@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Liste des classes d'un établissement
 struct ClasseListSection: View {
     @ObservedObject
     var school: SchoolEntity
@@ -69,16 +70,21 @@ struct ClasseListSection: View {
                         }.tint(.orange)
                     }
             }
+
+            // Tableau de bord des Bonus / Malus
+            NavigationLink(value: SchoolNavigationRoute.bonusMalus(school)) {
+                Label("Tableau de bord des Bonus / Malus", systemImage: "plusminus")
+                    .fontWeight(.bold)
+            }
         } header: {
             // titre
             HStack {
                 Text("Classes (\(school.nbOfClasses))")
+                    .style(.sectionHeader)
                 Spacer()
-                Text("\(school.heures.formatted(.number.precision(.fractionLength(1)))) h")
+                Text("\(school.heures.formatted(.number.precision(.fractionLength(1)))) heures")
+                    .style(.sectionHeader)
             }
-            .font(.callout)
-            .foregroundColor(.secondary)
-            .fontWeight(.bold)
         }
         // Modal: ajout d'une nouvelle classe
         .sheet(isPresented: $isAddingNewClasse) {
@@ -90,29 +96,29 @@ struct ClasseListSection: View {
     }
 }
 
- struct ClassList_Previews: PreviewProvider {
-     static func initialize() {
-         DataBaseManager.populateWithMockData(storeType: .inMemory)
-     }
+struct ClassList_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
 
-     static var previews: some View {
-         initialize()
-         return Group {
-             List {
-                 ClasseListSection(school: SchoolEntity.all().first!)
-             }
-             .padding()
-             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
-             .environment(\.managedObjectContext, CoreDataManager.shared.context)
-             .previewDevice("iPad mini (6th generation)")
+    static var previews: some View {
+        initialize()
+        return Group {
+            List {
+                ClasseListSection(school: SchoolEntity.all().first!)
+            }
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPad mini (6th generation)")
 
-             List {
-                 ClasseListSection(school: SchoolEntity.all().first!)
-             }
-             .padding()
-             .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
-             .environment(\.managedObjectContext, CoreDataManager.shared.context)
-             .previewDevice("iPhone 13")
-         }
-     }
- }
+            List {
+                ClasseListSection(school: SchoolEntity.all().first!)
+            }
+            .padding()
+            .environmentObject(NavigationModel(selectedSchoolMngObjId: SchoolEntity.all().first!.objectID))
+            .environment(\.managedObjectContext, CoreDataManager.shared.context)
+            .previewDevice("iPhone 13")
+        }
+    }
+}
