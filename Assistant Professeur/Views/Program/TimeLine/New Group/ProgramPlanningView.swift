@@ -35,6 +35,8 @@ struct ProgramPlanningView: View {
             ForEach(data.sequences) { sequence in
                 sequenceMark(sequence: sequence)
             }
+
+            // date courante
             RuleMark(x: .value("Aujourd'hui", Date.now))
                 .foregroundStyle(.red)
                 .lineStyle(
@@ -57,6 +59,7 @@ struct ProgramPlanningView: View {
                         case 1, 4, 7, 10:
                             AxisValueLabel {
                                 Text(date, format: .dateTime.month(.abbreviated).year(.twoDigits))
+                                    .font(.callout)
                                     .foregroundColor(.primary)
                             }
                             AxisGridLine(stroke: StrokeStyle(lineWidth: 1))
@@ -65,16 +68,20 @@ struct ProgramPlanningView: View {
                     }
                 }
             }
-//            AxisMarks(values: .stride(by: .weekOfYear, count: 1)) { value in
-//                AxisGridLine()
-//            }
+        }
+        .chartYAxis {
+            AxisMarks { _ in
+                AxisGridLine()
+                AxisValueLabel()
+                    .font(.subheadline)
+                    .foregroundStyle(Color.sequenceTag)
+            }
         }
         .chartPlotStyle { plotArea in
             plotArea
-                .background(Color.blue8.opacity(0.1))
+                .background(Color.blue8.opacity(0.15))
         }
         .padding()
-        .dynamicTypeSize(.xxLarge)
         .onAppear {
             buidChartDatum()
         }
@@ -84,73 +91,70 @@ struct ProgramPlanningView: View {
 // MARK: - Chart Content Items
 
 extension ProgramPlanningView {
+
+    // MARK: - Methods
+
+    @ViewBuilder
+    private func dateLabel(date: Date) -> Text {
+        Text(
+            date,
+            format: .dateTime.day().month(.abbreviated) //.year(.twoDigits)
+        )
+        .font(.footnote)
+        .foregroundColor(.secondary)
+    }
+
     /// Ligne de l'année scolaire
     private var schoolYearMark: some ChartContent {
+        // barre
         RuleMark(
             xStart: .value("Début", data.schoolYear.interval.start, unit: .month),
             xEnd: .value("Fin", data.schoolYear.interval.end, unit: .day),
             y: .value("Année Scolaire", "Année Scolaire")
         )
         .foregroundStyle(.green)
-        // barre
         .lineStyle(StrokeStyle(lineWidth: lineWidth))
         .offset(y: lineOffset)
+
         // date de début
         .annotation(position: .bottom, alignment: .leading) {
-            Text(
-                data.schoolYear.interval.start,
-                format: .dateTime.day().month(.abbreviated).year(.twoDigits)
-            )
-            .dynamicTypeSize(.small)
-            .foregroundColor(.secondary)
+            dateLabel(date: data.schoolYear.interval.start)
         }
+
         // date de fin
         .annotation(position: .bottom, alignment: .trailing) {
-            Text(
-                data.schoolYear.interval.end,
-                format: .dateTime.day().month(.abbreviated).year(.twoDigits)
-            )
-            .dynamicTypeSize(.small)
-            .foregroundColor(.secondary)
+            dateLabel(date: data.schoolYear.interval.end)
         }
     }
 
     /// Ligne d'une séquence
     private func sequenceMark(sequence: SequenceData) -> some ChartContent {
+        // barre
         RuleMark(
             xStart: .value("Début", sequence.dateInterval.start, unit: .day),
             xEnd: .value("Fin", sequence.dateInterval.end, unit: .day),
             y: .value("Séquence", sequence)
         )
         .foregroundStyle(by: .value("serie", sequence.serie))
-        // barre
         .lineStyle(
             StrokeStyle(
                 lineWidth: sequence.serie == .activity ? lineWidth * 2 : lineWidth,
                 lineCap: sequence.serie == .activity ? .round : .butt
             )
         )
-        .offset(y: -lineWidth / 2.0)
+        .offset(y: -lineWidth / 3.0)
+
         // date de début
         .annotation(position: .top, alignment: .leading) {
             if sequence.isFirstInterval {
-                Text(
-                    sequence.dateInterval.start,
-                    format: .dateTime.day().month(.abbreviated)
-                )
-                .font(.caption2)
-                .foregroundColor(.secondary)
+                dateLabel(date: sequence.dateInterval.start)
             }
         }
+
         // date de fin
         .annotation(position: .bottom, alignment: .trailing) {
             if sequence.isLastInterval {
-                Text(
-                    sequence.dateInterval.end,
-                    format: .dateTime.day().month(.abbreviated)
-                )
-                .font(.caption2)
-                .foregroundColor(.secondary)
+                dateLabel(date: sequence.dateInterval.end)
             }
         }
     }
