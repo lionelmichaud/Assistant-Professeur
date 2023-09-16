@@ -15,6 +15,7 @@
 		790510BE2AB4B54A006CCC5B /* SchoolBonusMalusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510BD2AB4B54A006CCC5B /* SchoolBonusMalusView.swift */; };
 		790510C02AB4C462006CCC5B /* SchoolBonusMalusList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510BF2AB4C462006CCC5B /* SchoolBonusMalusList.swift */; };
 		790510C22AB4C4B3006CCC5B /* SchoolBonusMalusChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510C12AB4C4B3006CCC5B /* SchoolBonusMalusChart.swift */; };
+		790510C42AB4FC46006CCC5B /* BonusMalusMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510C32AB4FC46006CCC5B /* BonusMalusMark.swift */; };
 		790A10712A472C5500BA3F5C /* ActivityTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790A10702A472C5500BA3F5C /* ActivityTagList.swift */; };
 		790A2AF32A6ACB55002A2900 /* PdfViewConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790A2AF22A6ACB55002A2900 /* PdfViewConverter.swift */; };
 		790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */; };
@@ -90,6 +91,7 @@
 		7941BC662A030C5100EF9F30 /* Owner+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */; };
 		7942F23829A5612E007E3C3B /* StepperView in Frameworks */ = {isa = PBXBuildFile; productRef = 7942F23729A5612E007E3C3B /* StepperView */; };
 		794AE9C22A59706E009C819A /* AppTextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794AE9C12A59706E009C819A /* AppTextStyle.swift */; };
+		794B83CA2AB5B7A600F5B14E /* BonusMalusStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */; };
 		794F6E0C295CDC3700042B95 /* ObservCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */; };
 		794F6E0E295CDC9100042B95 /* ColleCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */; };
 		794F6E11295CE1B700042B95 /* ObservDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0F295CE1B700042B95 /* ObservDetail.swift */; };
@@ -412,6 +414,7 @@
 		790510BD2AB4B54A006CCC5B /* SchoolBonusMalusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolBonusMalusView.swift; sourceTree = "<group>"; };
 		790510BF2AB4C462006CCC5B /* SchoolBonusMalusList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolBonusMalusList.swift; sourceTree = "<group>"; };
 		790510C12AB4C4B3006CCC5B /* SchoolBonusMalusChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolBonusMalusChart.swift; sourceTree = "<group>"; };
+		790510C32AB4FC46006CCC5B /* BonusMalusMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusMark.swift; sourceTree = "<group>"; };
 		790A10702A472C5500BA3F5C /* ActivityTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTagList.swift; sourceTree = "<group>"; };
 		790A2AF22A6ACB55002A2900 /* PdfViewConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfViewConverter.swift; sourceTree = "<group>"; };
 		790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAgenda.swift; sourceTree = "<group>"; };
@@ -481,6 +484,7 @@
 		7940135529565B48007AD790 /* EleveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveViewModel.swift; sourceTree = "<group>"; };
 		7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Owner+Extensions.swift"; path = "../New Group/Owner+Extensions.swift"; sourceTree = "<group>"; };
 		794AE9C12A59706E009C819A /* AppTextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextStyle.swift; sourceTree = "<group>"; };
+		794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusStats.swift; sourceTree = "<group>"; };
 		794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservCreatorModal.swift; sourceTree = "<group>"; };
 		794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColleCreatorModal.swift; sourceTree = "<group>"; };
 		794F6E0F295CE1B700042B95 /* ObservDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservDetail.swift; sourceTree = "<group>"; };
@@ -815,6 +819,7 @@
 			isa = PBXGroup;
 			children = (
 				790510BA2AB377ED006CCC5B /* BonusMalusGroupBox.swift */,
+				790510C32AB4FC46006CCC5B /* BonusMalusMark.swift */,
 			);
 			path = BonusMalus;
 			sourceTree = "<group>";
@@ -1136,6 +1141,14 @@
 				794AE9C12A59706E009C819A /* AppTextStyle.swift */,
 			);
 			path = AppStyles;
+			sourceTree = "<group>";
+		};
+		794B83C82AB5B78A00F5B14E /* BonusMalus */ = {
+			isa = PBXGroup;
+			children = (
+				794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */,
+			);
+			path = BonusMalus;
 			sourceTree = "<group>";
 		};
 		7951B69E29B13E45006DC88D /* Warnings */ = {
@@ -1813,6 +1826,7 @@
 		79F41E622954B05F00EAAC52 /* Eleve */ = {
 			isa = PBXGroup;
 			children = (
+				794B83C82AB5B78A00F5B14E /* BonusMalus */,
 				79BF1DAA29290F83005D6CF3 /* Observation */,
 				79BF1DAB29290F8C005D6CF3 /* Colle */,
 				79E40E792997D7FD006BBE49 /* Eleve+CoreDataClass.swift */,
@@ -2299,6 +2313,7 @@
 				795C2C2C296E2DCA00EDFF09 /* DraggableSeatLabel.swift in Sources */,
 				79F41E6129549AE400EAAC52 /* AppreciationView.swift in Sources */,
 				79A5737329BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift in Sources */,
+				794B83CA2AB5B7A600F5B14E /* BonusMalusStats.swift in Sources */,
 				7983834F2A0FEB9200C4A4E2 /* ContactEnum.swift in Sources */,
 				799D2C7929CCD226009C6336 /* SequenceDocumentList.swift in Sources */,
 				79BF1DB32929104F005D6CF3 /* Document+Extensions.swift in Sources */,
@@ -2372,6 +2387,7 @@
 				79F79B832A2D1F1800DEE003 /* WCompEntity+CoreDataClass.swift in Sources */,
 				794F6E11295CE1B700042B95 /* ObservDetail.swift in Sources */,
 				790F76A229818858000A5C7D /* DurationView.swift in Sources */,
+				790510C42AB4FC46006CCC5B /* BonusMalusMark.swift in Sources */,
 				79134554296B65AB0092E7CD /* TrombinoscopeView.swift in Sources */,
 				79DEDB292925996E00F508EF /* UIPreferences.swift in Sources */,
 				792311382A312FDB008556E1 /* DThemeEntity+Extension.swift in Sources */,
