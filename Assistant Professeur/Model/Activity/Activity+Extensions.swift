@@ -255,7 +255,7 @@ extension ActivityEntity {
 
     @discardableResult
     func clone(dans sequence: SequenceEntity) -> ActivityEntity {
-        return ActivityEntity.create(
+        let newActivity = ActivityEntity.createWithoutSaving(
             name: self.viewName,
             annotation: self.viewAnnotation,
             url: self.url,
@@ -266,6 +266,19 @@ extension ActivityEntity {
             isProject: self.isProject,
             dans: sequence
         )
+
+        // Connecter les compétences associées à l'activité clonée
+        if let competencies {
+            newActivity.addToCompetencies(competencies)
+        }
+
+        // Dupliquer les documents associés à l'activité clonée
+        self.allDocuments.forEach { document in
+            document.clone(dans: newActivity)
+        }
+
+        try? Self.saveIfContextHasChanged()
+        return newActivity
     }
 
     // MARK: - Type Methods

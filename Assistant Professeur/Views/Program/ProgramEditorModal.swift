@@ -102,7 +102,7 @@ struct ProgramEditorModal: View {
                         return false
                     }
                     if PDFDocument(data: item) != nil {
-                        DocumentEntity.create(
+                        DocumentEntity.createWithoutSaving(
                             forProgram: program,
                             withData: item,
                             withName: "Nouveau document"
@@ -129,7 +129,7 @@ struct ProgramEditorModal: View {
             ) = ImportExportManager.importUserSelectedFiles(
                 result: result
             ) { data, fileName in
-                DocumentEntity.create(
+                DocumentEntity.createWithoutSaving(
                     forProgram: program,
                     withData: data,
                     withName: fileName

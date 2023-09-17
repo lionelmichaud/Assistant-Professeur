@@ -33,33 +33,34 @@ struct DuplicateActivityModal: View {
         .listStyle(.sidebar)
         .interactiveDismissDisabled()
         #if os(iOS)
-        .navigationTitle("Séquences de destination")
+            .navigationTitle("Séquences de destination")
         #endif
-        .navigationBarTitleDisplayModeInline()
-        .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Button("Annuler") {
-                    ActivityEntity.rollback()
-                    dismiss()
-                }
-            }
-            if selectedSeqsObjId.isNotEmpty {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Dupliquer") {
-                        let sequences = selectedSeqsObjId.compactMap { sequenceId in
-                            SequenceEntity.byObjectId(MngObjID: sequenceId)
-                        }
-
-                        sequences.forEach { sequence in
-                            let clone = activity.clone(dans: sequence)
-                        }
+            .navigationBarTitleDisplayModeInline()
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Annuler") {
+                        ActivityEntity.rollback()
                         dismiss()
                     }
                 }
+                if selectedSeqsObjId.isNotEmpty {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Dupliquer") {
+                            let sequences = selectedSeqsObjId.compactMap { sequenceId in
+                                SequenceEntity.byObjectId(MngObjID: sequenceId)
+                            }
+
+                            sequences.forEach { sequence in
+                                let clone = activity.clone(dans: sequence)
+                            }
+                            dismiss()
+                        }
+                    }
+                }
             }
-        }
     }
 }
+
 struct ProgramDisclosure: View {
     @ObservedObject
     var program: ProgramEntity

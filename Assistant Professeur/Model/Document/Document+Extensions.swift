@@ -142,7 +142,7 @@ extension DocumentEntity {
     ///   - name: nom du document
     /// - Returns: Document créé.
     /// - Important: *Does NOT save the context to the store after modification is done*
-    static func create(
+    static func createWithoutSaving(
         forProgram program: ProgramEntity,
         withData data: Data?,
         withName name: String
@@ -168,7 +168,7 @@ extension DocumentEntity {
     ///   - name: nom du document
     /// - Returns: Document créé.
     /// - Important: *Does NOT save the context to the store after modification is done*
-    static func create(
+    static func createWithoutSaving(
         forSequence sequence: SequenceEntity,
         withData data: Data?,
         withName name: String
@@ -194,7 +194,7 @@ extension DocumentEntity {
     ///   - name: nom du document
     /// - Returns: Document créé.
     /// - Important: *Does NOT save the context to the store after modification is done*
-    static func create(
+    static func createWithoutSaving(
         forActivity activity: ActivityEntity,
         withData data: Data?,
         withName name: String
@@ -255,6 +255,18 @@ extension DocumentEntity {
         super.awakeFromInsert()
         // Set defaults here
         self.id = UUID()
+    }
+
+    @discardableResult
+    func clone(dans activity: ActivityEntity) -> DocumentEntity {
+        let newDoc = DocumentEntity.createWithoutSaving(
+            forActivity: activity,
+            withData: self.pdfData,
+            withName: self.viewName
+        )
+
+        try? Self.saveIfContextHasChanged()
+        return newDoc
     }
 
     /// Remplace les données PDF éventuellement présentes par de nouvelles
