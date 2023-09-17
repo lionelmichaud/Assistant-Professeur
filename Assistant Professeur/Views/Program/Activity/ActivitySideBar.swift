@@ -69,6 +69,16 @@ struct ActivitySideBar: View {
             }
             .presentationDetents([.medium])
         }
+
+        // Modal Sheet de sélection de la séquence associée
+        .sheet(
+            isPresented: $isDuplicating
+        ) {
+            NavigationStack {
+                DuplicateSequenceModal(sequence: sequence)
+            }
+            .presentationDetents([.large])
+        }
     }
 }
 
@@ -87,7 +97,7 @@ extension ActivitySideBar {
                     "Infos", systemImage: "info.circle"
                 )
             }
-            
+
             // Modifier la séquence
             Button {
                 isEditing.toggle()

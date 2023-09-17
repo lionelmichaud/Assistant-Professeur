@@ -56,7 +56,7 @@ struct SequenceDocumentList: View {
                     return false
                 }
                 if PDFDocument(data: item) != nil {
-                    DocumentEntity.create(
+                    DocumentEntity.createWithoutSaving(
                         forSequence: sequence,
                         withData: item,
                         withName: "Nouveau document"
@@ -79,7 +79,7 @@ struct SequenceDocumentList: View {
                 ) = ImportExportManager.importUserSelectedFiles(
                     result: result
                 ) { data, fileName in
-                    DocumentEntity.create(
+                    DocumentEntity.createWithoutSaving(
                         forSequence: sequence,
                         withData: data,
                         withName: fileName

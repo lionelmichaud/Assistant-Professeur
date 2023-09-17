@@ -38,6 +38,19 @@ extension SequenceEntity {
         }
     }
 
+    /// Wrapper of `margePostSequence`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewMargePostSequence: Int {
+        get {
+            Int(self.margePostSequence)
+        }
+        set {
+            self.margePostSequence = Int16(newValue)
+            try? Self.saveIfContextHasChanged()
+        }
+    }
+
     /// Wrapper of `annotation`
     /// - Important: *Saves the context to the store after modification is done*
     @objc
@@ -192,7 +205,45 @@ extension SequenceEntity {
         return allDocuments.sorted(using: sortComparators)
     }
 
-    // MARK: - Gestion de la BDD
+    // MARK: - Methods
+
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        // Set defaults here
+        self.id = UUID()
+    }
+
+    /// Cloner la séquence et l'associer à un programme pédagogique.
+    ///
+    /// * Clone les documents associés à la séquence clonée.
+    /// * Clone les activités associées à la séquence clonée.
+    /// - Parameters:
+    ///   - program: programme pédagogique
+    /// - Returns: Séquence créée.
+    /// - Important: *Saves the context to the store after modification is done*
+    @discardableResult
+    func clone(dans program: ProgramEntity) -> SequenceEntity {
+        let newSequence = SequenceEntity.createWithoutSaving(
+            name: self.viewName,
+            annotation: self.viewAnnotation,
+            margePostSequence: self.viewMargePostSequence,
+            url: self.url,
+            dans: program
+        )
+
+        // Cloner les activités associées à la séquence clonée
+        self.allActivities.forEach { activity in
+            activity.clone(dans: newSequence)
+        }
+
+        // Cloner les documents associés à la séquence clonée
+        self.allDocuments.forEach { document in
+            document.clone(dans: newSequence)
+        }
+
+        try? Self.saveIfContextHasChanged()
+        return newSequence
+    }
 
     /// Retourne l'état d'avancement de la progression d'une `classe` pour cette Séquence
     func statusFor(classe: ClasseEntity) -> ProgressState {
@@ -239,6 +290,8 @@ extension SequenceEntity {
             return .invalid
         }
     }
+
+    // MARK: - Type Methods
 
     /// Retourne toutes les séquences triées satisfaisant au critères:
     /// `discipline`, `cycle`, `level`
@@ -301,6 +354,7 @@ extension SequenceEntity {
     static func createWithoutSaving(
         name: String = "",
         annotation: String = "",
+        margePostSequence: Int? = nil,
         url: URL? = nil,
         dans program: ProgramEntity
     ) -> SequenceEntity {
@@ -312,7 +366,11 @@ extension SequenceEntity {
 
         sequence.name = name
         sequence.number = Int16(nbSeqInProgram + 1)
-        sequence.margePostSequence = Int16(UserPrefEntity.shared.viewMargeInterSequence)
+        if let margePostSequence {
+            sequence.margePostSequence = Int16(margePostSequence)
+        } else {
+            sequence.margePostSequence = Int16(UserPrefEntity.shared.viewMargeInterSequence)
+        }
         sequence.annotation = annotation
         sequence.url = url
         return sequence
@@ -366,12 +424,6 @@ extension SequenceEntity {
                 }
             }
         }
-    }
-
-    override public func awakeFromInsert() {
-        super.awakeFromInsert()
-        // Set defaults here
-        self.id = UUID()
     }
 }
 

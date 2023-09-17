@@ -29,8 +29,7 @@ struct ConnectToDCompModal: View {
         List(selection: $selectedCompsObjId) {
             ForEach(dThemes) { dTheme in
                 ThemeDisclosure(
-                    dTheme: dTheme,
-                    selectedCompsObjId: $selectedCompsObjId
+                    dTheme: dTheme
                 )
             }
             .emptyListPlaceHolder(dThemes) {
@@ -85,9 +84,6 @@ struct ThemeDisclosure: View {
     @ObservedObject
     var dTheme: DThemeEntity
 
-    @Binding
-    var selectedCompsObjId: Set<NSManagedObjectID>
-
     @State
     private var isExpanded: Bool = true
 
@@ -95,8 +91,7 @@ struct ThemeDisclosure: View {
         DisclosureGroup(isExpanded: $isExpanded.animation()) {
             ForEach(dTheme.allSectionsSortedByNumber) { dSection in
                 SectionDisclosure(
-                    dSection: dSection,
-                    selectedCompsObjId: $selectedCompsObjId
+                    dSection: dSection
                 )
             }
         } label: {
@@ -112,9 +107,6 @@ struct ThemeDisclosure: View {
 struct SectionDisclosure: View {
     @ObservedObject
     var dSection: DSectionEntity
-
-    @Binding
-    var selectedCompsObjId: Set<NSManagedObjectID>
 
     @State
     private var isExpanded: Bool = true

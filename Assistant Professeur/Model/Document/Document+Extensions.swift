@@ -142,7 +142,7 @@ extension DocumentEntity {
     ///   - name: nom du document
     /// - Returns: Document créé.
     /// - Important: *Does NOT save the context to the store after modification is done*
-    static func create(
+    static func createWithoutSaving(
         forProgram program: ProgramEntity,
         withData data: Data?,
         withName name: String
@@ -168,7 +168,7 @@ extension DocumentEntity {
     ///   - name: nom du document
     /// - Returns: Document créé.
     /// - Important: *Does NOT save the context to the store after modification is done*
-    static func create(
+    static func createWithoutSaving(
         forSequence sequence: SequenceEntity,
         withData data: Data?,
         withName name: String
@@ -194,7 +194,7 @@ extension DocumentEntity {
     ///   - name: nom du document
     /// - Returns: Document créé.
     /// - Important: *Does NOT save the context to the store after modification is done*
-    static func create(
+    static func createWithoutSaving(
         forActivity activity: ActivityEntity,
         withData data: Data?,
         withName name: String
@@ -255,6 +255,40 @@ extension DocumentEntity {
         super.awakeFromInsert()
         // Set defaults here
         self.id = UUID()
+    }
+
+    /// Cloner le document et l'associer à une séquence pédagogique.
+    /// - Parameters:
+    ///   - sequence: séquence pédagogique
+    /// - Returns: Document créé.
+    /// - Important: *Saves the context to the store after modification is done*
+    @discardableResult
+    func clone(dans sequence: SequenceEntity) -> DocumentEntity {
+        let newDoc = DocumentEntity.createWithoutSaving(
+            forSequence: sequence,
+            withData: self.pdfData,
+            withName: self.viewName
+        )
+
+        try? Self.saveIfContextHasChanged()
+        return newDoc
+    }
+
+    /// Cloner le document et l'associer à une activité pédagogique.
+    /// - Parameters:
+    ///   - activity: activité pédagogique
+    /// - Returns: Document créé.
+    /// - Important: *Saves the context to the store after modification is done*
+    @discardableResult
+    func clone(dans activity: ActivityEntity) -> DocumentEntity {
+        let newDoc = DocumentEntity.createWithoutSaving(
+            forActivity: activity,
+            withData: self.pdfData,
+            withName: self.viewName
+        )
+
+        try? Self.saveIfContextHasChanged()
+        return newDoc
     }
 
     /// Remplace les données PDF éventuellement présentes par de nouvelles

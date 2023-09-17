@@ -92,6 +92,7 @@
 		7942F23829A5612E007E3C3B /* StepperView in Frameworks */ = {isa = PBXBuildFile; productRef = 7942F23729A5612E007E3C3B /* StepperView */; };
 		794AE9C22A59706E009C819A /* AppTextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794AE9C12A59706E009C819A /* AppTextStyle.swift */; };
 		794B83CA2AB5B7A600F5B14E /* BonusMalusStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */; };
+		794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */; };
 		794F6E0C295CDC3700042B95 /* ObservCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */; };
 		794F6E0E295CDC9100042B95 /* ColleCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */; };
 		794F6E11295CE1B700042B95 /* ObservDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0F295CE1B700042B95 /* ObservDetail.swift */; };
@@ -143,6 +144,7 @@
 		796699D92A30D38100DF14AB /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791A0CDC29746A31004CA543 /* DataBaseManager.swift */; };
 		796699DB2A30D38E00DF14AB /* DataBaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796699DA2A30D38E00DF14AB /* DataBaseError.swift */; };
 		7967CFFA2A0D57BA00392F89 /* SchoolContactEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7967CFF92A0D57BA00392F89 /* SchoolContactEditView.swift */; };
+		796869722AB74B0900A472FD /* DuplicateSequenceModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796869712AB74B0900A472FD /* DuplicateSequenceModal.swift */; };
 		796A17802A3F416D00413DDD /* EleveListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A177F2A3F416D00413DDD /* EleveListSection.swift */; };
 		796A17822A3F426500413DDD /* ClasseProgressSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A17812A3F426500413DDD /* ClasseProgressSection.swift */; };
 		796A17842A3F42C500413DDD /* ClasseNavigationRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796A17832A3F42C500413DDD /* ClasseNavigationRoute.swift */; };
@@ -485,6 +487,7 @@
 		7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Owner+Extensions.swift"; path = "../New Group/Owner+Extensions.swift"; sourceTree = "<group>"; };
 		794AE9C12A59706E009C819A /* AppTextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextStyle.swift; sourceTree = "<group>"; };
 		794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusStats.swift; sourceTree = "<group>"; };
+		794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DuplicateActivityModal.swift; path = "Assistant Professeur/Model/Eleve/BonusMalus/DuplicateActivityModal.swift"; sourceTree = SOURCE_ROOT; };
 		794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservCreatorModal.swift; sourceTree = "<group>"; };
 		794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColleCreatorModal.swift; sourceTree = "<group>"; };
 		794F6E0F295CE1B700042B95 /* ObservDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservDetail.swift; sourceTree = "<group>"; };
@@ -536,6 +539,7 @@
 		796699DA2A30D38E00DF14AB /* DataBaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseError.swift; sourceTree = "<group>"; };
 		7966DCF8292573A1001D6C7F /* AppFoundation */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppFoundation; path = ../Packages/AppFoundation; sourceTree = "<group>"; };
 		7967CFF92A0D57BA00392F89 /* SchoolContactEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolContactEditView.swift; sourceTree = "<group>"; };
+		796869712AB74B0900A472FD /* DuplicateSequenceModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateSequenceModal.swift; sourceTree = "<group>"; };
 		796A177F2A3F416D00413DDD /* EleveListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveListSection.swift; sourceTree = "<group>"; };
 		796A17812A3F426500413DDD /* ClasseProgressSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseProgressSection.swift; sourceTree = "<group>"; };
 		796A17832A3F42C500413DDD /* ClasseNavigationRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseNavigationRoute.swift; sourceTree = "<group>"; };
@@ -1151,6 +1155,14 @@
 			path = BonusMalus;
 			sourceTree = "<group>";
 		};
+		794B83CB2AB643F500F5B14E /* DuplicationModal */ = {
+			isa = PBXGroup;
+			children = (
+				794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */,
+			);
+			path = DuplicationModal;
+			sourceTree = "<group>";
+		};
 		7951B69E29B13E45006DC88D /* Warnings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1238,6 +1250,7 @@
 		796371FD297D574B00ECDBC3 /* Sequence */ = {
 			isa = PBXGroup;
 			children = (
+				796869702AB74AF800A472FD /* DuplicationModal */,
 				795804B829A69C9C00AEB7DA /* TimeLine */,
 				796371FE297D575800ECDBC3 /* SequenceSidebar.swift */,
 				79637200297D707400ECDBC3 /* SequenceList.swift */,
@@ -1257,6 +1270,7 @@
 		79637206297D879100ECDBC3 /* Activity */ = {
 			isa = PBXGroup;
 			children = (
+				794B83CB2AB643F500F5B14E /* DuplicationModal */,
 				79BE3DA12A6EADDB002AB97A /* EditorModal */,
 				795804B429A6965B00AEB7DA /* Progress */,
 				79637207297D9B5B00ECDBC3 /* ActivitySideBar.swift */,
@@ -1304,6 +1318,14 @@
 				79DEDB1A292594C800F508EF /* FileAndFolder */,
 			);
 			name = Packages;
+			sourceTree = "<group>";
+		};
+		796869702AB74AF800A472FD /* DuplicationModal */ = {
+			isa = PBXGroup;
+			children = (
+				796869712AB74B0900A472FD /* DuplicateSequenceModal.swift */,
+			);
+			path = DuplicationModal;
 			sourceTree = "<group>";
 		};
 		796B6A7E2A0C42AE00F00929 /* Infos */ = {
@@ -2173,6 +2195,7 @@
 				79401350295624EF007AD790 /* Dsicipline.swift in Sources */,
 				79A56A572A4888CC00D1D4CC /* WCompMasteryLevels.swift in Sources */,
 				798383522A0FF38C00C4A4E2 /* PersonsContactsView.swift in Sources */,
+				794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */,
 				799421892A02C714002999C4 /* UrgencyTelView.swift in Sources */,
 				7989B4D129A257DD00383F84 /* Activity+CoreDataClass.swift in Sources */,
 				7989B4CF29A257C500383F84 /* Sequence+CoreDataClass.swift in Sources */,
@@ -2222,6 +2245,7 @@
 				79AFBFB42981A4B0001576DD /* SequenceDetailGroupBox.swift in Sources */,
 				79388A4529256819002AABB8 /* CoreDataManager.swift in Sources */,
 				79531D052A60A50900252A29 /* UserPref+Extensions.swift in Sources */,
+				796869722AB74B0900A472FD /* DuplicateSequenceModal.swift in Sources */,
 				795CB1952958F668006EF060 /* Motif.swift in Sources */,
 				795415A82A129BBF00B86746 /* EventManager.swift in Sources */,
 				79F41E662954B1DC00EAAC52 /* Sexe.swift in Sources */,
@@ -2619,7 +2643,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.michaud.lionel.Assistant-Professeur";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -2667,7 +2691,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.michaud.lionel.Assistant-Professeur";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;

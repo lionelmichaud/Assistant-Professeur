@@ -56,7 +56,7 @@ struct ActivityDocListSection: View {
                     return false
                 }
                 if PDFDocument(data: item) != nil {
-                    DocumentEntity.create(
+                    DocumentEntity.createWithoutSaving(
                         forActivity: activity,
                         withData: item,
                         withName: "Nouveau document"
@@ -79,7 +79,7 @@ struct ActivityDocListSection: View {
                 ) = ImportExportManager.importUserSelectedFiles(
                     result: result
                 ) { data, fileName in
-                    DocumentEntity.create(
+                    DocumentEntity.createWithoutSaving(
                         forActivity: activity,
                         withData: data,
                         withName: fileName

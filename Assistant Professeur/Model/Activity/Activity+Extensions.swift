@@ -175,7 +175,7 @@ extension ActivityEntity {
 
     /// Nombre de documents liés à l'activité
     var nbOfDocuments: Int {
-        Int(self.documentCount)
+        Int(documentCount)
     }
 
     /// Liste des progressions des classes pour cette activité non triées
@@ -186,6 +186,8 @@ extension ActivityEntity {
             return []
         }
     }
+
+    // MARK: - Computed Properties Progressions
 
     /// Liste des progressions des classes pour cette activité non triées
     var progressesSortedBySchoolLevelSegpaNumber: [ActivityProgressEntity] {
@@ -199,6 +201,8 @@ extension ActivityEntity {
         return allProgresses
             .sorted(using: sortComparators)
     }
+
+    // MARK: - Computed Properties Documents
 
     /// Liste des documents non triées
     var allDocuments: [DocumentEntity] {
@@ -218,6 +222,8 @@ extension ActivityEntity {
         return allDocuments.sorted(using: sortComparators)
     }
 
+    // MARK: - Computed Properties Compétences Disciplinaires
+
     /// Liste des Compétences Disciplinaires non triées
     var allDisciplineCompetencies: [DCompEntity] {
         if let competencies {
@@ -230,22 +236,60 @@ extension ActivityEntity {
     /// Liste des Compétences Disciplinaires triées par Acronym
     var disciplineCompSortedByAcronym: [DCompEntity] {
         let sortComparators =
-        [
-            SortDescriptor(
-                \DCompEntity.viewAcronym,
-                 order: .forward
-            )
-        ]
+            [
+                SortDescriptor(
+                    \DCompEntity.viewAcronym,
+                    order: .forward
+                )
+            ]
         return allDisciplineCompetencies.sorted(using: sortComparators)
     }
 
-    // MARK: - Type Methods
+    // MARK: - Methods
 
     override public func awakeFromInsert() {
         super.awakeFromInsert()
         // Set defaults here
         self.id = UUID()
     }
+
+    /// Cloner l'activité et l'associer à une séquence pédagogique.
+    ///
+    /// * Connecte les compétences associées à l'activité clonée.
+    /// * Clone les documents associés à la séquence clonée.
+    /// - Parameters:
+    ///   - sequence: séquence pédagogique
+    /// - Returns: Activité créée.
+    /// - Important: *Saves the context to the store after modification is done*
+    @discardableResult
+    func clone(dans sequence: SequenceEntity) -> ActivityEntity {
+        let newActivity = ActivityEntity.createWithoutSaving(
+            name: self.viewName,
+            annotation: self.viewAnnotation,
+            url: self.url,
+            duration: self.duration,
+            isEvalSommative: self.isEval,
+            isEvalFormative: self.isEvalFormative,
+            isTP: self.isTP,
+            isProject: self.isProject,
+            dans: sequence
+        )
+
+        // Connecter les compétences associées à l'activité clonée
+        if let competencies {
+            newActivity.addToCompetencies(competencies)
+        }
+
+        // Cloner les documents associés à l'activité clonée
+        self.allDocuments.forEach { document in
+            document.clone(dans: newActivity)
+        }
+
+        try? Self.saveIfContextHasChanged()
+        return newActivity
+    }
+
+    // MARK: - Type Methods
 
     /// Retourne toutes les activités triées satisfaisant au critères:
     /// `discipline`, `cycle`, `level`
