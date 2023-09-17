@@ -84,6 +84,20 @@ struct ActivityDetail: View {
                 Text("Activité introuvable.")
             }
         }
+
+        // Modal Sheet de sélection de la séquence associée
+        .sheet(
+            isPresented: $isDuplicating
+        ) {
+            if selectedActivityExists {
+                NavigationStack {
+                    DuplicateActivityModal(activity: selectedActivity!)
+                }
+                .presentationDetents([.large])
+            } else {
+                Text("Activité introuvable.")
+            }
+        }
     }
 }
 

@@ -92,6 +92,7 @@
 		7942F23829A5612E007E3C3B /* StepperView in Frameworks */ = {isa = PBXBuildFile; productRef = 7942F23729A5612E007E3C3B /* StepperView */; };
 		794AE9C22A59706E009C819A /* AppTextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794AE9C12A59706E009C819A /* AppTextStyle.swift */; };
 		794B83CA2AB5B7A600F5B14E /* BonusMalusStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */; };
+		794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */; };
 		794F6E0C295CDC3700042B95 /* ObservCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */; };
 		794F6E0E295CDC9100042B95 /* ColleCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */; };
 		794F6E11295CE1B700042B95 /* ObservDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0F295CE1B700042B95 /* ObservDetail.swift */; };
@@ -485,6 +486,7 @@
 		7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Owner+Extensions.swift"; path = "../New Group/Owner+Extensions.swift"; sourceTree = "<group>"; };
 		794AE9C12A59706E009C819A /* AppTextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextStyle.swift; sourceTree = "<group>"; };
 		794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusStats.swift; sourceTree = "<group>"; };
+		794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DuplicateActivityModal.swift; path = "Assistant Professeur/Model/Eleve/BonusMalus/DuplicateActivityModal.swift"; sourceTree = SOURCE_ROOT; };
 		794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservCreatorModal.swift; sourceTree = "<group>"; };
 		794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColleCreatorModal.swift; sourceTree = "<group>"; };
 		794F6E0F295CE1B700042B95 /* ObservDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservDetail.swift; sourceTree = "<group>"; };
@@ -1151,6 +1153,14 @@
 			path = BonusMalus;
 			sourceTree = "<group>";
 		};
+		794B83CB2AB643F500F5B14E /* Duplication */ = {
+			isa = PBXGroup;
+			children = (
+				794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */,
+			);
+			path = Duplication;
+			sourceTree = "<group>";
+		};
 		7951B69E29B13E45006DC88D /* Warnings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1257,6 +1267,7 @@
 		79637206297D879100ECDBC3 /* Activity */ = {
 			isa = PBXGroup;
 			children = (
+				794B83CB2AB643F500F5B14E /* Duplication */,
 				79BE3DA12A6EADDB002AB97A /* EditorModal */,
 				795804B429A6965B00AEB7DA /* Progress */,
 				79637207297D9B5B00ECDBC3 /* ActivitySideBar.swift */,
@@ -2173,6 +2184,7 @@
 				79401350295624EF007AD790 /* Dsicipline.swift in Sources */,
 				79A56A572A4888CC00D1D4CC /* WCompMasteryLevels.swift in Sources */,
 				798383522A0FF38C00C4A4E2 /* PersonsContactsView.swift in Sources */,
+				794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */,
 				799421892A02C714002999C4 /* UrgencyTelView.swift in Sources */,
 				7989B4D129A257DD00383F84 /* Activity+CoreDataClass.swift in Sources */,
 				7989B4CF29A257C500383F84 /* Sequence+CoreDataClass.swift in Sources */,
