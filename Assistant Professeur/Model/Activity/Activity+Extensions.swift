@@ -253,6 +253,14 @@ extension ActivityEntity {
         self.id = UUID()
     }
 
+    /// Cloner l'activité et l'associer à une séquence pédagogique.
+    ///
+    /// * Connecte les compétences associées à l'activité clonée.
+    /// * Clone les documents associés à la séquence clonée.
+    /// - Parameters:
+    ///   - sequence: séquence pédagogique
+    /// - Returns: Activité créée.
+    /// - Important: *Saves the context to the store after modification is done*
     @discardableResult
     func clone(dans sequence: SequenceEntity) -> ActivityEntity {
         let newActivity = ActivityEntity.createWithoutSaving(
@@ -272,7 +280,7 @@ extension ActivityEntity {
             newActivity.addToCompetencies(competencies)
         }
 
-        // Dupliquer les documents associés à l'activité clonée
+        // Cloner les documents associés à l'activité clonée
         self.allDocuments.forEach { document in
             document.clone(dans: newActivity)
         }

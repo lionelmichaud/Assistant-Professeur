@@ -85,7 +85,7 @@ struct ActivityDetail: View {
             }
         }
 
-        // Modal Sheet de sélection de la séquence associée
+        // Modal Sheet de sélection de l'activité associée
         .sheet(
             isPresented: $isDuplicating
         ) {

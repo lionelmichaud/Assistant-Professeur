@@ -257,6 +257,28 @@ extension DocumentEntity {
         self.id = UUID()
     }
 
+    /// Cloner le document et l'associer à une séquence pédagogique.
+    /// - Parameters:
+    ///   - sequence: séquence pédagogique
+    /// - Returns: Document créé.
+    /// - Important: *Saves the context to the store after modification is done*
+    @discardableResult
+    func clone(dans sequence: SequenceEntity) -> DocumentEntity {
+        let newDoc = DocumentEntity.createWithoutSaving(
+            forSequence: sequence,
+            withData: self.pdfData,
+            withName: self.viewName
+        )
+
+        try? Self.saveIfContextHasChanged()
+        return newDoc
+    }
+
+    /// Cloner le document et l'associer à une activité pédagogique.
+    /// - Parameters:
+    ///   - activity: activité pédagogique
+    /// - Returns: Document créé.
+    /// - Important: *Saves the context to the store after modification is done*
     @discardableResult
     func clone(dans activity: ActivityEntity) -> DocumentEntity {
         let newDoc = DocumentEntity.createWithoutSaving(

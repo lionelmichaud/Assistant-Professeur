@@ -33,7 +33,7 @@ struct DuplicateActivityModal: View {
         .listStyle(.sidebar)
         .interactiveDismissDisabled()
         #if os(iOS)
-            .navigationTitle("Séquences de destination")
+            .navigationTitle("Dupliquer vers les séquences")
         #endif
             .navigationBarTitleDisplayModeInline()
             .toolbar {
@@ -43,19 +43,18 @@ struct DuplicateActivityModal: View {
                         dismiss()
                     }
                 }
-                if selectedSeqsObjId.isNotEmpty {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button("Dupliquer") {
-                            let sequences = selectedSeqsObjId.compactMap { sequenceId in
-                                SequenceEntity.byObjectId(MngObjID: sequenceId)
-                            }
-
-                            sequences.forEach { sequence in
-                                let clone = activity.clone(dans: sequence)
-                            }
-                            dismiss()
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Dupliquer") {
+                        let sequences = selectedSeqsObjId.compactMap { sequenceId in
+                            SequenceEntity.byObjectId(MngObjID: sequenceId)
                         }
+
+                        sequences.forEach { sequence in
+                            activity.clone(dans: sequence)
+                        }
+                        dismiss()
                     }
+                    .disabled(selectedSeqsObjId.isEmpty)
                 }
             }
     }
