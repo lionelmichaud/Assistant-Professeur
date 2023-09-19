@@ -155,7 +155,7 @@ extension ProgramTimeLine {
                 var data = ProgramPlanningGraphData(schoolYear: pref.viewSchoolYearPref)
 
                 // Calcul des périodes d'activité de chaque séquence du programme
-                let programSequencesData = ProgramManager.getProgramActivitiesPeriods(
+                let programSequencesData = ProgramManager.getProgramSequencesPeriods(
                     program: program,
                     schoolYear: data.schoolYear
                 )

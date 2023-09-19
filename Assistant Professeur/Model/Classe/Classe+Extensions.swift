@@ -170,6 +170,7 @@ extension ClasseEntity {
         }
     }
 
+    /// Retourne l'acronyme de la classe. Exemple: 5E4S
     var displayString: String {
         "\(levelEnum.displayString)\(numero)\(segpa ? "S" : "")"
     }
@@ -346,9 +347,9 @@ extension ClasseEntity {
     /// Liste des documents importants de l'établissement triées par ordre alphabétique
     var documentsSortedByName: [DocumentEntity] {
         let sortComparators =
-        [
-            SortDescriptor(\DocumentEntity.docName, order: .forward)
-        ]
+            [
+                SortDescriptor(\DocumentEntity.docName, order: .forward)
+            ]
         return allDocuments.sorted(using: sortComparators)
     }
 
@@ -456,7 +457,7 @@ extension ClasseEntity {
         return self.allEleves.max(\.viewBonus)
     }
 
-   // MARK: - Type Methods
+    // MARK: - Type Methods
 
     /// Créer une nouvelle classe et l'ajouter à l'établissement `school`
     /// - Important: Sauvegarder le Context.
@@ -573,7 +574,7 @@ extension ClasseEntity {
             .sorted(using: sortComparators)
     }
 
-    /// Retourne la progression réelle (en % de temps) de la classe pour la séquence sélectionnée.
+    /// Retourne la progression réelle (en % de séances) de la classe pour la séquence sélectionnée.
     func actualProgressInSequence(_ sequence: SequenceEntity) -> Double {
         let progressesInSequence = self.sortedProgressesInSequence(sequence)
         let nbOfSeanceInSequence = sequence.durationWithoutMargin
@@ -587,12 +588,12 @@ extension ClasseEntity {
         }
     }
 
-    /// Retourne la progression réelle (en % de temps) de la classe dans le programme annuel.
+    /// Retourne la progression réelle (en % de séances) de la classe dans le programme annuel.
     ///
     /// Return:
     /// * **nbOfSeanceActualyCompleted**: nombre de séance réellement complétées.
-    /// * **nbOfSeanceInProgram**: nombre de séance totales contenus dans le programme.
-    /// * **actualProgress**: avancement réel courant [0, 1].
+    /// * **nbOfSeanceInProgram**: nombre total de séance (hors marges) contenues dans le programme prévu pour cette classe.
+    /// * **actualProgress**: avancement réel courant [0, 1] : `nbOfSeanceActualyCompleted` / `nbOfSeanceInProgram`
     func actualProgressInProgram() ->
         (
             nbOfSeanceActualyCompleted: Double,
@@ -620,12 +621,12 @@ extension ClasseEntity {
         )
     }
 
-    /// Retourne la progression théorique (en % de temps) de la classe dans le programme annuel à la date courante.
+    /// Retourne la progression théorique (en % de séances) de la classe dans le programme annuel à la date courante.
     ///
     /// Return:
-    /// * **nbOfSeanceSuposidelyCompleted**: nombre de séance supposées complétées à la date courante.
-    /// * **nbOfSeanceInProgram**: nombre de séance totales contenus dans le programme.
-    /// * **theoricalProgress**: avancement théorique à la date courantet [0, 1].
+    /// * **nbOfSeanceSuposidelyCompleted**: nombre de séance qui devraient être complétées à la date courante.
+    /// * **nbOfSeanceInProgram**: nombre total de séance (hors marges) contenues dans le programme prévu pour cette classe.
+    /// * **theoricalProgress**: avancement théorique à la date courantet [0, 1] : `nbOfSeanceSuposidelyCompleted` / `nbOfSeanceInProgram`
     func theoricalProgressInProgram() ->
         (
             nbOfSeanceSuposidelyCompleted: Double,
@@ -651,6 +652,7 @@ extension ClasseEntity {
             atThisDate: Date.now
         )
 
+        // Nombre total de séance (hors marges) contenues dans le programme prévu pour cette classe
         let sequencesInProgram = self.allFollowedSequencesSortedBySequenceNumber
         let nbOfSeanceInProgram: Double =
             sequencesInProgram
@@ -658,7 +660,7 @@ extension ClasseEntity {
                     nb + sequence.durationWithoutMargin
                 }
 
-        //print(nbOfSeanceInProgram, nbOfSeanceSuposidlyCompleted)
+        // print(nbOfSeanceInProgram, nbOfSeanceSuposidlyCompleted)
 
         var theoricalProgress = 0.0
         if nbOfSeanceInProgram != 0 {

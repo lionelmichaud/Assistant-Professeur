@@ -66,7 +66,7 @@ struct ClassProgressesView: View {
     var body: some View {
         List {
             VStack(alignment: .leading) {
-                Text("Progression théorique: \(Int(theoricalProgressInProgram * 100.0))%")
+                Text("**Progrès théorique: \(Int(theoricalProgressInProgram * 100.0))%** (\(nbOfSeanceSuposidelyCompleted, format: .number.precision(.fractionLength(0)))/\(nbOfSeanceInProgram, format: .number.precision(.fractionLength(0))) séances)")
                     .foregroundColor(.teal)
                 ProgressView(value: theoricalProgressInProgram)
                     .tint(.teal)
@@ -74,7 +74,7 @@ struct ClassProgressesView: View {
                 ProgressView(value: actualProgressInProgram)
                     .tint(barColor)
                 HStack {
-                    Text("Progression réelle: \(Int(actualProgressInProgram * 100.0))%")
+                    Text("**Progrès réel: \(Int(actualProgressInProgram * 100.0))%** (\(nbOfSeanceActualyCompleted, format: .number.precision(.fractionLength(0)))/\(nbOfSeanceInProgram, format: .number.precision(.fractionLength(0))))")
                     Spacer()
                     if let delta {
                         switch delta {
@@ -167,7 +167,7 @@ struct ClassProgressesView: View {
             delta = Int(nbOfSeanceActualyCompleted - nbOfSeanceSuposidelyCompleted)
         }
         #if os(iOS)
-        .navigationTitle("Progression en \(classe.discipline!)")
+        .navigationTitle("Progression \(classe.displayString) en \(classe.discipline!)")
         #endif
         .navigationBarTitleDisplayModeInline()
     }

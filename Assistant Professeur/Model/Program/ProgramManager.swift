@@ -467,14 +467,14 @@ extension ProgramManager {
         return sequenceData
     }
 
-    /// Détermination des périodes d'activité d'un programme en fonction
+    /// Détermination des périodes d'activité des séquences d'un programme en fonction
     /// du calendrier scolaire.
     /// - Parameters:
     ///   - program: Programme annuel
     ///   - schoolYear: Caractéristiques de l'année scolaire
-    /// - Returns: Périodes d'activité d'un programme
+    /// - Returns: Périodes d'activité des séquences d'un programme
     /// - Precondition: Les vacances doivent être ordonnées par date croissante.
-    static func getProgramActivitiesPeriods(
+    static func getProgramSequencesPeriods(
         program: ProgramEntity,
         schoolYear: SchoolYearPref
     ) -> [SequenceData] {
@@ -510,29 +510,33 @@ extension ProgramManager {
         return sequencesData
     }
 
+    /// Nombre de séances du `program` qui devraient être complétées à la `date`.
     static func nbOfSeanceSuposidlyCompleted(
         program: ProgramEntity,
         schoolYear: SchoolYearPref,
         atThisDate date: Date
     ) -> Double {
-        let programActivitiesPeriods = getProgramActivitiesPeriods(
+        let programSequencesPeriods = getProgramSequencesPeriods(
             program: program,
             schoolYear: schoolYear
         )
-        guard let firstPeriod = programActivitiesPeriods.first,
+        guard let firstPeriod = programSequencesPeriods.first,
               date > firstPeriod.dateInterval.start else {
+            // la date courante est antérieure à la date de début du programme
             return 0.0
         }
 
-        // Recherche du numéro de la séquence en cours à la `date`
-        var currentSequenceNumber: Int
+        // Recherche du numéro de la séquence théoriquement en cours à la `date`
+        var lastCompletedSequenceNumber: Int
         var idx = 0
-        var iteratedPeriod = programActivitiesPeriods[idx]
+        var iteratedPeriod = programSequencesPeriods[idx]
+        // itérer sur les périodes jusqu'à ce que la date soit antérieure à la date de fin de la période
         repeat {
-            currentSequenceNumber = iteratedPeriod.number
+            lastCompletedSequenceNumber = iteratedPeriod.number
             idx += 1
-            iteratedPeriod = programActivitiesPeriods[idx]
+            iteratedPeriod = programSequencesPeriods[idx]
         } while iteratedPeriod.dateInterval.end < date
+        let currentSequenceNumber = lastCompletedSequenceNumber + 1
 
         // Cumuler le nb de séances de toutes les séquences entièrement complétées
         let sequencesInProgram = program.sequencesSortedByNumber
@@ -555,7 +559,7 @@ extension ProgramManager {
 
         //   Cumuler la durée écoulée dans la Séquence en cours
         let nbSeanceInPartiallyCompletedSequence: Double =
-            programActivitiesPeriods
+            programSequencesPeriods
                 .reduce(0.0) { (nb: Double, period: SequenceData) in
                     if period.number == currentSequenceNumber {
                         let nbWeek = Double(period.dateInterval.duration) / Double(7 * 24 * 60 * 60)
