@@ -14,6 +14,9 @@ struct ClassProgressesView: View {
     @ObservedObject
     var classe: ClasseEntity
 
+    @Environment(\.horizontalSizeClass)
+    private var hClass
+
     private let horizon = 3 // mois
 
     @State
@@ -89,7 +92,7 @@ struct ClassProgressesView: View {
                 }
                 .foregroundColor(barColor)
             }
-            .font(.footnote)
+            .font(hClass == .compact ? .footnote : .callout)
 
             ForEach(classeSequences) { sequence in
                 ClassSequenceProgressEditView(
