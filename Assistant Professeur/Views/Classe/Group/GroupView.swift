@@ -50,7 +50,7 @@ struct GroupView: View {
                             }
                         } label: {
                             Label(
-                                eleve.displayName,
+                                (eleve.isUngrouped ? "◦ " : "") + eleve.displayName,
                                 systemImage: EleveEntity.defaultImageName
                             )
                         }
