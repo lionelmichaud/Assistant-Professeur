@@ -94,78 +94,94 @@ extension SequenceStepperView {
     private var steps: [AnyView] {
         sequence
             .activitiesSortedByNumber
-            .map { activity in
+            .compactMap { activity in
                 let classesInProgress =
                     ProgramManager
                         .classesAssociatedTo(thisActivity: activity)
                         .filter { $0.currentActivity == activity }
 
-                return VStack(alignment: .leading, spacing: 0) {
-                    Text(activity.viewName)
-                        .bold()
-                        .foregroundColor(Color.activityTag)
-                        .textSelection(.enabled)
-                    ClasseTagList(
-                        classes: classesInProgress,
-                        font: .body
-                    )
+                if activity.viewDuration == 0 {
+                    return nil
+                } else {
+                    return VStack(alignment: .leading, spacing: 0) {
+                        Text(activity.viewName)
+                            .bold()
+                            .foregroundColor(Color.activityTag)
+                            .textSelection(.enabled)
+                        ClasseTagList(
+                            classes: classesInProgress,
+                            font: .body
+                        )
+                    }
+                    .eraseToAnyView()
                 }
-                .eraseToAnyView()
             }
     }
 
     private var indicators: [StepperIndicationType<AnyView>] {
         sequence
             .activitiesSortedByNumber
-            .map { activity in
-                StepperIndicationType
-                    .custom(NumberedCircleView(
-                        text: "A\(activity.viewNumber)",
-                        color: Color.activityTag,
-                        triggerAnimation: true
-                    )
-                    .eraseToAnyView())
+            .compactMap { activity in
+                if activity.viewDuration == 0 {
+                    return nil
+                } else {
+                    return StepperIndicationType
+                        .custom(NumberedCircleView(
+                            text: "A\(activity.viewNumber)",
+                            color: Color.activityTag,
+                            triggerAnimation: true
+                        )
+                            .eraseToAnyView())
+                }
             }
     }
 
     private var pitStops: [AnyView] {
         sequence
             .activitiesSortedByNumber
-            .map { activity in
-                VStack(alignment: .leading) {
-                    DurationSquareView(
-                        duration: activity.duration,
-                        withMargin: false,
-                        margin: 0
-                    )
-                    .font(.callout)
-                    .bold()
-                    .padding(.bottom, 1)
-
-                    ActivityAllSymbols(
-                        activity: activity,
-                        showTitle: true,
-                        axis: .horizontal
-                    )
-
-                    // Compétences disciplinaires associées
-                    if activity.allDisciplineCompetencies.isNotEmpty {
-                        DCompTagList(
-                            disciplineComps: activity.disciplineCompSortedByAcronym,
-                            font: .footnote
+            .compactMap { activity in
+                if activity.viewDuration == 0 {
+                    return nil
+                } else {
+                    return VStack(alignment: .leading) {
+                        DurationSquareView(
+                            duration: activity.duration,
+                            withMargin: false,
+                            margin: 0
                         )
-                        .padding([.top, .bottom], 1)
+                        .font(.callout)
+                        .bold()
+                        .padding(.bottom, 1)
+
+                        ActivityAllSymbols(
+                            activity: activity,
+                            showTitle: true,
+                            axis: .horizontal
+                        )
+
+                        // Compétences disciplinaires associées
+                        if activity.allDisciplineCompetencies.isNotEmpty {
+                            DCompTagList(
+                                disciplineComps: activity.disciplineCompSortedByAcronym,
+                                font: .footnote
+                            )
+                            .padding([.top, .bottom], 1)
+                        }
                     }
+                    .eraseToAnyView()
                 }
-                .eraseToAnyView()
             }
     }
 
     private var pitStopLineOptions: [StepperLineOptions] {
         sequence
             .activitiesSortedByNumber
-            .map { _ in
-                StepperLineOptions.custom(1, Color.activityTag)
+            .compactMap { activity in
+                if activity.viewDuration == 0 {
+                    return nil
+                } else {
+                    return StepperLineOptions.custom(1, Color.activityTag)
+                }
             }
     }
 }
