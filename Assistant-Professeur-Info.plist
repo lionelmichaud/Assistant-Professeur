@@ -2,16 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<true/>
-	<key>CFBundleIdentifier</key>
-	<string></string>
-	<key>UIFileSharingEnabled</key>
-	<true/>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>Cette application demande l'accès à votre agenda pour se synchroniser avec votre emploi du temps</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>
@@ -28,14 +26,14 @@
 			<array/>
 			<key>UTTypeDescription</key>
 			<string></string>
+			<key>UTTypeIconFile</key>
+			<string></string>
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
 			<string></string>
 			<key>UTTypeTagSpecification</key>
 			<dict/>
-			<key>UTTypeIconFile</key>
-			<string></string>
 		</dict>
 	</array>
 </dict>

@@ -20,7 +20,7 @@ struct ClasseColleLabel: View {
     }
 
     var body: some View {
-        let number = nbCollesNonNotifee
+//        let number = nbCollesNonNotifee
         ViewThatFits {
             template(number: classe.nbOfColles(isConsignee: false), large: true)
             template(number: classe.nbOfColles(isConsignee: false), large: false)

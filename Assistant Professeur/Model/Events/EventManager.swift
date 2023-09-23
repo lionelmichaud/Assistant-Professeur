@@ -39,7 +39,7 @@ struct EventManager { // swiftlint:disable:this type_body_length
 
     // MARK: - Methods
 
-    mutating func requestCalendarAccess(
+    mutating func requestCalendarAccess( // swiftlint:disable:this cyclomatic_complexity
         eventStore: EKEventStore,
         calendarName: String
     ) async -> (
@@ -85,17 +85,19 @@ struct EventManager { // swiftlint:disable:this type_body_length
                 var reason = ""
                 switch authorizationStatus {
                     case .notDetermined:
-                        reason = "indéfinie"
+                        reason = "L'utilisateur n'a pas défini s'il accepte ou non l'accès à ses données de Calendrier."
                     case .restricted:
-                        reason = "accès restreint"
+                        reason = "L'application n'est pas autorisée à accéder aux données du Calendrier de l'utilisateur."
                     case .denied:
-                        reason = "accès refusé"
-                    case .authorized:
-                        reason = "accès autorisé"
+                        reason = "L'utilisateur a explicitement refusé l'accès à ses données de Calendrier."
+                    case .fullAccess:
+                        reason = "L'application est autorisée à accéder en lecture et écriture aux données du Calendrier de l'utilisateur."
+                    case .writeOnly:
+                        reason = "L'application n'est autorisée à accéder qu'en écriture aux données du Calendrier de l'utilisateur."
                     @unknown default:
                         reason = "inconnue"
                 }
-                let alertTitle: String = "Accès au calendrier non autorisé: raison \(reason)"
+                let alertTitle: String = "Accès au calendrier non autorisé car \(reason)"
                 customLog.log(level: .error, "\(alertTitle, privacy: .public)")
                 return (
                     calendar: nil,
