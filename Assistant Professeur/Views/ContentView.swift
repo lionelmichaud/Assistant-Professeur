@@ -125,6 +125,18 @@ struct ContentView: View {
             isPresented: $isiCloudAlertIsPresented,
             error: cloudKitVM.iCloudError
         ) { error in
+            #if os(iOS) || os(tvOS)
+            // Ouve les réglages de l'App sous iOS ou tvOS
+                Button("Réglages") {
+                    Task {
+                        // Create the URL that deep links to your app's custom settings.
+                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                            // Ask the system to open that URL.
+                            await UIApplication.shared.open(url)
+                        }
+                    }
+                }
+            #endif
             Button("OK", role: .cancel) {
                 customLog.log(level: .error, "\(error.failureReason ?? "Raison inconue.")")
             }
