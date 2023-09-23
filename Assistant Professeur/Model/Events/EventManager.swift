@@ -33,8 +33,8 @@ struct EventManager { // swiftlint:disable:this type_body_length
         autorizationStatus != nil
     }
 
-    var isAccessAuthorized: Bool {
-        autorizationStatus == .authorized
+    var isFullAccessAuthorized: Bool {
+        autorizationStatus == .fullAccess
     }
 
     // MARK: - Methods
@@ -50,7 +50,7 @@ struct EventManager { // swiftlint:disable:this type_body_length
     ) {
         // TODO: - To access the user’s Calendar data, all sandboxed macOS apps must include the com.apple.security.personal-information.calendars entitlement. To learn more about entitlements related to App Sandbox, see Enabling App Sandbox.
         do {
-            if try await eventStore.requestAccess(to: .event) {
+            if try await eventStore.requestFullAccessToEvents() {
                 // Succès
                 self.autorizationStatus = EKEventStore.authorizationStatus(for: .event)
                 let (

@@ -565,6 +565,21 @@
                   endingLineNumber = "240"
                   offsetFromSymbolStart = "364">
                </Location>
+               <Location
+                  uuid = "B96C8A20-FA6F-4EB5-810C-D1892EE97883 - 8152cfd9f780c47f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Assistant_Professeur.DataBaseManager.populateWithMockData(storeType: Assistant_Professeur.StoreType) -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Persistence/DataBase/DataBaseManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "240"
+                  endingLineNumber = "240"
+                  offsetFromSymbolStart = "360">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
