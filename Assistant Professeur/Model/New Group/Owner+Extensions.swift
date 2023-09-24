@@ -114,14 +114,18 @@ extension OwnerEntity {
 
     // MARK: - Type Methods
 
-    /// Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
-    static func initializeEntity(userName: PersonNameComponents?) {
-        // créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore
-        create(
-            familyName: userName?.familyName ?? "",
-            givenName: userName?.givenName ?? "",
-            numen: ""
-        )
+    /// Retourne les données personnelles de l'unique utilisateur de l'appli.
+    /// S'il n'existe pas encore, créer le record unique de l'utilisateur de l'appli.
+    static func singleOwner() -> OwnerEntity {
+        if OwnerEntity.cardinal() == 0 {
+            // créer le singleton de l'unique Owner
+            OwnerEntity.create(
+                familyName: "",
+                givenName: "",
+                numen: ""
+            )
+        }
+        return OwnerEntity.all().first!
     }
 
     /// Créer un utilisateur de l'appli **s'il n'en existe aucun**.
@@ -143,26 +147,26 @@ extension OwnerEntity {
     /// - Returns: Retourne `nil` s'il existe déjà un utilisateur de l'appli.
     @discardableResult
     static func create(
-        familyName        : String,
-        givenName         : String,
-        numen             : String,
-        mailAdressAcademy : String = "",
-        urlMailAcademy    : URL?   = nil,
-        idMailAcademy     : String = "",
-        pwdMailAcademy    : String = ""
+        familyName: String,
+        givenName: String,
+        numen: String,
+        mailAdressAcademy: String = "",
+        urlMailAcademy: URL? = nil,
+        idMailAcademy: String = "",
+        pwdMailAcademy: String = ""
     ) -> OwnerEntity? {
         guard OwnerEntity.cardinal() == 0 else {
             return nil
         }
         let owner = OwnerEntity.create()
-        owner.familyName        = familyName
-        owner.givenName         = givenName
-        owner.numen             = numen
+        owner.familyName = familyName
+        owner.givenName = givenName
+        owner.numen = numen
 
         owner.mailAdressAcademy = mailAdressAcademy
-        owner.urlMailAcademy    = urlMailAcademy
-        owner.idMailAcademy     = idMailAcademy
-        owner.pwdMailAcademy    = pwdMailAcademy
+        owner.urlMailAcademy = urlMailAcademy
+        owner.idMailAcademy = idMailAcademy
+        owner.pwdMailAcademy = pwdMailAcademy
 
         try? OwnerEntity.saveIfContextHasChanged()
 

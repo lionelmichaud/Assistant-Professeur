@@ -35,15 +35,6 @@ struct AppVersionView: View {
                 }
             }
 
-            // Infos Utilisateur
-            if let userName = cloudKitVM.userName {
-                Text("Bienvenu \(userName.formatted(.name(style: .medium)))")
-                    .font(.title2)
-                    .bold()
-                    .foregroundColor(.primary)
-                    .padding(.top)
-            }
-
             // Infos Historique
             Form {
                 Section {

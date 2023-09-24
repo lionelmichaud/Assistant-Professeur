@@ -10,20 +10,8 @@ import SwiftUI
 
 /// Infos perso de l'utilisateur de l'app
 struct InfoPersoView: View {
-    /// Initilisation des infos perso de l'utilisateur de l'app
-    /// - Parameter cloudKitVM: Données  utilisateur fournies par CloudKit
-    init(cloudKitVM: CloudKitViewModel) {
-        // Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
-        OwnerEntity.initializeEntity(userName: cloudKitVM.userName)
-        self._owner = StateObject(wrappedValue: OwnerEntity.all().first!)
-    }
-
     @StateObject
-    private var owner: OwnerEntity // = {
-    // Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
-//        OwnerEntity.initializeEntity(userName: cloudKitVM.userName)
-//        return OwnerEntity.all().first!
-//    }()
+    private var owner: OwnerEntity = OwnerEntity.singleOwner()
 
     var body: some View {
         GroupBox {

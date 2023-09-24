@@ -160,7 +160,7 @@ struct SchoolSidebarView: View {
         }
 
         .sheet(isPresented: $isShowingInfoPerso) {
-            InfoPersoView(cloudKitVM: cloudKitVM)
+            InfoPersoView()
                 .presentationDetents([.large])
         }
 
