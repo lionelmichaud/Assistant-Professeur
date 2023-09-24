@@ -45,7 +45,7 @@ struct CompetencySidebarView: View {
         }
         .onChange(
             of: nav.selectedCompetenceType,
-            perform: resetNavigCompetency
+            resetNavigCompetency
         )
         #if os(iOS)
         .navigationTitle("Compétences")
@@ -60,10 +60,10 @@ struct CompetencySidebarView: View {
         }
     }
 
-    private func resetNavigCompetency(newSelection _: CompetencySelection?) {
+    private func resetNavigCompetency() {
         // si on change de type de compétence ou de discipline
         nav.competencePath.removeLast(nav.competencePath.count)
-        // => on reset les chapitre et compétence travaillées sélectionnées
+        // => on reset les chapitres et compétences travaillées sélectionnées
         nav.selectedWorkedCompChapterMngObjId = nil
         nav.selectedWorkedCompMngObjId = nil
         // => on reset les thème, section, compétence et connaissance sélectionnées

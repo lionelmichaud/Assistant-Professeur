@@ -98,7 +98,7 @@ struct ConnectToActivityModal: View {
                 self.selectedActivity = firstActivity
             }
         }
-        .onChange(of: selectedLevel) { _ in
+        .onChange(of: selectedLevel) {
             if let firstSequence = selectedSequences.first {
                 self.selectedSequence = firstSequence
             }

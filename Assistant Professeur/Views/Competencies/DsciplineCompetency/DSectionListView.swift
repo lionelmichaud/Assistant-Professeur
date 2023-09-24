@@ -79,7 +79,7 @@ struct DSectionListView: View {
                 )
             }
         }
-        .onChange(of: nav.selectedDiscSectionMngObjId) { _ in
+        .onChange(of: nav.selectedDiscSectionMngObjId) {
             // si on change de section
             // => on reset les compétence et connaissance sélectionnées
             nav.selectedDiscCompMngObjId = nil

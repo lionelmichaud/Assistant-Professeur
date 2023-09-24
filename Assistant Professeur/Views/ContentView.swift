@@ -26,10 +26,10 @@ struct ContentView: View {
     private var cloudKitVM = CloudKitViewModel()
 
     @State
-    private var isInitAlertIsPresented = false
+    private var isInitAlertPresented = false
 
     @State
-    private var isiCloudAlertIsPresented = false
+    private var isiCloudAlertPresented = false
 
     var body: some View {
         TabView(selection: $navigationModel.selectedTab) {
@@ -107,7 +107,7 @@ struct ContentView: View {
 
         // Alerte en cas d'erreur d'initilisation de l'App
         .alert(
-            isPresented: $isInitAlertIsPresented,
+            isPresented: $isInitAlertPresented,
             error: AppState.shared.initError
         ) { error in
             Button("OK", role: .cancel) {
@@ -122,20 +122,20 @@ struct ContentView: View {
 
         // Alerte en cas d'erreur de connection iCloud
         .alert(
-            isPresented: $isiCloudAlertIsPresented,
+            isPresented: $isiCloudAlertPresented,
             error: cloudKitVM.iCloudError
         ) { error in
             #if os(iOS) || os(tvOS)
-            // Ouve les réglages de l'App sous iOS ou tvOS
-                Button("Réglages") {
-                    Task {
-                        // Create the URL that deep links to your app's custom settings.
-                        if let url = URL(string: UIApplication.openSettingsURLString) {
-                            // Ask the system to open that URL.
-                            await UIApplication.shared.open(url)
-                        }
-                    }
-                }
+            // Ouvre les réglages de l'App sous iOS ou tvOS
+//                Button("Réglages") {
+//                    Task {
+//                        // Create the URL that deep links to your app's custom settings.
+//                        if let url = URL(string: UIApplication.openSettingsURLString) {
+//                            // Ask the system to open that URL.
+//                            await UIApplication.shared.open(url)
+//                        }
+//                    }
+//                }
             #endif
             Button("OK", role: .cancel) {
                 customLog.log(level: .error, "\(error.failureReason ?? "Raison inconue.")")
@@ -147,9 +147,9 @@ struct ContentView: View {
             Text(message)
         }
 
-        .onChange(of: cloudKitVM.iCloudError) { value in
-            if value != .available {
-                isiCloudAlertIsPresented.toggle()
+        .onChange(of: cloudKitVM.iCloudError, initial: false) {
+            if cloudKitVM.iCloudError != .available {
+                isiCloudAlertPresented = true
             }
         }
         // Synchronous initializaing of the View
@@ -159,7 +159,6 @@ struct ContentView: View {
         }
 
         // Asynchronous initializing of the View
-
         // Persistence dans SceneStorage de l'état de navigation
         .task {
             if let navigationData {
@@ -180,14 +179,14 @@ struct ContentView: View {
         switch AppState.shared.initError {
             case .none,
                  .failedToInitializeCloudKitSchema:
-                isInitAlertIsPresented = false
+                isInitAlertPresented = false
 
             case .failedToLoadUserData,
                  .failedToInitialize,
                  .failedToLoadApplicationData,
                  .failedToCheckCompatibility,
                  .failedToLoadPersistentStores:
-                isInitAlertIsPresented = true
+                isInitAlertPresented = true
         }
     }
 }

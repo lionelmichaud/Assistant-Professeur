@@ -63,8 +63,8 @@ struct AnnotationEditView: View {
             .lineLimit(5)
             .font(hClass == .compact ? .callout : .body)
             .textFieldStyle(.roundedBorder)
-            .onChange(of: annotation) { newValue in
-                isExpanded = newValue.isNotEmpty
+            .onChange(of: annotation, initial: false) { 
+                isExpanded = annotation.isNotEmpty
             }
         } label: {
             HStack {

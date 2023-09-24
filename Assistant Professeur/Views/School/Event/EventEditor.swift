@@ -27,7 +27,7 @@ struct EventEditor: View {
             .environment(\.locale, Locale.init(identifier: "fr_FR"))
             Spacer()
         }
-        .onChange(of: event.viewDate) { _ in
+        .onChange(of: event.viewDate) {
             try? EventEntity.saveIfContextHasChanged()
         }
     }
@@ -47,7 +47,7 @@ struct EventEditor: View {
                 .lineLimit(2...3)
                 .font(hClass == .compact ? .callout : .body)
                 .textFieldStyle(.roundedBorder)
-                .onChange(of: event.viewName) { _ in
+                .onChange(of: event.viewName) {
                     try? EventEntity.saveIfContextHasChanged()
                 }
         }

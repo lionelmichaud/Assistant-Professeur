@@ -89,43 +89,56 @@ struct ProgramSplitView: View {
         }
 
         // désélectionner la séquence et l'activité quand on change de programme
-        .onChange(of: navig.selectedProgramMngObjId) { _ in
+        .onChange(of: navig.selectedProgramMngObjId) {
             navig.selectedSequenceMngObjId = nil
             navig.selectedActivityMngObjId = nil
+
             navig.columnVisibility = .all
+
             navig.programDetailColumnState = nil
         }
 
         // désélectionner l'activité quand on change de séquence
-        .onChange(of: navig.selectedSequenceMngObjId) { _ in
+        .onChange(of: navig.selectedSequenceMngObjId) {
             navig.selectedActivityMngObjId = nil
+
             navig.columnVisibility = .all
+
             navig.programDetailColumnState = nil
         }
 
         // afficher l'activité quand on en sélectionne une
-        .onChange(of: navig.selectedActivityMngObjId) { newValue in
-            if newValue != nil {
+        .onChange(of: navig.selectedActivityMngObjId) {
+            if navig.selectedActivityMngObjId != nil {
                 navig.columnVisibility = .all
+
                 navig.programDetailColumnState = .showActivityDetail
             }
         }
 
-        .onChange(of: showProgramSteps) { show in
-            if show {
+        // afficher la time-line du programme dans la colonne de droite (détail)
+        .onChange(of: showProgramSteps) {
+            if showProgramSteps {
                 navig.selectedActivityMngObjId = nil
+
                 navig.columnVisibility = .all
+
                 navig.programDetailColumnState = .showProgramSteps
-                showProgramSteps = false
+
+                showProgramSteps.toggle()
             }
         }
 
-        .onChange(of: showSequenceSteps) { show in
-            if show {
+        // afficher la time-line de la séquence dans la colonne de droite (détail)
+        .onChange(of: showSequenceSteps) {
+            if showSequenceSteps {
                 navig.selectedActivityMngObjId = nil
+
                 navig.columnVisibility = .all
+
                 navig.programDetailColumnState = .showSequenceSteps
-                showSequenceSteps = false
+
+                showSequenceSteps.toggle()
             }
         }
     }

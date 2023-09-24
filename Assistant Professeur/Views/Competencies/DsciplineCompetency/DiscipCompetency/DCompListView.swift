@@ -75,7 +75,7 @@ struct DCompListView: View {
                 )
             }
         }
-        .onChange(of: nav.selectedDiscCompMngObjId) { _ in
+        .onChange(of: nav.selectedDiscCompMngObjId) {
             // si on change de compétence
             // => on reset la connaissance sélectionnée
             nav.selectedDiscKnowMngObjId = nil

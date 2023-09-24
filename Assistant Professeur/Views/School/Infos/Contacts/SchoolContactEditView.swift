@@ -88,7 +88,7 @@ struct SchoolContactEditView: View {
                 .textContentType(.telephoneNumber)
                 .submitLabel(.next)
                 .focused($focus, equals: .phone)
-                .onChange(of: phoneNumber) { _ in
+                .onChange(of: phoneNumber) {
                     phoneNumber = phoneNumber.formatPhoneNumber()
                 }
             TextField("Adresse e-mail", text: $emailAddress)

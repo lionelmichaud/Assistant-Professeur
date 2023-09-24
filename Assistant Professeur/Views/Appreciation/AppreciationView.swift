@@ -26,8 +26,8 @@ struct AppreciationView: View {
             .lineLimit(5)
             .font(hClass == .compact ? .callout : .body)
             .textFieldStyle(.roundedBorder)
-            .onChange(of: appreciation) { newValue in
-                isExpanded = newValue.isNotEmpty
+            .onChange(of: appreciation, initial: false) {
+                isExpanded = appreciation.isNotEmpty
             }
         } label: {
             HStack {

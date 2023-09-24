@@ -80,10 +80,10 @@ struct GroupSteppedlMarkModal: View {
             Image(systemName: "person.line.dotted.person.fill")
         }
         .pickerStyle(.menu)
-        .onChange(of: selectedGroupeNb) { newGroupe in
+        .onChange(of: selectedGroupeNb) {
             stepsMarks = GroupSteppedlMarkModal.initializedStepsMarks(
                 pourExam: exam,
-                aPartirDuGroupe: newGroupe
+                aPartirDuGroupe: selectedGroupeNb
             )
         }
     }
@@ -147,8 +147,8 @@ struct GroupSteppedlMarkModal: View {
                 )
             }
         }
-        .onChange(of: stepsMarks) { newMarks in
-            attribuer(stepsMarks: newMarks)
+        .onChange(of: stepsMarks) {
+            attribuer(stepsMarks: stepsMarks)
         }
         #if os(iOS)
         .navigationTitle("Note de groupe")

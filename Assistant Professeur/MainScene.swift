@@ -29,7 +29,7 @@ struct MainScene: Scene {
                 .frame(minWidth: 800, minHeight: 600)
             #endif
         }
-        .onChange(of: scenePhase, perform: manageScenePhaseChanges)
+        .onChange(of: scenePhase, manageScenePhaseChanges)
         #if os(macOS)
         .commands {
             SidebarCommands()
@@ -44,7 +44,7 @@ struct MainScene: Scene {
 
     // MARK: - Methods
 
-    private func manageScenePhaseChanges(scenePhase: ScenePhase) {
+    private func manageScenePhaseChanges() {
         // The final step is optional, but recommended:
         // when your app moves to the background,
         // you should call the save() method so that Core Data saves your changes permanently.

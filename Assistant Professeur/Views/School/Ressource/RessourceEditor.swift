@@ -23,7 +23,7 @@ struct RessourceEditor: View {
             TextField("Nom de la ressource", text: $ressource.name.bound)
                 .textFieldStyle(.roundedBorder)
         }
-        .onChange(of: ressource.viewName) { _ in
+        .onChange(of: ressource.viewName) {
             try? RessourceEntity.saveIfContextHasChanged()
         }
     }
@@ -38,7 +38,7 @@ struct RessourceEditor: View {
                 Text("\(ressource.quantity)")
                     .foregroundColor(.secondary)
             }
-            .onChange(of: ressource.quantity) { _ in
+            .onChange(of: ressource.quantity) {
                 try? RessourceEntity.saveIfContextHasChanged()
             }
         }

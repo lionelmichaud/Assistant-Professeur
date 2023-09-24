@@ -109,9 +109,9 @@ struct ActivityEditorModal: View {
                     systemImage: ActivityEntity.evalSommativeSymbol
                 )
             }
-            .onChange(of: activity.isEval) { newValue in
+            .onChange(of: activity.isEval) {
                 // Vérifier si on vient de faire de cette activité une Evaluation Sommative
-                if newValue {
+                if activity.isEval {
                     // Associer toutes les compétences disciplinaires de la séquence à cette activité
                     if let disciplineCompSortedByAcronym = activity.sequence?.disciplineCompSortedByAcronym {
                         let set = NSSet(array: disciplineCompSortedByAcronym)
@@ -138,10 +138,10 @@ struct ActivityEditorModal: View {
         }
         .interactiveDismissDisabled()
         #if os(iOS)
-        .navigationTitle("Activité")
+            .navigationTitle("Activité")
         #endif
-        .navigationBarTitleDisplayModeInline()
-        .toolbar(content: myToolBarContent)
+            .navigationBarTitleDisplayModeInline()
+            .toolbar(content: myToolBarContent)
     }
 }
 

@@ -91,7 +91,7 @@ struct DThemeListView: View {
                 }
             }
         }
-        .onChange(of: nav.selectedDiscThemeMngObjId) { _ in
+        .onChange(of: nav.selectedDiscThemeMngObjId) {
             // si on change de thème
             // => on reset les section, compétence et connaissance sélectionnées
             nav.selectedDiscSectionMngObjId = nil

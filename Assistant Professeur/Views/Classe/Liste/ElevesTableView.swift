@@ -170,9 +170,6 @@ struct ElevesTableView: View {
                 placement: .toolbar,
                 prompt: "Nom,Prénom,groupe,commentaire"
             )
-            .onChange(of: sortOrder) { _ in
-                print("Sort order changed")
-            }
             .autocorrectionDisabled()
             #if os(macOS)
                 .tableStyle(.bordered(alternatesRowBackgrounds: true))
