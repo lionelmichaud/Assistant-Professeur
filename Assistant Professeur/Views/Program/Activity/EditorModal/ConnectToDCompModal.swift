@@ -22,9 +22,6 @@ struct ConnectToDCompModal: View {
     @State
     private var selectedCompsObjId = Set<NSManagedObjectID>()
 
-    @State
-    private var isExpanded: Bool = true
-
     var body: some View {
         List(selection: $selectedCompsObjId) {
             ForEach(dThemes) { dTheme in
@@ -70,8 +67,10 @@ struct ConnectToDCompModal: View {
                         let dComps = selectedCompsObjId.compactMap { dCompObjectId in
                             DCompEntity.byObjectId(MngObjID: dCompObjectId)
                         }
-                        let set = NSSet(array: dComps)
-                        activity.addToCompetencies(set)
+                        let setOfDcomps = NSSet(array: dComps)
+                        activity.addToCompetencies(setOfDcomps)
+
+                        try? ActivityEntity.saveIfContextHasChanged()
                         dismiss()
                     }
                 }

@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 19/06/2023.
 //
 
+import CoreData
 import HelpersView
 import SwiftUI
 
@@ -15,14 +16,14 @@ struct ConnectToActivityModal: View {
     @State
     private var selectedLevel: LevelClasse = .nbCP
 
-    @State
-    private var selectedSequence: SequenceEntity = .all().first!
-
-    @State
-    private var selectedActivity: ActivityEntity = .all().first!
-
     @Environment(\.dismiss)
     private var dismiss
+
+    @State
+    private var sequences = [SequenceEntity]()
+
+    @State
+    private var selectedActivitiesObjId = Set<NSManagedObjectID>()
 
     private var discipline: Discipline? {
         competency.section?.theme?.disciplineEnum
@@ -32,83 +33,49 @@ struct ConnectToActivityModal: View {
         competency.section?.theme?.cycleEnum
     }
 
-    /// Filtrer les séquences en fonction des Discipline, Cycle et Niveau de classe sélectionnés
-    private var selectedSequences: [SequenceEntity] {
-        if let cycle, let discipline {
-            return SequenceEntity.allSortedByDisciplineLevelNumber(
-                discipline: discipline,
-                cycle: cycle,
-                level: selectedLevel
-            )
-        } else {
-            return []
-        }
-    }
-
-    private var selectedActivities: [ActivityEntity] {
-        selectedSequence.activitiesSortedByNumber
-    }
-
     var body: some View {
-        Form {
-            if cycle == nil || discipline == nil {
-                Text("Aucune activité existante sélectionnable.")
+        VStack(alignment: .leading) {
+            if let discipline, let cycle {
+                VStack(alignment: .leading) {
+                    Section("Sélectionner un niveau") {
+                        LevelInCyclePicker(
+                            selectedLevel: $selectedLevel,
+                            inCycle: cycle
+                        )
+                    }
 
-            } else {
-                Section("Sélectionner un niveau") {
-                    LevelInCyclePicker(
-                        selectedLevel: $selectedLevel,
-                        inCycle: cycle!
+                    Section("Sélectionner une activité") {
+                        List(selection: $selectedActivitiesObjId) {
+                            ForEach(sequences) { sequence in
+                                SequenceDisclosure(sequence: sequence)
+                            }
+                            .emptyListPlaceHolder(sequences) {
+                                EmptyListMessage(
+                                    symbolName: nil,
+                                    title: "Aucun séquence actuellement.",
+                                    message: "Les séquences ajoutées apparaîtront ici.",
+                                    showAsGroupBox: true
+                                )
+                            }
+                        }
+                        .listStyle(.sidebar)
+                    }
+                }
+                .padding(.horizontal)
+                .interactiveDismissDisabled()
+                .task(id: selectedLevel) {
+                    sequences = SequenceEntity.allSortedByDisciplineLevelNumber(
+                        discipline: discipline,
+                        cycle: cycle,
+                        level: selectedLevel
                     )
                 }
-
-                if selectedSequences.isNotEmpty {
-                    Section("Sélectionner une séquence") {
-                        SequencePicker(
-                            selectedSequence: $selectedSequence,
-                            inSequences: selectedSequences
-                        )
-                        .padding(.horizontal)
-                    }
-                } else {
-                    Text("Aucune séquence existante sélectionnable.")
-                }
-
-                if selectedActivities.isNotEmpty {
-                    Section("Sélectionner une activité") {
-                        ActivityPicker(
-                            selectedActivity: $selectedActivity,
-                            inActivities: selectedActivities
-                        )
-                        .padding(.horizontal)
-                    }
-                } else {
-                    Text("Aucune activité existante sélectionnable.")
-                }
+            } else {
+                EmptyView()
             }
         }
-        .onAppear {
-            if let firstLevelInCycle = cycle?.associatedLevels.first {
-                self.selectedLevel = firstLevelInCycle
-            }
-            if let firstSequence = selectedSequences.first {
-                self.selectedSequence = firstSequence
-            }
-            if let firstActivity = selectedActivities.first {
-                self.selectedActivity = firstActivity
-            }
-        }
-        .onChange(of: selectedLevel) {
-            if let firstSequence = selectedSequences.first {
-                self.selectedSequence = firstSequence
-            }
-            if let firstActivity = selectedActivities.first {
-                self.selectedActivity = firstActivity
-            }
-        }
-        .interactiveDismissDisabled()
         #if os(iOS)
-        .navigationTitle("Activité pédagogique associée")
+        .navigationTitle("Activités pédagogiques associées")
         #endif
         .navigationBarTitleDisplayModeInline()
         .toolbar {
@@ -118,15 +85,42 @@ struct ConnectToActivityModal: View {
                     dismiss()
                 }
             }
-            if selectedActivities.isNotEmpty && selectedSequences.isNotEmpty {
+            if selectedActivitiesObjId.isNotEmpty {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Associer") {
-                        selectedActivity.addToCompetencies(competency)
+                        let activities = selectedActivitiesObjId.compactMap { activityObjectId in
+                            ActivityEntity.byObjectId(MngObjID: activityObjectId)
+                        }
+                        let setOfActivities = NSSet(array: activities)
+                        competency.addToActivities(setOfActivities)
+
                         try? DCompEntity.saveIfContextHasChanged()
                         dismiss()
                     }
                 }
             }
+        }
+    }
+}
+
+struct SequenceDisclosure: View {
+    @ObservedObject
+    var sequence: SequenceEntity
+
+    @State
+    private var isExpanded: Bool = true
+
+    var body: some View {
+        DisclosureGroup(isExpanded: $isExpanded.animation()) {
+            ForEach(sequence.activitiesSortedByNumber, id: \.objectID) { activity in
+                AssociatedActivityBrowerRow(
+                    activity: activity,
+                    verticallyStacked: false
+                )
+                // .horizontallyAligned(.leading)
+            }
+        } label: {
+            SequencePickerRow(sequence: sequence)
         }
     }
 }
