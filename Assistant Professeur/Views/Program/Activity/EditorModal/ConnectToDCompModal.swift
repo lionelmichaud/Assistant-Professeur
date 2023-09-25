@@ -9,6 +9,7 @@ import CoreData
 import HelpersView
 import SwiftUI
 
+/// Dialogue modal de connection d'une Activité pédagogique avec des Compétences Disciplinaires
 struct ConnectToDCompModal: View {
     @ObservedObject
     var activity: ActivityEntity
@@ -39,7 +40,6 @@ struct ConnectToDCompModal: View {
             }
         }
         .listStyle(.sidebar)
-        .interactiveDismissDisabled()
         .task {
             if let discipline = activity.sequence?.program?.viewDisciplineEnum,
                let level = activity.sequence?.program?.levelEnum {

@@ -62,7 +62,8 @@ struct ActivityListSection: View {
             NavigationStack {
                 ConnectToActivityModal(competency: dCompetency)
             }
-            .presentationDetents([.medium])
+            .interactiveDismissDisabled()
+            .presentationDetents([.large])
         }
     }
 }

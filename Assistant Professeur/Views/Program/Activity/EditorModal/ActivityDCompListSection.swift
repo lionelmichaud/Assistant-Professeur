@@ -62,7 +62,8 @@ struct ActivityDCompListSection: View {
             NavigationStack {
                 ConnectToDCompModal(activity: activity)
             }
-            .presentationDetents([.medium])
+            .interactiveDismissDisabled()
+            .presentationDetents([.large])
         }
     }
 }

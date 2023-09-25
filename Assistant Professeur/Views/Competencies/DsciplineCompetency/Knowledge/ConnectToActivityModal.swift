@@ -9,6 +9,7 @@ import CoreData
 import HelpersView
 import SwiftUI
 
+/// Dialogue modal de connection d'une Compétence Disciplinaire avec des Activités pédagogiques
 struct ConnectToActivityModal: View {
     @ObservedObject
     var competency: DCompEntity
@@ -34,7 +35,7 @@ struct ConnectToActivityModal: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
+        Group {
             if let discipline, let cycle {
                 VStack(alignment: .leading) {
                     Section("Sélectionner un niveau") {
@@ -62,7 +63,6 @@ struct ConnectToActivityModal: View {
                     }
                 }
                 .padding(.horizontal)
-                .interactiveDismissDisabled()
                 .task(id: selectedLevel) {
                     sequences = SequenceEntity.allSortedByDisciplineLevelNumber(
                         discipline: discipline,
