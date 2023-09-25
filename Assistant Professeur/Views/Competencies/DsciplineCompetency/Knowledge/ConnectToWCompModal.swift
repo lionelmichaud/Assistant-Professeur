@@ -8,6 +8,7 @@
 import HelpersView
 import SwiftUI
 
+/// Dialogue modal de connection d'une Compétence Disciplinaire avec des Compétences Travaillées
 struct ConnectToWCompModal: View {
     @ObservedObject
     var competency: DCompEntity

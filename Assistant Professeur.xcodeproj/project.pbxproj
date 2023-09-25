@@ -890,10 +890,10 @@
 				796A17852A3F49E600413DDD /* KnowledgeListSection.swift */,
 				7957A82F2A3759E400D64786 /* DKnowBrowserRow.swift */,
 				7957A8312A375D7C00D64786 /* DKnowEditorModal.swift */,
-				79FB2E482A3E4DFB00F05D61 /* ConnectToWCompModal.swift */,
 				796A17872A3F6C6600413DDD /* WCompListSection.swift */,
-				79F7A27C2A405D8F00CEC3D5 /* ConnectToActivityModal.swift */,
+				79FB2E482A3E4DFB00F05D61 /* ConnectToWCompModal.swift */,
 				79F7A2782A4053BE00CEC3D5 /* ActivityListSection.swift */,
+				79F7A27C2A405D8F00CEC3D5 /* ConnectToActivityModal.swift */,
 				79F7A27A2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift */,
 			);
 			path = Knowledge;

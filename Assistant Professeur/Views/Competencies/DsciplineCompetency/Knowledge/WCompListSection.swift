@@ -61,7 +61,8 @@ struct WCompListSection: View {
             NavigationStack {
                 ConnectToWCompModal(competency: dCompetency)
             }
-            .presentationDetents([.medium])
+            .interactiveDismissDisabled()
+            .presentationDetents([.large])
         }
     }
 }
