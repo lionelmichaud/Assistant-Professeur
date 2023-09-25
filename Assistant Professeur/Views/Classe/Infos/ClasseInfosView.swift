@@ -122,7 +122,7 @@ struct ClasseInfosView: View {
                     Button {
                         popOverArretIsPresented = true
                     } label: {
-                        Image(systemName: "info.circle")
+                        Image(systemName: "info.bubble")
                     }
                 }
             } footer: {
@@ -145,7 +145,7 @@ struct ClasseInfosView: View {
                     Button {
                         popOverConseilIsPresented = true
                     } label: {
-                        Image(systemName: "info.circle")
+                        Image(systemName: "info.bubble")
                     }
                 }
             } footer: {

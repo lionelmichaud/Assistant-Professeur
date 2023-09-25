@@ -23,7 +23,7 @@ struct ActivityDCompListSection: View {
                 isAddingObject.toggle()
             } label: {
                 Label(
-                    "Associer une compétence disciplinaire",
+                    "Associer des compétences disciplinaires",
                     systemImage: "plus.circle.fill"
                 )
             }

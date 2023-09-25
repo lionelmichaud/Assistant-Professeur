@@ -22,7 +22,7 @@ struct ActivityListSection: View {
                 isAddingObject.toggle()
             } label: {
                 Label(
-                    "Associer une activité pédagogique",
+                    "Associer des activités pédagogiques",
                     systemImage: "plus.circle.fill"
                 )
             }

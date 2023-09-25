@@ -147,11 +147,11 @@ struct SchoolNextSeancesView: View {
         #endif
         .toolbar {
             ToolbarItem(placement: .automatic) {
-                // Afficher le PopOver d'information surle format à utiliser
+                // Afficher le PopOver d'information sur le format à utiliser
                 Button {
                     popOverIsPresented = true
                 } label: {
-                    Image(systemName: "info.circle")
+                    Image(systemName: "info.bubble")
                 }
                 .popover(isPresented: $popOverIsPresented) {
                     infoView

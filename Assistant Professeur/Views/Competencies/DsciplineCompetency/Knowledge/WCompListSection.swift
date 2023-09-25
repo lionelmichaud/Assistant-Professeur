@@ -22,7 +22,7 @@ struct WCompListSection: View {
                 isAddingObject.toggle()
             } label: {
                 Label(
-                    "Associer une compétence du socle",
+                    "Associer des compétences du socle",
                     systemImage: "plus.circle.fill"
                 )
             }
