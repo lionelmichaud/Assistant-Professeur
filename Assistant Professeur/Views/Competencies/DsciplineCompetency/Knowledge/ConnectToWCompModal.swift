@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 17/06/2023.
 //
 
+import CoreData
 import HelpersView
 import SwiftUI
 
@@ -22,63 +23,45 @@ struct ConnectToWCompModal: View {
     @Environment(\.dismiss)
     private var dismiss
 
+    @State
+    private var wChapters = [WCompChapterEntity]()
+
+    @State
+    private var selectedCompsObjId = Set<NSManagedObjectID>()
+
     private var cycle: Cycle? {
         competency.section?.theme?.cycleEnum
     }
 
-    /// Filtrer les chapitres en fonction du Cycle
-    private var selectedWCompChapters: [WCompChapterEntity] {
-        if let cycle {
-            return WCompChapterEntity
-                .sortedbyCycleAcronymTitle(forCycle: cycle)
-        } else {
-            return []
-        }
-    }
-
-    private var selectedWComps: [WCompEntity] {
-        selectedWCompChapter.allWorkedCompetenciesSortedByNumber
-    }
-
     var body: some View {
-        Form {
-            if cycle == nil {
-                Text("Aucune compétence travaillée existante sélectionnable.")
-
+        Group {
+            if let cycle {
+                List(selection: $selectedCompsObjId) {
+                    ForEach(wChapters) { wChapter in
+                        ChapterDisclosure(
+                            wChapter: wChapter
+                        )
+                    }
+                    .emptyListPlaceHolder(wChapters) {
+                        EmptyListMessage(
+                            symbolName: WCompChapterEntity.defaultImageName,
+                            title: "Aucun élément du socle de compétences actuellement.",
+                            message: "Les éléments du socle de compétences ajoutés apparaîtront ici.",
+                            showAsGroupBox: true
+                        )
+                    }
+                }
+                .listStyle(.sidebar)
+                .task {
+                    wChapters = WCompChapterEntity
+                        .sortedbyCycleAcronymTitle(forCycle: cycle)
+                }
             } else {
-                if selectedWCompChapters.isNotEmpty {
-                    Section("Sélectionner un Élement du socle") {
-                        WCompChapterPicker(
-                            selectedChapter: $selectedWCompChapter,
-                            inChapters: selectedWCompChapters
-                        )
-                    }
-                } else {
-                    Text("Aucun élément existant du socle sélectionnable.")
-                }
-
-                if selectedWComps.isNotEmpty {
-                    Section("Sélectionner une Compétence du socle") {
-                        WCompPicker(
-                            selectedCompetency: $selectedWComp,
-                            inCompetencies: selectedWComps
-                        )
-                    }
-                } else {
-                    Text("Aucune compétence existante du socle sélectionnable.")
-                }
-            }
-        }
-        .onAppear {
-            if let firstChapter = selectedWCompChapters.first {
-                self.selectedWCompChapter = firstChapter
-            }
-            if let firstComp = selectedWComps.first {
-                self.selectedWComp = firstComp
+                EmptyView()
             }
         }
         #if os(iOS)
-        .navigationTitle("Compétence travaillée associée")
+        .navigationTitle("Compétences travaillées associées")
         #endif
         .navigationBarTitleDisplayModeInline()
         .toolbar {
@@ -88,15 +71,52 @@ struct ConnectToWCompModal: View {
                     dismiss()
                 }
             }
-            if selectedWCompChapters.isNotEmpty && selectedWComps.isNotEmpty {
+            if selectedCompsObjId.isNotEmpty {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Ok") {
-                        selectedWComp.addToDisciplineCompetencies(competency)
+                    Button("Associer") {
+                        let wComps = selectedCompsObjId.compactMap { wCompObjectId in
+                            WCompEntity.byObjectId(MngObjID: wCompObjectId)
+                        }
+                        let setOfWcomps = NSSet(array: wComps)
+                        competency.addToWorkedCompetencies(setOfWcomps)
+
                         try? DCompEntity.saveIfContextHasChanged()
                         dismiss()
                     }
                 }
             }
+        }
+    }
+}
+
+struct ChapterDisclosure: View {
+    @ObservedObject
+    var wChapter: WCompChapterEntity
+
+    @State
+    private var isExpanded: Bool = true
+
+    var body: some View {
+        DisclosureGroup(isExpanded: $isExpanded.animation()) {
+            ForEach(wChapter.allWorkedCompetenciesSortedByNumber, id: \.objectID) { wComp in
+                HStack {
+                    Text(wComp.viewAcronym)
+                        .fontWeight(.bold) +
+                        Text(". ") +
+                        Text(wComp.viewDescription)
+                        .foregroundColor(.secondary)
+                }
+            }
+        } label: {
+            HStack {
+                Text(wChapter.viewAcronym)
+                    .fontWeight(.bold) +
+                    Text(". ") +
+                    Text(wChapter.viewDescription)
+                    .foregroundColor(.secondary)
+            }
+            .lineLimit(5)
+            .horizontallyAligned(.leading)
         }
     }
 }
