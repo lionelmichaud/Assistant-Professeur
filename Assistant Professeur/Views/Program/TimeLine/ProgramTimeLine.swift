@@ -48,13 +48,11 @@ struct ProgramTimeLine: View {
                 }
 
             } else {
-                EmptyListMessage(
-                    symbolName: ProgramEntity.defaultImageName,
-                    title: "Aucune progression sélectionné.",
-                    message: "Sélectionner une progression pour en visualiser les séquences.",
-                    showAsGroupBox: true
+                ContentUnavailableView(
+                    "Aucune progression sélectionnée...",
+                    systemImage: ProgramEntity.defaultImageName,
+                    description: Text("Sélectionner une progression pour en visualiser les séquences.")
                 )
-                .padding(.horizontal)
             }
         }
         #if os(iOS)

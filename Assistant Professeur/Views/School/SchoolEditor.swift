@@ -33,11 +33,10 @@ struct SchoolEditor: View {
         if selectedSchoolExists {
             SchoolDetail(school: selectedSchool!)
         } else {
-            EmptyListMessage(
-                symbolName: SchoolEntity.defaultImageName,
-                title: "Aucun établissement sélectionné.",
-                message: "Sélectionner un établissement pour en visualiser les détails ici.",
-                showAsGroupBox: true
+            ContentUnavailableView(
+                "Aucun établissement sélectionné...",
+                systemImage: SchoolEntity.defaultImageName,
+                description: Text("Sélectionner un établissement pour en visualiser les détails ici.")
             )
         }
     }

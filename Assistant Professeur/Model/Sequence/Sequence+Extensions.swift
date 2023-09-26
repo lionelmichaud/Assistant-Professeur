@@ -12,6 +12,11 @@ import SwiftUI
 extension SequenceEntity {
     // MARK: - Computed properties
 
+    /// Nom de l'image par défaut utilisée pour représenter une séquence
+    static var defaultImageName: String {
+        "text.book.closed"
+    }
+
     /// Wrapper of `name`
     /// - Important: *Saves the context to the store after modification is done*
     @objc

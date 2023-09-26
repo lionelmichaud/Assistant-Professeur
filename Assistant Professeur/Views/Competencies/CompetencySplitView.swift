@@ -37,13 +37,11 @@ struct CompetencySplitView: View {
             // 2nde colonne
             switch nav.selectedCompetenceType {
                 case .none:
-                    EmptyListMessage(
-                        symbolName: WCompChapterEntity.defaultImageName,
-                        title: "Aucun type de compétences sélectionné.",
-                        message: "Sélectionner un type de compétence.",
-                        showAsGroupBox: true
+                    ContentUnavailableView(
+                        "Aucun type de compétences sélectionné...",
+                        systemImage: WCompChapterEntity.defaultImageName,
+                        description: Text("Sélectionner un type de compétence.")
                     )
-                    .padding(.horizontal)
 
                 case .workedCompetencies:
                     // Compétences travaillées
@@ -75,11 +73,10 @@ struct CompetencySplitView: View {
             // Détail dans la 3ième colonne
             switch nav.selectedCompetenceType {
                 case .none:
-                    EmptyListMessage(
-                        symbolName: WCompChapterEntity.defaultImageName,
-                        title: "Aucun type de compétences sélectionné.",
-                        message: "Sélectionner un type de compétence.",
-                        showAsGroupBox: true
+                    ContentUnavailableView(
+                        "Aucun type de compétences sélectionné...",
+                        systemImage: WCompChapterEntity.defaultImageName,
+                        description: Text("Sélectionner un type de compétence.")
                     )
 
                 case .workedCompetencies:

@@ -12,7 +12,7 @@ import Foundation
 extension ProgramEntity {
     // MARK: - Computed properties
 
-    /// Nom de l'image par défaut utilisée pour représenter un établissement
+    /// Nom de l'image par défaut utilisée pour représenter une progression
     static var defaultImageName: String {
         "books.vertical"
     }

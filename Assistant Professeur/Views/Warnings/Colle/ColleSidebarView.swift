@@ -24,10 +24,10 @@ struct ColleSidebarView: View {
     var body: some View {
         List(selection: $navigationModel.selectedColleMngObjId) {
             if ColleEntity.all().isEmpty {
-                EmptyListMessage(
-                    symbolName: ColleEntity.defaultImageName,
-                    title: "Aucune colle actuellement.",
-                    message: "Les colles ajoutées apparaîtront ici."
+                ContentUnavailableView(
+                    "Aucune colle actuellement...",
+                    systemImage: ColleEntity.defaultImageName,
+                    description: Text("Les colles ajoutées apparaîtront ici.")
                 )
             } else {
                 // pour chaque Etablissement
@@ -45,9 +45,9 @@ struct ColleSidebarView: View {
                     }
                 }
                 .emptyListPlaceHolder(schools) {
-                    EmptyListMessage(
-                        symbolName: SchoolEntity.defaultImageName,
-                        title: "Aucun établissement actuellement."
+                    ContentUnavailableView(
+                        "Aucun établissement actuellement...",
+                        systemImage: SchoolEntity.defaultImageName
                     )
                 }
             }
@@ -110,10 +110,10 @@ struct ColleSidebarSchoolSubview: View {
             }
         }
         .emptyListPlaceHolder(school.classesSortedByLevelNumber) {
-            EmptyListMessage(
-                symbolName: ClasseEntity.defaultImageName,
-                title: "Aucune classe dans cet établissement actuellement.",
-                message: "Les classes ajoutées apparaîtront ici."
+            ContentUnavailableView(
+                "Aucune classe dans cet établissement actuellement...",
+                systemImage: ClasseEntity.defaultImageName,
+                description: Text("Les classes ajoutées apparaîtront ici.")
             )
         }
     }

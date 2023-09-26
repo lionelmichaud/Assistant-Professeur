@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HelpersView
 
 struct ObservSidebarView: View {
     @EnvironmentObject
@@ -23,10 +24,10 @@ struct ObservSidebarView: View {
     var body: some View {
         List(selection: $navigationModel.selectedObservMngObjId) {
             if ObservEntity.all().isEmpty {
-                EmptyListMessage(
-                    symbolName: ObservEntity.defaultImageName,
-                    title: "Aucune observation actuellement.",
-                    message: "Les observations ajoutées apparaîtront ici."
+                ContentUnavailableView(
+                    "Aucune observation actuellement...",
+                    systemImage: ObservEntity.defaultImageName,
+                    description: Text("Les observations ajoutées apparaîtront ici.")
                 )
             } else {
                 // pour chaque Etablissement
@@ -44,9 +45,9 @@ struct ObservSidebarView: View {
                     }
                 }
                 .emptyListPlaceHolder(schools) {
-                    EmptyListMessage(
-                        symbolName: SchoolEntity.defaultImageName,
-                        title: "Aucun établissement actuellement."
+                    ContentUnavailableView(
+                        "Aucun établissement actuellement...",
+                        systemImage: SchoolEntity.defaultImageName
                     )
                 }
             }
@@ -109,10 +110,10 @@ struct ObservSidebarSchoolSubview: View {
             }
         }
         .emptyListPlaceHolder(school.classesSortedByLevelNumber) {
-            EmptyListMessage(
-                symbolName: ClasseEntity.defaultImageName,
-                title: "Aucune classe dans cet établissement actuellement.",
-                message: "Les classes ajoutées apparaîtront ici."
+            ContentUnavailableView(
+                "Aucune classe dans cet établissement actuellement...",
+                systemImage: ClasseEntity.defaultImageName,
+                description: Text("Les classes ajoutées apparaîtront ici.")
             )
         }
     }

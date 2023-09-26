@@ -5,12 +5,12 @@
 //  Created by Lionel MICHAUD on 06/10/2022.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct ObservEditor: View {
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     // MARK: - Computed properties
 
@@ -19,7 +19,9 @@ struct ObservEditor: View {
     }
 
     private var selectedObserv: ObservEntity? {
-        guard let selectedObservId else { return nil }
+        guard let selectedObservId else {
+            return nil
+        }
         return ObservEntity.byObjectId(MngObjID: selectedObservId)
     }
 
@@ -31,17 +33,16 @@ struct ObservEditor: View {
         if selectedObservExists {
             ObservDetail(observ: selectedObserv!)
         } else {
-            EmptyListMessage(
-                symbolName: ObservEntity.defaultImageName,
-                title: "Aucune observation sélectionnée.",
-                message: "Sélectionner une observation pour en visualiser les détails ici.",
-                showAsGroupBox: true
+            ContentUnavailableView(
+                "Aucune observation sélectionnée...",
+                systemImage: ObservEntity.defaultImageName,
+                description: Text("Sélectionner une observation pour en visualiser les détails ici.")
             )
         }
     }
 }
 
-//struct ObservEditor_Previews: PreviewProvider {
+// struct ObservEditor_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -68,4 +69,4 @@ struct ObservEditor: View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

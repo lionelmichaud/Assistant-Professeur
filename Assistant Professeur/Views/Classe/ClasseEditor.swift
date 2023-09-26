@@ -5,13 +5,13 @@
 //  Created by Lionel MICHAUD on 20/04/2022.
 //
 
-import SwiftUI
-import HelpersView
 import CoreData
+import HelpersView
+import SwiftUI
 
 struct ClasseEditor: View {
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     // MARK: - Computed Properties
 
@@ -20,7 +20,9 @@ struct ClasseEditor: View {
     }
 
     private var selectedClasse: ClasseEntity? {
-        guard let selectedClasseId else { return nil }
+        guard let selectedClasseId else {
+            return nil
+        }
         return ClasseEntity.byObjectId(MngObjID: selectedClasseId)
     }
 
@@ -32,11 +34,10 @@ struct ClasseEditor: View {
         if selectedClasseExists {
             ClasseDetail(classe: selectedClasse!)
         } else {
-            EmptyListMessage(
-                symbolName: ClasseEntity.defaultImageName,
-                title: "Aucune classe sélectionnée.",
-                message: "Sélectionner une classe pour en visualiser les détails ici.",
-                showAsGroupBox: true
+            ContentUnavailableView(
+                "Aucune classe sélectionnée...",
+                systemImage: ClasseEntity.defaultImageName,
+                description: Text("Sélectionner une classe pour en visualiser les détails ici.")
             )
         }
     }

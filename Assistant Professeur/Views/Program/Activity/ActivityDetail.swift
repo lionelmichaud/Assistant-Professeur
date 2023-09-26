@@ -57,10 +57,10 @@ struct ActivityDetail: View {
                     }
                 }
             } else {
-                EmptyListMessage(
-                    title: "Aucune activité sélectionnée.",
-                    message: "Sélectionner une activité pour en visualiser le détail ici.",
-                    showAsGroupBox: true
+                ContentUnavailableView(
+                    "Aucune activité sélectionnée...",
+                    systemImage: ActivityEntity.defaultImageName,
+                    description: Text("Sélectionner une activité pour en visualiser le détail ici.")
                 )
             }
         }

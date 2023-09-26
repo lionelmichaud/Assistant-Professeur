@@ -64,10 +64,10 @@ struct ProgramSplitView: View {
             // Détail dans la 3ième colonne
             switch navig.programDetailColumnState {
                 case .none:
-                    EmptyListMessage(
-                        title: "Aucune activité sélectionnée.",
-                        message: "Sélectionner une activité pour en visualiser le contenu.",
-                        showAsGroupBox: true
+                    ContentUnavailableView(
+                        "Aucune activité sélectionnée...",
+                        systemImage: ActivityEntity.defaultImageName,
+                        description: Text("Sélectionner une activité pour en visualiser le contenu.")
                     )
 
                 case .showProgramSteps:

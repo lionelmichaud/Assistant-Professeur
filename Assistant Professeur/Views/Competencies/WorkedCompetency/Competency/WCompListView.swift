@@ -71,22 +71,20 @@ struct WCompListView: View {
                         }
                     }
                     .emptyListPlaceHolder(selectedChapter!.allWorkedCompetenciesSortedByNumber) {
-                        EmptyListMessage(
-                            symbolName: WCompEntity.defaultImageName,
-                            title: "Aucune compétence actuellement.",
-                            message: "Les compétences ajoutées apparaîtront ici."
+                        ContentUnavailableView(
+                            "Aucune compétence actuellement...",
+                            systemImage: WCompEntity.defaultImageName,
+                            description: Text("Les compétences ajoutées apparaîtront ici.")
                         )
                     }
                 }
 
             } else {
-                EmptyListMessage(
-                    symbolName: WCompEntity.defaultImageName,
-                    title: "Aucun élément de compétence sélectionné.",
-                    message: "Sélectionner un élément de compétence pour en visualiser le contenu.",
-                    showAsGroupBox: true
+                ContentUnavailableView(
+                    "Aucun élément de compétence sélectionné...",
+                    systemImage: WCompEntity.defaultImageName,
+                    description: Text("Sélectionner un élément de compétence pour en visualiser le contenu.")
                 )
-                .padding(.horizontal)
             }
         }
         #if os(iOS)

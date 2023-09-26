@@ -51,11 +51,10 @@ struct ConnectToActivityModal: View {
                                 SequenceDisclosure(sequence: sequence)
                             }
                             .emptyListPlaceHolder(sequences) {
-                                EmptyListMessage(
-                                    symbolName: nil,
-                                    title: "Aucun séquence actuellement.",
-                                    message: "Les séquences ajoutées apparaîtront ici.",
-                                    showAsGroupBox: true
+                                ContentUnavailableView(
+                                    "Aucune séquence actuellement...",
+                                    systemImage: SequenceEntity.defaultImageName,
+                                    description: Text("Les séquences ajoutées apparaîtront ici.")
                                 )
                             }
                         }

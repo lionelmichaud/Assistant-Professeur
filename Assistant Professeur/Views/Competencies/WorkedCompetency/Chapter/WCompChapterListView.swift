@@ -68,10 +68,10 @@ struct WCompChapterListView: View {
                 }
             }
             .emptyListPlaceHolder(workedCompChapterSections) {
-                EmptyListMessage(
-                    symbolName: WCompChapterEntity.defaultImageName,
-                    title: "Aucun élément actuellement.",
-                    message: "Les éléments de compétences ajoutés apparaîtront ici."
+                ContentUnavailableView(
+                    "Aucun élément actuellement...",
+                    systemImage: WCompChapterEntity.defaultImageName,
+                    description: Text("Les éléments de compétences ajoutés apparaîtront ici.")
                 )
             }
         }

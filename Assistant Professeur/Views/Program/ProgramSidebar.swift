@@ -68,10 +68,10 @@ struct ProgramSidebar: View {
                 }
             }
             .emptyListPlaceHolder(programsSections) {
-                EmptyListMessage(
-                    symbolName: ProgramEntity.defaultImageName,
-                    title: "Aucune progression actuellement.",
-                    message: "Les progressions ajoutées apparaîtront ici."
+                ContentUnavailableView(
+                    "Aucune progression actuellement...",
+                    systemImage: ProgramEntity.defaultImageName,
+                    description: Text("Les progressions ajoutées apparaîtront ici.")
                 )
             }
         }

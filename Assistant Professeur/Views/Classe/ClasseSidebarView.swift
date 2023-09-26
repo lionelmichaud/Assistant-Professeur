@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HelpersView
 
 struct ClasseSidebarView: View {
     @EnvironmentObject
@@ -40,10 +41,10 @@ struct ClasseSidebarView: View {
                 }
             }
             .emptyListPlaceHolder(classesSections) {
-                EmptyListMessage(
-                    symbolName: ClasseEntity.defaultImageName,
-                    title: "Aucune classe actuellement.",
-                    message: "Les classes ajoutées apparaîtront ici."
+                ContentUnavailableView(
+                    "Aucune classe actuellement...",
+                    systemImage: ClasseEntity.defaultImageName,
+                    description: Text("Les classes ajoutées apparaîtront ici.")
                 )
             }
         }

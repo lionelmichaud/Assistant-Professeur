@@ -71,11 +71,10 @@ struct DSectionListView: View {
                 }
             }
             .emptyListPlaceHolder(theme.allSectionsSortedByNumber) {
-                EmptyListMessage(
-                    symbolName: DSectionEntity.defaultImageName,
-                    title: "Aucune section de compétences disciplinaires actuellement.",
-                    message: "Les sections ajoutées apparaîtront ici.",
-                    showAsGroupBox: true
+                ContentUnavailableView(
+                    "Aucune section de compétences disciplinaires actuellement...",
+                    systemImage: DSectionEntity.defaultImageName,
+                    description: Text("Les sections ajoutées apparaîtront ici.")
                 )
             }
         }

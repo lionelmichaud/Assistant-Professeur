@@ -41,11 +41,10 @@ struct WarningSplitView: View {
             // 2nde colonne
             switch navig.selectedWarningType {
                 case .none:
-                    EmptyListMessage(
-                        symbolName: "exclamationmark.triangle",
-                        title: "Aucun type d'avertissement sélectionné.",
-                        message: "Sélectionner un type d'avertissement.",
-                        showAsGroupBox: true
+                    ContentUnavailableView(
+                        "Aucun type d'avertissement sélectionné...",
+                        systemImage: "exclamationmark.triangle",
+                        description: Text("Sélectionner un type d'avertissement.")
                     )
 
                 case .colle:
@@ -59,11 +58,10 @@ struct WarningSplitView: View {
             // Détail dans la 3ième colonne
             switch navig.selectedWarningType {
                 case .none:
-                    EmptyListMessage(
-                        symbolName: "exclamationmark.triangle",
-                        title: "Aucun type d'avertissement sélectionné.",
-                        message: "Sélectionner un type d'avertissement.",
-                        showAsGroupBox: true
+                    ContentUnavailableView(
+                        "Aucun type d'avertissement sélectionné...",
+                        systemImage: "exclamationmark.triangle",
+                        description: Text("Sélectionner un type d'avertissement.")
                     )
 
                 case .colle:

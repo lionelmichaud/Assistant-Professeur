@@ -44,10 +44,7 @@ struct ActivityListSection: View {
                 }
             }
             .emptyListPlaceHolder(dCompetency.activitiesSortedByLevelSeqActNumber) {
-                EmptyListMessage(
-                    title: "Aucune activité pédagogique associée.",
-                    showAsGroupBox: false
-                )
+                Text("Aucune activité pédagogique associée.")
             }
 
         } header: {

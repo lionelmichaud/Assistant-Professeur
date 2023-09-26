@@ -34,10 +34,10 @@ struct ActivityList: View {
             .onDelete(perform: deleteItems)
             .listRowSeparatorTint(.secondary)
             .emptyListPlaceHolder(filteredActivities) {
-                EmptyListMessage(
-                    title: "Aucune activitée trouvée dans cette séquence.",
-                    message: "Les activitées ajoutées apparaîtront ici.",
-                    showAsGroupBox: true
+                ContentUnavailableView(
+                    "Aucune activitée trouvée dans cette séquence...",
+                    systemImage: ActivityEntity.defaultImageName,
+                    description: Text("Les activitées ajoutées apparaîtront ici.")
                 )
             }
         } header: {

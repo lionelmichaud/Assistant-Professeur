@@ -64,11 +64,10 @@ struct KnowledgeListSection: View {
                 }
             }
             .emptyListPlaceHolder(dCompetency.allKnowledgesSortedByNumber) {
-                EmptyListMessage(
-                    symbolName: DKnowledgeEntity.defaultImageName,
-                    title: "Aucune connaissance disciplinaire actuellement pour cette compétence.",
-                    message: "Les connaissances disciplinaires ajoutées apparaîtront ici.",
-                    showAsGroupBox: false
+                ContentUnavailableView(
+                    "Aucune connaissance disciplinaire actuellement pour cette compétence...",
+                    systemImage: DKnowledgeEntity.defaultImageName,
+                    description: Text("Les connaissances disciplinaires ajoutées apparaîtront ici.")
                 )
             }
         } header: {

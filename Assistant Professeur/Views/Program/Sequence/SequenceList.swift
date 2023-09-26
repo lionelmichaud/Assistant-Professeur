@@ -36,10 +36,10 @@ struct SequenceList: View {
             .onDelete(perform: deleteItems)
             .listRowSeparatorTint(.secondary)
             .emptyListPlaceHolder(filteredSequences) {
-                EmptyListMessage(
-                    title: "Aucune séquence trouvée dans cette progression.",
-                    message: "Les séquences ajoutées apparaîtront ici.",
-                    showAsGroupBox: true
+                ContentUnavailableView(
+                    "Aucune séquence trouvée dans cette progression...",
+                    systemImage: SequenceEntity.defaultImageName,
+                    description: Text("Les séquences ajoutées apparaîtront ici.")
                 )
             }
         } header: {

@@ -31,11 +31,10 @@ struct ConnectToDCompModal: View {
                 )
             }
             .emptyListPlaceHolder(dThemes) {
-                EmptyListMessage(
-                    symbolName: DThemeEntity.defaultImageName,
-                    title: "Aucun thème de compétences disciplinaires actuellement.",
-                    message: "Les thèmes ajoutés apparaîtront ici.",
-                    showAsGroupBox: true
+                ContentUnavailableView(
+                    "Aucun thème de compétences disciplinaires actuellement...",
+                    systemImage: DThemeEntity.defaultImageName,
+                    description: Text("Les thèmes ajoutés apparaîtront ici.")
                 )
             }
         }

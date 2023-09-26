@@ -58,11 +58,10 @@ struct ClassNextSeancesView: View {
                 SeanceRow(seance: seance)
             }
             .emptyListPlaceHolder(classeSeances.seances) {
-                EmptyListMessage(
-                    symbolName: "clock",
-                    title: "Aucun événement trouvé dans le calendrier de cet établissement pour cette classe.",
-                    message: "Les événements plannifiés dans votre agenda pour cet établissement et cette classe apparaîtront ici.",
-                    showAsGroupBox: true
+                ContentUnavailableView(
+                    "Aucun événement trouvé dans le calendrier de cet établissement pour cette classe...",
+                    systemImage: "clock",
+                    description: Text("Les événements plannifiés dans votre agenda pour cet établissement et cette classe apparaîtront ici.")
                 )
             }
         }

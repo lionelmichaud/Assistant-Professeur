@@ -46,13 +46,11 @@ struct SequenceSidebar: View {
                 }
 
             } else {
-                EmptyListMessage(
-                    symbolName: ProgramEntity.defaultImageName,
-                    title: "Aucune progression sélectionnée.",
-                    message: "Sélectionner une progression pour en visualiser les séquences ici.",
-                    showAsGroupBox: true
+                ContentUnavailableView(
+                    "Aucune progression sélectionnée...",
+                    systemImage: ProgramEntity.defaultImageName,
+                    description: Text("Sélectionner une progression pour en visualiser les séquences ici.")
                 )
-                .padding(.horizontal)
             }
         }
         #if os(iOS)

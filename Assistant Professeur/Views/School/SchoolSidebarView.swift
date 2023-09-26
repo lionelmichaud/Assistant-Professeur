@@ -121,10 +121,10 @@ struct SchoolSidebarView: View {
                 }
             }
             .emptyListPlaceHolder(schoolsSections) {
-                EmptyListMessage(
-                    symbolName: SchoolEntity.defaultImageName,
-                    title: "Aucun établissement actuellement.",
-                    message: "Les établissements ajoutés apparaîtront ici."
+                ContentUnavailableView(
+                    "Aucun établissement actuellement...",
+                    systemImage: SchoolEntity.defaultImageName,
+                    description: Text("Les établissements ajoutés apparaîtront ici.")
                 )
             }
         }

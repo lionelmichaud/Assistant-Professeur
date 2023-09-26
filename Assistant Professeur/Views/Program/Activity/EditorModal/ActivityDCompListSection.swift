@@ -44,10 +44,7 @@ struct ActivityDCompListSection: View {
                 }
             }
             .emptyListPlaceHolder(activity.disciplineCompSortedByAcronym) {
-                EmptyListMessage(
-                    title: "Aucune compétence disciplinaire associée.",
-                    showAsGroupBox: false
-                )
+                Text("Aucune compétence disciplinaire associée.")
             }
 
         } header: {

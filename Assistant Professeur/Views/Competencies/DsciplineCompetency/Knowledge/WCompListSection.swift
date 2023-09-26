@@ -43,10 +43,7 @@ struct WCompListSection: View {
                     }
             }
             .emptyListPlaceHolder(dCompetency.workedCompSortedByAcronym) {
-                EmptyListMessage(
-                    title: "Aucune compétence travaillée associée.",
-                    showAsGroupBox: false
-                )
+                Text("Aucune compétence travaillée associée.")
             }
 
         } header: {

@@ -5,13 +5,13 @@
 //  Created by Lionel MICHAUD on 22/04/2022.
 //
 
-import SwiftUI
-import HelpersView
 import CoreData
+import HelpersView
+import SwiftUI
 
 struct EleveEditor: View {
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     // MARK: - Computed Properties
 
@@ -20,7 +20,9 @@ struct EleveEditor: View {
     }
 
     private var selectedEleve: EleveEntity? {
-        guard let selectedEleveId else { return nil }
+        guard let selectedEleveId else {
+            return nil
+        }
         return EleveEntity.byObjectId(MngObjID: selectedEleveId)
     }
 
@@ -32,11 +34,10 @@ struct EleveEditor: View {
         if selectedEleveExists {
             EleveDetail(eleve: selectedEleve!)
         } else {
-            EmptyListMessage(
-                symbolName: EleveEntity.defaultImageName,
-                title: "Aucun élève sélectionné.",
-                message: "Sélectionner un élève pour en visualiser les détails ici.",
-                showAsGroupBox: true
+            ContentUnavailableView(
+                "Aucun élève sélectionné...",
+                systemImage: EleveEntity.defaultImageName,
+                description: Text("Sélectionner un élève pour en visualiser les détails ici.")
             )
         }
     }

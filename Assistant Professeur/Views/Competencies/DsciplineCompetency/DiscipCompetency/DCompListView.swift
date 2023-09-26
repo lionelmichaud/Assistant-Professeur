@@ -67,11 +67,10 @@ struct DCompListView: View {
                 }
             }
             .emptyListPlaceHolder(section.allCompetenciesSortedByNumber) {
-                EmptyListMessage(
-                    symbolName: DCompEntity.defaultImageName,
-                    title: "Aucune compétence disciplinaire actuellement dans cette section.",
-                    message: "Les compétences disciplinaires ajoutées apparaîtront ici.",
-                    showAsGroupBox: false
+                ContentUnavailableView(
+                    "Aucune compétence disciplinaire actuellement dans cette section...",
+                    systemImage: DCompEntity.defaultImageName,
+                    description: Text("Les compétences disciplinaires ajoutées apparaîtront ici.")
                 )
             }
         }

@@ -61,9 +61,10 @@ struct WCompMasteryLevels: View {
                 }
             }
             .emptyListPlaceHolder(masteryDefinitions) {
-                EmptyListMessage(
-                    title: "Aucun critère de maîtrise.",
-                    message: "Les critère de maîtrise ajoutés apparaîtront ici."
+                ContentUnavailableView(
+                    "Aucun critère de maîtrise...",
+                    systemImage: "ruler",
+                    description: Text("Les critère de maîtrise ajoutés apparaîtront ici.")
                 )
             }
         }

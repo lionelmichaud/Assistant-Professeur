@@ -68,11 +68,10 @@ struct DThemeListView: View {
                             }
                         }
                         .emptyListPlaceHolder(filteredThemes) {
-                            EmptyListMessage(
-                                symbolName: DThemeEntity.defaultImageName,
-                                title: "Aucun thème de compétences disciplinaires actuellement.",
-                                message: "Les thèmes ajoutés apparaîtront ici.",
-                                showAsGroupBox: true
+                            ContentUnavailableView(
+                                "Aucun thème de compétences disciplinaires actuellement...",
+                                systemImage: DThemeEntity.defaultImageName,
+                                description: Text("Les thèmes ajoutés apparaîtront ici.")
                             )
                         }
                     } header: {
@@ -82,11 +81,10 @@ struct DThemeListView: View {
                             .fontWeight(.bold)
                     }
                 } else {
-                    EmptyListMessage(
-                        symbolName: DThemeEntity.defaultImageName,
-                        title: "Aucun thème actuellement pour \(discipline).",
-                        message: "Les thèmes de compétences disciplinaires ajoutés apparaîtront ici.",
-                        showAsGroupBox: true
+                    ContentUnavailableView(
+                        "Aucun thème actuellement pour \(discipline.rawValue)...",
+                        systemImage: DThemeEntity.defaultImageName,
+                        description: Text("Les thèmes de compétences disciplinaires ajoutés apparaîtront ici.")
                     )
                 }
             }

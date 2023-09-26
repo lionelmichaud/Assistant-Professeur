@@ -72,12 +72,12 @@ struct SchoolDetail: View {
                 // Section liste des ressources
                 RessourceListSection(school: school)
             }
-            #if os(iOS)
-            .navigationTitle("Etablissement")
-            .navigationBarTitleDisplayMode(.inline)
-            #endif
-            // .onChange(of: schoolVM, perform: save)
         }
+        #if os(iOS)
+        .navigationTitle("Etablissement")
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+        // .onChange(of: schoolVM, perform: save)
         // .onDisappear(perform: save)
     }
 

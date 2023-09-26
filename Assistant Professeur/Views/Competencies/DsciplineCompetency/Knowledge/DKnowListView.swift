@@ -63,10 +63,10 @@ struct DKnowListView: View {
                     }
                 }
             } else {
-                EmptyListMessage(
-                    title: "Aucune compétence sélectionnée.",
-                    message: "Sélectionner une compétence pour en visualiser le détail ici.",
-                    showAsGroupBox: true
+                ContentUnavailableView(
+                    "Aucune compétence sélectionnée...",
+                    systemImage: DKnowledgeEntity.defaultImageName,
+                    description: Text("Sélectionner une compétence pour en visualiser le détail ici.")
                 )
             }
         }

@@ -5,12 +5,12 @@
 //  Created by Lionel MICHAUD on 06/10/2022.
 //
 
-import SwiftUI
 import CoreData
+import SwiftUI
 
 struct ColleEditor: View {
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navigationModel: NavigationModel
 
     // MARK: - Computed properties
 
@@ -19,7 +19,9 @@ struct ColleEditor: View {
     }
 
     private var selectedColle: ColleEntity? {
-        guard let selectedColleId else { return nil }
+        guard let selectedColleId else {
+            return nil
+        }
         return ColleEntity.byObjectId(MngObjID: selectedColleId)
     }
 
@@ -31,17 +33,16 @@ struct ColleEditor: View {
         if selectedColleExists {
             ColleDetail(colle: selectedColle!)
         } else {
-            EmptyListMessage(
-                symbolName: ColleEntity.defaultImageName,
-                title: "Aucune colle sélectionnée.",
-                message: "Sélectionner une colle pour en visualiser les détails ici.",
-                showAsGroupBox: true
+            ContentUnavailableView(
+                "Aucune colle sélectionnée...",
+                systemImage: ColleEntity.defaultImageName,
+                description: Text("Sélectionner une colle pour en visualiser les détails ici.")
             )
         }
     }
 }
 
-//struct ColleEditor_Previews: PreviewProvider {
+// struct ColleEditor_Previews: PreviewProvider {
 //    static var previews: some View {
 //        TestEnvir.createFakes()
 //        return Group {
@@ -68,4 +69,4 @@ struct ColleEditor: View {
 //            .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }

@@ -43,11 +43,10 @@ struct ConnectToWCompModal: View {
                         )
                     }
                     .emptyListPlaceHolder(wChapters) {
-                        EmptyListMessage(
-                            symbolName: WCompChapterEntity.defaultImageName,
-                            title: "Aucun élément du socle de compétences actuellement.",
-                            message: "Les éléments du socle de compétences ajoutés apparaîtront ici.",
-                            showAsGroupBox: true
+                        ContentUnavailableView(
+                            "Aucun élément du socle de compétences actuellement...",
+                            systemImage: WCompChapterEntity.defaultImageName,
+                            description: Text("Les éléments du socle de compétences ajoutés apparaîtront ici.")
                         )
                     }
                 }

@@ -43,9 +43,9 @@ struct EleveSidebarView: View {
                 }
             }
             .emptyListPlaceHolder(schools) {
-                EmptyListMessage(
-                    symbolName: SchoolEntity.defaultImageName,
-                    title: "Aucun établissement actuellement."
+                ContentUnavailableView(
+                    "Aucun établissement actuellement...",
+                    systemImage: SchoolEntity.defaultImageName
                 )
             }
         }
@@ -53,7 +53,7 @@ struct EleveSidebarView: View {
             text: $searchString,
 //            placement : .navigationBarDrawer(displayMode : .automatic),
             placement: .toolbar,
-            prompt: "Nom,Prénom,groupe,commentaire"
+            prompt: "Nom,prénom,groupe,commentaire"
         )
         .autocorrectionDisabled()
         .toolbar {
@@ -101,7 +101,10 @@ struct EleveSidebarSchoolSubview: View {
     var body: some View {
         // pour chaque Classe
         ForEach(school.classesSortedByLevelNumber) { classe in
-            EleveSidebarClasseSubview(classe: classe, searchString: searchString)
+            EleveSidebarClasseSubview(
+                classe: classe,
+                searchString: searchString
+            )
         }
     }
 }
@@ -129,80 +132,84 @@ struct EleveSidebarClasseSubview: View {
 
     var searchCriteria: String {
         searchString
-        + navigationModel.filterFlag.description
-        + navigationModel.filterColle.description
-        + navigationModel.filterObservation.description
+            + navigationModel.filterFlag.description
+            + navigationModel.filterColle.description
+            + navigationModel.filterObservation.description
     }
 
     var body: some View {
-        if classe.nbOfEleves != 0 {
-            DisclosureGroup(isExpanded: $isClasseExpanded) {
+        DisclosureGroup(isExpanded: $isClasseExpanded) {
+            if classe.nbOfEleves != 0 {
                 // pour chaque Elève
-                ForEach(filteredEleveInClasse, id: \.objectID) { eleve in
-                    EleveBrowserRow(eleve: eleve)
-                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                            // supprimer un élève
-                            Button(role: .destructive) {
-                                withAnimation {
-                                    // supprimer l'élève et tous ses descendants
-                                    try? eleve.delete()
-                                    if navigationModel.selectedEleveMngObjId == eleve.objectID {
-                                        navigationModel.selectedEleveMngObjId = nil
+                if filteredEleveInClasse.isNotEmpty {
+                    ForEach(filteredEleveInClasse, id: \.objectID) { eleve in
+                        EleveBrowserRow(eleve: eleve)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                // supprimer un élève
+                                Button(role: .destructive) {
+                                    withAnimation {
+                                        // supprimer l'élève et tous ses descendants
+                                        try? eleve.delete()
+                                        if navigationModel.selectedEleveMngObjId == eleve.objectID {
+                                            navigationModel.selectedEleveMngObjId = nil
+                                        }
                                     }
+                                } label: {
+                                    Label("Supprimer", systemImage: "trash")
                                 }
-                            } label: {
-                                Label("Supprimer", systemImage: "trash")
                             }
-                        }
 
-                        .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                            // flager un élève
-                            Button {
-                                withAnimation {
-                                    eleve.toggleFlag()
-                                }
-                            } label: {
-                                if eleve.isFlagged {
-                                    Label("Sans drapeau", systemImage: "flag.slash")
-                                } else {
-                                    Label("Avec drapeau", systemImage: "flag.fill")
-                                }
-                            }.tint(.orange)
-                        }
+                            .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                                // flager un élève
+                                Button {
+                                    withAnimation {
+                                        eleve.toggleFlag()
+                                    }
+                                } label: {
+                                    if eleve.isFlagged {
+                                        Label("Sans drapeau", systemImage: "flag.slash")
+                                    } else {
+                                        Label("Avec drapeau", systemImage: "flag.fill")
+                                    }
+                                }.tint(.orange)
+                            }
+                    }
+                } else {
+                    ContentUnavailableView.search
                 }
-
-            } label: {
-                HStack {
-                    Text(classe.displayString)
-                    Spacer()
-                    Text("\(isSearching ? numberOfHit : classe.nbOfEleves) élèves")
-                }
-                .font(.callout)
-                .foregroundColor(.secondary)
-                .fontWeight(.bold)
-            }
-            .padding(.leading, 4)
-
-            // Filtrer les élèves
-            .task(id: searchCriteria) {
-                filteredEleveInClasse = classe.filteredElevesSortedByName(
-                    searchString: searchString,
-                    withObservation: navigationModel.filterObservation,
-                    withColle: navigationModel.filterColle,
-                    withFlag: navigationModel.filterFlag
+            } else {
+                ContentUnavailableView(
+                    "Aucun élève actuellement...",
+                    systemImage: EleveEntity.defaultImageName,
+                    description: Text("Les élèves ajoutés apparaîtront ici.")
                 )
-                numberOfHit = filteredEleveInClasse.count
-                isClasseExpanded = (searchString.isNotEmpty && numberOfHit > 0) ||
-                    (navigationModel.filterObservation && numberOfHit > 0) ||
-                    (navigationModel.filterColle && numberOfHit > 0) ||
-                    (navigationModel.filterFlag && numberOfHit > 0)
             }
-        } else {
-            EmptyListMessage(
-                symbolName: EleveEntity.defaultImageName,
-                title: "Aucun élève actuellement.",
-                message: "Les élèves ajoutés apparaîtront ici."
+
+        } label: {
+            HStack {
+                Text(classe.displayString)
+                Spacer()
+                Text("\(isSearching ? numberOfHit : classe.nbOfEleves) élèves")
+            }
+            .font(.callout)
+            .foregroundColor(.secondary)
+            .fontWeight(.bold)
+        }
+        .padding(.leading, 4)
+
+        // Filtrer les élèves
+        .task(id: searchCriteria) {
+            filteredEleveInClasse = classe.filteredElevesSortedByName(
+                searchString: searchString,
+                withObservation: navigationModel.filterObservation,
+                withColle: navigationModel.filterColle,
+                withFlag: navigationModel.filterFlag
             )
+            numberOfHit = filteredEleveInClasse.count
+            isClasseExpanded = (searchString.isNotEmpty && numberOfHit > 0) ||
+                (navigationModel.filterObservation && numberOfHit > 0) ||
+                (navigationModel.filterColle && numberOfHit > 0) ||
+                (navigationModel.filterFlag && numberOfHit > 0)
         }
     }
 }
