@@ -32,7 +32,7 @@ struct ContentView: View {
     private var isiCloudAlertPresented = false
 
     var body: some View {
-        TabView(selection: $navigationModel.selectedTab) {
+        TabView(selection: tabSelection()) {
             // Les établissements scolaires
             SchoolSplitView()
                 .tabItem {
@@ -187,6 +187,45 @@ struct ContentView: View {
                  .failedToCheckCompatibility,
                  .failedToLoadPersistentStores:
                 isInitAlertPresented = true
+        }
+    }
+
+    private func tabSelection() -> Binding<NavigationModel.TabSelection> {
+        Binding { //this is the get block
+            navigationModel.selectedTab
+        } set: { tappedTab in
+            if tappedTab == navigationModel.selectedTab {
+                //User tapped on the currently active tab icon => Pop to root/Scroll to top
+                switch tappedTab {
+                    case .classe:
+                        if navigationModel.classPath.isEmpty {
+                            //User already on home view, scroll to top
+                        } else {
+                            //Pop to root view by clearing the stack
+                            navigationModel.classPath = []
+                        }
+
+                    case .program:
+                        if navigationModel.programPath.isEmpty {
+                            //User already on home view, scroll to top
+                        } else {
+                            //Pop to root view by clearing the stack
+                            navigationModel.programPath.removeLast(navigationModel.programPath.count)
+                        }
+
+                    case .competence:
+                        if navigationModel.competencePath.isEmpty {
+                            //User already on home view, scroll to top
+                        } else {
+                            //Pop to root view by clearing the stack
+                            navigationModel.competencePath.removeLast(navigationModel.competencePath.count)
+                        }
+
+                    default: break
+                }
+            }
+            //Set the tab to the tabbed tab
+            navigationModel.selectedTab = tappedTab
         }
     }
 }
