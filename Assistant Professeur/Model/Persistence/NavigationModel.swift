@@ -61,6 +61,8 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
     @Published
     var selectedCompetenceType: CompetencySelection?
     @Published
+    var schoolPath = [SchoolNavigationRoute]()
+    @Published
     var classPath = [ClasseNavigationRoute]()
     @Published
     var programPath = NavigationPath()

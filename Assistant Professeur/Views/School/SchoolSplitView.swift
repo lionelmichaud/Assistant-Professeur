@@ -9,18 +9,18 @@ import SwiftUI
 
 struct SchoolSplitView: View {
     @EnvironmentObject
-    private var navigationModel : NavigationModel
+    private var navig : NavigationModel
 
     var body: some View {
         NavigationSplitView(
-            columnVisibility: $navigationModel.columnVisibility
+            columnVisibility: $navig.columnVisibility
         ) {
             // 1ère colonne
             SchoolSidebarView()
 
         } detail: {
             // Détail dans la 2ième colonne
-            NavigationStack {
+            NavigationStack(path: $navig.schoolPath) {
                 SchoolEditor()
                     .navigationDestination(for: SchoolNavigationRoute.self) { route in
                         switch route {
