@@ -568,86 +568,8 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8C3254FA-052F-4CA7-9570-606B0E181361"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Events/EventManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "requestCalendarAccess(eventStore:calendarName:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "8C3254FA-052F-4CA7-9570-606B0E181361 - cfed982aeb691245"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for Assistant_Professeur.EventManager.requestCalendarAccess(eventStore: __C.EKEventStore, calendarName: Swift.String) async -&gt; (calendar: Swift.Optional&lt;__C.EKCalendar&gt;, alertIsPresented: Swift.Bool, alertTitle: Swift.String, alertMessage: Swift.String)"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/EventManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "100">
-               </Location>
-               <Location
-                  uuid = "8C3254FA-052F-4CA7-9570-606B0E181361 - a27be2eebac12c6b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for Assistant_Professeur.EventManager.requestCalendarAccess(eventStore: __C.EKEventStore, calendarName: Swift.String) async -&gt; (calendar: Swift.Optional&lt;__C.EKCalendar&gt;, alertIsPresented: Swift.Bool, alertTitle: Swift.String, alertMessage: Swift.String)"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/EventManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "60">
-               </Location>
-               <Location
-                  uuid = "8C3254FA-052F-4CA7-9570-606B0E181361 - 468b6f8098fcde3f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.EventManager.requestCalendarAccess(eventStore: __C.EKEventStore, calendarName: Swift.String) async -&gt; (calendar: Swift.Optional&lt;__C.EKCalendar&gt;, alertIsPresented: Swift.Bool, alertTitle: Swift.String, alertMessage: Swift.String)"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/EventManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "192">
-               </Location>
-               <Location
-                  uuid = "8C3254FA-052F-4CA7-9570-606B0E181361 - 225e94d91c6a03a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(4) suspend resume partial function for Assistant_Professeur.EventManager.requestCalendarAccess(eventStore: __C.EKEventStore, calendarName: Swift.String) async -&gt; (calendar: Swift.Optional&lt;__C.EKCalendar&gt;, alertIsPresented: Swift.Bool, alertTitle: Swift.String, alertMessage: Swift.String)"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/EventManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "120">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "2D5EED90-0B01-46C3-9935-689443B8294B"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Assistant Professeur/Model/Events/EventManager.swift"
@@ -655,38 +577,6 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "83"
             endingLineNumber = "83"
-            landmarkName = "requestCalendarAccess(eventStore:calendarName:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "84A37AF5-9D17-4BA7-8D2D-44E14210C0AB"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Events/EventManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "requestCalendarAccess(eventStore:calendarName:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C92FF4D4-32C8-4F51-8637-3F2485EF489F"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Events/EventManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
             landmarkName = "requestCalendarAccess(eventStore:calendarName:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -737,6 +627,22 @@
                   offsetFromSymbolStart = "568">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C5C950B8-DC26-4303-939F-8C2551BF36E5"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Assistant Professeur/Model/Events/EventManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "requestCalendarAccess(eventStore:calendarName:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

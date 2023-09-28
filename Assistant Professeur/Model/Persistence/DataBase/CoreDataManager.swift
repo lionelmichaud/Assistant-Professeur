@@ -183,7 +183,7 @@ class CoreDataManager {
         // Debug build configuration.
         #if DEBUG
             /// LIGNE À DESACTIVER sous la cible "My Mac (Designed for iPad)"
-            //initializeCloudKitSchema()
+            initializeCloudKitSchema()
         #endif
     }
 

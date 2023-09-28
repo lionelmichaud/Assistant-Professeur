@@ -18,6 +18,9 @@ struct SeanceRow: View {
     @State
     private var documentToBeViewed: DocumentEntity?
 
+    @State
+    private var isDocumentExpanded = false
+
     var body: some View {
         GroupBox {
             HStack {
@@ -137,19 +140,27 @@ extension SeanceRow {
                     }
                     Divider()
 
-                    // Nom de la activité / Documents utilisés
+                    // Nom de l'activité / Documents utilisés
                     VStack(alignment: .leading) {
+                        // Nom de l'activité
                         Text(activity.viewName)
-                        ForEach(activity.documentsSortedByName) { document in
-                            Button {
-                                documentToBeViewed = document
-                            } label: {
-                                Label(
-                                    document.viewName,
-                                    systemImage: DocumentEntity.defaultImageName
-                                )
+
+                        // Documents utilisés
+                        if activity.nbOfDocuments != 0 {
+                            DisclosureGroup("Documents", isExpanded: $isDocumentExpanded) {
+                                ForEach(activity.documentsSortedByName) { document in
+                                    Button {
+                                        documentToBeViewed = document
+                                    } label: {
+                                        Label(
+                                            document.viewName,
+                                            systemImage: DocumentEntity.defaultImageName
+                                        )
+                                        Spacer()
+                                    }
+                                    .padding(.top, 4)
+                                }
                             }
-                            .padding(.top, 4)
                         }
                     }
 
