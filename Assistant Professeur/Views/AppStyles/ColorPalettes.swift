@@ -32,7 +32,7 @@ extension Color {
     /// Couleurs des tags
     static let groupTag = Color.blue5
     static let sequenceTag = Color.blue4
-    static let activityTag = Color.blue2
+    static let activityTag = Color.blue6
     static let classeTag = Color.blue5
     static let disciplineCompTag = Color.blue6
     static let workedCompTag = Color.blue7

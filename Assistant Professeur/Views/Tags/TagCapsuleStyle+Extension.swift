@@ -41,7 +41,7 @@ extension TagCapsuleStyle {
         )
     )
 
-  /// Style adapté aux Séquences pédagogiques
+    /// Style adapté aux Séquences pédagogiques
     static var sequenceTagStyle = TagCapsuleStyle(
         foregroundColor: .black,
         backgroundColor: .sequenceTag,
@@ -57,7 +57,7 @@ extension TagCapsuleStyle {
 
     /// Style adapté aux Activités pédagogiques
     static var activityTagStyle = TagCapsuleStyle(
-        foregroundColor: .black,
+        foregroundColor: .primary,
         backgroundColor: .activityTag,
         borderColor: .borderTag,
         borderWidth: 1,

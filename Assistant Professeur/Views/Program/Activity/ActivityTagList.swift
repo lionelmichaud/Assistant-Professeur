@@ -12,6 +12,8 @@ struct ActivityTag: View {
     let activity: ActivityEntity
     var font: Font = .callout
 
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         TagCapsule(
             tag: "A\(activity.viewNumber)",
