@@ -172,7 +172,7 @@ extension ClassActivityProgressEditView {
         }
     }
 
-    // Boyon navigant vers l'activité associée
+    // Bouton navigant vers l'activité associée
     private var voirButton: some View {
         Button {
             if let activity = progress.activity,
@@ -180,11 +180,15 @@ extension ClassActivityProgressEditView {
                let program = sequence.program {
                 navig.selectedTab = .program
                 navig.selectedProgramMngObjId = program.objectID
-//                navig.selectedSequenceMngObjId = sequence.objectID
-//                navig.selectedActivityMngObjId = activity.objectID
-//                navig.programPath = NavigationPath()
-//                navig.programPath.append(program)
-//                navig.programPath.append(sequence)
+                navig.selectedSequenceMngObjId = sequence.objectID
+                navig.selectedActivityMngObjId = activity.objectID
+                navig.programDetailColumnState = .showActivityDetail
+
+                if navig.programPath.isNotEmpty {
+                    // Pop to root view by clearing the stack
+                    navig.programPath.removeLast(navig.programPath.count)
+                    navig.programPath.append(sequence)
+                }
             }
         } label: {
             Text("Voir l'activité")

@@ -43,7 +43,7 @@ struct ContentView: View {
                 }
                 .tag(NavigationModel.TabSelection.school)
                 .badge(SchoolEntity.cardinal())
-            // passer les infos CloudKit pour les Infos
+                // passer les infos CloudKit pour les Infos
                 .environmentObject(cloudKitVM)
 
             // Les classes
@@ -125,18 +125,18 @@ struct ContentView: View {
             isPresented: $isiCloudAlertPresented,
             error: cloudKitVM.iCloudError
         ) { error in
-#if os(iOS) || os(tvOS)
-            // Ouvre les réglages de l'App sous iOS ou tvOS
-            //                Button("Réglages") {
-            //                    Task {
-            //                        // Create the URL that deep links to your app's custom settings.
-            //                        if let url = URL(string: UIApplication.openSettingsURLString) {
-            //                            // Ask the system to open that URL.
-            //                            await UIApplication.shared.open(url)
-            //                        }
-            //                    }
-            //                }
-#endif
+            #if os(iOS) || os(tvOS)
+                // Ouvre les réglages de l'App sous iOS ou tvOS
+                //                Button("Réglages") {
+                //                    Task {
+                //                        // Create the URL that deep links to your app's custom settings.
+                //                        if let url = URL(string: UIApplication.openSettingsURLString) {
+                //                            // Ask the system to open that URL.
+                //                            await UIApplication.shared.open(url)
+                //                        }
+                //                    }
+                //                }
+            #endif
             Button("OK", role: .cancel) {
                 customLog.log(level: .error, "\(error.failureReason ?? "Raison inconue.")")
             }
@@ -193,45 +193,45 @@ extension ContentView {
                 isInitAlertPresented = true
         }
     }
-    
+
     /// Pop to root view when the current tab is tapped again
     private func tabSelection() -> Binding<NavigationModel.TabSelection> {
-        Binding { //this is the get block
+        Binding { // this is the get block
             navigationModel.selectedTab
 
         } set: { tappedTab in
             if tappedTab == navigationModel.selectedTab {
-                //User tapped on the currently active tab icon => Pop to root/Scroll to top
+                // User tapped on the currently active tab icon => Pop to root/Scroll to top
                 switch tappedTab {
                     case .school:
                         if navigationModel.schoolPath.isEmpty {
-                            //User already on home view, scroll to top
+                            // User already on home view, scroll to top
                         } else {
-                            //Pop to root view by clearing the stack
+                            // Pop to root view by clearing the stack
                             navigationModel.schoolPath = []
                         }
 
                     case .classe:
                         if navigationModel.classPath.isEmpty {
-                            //User already on home view, scroll to top
+                            // User already on home view, scroll to top
                         } else {
-                            //Pop to root view by clearing the stack
+                            // Pop to root view by clearing the stack
                             navigationModel.classPath = []
                         }
 
                     case .program:
                         if navigationModel.programPath.isEmpty {
-                            //User already on home view, scroll to top
+                            // User already on home view, scroll to top
                         } else {
-                            //Pop to root view by clearing the stack
+                            // Pop to root view by clearing the stack
                             navigationModel.programPath.removeLast(navigationModel.programPath.count)
                         }
 
                     case .competence:
                         if navigationModel.competencePath.isEmpty {
-                            //User already on home view, scroll to top
+                            // User already on home view, scroll to top
                         } else {
-                            //Pop to root view by clearing the stack
+                            // Pop to root view by clearing the stack
                             navigationModel.competencePath.removeLast(navigationModel.competencePath.count)
                         }
 
@@ -239,7 +239,7 @@ extension ContentView {
                 }
             }
 
-            //Set the tab to the tabbed tab
+            // Set the tab to the tabbed tab
             navigationModel.selectedTab = tappedTab
         }
     }

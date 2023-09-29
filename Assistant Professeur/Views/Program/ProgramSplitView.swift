@@ -59,6 +59,9 @@ struct ProgramSplitView: View {
                         )
                     }
             }
+//            .onChange(of: navig.programPath) {
+//                print(navig.programPath)
+//            }
 
         } detail: {
             // Détail dans la 3ième colonne
@@ -82,29 +85,23 @@ struct ProgramSplitView: View {
         }
         .navigationSplitViewStyle(.balanced)
 
-        .onAppear {
-            if navig.selectedSequenceMngObjId == nil {
-                navig.columnVisibility = .all
-            }
-        }
-
         // désélectionner la séquence et l'activité quand on change de programme
         .onChange(of: navig.selectedProgramMngObjId) {
-            navig.selectedSequenceMngObjId = nil
-            navig.selectedActivityMngObjId = nil
-
-            navig.columnVisibility = .all
-
-            navig.programDetailColumnState = nil
+//            navig.selectedSequenceMngObjId = nil
+//            navig.selectedActivityMngObjId = nil
+//
+//            navig.columnVisibility = .all
+//
+//            navig.programDetailColumnState = nil
         }
 
         // désélectionner l'activité quand on change de séquence
         .onChange(of: navig.selectedSequenceMngObjId) {
-            navig.selectedActivityMngObjId = nil
-
-            navig.columnVisibility = .all
-
-            navig.programDetailColumnState = nil
+//            navig.selectedActivityMngObjId = nil
+//
+//            navig.columnVisibility = .all
+//
+//            navig.programDetailColumnState = nil
         }
 
         // afficher l'activité quand on en sélectionne une
@@ -113,6 +110,8 @@ struct ProgramSplitView: View {
                 navig.columnVisibility = .all
 
                 navig.programDetailColumnState = .showActivityDetail
+            } else {
+                navig.programDetailColumnState = nil
             }
         }
 

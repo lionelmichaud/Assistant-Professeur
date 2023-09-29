@@ -65,7 +65,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
     @Published
     var classPath = [ClasseNavigationRoute]()
     @Published
-    var programPath = NavigationPath()
+    var programPath = [SequenceEntity]()
     @Published
     var competencePath = NavigationPath()
     @Published
@@ -330,7 +330,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
         self.filterFlag = filterFlag
 
         self.classPath = []
-        self.programPath = NavigationPath()
+        self.programPath = []
         self.competencePath = NavigationPath()
 
         #if DEBUG
@@ -486,7 +486,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
         selectedDiscKnowMngObjId    = nil
 
         classPath = []
-        programPath = NavigationPath()
+        programPath = []
     }
 
     func encode(to encoder: Encoder) throws {
@@ -517,10 +517,11 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
         try container.encode(columnVisibility, forKey: .columnVisibility)
 
         try container.encode(classPath, forKey: .classPath)
+        try container.encode(programPath, forKey: .programPath)
 
-        if let representation = programPath.codable {
-            try container.encode(representation, forKey: .programPath)
-        }
+//        if let representation = programPath.codable {
+//            try container.encode(representation, forKey: .programPath)
+//        }
 
         if let representation = competencePath.codable {
             try container.encode(representation, forKey: .competencePath)
