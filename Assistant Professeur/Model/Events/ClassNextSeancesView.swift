@@ -96,7 +96,8 @@ struct ClassNextSeancesView: View {
                         end: horizon.months.fromNow!
                     )
                     classeSeances.loadSeancesFromCalendar(
-                        forDiscipline: classe.disciplineEnum,
+                        forDiscipline: classe.disciplineEnum, 
+                        forSchoolName: schoolName,
                         forClasseName: classe.displayString,
                         inCalendar: calendar,
                         inEventStore: eventStore,

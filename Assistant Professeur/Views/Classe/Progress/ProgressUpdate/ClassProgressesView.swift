@@ -135,7 +135,8 @@ struct ClassProgressesView: View {
                     let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
 
                     classeSeances.loadSeancesFromCalendar(
-                        forDiscipline: classe.disciplineEnum,
+                        forDiscipline: classe.disciplineEnum, 
+                        forSchoolName: schoolName,
                         forClasseName: classe.displayString,
                         inCalendar: calendar,
                         inEventStore: eventStore,

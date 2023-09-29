@@ -173,14 +173,11 @@ extension ActivityEntity {
 
     // MARK: - Computed Properties
 
+    // MARK: - Computed Properties Progressions
+
     /// Nombre de progression pour cette activité.
     var nbOfProgresses: Int {
         Int(progressCount)
-    }
-
-    /// Nombre de documents liés à l'activité
-    var nbOfDocuments: Int {
-        Int(documentCount)
     }
 
     /// Liste des progressions des classes pour cette activité non triées
@@ -191,8 +188,6 @@ extension ActivityEntity {
             return []
         }
     }
-
-    // MARK: - Computed Properties Progressions
 
     /// Liste des progressions des classes pour cette activité non triées
     var progressesSortedBySchoolLevelSegpaNumber: [ActivityProgressEntity] {
@@ -208,6 +203,11 @@ extension ActivityEntity {
     }
 
     // MARK: - Computed Properties Documents
+
+    /// Nombre de documents liés à l'activité
+    var nbOfDocuments: Int {
+        Int(documentCount)
+    }
 
     /// Liste des documents non triées
     var allDocuments: [DocumentEntity] {

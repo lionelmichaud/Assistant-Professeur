@@ -15,6 +15,7 @@ private let customLog = Logger(
     category: "ProgramManager"
 )
 
+/// Gère les relations entre Program / Sequence / Activité / Classe
 enum ProgramManager {
     /// Déplacer la `sequence` à l'intérieur de la liste des séquences d'un `program`
     /// - Warning: Les modifications ne sont pas auvegardées dans le contexte.

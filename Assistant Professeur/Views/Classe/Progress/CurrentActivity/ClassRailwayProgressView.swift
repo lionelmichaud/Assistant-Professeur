@@ -115,6 +115,7 @@ struct ClassRailwayProgressView: View {
                 if let calendar {
                     classeSeances.loadSeancesFromCalendar(
                         forDiscipline: classe.disciplineEnum,
+                        forSchoolName: schoolName,
                         forClasseName: classe.displayString,
                         inCalendar: calendar,
                         inEventStore: eventStore,

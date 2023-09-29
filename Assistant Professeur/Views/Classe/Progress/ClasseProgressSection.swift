@@ -120,6 +120,7 @@ extension ClasseProgressSection {
                         // Récupérer les dates de conseils de classe
                         classeSeances.loadSeancesFromCalendar(
                             forDiscipline: classe.disciplineEnum,
+                            forSchoolName: schoolName,
                             forClasseName: classe.displayString,
                             inCalendar: calendar,
                             inEventStore: eventStore,

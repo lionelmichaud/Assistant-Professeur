@@ -280,7 +280,17 @@ extension SchoolEntity {
             return []
         }
     }
-
+    
+    /// Retourne l'établissement ayant pour nom `name`.
+    /// - Parameter name: Nom de l'établissement recherché.
+    /// - Returns: `nil` si non trouvé.
+    static func school(withName name: String) -> SchoolEntity? {
+        Self.all().first { school in
+            school.viewName == name
+        }
+    }
+    
+    /// Retourne le nombre d'heures de cours effectué pour l'ensemble des classe de cet établissement.
     var heures: Double {
         allClasses.sum(for: \.heures)
     }
@@ -446,6 +456,12 @@ extension SchoolEntity {
     }
 
     // MARK: - Methods
+
+    func classe(withAcronym acronym: String) -> ClasseEntity? {
+        allClasses.first { classe in
+            classe.displayString == acronym
+        }
+    }
 
     /// Recherche si la classe existe déjà dans l'établissement
     /// - Parameters:

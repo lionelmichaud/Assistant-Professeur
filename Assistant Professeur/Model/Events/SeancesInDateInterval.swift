@@ -36,6 +36,8 @@ struct Seance: Identifiable {
     var id = UUID()
     /// Acronym de la classe concernée par la séance ou nom de la période de vacance
     var name: String?
+    /// Nom de l'établissement
+    var schoolName: String?
     /// Evénement correspondant à la séance
     var interval: DateInterval
     /// Activité pédagogique menée pendant la séance
@@ -89,6 +91,7 @@ struct SeancesInDateInterval {
     ///   - period: Intervalle de temps de recherche.
     mutating func loadSeancesFromCalendar(
         forDiscipline discipline: Discipline,
+        forSchoolName school: String,
         forClasseName classe: String,
         inCalendar calendar: EKCalendar,
         inEventStore eventStore: EKEventStore,
@@ -103,6 +106,7 @@ struct SeancesInDateInterval {
         ).map { event in
             Seance(
                 name: classe,
+                schoolName: school,
                 interval: DateInterval(
                     start: event.startDate,
                     end: event.endDate

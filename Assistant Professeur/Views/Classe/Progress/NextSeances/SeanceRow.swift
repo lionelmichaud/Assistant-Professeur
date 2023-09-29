@@ -8,9 +8,10 @@
 import EventKit
 import SwiftUI
 
+/// Affichage du contenu de la prochaine séance
+/// Si plusieurs activités sont programmées, chacune est affichée
 struct SeanceRow: View {
     var seance: Seance
-    let classeName: String? = nil
 
     @Environment(\.horizontalSizeClass)
     private var hClass
@@ -20,6 +21,14 @@ struct SeanceRow: View {
 
     @State
     private var isDocumentExpanded = false
+
+    private var classe: ClasseEntity? {
+        guard let schoolName = seance.schoolName,
+              let classeName = seance.name else {
+            return nil
+        }
+        return SchoolEntity.school(withName: schoolName)?.classe(withAcronym: classeName)
+    }
 
     var body: some View {
         GroupBox {
@@ -122,6 +131,7 @@ extension SeanceRow {
 
     private var coursInfoView: some View {
         VStack(alignment: .leading) {
+            // Pour chaque activité prévue pendant la séance
             ForEach(seance.activities) { activity in
                 HStack(alignment: .center) {
                     VStack {
@@ -147,7 +157,7 @@ extension SeanceRow {
 
                         // Documents utilisés
                         if activity.nbOfDocuments != 0 {
-                            DisclosureGroup("Documents", isExpanded: $isDocumentExpanded) {
+                            DisclosureGroup(isExpanded: $isDocumentExpanded) {
                                 ForEach(activity.documentsSortedByName) { document in
                                     Button {
                                         documentToBeViewed = document
@@ -159,6 +169,21 @@ extension SeanceRow {
                                         Spacer()
                                     }
                                     .padding(.top, 4)
+                                }
+                            } label: {
+                                HStack {
+                                    Text("Documents")
+                                    if let classe,
+                                       let progress = ProgressClasseCoordinator.progressFor(thisActivity: activity, thisClasse: classe),
+                                       !progress.isPrinted {
+                                        // Documents non imprimés
+                                        Image(systemName: "printer.filled.and.paper").tint(.red)
+                                    } else if let classe,
+                                              let progress = ProgressClasseCoordinator.progressFor(thisActivity: activity, thisClasse: classe),
+                                              !progress.isDistributed {
+                                        // Documents imprimés mais non distribués
+                                        Image(systemName: "arrow.up.doc").tint(.red)
+                                    }
                                 }
                             }
                         }

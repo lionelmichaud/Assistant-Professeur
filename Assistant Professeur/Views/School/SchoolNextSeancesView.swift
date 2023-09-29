@@ -107,6 +107,7 @@ struct SchoolNextSeancesView: View {
                             // Liste des Séances à venir pour cette classe
                             await classeSeances.loadSeancesFromCalendar(
                                 forDiscipline: forDiscipline,
+                                forSchoolName: schoolName,
                                 forClasseName: forClasseName,
                                 inCalendar: calendar,
                                 inEventStore: eventStore,

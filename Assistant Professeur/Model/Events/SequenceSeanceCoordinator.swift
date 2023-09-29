@@ -8,6 +8,7 @@
 import EventKit
 import Foundation
 
+/// Synchronise les séances à venir d'une classe avec la progresison pédagogique prévue.
 enum SequenceSeanceCoordinator {
     /// Renseigne les dates de début et de fin des activités d'une classe
     /// qui n'ont pas encore été achevées en fonction des séances de `intervalSeances`.

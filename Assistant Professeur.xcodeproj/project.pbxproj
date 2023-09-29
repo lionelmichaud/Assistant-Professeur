@@ -169,6 +169,7 @@
 		798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798458E92939529D00B74538 /* AnnotationEditView.swift */; };
 		7986A8572989B1A2007471BE /* GroupGlobalMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7986A8562989B1A2007471BE /* GroupGlobalMarkModal.swift */; };
 		7986A8592989CE73007471BE /* GroupSteppedlMarkModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7986A8582989CE73007471BE /* GroupSteppedlMarkModal.swift */; };
+		7988D1012AC6E60C0038EEDC /* ProgressClasseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7988D1002AC6E60C0038EEDC /* ProgressClasseCoordinator.swift */; };
 		7989B4CF29A257C500383F84 /* Sequence+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989B4CE29A257C500383F84 /* Sequence+CoreDataClass.swift */; };
 		7989B4D129A257DD00383F84 /* Activity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989B4D029A257DD00383F84 /* Activity+CoreDataClass.swift */; };
 		7989B4D329A2733D00383F84 /* ClassActivityProgressEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989B4D229A2733D00383F84 /* ClassActivityProgressEditView.swift */; };
@@ -564,6 +565,7 @@
 		798458E92939529D00B74538 /* AnnotationEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnnotationEditView.swift; sourceTree = "<group>"; };
 		7986A8562989B1A2007471BE /* GroupGlobalMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupGlobalMarkModal.swift; sourceTree = "<group>"; };
 		7986A8582989CE73007471BE /* GroupSteppedlMarkModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSteppedlMarkModal.swift; sourceTree = "<group>"; };
+		7988D1002AC6E60C0038EEDC /* ProgressClasseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressClasseCoordinator.swift; sourceTree = "<group>"; };
 		7989B4CE29A257C500383F84 /* Sequence+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+CoreDataClass.swift"; sourceTree = "<group>"; };
 		7989B4D029A257DD00383F84 /* Activity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Activity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		7989B4D229A2733D00383F84 /* ClassActivityProgressEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassActivityProgressEditView.swift; sourceTree = "<group>"; };
@@ -1124,6 +1126,7 @@
 				79A5737429BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift */,
 				793EF8DC299D82A6002DDC64 /* ActivityProgress+Extensions.swift */,
 				7989B4DA29A28D0300383F84 /* ProgressState.swift */,
+				7988D1002AC6E60C0038EEDC /* ProgressClasseCoordinator.swift */,
 			);
 			path = Progress;
 			sourceTree = "<group>";
@@ -2203,6 +2206,7 @@
 				79D573492927F16B00B0B7B8 /* LevelSchool.swift in Sources */,
 				79ECF1F82959F6CA008F0282 /* EleveColleLabel.swift in Sources */,
 				7989B4D529A2752800383F84 /* LabeledActivityView.swift in Sources */,
+				7988D1012AC6E60C0038EEDC /* ProgressClasseCoordinator.swift in Sources */,
 				792381142960A888009E51B7 /* Group+Extensions.swift in Sources */,
 				79FD218C2A33630E00A8D925 /* DThemeViewModel.swift in Sources */,
 				79FD21A02A33C82900A8D925 /* DCompViewModel.swift in Sources */,

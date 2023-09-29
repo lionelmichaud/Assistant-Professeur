@@ -238,7 +238,7 @@ extension ClassActivityProgressEditView {
         } label: {
             Label(
                 title: {
-                    Text("Support de cours imprimés")
+                    Text("Supports de cours imprimés")
                 }, icon: {
                     Image(systemName: progress.isPrinted ? "checkmark.circle.fill" : "circle")
                         .foregroundColor(progress.isPrinted ? .green : .gray)
@@ -255,7 +255,7 @@ extension ClassActivityProgressEditView {
         } label: {
             Label(
                 title: {
-                    Text("Support de cours distribués")
+                    Text("Supports de cours distribués")
                 }, icon: {
                     Image(systemName: progress.isDistributed ? "checkmark.circle.fill" : "circle")
                         .foregroundColor(progress.isDistributed ? .green : .gray)
