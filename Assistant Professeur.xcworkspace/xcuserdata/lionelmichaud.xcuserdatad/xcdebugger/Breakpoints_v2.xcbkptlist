@@ -645,5 +645,148 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F189F5D6-93C2-4001-81AE-4066DA46CD08"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Assistant Professeur/Model/Events/SequenceSeanceCoordinator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "synchronize(classeSeances:withProgresses:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F189F5D6-93C2-4001-81AE-4066DA46CD08 - 5a729a6dd81c2cb9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Assistant_Professeur.SequenceSeanceCoordinator.synchronize(classeSeances: inout Assistant_Professeur.SeancesInDateInterval, withProgresses: Swift.Array&lt;Assistant_Professeur.ActivityProgressEntity&gt;) -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/SequenceSeanceCoordinator.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "39"
+                  endingLineNumber = "39"
+                  offsetFromSymbolStart = "1100">
+               </Location>
+               <Location
+                  uuid = "F189F5D6-93C2-4001-81AE-4066DA46CD08 - 20361257ff3a7faa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Assistant_Professeur.ActivityProgressEntity) -&gt; () in static Assistant_Professeur.SequenceSeanceCoordinator.synchronize(classeSeances: inout Assistant_Professeur.SeancesInDateInterval, withProgresses: Swift.Array&lt;Assistant_Professeur.ActivityProgressEntity&gt;) -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/SequenceSeanceCoordinator.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "40"
+                  endingLineNumber = "40"
+                  offsetFromSymbolStart = "1368">
+               </Location>
+               <Location
+                  uuid = "F189F5D6-93C2-4001-81AE-4066DA46CD08 - 20361257ff3a7faa"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Assistant_Professeur.ActivityProgressEntity) -&gt; () in static Assistant_Professeur.SequenceSeanceCoordinator.synchronize(classeSeances: inout Assistant_Professeur.SeancesInDateInterval, withProgresses: Swift.Array&lt;Assistant_Professeur.ActivityProgressEntity&gt;) -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/SequenceSeanceCoordinator.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "40"
+                  endingLineNumber = "40"
+                  offsetFromSymbolStart = "1600">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B30E3B9A-184F-47BF-8BE2-0CBD99A662BF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Assistant Professeur/Model/Events/SequenceSeanceCoordinator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "synchronize(classeSeances:withProgresses:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B30E3B9A-184F-47BF-8BE2-0CBD99A662BF - 20361257ff3a600f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Assistant_Professeur.ActivityProgressEntity) -&gt; () in static Assistant_Professeur.SequenceSeanceCoordinator.synchronize(classeSeances: inout Assistant_Professeur.SeancesInDateInterval, withProgresses: Swift.Array&lt;Assistant_Professeur.ActivityProgressEntity&gt;) -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/SequenceSeanceCoordinator.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "7988">
+               </Location>
+               <Location
+                  uuid = "B30E3B9A-184F-47BF-8BE2-0CBD99A662BF - 20361257ff3a600f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Assistant_Professeur.ActivityProgressEntity) -&gt; () in static Assistant_Professeur.SequenceSeanceCoordinator.synchronize(classeSeances: inout Assistant_Professeur.SeancesInDateInterval, withProgresses: Swift.Array&lt;Assistant_Professeur.ActivityProgressEntity&gt;) -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/SequenceSeanceCoordinator.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "8664">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "68EFC805-1810-4EDC-A515-0422F91E049C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Assistant Professeur/Model/Events/SequenceSeanceCoordinator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "synchronize(classeSeances:withProgresses:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "12236B32-9306-4555-A9F7-CF9175F05E79"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Assistant Professeur/Model/Events/SequenceSeanceCoordinator.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "synchronize(classeSeances:withProgresses:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

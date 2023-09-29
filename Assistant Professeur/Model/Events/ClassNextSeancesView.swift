@@ -88,13 +88,14 @@ struct ClassNextSeancesView: View {
                         calendarName: schoolName
                     )
                 if let calendar {
-                    // Liste des Progressions de la classe triée par numéro de Séquence / Activité
+                    // Liste des Progressions annuelles de la classe triée par numéro de Séquence / Activité
                     let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
 
                     let horizon = DateInterval(
                         start: Date.now,
                         end: horizon.months.fromNow!
                     )
+                    // Charger les prochaines séances de cours sur un horizon de temps à venir
                     classeSeances.loadSeancesFromCalendar(
                         forDiscipline: classe.disciplineEnum, 
                         forSchoolName: schoolName,
@@ -103,12 +104,14 @@ struct ClassNextSeancesView: View {
                         inEventStore: eventStore,
                         during: horizon
                     )
+                    // classeSeances.print()
 
-                    // Synchroniser les Progressions avec les Séances
+                    // Synchroniser les Progressions annuelles avec les Séances à venir
                     SequenceSeanceCoordinator.synchronize(
                         classeSeances: &classeSeances,
                         withProgresses: sortedClasseProgresses
                     )
+                    //classeSeances.print()
 
                     // Insérer des pseudo-séances pour chaque période
                     // de vacances inclue dans la période

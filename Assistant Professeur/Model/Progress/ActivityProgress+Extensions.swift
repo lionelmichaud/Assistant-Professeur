@@ -230,9 +230,10 @@ public extension ActivityProgressEntity {
            Séquence : \(String(describing: activity?.sequence?.viewName))
            Activité : \(String(describing: activity?.viewName))
            Imprimé  : \(isPrinted.frenchString)
+           Status   : \(status)
            Progrès  : \(progress * 100.0) %
-           Début    : \(startDate?.stringShortDate ?? "-")
-           Fin      : \(endDate?.stringShortDate ?? "-")
+           Début    : \(startDate?.formatted(date: .abbreviated, time: .shortened) ?? "-")
+           Fin      : \(endDate?.formatted(date: .abbreviated, time: .shortened) ?? "-")
         """
     }
 }

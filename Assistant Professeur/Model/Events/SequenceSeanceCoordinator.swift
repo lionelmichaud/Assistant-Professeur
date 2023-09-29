@@ -7,6 +7,7 @@
 
 import EventKit
 import Foundation
+import AppFoundation
 
 /// Synchronise les séances à venir d'une classe avec la progresison pédagogique prévue.
 enum SequenceSeanceCoordinator {
@@ -16,13 +17,15 @@ enum SequenceSeanceCoordinator {
     /// de `intervalSeances` en exploitant les `progresses`.
     /// - Parameters:
     ///   - intervalSeances: séances à venir de la classe
-    ///   - progresses: progression de chaque activité de la classe
-    /// - Attention: Seules les progressions non encore achevées sont utilisées.
+    ///   - progresses: progression annuelle de chaque activité de la classe
+    /// - Attention: Seules les progressions non encore achevées et de durée non nulle sont utilisées.
     /// - Precondition: Les `progresses` doivent être triés par Séquences/Activités croissantes.
     static func synchronize(
         classeSeances intervalSeances: inout SeancesInDateInterval,
         withProgresses progresses: [ActivityProgressEntity]
     ) {
+        // Renseigne les dates de début et de fin des activités d'une classe
+        // qui n'ont pas encore été achevées en fonction des séances de `intervalSeances`.
         SequenceSeanceCoordinator.synchronize(
             classeProgresses: progresses,
             withSeances: intervalSeances
@@ -32,48 +35,54 @@ enum SequenceSeanceCoordinator {
             let seanceStartDate = intervalSeances[seanceIdx].interval.start
             let seanceEndDate = intervalSeances[seanceIdx].interval.end
 
-            // rechercher toutes les progressions qui commencent ou se terminent
-            // durant la séance
+            // rechercher toutes les progressions non commencées ou en cours, de durée non nulle et
+            // qui commencent ou se terminent durant la séance
             progresses.forEach { progress in
-                if let activity = progress.activity,
-                   let activityStartDate = progress.startDate,
-                   let activityEndDate = progress.endDate,
-                   (seanceStartDate ... seanceEndDate).contains(activityStartDate),
-                   (seanceStartDate ... seanceEndDate).contains(activityEndDate) {
+                guard let activity = progress.activity,
+                      progress.status == .notStarted || progress.status == .inProgress,
+                      progress.startDate != progress.endDate else {
+                    return
+                }
+
+                let activityStartDate = progress.startDate
+                let activityEndDate = progress.endDate
+
+                if let activityStartDate,
+                   seanceEndDate <= activityStartDate {
+                    // l'activité débute à ou après la fin de la séance
+                    return
+                } else if let activityStartDate, let activityEndDate,
+                          (seanceStartDate ... seanceEndDate).contains(activityStartDate),
+                          (seanceStartDate ... seanceEndDate).contains(activityEndDate) {
                     // l'activité commence et se termine pendant la séance
                     intervalSeances[seanceIdx].activities.append(activity)
-                } else {
-                    if let activity = progress.activity,
-                       let activityEndDate = progress.endDate,
-                       (seanceStartDate ... seanceEndDate).contains(activityEndDate) {
-                        // l'activité se termine pendant la séance
-                        intervalSeances[seanceIdx].activities.append(activity)
-                    }
-                    if let activity = progress.activity,
-                       let activityStartDate = progress.startDate,
-                       (seanceStartDate ... seanceEndDate).contains(activityStartDate) {
-                        // l'activité commence pendant la séance
-                        intervalSeances[seanceIdx].activities.append(activity)
-                    }
-                }
-                if let activity = progress.activity,
-                   let activityStartDate = progress.startDate,
-                   let activityEndDate = progress.endDate,
-                   activityStartDate < seanceStartDate,
-                   activityEndDate > seanceEndDate {
-                    // l'activité commence avnt la séance et se termine après la séance
+
+                } else if let activityEndDate,
+                          (1.seconds.from(seanceStartDate)! ... seanceEndDate).contains(activityEndDate) {
+                    // l'activité se termine pendant la séance
+                    intervalSeances[seanceIdx].activities.append(activity)
+
+                } else if let activityStartDate,
+                          (seanceStartDate ..< seanceEndDate).contains(activityStartDate) {
+                    // l'activité commence pendant la séance
+                    intervalSeances[seanceIdx].activities.append(activity)
+
+                } else if let activityStartDate, let activityEndDate,
+                          activityStartDate < seanceStartDate,
+                          activityEndDate > seanceEndDate {
+                    // l'activité commence avant la séance et se termine après la séance
                     intervalSeances[seanceIdx].activities.append(activity)
                 }
             }
         }
     }
 
-    /// Renseigne les dates de début et de fin des activités d'une classe
+    /// Renseigne les dates de début et de fin des `progresses` des activités d'une classe
     /// qui n'ont pas encore été achevées en fonction des séances de `intervalSeances`.
     /// - Parameters:
     ///   - progresses: progression de chaque activité de la classe
     ///   - intervalSeances: séances à venir de la classe
-    /// - Attention: Seules les progressions non encore achevées sont renseignées.
+    /// - Attention: Seules les débuts et find des `progresses` non encore achevées sont renseignées.
     /// - Precondition: Les `progresses` doivent être triés par Séquences/Activités croissantes.
     static func synchronize(
         classeProgresses progresses: [ActivityProgressEntity],
@@ -87,13 +96,13 @@ enum SequenceSeanceCoordinator {
         var nbOfSeanceRequired = 0.0
 
         progresses.forEach { progress in
-            guard let activity = progress.activity else {
+            guard let activity = progress.activity, activity.duration > 0 else {
                 return
             }
 
             switch progress.status {
                 case .notStarted:
-                    // nb de seances requisent pour réaliser l'activité
+                    // nb de seances requisent pour réaliser l'activité noncommencée
                     nbOfSeanceRequired = activity.duration
 
                 case .inProgress:

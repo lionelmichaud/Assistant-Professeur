@@ -5,14 +5,14 @@
 //  Created by Lionel MICHAUD on 06/07/2023.
 //
 
+import EventKit
 import Foundation
 import SwiftUI
-import EventKit
 
-/// Proxy vers DateIntervalSeances
-/// Refer to : [Calling Mutating Async Functions from SwiftUI Views](https://diegolavalle.com/posts/2022-11-29-calling-mutating-async-functions/)
-//@MainActor
-//extension Binding where Value == SeancesInDateInterval {
+// Proxy vers DateIntervalSeances
+// Refer to : [Calling Mutating Async Functions from SwiftUI Views](https://diegolavalle.com/posts/2022-11-29-calling-mutating-async-functions/)
+// @MainActor
+// extension Binding where Value == SeancesInDateInterval {
 //    func loadSeancesFromCalendar(
 //        forDiscipline discipline: Discipline,
 //        forClasse classe: String,
@@ -28,11 +28,11 @@ import EventKit
 //            during: period
 //        )
 //    }
-//}
+// }
 
 /// Un cours et son contenu en activités pédagogique.
 /// Plusieurs activités peuvent être abordées pendant le même cours.
-struct Seance: Identifiable {
+struct Seance: Identifiable, CustomStringConvertible {
     var id = UUID()
     /// Acronym de la classe concernée par la séance ou nom de la période de vacance
     var name: String?
@@ -44,6 +44,19 @@ struct Seance: Identifiable {
     var activities = [ActivityEntity]()
     /// True si cette séance est en réalité une période de vacance
     var isVacance: Bool = false
+
+    var description: String {
+        """
+
+        SEANCE:
+           Etablissement : \(String(describing: self.schoolName))
+           Nom : \(String(describing: self.name))
+           Plage temporelle : \(String(describing: interval))
+           Vacances: \(isVacance.frenchString)
+           Nb d'activités : \(activities.count)
+           Activités  : \(String(describing: activities).withPrefixedSplittedLines("     "))
+        """
+    }
 }
 
 /// Suite de séances (cours) pour une classe donnée et sur un horizon de temps donné.
@@ -82,7 +95,7 @@ struct SeancesInDateInterval {
 
     // MARK: - Methods
 
-    /// Charge depsui l'App Calendar toutes les séance de la `period` pour les
+    /// Charge depuis l'App Calendar toutes les séance de la `period` pour les
     /// `discipline`, `classe` et `schoolName`.
     /// - Parameters:
     ///   - discipline: La discipline recherchée.
