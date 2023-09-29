@@ -172,6 +172,7 @@ extension ClassActivityProgressEditView {
         }
     }
 
+    // Boyon navigant vers l'activité associée
     private var voirButton: some View {
         Button {
             if let activity = progress.activity,
@@ -247,6 +248,23 @@ extension ClassActivityProgressEditView {
         .buttonStyle(.plain)
     }
 
+    private var isDistributedCheckBox: some View {
+        // checkbox isDistributed
+        Button {
+            progress.toggleIsDistributed()
+        } label: {
+            Label(
+                title: {
+                    Text("Support de cours distribués")
+                }, icon: {
+                    Image(systemName: progress.isDistributed ? "checkmark.circle.fill" : "circle")
+                        .foregroundColor(progress.isDistributed ? .green : .gray)
+                }
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
     private var regularView: some View {
         VStack(alignment: .leading) {
             LabeledContent("Progression") {
@@ -260,6 +278,7 @@ extension ClassActivityProgressEditView {
             annotation
 
             isPrintedCheckBox
+            isDistributedCheckBox
 
             buttons
         }
@@ -276,6 +295,7 @@ extension ClassActivityProgressEditView {
             annotation
 
             isPrintedCheckBox
+            isDistributedCheckBox
 
             buttons
         }

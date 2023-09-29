@@ -72,6 +72,13 @@ extension ActivityProgressEntity {
         isPrinted.toggle()
         try? ActivityProgressEntity.saveIfContextHasChanged()
     }
+
+    /// Toggle l'attribut `isDistributed` de la progression
+    /// - Important: *Saves the context to the store after modification is done*
+    func toggleIsDistributed() {
+        isDistributed.toggle()
+        try? ActivityProgressEntity.saveIfContextHasChanged()
+    }
 }
 
 // MARK: - Extension Core Data
