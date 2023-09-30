@@ -172,8 +172,8 @@ extension ClassActivityProgressEditView {
         }
     }
 
-    // Bouton navigant vers l'activité associée
-    private var voirButton: some View {
+    /// Bouton navigant vers l'activité associée
+    private var jumpToActivityButton: some View {
         Button {
             if let activity = progress.activity,
                let sequence = activity.sequence,
@@ -215,7 +215,7 @@ extension ClassActivityProgressEditView {
                 stopWatchButton(for: activity)
                 Spacer()
             }
-            voirButton
+            jumpToActivityButton
             Spacer()
         }
     }
@@ -235,40 +235,6 @@ extension ClassActivityProgressEditView {
         }
     }
 
-    private var isPrintedCheckBox: some View {
-        // checkbox isPrinted
-        Button {
-            progress.toggleIsPrinted()
-        } label: {
-            Label(
-                title: {
-                    Text("Supports de cours imprimés")
-                }, icon: {
-                    Image(systemName: progress.isPrinted ? "checkmark.circle.fill" : "circle")
-                        .foregroundColor(progress.isPrinted ? .green : .gray)
-                }
-            )
-        }
-        .buttonStyle(.plain)
-    }
-
-    private var isDistributedCheckBox: some View {
-        // checkbox isDistributed
-        Button {
-            progress.toggleIsDistributed()
-        } label: {
-            Label(
-                title: {
-                    Text("Supports de cours distribués")
-                }, icon: {
-                    Image(systemName: progress.isDistributed ? "checkmark.circle.fill" : "circle")
-                        .foregroundColor(progress.isDistributed ? .green : .gray)
-                }
-            )
-        }
-        .buttonStyle(.plain)
-    }
-
     private var regularView: some View {
         VStack(alignment: .leading) {
             LabeledContent("Progression") {
@@ -281,8 +247,17 @@ extension ClassActivityProgressEditView {
 
             annotation
 
-            isPrintedCheckBox
-            isDistributedCheckBox
+            HStack {
+                DocPrintedToggle(
+                    isPrinted: $progress.isPrinted,
+                    save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
+                )
+                Spacer()
+                DocDistributedToggle(
+                    isDistributed: $progress.isDistributed,
+                    save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
+                )
+            }
 
             buttons
         }
@@ -298,8 +273,14 @@ extension ClassActivityProgressEditView {
 
             annotation
 
-            isPrintedCheckBox
-            isDistributedCheckBox
+            DocPrintedToggle(
+                isPrinted: $progress.isPrinted,
+                save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
+            )
+            DocDistributedToggle(
+                isDistributed: $progress.isDistributed,
+                save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
+            )
 
             buttons
         }

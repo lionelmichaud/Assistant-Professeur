@@ -37,7 +37,9 @@ extension Color {
     static let disciplineCompTag = Color.blue6
     static let workedCompTag = Color.blue7
     static let activitySymbol = Color.blue3
-
     static let borderTag = Color.primary
     static let foregroundTag = Color.primary
+
+    /// Couleurs de la TabBar
+    static let tabBarColor = Color.blue6.opacity(0.2)
 }

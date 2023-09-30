@@ -91,7 +91,7 @@ extension ActivitySideBar {
         ToolbarItemGroup(placement: .automatic) {
             // Afficher la vue Stepper de la séquence
             Button {
-                showSequenceSteps.toggle()
+                showSequenceSteps = true
             } label: {
                 Label(
                     "Infos", systemImage: "info.circle"

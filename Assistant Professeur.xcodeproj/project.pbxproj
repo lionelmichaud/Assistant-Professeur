@@ -215,6 +215,7 @@
 		79A5737529BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A5737429BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift */; };
 		79A6AC9529F57DD0003705D0 /* ProgressClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6AC9429F57DCF003705D0 /* ProgressClockView.swift */; };
 		79A6AC9829F59DEA003705D0 /* ClasseTimerModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6AC9729F59DEA003705D0 /* ClasseTimerModal.swift */; };
+		79A8002A2AC81E31001F2E25 /* DocumentControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A800292AC81E31001F2E25 /* DocumentControls.swift */; };
 		79A8E7BC29AECE1B006D0EAA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79A8E7BB29AECE1B006D0EAA /* Images.xcassets */; };
 		79A8E7BE29AF6109006D0EAA /* IndicatorImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A8E7BD29AF6109006D0EAA /* IndicatorImageView.swift */; };
 		79ABF56329AD52FC00B8299B /* ClassRailwayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ABF56229AD52FC00B8299B /* ClassRailwayProgressView.swift */; };
@@ -610,6 +611,7 @@
 		79A5737429BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ActivityProgressEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79A6AC9429F57DCF003705D0 /* ProgressClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressClockView.swift; sourceTree = "<group>"; };
 		79A6AC9729F59DEA003705D0 /* ClasseTimerModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseTimerModal.swift; sourceTree = "<group>"; };
+		79A800292AC81E31001F2E25 /* DocumentControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentControls.swift; sourceTree = "<group>"; };
 		79A8E7BB29AECE1B006D0EAA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		79A8E7BD29AF6109006D0EAA /* IndicatorImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorImageView.swift; sourceTree = "<group>"; };
 		79ABF56229AD52FC00B8299B /* ClassRailwayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassRailwayProgressView.swift; sourceTree = "<group>"; };
@@ -1045,6 +1047,7 @@
 			children = (
 				7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */,
 				79B6630629244C3F007B1FBD /* ContentView.swift */,
+				79A800272AC81DE6001F2E25 /* SharedViews */,
 				794AE9C32A5970C3009C819A /* AppStyles */,
 				79DEDB06292593C200F508EF /* PreferencesViews */,
 				7901B2E22A16C1FB00C55108 /* Events */,
@@ -1472,6 +1475,22 @@
 				79F8773129F425A300AB38C3 /* DigitalClockView.swift */,
 			);
 			path = Timer;
+			sourceTree = "<group>";
+		};
+		79A800272AC81DE6001F2E25 /* SharedViews */ = {
+			isa = PBXGroup;
+			children = (
+				79A800282AC81DFC001F2E25 /* Controls */,
+			);
+			path = SharedViews;
+			sourceTree = "<group>";
+		};
+		79A800282AC81DFC001F2E25 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				79A800292AC81E31001F2E25 /* DocumentControls.swift */,
+			);
+			path = Controls;
 			sourceTree = "<group>";
 		};
 		79B1C8122A5F1E9B006E6B37 /* ProgramPlanningGraph */ = {
@@ -2272,6 +2291,7 @@
 				79FD218E2A337DCC00A8D925 /* DThemeBrowserView.swift in Sources */,
 				790A10712A472C5500BA3F5C /* ActivityTagList.swift in Sources */,
 				79F8773229F425A300AB38C3 /* DigitalClockView.swift in Sources */,
+				79A8002A2AC81E31001F2E25 /* DocumentControls.swift in Sources */,
 				79FC04E5298DCC240093BC8B /* IndividualSteppedlMarkModal.swift in Sources */,
 				796A17862A3F49E600413DDD /* KnowledgeListSection.swift in Sources */,
 				79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */,

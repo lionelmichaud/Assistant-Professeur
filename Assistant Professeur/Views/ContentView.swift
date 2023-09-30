@@ -121,6 +121,11 @@ struct ContentView: View {
         }
 
         // Alerte en cas d'erreur de connection iCloud
+        .onChange(of: cloudKitVM.iCloudError, initial: false) {
+            if cloudKitVM.iCloudError != .available {
+                isiCloudAlertPresented = true
+            }
+        }
         .alert(
             isPresented: $isiCloudAlertPresented,
             error: cloudKitVM.iCloudError
@@ -146,16 +151,20 @@ struct ContentView: View {
             let message = failureReason + (recoverySuggestion == "" ? "" : "\n\(recoverySuggestion)")
             Text(message)
         }
-
-        .onChange(of: cloudKitVM.iCloudError, initial: false) {
-            if cloudKitVM.iCloudError != .available {
-                isiCloudAlertPresented = true
-            }
-        }
         // Synchronous initializaing of the View
         .onAppear {
             // Afficher une alerte en cas de problème d'initialisation de l'App
             checkAppInitFailure()
+
+            // Style de la TabBar
+            let appearance = UITabBarAppearance()
+            appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+            appearance.backgroundColor = UIColor(.tabBarColor)
+
+            // Use this appearance when scrolling behind the TabView:
+            UITabBar.appearance().standardAppearance = appearance
+            // Use this appearance when scrolled all the way up:
+            UITabBar.appearance().scrollEdgeAppearance = appearance
         }
 
         // Asynchronous initializing of the View

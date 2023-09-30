@@ -87,7 +87,7 @@ extension SequenceSidebar {
             ToolbarItemGroup(placement: .automatic) {
                 // Afficher la vue Stepper du Programme
                 Button {
-                    showProgramSteps.toggle()
+                    showProgramSteps = true
                 } label: {
                     Label(
                         "Infos",

@@ -17,23 +17,6 @@ struct ActivityClassProgressView: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    private var isPrintedCheckBox: some View {
-        // checkbox isPrinted
-        Button {
-            progress.toggleIsPrinted()
-        } label: {
-            Label(
-                title: {
-                    Text("Support de cours imprimés")
-                }, icon: {
-                    Image(systemName: progress.isPrinted ? "checkmark.circle.fill" : "circle")
-                        .foregroundColor(progress.isPrinted ? .green : .gray)
-                }
-            )
-        }
-        .buttonStyle(.plain)
-    }
-
     var body: some View {
         LabeledContent {
             VStack(alignment: .leading) {
@@ -56,7 +39,14 @@ struct ActivityClassProgressView: View {
                 .font(hClass == .compact ? .callout : .body)
                 .textFieldStyle(.roundedBorder)
 
-                isPrintedCheckBox
+                DocPrintedToggle(
+                    isPrinted: $progress.isPrinted,
+                    save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
+                )
+                DocDistributedToggle(
+                    isDistributed: $progress.isDistributed,
+                    save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
+                )
             }
         } label: {
             Button {
