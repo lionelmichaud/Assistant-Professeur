@@ -283,6 +283,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
         selectedPrefTab: PrefTabSelection = .general,
         selectedWarningType: WarningSelection? = nil,
         selectedCompetenceType: CompetencySelection? = nil,
+
         selectedProgramMngObjId: NSManagedObjectID? = nil,
         selectedSequenceMngObjId: NSManagedObjectID? = nil,
         selectedActivityMngObjId: NSManagedObjectID? = nil,
@@ -297,6 +298,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
         selectedDiscSectionMngObjId: NSManagedObjectID? = nil,
         selectedDiscCompMngObjId: NSManagedObjectID? = nil,
         selectedDiscKnowMngObjId: NSManagedObjectID? = nil,
+
         filterObservation: Bool = false,
         filterColle: Bool = false,
         filterFlag: Bool = false
@@ -460,33 +462,6 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
         self.columnVisibility = try container.decode(
             NavigationSplitViewVisibility.self, forKey: .columnVisibility
         )
-    }
-
-    // MARK: - Methods
-
-    func resetSelections() {
-        selectedTab = .school
-        selectedPrefTab = .general
-        selectedWarningType = .observation
-        selectedCompetenceType = .workedCompetencies
-
-        selectedProgramMngObjId = nil
-        selectedSequenceMngObjId = nil
-        selectedActivityMngObjId = nil
-        selectedObservMngObjId = nil
-        selectedColleMngObjId = nil
-        selectedEleveMngObjId = nil
-        selectedClasseMngObjId = nil
-        selectedSchoolMngObjId = nil
-        selectedWorkedCompChapterMngObjId = nil
-        selectedWorkedCompMngObjId = nil
-        selectedDiscThemeMngObjId = nil
-        selectedDiscSectionMngObjId = nil
-        selectedDiscCompMngObjId    = nil
-        selectedDiscKnowMngObjId    = nil
-
-        classPath = []
-        programPath = []
     }
 
     func encode(to encoder: Encoder) throws {

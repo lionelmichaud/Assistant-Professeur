@@ -7,8 +7,11 @@
 
 import AppFoundation
 import Foundation
+import SwiftUI
 
 extension NavigationModel {
+    // MARK: - Types
+
     /// Onglets
     enum TabSelection: String, Hashable, Codable {
         case userSettings = "Réglages"
@@ -50,8 +53,6 @@ extension NavigationModel {
         case activity
         case schoolYear
 
-        // MARK: - Computed Properties
-
         var id: String { self.rawValue }
 
         var pickerString: String {
@@ -65,6 +66,117 @@ extension NavigationModel {
                 case .activity: return "Activités"
                 case .schoolYear: return "Année scolaire"
             }
+        }
+    }
+
+    // MARK: - Methods
+
+    /// Pop to root view by clearing the stack
+    func popToSchoolRootView() {
+        schoolPath = []
+    }
+
+    /// Pop to root view by clearing the stack
+    func popToClasseRootView() {
+        classPath = []
+    }
+
+    /// Pop to root view by clearing the stack
+    func popToProgramRootView() {
+        columnVisibility = .all
+
+        selectedSequenceMngObjId = nil
+        selectedActivityMngObjId = nil
+        programDetailColumnState = nil
+
+        programPath = []
+    }
+
+    /// Pop to root view by clearing the stack
+    func popToCompetenceRootView() {
+        selectedWorkedCompMngObjId = nil
+        selectedDiscCompMngObjId = nil
+        selectedDiscKnowMngObjId = nil
+
+        competencePath.removeLast(competencePath.count)
+    }
+
+    func resetSelections() {
+        selectedTab = .school
+        selectedPrefTab = .general
+        selectedWarningType = .observation
+        selectedCompetenceType = .workedCompetencies
+
+        selectedProgramMngObjId = nil
+        selectedSequenceMngObjId = nil
+        selectedActivityMngObjId = nil
+        selectedObservMngObjId = nil
+        selectedColleMngObjId = nil
+        selectedEleveMngObjId = nil
+        selectedClasseMngObjId = nil
+        selectedSchoolMngObjId = nil
+        selectedWorkedCompChapterMngObjId = nil
+        selectedWorkedCompMngObjId = nil
+        selectedDiscThemeMngObjId = nil
+        selectedDiscSectionMngObjId = nil
+        selectedDiscCompMngObjId = nil
+        selectedDiscKnowMngObjId = nil
+
+        filterObservation = false
+        filterColle = false
+        filterFlag = false
+
+        popToSchoolRootView()
+        popToClasseRootView()
+    }
+
+    /// Pop to root view when the current tab is tapped again
+    func tabSelection() -> Binding<NavigationModel.TabSelection> {
+        Binding { // this is the get block
+            self.selectedTab
+
+        } set: { tappedTab in
+            if tappedTab == self.selectedTab {
+                // User tapped on the currently active tab icon => Pop to root/Scroll to top
+                switch tappedTab {
+                    case .school:
+                        if self.schoolPath.isEmpty {
+                            // User already on home view, scroll to top
+                        } else {
+                            // Pop to root view by clearing the stack
+                            self.popToSchoolRootView()
+                        }
+
+                    case .classe:
+                        if self.classPath.isEmpty {
+                            // User already on home view, scroll to top
+                        } else {
+                            // Pop to root view by clearing the stack
+                            self.popToClasseRootView()
+                        }
+
+                    case .program:
+                        if self.programPath.isEmpty {
+                            // User already on home view, scroll to top
+                        } else {
+                            // Pop to root view by clearing the stack
+                            self.popToProgramRootView()
+                        }
+
+                    case .competence:
+                        if self.competencePath.isEmpty {
+                            // User already on home view, scroll to top
+                        } else {
+                            // Pop to root view by clearing the stack
+                            self.popToCompetenceRootView()
+                        }
+
+                    default: break
+                }
+            }
+
+            // Set the tab to the tabbed tab
+            self.selectedTab = tappedTab
         }
     }
 }

@@ -29,39 +29,7 @@ struct ClasseSplitView: View {
             NavigationStack(path: $navig.classPath) {
                 ClasseEditor()
                     .navigationDestination(for: ClasseNavigationRoute.self) { route in
-                        switch route {
-                            case let .infos(classe):
-                                ClasseInfosView(classe: classe)
-
-                            case let .room(classe):
-                                RoomElevePlacement(classe: classe)
-
-                            case let .liste(classe):
-                                switch horizontalSizeClass {
-                                    case .compact:
-                                        ElevesListView(classe: classe)
-                                    default:
-                                        ElevesTableView(classe: classe)
-                                }
-
-                            case let .trombinoscope(classe):
-                                TrombinoscopeView(classe : classe)
-
-                            case let .groups(classe):
-                                GroupsListView(classe: classe)
-
-                            case let .exam(classe, exam):
-                                ExamEditor(classe: classe, exam: exam)
-
-                            case let .activity(classe):
-                                ClassCurrentActivityView(classe: classe)
-
-                            case let .progress(classe):
-                                ClassProgressesView(classe: classe)
-
-                            case let .nextSeances(classe):
-                                ClassNextSeancesView(classe: classe)
-                        }
+                        route.destination(horizontalSizeClass: horizontalSizeClass)
                     }
             }
         }

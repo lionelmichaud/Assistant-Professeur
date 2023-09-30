@@ -47,17 +47,17 @@ struct ProgramSplitView: View {
             // 2nde colonne
             NavigationStack(path: $navig.programPath) {
                 SequenceSidebar(showProgramSteps: $showProgramSteps)
-                    .navigationSplitViewColumnWidth(
-                        min: 400,
-                        ideal: 500,
-                        max: 800
-                    )
                     .navigationDestination(for: SequenceEntity.self) { sequence in
                         ActivitySideBar(
                             sequence: sequence,
                             showSequenceSteps: $showSequenceSteps
                         )
                     }
+                    .navigationSplitViewColumnWidth(
+                        min: 400,
+                        ideal: 500,
+                        max: 800
+                    )
             }
 //            .onChange(of: navig.programPath) {
 //                print(navig.programPath)
@@ -65,23 +65,7 @@ struct ProgramSplitView: View {
 
         } detail: {
             // Détail dans la 3ième colonne
-            switch navig.programDetailColumnState {
-                case .none:
-                    ContentUnavailableView(
-                        "Aucune activité sélectionnée...",
-                        systemImage: ActivityEntity.defaultImageName,
-                        description: Text("Sélectionner une activité pour en visualiser le contenu.")
-                    )
-
-                case .showProgramSteps:
-                    ProgramTimeLine()
-
-                case .showSequenceSteps:
-                    SequenceTimeLine()
-
-                case .showActivityDetail:
-                    ActivityDetail()
-            }
+            ProgramDetailedColumn()
         }
         .navigationSplitViewStyle(.balanced)
 
@@ -139,6 +123,32 @@ struct ProgramSplitView: View {
 
                 showSequenceSteps.toggle()
             }
+        }
+    }
+}
+
+/// Détail dans la 3ième colonne de la Tab des Compétences
+struct ProgramDetailedColumn: View {
+    @EnvironmentObject
+    private var navig: NavigationModel
+
+    var body: some View {
+        switch navig.programDetailColumnState {
+            case .none:
+                ContentUnavailableView(
+                    "Aucune activité sélectionnée...",
+                    systemImage: ActivityEntity.defaultImageName,
+                    description: Text("Sélectionner une activité pour en visualiser le contenu.")
+                )
+
+            case .showProgramSteps:
+                ProgramTimeLine()
+
+            case .showSequenceSteps:
+                SequenceTimeLine()
+
+            case .showActivityDetail:
+                ActivityDetail()
         }
     }
 }

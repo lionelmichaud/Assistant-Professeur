@@ -32,7 +32,7 @@ struct ContentView: View {
     private var isiCloudAlertPresented = false
 
     var body: some View {
-        TabView(selection: tabSelection()) {
+        TabView(selection: navigationModel.tabSelection()) {
             // Les établissements scolaires
             SchoolSplitView()
                 .tabItem {
@@ -151,20 +151,13 @@ struct ContentView: View {
             let message = failureReason + (recoverySuggestion == "" ? "" : "\n\(recoverySuggestion)")
             Text(message)
         }
-        // Synchronous initializaing of the View
+        // Synchronous initializing of the View
         .onAppear {
             // Afficher une alerte en cas de problème d'initialisation de l'App
             checkAppInitFailure()
 
-            // Style de la TabBar
-            let appearance = UITabBarAppearance()
-            appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-            appearance.backgroundColor = UIColor(.tabBarColor)
-
-            // Use this appearance when scrolling behind the TabView:
-            UITabBar.appearance().standardAppearance = appearance
-            // Use this appearance when scrolled all the way up:
-            UITabBar.appearance().scrollEdgeAppearance = appearance
+            // Set the Style of the TabBar
+            setTabBarStyle()
         }
 
         // Asynchronous initializing of the View
@@ -203,54 +196,16 @@ extension ContentView {
         }
     }
 
-    /// Pop to root view when the current tab is tapped again
-    private func tabSelection() -> Binding<NavigationModel.TabSelection> {
-        Binding { // this is the get block
-            navigationModel.selectedTab
+    // Set the Style of the TabBar
+    private func setTabBarStyle() {
+        let appearance = UITabBarAppearance()
+        appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+        appearance.backgroundColor = UIColor(.tabBarColor)
 
-        } set: { tappedTab in
-            if tappedTab == navigationModel.selectedTab {
-                // User tapped on the currently active tab icon => Pop to root/Scroll to top
-                switch tappedTab {
-                    case .school:
-                        if navigationModel.schoolPath.isEmpty {
-                            // User already on home view, scroll to top
-                        } else {
-                            // Pop to root view by clearing the stack
-                            navigationModel.schoolPath = []
-                        }
-
-                    case .classe:
-                        if navigationModel.classPath.isEmpty {
-                            // User already on home view, scroll to top
-                        } else {
-                            // Pop to root view by clearing the stack
-                            navigationModel.classPath = []
-                        }
-
-                    case .program:
-                        if navigationModel.programPath.isEmpty {
-                            // User already on home view, scroll to top
-                        } else {
-                            // Pop to root view by clearing the stack
-                            navigationModel.programPath.removeLast(navigationModel.programPath.count)
-                        }
-
-                    case .competence:
-                        if navigationModel.competencePath.isEmpty {
-                            // User already on home view, scroll to top
-                        } else {
-                            // Pop to root view by clearing the stack
-                            navigationModel.competencePath.removeLast(navigationModel.competencePath.count)
-                        }
-
-                    default: break
-                }
-            }
-
-            // Set the tab to the tabbed tab
-            navigationModel.selectedTab = tappedTab
-        }
+        // Use this appearance when scrolling behind the TabView:
+        UITabBar.appearance().standardAppearance = appearance
+        // Use this appearance when scrolled all the way up:
+        UITabBar.appearance().scrollEdgeAppearance = appearance
     }
 }
 

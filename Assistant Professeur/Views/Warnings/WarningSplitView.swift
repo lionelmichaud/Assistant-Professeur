@@ -39,39 +39,59 @@ struct WarningSplitView: View {
 
         } content: {
             // 2nde colonne
-            switch navig.selectedWarningType {
-                case .none:
-                    ContentUnavailableView(
-                        "Aucun type d'avertissement sélectionné...",
-                        systemImage: "exclamationmark.triangle",
-                        description: Text("Sélectionner un type d'avertissement.")
-                    )
-
-                case .colle:
-                    ColleSidebarView()
-
-                case .observation:
-                    ObservSidebarView()
-            }
+            WarningMiddleColumn()
 
         } detail: {
             // Détail dans la 3ième colonne
-            switch navig.selectedWarningType {
-                case .none:
-                    ContentUnavailableView(
-                        "Aucun type d'avertissement sélectionné...",
-                        systemImage: "exclamationmark.triangle",
-                        description: Text("Sélectionner un type d'avertissement.")
-                    )
-
-                case .colle:
-                    ColleEditor()
-
-                case .observation:
-                    ObservEditor()
-            }
+            WarningDetailColumn()
         }
         .navigationSplitViewStyle(.balanced)
+    }
+}
+
+/// Contenu de la 2ième colonne de la Tab des Avertissements
+struct WarningMiddleColumn: View {
+    @EnvironmentObject
+    private var navig: NavigationModel
+
+    var body: some View {
+        switch navig.selectedWarningType {
+            case .none:
+                ContentUnavailableView(
+                    "Aucun type d'avertissement sélectionné...",
+                    systemImage: "exclamationmark.triangle",
+                    description: Text("Sélectionner un type d'avertissement.")
+                )
+
+            case .colle:
+                ColleSidebarView()
+
+            case .observation:
+                ObservSidebarView()
+        }
+    }
+}
+
+/// Détail dans la 3ième colonne de la Tab des Avertissements
+struct WarningDetailColumn: View {
+    @EnvironmentObject
+    private var navig: NavigationModel
+
+    var body: some View {
+        switch navig.selectedWarningType {
+            case .none:
+                ContentUnavailableView(
+                    "Aucun type d'avertissement sélectionné...",
+                    systemImage: "exclamationmark.triangle",
+                    description: Text("Sélectionner un type d'avertissement.")
+                )
+
+            case .colle:
+                ColleEditor()
+
+            case .observation:
+                ObservEditor()
+        }
     }
 }
 

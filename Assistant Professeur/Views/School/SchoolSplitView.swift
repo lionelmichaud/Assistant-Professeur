@@ -23,16 +23,7 @@ struct SchoolSplitView: View {
             NavigationStack(path: $navig.schoolPath) {
                 SchoolEditor()
                     .navigationDestination(for: SchoolNavigationRoute.self) { route in
-                        switch route {
-                            case let .infos(school):
-                                SchoolInfosView(school: school)
-
-                            case let .nextSeances(school):
-                                SchoolNextSeancesView(school: school)
-
-                            case let .bonusMalus(school):
-                                SchoolBonusMalusView(school: school)
-                        }
+                        route.destination()
                     }
             }
         }

@@ -5,7 +5,7 @@
 //  Created by Lionel MICHAUD on 18/06/2023.
 //
 
-import Foundation
+import SwiftUI
 
 enum ClasseNavigationRoute: Hashable, Codable {
     case infos(ClasseEntity)
@@ -81,6 +81,46 @@ enum ClasseNavigationRoute: Hashable, Codable {
             case let .nextSeances(classe):
                 hasher.combine("nextSeances")
                 hasher.combine(classe.id)
+        }
+    }
+
+    func destination(
+        horizontalSizeClass: UserInterfaceSizeClass?
+    ) -> some View {
+        Group {
+            switch self {
+                case let .infos(classe):
+                    ClasseInfosView(classe: classe)
+
+                case let .room(classe):
+                    RoomElevePlacement(classe: classe)
+
+                case let .liste(classe):
+                    switch horizontalSizeClass {
+                        case .compact:
+                            ElevesListView(classe: classe)
+                        default:
+                            ElevesTableView(classe: classe)
+                    }
+
+                case let .trombinoscope(classe):
+                    TrombinoscopeView(classe: classe)
+
+                case let .groups(classe):
+                    GroupsListView(classe: classe)
+
+                case let .exam(classe, exam):
+                    ExamEditor(classe: classe, exam: exam)
+
+                case let .activity(classe):
+                    ClassCurrentActivityView(classe: classe)
+
+                case let .progress(classe):
+                    ClassProgressesView(classe: classe)
+
+                case let .nextSeances(classe):
+                    ClassNextSeancesView(classe: classe)
+            }
         }
     }
 }
