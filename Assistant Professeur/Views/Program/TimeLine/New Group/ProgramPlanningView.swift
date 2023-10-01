@@ -19,6 +19,7 @@ struct ProgramPlanningView: View {
     @State
     private var data = ProgramPlanningGraphData()
 
+    private let minLineHeigth = 75
     private let lineWidth = CGFloat(4)
     private let lineOffset = CGFloat(-10)
 
@@ -26,64 +27,82 @@ struct ProgramPlanningView: View {
         program.sequencesSortedByNumber
     }
 
+    private var nbLines: Int {
+        sequences.count + 1
+    }
+
+    private func nbVisibleLines(visiblePlotHeigth: CGFloat) -> Int {
+        min(Int(visiblePlotHeigth) / minLineHeigth, nbLines)
+    }
+
     var body: some View {
-        Chart {
-            // élongation de l'année scolaire
-            schoolYearMark
+        GeometryReader { geometry in
+            Chart {
+                // élongation de l'année scolaire
+                schoolYearMark
 
-            // élongation des séquences pédagogiques
-            ForEach(data.sequences) { sequence in
-                sequenceMark(sequence: sequence)
-            }
+                // élongation des séquences pédagogiques
+                ForEach(data.sequences) { sequence in
+                    sequenceMark(sequence: sequence)
+                }
 
-            // date courante
-            RuleMark(x: .value("Aujourd'hui", Date.now))
-                .foregroundStyle(.red)
-                .lineStyle(
-                    StrokeStyle(
-                        lineWidth: 0.75,
-                        lineCap: .round,
-                        dash: [10, 5]
+                // date courante
+                RuleMark(x: .value("Aujourd'hui", Date.now))
+                    .foregroundStyle(.red)
+                    .lineStyle(
+                        StrokeStyle(
+                            lineWidth: 0.75,
+                            lineCap: .round,
+                            dash: [10, 5]
+                        )
                     )
+            }
+            .chartScrollableAxes(.vertical)
+            .chartYVisibleDomain(length: nbVisibleLines(visiblePlotHeigth: geometry.size.height))
+            .chartScrollTargetBehavior(
+                .valueAligned(
+                    unit: 1,
+                    majorAlignment: .unit(3)
                 )
-        }
-        .chartForegroundStyleScale([
-            SequenceData.Serie.activity: Color.sequenceTag,
-            SequenceData.Serie.vacance: .gray
-        ])
-        .chartXAxis {
-            AxisMarks(values: .stride(by: .month, count: 1)) { value in
-                if let date = value.as(Date.self) {
-                    let month = Calendar.current.component(.month, from: date)
-                    switch month {
-                        case 1, 4, 7, 10:
-                            AxisValueLabel {
-                                Text(date, format: .dateTime.month(.abbreviated).year(.twoDigits))
-                                    .font(.callout)
-                                    .foregroundColor(.primary)
-                            }
-                            AxisGridLine(stroke: StrokeStyle(lineWidth: 1))
-                        default:
-                            AxisGridLine()
+            )
+            .chartForegroundStyleScale([
+                SequenceData.Serie.activity: Color.sequenceTag,
+                SequenceData.Serie.vacance: .gray
+            ])
+            .chartXAxis {
+                AxisMarks(values: .stride(by: .month, count: 1)) { value in
+                    if let date = value.as(Date.self) {
+                        let month = Calendar.current.component(.month, from: date)
+                        switch month {
+                            case 1, 4, 7, 10:
+                                AxisValueLabel {
+                                    Text(date, format: .dateTime.month(.abbreviated).year(.twoDigits))
+                                        .font(.callout)
+                                        .foregroundColor(.primary)
+                                }
+                                AxisGridLine(stroke: StrokeStyle(lineWidth: 1))
+                            default:
+                                AxisGridLine()
+                        }
                     }
                 }
             }
-        }
-        .chartYAxis {
-            AxisMarks { _ in
-                AxisGridLine()
-                AxisValueLabel()
-                    .font(.subheadline)
-                    .foregroundStyle(Color.sequenceTag)
+            .chartYAxis {
+                AxisMarks { _ in
+                    AxisGridLine()
+                    AxisValueLabel()
+                        .font(.subheadline)
+                        .foregroundStyle(Color.sequenceTag)
+                }
             }
-        }
-        .chartPlotStyle { plotArea in
-            plotArea
-                .background(Color.blue8.opacity(0.15))
-        }
-        .padding()
-        .onAppear {
-            buidChartDatum()
+            .chartPlotStyle { plotArea in
+                plotArea
+                    .background(Color.blue8.opacity(0.15))
+            }
+            .padding()
+            .onAppear {
+                buidChartDatum()
+            }
         }
     }
 }
@@ -91,14 +110,13 @@ struct ProgramPlanningView: View {
 // MARK: - Chart Content Items
 
 extension ProgramPlanningView {
-
     // MARK: - Methods
 
     @ViewBuilder
     private func dateLabel(date: Date) -> Text {
         Text(
             date,
-            format: .dateTime.day().month(.abbreviated) //.year(.twoDigits)
+            format: .dateTime.day().month(.abbreviated) // .year(.twoDigits)
         )
         .font(.footnote)
         .foregroundColor(.secondary)
@@ -199,7 +217,7 @@ struct ProgramPlanningPDF: View {
     var program: ProgramEntity
 
     let data: ProgramPlanningGraphData?
-    
+
     @ObservedObject
     private var pref = UserPrefEntity.shared
 
