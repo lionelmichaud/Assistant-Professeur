@@ -27,7 +27,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
         case selectedWarningType
         case selectedCompetenceType
         case classPath
-        case programPath
+        case programPathIds
         case competencePath
         case selectedProgramId
         case selectedSequenceId
@@ -60,6 +60,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
     var selectedWarningType: WarningSelection?
     @Published
     var selectedCompetenceType: CompetencySelection?
+
     @Published
     var schoolPath = [SchoolNavigationRoute]()
     @Published
@@ -68,6 +69,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
     var programPath = [SequenceEntity]()
     @Published
     var competencePath = NavigationPath()
+
     @Published
     var programDetailColumnState: ProgramDetailColumnState?
 
@@ -79,6 +81,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
                 ProgramEntity.id(MngObjID: newValue)
         }
     }
+
     var selectedProgramId: UUID?
 
     @Published
@@ -88,6 +91,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
                 SequenceEntity.id(MngObjID: newValue)
         }
     }
+
     var selectedSequenceId: UUID?
 
     @Published
@@ -97,6 +101,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
                 ActivityEntity.id(MngObjID: newValue)
         }
     }
+
     var selectedActivityId: UUID?
 
     @Published
@@ -106,6 +111,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
                 ObservEntity.id(MngObjID: newValue)
         }
     }
+
     var selectedObservId: UUID?
 
     @Published
@@ -115,6 +121,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
                 ColleEntity.id(MngObjID: newValue)
         }
     }
+
     var selectedColleId: UUID?
 
     @Published
@@ -124,6 +131,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
                 EleveEntity.id(MngObjID: newValue)
         }
     }
+
     var selectedEleveId: UUID?
 
     @Published
@@ -133,6 +141,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
                 ClasseEntity.id(MngObjID: newValue)
         }
     }
+
     var selectedClasseId: UUID?
 
     @Published
@@ -142,60 +151,67 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
                 SchoolEntity.id(MngObjID: newValue)
         }
     }
+
     var selectedSchoolId: UUID?
 
     @Published
     var selectedWorkedCompChapterMngObjId: NSManagedObjectID? {
         willSet(newValue) {
             selectedWorkedCompChapterId =
-            WCompChapterEntity.id(MngObjID: newValue)
+                WCompChapterEntity.id(MngObjID: newValue)
         }
     }
+
     var selectedWorkedCompChapterId: UUID?
 
     @Published
     var selectedWorkedCompMngObjId: NSManagedObjectID? {
         willSet(newValue) {
             selectedWorkedCompId =
-            WCompEntity.id(MngObjID: newValue)
+                WCompEntity.id(MngObjID: newValue)
         }
     }
+
     var selectedWorkedCompId: UUID?
 
     @Published
     var selectedDiscThemeMngObjId: NSManagedObjectID? {
         willSet(newValue) {
             selectedDiscThemeId =
-            DThemeEntity.id(MngObjID: newValue)
+                DThemeEntity.id(MngObjID: newValue)
         }
     }
+
     var selectedDiscThemeId: UUID?
 
     @Published
     var selectedDiscSectionMngObjId: NSManagedObjectID? {
         willSet(newValue) {
             selectedDiscSectionId =
-            DSectionEntity.id(MngObjID: newValue)
+                DSectionEntity.id(MngObjID: newValue)
         }
     }
+
     var selectedDiscSectionId: UUID?
 
     @Published
     var selectedDiscCompMngObjId: NSManagedObjectID? {
         willSet(newValue) {
             selectedDiscCompId =
-            DCompEntity.id(MngObjID: newValue)
+                DCompEntity.id(MngObjID: newValue)
         }
     }
+
     var selectedDiscCompId: UUID?
 
     @Published
     var selectedDiscKnowMngObjId: NSManagedObjectID? {
         willSet(newValue) {
             selectedDiscKnowId =
-            DKnowledgeEntity.id(MngObjID: newValue)
+                DKnowledgeEntity.id(MngObjID: newValue)
         }
     }
+
     var selectedDiscKnowId: UUID?
 
     @Published
@@ -225,7 +241,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
             }
             do {
                 #if DEBUG
-                    print(">> NavigationModel() JSON decoding has started")
+                    print(">> NavigationModel() initialization has started")
                 #endif
                 let model = try decoder.decode(Self.self, from: data)
                 // initialize l'état de navigation en conséquence
@@ -254,11 +270,13 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
                 filterColle = model.filterColle
                 filterFlag = model.filterFlag
 
+                schoolPath = model.schoolPath
                 classPath = model.classPath
                 programPath = model.programPath
                 competencePath = model.competencePath
+
                 #if DEBUG
-                    print(">> NavigationModel() JSON decoding has completed")
+                    print(">> NavigationModel() initialization has completed")
                 #endif
             } catch {
                 customLog.log(
@@ -278,7 +296,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
     // MARK: - Initializers
 
     init(
-        columnVisibility: NavigationSplitViewVisibility = .all,
+        columnVisibility: NavigationSplitViewVisibility = .automatic,
         selectedTab: TabSelection = .school,
         selectedPrefTab: PrefTabSelection = .general,
         selectedWarningType: WarningSelection? = nil,
@@ -304,7 +322,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
         filterFlag: Bool = false
     ) {
         #if DEBUG
-            print(">> NavigationModel() initialization has started")
+            print(">> New NavigationModel() creation has started")
         #endif
         self.columnVisibility = columnVisibility
         self.selectedTab = selectedTab
@@ -331,175 +349,199 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
         self.filterColle = filterColle
         self.filterFlag = filterFlag
 
+        self.schoolPath = []
         self.classPath = []
         self.programPath = []
         self.competencePath = NavigationPath()
 
         #if DEBUG
-            print(">> NavigationModel() initialization has completed")
+            print(">> New NavigationModel() creation has completed")
         #endif
     }
 
+    /// Initialization à partir de Data JSON mémorisées par l'App
     required init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.selectedTab = try container.decode(
-            NavigationModel.TabSelection.self, forKey: .selectedTab
-        )
-        self.selectedPrefTab = try container.decode(
-            PrefTabSelection.self, forKey: .selectedPrefTab
-        )
-        self.selectedWarningType = try container.decodeIfPresent(
-            WarningSelection.self, forKey: .selectedWarningType
-        )
-        self.selectedCompetenceType = try container.decodeIfPresent(
-            CompetencySelection.self, forKey: .selectedCompetenceType
-        )
-        // FIXME: Plante dans ClasseSideBar si on décode ici
-//        self.classPath = try container.decode(
-//            [ClasseNavigationRoute].self, forKey: .classPath
-//        )
-//        do {
-//            let representation = try container.decode(
-//                NavigationPath.CodableRepresentation.self, forKey: .programPath)
-//            self.programPath = NavigationPath(representation)
-//        } catch {
-//            self.programPath = NavigationPath()
-//        }
+        #if DEBUG
+            print(">> NavigationModel() decoding from JSON data has started !")
+        #endif
+        do {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.selectedTab = try container.decode(
+                NavigationModel.TabSelection.self, forKey: .selectedTab
+            )
+            self.selectedPrefTab = try container.decode(
+                PrefTabSelection.self, forKey: .selectedPrefTab
+            )
+            self.selectedWarningType = try container.decodeIfPresent(
+                WarningSelection.self, forKey: .selectedWarningType
+            )
+            self.selectedCompetenceType = try container.decodeIfPresent(
+                CompetencySelection.self, forKey: .selectedCompetenceType
+            )
+            // FIXME: Plante dans ClasseSideBar si on décode ici
+            // "Abnormal number of gesture recognizer dependencies"
+//            self.classPath = try container.decode(
+//                [ClasseNavigationRoute].self, forKey: .classPath
+//            )
+//            let programPathIds = try container.decode(
+//                [ProgramEntity.ID].self, forKey: .programPathIds
+//            )
+//            self.programPath = programPathIds.compactMap { programId in
+//                SequenceEntity.byId(id: programId!)
+//            }
 
-        self.selectedProgramId = try container.decodeIfPresent(
-            UUID.self, forKey: .selectedProgramId
-        )
-        selectedProgramMngObjId =
-            ProgramEntity.managedObjectID(id: selectedProgramId)
+            //        do {
+            //            let representation = try container.decode(
+            //                NavigationPath.CodableRepresentation.self, forKey: .programPath)
+            //            self.programPath = NavigationPath(representation)
+            //        } catch {
+            //            self.programPath = NavigationPath()
+            //        }
 
-        self.selectedSequenceId = try container.decodeIfPresent(
-            UUID.self, forKey: .selectedSequenceId
-        )
-        selectedSequenceMngObjId =
-            SequenceEntity.managedObjectID(id: selectedSequenceId)
+            self.selectedProgramId = try container.decodeIfPresent(
+                UUID.self, forKey: .selectedProgramId
+            )
+            selectedProgramMngObjId =
+                ProgramEntity.managedObjectID(id: selectedProgramId)
 
-        self.selectedActivityId = try container.decodeIfPresent(
-            UUID.self, forKey: .selectedActivityId
-        )
-        selectedActivityMngObjId =
-            ActivityEntity.managedObjectID(id: selectedActivityId)
+            self.selectedSequenceId = try container.decodeIfPresent(
+                UUID.self, forKey: .selectedSequenceId
+            )
+            selectedSequenceMngObjId =
+                SequenceEntity.managedObjectID(id: selectedSequenceId)
 
-        self.selectedObservId = try container.decodeIfPresent(
-            UUID.self, forKey: .selectedObservId
-        )
-        selectedObservMngObjId =
-            ObservEntity.managedObjectID(id: selectedObservId)
+            self.selectedActivityId = try container.decodeIfPresent(
+                UUID.self, forKey: .selectedActivityId
+            )
+            selectedActivityMngObjId =
+                ActivityEntity.managedObjectID(id: selectedActivityId)
 
-        self.selectedColleId = try container.decodeIfPresent(
-            UUID.self, forKey: .selectedColleId
-        )
-        selectedColleMngObjId =
-            ColleEntity.managedObjectID(id: selectedColleId)
+            self.selectedObservId = try container.decodeIfPresent(
+                UUID.self, forKey: .selectedObservId
+            )
+            selectedObservMngObjId =
+                ObservEntity.managedObjectID(id: selectedObservId)
 
-        self.selectedEleveId = try container.decodeIfPresent(
-            UUID.self, forKey: .selectedEleveId
-        )
-        selectedEleveMngObjId =
-            EleveEntity.managedObjectID(id: selectedEleveId)
+            self.selectedColleId = try container.decodeIfPresent(
+                UUID.self, forKey: .selectedColleId
+            )
+            selectedColleMngObjId =
+                ColleEntity.managedObjectID(id: selectedColleId)
 
-        self.selectedClasseId = try container.decodeIfPresent(
-            UUID.self, forKey: .selectedClasseId
-        )
-        selectedClasseMngObjId =
-            ClasseEntity.managedObjectID(id: selectedClasseId)
+            self.selectedEleveId = try container.decodeIfPresent(
+                UUID.self, forKey: .selectedEleveId
+            )
+            selectedEleveMngObjId =
+                EleveEntity.managedObjectID(id: selectedEleveId)
 
-        self.selectedSchoolId = try container.decodeIfPresent(
-            UUID.self, forKey: .selectedSchoolId
-        )
-        selectedSchoolMngObjId =
-            SchoolEntity.managedObjectID(id: selectedSchoolId)
+            self.selectedClasseId = try container.decodeIfPresent(
+                UUID.self, forKey: .selectedClasseId
+            )
+            selectedClasseMngObjId =
+                ClasseEntity.managedObjectID(id: selectedClasseId)
 
-        self.selectedWorkedCompChapterId = try container.decodeIfPresent(
-            UUID.self, forKey: .selectedWorkedCompChapterId
-        )
-        selectedWorkedCompChapterMngObjId =
-        WCompChapterEntity.managedObjectID(id: selectedWorkedCompChapterId)
+            self.selectedSchoolId = try container.decodeIfPresent(
+                UUID.self, forKey: .selectedSchoolId
+            )
+            selectedSchoolMngObjId =
+                SchoolEntity.managedObjectID(id: selectedSchoolId)
 
-        self.selectedWorkedCompId = try container.decodeIfPresent(
-            UUID.self, forKey: .selectedWorkedCompId
-        )
-        selectedWorkedCompMngObjId =
-        WCompChapterEntity.managedObjectID(id: selectedWorkedCompId)
+            self.selectedWorkedCompChapterId = try container.decodeIfPresent(
+                UUID.self, forKey: .selectedWorkedCompChapterId
+            )
+            selectedWorkedCompChapterMngObjId =
+                WCompChapterEntity.managedObjectID(id: selectedWorkedCompChapterId)
 
-        self.selectedDiscThemeId = try container.decodeIfPresent(
-            UUID.self, forKey: .selectedDiscThemeId
-        )
-        self.selectedDiscThemeMngObjId =
-        DThemeEntity.managedObjectID(id: selectedDiscThemeId)
+            self.selectedWorkedCompId = try container.decodeIfPresent(
+                UUID.self, forKey: .selectedWorkedCompId
+            )
+            selectedWorkedCompMngObjId =
+                WCompChapterEntity.managedObjectID(id: selectedWorkedCompId)
 
-        self.selectedDiscSectionId = try container.decodeIfPresent(
-            UUID.self, forKey: .selectedDiscSectionId
-        )
-        self.selectedDiscSectionMngObjId =
-        DSectionEntity.managedObjectID(id: selectedDiscSectionId)
+            self.selectedDiscThemeId = try container.decodeIfPresent(
+                UUID.self, forKey: .selectedDiscThemeId
+            )
+            self.selectedDiscThemeMngObjId =
+                DThemeEntity.managedObjectID(id: selectedDiscThemeId)
 
-        self.selectedDiscCompId = try container.decodeIfPresent(
-            UUID.self, forKey: .selectedDiscCompId
-        )
-        self.selectedDiscCompMngObjId =
-        DCompEntity.managedObjectID(id: selectedDiscCompId)
+            self.selectedDiscSectionId = try container.decodeIfPresent(
+                UUID.self, forKey: .selectedDiscSectionId
+            )
+            self.selectedDiscSectionMngObjId =
+                DSectionEntity.managedObjectID(id: selectedDiscSectionId)
 
-        self.selectedDiscKnowMngObjId =
-        DKnowledgeEntity.managedObjectID(id: selectedDiscKnowId)
+            self.selectedDiscCompId = try container.decodeIfPresent(
+                UUID.self, forKey: .selectedDiscCompId
+            )
+            self.selectedDiscCompMngObjId =
+                DCompEntity.managedObjectID(id: selectedDiscCompId)
 
-        self.filterObservation = try container.decode(
-            Bool.self, forKey: .filterObservation
-        )
+            self.selectedDiscKnowMngObjId =
+                DKnowledgeEntity.managedObjectID(id: selectedDiscKnowId)
 
-        self.filterColle = try container.decode(
-            Bool.self, forKey: .filterColle
-        )
+            self.filterObservation = try container.decode(
+                Bool.self, forKey: .filterObservation
+            )
 
-        self.filterFlag = try container.decode(
-            Bool.self, forKey: .filterFlag
-        )
+            self.filterColle = try container.decode(
+                Bool.self, forKey: .filterColle
+            )
 
-        self.columnVisibility = try container.decode(
-            NavigationSplitViewVisibility.self, forKey: .columnVisibility
-        )
+            self.filterFlag = try container.decode(
+                Bool.self, forKey: .filterFlag
+            )
+
+            self.columnVisibility = try container.decode(
+                NavigationSplitViewVisibility.self, forKey: .columnVisibility
+            )
+        } catch {
+            #if DEBUG
+                print(">> NavigationModel() decoding from JSON data has failed !")
+            #endif
+            throw error
+        }
+        #if DEBUG
+            print(">> NavigationModel() decoding from JSON data has completed")
+        #endif
     }
 
     func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(selectedTab, forKey: .selectedTab)
-        try container.encode(selectedPrefTab, forKey: .selectedPrefTab)
-        try container.encodeIfPresent(selectedWarningType, forKey: .selectedWarningType)
-        try container.encodeIfPresent(selectedCompetenceType, forKey: .selectedCompetenceType)
+        do {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(selectedTab, forKey: .selectedTab)
+            try container.encode(selectedPrefTab, forKey: .selectedPrefTab)
+            try container.encodeIfPresent(selectedWarningType, forKey: .selectedWarningType)
+            try container.encodeIfPresent(selectedCompetenceType, forKey: .selectedCompetenceType)
 
-        try container.encodeIfPresent(selectedProgramId, forKey: .selectedProgramId)
-        try container.encodeIfPresent(selectedSequenceId, forKey: .selectedSequenceId)
-        try container.encodeIfPresent(selectedActivityId, forKey: .selectedSequenceId)
-        try container.encodeIfPresent(selectedObservId, forKey: .selectedObservId)
-        try container.encodeIfPresent(selectedColleId, forKey: .selectedColleId)
-        try container.encodeIfPresent(selectedEleveId, forKey: .selectedEleveId)
-        try container.encodeIfPresent(selectedClasseId, forKey: .selectedClasseId)
-        try container.encodeIfPresent(selectedSchoolId, forKey: .selectedSchoolId)
-        try container.encodeIfPresent(selectedWorkedCompChapterId, forKey: .selectedWorkedCompChapterId)
-        try container.encodeIfPresent(selectedWorkedCompId, forKey: .selectedWorkedCompId)
-        try container.encodeIfPresent(selectedDiscThemeId, forKey: .selectedDiscThemeId)
-        try container.encodeIfPresent(selectedDiscSectionId, forKey: .selectedDiscSectionId)
-        try container.encodeIfPresent(selectedDiscCompId, forKey: .selectedDiscCompId)
-        try container.encodeIfPresent(selectedDiscKnowId, forKey: .selectedDiscKnowId)
+            try container.encodeIfPresent(selectedProgramId, forKey: .selectedProgramId)
+            try container.encodeIfPresent(selectedSequenceId, forKey: .selectedSequenceId)
+            try container.encodeIfPresent(selectedActivityId, forKey: .selectedSequenceId)
+            try container.encodeIfPresent(selectedObservId, forKey: .selectedObservId)
+            try container.encodeIfPresent(selectedColleId, forKey: .selectedColleId)
+            try container.encodeIfPresent(selectedEleveId, forKey: .selectedEleveId)
+            try container.encodeIfPresent(selectedClasseId, forKey: .selectedClasseId)
+            try container.encodeIfPresent(selectedSchoolId, forKey: .selectedSchoolId)
+            try container.encodeIfPresent(selectedWorkedCompChapterId, forKey: .selectedWorkedCompChapterId)
+            try container.encodeIfPresent(selectedWorkedCompId, forKey: .selectedWorkedCompId)
+            try container.encodeIfPresent(selectedDiscThemeId, forKey: .selectedDiscThemeId)
+            try container.encodeIfPresent(selectedDiscSectionId, forKey: .selectedDiscSectionId)
+            try container.encodeIfPresent(selectedDiscCompId, forKey: .selectedDiscCompId)
+            try container.encodeIfPresent(selectedDiscKnowId, forKey: .selectedDiscKnowId)
 
-        try container.encode(filterObservation, forKey: .filterObservation)
-        try container.encode(filterColle, forKey: .filterColle)
-        try container.encode(filterFlag, forKey: .filterFlag)
-        try container.encode(columnVisibility, forKey: .columnVisibility)
+            try container.encode(filterObservation, forKey: .filterObservation)
+            try container.encode(filterColle, forKey: .filterColle)
+            try container.encode(filterFlag, forKey: .filterFlag)
+            try container.encode(columnVisibility, forKey: .columnVisibility)
 
-        try container.encode(classPath, forKey: .classPath)
-        try container.encode(programPath, forKey: .programPath)
-
-//        if let representation = programPath.codable {
-//            try container.encode(representation, forKey: .programPath)
-//        }
-
-        if let representation = competencePath.codable {
-            try container.encode(representation, forKey: .competencePath)
+//            try container.encode(classPath, forKey: .classPath)
+//            try container.encode(programPath.map(\.id), forKey: .programPathIds)
+            //        if let representation = competencePath.codable {
+            //            try container.encode(representation, forKey: .competencePath)
+            //        }
+        } catch {
+            #if DEBUG
+                print(">> NavigationModel() encoding to JSON data has failed !")
+            #endif
         }
     }
 }

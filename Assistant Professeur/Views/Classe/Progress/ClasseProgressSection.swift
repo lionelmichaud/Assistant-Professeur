@@ -57,7 +57,7 @@ struct ClasseProgressSection: View {
 
 extension ClasseProgressSection {
     private var currentActivityView: some View {
-        NavigationLink(value: ClasseNavigationRoute.activity(classe)) {
+        NavigationLink(value: ClasseNavigationRoute.activity(classe.id)) {
             HStack {
                 Label(hClass == .compact ? "Activité" : "Activité en cours", systemImage: "book.fill")
                     .fontWeight(.bold)
@@ -85,7 +85,7 @@ extension ClasseProgressSection {
     }
 
     private var nextSeancesView: some View {
-        NavigationLink(value: ClasseNavigationRoute.nextSeances(classe)) {
+        NavigationLink(value: ClasseNavigationRoute.nextSeances(classe.id)) {
             HStack {
                 Label("Prochains cours", systemImage: "clock")
                 if classeSeances.seances.isNotEmpty {
@@ -136,7 +136,7 @@ extension ClasseProgressSection {
     }
 
     private var progressView: some View {
-        NavigationLink(value: ClasseNavigationRoute.progress(classe)) {
+        NavigationLink(value: ClasseNavigationRoute.progress(classe.id)) {
             Label("Actualiser la progression", systemImage: ProgramEntity.defaultImageName)
                 .fontWeight(.bold)
         }

@@ -73,22 +73,32 @@ extension NavigationModel {
 
     /// Afficher la time-line du programme dans la colonne de droite (détail)
     func showProgramTimeLine() {
-        columnVisibility = .all
         selectedActivityMngObjId = nil
         programDetailColumnState = .showProgramSteps
     }
 
     /// Afficher la time-line de la séquence dans la colonne de droite (détail)
     func showSequenceTimeLine() {
-        columnVisibility = .all
         selectedActivityMngObjId = nil
         programDetailColumnState = .showSequenceSteps
+    }
+
+    // Désélectionner la séquence et l'activité quand on change de programme
+    func changeSelectedProgram() {
+        selectedSequenceMngObjId = nil
+        selectedActivityMngObjId = nil
+        programDetailColumnState = nil
+    }
+
+    // Désélectionner l'activité quand on change de séquence
+    func changeSelectedSequence() {
+        selectedActivityMngObjId = nil
+        programDetailColumnState = nil
     }
 
     /// Afficher l'activité quand on en sélectionne une
     func showActivityDetails() {
         if selectedActivityMngObjId != nil {
-            columnVisibility = .all
             programDetailColumnState = .showActivityDetail
         }
     }
@@ -105,8 +115,6 @@ extension NavigationModel {
 
     /// Pop to Programme root view by clearing the stack
     func popToProgramRootView() {
-        columnVisibility = .all
-
         selectedSequenceMngObjId = nil
         selectedActivityMngObjId = nil
         programDetailColumnState = nil

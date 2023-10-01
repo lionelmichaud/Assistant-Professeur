@@ -72,7 +72,7 @@ struct ClasseListSection: View {
             }
 
             // Tableau de bord des Bonus / Malus
-            NavigationLink(value: SchoolNavigationRoute.bonusMalus(school)) {
+            NavigationLink(value: SchoolNavigationRoute.bonusMalus(school.id)) {
                 Label("Tableau de bord des Bonus / Malus", systemImage: "plusminus")
                     .fontWeight(.bold)
             }

@@ -48,11 +48,11 @@ struct SchoolDetail: View {
 
             List {
                 // infos sur l'établissement
-                NavigationLink(value: SchoolNavigationRoute.infos(school)) {
+                NavigationLink(value: SchoolNavigationRoute.infos(school.id)) {
                     Label("Informations", systemImage: "info.circle")
                         .fontWeight(.bold)
                     }
-                NavigationLink(value: SchoolNavigationRoute.nextSeances(school)) {
+                NavigationLink(value: SchoolNavigationRoute.nextSeances(school.id)) {
                     Label("Prochains cours", systemImage: "clock")
                         .fontWeight(.bold)
                 }

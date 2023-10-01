@@ -74,7 +74,7 @@ struct ClasseInfosView: View {
     }
 
     private var roomView: some View {
-        NavigationLink(value: ClasseNavigationRoute.room(classe)) {
+        NavigationLink(value: ClasseNavigationRoute.room(classe.id)) {
             HStack {
                 Label("Salle de classe", systemImage: "door.left.hand.open")
                     .fontWeight(.bold)

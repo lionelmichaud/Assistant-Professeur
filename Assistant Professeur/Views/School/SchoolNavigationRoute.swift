@@ -8,20 +8,20 @@
 import SwiftUI
 
 enum SchoolNavigationRoute: Hashable, Codable {
-    case infos(SchoolEntity)
-    case nextSeances(SchoolEntity)
-    case bonusMalus(SchoolEntity)
+    case infos(SchoolEntity.ID)
+    case nextSeances(SchoolEntity.ID)
+    case bonusMalus(SchoolEntity.ID)
 
     static func == (lhs: SchoolNavigationRoute, rhs: SchoolNavigationRoute) -> Bool {
         switch (lhs, rhs) {
-            case let (.infos(schooll), .infos(schoolr)):
-                return (schooll.id == schoolr.id)
+            case let (.infos(schoollId), .infos(schoolrId)):
+                return (schoollId == schoolrId)
 
-            case let (.nextSeances(schooll), .nextSeances(schoolr)):
-                return schooll.id == schoolr.id
+            case let (.nextSeances(schoollId), .nextSeances(schoolrId)):
+                return schoollId == schoolrId
 
-            case let (.bonusMalus(schooll), .bonusMalus(schoolr)):
-                return schooll.id == schoolr.id
+            case let (.bonusMalus(schoollId), .bonusMalus(schoolrId)):
+                return schoollId == schoolrId
 
             default: return false
         }
@@ -29,31 +29,48 @@ enum SchoolNavigationRoute: Hashable, Codable {
 
     func hash(into hasher: inout Hasher) {
         switch self {
-            case let .infos(school):
+            case let .infos(schoolId):
                 hasher.combine("infos")
-                hasher.combine(school.id)
+                hasher.combine(schoolId)
 
-            case let .nextSeances(school):
+            case let .nextSeances(schoolId):
                 hasher.combine("nextSeances")
-                hasher.combine(school.id)
+                hasher.combine(schoolId)
 
-            case let .bonusMalus(school):
+            case let .bonusMalus(schoolId):
                 hasher.combine("bonusMalus")
-                hasher.combine(school.id)
+                hasher.combine(schoolId)
         }
     }
 
     func destination() -> some View {
-        Group {
+        var errorView: Text {
+            Text("Erreur de routage")
+                .font(.largeTitle)
+        }
+
+        return Group {
             switch self {
-                case let .infos(school):
-                    SchoolInfosView(school: school)
+                case let .infos(schoolId):
+                    if let school = SchoolEntity.byId(id: schoolId!) {
+                        SchoolInfosView(school: school)
+                    } else {
+                        errorView
+                    }
 
-                case let .nextSeances(school):
-                    SchoolNextSeancesView(school: school)
+                case let .nextSeances(schoolId):
+                    if let school = SchoolEntity.byId(id: schoolId!) {
+                        SchoolNextSeancesView(school: school)
+                    } else {
+                        errorView
+                    }
 
-                case let .bonusMalus(school):
-                    SchoolBonusMalusView(school: school)
+                case let .bonusMalus(schoolId):
+                    if let school = SchoolEntity.byId(id: schoolId!) {
+                        SchoolBonusMalusView(school: school)
+                    } else {
+                        errorView
+                    }
             }
         }
     }

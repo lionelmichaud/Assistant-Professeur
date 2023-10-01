@@ -35,7 +35,7 @@ struct ExamListSection: View {
 
             // édition de la liste des examen
             ForEach(classe.examsSortedByDate) { exam in
-                NavigationLink(value: ClasseNavigationRoute.exam(classe, exam)) {
+                NavigationLink(value: ClasseNavigationRoute.exam(classe.id, exam.id)) {
                     ClasseExamRow(exam: exam)
                 }
             }

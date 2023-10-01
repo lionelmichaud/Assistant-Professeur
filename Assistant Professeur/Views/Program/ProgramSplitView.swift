@@ -53,28 +53,19 @@ struct ProgramSplitView: View {
 //            }
 
         } detail: {
-            // Détail dans la 3ième colonne
+            // 3ième colonne
             ProgramDetailedColumn()
         }
         .navigationSplitViewStyle(.balanced)
 
         // désélectionner la séquence et l'activité quand on change de programme
         .onChange(of: navig.selectedProgramMngObjId) {
-//            navig.selectedSequenceMngObjId = nil
-//            navig.selectedActivityMngObjId = nil
-//
-//            navig.columnVisibility = .all
-//
-//            navig.programDetailColumnState = nil
+            navig.changeSelectedProgram()
         }
 
         // désélectionner l'activité quand on change de séquence
         .onChange(of: navig.selectedSequenceMngObjId) {
-//            navig.selectedActivityMngObjId = nil
-//
-//            navig.columnVisibility = .all
-//
-//            navig.programDetailColumnState = nil
+            navig.changeSelectedSequence()
         }
 
         // afficher l'activité quand on en sélectionne une

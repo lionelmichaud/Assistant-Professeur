@@ -8,45 +8,45 @@
 import SwiftUI
 
 enum ClasseNavigationRoute: Hashable, Codable {
-    case infos(ClasseEntity)
-    case room(ClasseEntity)
-    case liste(ClasseEntity)
-    case trombinoscope(ClasseEntity)
-    case groups(ClasseEntity)
-    case exam(ClasseEntity, ExamEntity)
-    case activity(ClasseEntity)
-    case progress(ClasseEntity)
-    case nextSeances(ClasseEntity)
+    case infos(ClasseEntity.ID)
+    case room(ClasseEntity.ID)
+    case liste(ClasseEntity.ID)
+    case trombinoscope(ClasseEntity.ID)
+    case groups(ClasseEntity.ID)
+    case exam(ClasseEntity.ID, ExamEntity.ID)
+    case activity(ClasseEntity.ID)
+    case progress(ClasseEntity.ID)
+    case nextSeances(ClasseEntity.ID)
 
     static func == (lhs: ClasseNavigationRoute, rhs: ClasseNavigationRoute) -> Bool {
         switch (lhs, rhs) {
-            case let (.infos(classel), .infos(classer)):
-                return (classel.id == classer.id)
+            case let (.infos(classelId), .infos(classerId)):
+                return (classelId == classerId)
 
-            case let (.room(classel), .room(classer)):
-                return (classel.id == classer.id)
+            case let (.room(classelId), .room(classerId)):
+                return (classelId == classerId)
 
-            case let (.liste(classel), .liste(classer)):
-                return classel.id == classer.id
+            case let (.liste(classelId), .liste(classerId)):
+                return classelId == classerId
 
-            case let (.trombinoscope(classel), .trombinoscope(classer)):
-                return classel.id == classer.id
+            case let (.trombinoscope(classelId), .trombinoscope(classerId)):
+                return classelId == classerId
 
-            case let (.groups(classel), .groups(classer)):
-                return classel.id == classer.id
+            case let (.groups(classelId), .groups(classerId)):
+                return classelId == classerId
 
-            case let (.exam(classel, examl), .exam(classer, examr)):
-                return (classel.id == classer.id) &&
-                    (examl == examr)
+            case let (.exam(classelId, examlId), .exam(classerId, examrId)):
+                return (classelId == classerId) &&
+                    (examlId == examrId)
 
-            case let (.activity(classel), .activity(classer)):
-                return classel.id == classer.id
+            case let (.activity(classelId), .activity(classerId)):
+                return classelId == classerId
 
-            case let (.progress(classel), .progress(classer)):
-                return classel.id == classer.id
+            case let (.progress(classelId), .progress(classerId)):
+                return classelId == classerId
 
-            case let (.nextSeances(classel), .nextSeances(classer)):
-                return classel.id == classer.id
+            case let (.nextSeances(classelId), .nextSeances(classerId)):
+                return classelId == classerId
 
             default: return false
         }
@@ -54,72 +54,114 @@ enum ClasseNavigationRoute: Hashable, Codable {
 
     func hash(into hasher: inout Hasher) {
         switch self {
-            case let .infos(classe):
+            case let .infos(classeId):
                 hasher.combine("infos")
-                hasher.combine(classe.id)
-            case let .room(classe):
+                hasher.combine(classeId)
+            case let .room(classeId):
                 hasher.combine("room")
-                hasher.combine(classe.id)
-            case let .liste(classe):
+                hasher.combine(classeId)
+            case let .liste(classeId):
                 hasher.combine("liste")
-                hasher.combine(classe.id)
-            case let .trombinoscope(classe):
+                hasher.combine(classeId)
+            case let .trombinoscope(classeId):
                 hasher.combine("trombinoscope")
-                hasher.combine(classe.id)
-            case let .groups(classe):
+                hasher.combine(classeId)
+            case let .groups(classeId):
                 hasher.combine("groups")
-                hasher.combine(classe.id)
-            case let .exam(classe, exam):
-                hasher.combine(classe.id)
-                hasher.combine(exam.id)
-            case let .activity(classe):
+                hasher.combine(classeId)
+            case let .exam(classeId, examId):
+                hasher.combine(classeId)
+                hasher.combine(examId)
+            case let .activity(classeId):
                 hasher.combine("activity")
-                hasher.combine(classe.id)
-            case let .progress(classe):
+                hasher.combine(classeId)
+            case let .progress(classeId):
                 hasher.combine("progress")
-                hasher.combine(classe.id)
-            case let .nextSeances(classe):
+                hasher.combine(classeId)
+            case let .nextSeances(classeId):
                 hasher.combine("nextSeances")
-                hasher.combine(classe.id)
+                hasher.combine(classeId)
         }
     }
 
-    func destination(
+    func destination( // swiftlint:disable:this cyclomatic_complexity
         horizontalSizeClass: UserInterfaceSizeClass?
     ) -> some View {
-        Group {
+        var errorView: Text {
+            Text("Erreur de routage")
+                .font(.largeTitle)
+        }
+
+        return Group {
             switch self {
-                case let .infos(classe):
-                    ClasseInfosView(classe: classe)
-
-                case let .room(classe):
-                    RoomElevePlacement(classe: classe)
-
-                case let .liste(classe):
-                    switch horizontalSizeClass {
-                        case .compact:
-                            ElevesListView(classe: classe)
-                        default:
-                            ElevesTableView(classe: classe)
+                case let .infos(classeId):
+                    if let classe = ClasseEntity.byId(id: classeId!) {
+                        ClasseInfosView(classe: classe)
+                    } else {
+                        errorView
                     }
 
-                case let .trombinoscope(classe):
-                    TrombinoscopeView(classe: classe)
+                case let .room(classeId):
+                    if let classe = ClasseEntity.byId(id: classeId!) {
+                        RoomElevePlacement(classe: classe)
+                    } else {
+                        errorView
+                    }
 
-                case let .groups(classe):
-                    GroupsListView(classe: classe)
+                case let .liste(classeId):
+                    if let classe = ClasseEntity.byId(id: classeId!) {
+                        switch horizontalSizeClass {
+                            case .compact:
+                                ElevesListView(classe: classe)
+                            default:
+                                ElevesTableView(classe: classe)
+                        }
+                    } else {
+                        errorView
+                    }
 
-                case let .exam(classe, exam):
-                    ExamEditor(classe: classe, exam: exam)
+                case let .trombinoscope(classeId):
+                    if let classe = ClasseEntity.byId(id: classeId!) {
+                        TrombinoscopeView(classe: classe)
+                    } else {
+                        errorView
+                    }
 
-                case let .activity(classe):
-                    ClassCurrentActivityView(classe: classe)
+                case let .groups(classeId):
+                    if let classe = ClasseEntity.byId(id: classeId!) {
+                        GroupsListView(classe: classe)
+                    } else {
+                        errorView
+                    }
 
-                case let .progress(classe):
-                    ClassProgressesView(classe: classe)
+                case let .exam(classeId, examId):
+                    if let classe = ClasseEntity.byId(id: classeId!),
+                       let exam = ExamEntity.byId(id: examId!) {
+                        ExamEditor(classe: classe, exam: exam)
+                    } else {
+                        errorView
+                    }
 
-                case let .nextSeances(classe):
-                    ClassNextSeancesView(classe: classe)
+                case let .activity(classeId):
+                    if let classe = ClasseEntity.byId(id: classeId!) {
+                        ClassCurrentActivityView(classe: classe)
+                    } else {
+                        errorView
+                    }
+
+                case let .progress(classeId):
+                    if let classe = ClasseEntity.byId(id: classeId!) {
+                        ClassProgressesView(classe: classe)
+                    } else {
+                        errorView
+                    }
+
+                case let .nextSeances(classeId):
+                    if let classe = ClasseEntity.byId(id: classeId!) {
+                        ClassNextSeancesView(classe: classe)
+                    } else {
+                        errorView
+                    }
             }
         }
     }

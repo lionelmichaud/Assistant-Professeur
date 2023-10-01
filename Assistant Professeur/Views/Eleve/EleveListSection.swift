@@ -37,21 +37,21 @@ struct EleveListSection: View {
 
 extension EleveListSection {
     private var elevesListView: some View {
-        NavigationLink(value: ClasseNavigationRoute.liste(classe)) {
+        NavigationLink(value: ClasseNavigationRoute.liste(classe.id)) {
             Label("Liste d'appel", systemImage: "list.bullet")
                 .fontWeight(.bold)
         }
     }
 
     private var trombinoscopeView: some View {
-        NavigationLink(value: ClasseNavigationRoute.trombinoscope(classe)) {
+        NavigationLink(value: ClasseNavigationRoute.trombinoscope(classe.id)) {
             Label("Trombinoscope", systemImage: "person.crop.square.fill")
                 .fontWeight(.bold)
         }
     }
 
     private var groupsView: some View {
-        NavigationLink(value: ClasseNavigationRoute.groups(classe)) {
+        NavigationLink(value: ClasseNavigationRoute.groups(classe.id)) {
             Label("Groupes", systemImage: "person.line.dotted.person.fill")
                 .fontWeight(.bold)
         }

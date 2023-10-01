@@ -51,7 +51,7 @@ struct ClasseDetail: View {
             ClasseNameGroupBox(classe: classe)
 
             List {
-                NavigationLink(value: ClasseNavigationRoute.infos(classe)) {
+                NavigationLink(value: ClasseNavigationRoute.infos(classe.id)) {
                     Label("Informations", systemImage: "info.circle")
                         .fontWeight(.bold)
                 }
