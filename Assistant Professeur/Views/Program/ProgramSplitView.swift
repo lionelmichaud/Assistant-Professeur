@@ -20,16 +20,8 @@ enum ProgramDetailColumnState {
 
 /// Vues de Programmes / Séquences / Activités
 struct ProgramSplitView: View {
-    // MARK: - Properties
-
     @EnvironmentObject
     private var navig: NavigationModel
-
-    @State
-    private var showProgramSteps: Bool = false
-
-    @State
-    private var showSequenceSteps: Bool = false
 
     var body: some View {
         NavigationSplitView(
@@ -46,12 +38,9 @@ struct ProgramSplitView: View {
         } content: {
             // 2nde colonne
             NavigationStack(path: $navig.programPath) {
-                SequenceSidebar(showProgramSteps: $showProgramSteps)
+                SequenceSidebar()
                     .navigationDestination(for: SequenceEntity.self) { sequence in
-                        ActivitySideBar(
-                            sequence: sequence,
-                            showSequenceSteps: $showSequenceSteps
-                        )
+                        ActivitySideBar(sequence: sequence)
                     }
                     .navigationSplitViewColumnWidth(
                         min: 400,
@@ -90,39 +79,7 @@ struct ProgramSplitView: View {
 
         // afficher l'activité quand on en sélectionne une
         .onChange(of: navig.selectedActivityMngObjId) {
-            if navig.selectedActivityMngObjId != nil {
-                navig.columnVisibility = .all
-
-                navig.programDetailColumnState = .showActivityDetail
-            } else {
-                navig.programDetailColumnState = nil
-            }
-        }
-
-        // afficher la time-line du programme dans la colonne de droite (détail)
-        .onChange(of: showProgramSteps) {
-            if showProgramSteps {
-                navig.selectedActivityMngObjId = nil
-
-                navig.columnVisibility = .all
-
-                navig.programDetailColumnState = .showProgramSteps
-
-                showProgramSteps.toggle()
-            }
-        }
-
-        // afficher la time-line de la séquence dans la colonne de droite (détail)
-        .onChange(of: showSequenceSteps) {
-            if showSequenceSteps {
-                navig.selectedActivityMngObjId = nil
-
-                navig.columnVisibility = .all
-
-                navig.programDetailColumnState = .showSequenceSteps
-
-                showSequenceSteps.toggle()
-            }
+            navig.showActivityDetails()
         }
     }
 }

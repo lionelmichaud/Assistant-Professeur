@@ -71,17 +71,39 @@ extension NavigationModel {
 
     // MARK: - Methods
 
-    /// Pop to root view by clearing the stack
+    /// Afficher la time-line du programme dans la colonne de droite (détail)
+    func showProgramTimeLine() {
+        columnVisibility = .all
+        selectedActivityMngObjId = nil
+        programDetailColumnState = .showProgramSteps
+    }
+
+    /// Afficher la time-line de la séquence dans la colonne de droite (détail)
+    func showSequenceTimeLine() {
+        columnVisibility = .all
+        selectedActivityMngObjId = nil
+        programDetailColumnState = .showSequenceSteps
+    }
+
+    /// Afficher l'activité quand on en sélectionne une
+    func showActivityDetails() {
+        if selectedActivityMngObjId != nil {
+            columnVisibility = .all
+            programDetailColumnState = .showActivityDetail
+        }
+    }
+
+    /// Pop to School root view by clearing the stack
     func popToSchoolRootView() {
         schoolPath = []
     }
 
-    /// Pop to root view by clearing the stack
+    /// Pop to Classe root view by clearing the stack
     func popToClasseRootView() {
         classPath = []
     }
 
-    /// Pop to root view by clearing the stack
+    /// Pop to Programme root view by clearing the stack
     func popToProgramRootView() {
         columnVisibility = .all
 
@@ -92,7 +114,7 @@ extension NavigationModel {
         programPath = []
     }
 
-    /// Pop to root view by clearing the stack
+    /// Pop to Compétence root view by clearing the stack
     func popToCompetenceRootView() {
         selectedWorkedCompMngObjId = nil
         selectedDiscCompMngObjId = nil
@@ -130,7 +152,7 @@ extension NavigationModel {
         popToClasseRootView()
     }
 
-    /// Pop to root view when the current tab is tapped again
+    /// Pop to Tab's root view when the current tab is tapped again
     func tabSelection() -> Binding<NavigationModel.TabSelection> {
         Binding { // this is the get block
             self.selectedTab

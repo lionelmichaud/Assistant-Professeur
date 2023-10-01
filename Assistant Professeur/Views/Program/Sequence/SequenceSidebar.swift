@@ -9,11 +9,8 @@ import HelpersView
 import SwiftUI
 
 struct SequenceSidebar: View {
-    @Binding
-    var showProgramSteps: Bool
-
     @EnvironmentObject
-    private var nav: NavigationModel
+    private var navig: NavigationModel
 
     @State
     private var isEditing = false
@@ -23,9 +20,9 @@ struct SequenceSidebar: View {
 
     var body: some View {
         VStack {
-            if let programId = nav.selectedProgramMngObjId {
+            if let programId = navig.selectedProgramMngObjId {
                 if let program = ProgramEntity.byObjectId(MngObjID: programId) {
-                    List(selection: $nav.selectedSequenceMngObjId) {
+                    List(selection: $navig.selectedSequenceMngObjId) {
                         ProgramDetailGroupBox(program: program)
 
                         SequenceList(
@@ -64,7 +61,7 @@ struct SequenceSidebar: View {
             isPresented: $isEditing,
             onDismiss: ProgramEntity.rollback
         ) {
-            if let programId = nav.selectedProgramMngObjId,
+            if let programId = navig.selectedProgramMngObjId,
                let program = ProgramEntity.byObjectId(MngObjID: programId) {
                 NavigationStack {
                     ProgramEditorModal(program: program)
@@ -82,12 +79,13 @@ struct SequenceSidebar: View {
 extension SequenceSidebar {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
-        if let programId = nav.selectedProgramMngObjId,
+        if let programId = navig.selectedProgramMngObjId,
            ProgramEntity.byObjectId(MngObjID: programId) != nil {
             ToolbarItemGroup(placement: .automatic) {
                 // Afficher la vue Stepper du Programme
                 Button {
-                    showProgramSteps = true
+                    // afficher la time-line du programme dans la colonne de droite (détail)
+                    navig.showProgramTimeLine()
                 } label: {
                     Label(
                         "Infos",
@@ -109,7 +107,7 @@ extension SequenceSidebar {
             // Ajouter une Séquence
             ToolbarItemGroup(placement: .status) {
                 Button {
-                    if let programId = nav.selectedProgramMngObjId {
+                    if let programId = navig.selectedProgramMngObjId {
                         if let program = ProgramEntity.byObjectId(MngObjID: programId) {
                             withAnimation {
                                 _ = SequenceEntity.create(

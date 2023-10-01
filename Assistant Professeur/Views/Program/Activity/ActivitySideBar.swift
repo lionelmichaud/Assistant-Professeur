@@ -12,11 +12,8 @@ struct ActivitySideBar: View {
     @ObservedObject
     var sequence: SequenceEntity
 
-    @Binding
-    var showSequenceSteps: Bool
-
     @EnvironmentObject
-    private var nav: NavigationModel
+    private var navig: NavigationModel
 
     @State
     private var isEditing = false
@@ -34,7 +31,7 @@ struct ActivitySideBar: View {
     }
 
     var body: some View {
-        List(selection: $nav.selectedActivityMngObjId) {
+        List(selection: $navig.selectedActivityMngObjId) {
             if sequence.program != nil {
                 SequenceDetailGroupBox(sequence: sequence)
             } else {
@@ -91,7 +88,7 @@ extension ActivitySideBar {
         ToolbarItemGroup(placement: .automatic) {
             // Afficher la vue Stepper de la séquence
             Button {
-                showSequenceSteps = true
+                navig.showSequenceTimeLine()
             } label: {
                 Label(
                     "Infos", systemImage: "info.circle"
