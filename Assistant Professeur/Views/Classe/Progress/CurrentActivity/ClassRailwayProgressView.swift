@@ -164,44 +164,48 @@ extension ClassRailwayProgressView {
         classeSeances _: SeancesInDateInterval
     ) -> [AnyView] {
         progresses
-            .map { progress in
-                HStack {
-                    // Tag de l'activité
-                    NumberedCircleView(
-                        text: "A\(progress.activity!.viewNumber)",
-                        color: .teal,
-                        triggerAnimation: false
-                    )
-                    // Nombre de séances / Dates des séances à venir
-                    VStack(alignment: .leading) {
-                        switch progress.status {
-                            case .completed:
-                                // Nombre de séances
-                                Text("\(progress.activity!.viewDurationString)s")
+            .compactMap { progress in
+                if progress.activity!.viewDuration == 0 {
+                    return nil
+                } else {
+                    return HStack {
+                        // Tag de l'activité
+                        NumberedCircleView(
+                            text: "A\(progress.activity!.viewNumber)",
+                            color: .teal,
+                            triggerAnimation: false
+                        )
+                        // Nombre de séances / Dates des séances à venir
+                        VStack(alignment: .leading) {
+                            switch progress.status {
+                                case .completed:
+                                    // Nombre de séances
+                                    Text("\(progress.activity!.viewDurationString)s")
 
-                            case .inProgress, .notStarted:
-                                // Nombre de séances
-                                Text("\(progress.activity!.viewDurationString)s")
-                                    .font(.footnote)
-
-                                if let startDate = progress.startDate {
-                                    // Date à laquelle débutera l'activité
-                                    Text(formattedDate(startDate))
+                                case .inProgress, .notStarted:
+                                    // Nombre de séances
+                                    Text("\(progress.activity!.viewDurationString)s")
                                         .font(.footnote)
-                                    if let endDate = progress.endDate,
-                                       endDate.day != startDate.day {
-                                        // Date à laquelle se terminera l'activité
-                                        Text(formattedDate(endDate))
-                                            .font(.footnote)
-                                    }
-                                }
 
-                            case .invalid:
-                                EmptyView()
+                                    if let startDate = progress.startDate {
+                                        // Date à laquelle débutera l'activité
+                                        Text(formattedDate(startDate))
+                                            .font(.footnote)
+                                        if let endDate = progress.endDate,
+                                           endDate.day != startDate.day {
+                                            // Date à laquelle se terminera l'activité
+                                            Text(formattedDate(endDate))
+                                                .font(.footnote)
+                                        }
+                                    }
+
+                                case .invalid:
+                                    EmptyView()
+                            }
                         }
                     }
+                    .eraseToAnyView()
                 }
-                .eraseToAnyView()
             }
     }
 
@@ -209,13 +213,17 @@ extension ClassRailwayProgressView {
         classeProgresses progresses: [ActivityProgressEntity]
     ) -> [StepperIndicationType<AnyView>] {
         progresses
-            .map { progress in
-                StepperIndicationType
-                    .custom(IndicatorImageView(
-                        name: progress.status.imageName,
-                        size: 30
-                    )
-                    .eraseToAnyView())
+            .compactMap { progress in
+                if progress.activity!.viewDuration == 0 {
+                    return nil
+                } else {
+                    return StepperIndicationType
+                        .custom(IndicatorImageView(
+                            name: progress.status.imageName,
+                            size: 30
+                        )
+                        .eraseToAnyView())
+                }
             }
     }
 

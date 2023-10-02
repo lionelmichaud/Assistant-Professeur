@@ -80,6 +80,9 @@ struct ProgramDetailedColumn: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
+    @Environment(\.horizontalSizeClass) 
+    private var horizontalSizeClass
+
     var body: some View {
         switch navig.programDetailColumnState {
             case .none:
@@ -97,6 +100,9 @@ struct ProgramDetailedColumn: View {
 
             case .showActivityDetail:
                 ActivityDetail()
+                    .onAppear {
+
+                    }
         }
     }
 }

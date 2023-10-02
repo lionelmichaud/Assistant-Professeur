@@ -55,7 +55,7 @@ struct ClassCurrentActivityView: View {
         }
         .verticallyAligned(.top)
         #if os(iOS)
-            .navigationTitle("Activité en cours")
+        .navigationTitle("\(classe.displayString) - Activité en cours")
         #endif
             .navigationBarTitleDisplayModeInline()
     }
