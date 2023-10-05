@@ -130,11 +130,12 @@ struct EleveSidebarClasseSubview: View {
     @State
     private var numberOfHit = 0
 
-    var searchCriteria: String {
+    var taskId: String {
         searchString
             + navigationModel.filterFlag.description
             + navigationModel.filterColle.description
             + navigationModel.filterObservation.description
+            + (classe.id?.uuidString ?? "nil")
     }
 
     var body: some View {
@@ -198,7 +199,7 @@ struct EleveSidebarClasseSubview: View {
         .padding(.leading, 4)
 
         // Filtrer les élèves
-        .task(id: searchCriteria) {
+        .task(id: taskId) {
             filteredEleveInClasse = classe.filteredElevesSortedByName(
                 searchString: searchString,
                 withObservation: navigationModel.filterObservation,

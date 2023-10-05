@@ -296,7 +296,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
     // MARK: - Initializers
 
     init(
-        columnVisibility: NavigationSplitViewVisibility = .automatic,
+        columnVisibility: NavigationSplitViewVisibility = .all,
         selectedTab: TabSelection = .school,
         selectedPrefTab: PrefTabSelection = .general,
         selectedWarningType: WarningSelection? = nil,

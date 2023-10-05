@@ -23,9 +23,13 @@ struct ProgramSplitView: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
+    @State 
+    private var preferredColumn = NavigationSplitViewColumn.sidebar
+
     var body: some View {
         NavigationSplitView(
-            columnVisibility: $navig.columnVisibility
+            columnVisibility: $navig.columnVisibility,
+            preferredCompactColumn: $preferredColumn
         ) {
             // 1ère colonne
             ProgramSidebar()
@@ -38,9 +42,10 @@ struct ProgramSplitView: View {
         } content: {
             // 2nde colonne
             NavigationStack(path: $navig.programPath) {
-                SequenceSidebar()
+                SequenceSidebar(preferredColumn: $preferredColumn)
                     .navigationDestination(for: SequenceEntity.self) { sequence in
-                        ActivitySideBar(sequence: sequence)
+                        ActivitySideBar(sequence: sequence,
+                                        preferredColumn: $preferredColumn)
                     }
                     .navigationSplitViewColumnWidth(
                         min: 400,
@@ -48,9 +53,6 @@ struct ProgramSplitView: View {
                         max: 800
                     )
             }
-//            .onChange(of: navig.programPath) {
-//                print(navig.programPath)
-//            }
 
         } detail: {
             // 3ième colonne
@@ -100,9 +102,6 @@ struct ProgramDetailedColumn: View {
 
             case .showActivityDetail:
                 ActivityDetail()
-                    .onAppear {
-
-                    }
         }
     }
 }

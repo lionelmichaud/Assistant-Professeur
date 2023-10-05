@@ -9,6 +9,9 @@ import HelpersView
 import SwiftUI
 
 struct SequenceSidebar: View {
+    @Binding
+    var preferredColumn: NavigationSplitViewColumn
+
     @EnvironmentObject
     private var navig: NavigationModel
 
@@ -86,6 +89,7 @@ extension SequenceSidebar {
                 Button {
                     // afficher la time-line du programme dans la colonne de droite (détail)
                     navig.showProgramTimeLine()
+                    preferredColumn = .detail
                 } label: {
                     Label(
                         "Infos",

@@ -14,6 +14,13 @@ struct ActivityList: View {
 
     var searchString: String = ""
 
+    // taskId shall change whenever either `searchString` or `sequence` changes
+    var taskId: String {
+        searchString
+        + (sequence.id?.uuidString ?? "nil")
+    }
+
+
     @Environment(\.managedObjectContext)
     private var managedObjectContext
 
@@ -50,7 +57,7 @@ struct ActivityList: View {
             .padding(.top)
             .padding(.leading)
         }
-        .task(id: searchString) {
+        .task(id: taskId) {
             filteredActivities = sequence.filteredActivitiesSortedByNumber(searchString: searchString)
         }
     }

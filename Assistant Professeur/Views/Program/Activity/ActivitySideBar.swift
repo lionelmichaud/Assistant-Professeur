@@ -12,6 +12,9 @@ struct ActivitySideBar: View {
     @ObservedObject
     var sequence: SequenceEntity
 
+    @Binding
+    var preferredColumn: NavigationSplitViewColumn
+
     @EnvironmentObject
     private var navig: NavigationModel
 
@@ -89,6 +92,8 @@ extension ActivitySideBar {
             // Afficher la vue Stepper de la séquence
             Button {
                 navig.showSequenceTimeLine()
+                // FIXME: Fait planter l'app
+                //preferredColumn = .detail
             } label: {
                 Label(
                     "Infos", systemImage: "info.circle"
