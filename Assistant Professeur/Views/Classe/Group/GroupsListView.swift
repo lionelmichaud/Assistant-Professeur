@@ -36,6 +36,9 @@ struct GroupsListView: View {
     @State
     private var presentation: ViewMode = .list
 
+    @State
+    private var groups = [GroupEntity]()
+
     private var csvURLsToShare: [URL] {
         ImportExportManager.cachesURLsToShare(
             fileNames: [
@@ -54,12 +57,12 @@ struct GroupsListView: View {
             } else {
                 List {
                     // Pour chaque Groupe
-                    ForEach(classe.allGroupsSortedByNumber) { groupe in
+                    ForEach(groups) { groupe in
                         if show(groupe: groupe) {
                             DisclosureGroup(isExpanded: $isExpanded) {
                                 switch presentation {
                                     case .list:
-                                        GroupView(
+                                        GroupNamesView(
                                             groupe: groupe,
                                             classe: classe,
                                             isEditing: $isEditing,
@@ -108,6 +111,9 @@ struct GroupsListView: View {
                     prompt: "Nom,Prénom,groupe,commentaire"
                 )
                 .autocorrectionDisabled()
+                .task(id: isEditing) {
+                    groups = classe.allGroupsSortedByNumber
+                }
             }
         }
         #if os(iOS)
@@ -135,10 +141,8 @@ struct GroupsListView: View {
 //        }
     }
 
-    private func show(groupe _: GroupEntity) -> Bool {
-        true
-        // FIXME: - ne fonctionne pas
-        // groupe.number != 0 || (groupe.number == 0 && !groupe.isEmpty)
+    private func show(groupe: GroupEntity) -> Bool {
+         groupe.number != 0 || (groupe.number == 0 && !groupe.isEmpty)
     }
 }
 

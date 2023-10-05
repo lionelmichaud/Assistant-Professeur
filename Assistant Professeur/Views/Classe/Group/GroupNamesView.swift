@@ -1,5 +1,5 @@
 //
-//  GroupListView.swift
+//  GroupNamesView.swift
 //  Cahier du Professeur
 //
 //  Created by Lionel MICHAUD on 16/10/2022.
@@ -8,8 +8,8 @@
 import CoreData
 import SwiftUI
 
-/// Liste des élèves d'un groupe donné
-struct GroupView: View {
+/// Liste des nom des élèves d'un groupe donné
+struct GroupNamesView: View {
     @ObservedObject
     var groupe: GroupEntity
 
@@ -50,7 +50,7 @@ struct GroupView: View {
                             }
                         } label: {
                             Label(
-                                (eleve.isUngrouped ? "◦ " : "") + eleve.displayName,
+                                (eleve.isUngrouped ? "● " : "") + eleve.displayName,
                                 systemImage: EleveEntity.defaultImageName
                             )
                         }
