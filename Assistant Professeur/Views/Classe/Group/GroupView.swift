@@ -66,7 +66,7 @@ struct GroupView: View {
 
             // pour chaque Elève du groupe
             ForEach(groupe.filteredElevesSortedByName(searchString: searchString), id: \.objectID) { eleve in
-                EleveLabel(eleve: eleve)
+                ClasseEleveRow(eleve: eleve)
                     //                    .onDrag {
                     //                        NSItemProvider(object: eleve)
                     //                    }

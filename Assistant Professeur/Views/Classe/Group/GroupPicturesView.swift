@@ -32,12 +32,7 @@ struct GroupPicturesView: View {
         ) {
             ForEach(groupe.filteredElevesSortedByName(searchString: searchString), id: \.objectID) { eleve in
                 VStack {
-                    if eleve.hasImageTrombine {
-                        Trombine(eleve: eleve)
-                    } else {
-                        Trombine(eleve: eleve)
-                            .foregroundColor(.secondary)
-                    }
+                    TrombineInteractivView(eleve: eleve)
 
                     // Nom de l'élève
                     EleveTextName(

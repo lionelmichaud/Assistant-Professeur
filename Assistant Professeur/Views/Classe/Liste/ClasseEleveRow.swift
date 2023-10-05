@@ -14,9 +14,12 @@ struct ClasseEleveRow: View {
     var body: some View {
         HStack {
             EleveLabel(eleve: eleve)
-
             Spacer()
-
+            if eleve.viewBonus != 0 {
+                Text("(\(eleve.viewBonus))")
+                    .foregroundStyle(eleve.viewBonus > 0 ? .green : .red)
+                    .bold()
+            }
 //            EleveColleLabel(eleve: eleve, scale: .medium)
 //            EleveObservLabel(eleve: eleve, scale: .medium)
         }
