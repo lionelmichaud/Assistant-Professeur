@@ -13,6 +13,7 @@ private let customLog = Logger(
     category: "RoomElevePlacement"
 )
 
+/// Positionnement des élèves d'une classe sur les places assises de la salle de classe
 struct RoomElevePlacement: View {
     @ObservedObject
     var classe: ClasseEntity

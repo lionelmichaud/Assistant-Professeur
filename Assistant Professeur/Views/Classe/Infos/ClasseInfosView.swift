@@ -98,12 +98,18 @@ struct ClasseInfosView: View {
                 if pref.viewClasseAnnotationEnabled {
                     AnnotationEditView(annotation: $classe.viewAnnotation)
                 }
+                // statistiques des bonus / malus de la classe
                 BonusMalusGroupBox(
                     minBonus: classe.minBonus,
                     maxBonus: classe.maxBonus,
                     averageBonus: classe.averageBonus,
                     showClasse: nil
                 )
+            }
+
+            // Section Salle de classe utilisée
+            Section {
+                roomView
             }
 
             // Section arrêt des notes avant conseil de classe
@@ -154,11 +160,6 @@ struct ClasseInfosView: View {
 
             // Section liste des documents utiles
             ClasseDocumentListSection(classe: classe)
-
-            // Section Salle de classe utilisée
-            Section {
-                roomView
-            }
         }
         .alert(
             alertTitle,

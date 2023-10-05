@@ -45,7 +45,7 @@ struct RoomListSection: View {
 
             /// Editer la liste des salles de classe
             ForEach(school.roomsSortedByName, id: \.objectID) { room in
-                RoomEditor(room: room)
+                RoomRowEditor(room: room)
             }
             .onDelete { indexSet in
                 alertTitle = "Supprimer cette salle de classe?"

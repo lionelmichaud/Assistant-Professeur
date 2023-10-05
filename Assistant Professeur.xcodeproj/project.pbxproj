@@ -118,7 +118,7 @@
 		795C2C2B296E2DCA00EDFF09 /* EditableSeatLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C23296E2DCA00EDFF09 /* EditableSeatLabel.swift */; };
 		795C2C2C296E2DCA00EDFF09 /* DraggableSeatLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C24296E2DCA00EDFF09 /* DraggableSeatLabel.swift */; };
 		795C2C2D296E2DCA00EDFF09 /* RoomLayoutEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C25296E2DCA00EDFF09 /* RoomLayoutEditor.swift */; };
-		795C2C2E296E2DCA00EDFF09 /* RoomEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C26296E2DCA00EDFF09 /* RoomEditor.swift */; };
+		795C2C2E296E2DCA00EDFF09 /* RoomRowEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C26296E2DCA00EDFF09 /* RoomRowEditor.swift */; };
 		795C2C2F296E2DCA00EDFF09 /* SeatLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C27296E2DCA00EDFF09 /* SeatLabel.swift */; };
 		795C2C30296E2DCA00EDFF09 /* RoomListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C28296E2DCA00EDFF09 /* RoomListSection.swift */; };
 		795C2C31296E2DCA00EDFF09 /* RoomElevePlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C29296E2DCA00EDFF09 /* RoomElevePlacement.swift */; };
@@ -515,7 +515,7 @@
 		795C2C23296E2DCA00EDFF09 /* EditableSeatLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditableSeatLabel.swift; sourceTree = "<group>"; };
 		795C2C24296E2DCA00EDFF09 /* DraggableSeatLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraggableSeatLabel.swift; sourceTree = "<group>"; };
 		795C2C25296E2DCA00EDFF09 /* RoomLayoutEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomLayoutEditor.swift; sourceTree = "<group>"; };
-		795C2C26296E2DCA00EDFF09 /* RoomEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomEditor.swift; sourceTree = "<group>"; };
+		795C2C26296E2DCA00EDFF09 /* RoomRowEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomRowEditor.swift; sourceTree = "<group>"; };
 		795C2C27296E2DCA00EDFF09 /* SeatLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatLabel.swift; sourceTree = "<group>"; };
 		795C2C28296E2DCA00EDFF09 /* RoomListSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomListSection.swift; sourceTree = "<group>"; };
 		795C2C29296E2DCA00EDFF09 /* RoomElevePlacement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomElevePlacement.swift; sourceTree = "<group>"; };
@@ -814,6 +814,15 @@
 				79012C722A39F84B00BF0772 /* JsonExport.swift */,
 			);
 			path = JsonImportExportMng;
+			sourceTree = "<group>";
+		};
+		790136AE2ACF56930066E517 /* Room */ = {
+			isa = PBXGroup;
+			children = (
+				795C2C29296E2DCA00EDFF09 /* RoomElevePlacement.swift */,
+				795C2C23296E2DCA00EDFF09 /* EditableSeatLabel.swift */,
+			);
+			path = Room;
 			sourceTree = "<group>";
 		};
 		7901B2E22A16C1FB00C55108 /* Events */ = {
@@ -1229,14 +1238,12 @@
 			isa = PBXGroup;
 			children = (
 				795C2C28296E2DCA00EDFF09 /* RoomListSection.swift */,
-				795C2C26296E2DCA00EDFF09 /* RoomEditor.swift */,
+				795C2C26296E2DCA00EDFF09 /* RoomRowEditor.swift */,
 				795C2C25296E2DCA00EDFF09 /* RoomLayoutEditor.swift */,
 				795C2C22296E2DCA00EDFF09 /* RoomPlanEditView.swift */,
 				795A34122999476100E36959 /* LoadRoomPlanView.swift */,
 				795C2C24296E2DCA00EDFF09 /* DraggableSeatLabel.swift */,
 				795C2C27296E2DCA00EDFF09 /* SeatLabel.swift */,
-				795C2C29296E2DCA00EDFF09 /* RoomElevePlacement.swift */,
-				795C2C23296E2DCA00EDFF09 /* EditableSeatLabel.swift */,
 			);
 			path = Room;
 			sourceTree = "<group>";
@@ -1677,8 +1684,8 @@
 		79DEDAE32925855B00F508EF /* School */ = {
 			isa = PBXGroup;
 			children = (
-				790510BC2AB4B51D006CCC5B /* BonusMalus */,
 				796B6A7E2A0C42AE00F00929 /* Infos */,
+				790510BC2AB4B51D006CCC5B /* BonusMalus */,
 				79E00C512A5B7F6400362743 /* Progress */,
 				799421872A02C6E5002999C4 /* Toolbar */,
 				7994E3202972F4E500952D08 /* Document */,
@@ -1701,6 +1708,7 @@
 			isa = PBXGroup;
 			children = (
 				79225B502A26BC0E005030B5 /* Infos */,
+				790136AE2ACF56930066E517 /* Room */,
 				79398D2A2965FA950013564D /* Exam */,
 				792381152960B023009E51B7 /* Group */,
 				79F41E692954C83A00EAAC52 /* Liste */,
@@ -2236,7 +2244,7 @@
 				796521D62A14EF1E000C27D1 /* DailySchedulePref.swift in Sources */,
 				793D6270295DCBBC00477932 /* MotifView.swift in Sources */,
 				79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */,
-				795C2C2E296E2DCA00EDFF09 /* RoomEditor.swift in Sources */,
+				795C2C2E296E2DCA00EDFF09 /* RoomRowEditor.swift in Sources */,
 				793D6276295DD9E600477932 /* ObservNotifIcon.swift in Sources */,
 				79FD21A22A33CF6900A8D925 /* DCompEntity+Extensions.swift in Sources */,
 				79C2E47029DC22C2008DF730 /* EleveTextName.swift in Sources */,

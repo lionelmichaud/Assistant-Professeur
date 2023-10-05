@@ -18,6 +18,7 @@ public func + (lhs: CGSize, rhs: CGSize) -> CGSize {
     return CGSize(width: lhs.width + rhs.width, height: lhs.height + rhs.height)
 }
 
+/// Editeur de plan des places de salle de classe
 struct RoomPlanEditView: View {
     @ObservedObject
     var room: RoomEntity

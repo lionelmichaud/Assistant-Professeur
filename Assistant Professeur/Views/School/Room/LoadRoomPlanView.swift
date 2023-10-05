@@ -8,6 +8,7 @@
 import HelpersView
 import SwiftUI
 
+/// Chargement d'un plan de salle de classe
 struct LoadRoomPlanView: View {
     @ObservedObject
     var room: RoomEntity

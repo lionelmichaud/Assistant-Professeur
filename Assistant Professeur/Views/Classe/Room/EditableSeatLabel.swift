@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Positionnement d'un élève d'une classe sur une place assise de la salle de classe
 struct EditableSeatLabel: View {
     @ObservedObject
     var classe: ClasseEntity
@@ -16,6 +17,8 @@ struct EditableSeatLabel: View {
 
     var viewGeometrySize: CGSize
     var imageSize: CGSize
+
+    let fontWeight: Font.Weight = .semibold
 
     @EnvironmentObject
     private var navigationModel: NavigationModel
@@ -137,7 +140,14 @@ struct EditableSeatLabel: View {
             seatMenu
         } preview: {
             if let eleveOnSeat {
-                Trombine(eleve: eleveOnSeat)
+                // Photo de l'élève
+                TrombineView(eleve: eleveOnSeat)
+                // Nom de l'élève
+                EleveTextName(
+                    eleve: eleveOnSeat,
+                    fontWeight: fontWeight
+                )
+                .multilineTextAlignment(.center)
             } else {
                 Image(systemName: "questionmark.app.dashed")
                     .resizable()

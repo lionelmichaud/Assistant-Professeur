@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Etiquette de place assise de salle de classe
 struct SeatLabel: View {
     var label : String?
     var backgoundColor = Color.blue

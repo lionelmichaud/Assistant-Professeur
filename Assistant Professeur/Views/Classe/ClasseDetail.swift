@@ -66,6 +66,10 @@ struct ClasseDetail: View {
                 ExamListSection(classe: classe)
             }
         }
+        #if os(iOS)
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Classe")
+        #endif
         .toolbar(content: myToolBarContent)
         .alert(
             alertTitle,
@@ -90,10 +94,6 @@ struct ClasseDetail: View {
                     result: result
                 )
         }
-        #if os(iOS)
-        .navigationTitle("Classe")
-        .navigationBarTitleDisplayMode(.inline)
-        #endif
         .onDisappear {
             try? ClasseEntity.saveIfContextHasChanged()
         }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Etiquette de place assise de salle de classe déplaceable
 struct DraggableSeatLabel: View {
     @ObservedObject
     var seat: SeatEntity

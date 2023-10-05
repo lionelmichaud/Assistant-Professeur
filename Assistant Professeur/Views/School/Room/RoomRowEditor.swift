@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RoomEditor: View {
+struct RoomRowEditor: View {
     @ObservedObject
     var room: RoomEntity
 
