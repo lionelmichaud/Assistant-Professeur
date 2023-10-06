@@ -23,17 +23,7 @@ struct EditableSeatLabel: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
 
-    @State
-    private var isAddingNewObserv = false
-
-    @State
-    private var isAddingNewColle = false
-
     // MARK: - ComputedProperties
-
-    private var unSeatedEleves: [EleveEntity] {
-        classe.filteredElevesSortedByName(searchString: "")
-    }
 
     private var eleveOnSeat: EleveEntity? {
         RoomSeatManager.eleve(from: classe, seatedOn: seat)
@@ -43,16 +33,109 @@ struct EditableSeatLabel: View {
         eleveOnSeat?.givenName ?? "Associer"
     }
 
-    /// Menu de placement d'un élève sur une place de la salle de classe
-    private var seatMenu: some View {
+    var body: some View {
+        SeatLabel(
+            label: nameOfEleveOnSeat,
+            backgoundColor: eleveOnSeat == nil ? .pink : .blue
+        )
+        .contextMenu {
+            SeatMenu(classe: classe, seat: seat)
+        } preview: {
+            if let eleveOnSeat {
+                // Photo de l'élève
+                TrombineView(eleve: eleveOnSeat)
+                // Nom de l'élève
+                EleveTextName(
+                    eleve: eleveOnSeat,
+                    fontWeight: fontWeight
+                )
+                .multilineTextAlignment(.center)
+            } else {
+                Image(systemName: "questionmark.app.dashed")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(minWidth: 75, minHeight: 75)
+            }
+        }
+        .offset(posInView(
+            relativePos: seat.locInRoom,
+            geometrySize: viewGeometrySize,
+            imageSize: imageSize
+        )
+        )
+    }
+
+    // MARK: - Methods
+
+    /// Convertit la position de l'objet situé à une position relative (%) `relativePos` à l'intérieur de l'image de taille `imageSize`
+    /// dans une position absolue en pixels dans la vue définie par `geometrySize`.
+    /// - Parameters:
+    ///   - relativePos: position relative (%) de l'objet dans l'image de taille `imageSize`
+    ///   - geometrySize: taille de la vue contenant l'image (alignée .topLeading)
+    ///   - imageSize: taille de l'image dans laquelle se situe l'objet
+    /// - Returns: position absolue en pixels de l'objet dans la vue définie par `geometrySize`
+    private func posInView(
+        relativePos: CGPoint,
+        geometrySize: CGSize,
+        imageSize: CGSize
+    ) -> CGSize {
+        let imageSizeRatio = imageSize.width / imageSize.height
+        let geometrySizeRatio = geometrySize.width / geometrySize.height
+
+        if imageSizeRatio >= geometrySizeRatio {
+            return CGSize(
+                width: relativePos.x * geometrySize.width,
+                height: relativePos.y * (geometrySize.width * imageSize.height / imageSize.width)
+            )
+        } else {
+            return CGSize(
+                width: relativePos.x * (geometrySize.height * imageSize.width / imageSize.height),
+                height: relativePos.y * geometrySize.height
+            )
+        }
+    }
+}
+
+/// Menu de placement d'un élève sur une place de la salle de classe
+struct SeatMenu: View {
+    @ObservedObject
+    var classe: ClasseEntity
+
+    @ObservedObject
+    var seat: SeatEntity
+
+    @EnvironmentObject
+    private var navig: NavigationModel
+
+    @State
+    private var isAddingNewObserv = false
+
+    @State
+    private var isAddingNewColle = false
+
+    // MARK: - ComputedProperties
+
+    private var eleveOnSeat: EleveEntity? {
+        RoomSeatManager.eleve(from: classe, seatedOn: seat)
+    }
+
+    private var nameOfEleveOnSeat: String {
+        eleveOnSeat?.givenName ?? "Associer"
+    }
+
+    private var unSeatedEleves: [EleveEntity] {
+        classe.filteredElevesSortedByName(searchString: "")
+    }
+
+    var body: some View {
         Group {
             if let eleveOnSeat {
                 Section {
                     // aller à la fiche élève
                     Button {
                         // Programatic Navigation
-                        navigationModel.selectedTab = .eleve
-                        navigationModel.selectedEleveMngObjId = eleveOnSeat.objectID
+                        navig.selectedTab = .eleve
+                        navig.selectedEleveMngObjId = eleveOnSeat.objectID
                     } label: {
                         Label(
                             "Fiche élève",
@@ -117,50 +200,25 @@ struct EditableSeatLabel: View {
 
             Section {
                 ForEach(unSeatedEleves, id: \.objectID) { eleve in
-                    Button(eleve.displayName) {
-                        withAnimation {
-                            // enlever l'élève qui était assis à cette place
-                            eleveOnSeat?.seat = nil
-                            // pour y mettre cet élève là
-                            eleve.seat = seat
-                            try? EleveEntity.saveIfContextHasChanged()
+                    if eleve.seat != seat {
+                        Button {
+                            withAnimation {
+                                // enlever l'élève qui était assis à cette place
+                                eleveOnSeat?.seat = nil
+                                // pour y mettre cet élève là
+                                eleve.seat = seat
+                                try? EleveEntity.saveIfContextHasChanged()
+                            }
+                        } label: {
+                            Label(
+                                (eleve.seat == nil ? "    " : "✓ ") + eleve.displayName,
+                                systemImage: EleveEntity.defaultImageName
+                            )
                         }
                     }
                 }
             }
         }
-    }
-
-    var body: some View {
-        SeatLabel(
-            label: nameOfEleveOnSeat,
-            backgoundColor: eleveOnSeat == nil ? .pink : .blue
-        )
-        .contextMenu {
-            seatMenu
-        } preview: {
-            if let eleveOnSeat {
-                // Photo de l'élève
-                TrombineView(eleve: eleveOnSeat)
-                // Nom de l'élève
-                EleveTextName(
-                    eleve: eleveOnSeat,
-                    fontWeight: fontWeight
-                )
-                .multilineTextAlignment(.center)
-            } else {
-                Image(systemName: "questionmark.app.dashed")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(minWidth: 75, minHeight: 75)
-            }
-        }
-        .offset(posInView(
-            relativePos: seat.locInRoom,
-            geometrySize: viewGeometrySize,
-            imageSize: imageSize
-        )
-        )
         .sheet(isPresented: $isAddingNewObserv) {
             NavigationStack {
                 ObservCreatorModal(eleve: eleveOnSeat!)
@@ -172,36 +230,6 @@ struct EditableSeatLabel: View {
                 ColleCreatorModal(eleve: eleveOnSeat!)
             }
             .presentationDetents([.medium])
-        }
-    }
-
-    // MARK: - Methods
-
-    /// Convertit la position de l'objet situé à une position relative (%) `relativePos` à l'intérieur de l'image de taille `imageSize`
-    /// dans une position absolue en pixels dans la vue définie par `geometrySize`.
-    /// - Parameters:
-    ///   - relativePos: position relative (%) de l'objet dans l'image de taille `imageSize`
-    ///   - geometrySize: taille de la vue contenant l'image (alignée .topLeading)
-    ///   - imageSize: taille de l'image dans laquelle se situe l'objet
-    /// - Returns: position absolue en pixels de l'objet dans la vue définie par `geometrySize`
-    private func posInView(
-        relativePos: CGPoint,
-        geometrySize: CGSize,
-        imageSize: CGSize
-    ) -> CGSize {
-        let imageSizeRatio = imageSize.width / imageSize.height
-        let geometrySizeRatio = geometrySize.width / geometrySize.height
-
-        if imageSizeRatio >= geometrySizeRatio {
-            return CGSize(
-                width: relativePos.x * geometrySize.width,
-                height: relativePos.y * (geometrySize.width * imageSize.height / imageSize.width)
-            )
-        } else {
-            return CGSize(
-                width: relativePos.x * (geometrySize.height * imageSize.width / imageSize.height),
-                height: relativePos.y * geometrySize.height
-            )
         }
     }
 }

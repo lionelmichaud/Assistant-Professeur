@@ -39,29 +39,7 @@ struct GroupNamesView: View {
         Group {
             if groupIsEditable && isEditing {
                 // Ajouter au groupe un élève parmis ceux qui ne font pas partis du groupe
-                Menu {
-                    ForEach(classe.elevesSortedByName) { eleve in
-                        Button {
-                            withAnimation {
-                                GroupManager.assign(
-                                    eleve: eleve,
-                                    toGroupNumber: groupe.viewNumber
-                                )
-                            }
-                        } label: {
-                            Label(
-                                (eleve.isUngrouped ? "● " : "") + eleve.displayName,
-                                systemImage: EleveEntity.defaultImageName
-                            )
-                        }
-                        .disabled(eleve.group == groupe)
-                    }
-                } label: {
-                    Label(
-                        "Ajouter un élève",
-                        systemImage: "plus.circle.fill"
-                    )
-                }
+                AddEleveToGroupMenu(groupe: groupe, classe: classe)
             }
 
             // pour chaque Elève du groupe
@@ -128,6 +106,42 @@ struct GroupNamesView: View {
     }
 }
 
+/// Menu de sélection d'un élève à ajouter au groupe
+struct AddEleveToGroupMenu: View {
+    @ObservedObject
+    var groupe: GroupEntity
+
+    @ObservedObject
+    var classe: ClasseEntity
+
+    var body: some View {
+        Menu {
+            ForEach(classe.elevesSortedByName) { eleve in
+                if eleve.group != groupe {
+                    Button {
+                        withAnimation {
+                            GroupManager.assign(
+                                eleve: eleve,
+                                toGroupNumber: groupe.viewNumber
+                            )
+                        }
+                    } label: {
+                        Label(
+                            (eleve.isGrouped ? "✓ " : "    ") + eleve.displayName,
+                            systemImage: EleveEntity.defaultImageName
+                        )
+                    }
+                }
+            }
+        } label: {
+            Label(
+                "Ajouter un élève",
+                systemImage: "plus.circle.fill"
+            )
+        }
+    }
+}
+
 /// Dialogue de sélection de l'élève avec qui permuter et exécution de la pertutation
 struct SelectElevePermuterDialog: View {
     let eleve: EleveEntity
@@ -159,8 +173,10 @@ struct SelectElevePermuterDialog: View {
                 Button("Ok") {
                     if let selectedEleve {
                         withAnimation {
-                            GroupManager.permuter(thisEleve: eleve,
-                                                  withThisEleve: selectedEleve)
+                            GroupManager.permuter(
+                                thisEleve: eleve,
+                                withThisEleve: selectedEleve
+                            )
                         }
                     }
                     dismiss()

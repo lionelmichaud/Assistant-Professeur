@@ -35,20 +35,6 @@ struct RoomElevePlacement: View {
         classe.room?.imageSize
     }
 
-    private var associateClasseToRoomMenu: some View {
-        Menu {
-            ForEach(classe.school!.allRooms, id: \.objectID) { room in
-                Button(room.viewName) {
-                    withAnimation {
-                        classe.room = room
-                    }
-                }
-            }
-        } label: {
-            Label("Associer", systemImage: "plus.circle.fill")
-        }
-    }
-
     var body: some View {
         Group {
             if classe.hasAssociatedRoom {
@@ -129,7 +115,7 @@ struct RoomElevePlacement: View {
                     }
                 } else if classe.school != nil {
                     // associer la classe à une salle de classe
-                    associateClasseToRoomMenu
+                    AssociateClasseToRoomMenu(classe: classe)
                 }
             }
         }
@@ -137,6 +123,27 @@ struct RoomElevePlacement: View {
         .navigationTitle("Salle \(roomName)")
         .navigationBarTitleDisplayMode(.inline)
         #endif
+    }
+}
+
+/// Menu des salles de classe sélectionnables pour une classe donnée
+struct AssociateClasseToRoomMenu : View {
+    @ObservedObject
+    var classe: ClasseEntity
+
+    var body: some View {
+        Menu {
+            ForEach(classe.school!.allRooms, id: \.objectID) { room in
+                Button(room.viewName) {
+                    withAnimation {
+                        classe.room = room
+                    }
+                }
+            }
+        } label: {
+            Label("Associer", systemImage: "plus.circle.fill")
+        }
+
     }
 }
 
