@@ -32,7 +32,7 @@ struct EditableSeatLabel: View {
     // MARK: - ComputedProperties
 
     private var unSeatedEleves: [EleveEntity] {
-        classe.unseatedEleves()
+        classe.filteredElevesSortedByName(searchString: "")
     }
 
     private var eleveOnSeat: EleveEntity? {

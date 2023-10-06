@@ -26,11 +26,10 @@ struct SequenceList: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @State
-    private var filteredSequences = [SequenceEntity]()
-
     var body: some View {
-        Section {
+        let filteredSequences = program.filteredSequencesSortedByNumber(searchString: searchString)
+
+        return Section {
             ForEach(
                 filteredSequences,
                 id: \.objectID
@@ -57,9 +56,6 @@ struct SequenceList: View {
             }
             .padding(.top)
             .padding(.leading)
-        }
-        .task(id: taskId) {
-            filteredSequences = program.filteredSequencesSortedByNumber(searchString: searchString)
         }
     }
 

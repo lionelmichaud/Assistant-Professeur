@@ -20,18 +20,16 @@ struct ActivityList: View {
         + (sequence.id?.uuidString ?? "nil")
     }
 
-
     @Environment(\.managedObjectContext)
     private var managedObjectContext
 
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @State
-    private var filteredActivities = [ActivityEntity]()
-
     var body: some View {
-        Section {
+        let filteredActivities = sequence.filteredActivitiesSortedByNumber(searchString: searchString)
+
+        return Section {
             ForEach(
                 filteredActivities,
                 id: \.objectID
@@ -56,9 +54,6 @@ struct ActivityList: View {
             }
             .padding(.top)
             .padding(.leading)
-        }
-        .task(id: taskId) {
-            filteredActivities = sequence.filteredActivitiesSortedByNumber(searchString: searchString)
         }
     }
 
