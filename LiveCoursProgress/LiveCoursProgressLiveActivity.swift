@@ -14,8 +14,8 @@ struct LiveCoursProgressLiveActivity: Widget {
         ActivityConfiguration(for: LiveCoursProgressAttributes.self) { context in
             // Lock screen/banner UI goes here
             VStack {
-                Text("Classe de \(context.attributes.classeName)")
-                Text("Temps restant \(context.state.remaingMinutes) minutes")
+                Text("Classe de **\(context.attributes.fixedAttributes.classeName)**")
+                Text("Temps restant **\(context.state.dynamicAttributes.remaingMinutes) minutes**")
             }
             .activityBackgroundTint(Color.cyan)
             .activitySystemActionForegroundColor(Color.black)
@@ -31,16 +31,19 @@ struct LiveCoursProgressLiveActivity: Widget {
                     Text("Trailing")
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text("Bottom \(context.state.remaingMinutes)")
+                    Text("Bottom \(context.state.dynamicAttributes.remaingMinutes)")
                     // more content
                 }
+
             } compactLeading: {
-                Text("\(context.attributes.classeName)")
+                Text("\(context.attributes.fixedAttributes.classeName)")
                     .bold()
             } compactTrailing: {
-                Text("**\(context.state.remaingMinutes)** min")
+                Text("**\(context.state.dynamicAttributes.remaingMinutes)** min")
+
             } minimal: {
-                Text("\(context.state.remaingMinutes)")
+                Text("\(context.state.dynamicAttributes.remaingMinutes)")
+                    .bold()
             }
             .widgetURL(URL(string: "http://www.apple.com"))
             .keylineTint(Color.red)
@@ -50,17 +53,27 @@ struct LiveCoursProgressLiveActivity: Widget {
 
 extension LiveCoursProgressAttributes {
     fileprivate static var preview: LiveCoursProgressAttributes {
-        LiveCoursProgressAttributes(classeName: "4E2")
+        LiveCoursProgressAttributes(
+            fixedAttributes: LiveCoursProgressFixedAttributes(classeName: "4E2")
+        )
     }
 }
 
 extension LiveCoursProgressAttributes.ContentState {
     fileprivate static var state1: LiveCoursProgressAttributes.ContentState {
-        LiveCoursProgressAttributes.ContentState(remaingMinutes: 15)
+        LiveCoursProgressAttributes.ContentState(
+            dynamicAttributes: LiveCoursProgressState(
+                remaingMinutes: 15
+            )
+        )
      }
      
      fileprivate static var state2: LiveCoursProgressAttributes.ContentState {
-         LiveCoursProgressAttributes.ContentState(remaingMinutes: 10)
+         LiveCoursProgressAttributes.ContentState(
+            dynamicAttributes: LiveCoursProgressState(
+                remaingMinutes: 10
+            )
+         )
      }
 }
 
@@ -72,7 +85,7 @@ extension LiveCoursProgressAttributes.ContentState {
     LiveCoursProgressAttributes.ContentState.state2
 }
 
-#Preview("Island Compact", as: .dynamicIsland(.compact),
+#Preview("Island Expanded", as: .dynamicIsland(.expanded),
          using: LiveCoursProgressAttributes.preview) {
     LiveCoursProgressLiveActivity()
 } contentStates: {
@@ -80,7 +93,7 @@ extension LiveCoursProgressAttributes.ContentState {
     LiveCoursProgressAttributes.ContentState.state2
 }
 
-#Preview("Island Expanded", as: .dynamicIsland(.expanded),
+#Preview("Island Compact", as: .dynamicIsland(.compact),
          using: LiveCoursProgressAttributes.preview) {
     LiveCoursProgressLiveActivity()
 } contentStates: {
