@@ -250,12 +250,17 @@ extension ClassActivityProgressEditView {
             HStack {
                 DocPrintedToggle(
                     isPrinted: $progress.isPrinted,
-                    save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
+                    nbExemplaires: progress.classe?.nbOfEleves,
+                    save: {
+                        try? ActivityProgressEntity.saveIfContextHasChanged()
+                    }
                 )
                 Spacer()
                 DocDistributedToggle(
                     isDistributed: $progress.isDistributed,
-                    save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
+                    save: {
+                        try? ActivityProgressEntity.saveIfContextHasChanged()
+                    }
                 )
             }
 
@@ -275,11 +280,16 @@ extension ClassActivityProgressEditView {
 
             DocPrintedToggle(
                 isPrinted: $progress.isPrinted,
-                save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
+                nbExemplaires: progress.classe?.nbOfEleves,
+                save: {
+                    try? ActivityProgressEntity.saveIfContextHasChanged()
+                }
             )
             DocDistributedToggle(
                 isDistributed: $progress.isDistributed,
-                save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
+                save: {
+                    try? ActivityProgressEntity.saveIfContextHasChanged()
+                }
             )
 
             buttons

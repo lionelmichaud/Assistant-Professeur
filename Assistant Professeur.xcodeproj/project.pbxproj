@@ -263,6 +263,15 @@
 		79D573472927EEDE00B0B7B8 /* SchoolViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D573462927EEDE00B0B7B8 /* SchoolViewModel.swift */; };
 		79D573492927F16B00B0B7B8 /* LevelSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D573482927F16B00B0B7B8 /* LevelSchool.swift */; };
 		79D5734A2927F16B00B0B7B8 /* LevelSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D573482927F16B00B0B7B8 /* LevelSchool.swift */; };
+		79DD5A212AD308C60072290E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79DD5A202AD308C60072290E /* WidgetKit.framework */; };
+		79DD5A232AD308C60072290E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79DD5A222AD308C60072290E /* SwiftUI.framework */; };
+		79DD5A262AD308C60072290E /* LiveCoursProgressBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD5A252AD308C60072290E /* LiveCoursProgressBundle.swift */; };
+		79DD5A282AD308C60072290E /* LiveCoursProgressLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD5A272AD308C60072290E /* LiveCoursProgressLiveActivity.swift */; };
+		79DD5A2A2AD308C60072290E /* LiveCoursProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD5A292AD308C60072290E /* LiveCoursProgress.swift */; };
+		79DD5A2C2AD308C60072290E /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD5A2B2AD308C60072290E /* AppIntent.swift */; };
+		79DD5A2E2AD308C80072290E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79DD5A2D2AD308C80072290E /* Assets.xcassets */; };
+		79DD5A322AD308C80072290E /* LiveCoursProgressExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 79DD5A1F2AD308C60072290E /* LiveCoursProgressExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		79DD5A382AD30A570072290E /* LiveCoursProgressAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD5A372AD30A570072290E /* LiveCoursProgressAttributes.swift */; };
 		79DEDAE22925849600F508EF /* HelpersView in Frameworks */ = {isa = PBXBuildFile; productRef = 79DEDAE12925849600F508EF /* HelpersView */; };
 		79DEDAE9292585E300F508EF /* SchoolSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAE8292585E300F508EF /* SchoolSplitView.swift */; };
 		79DEDAEA292585E300F508EF /* SchoolSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAE8292585E300F508EF /* SchoolSplitView.swift */; };
@@ -407,7 +416,28 @@
 			remoteGlobalIDString = 79B6630029244C3F007B1FBD;
 			remoteInfo = "Assistant Professeur";
 		};
+		79DD5A302AD308C80072290E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 79B662F929244C3F007B1FBD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 79DD5A1E2AD308C60072290E;
+			remoteInfo = LiveCoursProgressExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		79DD5A362AD308C80072290E /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				79DD5A322AD308C80072290E /* LiveCoursProgressExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		79012C6B2A39EA8600BF0772 /* CsvImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvImport.swift; sourceTree = "<group>"; };
@@ -656,6 +686,16 @@
 		79CD363829D989C900BF5ADC /* EmptyListMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyListMessage.swift; sourceTree = "<group>"; };
 		79D573462927EEDE00B0B7B8 /* SchoolViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolViewModel.swift; sourceTree = "<group>"; };
 		79D573482927F16B00B0B7B8 /* LevelSchool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSchool.swift; sourceTree = "<group>"; };
+		79DD5A1F2AD308C60072290E /* LiveCoursProgressExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LiveCoursProgressExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		79DD5A202AD308C60072290E /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		79DD5A222AD308C60072290E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		79DD5A252AD308C60072290E /* LiveCoursProgressBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveCoursProgressBundle.swift; sourceTree = "<group>"; };
+		79DD5A272AD308C60072290E /* LiveCoursProgressLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveCoursProgressLiveActivity.swift; sourceTree = "<group>"; };
+		79DD5A292AD308C60072290E /* LiveCoursProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveCoursProgress.swift; sourceTree = "<group>"; };
+		79DD5A2B2AD308C60072290E /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
+		79DD5A2D2AD308C80072290E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		79DD5A2F2AD308C80072290E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		79DD5A372AD30A570072290E /* LiveCoursProgressAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveCoursProgressAttributes.swift; sourceTree = "<group>"; };
 		79DEDAE8292585E300F508EF /* SchoolSplitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolSplitView.swift; sourceTree = "<group>"; };
 		79DEDAEB2925864A00F508EF /* ClasseSplitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseSplitView.swift; sourceTree = "<group>"; };
 		79DEDAEE292586A500F508EF /* EleveSplitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveSplitView.swift; sourceTree = "<group>"; };
@@ -790,6 +830,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		79DD5A1C2AD308C60072290E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				79DD5A232AD308C60072290E /* SwiftUI.framework in Frameworks */,
+				79DD5A212AD308C60072290E /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -970,6 +1019,8 @@
 		7921F548292575B400173F39 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				79DD5A202AD308C60072290E /* WidgetKit.framework */,
+				79DD5A222AD308C60072290E /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1517,6 +1568,7 @@
 				79B6630329244C3F007B1FBD /* Assistant Professeur */,
 				79B6631529244C3F007B1FBD /* Assistant ProfesseurTests */,
 				79B6631F29244C3F007B1FBD /* Assistant ProfesseurUITests */,
+				79DD5A242AD308C60072290E /* LiveCoursProgress */,
 				79B6630229244C3F007B1FBD /* Products */,
 				7921F548292575B400173F39 /* Frameworks */,
 			);
@@ -1528,6 +1580,7 @@
 				79B6630129244C3F007B1FBD /* Assistant Professeur.app */,
 				79B6631229244C3F007B1FBD /* Assistant ProfesseurTests.xctest */,
 				79B6631C29244C3F007B1FBD /* Assistant ProfesseurUITests.xctest */,
+				79DD5A1F2AD308C60072290E /* LiveCoursProgressExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1679,6 +1732,20 @@
 				791802A72A367212001588B2 /* Knowledge */,
 			);
 			path = DsciplineCompetency;
+			sourceTree = "<group>";
+		};
+		79DD5A242AD308C60072290E /* LiveCoursProgress */ = {
+			isa = PBXGroup;
+			children = (
+				79DD5A252AD308C60072290E /* LiveCoursProgressBundle.swift */,
+				79DD5A372AD30A570072290E /* LiveCoursProgressAttributes.swift */,
+				79DD5A272AD308C60072290E /* LiveCoursProgressLiveActivity.swift */,
+				79DD5A292AD308C60072290E /* LiveCoursProgress.swift */,
+				79DD5A2B2AD308C60072290E /* AppIntent.swift */,
+				79DD5A2D2AD308C80072290E /* Assets.xcassets */,
+				79DD5A2F2AD308C80072290E /* Info.plist */,
+			);
+			path = LiveCoursProgress;
 			sourceTree = "<group>";
 		};
 		79DEDAE32925855B00F508EF /* School */ = {
@@ -1966,10 +2033,12 @@
 				79B662FD29244C3F007B1FBD /* Sources */,
 				79B662FE29244C3F007B1FBD /* Frameworks */,
 				79B662FF29244C3F007B1FBD /* Resources */,
+				79DD5A362AD308C80072290E /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				79DD5A312AD308C80072290E /* PBXTargetDependency */,
 			);
 			name = "Assistant Professeur";
 			packageProductDependencies = (
@@ -2020,6 +2089,23 @@
 			productReference = 79B6631C29244C3F007B1FBD /* Assistant ProfesseurUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		79DD5A1E2AD308C60072290E /* LiveCoursProgressExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 79DD5A332AD308C80072290E /* Build configuration list for PBXNativeTarget "LiveCoursProgressExtension" */;
+			buildPhases = (
+				79DD5A1B2AD308C60072290E /* Sources */,
+				79DD5A1C2AD308C60072290E /* Frameworks */,
+				79DD5A1D2AD308C60072290E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LiveCoursProgressExtension;
+			productName = LiveCoursProgressExtension;
+			productReference = 79DD5A1F2AD308C60072290E /* LiveCoursProgressExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2027,7 +2113,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1410;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					79B6630029244C3F007B1FBD = {
@@ -2040,6 +2126,9 @@
 					79B6631B29244C3F007B1FBD = {
 						CreatedOnToolsVersion = 14.1;
 						TestTargetID = 79B6630029244C3F007B1FBD;
+					};
+					79DD5A1E2AD308C60072290E = {
+						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
@@ -2064,6 +2153,7 @@
 				79B6630029244C3F007B1FBD /* Assistant Professeur */,
 				79B6631129244C3F007B1FBD /* Assistant ProfesseurTests */,
 				79B6631B29244C3F007B1FBD /* Assistant ProfesseurUITests */,
+				79DD5A1E2AD308C60072290E /* LiveCoursProgressExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -2093,6 +2183,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		79DD5A1D2AD308C60072290E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				79DD5A2E2AD308C80072290E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2513,6 +2611,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		79DD5A1B2AD308C60072290E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				79DD5A282AD308C60072290E /* LiveCoursProgressLiveActivity.swift in Sources */,
+				79DD5A382AD30A570072290E /* LiveCoursProgressAttributes.swift in Sources */,
+				79DD5A2C2AD308C60072290E /* AppIntent.swift in Sources */,
+				79DD5A2A2AD308C60072290E /* LiveCoursProgress.swift in Sources */,
+				79DD5A262AD308C60072290E /* LiveCoursProgressBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2525,6 +2635,11 @@
 			isa = PBXTargetDependency;
 			target = 79B6630029244C3F007B1FBD /* Assistant Professeur */;
 			targetProxy = 79B6631D29244C3F007B1FBD /* PBXContainerItemProxy */;
+		};
+		79DD5A312AD308C80072290E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 79DD5A1E2AD308C60072290E /* LiveCoursProgressExtension */;
+			targetProxy = 79DD5A302AD308C80072290E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2647,6 +2762,7 @@
 		79B6632729244C3F007B1FBD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Assistant Professeur/Assistant_Professeur.entitlements";
@@ -2667,6 +2783,7 @@
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cette application demande l'accès à votre agenda pour se synchroniser avec votre emploi du temps";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Cette application demande l'accès à vos contacts pour se synchroniser avec vos contacts professionnels";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -2696,6 +2813,7 @@
 		79B6632829244C3F007B1FBD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Assistant Professeur/Assistant_Professeur.entitlements";
@@ -2716,6 +2834,7 @@
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSCalendarsUsageDescription = "Cette application demande l'accès à votre agenda pour se synchroniser avec votre emploi du temps";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Cette application demande l'accès à vos contacts pour se synchroniser avec vos contacts professionnels";
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -2836,6 +2955,78 @@
 			};
 			name = Release;
 		};
+		79DD5A342AD308C80072290E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8N9S268396;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LiveCoursProgress/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LiveCoursProgress;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.michaud.lionel.Assistant-Professeur.LiveCoursProgress";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		79DD5A352AD308C80072290E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8N9S268396;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LiveCoursProgress/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LiveCoursProgress;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.michaud.lionel.Assistant-Professeur.LiveCoursProgress";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2871,6 +3062,15 @@
 			buildConfigurations = (
 				79B6632D29244C3F007B1FBD /* Debug */,
 				79B6632E29244C3F007B1FBD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		79DD5A332AD308C80072290E /* Build configuration list for PBXNativeTarget "LiveCoursProgressExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				79DD5A342AD308C80072290E /* Debug */,
+				79DD5A352AD308C80072290E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

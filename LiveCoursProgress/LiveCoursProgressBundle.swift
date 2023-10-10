@@ -11,7 +11,7 @@ import SwiftUI
 @main
 struct LiveCoursProgressBundle: WidgetBundle {
     var body: some Widget {
-        LiveCoursProgress()
+        //LiveCoursProgress()
         LiveCoursProgressLiveActivity()
     }
 }

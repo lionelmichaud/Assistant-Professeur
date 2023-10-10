@@ -8,6 +8,7 @@
 import HelpersView
 import SwiftUI
 
+/// Progressions de toutes les classes de tous les établissement dans une activité donnée
 struct ActivityProgressesView: View {
     @ObservedObject
     var activity: ActivityEntity
@@ -45,6 +46,7 @@ struct ActivityProgressesView: View {
     }
 }
 
+/// Progressions de toutes les classes d'un établissement dans une activité donnée
 struct ActivityProgresseView: View {
     @ObservedObject
     var school: SchoolEntity

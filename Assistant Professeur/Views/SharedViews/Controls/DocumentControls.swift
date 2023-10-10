@@ -11,6 +11,7 @@ import SwiftUI
 struct DocPrintedToggle: View {
     @Binding
     var isPrinted: Bool
+    let nbExemplaires: Int?
     let save: (() -> Void)?
 
     var body: some View {
@@ -21,7 +22,13 @@ struct DocPrintedToggle: View {
         } label: {
             Label(
                 title: {
-                    Text("Supports de cours imprimés")
+                    HStack {
+                        Text("Supports de cours imprimés")
+                        if let nbExemplaires {
+                            Text("(\(nbExemplaires, format: .number))")
+                                .font(.footnote)
+                        }
+                    }
                 }, icon: {
                     Image(systemName: isPrinted ? "checkmark.circle.fill" : "circle")
                         .foregroundColor(isPrinted ? .green : .gray)

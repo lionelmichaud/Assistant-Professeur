@@ -9,22 +9,13 @@ import ActivityKit
 import WidgetKit
 import SwiftUI
 
-struct LiveCoursProgressAttributes: ActivityAttributes {
-    public struct ContentState: Codable, Hashable {
-        // Dynamic stateful properties about your activity go here!
-        var emoji: String
-    }
-
-    // Fixed non-changing properties about your activity go here!
-    var name: String
-}
-
 struct LiveCoursProgressLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: LiveCoursProgressAttributes.self) { context in
             // Lock screen/banner UI goes here
             VStack {
-                Text("Hello \(context.state.emoji)")
+                Text("Classe de \(context.attributes.classeName)")
+                Text("Temps restant \(context.state.remaingMinutes) minutes")
             }
             .activityBackgroundTint(Color.cyan)
             .activitySystemActionForegroundColor(Color.black)
@@ -40,15 +31,16 @@ struct LiveCoursProgressLiveActivity: Widget {
                     Text("Trailing")
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text("Bottom \(context.state.emoji)")
+                    Text("Bottom \(context.state.remaingMinutes)")
                     // more content
                 }
             } compactLeading: {
-                Text("L")
+                Text("\(context.attributes.classeName)")
+                    .bold()
             } compactTrailing: {
-                Text("T \(context.state.emoji)")
+                Text("**\(context.state.remaingMinutes)** min")
             } minimal: {
-                Text(context.state.emoji)
+                Text("\(context.state.remaingMinutes)")
             }
             .widgetURL(URL(string: "http://www.apple.com"))
             .keylineTint(Color.red)
@@ -58,23 +50,48 @@ struct LiveCoursProgressLiveActivity: Widget {
 
 extension LiveCoursProgressAttributes {
     fileprivate static var preview: LiveCoursProgressAttributes {
-        LiveCoursProgressAttributes(name: "World")
+        LiveCoursProgressAttributes(classeName: "4E2")
     }
 }
 
 extension LiveCoursProgressAttributes.ContentState {
-    fileprivate static var smiley: LiveCoursProgressAttributes.ContentState {
-        LiveCoursProgressAttributes.ContentState(emoji: "😀")
+    fileprivate static var state1: LiveCoursProgressAttributes.ContentState {
+        LiveCoursProgressAttributes.ContentState(remaingMinutes: 15)
      }
      
-     fileprivate static var starEyes: LiveCoursProgressAttributes.ContentState {
-         LiveCoursProgressAttributes.ContentState(emoji: "🤩")
+     fileprivate static var state2: LiveCoursProgressAttributes.ContentState {
+         LiveCoursProgressAttributes.ContentState(remaingMinutes: 10)
      }
 }
 
-#Preview("Notification", as: .content, using: LiveCoursProgressAttributes.preview) {
+#Preview("Notification", as: .content,
+         using: LiveCoursProgressAttributes.preview) {
    LiveCoursProgressLiveActivity()
 } contentStates: {
-    LiveCoursProgressAttributes.ContentState.smiley
-    LiveCoursProgressAttributes.ContentState.starEyes
+    LiveCoursProgressAttributes.ContentState.state1
+    LiveCoursProgressAttributes.ContentState.state2
+}
+
+#Preview("Island Compact", as: .dynamicIsland(.compact),
+         using: LiveCoursProgressAttributes.preview) {
+    LiveCoursProgressLiveActivity()
+} contentStates: {
+    LiveCoursProgressAttributes.ContentState.state1
+    LiveCoursProgressAttributes.ContentState.state2
+}
+
+#Preview("Island Expanded", as: .dynamicIsland(.expanded),
+         using: LiveCoursProgressAttributes.preview) {
+    LiveCoursProgressLiveActivity()
+} contentStates: {
+    LiveCoursProgressAttributes.ContentState.state1
+    LiveCoursProgressAttributes.ContentState.state2
+}
+
+#Preview("Minimal", as: .dynamicIsland(.minimal),
+         using: LiveCoursProgressAttributes.preview) {
+    LiveCoursProgressLiveActivity()
+} contentStates: {
+    LiveCoursProgressAttributes.ContentState.state1
+    LiveCoursProgressAttributes.ContentState.state2
 }

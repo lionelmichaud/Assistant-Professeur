@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Progression d'une classe d'un établissement dans une activité donnée
 struct ActivityClassProgressView: View {
     @ObservedObject
     var progress: ActivityProgressEntity
@@ -41,6 +42,7 @@ struct ActivityClassProgressView: View {
 
                 DocPrintedToggle(
                     isPrinted: $progress.isPrinted,
+                    nbExemplaires: progress.classe?.nbOfEleves,
                     save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
                 )
                 DocDistributedToggle(
