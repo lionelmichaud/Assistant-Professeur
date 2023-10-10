@@ -24,8 +24,6 @@ final class ActivityManager: ObservableObject {
 
     private var attributes: LiveCoursProgressAttributes?
 
-    static let shared = ActivityManager()
-
     /// Cancel all running activities and then start a new one
     func start(
         withInitialState initialState: LiveCoursProgressState,
@@ -83,9 +81,10 @@ final class ActivityManager: ObservableObject {
         }
     }
 
-    /// Where the current running activity is updated with some random values
+    /// Where the current running activity (if any) is updated with some random values
     func updateActivity(
-        withNewState newState: LiveCoursProgressState
+        withNewState newState: LiveCoursProgressState,
+        alertConfiguration: AlertConfiguration? = nil
     ) async {
         // Recover the running live activity
         guard let activityID = await activityID,
@@ -105,7 +104,9 @@ final class ActivityManager: ObservableObject {
         )
 
         // Update the live activity
-        await runningActivity.update(newActivityContent)
+        await runningActivity
+            .update(newActivityContent,
+            alertConfiguration: alertConfiguration)
     }
 
     /// Find in the running activities (of the specified type LiveCoursProgressAttributes)
