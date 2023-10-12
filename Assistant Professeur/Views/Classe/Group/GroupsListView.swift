@@ -134,7 +134,9 @@ struct GroupsListView: View {
 //        for item in items {
 //            _ = item.loadObject(ofClass: EleveEntity.self) { eleve, _ in
 //                DispatchQueue.main.async {
-        print("eleve dropped")
+        #if DEBUG
+            print("eleve dropped")
+        #endif
 //                    url.map { self.links.insert($0, at: index) }
 //                }
 //            }

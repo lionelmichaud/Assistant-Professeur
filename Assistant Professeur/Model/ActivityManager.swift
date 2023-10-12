@@ -71,9 +71,9 @@ final class ActivityManager: ObservableObject {
                     $0
                 )
             }.joined()
-            print(
-                "Activity token: \(token)"
-            )
+            #if DEBUG
+                print("Activity token: \(token)")
+            #endif
             await MainActor.run {
                 activityToken = token
             }

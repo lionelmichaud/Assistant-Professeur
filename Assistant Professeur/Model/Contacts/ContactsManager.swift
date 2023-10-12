@@ -302,7 +302,9 @@ struct ContactManager { // swiftlint:disable:this type_body_length
                         updateRequest.update(updatedContact)
 
                         try contactStore.execute(updateRequest)
-                        print("Contact updated successfully!")
+                        #if DEBUG
+                            print("Contact updated successfully!")
+                        #endif
                         return true
 
                     } else {
@@ -322,9 +324,13 @@ struct ContactManager { // swiftlint:disable:this type_body_length
                         addToGroupRequest.addMember(newContact, to: group)
 
                         try contactStore.execute(saveRequest)
-                        print("New contact saved successfully!")
+                        #if DEBUG
+                            print("New contact saved successfully!")
+                        #endif
                         try contactStore.execute(addToGroupRequest)
-                        print("New contact added to group successfully!")
+                        #if DEBUG
+                            print("New contact added to group successfully!")
+                        #endif
                         return true
                     }
 

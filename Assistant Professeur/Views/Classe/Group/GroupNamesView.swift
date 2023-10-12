@@ -236,7 +236,9 @@ struct MoveEleveDialog: View {
             ToolbarItem {
                 Button("Déplacer") {
                     withAnimation {
-                        print("\(eleve.displayName) déplacé de \(String(describing: eleve.group?.displayString)) vers \(groupeNb)")
+                        #if DEBUG
+                            print("\(eleve.displayName) déplacé de \(String(describing: eleve.group?.displayString)) vers \(groupeNb)")
+                        #endif
                         GroupManager.assign(
                             eleve: eleve,
                             toGroupNumber: groupeNb

@@ -496,7 +496,9 @@ extension ClasseEntity {
         ProgramManager
             .activitiesAssociatedTo(thisClasse: classe)
             .forEach { activity in
-                print("**\(activity.viewName)** pour \(classe.displayString)")
+                #if DEBUG
+                    print("**\(activity.viewName)** pour \(classe.displayString)")
+                #endif
                 ActivityProgressEntity.create(
                     forClasse: classe,
                     forActivity: activity
