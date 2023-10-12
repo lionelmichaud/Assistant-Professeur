@@ -10,6 +10,7 @@ import Combine
 import Foundation
 
 /// This class is responsible for the live activity management
+///  - Reference: [medium](https://medium.com/kinandcartacreated/how-to-build-ios-live-activity-d1b2f238819e)
 final class ActivityManager: ObservableObject {
     /// The identifier of the activity that its generated once the activity is created
     /// (note that actually you can have multiple running activities in your app,
@@ -105,8 +106,10 @@ final class ActivityManager: ObservableObject {
 
         // Update the live activity
         await runningActivity
-            .update(newActivityContent,
-            alertConfiguration: alertConfiguration)
+            .update(
+                newActivityContent,
+                alertConfiguration: alertConfiguration
+            )
     }
 
     /// Find in the running activities (of the specified type LiveCoursProgressAttributes)
