@@ -97,6 +97,7 @@ struct SeancesInDateInterval {
 
     /// Charge depuis l'App Calendar toutes les séance de la `period` pour les
     /// `discipline`, `classe` et `schoolName`.
+    /// - Warning: Élimine toutes les séances tombant pendant les vacances scolaires prévue des les péréfrences
     /// - Parameters:
     ///   - discipline: La discipline recherchée.
     ///   - classe: La classe recherchée.
@@ -110,21 +111,33 @@ struct SeancesInDateInterval {
         inEventStore eventStore: EKEventStore,
         during period: DateInterval
     ) {
+        let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+
         self.seances = EventManager.getAllSeances(
             forDiscipline: discipline,
             forClasseName: classe,
             inCalendar: calendar,
             inEventStore: eventStore,
             during: period
-        ).map { event in
-            Seance(
-                name: classe,
-                schoolName: school,
-                interval: DateInterval(
+        ).compactMap { event in
+            if !schoolYear.vacancesContain(
+                period: .init(
                     start: event.startDate,
                     end: event.endDate
                 )
-            )
+            ) {
+                return Seance(
+                    name: classe,
+                    schoolName: school,
+                    interval: DateInterval(
+                        start: event.startDate,
+                        end: event.endDate
+                    )
+                )
+            } else {
+                // Élimine toutes les séances tombant pendant les vacances scolaires prévue des les péréfrences
+                return nil
+            }
         }
     }
 

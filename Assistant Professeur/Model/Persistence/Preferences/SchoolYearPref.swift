@@ -99,7 +99,7 @@ struct SchoolYearPref: Codable {
         self.vacances.first(where: { $0.interval.contains(period) })
     }
 
-    /// Retourne les périodeq de vacance de l'année scolaire incluent dans la `period`.
+    /// Retourne les périodes de vacance de l'année scolaire incluent dans la `period`.
     /// Retourne `[]` sinon.
     func vacancesContained(in period: DateInterval) -> [Vacance] {
         self.vacances.filter({ period.contains($0.interval) })

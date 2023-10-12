@@ -97,7 +97,7 @@ struct ClassNextSeancesView: View {
                     )
                     // Charger les prochaines séances de cours sur un horizon de temps à venir
                     classeSeances.loadSeancesFromCalendar(
-                        forDiscipline: classe.disciplineEnum, 
+                        forDiscipline: classe.disciplineEnum,
                         forSchoolName: schoolName,
                         forClasseName: classe.displayString,
                         inCalendar: calendar,
@@ -111,7 +111,7 @@ struct ClassNextSeancesView: View {
                         classeSeances: &classeSeances,
                         withProgresses: sortedClasseProgresses
                     )
-                    //classeSeances.print()
+//                    classeSeances.print()
 
                     // Insérer des pseudo-séances pour chaque période
                     // de vacances inclue dans la période
@@ -119,8 +119,9 @@ struct ClassNextSeancesView: View {
                         pref.viewSchoolYearPref
                             .vacancesContained(in: horizon)
 
-                    vacancesIncludedInPeriod.forEach { vacance in
-                        if classeSeances.seances.count >= 2 {
+                    if classeSeances.seances.count >= 2 {
+                        vacancesIncludedInPeriod.forEach { vacance in
+//                            print("startIndex: \(classeSeances.seances.startIndex), endIndex: \(classeSeances.seances.endIndex)")
                             for idx in classeSeances.seances.startIndex ... classeSeances.seances.endIndex - 2
                                 where (classeSeances[idx].interval.end ... classeSeances[idx + 1].interval.start).contains(vacance.interval.start) {
                                 let pseudoSeance = Seance(
