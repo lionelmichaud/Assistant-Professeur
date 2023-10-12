@@ -14,6 +14,13 @@ struct DocPrintedToggle: View {
     let nbExemplaires: Int?
     let save: (() -> Void)?
 
+    @Environment(\.horizontalSizeClass)
+    private var hClass
+
+    var label: String {
+        if hClass == .compact { "Supports imprimés" } else { "Supports de cours imprimés" }
+    }
+
     var body: some View {
         // checkbox isPrinted
         Button {
@@ -23,10 +30,9 @@ struct DocPrintedToggle: View {
             Label(
                 title: {
                     HStack {
-                        Text("Supports de cours imprimés")
+                        Text(label)
                         if let nbExemplaires {
                             Text("(\(nbExemplaires, format: .number))")
-                                .font(.footnote)
                         }
                     }
                 }, icon: {
@@ -45,6 +51,13 @@ struct DocDistributedToggle: View {
     var isDistributed: Bool
     let save: (() -> Void)?
 
+    @Environment(\.horizontalSizeClass)
+    private var hClass
+
+    var label: String {
+        if hClass == .compact { "Supports distribués" } else { "Supports de cours distribués" }
+    }
+
     var body: some View {
         // checkbox isDistributed
         Button {
@@ -53,7 +66,7 @@ struct DocDistributedToggle: View {
         } label: {
             Label(
                 title: {
-                    Text("Supports de cours distribués")
+                    Text(label)
                 }, icon: {
                     Image(systemName: isDistributed ? "checkmark.circle.fill" : "circle")
                         .foregroundColor(isDistributed ? .green : .gray)
