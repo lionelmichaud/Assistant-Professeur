@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import AppFoundation
 
 /// Defines the main scene of the App
 struct MainScene: Scene {
     let coreDataManager: CoreDataManager
-    let activityManager: ActivityManager
+    let activityManager: LiveActivityManager
 
     /// object that you want to use throughout your views and that will be specific to each scene
     /// @StateObject private var uiState = UIState()
@@ -64,8 +65,11 @@ struct MainScene: Scene {
 
             case .background:
                 // Expect an app that enters the background phase to terminate.
-                Task {
-                    await activityManager.cancelAllRunningActivities()
+
+                if activityManager.areActivitiesEnabled() {
+                    Task {
+                        await activityManager.cancelAllRunningActivities()
+                    }
                 }
                 try? coreDataManager.saveIfContextHasChanged()
                 //                    print("Scene Phase = .background")

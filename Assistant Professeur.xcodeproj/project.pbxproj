@@ -11,7 +11,7 @@
 		79012C6E2A39EB7300BF0772 /* CsvExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C6D2A39EB7300BF0772 /* CsvExport.swift */; };
 		79012C712A39F7A000BF0772 /* JsonImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C702A39F7A000BF0772 /* JsonImport.swift */; };
 		79012C732A39F84B00BF0772 /* JsonExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79012C722A39F84B00BF0772 /* JsonExport.swift */; };
-		7901C6152AD5B0CB00003448 /* ActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7901C6142AD5B0CB00003448 /* ActivityManager.swift */; };
+		7901C6152AD5B0CB00003448 /* LiveActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7901C6142AD5B0CB00003448 /* LiveActivityManager.swift */; };
 		7901C6162AD5B1D000003448 /* LiveCoursProgressAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD5A372AD30A570072290E /* LiveCoursProgressAttributes.swift */; };
 		790510BB2AB377ED006CCC5B /* BonusMalusGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510BA2AB377ED006CCC5B /* BonusMalusGroupBox.swift */; };
 		790510BE2AB4B54A006CCC5B /* SchoolBonusMalusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510BD2AB4B54A006CCC5B /* SchoolBonusMalusView.swift */; };
@@ -237,6 +237,7 @@
 		79B6632129244C3F007B1FBD /* Assistant_ProfesseurUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B6632029244C3F007B1FBD /* Assistant_ProfesseurUITests.swift */; };
 		79B6632329244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B6632229244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift */; };
 		79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 79B6632F29244FC9007B1FBD /* AppModel.xcdatamodeld */; };
+		79B96B882AD9A9B100D8A164 /* ActivityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79B96B872AD9A9B100D8A164 /* ActivityKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		79BA2D48299C0084006325CC /* JsonImportExportMng.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BA2D47299C0084006325CC /* JsonImportExportMng.swift */; };
 		79BA2D4A299C00CD006325CC /* CsvImportExportMng.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BA2D49299C00CD006325CC /* CsvImportExportMng.swift */; };
 		79BA2D4C299C0287006325CC /* ImageImportExportMng.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BA2D4B299C0287006325CC /* ImageImportExportMng.swift */; };
@@ -446,7 +447,7 @@
 		79012C6D2A39EB7300BF0772 /* CsvExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvExport.swift; sourceTree = "<group>"; };
 		79012C702A39F7A000BF0772 /* JsonImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonImport.swift; sourceTree = "<group>"; };
 		79012C722A39F84B00BF0772 /* JsonExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonExport.swift; sourceTree = "<group>"; };
-		7901C6142AD5B0CB00003448 /* ActivityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityManager.swift; sourceTree = "<group>"; };
+		7901C6142AD5B0CB00003448 /* LiveActivityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveActivityManager.swift; sourceTree = "<group>"; };
 		790510BA2AB377ED006CCC5B /* BonusMalusGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusGroupBox.swift; sourceTree = "<group>"; };
 		790510BD2AB4B54A006CCC5B /* SchoolBonusMalusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolBonusMalusView.swift; sourceTree = "<group>"; };
 		790510BF2AB4C462006CCC5B /* SchoolBonusMalusList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolBonusMalusList.swift; sourceTree = "<group>"; };
@@ -668,6 +669,7 @@
 		79B6632029244C3F007B1FBD /* Assistant_ProfesseurUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assistant_ProfesseurUITests.swift; sourceTree = "<group>"; };
 		79B6632229244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assistant_ProfesseurUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		79B6633029244FC9007B1FBD /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		79B96B872AD9A9B100D8A164 /* ActivityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ActivityKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/ActivityKit.framework; sourceTree = DEVELOPER_DIR; };
 		79BA2D47299C0084006325CC /* JsonImportExportMng.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonImportExportMng.swift; sourceTree = "<group>"; };
 		79BA2D49299C00CD006325CC /* CsvImportExportMng.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvImportExportMng.swift; sourceTree = "<group>"; };
 		79BA2D4B299C0287006325CC /* ImageImportExportMng.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageImportExportMng.swift; sourceTree = "<group>"; };
@@ -813,6 +815,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79B96B882AD9A9B100D8A164 /* ActivityKit.framework in Frameworks */,
 				79F7A29A2A4258A700CEC3D5 /* TagKit in Frameworks */,
 				7921F54A292575B400173F39 /* AppFoundation in Frameworks */,
 				7942F23829A5612E007E3C3B /* StepperView in Frameworks */,
@@ -1022,6 +1025,7 @@
 		7921F548292575B400173F39 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				79B96B872AD9A9B100D8A164 /* ActivityKit.framework */,
 				79DD5A202AD308C60072290E /* WidgetKit.framework */,
 				79DD5A222AD308C60072290E /* SwiftUI.framework */,
 			);
@@ -1085,7 +1089,7 @@
 		79388A4C29256E7D002AABB8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				7901C6142AD5B0CB00003448 /* ActivityManager.swift */,
+				7901C6142AD5B0CB00003448 /* LiveActivityManager.swift */,
 				7921F54B2925825800173F39 /* ModelEntityP.swift */,
 				79388A4E29257025002AABB8 /* AppState.swift */,
 				79DEDB1D292598BE00F508EF /* Persistence */,
@@ -2318,7 +2322,7 @@
 				79C20A822A32855F00E43A07 /* DThemeEditorModal.swift in Sources */,
 				7957A8302A3759E400D64786 /* DKnowBrowserRow.swift in Sources */,
 				796A17882A3F6C6600413DDD /* WCompListSection.swift in Sources */,
-				7901C6152AD5B0CB00003448 /* ActivityManager.swift in Sources */,
+				7901C6152AD5B0CB00003448 /* LiveActivityManager.swift in Sources */,
 				795EED0B29677C76009AA6F4 /* EleveMarkRow.swift in Sources */,
 				79A56A552A48451800D1D4CC /* Mastery.swift in Sources */,
 				7957A8342A375DC400D64786 /* DKnowViewModel.swift in Sources */,

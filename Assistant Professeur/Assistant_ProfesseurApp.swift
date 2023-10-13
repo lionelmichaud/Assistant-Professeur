@@ -21,7 +21,7 @@ struct Assistant_ProfesseurApp: App {
 
     /// The App live activity manager
     @StateObject
-    private var activityManager = ActivityManager()
+    private var activityManager = LiveActivityManager()
 
     var body: some Scene {
         MainScene(coreDataManager: coreDataManager,

@@ -6,12 +6,13 @@
 //
 
 import ActivityKit
+import AppFoundation
 import Combine
 import Foundation
 
 /// This class is responsible for the live activity management
 ///  - Reference: [medium](https://medium.com/kinandcartacreated/how-to-build-ios-live-activity-d1b2f238819e)
-final class ActivityManager: ObservableObject {
+final class LiveActivityManager: ObservableObject {
     /// The identifier of the activity that its generated once the activity is created
     /// (note that actually you can have multiple running activities in your app,
     /// but for this example we are going to basically always have just one)
@@ -25,11 +26,26 @@ final class ActivityManager: ObservableObject {
 
     private var attributes: LiveCoursProgressAttributes?
 
+    /// Retuns a boolean value that indicates whether your app can start a Live Activity
+    /// - Important: retourne `false` si le matériel n'est pas un iPhone.
+    func areActivitiesEnabled() -> Bool {
+        // Ne jamais exécuter des opérations LiveActivity sur un Mac
+        guard isPhone() else {
+            return false
+        }
+
+        let authorization = ActivityAuthorizationInfo()
+        return authorization.areActivitiesEnabled
+    }
+
     /// Cancel all running activities and then start a new one
     func start(
         withInitialState initialState: LiveCoursProgressState,
         fixedAttributes: LiveCoursProgressFixedAttributes
     ) async {
+        guard areActivitiesEnabled() else {
+            return
+        }
         await endActivity()
         await startNewLiveActivity(
             withInitialState: initialState,
@@ -43,6 +59,9 @@ final class ActivityManager: ObservableObject {
         withInitialState initialState: LiveCoursProgressState,
         fixedAttributes: LiveCoursProgressFixedAttributes
     ) async {
+        guard areActivitiesEnabled() else {
+            return
+        }
         self.attributes = LiveCoursProgressAttributes(fixedAttributes: fixedAttributes)
 
         // Etat initial de l'activité
@@ -87,6 +106,9 @@ final class ActivityManager: ObservableObject {
         withNewState newState: LiveCoursProgressState,
         alertConfiguration: AlertConfiguration? = nil
     ) async {
+        guard areActivitiesEnabled() else {
+            return
+        }
         // Recover the running live activity
         guard let activityID = await activityID,
               let runningActivity = Activity<LiveCoursProgressAttributes>
@@ -116,6 +138,9 @@ final class ActivityManager: ObservableObject {
     /// the one with the activityID that we stored in the manager and end it,
     /// so that means it will not be shown anymore in the dynamic island and in the lock screen
     func endActivity() async {
+        guard areActivitiesEnabled() else {
+            return
+        }
         guard let activityID = await activityID,
               let runningActivity = Activity<LiveCoursProgressAttributes>.activities.first(where: {
                   $0.id == activityID
@@ -145,6 +170,9 @@ final class ActivityManager: ObservableObject {
         let endContentState = LiveCoursProgressAttributes.ContentState(
             dynamicAttributes: .defaultEndState
         )
+        guard areActivitiesEnabled() else {
+            return
+        }
         for activity in Activity<LiveCoursProgressAttributes>.activities {
             await activity.end(
                 ActivityContent(
