@@ -37,7 +37,7 @@ struct ClassActivityProgressEditView: View {
             ViewThatFits(in: .horizontal) {
                 // priorité 1
                 regularView
-                    //.padding(.leading)
+                // .padding(.leading)
                 // priorité 2
                 compactView
             }
@@ -146,6 +146,12 @@ extension ClassActivityProgressEditView {
 
                     Spacer(minLength: 2)
 
+                    ActivityAllSymbols(
+                        activity: activity,
+                        showTitle: hClass == .regular ? true : false,
+                        axis: hClass == .regular ? .horizontal : .vertical
+                    )
+
                     if (progress.status == .inProgress || progress.status == .notStarted) &&
                         hClass == .regular {
                         if let startDate = progress.startDate {
@@ -162,12 +168,6 @@ extension ClassActivityProgressEditView {
                             }
                         }
                     }
-
-                    ActivityAllSymbols(
-                        activity: activity,
-                        showTitle: hClass == .regular ? true : false,
-                        axis: hClass == .regular ? .horizontal : .vertical
-                    )
                 }
             } else {
                 Text("nil")
