@@ -37,12 +37,15 @@ struct ClassSequenceProgressEditView: View {
                 .tint(.green)
 
             ForEach(sortedProgressesInSequence) { progress in
-                ClassActivityProgressEditView(
-                    progress: progress,
-                    progressChanged: $progressChanged
-                )
-                .padding(.leading)
-//                .listRowSeparatorTint(.secondary, edges: .bottom)
+                if let activity = progress.activity,
+                   activity.duration > 0 {
+                    ClassActivityProgressEditView(
+                        progress: progress,
+                        progressChanged: $progressChanged
+                    )
+                    .padding(.leading)
+                    //                .listRowSeparatorTint(.secondary, edges: .bottom)
+                }
             }
             .emptyListPlaceHolder(sortedProgressesInSequence) {
                 Text("Aucune activité suivie par cette classe")

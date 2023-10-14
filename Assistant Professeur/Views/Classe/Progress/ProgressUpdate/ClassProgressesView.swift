@@ -95,11 +95,13 @@ struct ClassProgressesView: View {
             .font(hClass == .compact ? .footnote : .callout)
 
             ForEach(classeSequences) { sequence in
-                ClassSequenceProgressEditView(
-                    sequence: sequence,
-                    classe: classe,
-                    progressChanged: $progressChanged
-                )
+                if sequence.durationWithoutMargin > 0 {
+                    ClassSequenceProgressEditView(
+                        sequence: sequence,
+                        classe: classe,
+                        progressChanged: $progressChanged
+                    )
+                }
             }
             .emptyListPlaceHolder(classeSequences) {
                 Text("Aucune séquence suivie par cette classe")
