@@ -152,6 +152,7 @@ extension ClassActivityProgressEditView {
                         axis: hClass == .regular ? .horizontal : .vertical
                     )
 
+                    // Dates de la prochaine activité
                     if (progress.status == .inProgress || progress.status == .notStarted) &&
                         hClass == .regular {
                         if let startDate = progress.startDate {

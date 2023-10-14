@@ -313,24 +313,122 @@ extension ClasseEntity {
 
     /// Retourne l'activité en cours de cette classe.
     ///
-    /// Si plusieurs activités sont en cours dans plusieurs séquences différentes alors
+    /// - Attention: les activités de durée nulle ne sont pas prises en compte.
+    ///
+    /// - Si plusieurs activités sont en cours dans plusieurs séquences différentes alors
     /// c'est l'activité de la séquence de plus petit numéro qui est retournée.
+    ///
+    /// - Si une activité est terminée ET la suivante n'a pas encore commencée alors
+    /// c'est l'activité non encore commencée qui est retournée.
     var currentActivity: ActivityEntity? {
-        let progresses = allProgressesSortedBySequenceActivityNumber
-        for idx in progresses.indices {
-            if progresses[idx].status == .inProgress {
-                return progresses[idx].activity
+        let classeProgresses =
+            allProgressesSortedBySequenceActivityNumber
+                .filter { progress in
+                    // ne concerver que les activités de durée no nulle
+                    progress.activity?.duration.isPositive ?? false
+                }
 
-            } else if idx > progresses.startIndex &&
-                progresses[idx - 1].status == .completed &&
-                progresses[idx].status == .notStarted {
-                return progresses[idx].activity
+        if classeProgresses.allSatisfy({ $0.status == .notStarted }) {
+            // Aucune activité n'a encore commencée
+            if let firstActivity = classeProgresses.first?.activity {
+                return firstActivity
+            } else {
+                // Aucune activité
+                return nil
             }
         }
-        if progresses.allSatisfy({ $0.status == .notStarted }) {
-            return progresses.first?.activity
+
+        for idx in classeProgresses.indices {
+            if let activity = classeProgresses[idx].activity {
+                // L'activité existe et elle est de durée non nulle
+                if classeProgresses[idx].status == .inProgress {
+                    // L'activité est en cours et de durée non nulle
+                    return activity
+
+                } else if idx > classeProgresses.startIndex &&
+                    classeProgresses[idx].status == .notStarted &&
+                    classeProgresses[idx - 1].status == .completed {
+                    // L'activité précédente est terminée, de durée non nulle ET
+                    // celle-ci n'a pas encore commencée et de durée non nulle
+                    return activity
+                }
+            }
         }
         return nil
+    }
+
+    /// Retourne les activités en cours de cette classe.
+    ///
+    /// - Attention: les activités de durée nulle ne sont pas prises en compte.
+    ///
+    /// - Les activités sont triées par numéro de séquence et d'activité croissants
+    ///
+    /// - Si une activité est terminée ET la suivante n'a pas encore commencée alors
+    /// c'est l'activité non encore commencée qui est retournée.
+    var currentActivities: [ActivityEntity] {
+        let classeProgresses =
+            allProgressesSortedBySequenceActivityNumber
+                .filter { progress in
+                    // ne concerver que les activités de durée no nulle
+                    progress.activity?.duration.isPositive ?? false
+                }
+        var result = [ActivityEntity]()
+
+        if classeProgresses.allSatisfy({ $0.status == .notStarted }) {
+            // Aucune activité n'a encore commencée : retourner la première
+            if let firstActivity = classeProgresses.first?.activity {
+                return [firstActivity]
+            } else {
+                // Aucune activité
+                return []
+            }
+        }
+
+        for idx in classeProgresses.indices {
+            if let activity = classeProgresses[idx].activity {
+                // L'activité existe et elle est de durée non nulle
+                if classeProgresses[idx].status == .inProgress {
+                    // L'activité est en cours et de durée non nulle
+                    result.append(activity)
+
+                } else if idx > classeProgresses.startIndex &&
+                    classeProgresses[idx].status == .notStarted &&
+                    classeProgresses[idx - 1].status == .completed {
+                    // L'activité précédente est terminée, de durée non nulle ET
+                    // celle-ci n'a pas encore commencée et de durée non nulle
+                    result.append(activity)
+                }
+            }
+        }
+
+        return result
+    }
+
+    /// Retourne la séquence en cours de cette classe.
+    /// C'est la séquence qui contient l'activité en cours.
+    ///
+    /// - Si plusieurs séquences sont en cours alors c'est la séquence de plus petit numéro qui est retournée.
+    ///
+    /// - Si une séquence est terminée ET la suivante n'a pas encore commencée alors
+    /// c'est la séquence non encore commencée qui est retournée.
+    var currentSequence: SequenceEntity? {
+        guard let currentActivity else {
+            return nil
+        }
+        return currentActivity.sequence
+    }
+
+    /// Retourne les séquences en cours de cette classe.
+    /// Ce sont les séquences qui contiennent les activités en cours.
+    ///
+    /// - Les séquences sont triées par numéro croissant
+    ///
+    /// - Si une séquence est terminée ET la suivante n'a pas encore commencée alors
+    /// c'est la séquence non encore commencée qui est retournée.
+    var currentSequences: [SequenceEntity] {
+        return currentActivities.compactMap { activity in
+            activity.sequence
+        }
     }
 
     // MARK: - Computed Properties Documents

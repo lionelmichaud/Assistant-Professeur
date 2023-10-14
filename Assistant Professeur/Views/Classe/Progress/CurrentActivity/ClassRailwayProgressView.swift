@@ -88,13 +88,7 @@ struct ClassRailwayProgressView: View {
         )
         .task {
             // Séquences en cours pour cette classe
-            classeSequencesEnCours =
-                classe
-                    .allFollowedSequencesSortedBySequenceNumber
-                    .filter { sequence in
-                        sequence.nbOfActivities > 0 &&
-                            sequence.statusFor(classe: classe) == .inProgress
-                    }
+            classeSequencesEnCours = classe.currentSequences
 
             // Liste des Progressions de la classe triée par numéro de Séquence / Activité
             let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber

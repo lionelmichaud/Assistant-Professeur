@@ -7,6 +7,7 @@
 
 import CoreData
 import SwiftUI
+import AppFoundation
 
 /// Une séquence d'un programme scolaire pour une dscipline et un niveau donnés
 extension SequenceEntity {
@@ -250,38 +251,37 @@ extension SequenceEntity {
         return newSequence
     }
 
-    /// Retourne l'état d'avancement de la progression d'une `classe` pour cette Séquence
+    /// Retourne l'état d'avancement  d'une `classe` dans cette Séquence
     func statusFor(classe: ClasseEntity) -> ProgressState {
-        let seqProgresses = classe.allProgresses.filter { progress in
-            progress.activity?.sequence == self
+        let seqActivitiesProgresses = classe.allProgresses.filter { progress in
+            guard let activity = progress.activity else {
+                return false
+            }
+            return (activity.sequence == self) && (activity.duration.isPositive)
         }
 
-        guard seqProgresses.isNotEmpty else {
+        if seqActivitiesProgresses.isEmpty {
+            // Aucune activité dans cette séquence
             return .notStarted
-        }
-
-        if seqProgresses.allSatisfy({ progress in
+        } else if seqActivitiesProgresses.allSatisfy({ $0.status == .notStarted }) {
             // toutes les progressions pour cette séquence et cette classe sont .notStarted
-            progress.status == .notStarted
-
-        }) {
             return .notStarted
 
-        } else if seqProgresses.allSatisfy({ $0.status == .completed }) {
+        } else if seqActivitiesProgresses.allSatisfy({ $0.status == .completed }) {
             // toutes les progressions pour cette séquence et cette classe sont .completed
             return .completed
 
-        } else if seqProgresses.contains(where: { $0.status == .inProgress }) {
+        } else if seqActivitiesProgresses.contains(where: { $0.status == .inProgress }) {
             // une progression pour cette séquence et cette classe est .inProgress
             return .inProgress
 
-        } else if seqProgresses.contains(where: { $0.status == .completed }) &&
-            seqProgresses.contains(where: { $0.status == .notStarted }) {
+        } else if seqActivitiesProgresses.contains(where: { $0.status == .completed }) &&
+            seqActivitiesProgresses.contains(where: { $0.status == .notStarted }) {
             // une progression pour cette séquence et cette classe est .completed
             // et une autre est .notStarted
             return .inProgress
 
-        } else if seqProgresses.contains(where: { $0.status == .invalid }) {
+        } else if seqActivitiesProgresses.contains(where: { $0.status == .invalid }) {
             // une progression pour cette séquence et cette classe est .invalid
             #if DEBUG
                 print("Séquence \(self.viewNumber) pour classe \(classe.displayString): Invalide")

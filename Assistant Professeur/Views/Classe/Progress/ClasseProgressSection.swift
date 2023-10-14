@@ -59,7 +59,7 @@ extension ClasseProgressSection {
     private var currentActivityView: some View {
         NavigationLink(value: ClasseNavigationRoute.activity(classe.id)) {
             HStack {
-                Label(hClass == .compact ? "Activité" : "Activité en cours", systemImage: "book.fill")
+                Label(hClass == .compact ? "Activité" : "Activité en cours", systemImage: "book")
                     .fontWeight(.bold)
                 if let activity = classe.currentActivity,
                    let sequence = activity.sequence {

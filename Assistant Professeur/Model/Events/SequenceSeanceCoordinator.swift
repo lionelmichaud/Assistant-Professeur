@@ -82,7 +82,8 @@ enum SequenceSeanceCoordinator {
     /// - Parameters:
     ///   - progresses: progression de chaque activité de la classe
     ///   - intervalSeances: séances à venir de la classe
-    /// - Attention: Seules les débuts et find des `progresses` non encore achevées sont renseignées.
+    /// - Attention: Seules les débuts et fins des `progresses` non encore achevées sont renseignées.
+    /// - Attention: Les activités de durée nulle ne sont pas prises en compte.
     /// - Precondition: Les `progresses` doivent être triés par Séquences/Activités croissantes.
     static func synchronize(
         classeProgresses progresses: [ActivityProgressEntity],
