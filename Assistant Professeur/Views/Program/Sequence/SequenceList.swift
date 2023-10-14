@@ -14,15 +14,6 @@ struct SequenceList: View {
 
     var searchString: String = ""
 
-    // taskId shall change whenever either `searchString` or `program` changes
-    var taskId: String {
-        searchString
-        + (program.id?.uuidString ?? "nil")
-    }
-
-    @Environment(\.managedObjectContext)
-    private var managedObjectContext
-
     @EnvironmentObject
     private var navig: NavigationModel
 
@@ -30,17 +21,16 @@ struct SequenceList: View {
         let filteredSequences = program.filteredSequencesSortedByNumber(searchString: searchString)
 
         return Section {
-            ForEach(
-                filteredSequences,
-                id: \.objectID
-            ) { sequence in
+            ForEach(filteredSequences,id: \.objectID) { sequence in
                 NavigationLink(value: sequence) {
                     SequenceBrowserRow(sequence: sequence)
                 }
+                .customizedListItemStyle(
+                    isSelected: sequence.objectID == navig.selectedSequenceMngObjId
+                )
             }
             .onMove(perform: moveItems)
             .onDelete(perform: deleteItems)
-            .listRowSeparatorTint(.secondary)
             .emptyListPlaceHolder(filteredSequences) {
                 ContentUnavailableView(
                     "Aucune séquence trouvée dans cette progression...",
@@ -54,8 +44,6 @@ struct SequenceList: View {
                     .style(.sectionHeader)
                 Spacer()
             }
-            .padding(.top)
-            .padding(.leading)
         }
     }
 

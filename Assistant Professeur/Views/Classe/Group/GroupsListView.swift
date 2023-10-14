@@ -144,7 +144,7 @@ struct GroupsListView: View {
     }
 
     private func show(groupe: GroupEntity) -> Bool {
-         groupe.number != 0 || (groupe.number == 0 && !groupe.isEmpty)
+        groupe.number != 0 || (groupe.number == 0 && !groupe.isEmpty)
     }
 }
 

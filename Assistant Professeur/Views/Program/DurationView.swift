@@ -32,8 +32,8 @@ struct DurationSquareView: View {
     var margin: Int
 
     var body: some View {
-        let q = Int(duration.rounded(.towardZero))
-        let r = duration - Double(q)
+        let q = duration.rounded(.towardZero)
+        let r = duration - q
 
         Label {
             if duration == 0 {
@@ -42,7 +42,7 @@ struct DurationSquareView: View {
                 HStack(spacing: 3) {
                     Text("\(duration.formatted(.number.precision(.fractionLength(r == 0.0 ? 0 : 1))))")
                     if q >= 1 {
-                        ForEach(1 ... q, id: \.self) { _ in
+                        ForEach(1 ... Int(q), id: \.self) { _ in
                             Rectangle()
                                 .fill(Color.blue5)
                                 .frame(width: 10, height: 10, alignment: .center)

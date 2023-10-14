@@ -42,4 +42,8 @@ extension Color {
 
     /// Couleurs de la TabBar
     static let tabBarColor = Color.blue6.opacity(0.2)
+
+    /// Couleur de fond des list items
+    static let listRowBackgroundUnselected = HierarchicalShapeStyle.quaternary
+    static let listRowBackgroundSelected = HierarchicalShapeStyle.tertiary
 }

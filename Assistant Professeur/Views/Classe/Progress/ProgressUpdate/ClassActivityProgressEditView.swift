@@ -37,9 +37,12 @@ struct ClassActivityProgressEditView: View {
             ViewThatFits(in: .horizontal) {
                 // priorité 1
                 regularView
+                    //.padding(.leading)
                 // priorité 2
                 compactView
             }
+            .customizedListItemStyle(isSelected: false)
+            .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
         } label: {
             labelView
         }
@@ -266,7 +269,6 @@ extension ClassActivityProgressEditView {
 
             buttons
         }
-        .padding(.leading)
     }
 
     private var compactView: some View {

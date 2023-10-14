@@ -74,7 +74,7 @@ struct ObservSidebarSchoolSubview: View {
     var filterObservation: Bool
 
     @EnvironmentObject
-    private var navigationModel: NavigationModel
+    private var navig: NavigationModel
 
     var body: some View {
         // pour chaque Classe
@@ -84,13 +84,16 @@ struct ObservSidebarSchoolSubview: View {
                     // pour chaque Observation
                     ForEach(filteredSortedObservs(dans: classe), id: \.objectID) { observ in
                         ObservBrowserRow(observ: observ)
+                            .customizedListItemStyle(
+                                isSelected: observ.objectID == navig.selectedObservMngObjId
+                            )
                             .swipeActions {
                                 // supprimer l'observation
                                 Button(role: .destructive) {
                                     withAnimation {
                                         try? observ.delete()
-                                        if navigationModel.selectedObservMngObjId == observ.objectID {
-                                            navigationModel.selectedObservMngObjId = nil
+                                        if navig.selectedObservMngObjId == observ.objectID {
+                                            navig.selectedObservMngObjId = nil
                                         }
                                     }
                                 } label: {

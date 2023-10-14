@@ -65,7 +65,7 @@ struct ActivityProgresseView: View {
         DisclosureGroup(isExpanded: $isExpanded) {
             ForEach(sortedProgressesIn(school)) { progress in
                 ActivityClassProgressView(progress: progress)
-                    .listRowSeparatorTint(.secondary, edges: .bottom)
+                    .customizedListItemStyle(isSelected: false)
             }
         } label: {
             Text(school.displayString)

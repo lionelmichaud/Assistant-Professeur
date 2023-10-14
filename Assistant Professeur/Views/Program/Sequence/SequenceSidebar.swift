@@ -22,7 +22,7 @@ struct SequenceSidebar: View {
     var searchString: String = ""
 
     var body: some View {
-        VStack {
+        Group {
             if let programId = navig.selectedProgramMngObjId {
                 if let program = ProgramEntity.byObjectId(MngObjID: programId) {
                     List(selection: $navig.selectedSequenceMngObjId) {

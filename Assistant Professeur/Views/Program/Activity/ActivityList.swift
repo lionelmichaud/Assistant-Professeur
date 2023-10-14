@@ -14,15 +14,6 @@ struct ActivityList: View {
 
     var searchString: String = ""
 
-    // taskId shall change whenever either `searchString` or `sequence` changes
-    var taskId: String {
-        searchString
-        + (sequence.id?.uuidString ?? "nil")
-    }
-
-    @Environment(\.managedObjectContext)
-    private var managedObjectContext
-
     @EnvironmentObject
     private var navig: NavigationModel
 
@@ -30,15 +21,14 @@ struct ActivityList: View {
         let filteredActivities = sequence.filteredActivitiesSortedByNumber(searchString: searchString)
 
         return Section {
-            ForEach(
-                filteredActivities,
-                id: \.objectID
-            ) { activity in
+            ForEach(filteredActivities,id: \.objectID) { activity in
                 ActivityBrowserRow(activity: activity)
+                    .customizedListItemStyle(
+                        isSelected: activity.objectID == navig.selectedActivityMngObjId
+                    )
             }
             .onMove(perform: moveItems)
             .onDelete(perform: deleteItems)
-            .listRowSeparatorTint(.secondary)
             .emptyListPlaceHolder(filteredActivities) {
                 ContentUnavailableView(
                     "Aucune activitée trouvée dans cette séquence...",
@@ -52,8 +42,6 @@ struct ActivityList: View {
                     .style(.sectionHeader)
                 Spacer()
             }
-            .padding(.top)
-            .padding(.leading)
         }
     }
 

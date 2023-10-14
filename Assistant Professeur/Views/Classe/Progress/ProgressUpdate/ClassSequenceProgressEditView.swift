@@ -42,7 +42,7 @@ struct ClassSequenceProgressEditView: View {
                     progressChanged: $progressChanged
                 )
                 .padding(.leading)
-                .listRowSeparatorTint(.secondary, edges: .bottom)
+//                .listRowSeparatorTint(.secondary, edges: .bottom)
             }
             .emptyListPlaceHolder(sortedProgressesInSequence) {
                 Text("Aucune activité suivie par cette classe")

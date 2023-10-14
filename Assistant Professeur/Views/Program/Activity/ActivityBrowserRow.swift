@@ -34,7 +34,7 @@ struct ActivityBrowserRow: View {
                             activity: activity,
                             showTitle: false
                         )
-                        .tint(.primary)
+                        //.tint(.primary)
                         WebsiteView(url: activity.url)
                     }
                 }

@@ -74,7 +74,7 @@ struct ColleSidebarSchoolSubview: View {
     var filterColle: Bool
 
     @EnvironmentObject
-    private var navigationModel: NavigationModel
+    private var navig: NavigationModel
 
     var body: some View {
         // pour chaque Classe
@@ -84,13 +84,16 @@ struct ColleSidebarSchoolSubview: View {
                     // pour chaque Colle
                     ForEach(filteredSortedColles(dans: classe), id: \.objectID) { colle in
                         ColleBrowserRow(colle: colle)
+                            .customizedListItemStyle(
+                                isSelected: colle.objectID == navig.selectedColleMngObjId
+                            )
                             .swipeActions {
                                 // supprimer la Colle
                                 Button(role: .destructive) {
                                     withAnimation {
                                         try? colle.delete()
-                                        if navigationModel.selectedColleMngObjId == colle.objectID {
-                                            navigationModel.selectedColleMngObjId = nil
+                                        if navig.selectedColleMngObjId == colle.objectID {
+                                            navig.selectedColleMngObjId = nil
                                         }
                                     }
                                 } label: {

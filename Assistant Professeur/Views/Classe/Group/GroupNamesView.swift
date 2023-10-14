@@ -45,6 +45,7 @@ struct GroupNamesView: View {
             // pour chaque Elève du groupe
             ForEach(groupe.filteredElevesSortedByName(searchString: searchString), id: \.objectID) { eleve in
                 ClasseEleveRow(eleve: eleve)
+                    .customizedListItemStyle(isSelected: false)
                     //                    .onDrag {
                     //                        NSItemProvider(object: eleve)
                     //                    }

@@ -190,6 +190,7 @@
 		798DD4D2298C318F00C47B2C /* ExamListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D1298C318F00C47B2C /* ExamListSection.swift */; };
 		798DD4D4298C352A00C47B2C /* StepsNotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D3298C352A00C47B2C /* StepsNotationView.swift */; };
 		798DD4D6298C366300C47B2C /* TrombineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798DD4D5298C366300C47B2C /* TrombineView.swift */; };
+		798EE5702ADA8DBD00F9AE24 /* ListViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798EE56F2ADA8DBD00F9AE24 /* ListViewModifiers.swift */; };
 		799421862A02BFDC002999C4 /* SchoolSidebarToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799421852A02BFDC002999C4 /* SchoolSidebarToolbar.swift */; };
 		799421892A02C714002999C4 /* UrgencyTelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799421882A02C714002999C4 /* UrgencyTelView.swift */; };
 		7994E31F2972DE8400952D08 /* RoomSeatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E31E2972DE8400952D08 /* RoomSeatManager.swift */; };
@@ -619,6 +620,7 @@
 		798DD4D1298C318F00C47B2C /* ExamListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamListSection.swift; sourceTree = "<group>"; };
 		798DD4D3298C352A00C47B2C /* StepsNotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsNotationView.swift; sourceTree = "<group>"; };
 		798DD4D5298C366300C47B2C /* TrombineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrombineView.swift; sourceTree = "<group>"; };
+		798EE56F2ADA8DBD00F9AE24 /* ListViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModifiers.swift; sourceTree = "<group>"; };
 		799421852A02BFDC002999C4 /* SchoolSidebarToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SchoolSidebarToolbar.swift; path = "../New Group/SchoolSidebarToolbar.swift"; sourceTree = "<group>"; };
 		799421882A02C714002999C4 /* UrgencyTelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrgencyTelView.swift; sourceTree = "<group>"; };
 		7994E31E2972DE8400952D08 /* RoomSeatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomSeatManager.swift; sourceTree = "<group>"; };
@@ -1116,6 +1118,7 @@
 				7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */,
 				79B6630629244C3F007B1FBD /* ContentView.swift */,
 				79A800272AC81DE6001F2E25 /* SharedViews */,
+				798EE56E2ADA8D9400F9AE24 /* SharedViewModifiers */,
 				794AE9C32A5970C3009C819A /* AppStyles */,
 				79DEDB06292593C200F508EF /* PreferencesViews */,
 				7901B2E22A16C1FB00C55108 /* Events */,
@@ -1472,6 +1475,14 @@
 				79F79B842A2D226700DEE003 /* WCompEntity+Extension.swift */,
 			);
 			path = WorkedCompetency;
+			sourceTree = "<group>";
+		};
+		798EE56E2ADA8D9400F9AE24 /* SharedViewModifiers */ = {
+			isa = PBXGroup;
+			children = (
+				798EE56F2ADA8DBD00F9AE24 /* ListViewModifiers.swift */,
+			);
+			path = SharedViewModifiers;
 			sourceTree = "<group>";
 		};
 		799421872A02C6E5002999C4 /* Toolbar */ = {
@@ -2358,6 +2369,7 @@
 				79C2E47029DC22C2008DF730 /* EleveTextName.swift in Sources */,
 				792311362A312BBA008556E1 /* DThemeEntity+CoreDataClass.swift in Sources */,
 				79225B522A26BC38005030B5 /* ClasseInfosView.swift in Sources */,
+				798EE5702ADA8DBD00F9AE24 /* ListViewModifiers.swift in Sources */,
 				793D6273295DD96600477932 /* ObservBrowserRow.swift in Sources */,
 				798D24F42A2E085F008500D2 /* WCompChapterListView.swift in Sources */,
 				79FE06D62A44B4B600DDA543 /* WCompChapterEditorModal.swift in Sources */,
