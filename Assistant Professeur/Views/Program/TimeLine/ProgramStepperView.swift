@@ -75,7 +75,7 @@ extension ProgramStepperView {
                     .padding(.trailing)
                 DurationView(duration: program.durationWithMargin, withMargin: true)
                     .padding(.trailing)
-                WebsiteView(url: program.url)
+                WebsiteView(url: program.url, showURL: false)
             }
         }
         .padding(8)
@@ -149,7 +149,7 @@ extension ProgramStepperView {
                             margin: Int(sequence.margePostSequence)
                         )
                         Spacer()
-                        WebsiteView(url: sequence.url)
+                        WebsiteView(url: sequence.url, showURL: false)
                     }
                     .font(.callout)
                     .bold()

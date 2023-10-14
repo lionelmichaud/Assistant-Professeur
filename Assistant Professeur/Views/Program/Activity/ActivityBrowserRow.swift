@@ -35,7 +35,7 @@ struct ActivityBrowserRow: View {
                             showTitle: false
                         )
                         //.tint(.primary)
-                        WebsiteView(url: activity.url)
+                        WebsiteView(url: activity.url, showURL: false)
                     }
                 }
                 .font(hClass == .compact ? .callout : .body)

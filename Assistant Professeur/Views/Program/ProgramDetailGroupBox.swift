@@ -55,7 +55,7 @@ struct ProgramDetailGroupBox: View {
                 Spacer()
                 DurationView(duration: program.durationWithMargin, withMargin: true)
                 Spacer()
-                WebsiteView(url: program.url)
+                WebsiteView(url: program.url, showURL: false)
             }
             .padding(.top, 4)
         }

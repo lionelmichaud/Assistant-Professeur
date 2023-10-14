@@ -63,7 +63,7 @@ struct ActivityDetailGroupBox: View {
                         margin: 0
                     )
                     Spacer()
-                    WebsiteView(url: activity.url, showURL: true)
+                    WebsiteView(url: activity.url, showURL: false)
                 }
                 .padding(.top, 4)
 

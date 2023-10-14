@@ -30,7 +30,7 @@ struct SequenceBrowserRow: View {
                             margin: Int(sequence.margePostSequence)
                         )
                         Spacer()
-                        WebsiteView(url: sequence.url)
+                        WebsiteView(url: sequence.url, showURL: false)
                     }
                 }
                 .font(hClass == .compact ? .callout : .body)
