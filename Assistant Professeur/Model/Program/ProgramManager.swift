@@ -208,16 +208,13 @@ extension ProgramManager {
             }
     }
 
-    /// Retourne la liste des Classes qui doivent suivre l'activité `sequence`
+    /// Retourne la liste des Classes qui doivent suivre le `program`
     /// - Warning: Les modifications ne sont pas auvegardées dans le contexte.
-    /// - Parameter sequence: la séquence
-    /// - Returns: liste des Classes qui doivent suivre la séquence
+    /// - Parameter program: le programme pédagogique
+    /// - Returns: liste des Classes qui doivent suivre le programme
     static func classesAssociatedTo(
-        thisSequence sequence: SequenceEntity
+        thisProgram program: ProgramEntity
     ) -> [ClasseEntity] {
-        guard let program = sequence.program else {
-            return []
-        }
         let (discipline, level, segpa) = (
             program.discipline,
             program.level,
@@ -244,6 +241,19 @@ extension ProgramManager {
         }
     }
 
+    /// Retourne la liste des Classes qui doivent suivre l'activité `sequence`
+    /// - Warning: Les modifications ne sont pas auvegardées dans le contexte.
+    /// - Parameter sequence: la séquence
+    /// - Returns: liste des Classes qui doivent suivre la séquence
+    static func classesAssociatedTo(
+        thisSequence sequence: SequenceEntity
+    ) -> [ClasseEntity] {
+        guard let program = sequence.program else {
+            return []
+        }
+        return classesAssociatedTo(thisProgram: program)
+    }
+
     /// Retourne la liste des Classes qui doivent suivre l'activité `activity`
     /// - Warning: Les modifications ne sont pas auvegardées dans le contexte.
     /// - Parameter activity: l'activité
@@ -254,30 +264,7 @@ extension ProgramManager {
         guard let program = activity.sequence?.program else {
             return []
         }
-        let (discipline, level, segpa) = (
-            program.discipline,
-            program.level,
-            program.segpa
-        )
-        let request = ClasseEntity.requestAllSortedbySchoolThenClasseLevelNumber
-        let predicate = NSPredicate(
-            format: "%K = %@ AND %K = %@ AND %K = %@",
-            #keyPath(ClasseEntity.discipline),
-            discipline!,
-            #keyPath(ClasseEntity.level),
-            level!,
-            #keyPath(ClasseEntity.segpa),
-            segpa as NSNumber
-        )
-
-        request.predicate = predicate
-
-        do {
-            let classes = try ClasseEntity.context.fetch(request)
-            return classes
-        } catch {
-            return []
-        }
+        return classesAssociatedTo(thisProgram: program)
     }
 }
 
