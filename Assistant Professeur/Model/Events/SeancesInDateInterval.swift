@@ -103,16 +103,15 @@ struct SeancesInDateInterval {
     ///   - classe: La classe recherchée.
     ///   - schoolName: L'école recherchée.
     ///   - period: Intervalle de temps de recherche.
-    mutating func loadSeancesFromCalendar(
+    mutating func loadSeancesFromCalendar( // // swiftlint:disable:this function_parameter_count
         forDiscipline discipline: Discipline,
         forSchoolName school: String,
         forClasseName classe: String,
         inCalendar calendar: EKCalendar,
         inEventStore eventStore: EKEventStore,
-        during period: DateInterval
+        during period: DateInterval,
+        schoolYear: SchoolYearPref
     ) {
-        let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
-
         self.seances = EventManager.getAllSeances(
             forDiscipline: discipline,
             forClasseName: classe,

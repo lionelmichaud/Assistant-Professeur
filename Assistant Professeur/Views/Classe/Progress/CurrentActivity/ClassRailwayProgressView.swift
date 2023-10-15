@@ -107,6 +107,11 @@ struct ClassRailwayProgressView: View {
                         calendarName: schoolName
                     )
                 if let calendar {
+                    var schoolYear = SchoolYearPref()
+                    await ClasseEntity.context.perform {
+                        schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+                    }
+
                     classeSeances.loadSeancesFromCalendar(
                         forDiscipline: classe.disciplineEnum,
                         forSchoolName: schoolName,
@@ -116,7 +121,8 @@ struct ClassRailwayProgressView: View {
                         during: DateInterval(
                             start: Date.now,
                             end: horizon.months.fromNow!
-                        )
+                        ),
+                        schoolYear: schoolYear
                     )
 
                     // Synchroniser les Progressions avec les Séances

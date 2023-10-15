@@ -116,8 +116,14 @@ extension ClasseProgressSection {
                             eventStore: eventStore,
                             calendarName: schoolName
                         )
+
+                    var schoolYear = SchoolYearPref()
+                    await ClasseEntity.context.perform {
+                        schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+                    }
+
                     if let calendar {
-                        // Récupérer les dates de conseils de classe
+                        // Liste des Séances à venir pour cette classe
                         classeSeances.loadSeancesFromCalendar(
                             forDiscipline: classe.disciplineEnum,
                             forSchoolName: schoolName,
@@ -127,7 +133,8 @@ extension ClasseProgressSection {
                             during: DateInterval(
                                 start: Date.now,
                                 end: 3.months.fromNow!
-                            )
+                            ),
+                            schoolYear: schoolYear
                         )
                     }
                 }

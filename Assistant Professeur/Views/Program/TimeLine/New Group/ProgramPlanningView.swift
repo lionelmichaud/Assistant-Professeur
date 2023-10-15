@@ -19,9 +19,8 @@ struct ProgramPlanningView: View {
     @State
     private var data = ProgramPlanningGraphData()
 
-    private let minLineHeigth = 75
-    private let lineWidth = CGFloat(4)
-    private let lineOffset = CGFloat(-10)
+    @State
+    private var showClasses = false
 
     private var sequences: [SequenceEntity] {
         program.sequencesSortedByNumber
@@ -32,7 +31,10 @@ struct ProgramPlanningView: View {
     }
 
     private func nbVisibleLines(visiblePlotHeigth: CGFloat) -> Int {
-        min(Int(visiblePlotHeigth) / minLineHeigth, nbLines)
+        min(
+            Int(visiblePlotHeigth) / programPlanningStyle.minLineHeigth,
+            nbLines
+        )
     }
 
     var body: some View {
@@ -48,10 +50,10 @@ struct ProgramPlanningView: View {
 
                 // date courante
                 RuleMark(x: .value("Aujourd'hui", Date.now))
-                    .foregroundStyle(.red)
+                    .foregroundStyle(programPlanningStyle.currentDateLineColor)
                     .lineStyle(
                         StrokeStyle(
-                            lineWidth: 0.75,
+                            lineWidth: programPlanningStyle.currentDateLineWidth,
                             lineCap: .round,
                             dash: [10, 5]
                         )
@@ -67,7 +69,7 @@ struct ProgramPlanningView: View {
             )
             .chartForegroundStyleScale([
                 SequenceData.Serie.activity: Color.sequenceTag,
-                SequenceData.Serie.vacance: .gray
+                SequenceData.Serie.vacance: programPlanningStyle.vacanceColor
             ])
             .chartXAxis {
                 AxisMarks(values: .stride(by: .month, count: 1)) { value in
@@ -97,11 +99,20 @@ struct ProgramPlanningView: View {
             }
             .chartPlotStyle { plotArea in
                 plotArea
-                    .background(Color.blue8.opacity(0.15))
+                    .background(programPlanningStyle.plotAreaColor)
             }
             .padding()
             .onAppear {
                 buidChartDatum()
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Toggle(isOn: $showClasses) {
+                    Image(systemName: EleveEntity.defaultImageName)
+                }
+                .controlSize(.mini)
+                .toggleStyle(.button)
             }
         }
     }
@@ -131,8 +142,8 @@ extension ProgramPlanningView {
             y: .value("Année Scolaire", "Année Scolaire")
         )
         .foregroundStyle(.green)
-        .lineStyle(StrokeStyle(lineWidth: lineWidth))
-        .offset(y: lineOffset)
+        .lineStyle(StrokeStyle(lineWidth: programPlanningStyle.lineWidth))
+        .offset(y: programPlanningStyle.lineOffset)
 
         // date de début
         .annotation(position: .bottom, alignment: .leading) {
@@ -156,11 +167,13 @@ extension ProgramPlanningView {
         .foregroundStyle(by: .value("serie", sequence.serie))
         .lineStyle(
             StrokeStyle(
-                lineWidth: sequence.serie == .activity ? lineWidth * 2 : lineWidth,
+                lineWidth: sequence.serie == .activity ?
+                    programPlanningStyle.lineWidth * 2 :
+                    programPlanningStyle.lineWidth,
                 lineCap: sequence.serie == .activity ? .round : .butt
             )
         )
-        .offset(y: -lineWidth / 3.0)
+        .offset(y: -programPlanningStyle.lineWidth / 3.0)
 
         // date de début
         .annotation(position: .top, alignment: .leading) {

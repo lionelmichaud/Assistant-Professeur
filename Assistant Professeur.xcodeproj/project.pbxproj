@@ -328,6 +328,7 @@
 		79E7B8772A587EEE008E8B83 /* ClassNextSeancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E7B8762A587EED008E8B83 /* ClassNextSeancesView.swift */; };
 		79E7B87B2A58A050008E8B83 /* SeanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E7B87A2A58A050008E8B83 /* SeanceRow.swift */; };
 		79E923C52961E94D00EDB7CA /* GroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E923C42961E94D00EDB7CA /* GroupManager.swift */; };
+		79E9DC5A2ADAFEC600D9C2BC /* PlanningStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E9DC592ADAFEC600D9C2BC /* PlanningStyles.swift */; };
 		79ECF1F42959F09F008F0282 /* colle+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F32959F09F008F0282 /* colle+extensions.swift */; };
 		79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */; };
 		79ECF1F82959F6CA008F0282 /* EleveColleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F62959F6CA008F0282 /* EleveColleLabel.swift */; };
@@ -736,6 +737,7 @@
 		79E7B8762A587EED008E8B83 /* ClassNextSeancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ClassNextSeancesView.swift; path = "Assistant Professeur/Model/Events/ClassNextSeancesView.swift"; sourceTree = SOURCE_ROOT; };
 		79E7B87A2A58A050008E8B83 /* SeanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeanceRow.swift; sourceTree = "<group>"; };
 		79E923C42961E94D00EDB7CA /* GroupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupManager.swift; sourceTree = "<group>"; };
+		79E9DC592ADAFEC600D9C2BC /* PlanningStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningStyles.swift; sourceTree = "<group>"; };
 		79ECF1F32959F09F008F0282 /* colle+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "colle+extensions.swift"; sourceTree = "<group>"; };
 		79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveObservLabel.swift; sourceTree = "<group>"; };
 		79ECF1F62959F6CA008F0282 /* EleveColleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveColleLabel.swift; sourceTree = "<group>"; };
@@ -1220,6 +1222,7 @@
 				79FFF42C295122F60037A327 /* ColorOptions.swift */,
 				79F38D0729D747D9006C9B35 /* ColorPalettes.swift */,
 				794AE9C12A59706E009C819A /* AppTextStyle.swift */,
+				79E9DC592ADAFEC600D9C2BC /* PlanningStyles.swift */,
 			);
 			path = AppStyles;
 			sourceTree = "<group>";
@@ -2480,6 +2483,7 @@
 				79E40E7A2997D7FD006BBE49 /* Eleve+CoreDataClass.swift in Sources */,
 				7934D8A129E49D740031C8AA /* Eleve+ItemProvider.swift in Sources */,
 				79BF1DB929291069005D6CF3 /* Room+Extensions.swift in Sources */,
+				79E9DC5A2ADAFEC600D9C2BC /* PlanningStyles.swift in Sources */,
 				79388A4929256E13002AABB8 /* MainScene.swift in Sources */,
 				79DEDB0129258D4000F508EF /* ClasseSidebarView.swift in Sources */,
 				791DEE182A2FFB7C00D0E248 /* WCompBrowserRow.swift in Sources */,

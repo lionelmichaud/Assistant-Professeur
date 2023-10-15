@@ -23,10 +23,19 @@ struct ProgramTimeLine: View {
     private var presentation: ViewMode = .steps
 
     @State
-    var isExportingPDF = false
+    private var isExportingPDF = false
 
     @State
-    var urlPDF: URL?
+    private var urlPDF: URL?
+
+    private var title: String {
+        switch presentation {
+            case .steps:
+                "Déroulement de la progression"
+            case .planning:
+                "Planning"
+        }
+    }
 
     var body: some View {
         VStack {
@@ -56,7 +65,7 @@ struct ProgramTimeLine: View {
             }
         }
         #if os(iOS)
-        .navigationTitle("Déroulement de la progression")
+        .navigationTitle(title)
         #endif
         .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)
@@ -76,7 +85,7 @@ extension ProgramTimeLine {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         // Choix du style de présentation
-        ToolbarItemGroup(placement: .automatic) {
+        ToolbarItemGroup(placement: .primaryAction) {
             Picker("Présentation", selection: $presentation) {
                 Image(systemName: "list.bullet").tag(ViewMode.steps)
                 Image(systemName: "chart.bar.fill").tag(ViewMode.planning)
@@ -85,7 +94,7 @@ extension ProgramTimeLine {
         }
 
         // Exporter la View en PDF
-        ToolbarItem(placement: .automatic) {
+        ToolbarItem(placement: .primaryAction) {
             Button {
                 if let url = renderedPDF() {
                     isExportingPDF = true

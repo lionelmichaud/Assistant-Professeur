@@ -95,13 +95,18 @@ struct SchoolNextSeancesView: View {
                                 sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
                             }
 
-                            var classeSeances: SeancesInDateInterval = .init()
+                            var classeSeances = SeancesInDateInterval()
                             var forDiscipline = Discipline.autre
                             var forClasseName = ""
 
                             await ClasseEntity.context.perform {
                                 forDiscipline = classe.disciplineEnum
                                 forClasseName = classe.displayString
+                            }
+
+                            var schoolYear = SchoolYearPref()
+                            await ClasseEntity.context.perform {
+                                schoolYear = UserPrefEntity.shared.viewSchoolYearPref
                             }
 
                             // Liste des Séances à venir pour cette classe
@@ -114,7 +119,8 @@ struct SchoolNextSeancesView: View {
                                 during: DateInterval(
                                     start: Date.now,
                                     end: horizon.months.fromNow!
-                                )
+                                ),
+                                schoolYear: schoolYear
                             )
 
                             await ClasseEntity.context.perform {
