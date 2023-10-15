@@ -196,32 +196,10 @@ extension ProgramPlanningView {
 extension ProgramPlanningView {
     /// Fabrication des données du graphique
     private func buidChartDatum() {
-        // Initialiser les données avec l'année et les vacances scolaires
-        data = ProgramPlanningGraphData(schoolYear: pref.viewSchoolYearPref)
-
-        // Calcul des périodes d'activité de chaque séquence du programme
-        let programSequencesData = ProgramManager.getProgramSequencesPeriods(
-            program: program,
-            schoolYear: data.schoolYear
+        data = ProgramPlanningGraphData(
+            forProgram: program,
+            schoolYear: pref.viewSchoolYearPref
         )
-        data.sequences += programSequencesData
-
-        // Calcul des périodes de vacance de chaque séquence du programme
-        sequences.forEach { sequence in
-            // Ajout des périodes de vacances de la Séquence
-            data.schoolYear.vacances.forEach { vacance in
-                data
-                    .sequences
-                    .append(
-                        SequenceData(
-                            name: sequence.viewName,
-                            number: sequence.viewNumber,
-                            serie: .vacance,
-                            dateInterval: vacance.interval
-                        )
-                    )
-            }
-        }
     }
 }
 

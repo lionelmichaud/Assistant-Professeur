@@ -22,8 +22,11 @@ struct PlanningStyle {
     var lineWidth = CGFloat(4)
     var lineOffset = CGFloat(-10)
 
-    var currentDateLineColor = Color.red
-    var currentDateLineWidth = 0.75
+    var currentDateLineColor = Color.primary
+    var currentDateLineWidth = 1.0
+
+    var classeDateLineColor = Color.red
+    var classeDateLineWidth = 0.75
 
     var vacanceColor = Color.gray
 

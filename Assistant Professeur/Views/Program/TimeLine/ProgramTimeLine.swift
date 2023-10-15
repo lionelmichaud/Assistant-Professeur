@@ -156,38 +156,16 @@ extension ProgramTimeLine {
 
     /// Fabrication des données du graphique
     private func chartDatum() -> ProgramPlanningGraphData? {
-        if let programId = navig.selectedProgramMngObjId {
-            if let program = ProgramEntity.byObjectId(MngObjID: programId) {
-                // Initialiser les données avec l'année et les vacances scolaires
-                var data = ProgramPlanningGraphData(schoolYear: pref.viewSchoolYearPref)
-
-                // Calcul des périodes d'activité de chaque séquence du programme
-                let programSequencesData = ProgramManager.getProgramSequencesPeriods(
-                    program: program,
-                    schoolYear: data.schoolYear
-                )
-                data.sequences += programSequencesData
-
-                // Calcul des périodes de vacance de chaque séquence du programme
-                program.sequencesSortedByNumber.forEach { sequence in
-                    // Ajout des périodes de vacances de la Séquence
-                    data.schoolYear.vacances.forEach { vacance in
-                        data
-                            .sequences
-                            .append(
-                                SequenceData(
-                                    name: sequence.viewName,
-                                    number: sequence.viewNumber,
-                                    serie: .vacance,
-                                    dateInterval: vacance.interval
-                                )
-                            )
-                    }
-                }
-                return data
-            }
+        guard let programId = navig.selectedProgramMngObjId,
+              let program = ProgramEntity.byObjectId(MngObjID: programId)
+        else {
+            return nil
         }
-        return nil
+
+        return ProgramPlanningGraphData(
+            forProgram: program,
+            schoolYear: pref.viewSchoolYearPref
+        )
     }
 }
 

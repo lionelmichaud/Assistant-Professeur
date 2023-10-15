@@ -15,17 +15,21 @@ import SwiftUI
 // extension Binding where Value == SeancesInDateInterval {
 //    func loadSeancesFromCalendar(
 //        forDiscipline discipline: Discipline,
+//        forSchoolName school: String,
 //        forClasse classe: String,
 //        inCalendar calendar: EKCalendar,
 //        inEventStore eventStore: EKEventStore,
-//        during period: DateInterval
+//        during period: DateInterval,
+//        schoolYear: SchoolYearPref
 //    ) async {
 //        await wrappedValue.loadSeancesFromCalendar(
 //            forDiscipline: discipline,
+//            forSchoolName: school,
 //            forClasseName: classe,
 //            inCalendar: calendar,
 //            inEventStore: eventStore,
-//            during: period
+//            during: period, 
+//            schoolYear: schoolYear
 //        )
 //    }
 // }
@@ -38,7 +42,7 @@ struct Seance: Identifiable, CustomStringConvertible {
     var name: String?
     /// Nom de l'établissement
     var schoolName: String?
-    /// Evénement correspondant à la séance
+    /// Interval de temps correspondant à la séance
     var interval: DateInterval
     /// Activité pédagogique menée pendant la séance
     var activities = [ActivityEntity]()
@@ -96,13 +100,17 @@ struct SeancesInDateInterval {
     // MARK: - Methods
 
     /// Charge depuis l'App Calendar toutes les séance de la `period` pour les
-    /// `discipline`, `classe` et `schoolName`.
-    /// - Warning: Élimine toutes les séances tombant pendant les vacances scolaires prévue des les péréfrences
+    /// `discipline`, `classe` et `school`. Les périodes de vacances scolaires sont
+    /// touvées dans `schoolYear`.
+    /// - Important: Élimine toutes les séances trouvées tombant pendant les vacances scolaires.
     /// - Parameters:
     ///   - discipline: La discipline recherchée.
-    ///   - classe: La classe recherchée.
-    ///   - schoolName: L'école recherchée.
+    ///   - school: Le nom de l'école recherchée.
+    ///   - classe: Le nom de la classe recherchée.
+    ///   - calendar: Calendrier à utiliser dans l'application Calendrier.
+    ///   - eventStore: Le store des événements du calendrier.
     ///   - period: Intervalle de temps de recherche.
+    ///   - schoolYear: Calendrier de l'année scolaires (début, fin, vacances).
     mutating func loadSeancesFromCalendar( // // swiftlint:disable:this function_parameter_count
         forDiscipline discipline: Discipline,
         forSchoolName school: String,

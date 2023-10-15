@@ -8,7 +8,10 @@
 import Charts
 import Foundation
 
-/// Intervalle d'activité d'une séquence
+/// Une période d'activité d'une séquence d'un programme d'un niveau de classe.
+///
+/// - Note: Il peut y avoir plusieurs périodes d'activité pour une même séquence,
+/// entre-coupées par une période de vacances scolaires.
 struct SequenceData: Identifiable {
     // MARK: - Nested Types
 
@@ -24,18 +27,26 @@ struct SequenceData: Identifiable {
     var name: String = ""
     /// Numéro de la séquence
     var number: Int = 1
+    /// Série du graphique à laquelle appartient la période (activité / vacance)
     var serie = Serie.activity
-    /// Elongation de la barre de temps à afficher
+    /// Elongation temporelle de la barre de temps à afficher
     var dateInterval = DateInterval()
-    /// Première barre de tmps
+    /// True si première période (barre de temps) de la séquence
     var isFirstInterval = false
-    /// Dernière barre de tmps
+    /// True si dernière période (barre de temps) de la séquence
     var isLastInterval = false
 
     var id: Int { number }
 
     // MARK: - Initializer
 
+    /// - Parameters:
+    ///   - name: Nom de la séquence
+    ///   - number: Numéro de la séquence
+    ///   - serie: Série du graphique à laquelle appartient la période (activité / vacance)
+    ///   - dateInterval: Elongation temporelle de la barre de temps à afficher
+    ///   - isFirstInterval: True si première période (barre de temps) de la séquence
+    ///   - isLastInterval: True si dernière période (barre de temps) de la séquence
     internal init(
         name: String = "",
         number: Int = 1,
@@ -56,26 +67,68 @@ struct SequenceData: Identifiable {
 /// Libellé des séquences sur le graphique
 extension SequenceData: Plottable {
     var primitivePlottable: String {
-        "S\(number) \(name)"
+        "S\(number) - \(name)"
     }
 
     init?(primitivePlottable _: String) { nil }
 }
 
-/// Données nécessaires au Graph du Planning annuel des séquences pédagogiques
+/// Données nécessaires au Graphe du Planning annuel des séquences pédagogiques
 struct ProgramPlanningGraphData {
     // MARK: - Properties
 
     /// Période et vacances scolaires
-    var schoolYear = SchoolYearPref()
+    private(set) var schoolYear = SchoolYearPref()
     /// Intervalles d'activité des séquences
-    var sequences = [SequenceData]()
+    private(set) var sequences = [SequenceData]()
 
     // MARK: - Initilizers
 
     init() {}
 
-    init(schoolYear: SchoolYearPref) {
+    init(
+        schoolYear: SchoolYearPref,
+        sequences: [SequenceData] = [SequenceData]()
+    ) {
         self.schoolYear = schoolYear
+        self.sequences = sequences
+    }
+
+    init(
+        forProgram program: ProgramEntity,
+        schoolYear: SchoolYearPref
+    ) {
+        self.schoolYear = schoolYear
+
+        let programSequencesData = ProgramManager.getProgramSequencesPeriods(
+            program: program,
+            schoolYear: schoolYear
+        )
+        self.sequences = programSequencesData
+
+        // Calcul des périodes de vacance de chaque séquence du programme
+        program.sequencesSortedByNumber.forEach { sequence in
+            // Ajout des périodes de vacances de la Séquence
+            self.schoolYear.vacances.forEach { vacance in
+                self.sequences.append(
+                    SequenceData(
+                        name: sequence.viewName,
+                        number: sequence.viewNumber,
+                        serie: .vacance,
+                        dateInterval: vacance.interval
+                    )
+                )
+            }
+        }
+    }
+
+    // MARK: - Methods
+
+    mutating func append(_ sequenceData: SequenceData) {
+        sequences.append(sequenceData)
+    }
+
+    mutating func append(_ sequencesData: [SequenceData]) {
+        sequences += sequencesData
     }
 }
