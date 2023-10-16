@@ -96,11 +96,13 @@ extension ProgramTimeLine {
         // Exporter la View en PDF
         ToolbarItem(placement: .primaryAction) {
             Button {
-                if let url = renderedPDF() {
-                    isExportingPDF = true
-                    urlPDF = url
-                } else {
-                    urlPDF = nil
+                Task {
+                    if let url = await renderedPDF() {
+                        isExportingPDF = true
+                        urlPDF = url
+                    } else {
+                        urlPDF = nil
+                    }
                 }
             } label: {
                 Image(systemName: "square.and.arrow.up")
@@ -111,7 +113,7 @@ extension ProgramTimeLine {
         }
     }
 
-    private func renderedPDF() -> URL? {
+    private func renderedPDF() async -> URL? {
         if let programId = navig.selectedProgramMngObjId {
             if let program = ProgramEntity.byObjectId(MngObjID: programId) {
                 let cachesUrl = URL.cachesDirectory

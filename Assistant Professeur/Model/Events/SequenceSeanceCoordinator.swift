@@ -5,20 +5,23 @@
 //  Created by Lionel MICHAUD on 06/07/2023.
 //
 
+import AppFoundation
 import EventKit
 import Foundation
-import AppFoundation
 
-/// Synchronise les séances à venir d'une classe avec la progresison pédagogique prévue.
+/// Synchronise les séances à venir et les progression d'activité
+/// - Synchronise les séances à venir d'une classe avec la progresison pédagogique prévue.
+/// - Synchronise les dates de début et fin de progression d'activité à venir d'une classe avec les dates des  séances à venir.
 enum SequenceSeanceCoordinator {
-    /// Renseigne les dates de début et de fin des activités d'une classe
-    /// qui n'ont pas encore été achevées en fonction des séances de `intervalSeances`.
-    /// Renseigne les activités pédagogiques abordées lors de chacune des séances
+    /// Renseigne les dates de début et de fin des séances à venir `intervalSeances` d'une classe
+    /// en fonction des `progresses` dans les activités de  la classe.
+    /// Renseigne les activités pédagogiques abordées lors de chacune des séances à venir .
     /// de `intervalSeances` en exploitant les `progresses`.
     /// - Parameters:
     ///   - intervalSeances: séances à venir de la classe
     ///   - progresses: progression annuelle de chaque activité de la classe
-    /// - Attention: Seules les progressions non encore achevées et de durée non nulle sont utilisées.
+    /// - Attention: Seules les progressions non encore achevées sont utilisées.
+    /// - Attention: Les activités de durée nulle ne sont pas prises en compte.
     /// - Precondition: Les `progresses` doivent être triés par Séquences/Activités croissantes.
     static func synchronize(
         classeSeances intervalSeances: inout SeancesInDateInterval,
@@ -141,6 +144,80 @@ enum SequenceSeanceCoordinator {
             } else {
                 progress.endDate = nil
             }
+        }
+    }
+
+    static func plannedDateOfCurrentActivity(
+        inProgram program: ProgramEntity,
+        classeProgresses progresses: [ActivityProgressEntity],
+        yearSeances seances: SeancesInDateInterval
+    ) -> Date? {
+        /// Marge éventuelle ayant précedée l'activité `activity`
+        func interSequenceSeances(activity: ActivityEntity) -> Int {
+            if activity.number == 1 {
+                // Première activité de la séquence
+                guard let sequence = activity.sequence,
+                      sequence.number > 1 else {
+                    // la séquence courante est la première
+                    return 0
+                }
+                // Séquence courante
+                let currentSequenceNumber = sequence.viewNumber
+                // Séquence précédente
+                let previousSequenceNumber = currentSequenceNumber - 1
+                let previousSequence = program.sequencesSortedByNumber[previousSequenceNumber]
+                return previousSequence.viewMargePostSequence
+
+            } else {
+                return 0
+            }
+        }
+
+        let nbSeances: Int = seances.seances.count
+        guard nbSeances > 0 else {
+            return nil
+        }
+        var cumulatedDuration = 0.0
+        var nbOfSeanceRequired = 0.0
+
+        progresses.forEach { progress in
+            guard let activity = progress.activity,
+                  activity.duration > 0 else {
+                return
+            }
+
+            switch progress.status {
+                case .completed:
+                    // nb de seances requisent pour réaliser l'activité terminée
+                    nbOfSeanceRequired = activity.duration
+
+                case .inProgress:
+                    // nb de seances requisent pour réaliser l'activité en cours
+                    nbOfSeanceRequired =
+                        activity.duration * progress.progress
+
+                case .invalid, .notStarted:
+                    // do nothing
+                    return
+            }
+            // Marge éventuelle ayant précedée l'activité
+            let preMargin = interSequenceSeances(activity: activity)
+
+            // Durée cumulée à la fin de la séance (en nombre de séance)
+            cumulatedDuration += (Double(preMargin) + nbOfSeanceRequired)
+        }
+
+        // Date de fin de l'activité
+        var endIdx: Int
+        if cumulatedDuration.rounded(.towardZero) == cumulatedDuration {
+            endIdx = Int(cumulatedDuration.rounded(.towardZero)) - 1
+        } else {
+            endIdx = Int(cumulatedDuration.rounded(.towardZero))
+        }
+        if endIdx < nbSeances {
+            return seances[endIdx].interval.end
+        } else {
+            return nil
         }
     }
 }

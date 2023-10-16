@@ -90,24 +90,23 @@ struct SchoolNextSeancesView: View {
                     for classe in schoolClasses {
                         group.addTask {
                             var sortedClasseProgresses = [ActivityProgressEntity]()
-                            await ClasseEntity.context.perform {
-                                // Liste des Progressions de la classe triée par numéro de Séquence / Activité
-                                sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
-                            }
-
                             var classeSeances = SeancesInDateInterval()
                             var forDiscipline = Discipline.autre
                             var forClasseName = ""
+                            var schoolYear = SchoolYearPref()
 
                             await ClasseEntity.context.perform {
+                                // Liste des Progressions de la classe triée par numéro de Séquence / Activité
+                                sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
                                 forDiscipline = classe.disciplineEnum
                                 forClasseName = classe.displayString
-                            }
-
-                            var schoolYear = SchoolYearPref()
-                            await ClasseEntity.context.perform {
                                 schoolYear = UserPrefEntity.shared.viewSchoolYearPref
                             }
+
+                            let horizon = DateInterval(
+                                start: Date.now,
+                                end: horizon.months.fromNow!
+                            )
 
                             // Liste des Séances à venir pour cette classe
                             await classeSeances.loadSeancesFromCalendar(
@@ -116,10 +115,7 @@ struct SchoolNextSeancesView: View {
                                 forClasseName: forClasseName,
                                 inCalendar: calendar,
                                 inEventStore: eventStore,
-                                during: DateInterval(
-                                    start: Date.now,
-                                    end: horizon.months.fromNow!
-                                ),
+                                during: horizon,
                                 schoolYear: schoolYear
                             )
 

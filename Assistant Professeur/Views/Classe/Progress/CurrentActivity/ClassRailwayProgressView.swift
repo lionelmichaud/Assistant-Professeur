@@ -90,9 +90,6 @@ struct ClassRailwayProgressView: View {
             // Séquences en cours pour cette classe
             classeSequencesEnCours = classe.currentSequences
 
-            // Liste des Progressions de la classe triée par numéro de Séquence / Activité
-            let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
-
             // Liste des Séances à venir pour cette classe
             if let schoolName = classe.school?.viewName {
                 // Demander les droits d'accès aux calendriers de l'utilisateur
@@ -107,29 +104,34 @@ struct ClassRailwayProgressView: View {
                         calendarName: schoolName
                     )
                 if let calendar {
-                    var schoolYear = SchoolYearPref()
                     await ClasseEntity.context.perform {
+                        var schoolYear = SchoolYearPref()
                         schoolYear = UserPrefEntity.shared.viewSchoolYearPref
-                    }
 
-                    classeSeances.loadSeancesFromCalendar(
-                        forDiscipline: classe.disciplineEnum,
-                        forSchoolName: schoolName,
-                        forClasseName: classe.displayString,
-                        inCalendar: calendar,
-                        inEventStore: eventStore,
-                        during: DateInterval(
+                        let horizon = DateInterval(
                             start: Date.now,
                             end: horizon.months.fromNow!
-                        ),
-                        schoolYear: schoolYear
-                    )
+                        )
 
-                    // Synchroniser les Progressions avec les Séances
-                    SequenceSeanceCoordinator.synchronize(
-                        classeProgresses: sortedClasseProgresses,
-                        withSeances: classeSeances
-                    )
+                        classeSeances.loadSeancesFromCalendar(
+                            forDiscipline: classe.disciplineEnum,
+                            forSchoolName: schoolName,
+                            forClasseName: classe.displayString,
+                            inCalendar: calendar,
+                            inEventStore: eventStore,
+                            during: horizon,
+                            schoolYear: schoolYear
+                        )
+
+                        // Liste des Progressions de la classe triée par numéro de Séquence / Activité
+                        let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+
+                        // Synchroniser les Progressions avec les Séances
+                        SequenceSeanceCoordinator.synchronize(
+                            classeProgresses: sortedClasseProgresses,
+                            withSeances: classeSeances
+                        )
+                    }
                 }
             }
         }

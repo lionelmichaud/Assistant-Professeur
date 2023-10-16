@@ -132,33 +132,35 @@ struct ClassProgressesView: View {
                         eventStore: eventStore,
                         calendarName: schoolName
                     )
+
                 if let calendar {
-                    // Liste des Progressions de la classe triée par numéro de Séquence / Activité
-                    let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
-
-                    var schoolYear = SchoolYearPref()
                     await ClasseEntity.context.perform {
-                        schoolYear = UserPrefEntity.shared.viewSchoolYearPref
-                    }
+                        let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
 
-                    classeSeances.loadSeancesFromCalendar(
-                        forDiscipline: classe.disciplineEnum, 
-                        forSchoolName: schoolName,
-                        forClasseName: classe.displayString,
-                        inCalendar: calendar,
-                        inEventStore: eventStore,
-                        during: DateInterval(
+                        let horizon = DateInterval(
                             start: Date.now,
                             end: horizon.months.fromNow!
-                        ), 
-                        schoolYear: schoolYear
-                    )
+                        )
 
-                    // Synchroniser les Progressions avec les Séances
-                    SequenceSeanceCoordinator.synchronize(
-                        classeProgresses: sortedClasseProgresses,
-                        withSeances: classeSeances
-                    )
+                        classeSeances.loadSeancesFromCalendar(
+                            forDiscipline: classe.disciplineEnum,
+                            forSchoolName: schoolName,
+                            forClasseName: classe.displayString,
+                            inCalendar: calendar,
+                            inEventStore: eventStore,
+                            during: horizon,
+                            schoolYear: schoolYear
+                        )
+
+                        // Liste des Progressions de la classe triée par numéro de Séquence / Activité
+                        let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+
+                        // Synchroniser les Progressions avec les Séances
+                        SequenceSeanceCoordinator.synchronize(
+                            classeProgresses: sortedClasseProgresses,
+                            withSeances: classeSeances
+                        )
+                    }
                 }
             }
 

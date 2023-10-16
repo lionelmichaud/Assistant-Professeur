@@ -88,56 +88,60 @@ struct ClassNextSeancesView: View {
                         calendarName: schoolName
                     )
                 if let calendar {
-                    let horizon = DateInterval(
-                        start: Date.now,
-                        end: horizon.months.fromNow!
-                    )
+                    await ClasseEntity.context.perform {
+                        var schoolYear = SchoolYearPref()
+                        schoolYear = UserPrefEntity.shared.viewSchoolYearPref
 
-                    // Charger les prochaines séances de cours sur un horizon de temps à venir
-                    classeSeances.loadSeancesFromCalendar(
-                        forDiscipline: classe.disciplineEnum,
-                        forSchoolName: schoolName,
-                        forClasseName: classe.displayString,
-                        inCalendar: calendar,
-                        inEventStore: eventStore,
-                        during: horizon,
-                        schoolYear: pref.viewSchoolYearPref
-                    )
-                    // classeSeances.print()
+                        let horizon = DateInterval(
+                            start: Date.now,
+                            end: horizon.months.fromNow!
+                        )
 
-                    // Liste des Progressions annuelles de la classe triée par numéro de Séquence / Activité
-                    let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+                        // Charger les prochaines séances de cours sur un horizon de temps à venir
+                        classeSeances.loadSeancesFromCalendar(
+                            forDiscipline: classe.disciplineEnum,
+                            forSchoolName: schoolName,
+                            forClasseName: classe.displayString,
+                            inCalendar: calendar,
+                            inEventStore: eventStore,
+                            during: horizon,
+                            schoolYear: schoolYear
+                        )
+                        // classeSeances.print()
 
-                    // Synchroniser les Progressions annuelles avec les Séances à venir
-                    SequenceSeanceCoordinator.synchronize(
-                        classeSeances: &classeSeances,
-                        withProgresses: sortedClasseProgresses
-                    )
-//                    classeSeances.print()
+                        // Liste des Progressions annuelles de la classe triée par numéro de Séquence / Activité
+                        let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
 
-                    // Insérer des pseudo-séances pour chaque période
-                    // de vacances inclue dans la période
-                    let vacancesIncludedInPeriod =
-                        pref.viewSchoolYearPref
-                            .vacancesContained(in: horizon)
+                        // Synchroniser les Progressions annuelles avec les Séances à venir
+                        SequenceSeanceCoordinator.synchronize(
+                            classeSeances: &classeSeances,
+                            withProgresses: sortedClasseProgresses
+                        )
+                        //                    classeSeances.print()
 
-                    if classeSeances.seances.count >= 2 {
-                        vacancesIncludedInPeriod.forEach { vacance in
-//                            print("startIndex: \(classeSeances.seances.startIndex), endIndex: \(classeSeances.seances.endIndex)")
-                            for idx in classeSeances.seances.startIndex ... classeSeances.seances.endIndex - 2
+                        // Insérer des pseudo-séances pour chaque période
+                        // de vacances inclue dans la période
+                        let vacancesIncludedInPeriod = schoolYear.vacancesContained(in: horizon)
+                        
+                        if classeSeances.seances.count >= 2 {
+                            vacancesIncludedInPeriod.forEach { vacance in
+                                //                            print("startIndex: \(classeSeances.seances.startIndex), endIndex: \(classeSeances.seances.endIndex)")
+                                for idx in classeSeances.seances.startIndex ... classeSeances.seances.endIndex - 2
                                 where (classeSeances[idx].interval.end ... classeSeances[idx + 1].interval.start).contains(vacance.interval.start) {
-                                let pseudoSeance = Seance(
-                                    name: vacance.name,
-                                    interval: vacance.interval,
-                                    isVacance: true
-                                )
-                                classeSeances
-                                    .seances
-                                    .insert(pseudoSeance, at: idx + 1)
-                                break
+                                    let pseudoSeance = Seance(
+                                        name: vacance.name,
+                                        interval: vacance.interval,
+                                        isVacance: true
+                                    )
+                                    classeSeances
+                                        .seances
+                                        .insert(pseudoSeance, at: idx + 1)
+                                    break
+                                }
                             }
                         }
                     }
+
                 }
             }
         }

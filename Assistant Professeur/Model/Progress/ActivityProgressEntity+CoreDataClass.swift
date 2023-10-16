@@ -18,7 +18,7 @@ private let customLog = Logger(
 @objc(ActivityProgressEntity)
 public final class ActivityProgressEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
-        case id, annotation, progress, classeID, isPrinted
+        case id, annotation, progress, classeID, isPrinted, isDistributed
     }
 
     /// Conformance to Decodable
@@ -30,6 +30,7 @@ public final class ActivityProgressEntity: NSManagedObject, Codable, ModelEntity
         self.progress = try container.decode(Double.self, forKey: .progress)
         self.annotation = try container.decodeIfPresent(String.self, forKey: .annotation)
         self.isPrinted = try container.decode(Bool.self, forKey: .isPrinted)
+        self.isDistributed = try container.decode(Bool.self, forKey: .isDistributed)
 
         // Les Classes doivent être chargés AVANT les Progress pour que les exam.marks puissent
         // établir la connection avec les élèves. Voir ClassEntity.init(from decoder: Decoder)
@@ -52,6 +53,7 @@ public final class ActivityProgressEntity: NSManagedObject, Codable, ModelEntity
         try container.encode(progress, forKey: .progress)
         try container.encodeIfPresent(annotation, forKey: .annotation)
         try container.encode(isPrinted, forKey: .isPrinted)
+        try container.encode(isDistributed, forKey: .isDistributed)
 
         try container.encodeIfPresent(classe?.id, forKey: .classeID)
     }
