@@ -368,6 +368,8 @@ public extension ProgramEntity {
            SEGPA        : \(segpa.frenchString)
            Annotation   : \(String(describing: self.annotation))
            URL          : \(String(describing: url))
+           Durée s.marge: \(durationWithoutMargin)
+           Durée a.marge: \(durationWithMargin)
            Nb séquences : \(sequencesCount)
            Séquences : \(String(describing: sequencesSortedByNumber).withPrefixedSplittedLines("     "))
         """

@@ -438,11 +438,12 @@ public extension SequenceEntity {
     override var description: String {
         """
 
-        SEQUENCE\(program == nil ? " (ERREUR : ORPHELIN)" : ""):
+        SEQUENCE\(program == nil ? " (ERREUR : ORPHELIN)" : " - \(program!.viewLevelEnum.displayString)"):
            Numéro     : \(viewNumber)
            Nom        : \(String(describing: self.name))
            Annotation : \(String(describing: self.annotation))
            URL        : \(String(describing: url))
+           Marge post : \(margePostSequence)
            Nb d'activités : \(activitiesCount)
            Activités  : \(String(describing: activitiesSortedByNumber).withPrefixedSplittedLines("     "))
         """

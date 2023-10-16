@@ -469,12 +469,15 @@ public extension ActivityEntity {
     override var description: String {
         """
 
-        ACTIVITÉ\(sequence == nil ? " (ERREUR : ORPHELIN)" : ""):
+        ACTIVITÉ\(sequence == nil ? " (ERREUR : ORPHELIN)" : " - \(sequence!.name ?? "")"):
            Numéro     : \(self.viewNumber)
            Nom        : \(String(describing: self.name))
            Annotation : \(String(describing: self.annotation))
            Durée      : \(self.viewDuration) séances
            Eval       : \(isEval.frenchString)
+           Eval format: \(isEvalFormative.frenchString)
+           Projet     : \(isProject.frenchString)
+           TP         : \(isTP.frenchString)
            URL        : \(String(describing: url))
         """
     }

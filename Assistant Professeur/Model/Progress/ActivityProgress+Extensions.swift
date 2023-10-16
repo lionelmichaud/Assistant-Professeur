@@ -226,14 +226,16 @@ public extension ActivityProgressEntity {
         """
 
         PROGRESSION:
-           Classe   : \(String(describing: classe?.displayString))
-           Séquence : \(String(describing: activity?.sequence?.viewName))
-           Activité : \(String(describing: activity?.viewName))
-           Imprimé  : \(isPrinted.frenchString)
-           Status   : \(status)
-           Progrès  : \(progress * 100.0) %
-           Début    : \(startDate?.formatted(date: .abbreviated, time: .shortened) ?? "-")
-           Fin      : \(endDate?.formatted(date: .abbreviated, time: .shortened) ?? "-")
+           Classe    : \(String(describing: classe?.displayString))
+           Séquence  : \(String(describing: activity?.sequence?.viewName))
+           Activité  : \(String(describing: activity?.viewName))
+           Imprimé   : \(isPrinted.frenchString)
+           Distribué : \(isDistributed.frenchString)
+           Annotation: \(viewAnnotation)
+           Status    : \(status)
+           Progrès   : \(progress * 100.0) %
+           Début     : \(startDate?.formatted(date: .abbreviated, time: .shortened) ?? "-")
+           Fin       : \(endDate?.formatted(date: .abbreviated, time: .shortened) ?? "-")
         """
     }
 }

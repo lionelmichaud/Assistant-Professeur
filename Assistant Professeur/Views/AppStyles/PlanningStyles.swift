@@ -18,17 +18,17 @@ let programPlanningStyle = PlanningStyle(
 )
 
 struct PlanningStyle {
-    var minLineHeigth = 75
-    var lineWidth = CGFloat(4)
-    var lineOffset = CGFloat(-10)
+    var minLineHeigth: Int = 75
+    var lineWidth: CGFloat = 4
+    var lineOffset: CGFloat = -10
 
-    var currentDateLineColor = Color.primary
-    var currentDateLineWidth = 1.0
+    var currentDateLineColor: Color = .primary
+    var currentDateLineWidth: Double = 1.0
 
-    var classeDateLineColor = Color.red
-    var classeDateLineWidth = 0.75
+    var classeDateLineColor: Color = .red
+    var classeDateLineWidth: Double = 0.75
 
-    var vacanceColor = Color.gray
+    var vacanceColor: Color = .gray
 
-    var plotAreaColor = Color.blue
+    var plotAreaColor: Color = .blue
 }
