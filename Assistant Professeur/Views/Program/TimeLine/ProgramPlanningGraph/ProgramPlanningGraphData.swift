@@ -77,28 +77,29 @@ extension SequenceData: Plottable {
 struct ProgramPlanningGraphData {
     // MARK: - Properties
 
-    /// Période et vacances scolaires
-    private(set) var schoolYear = SchoolYearPref()
-    /// Intervalles d'activité des séquences
+    /// Année scolaire et vacances scolaires
+    private(set) var schoolYear: SchoolYearPref?
+    /// Matière du programme
+    private(set) var program: (discipline: Discipline, level: LevelClasse, segpa: Bool)?
+    /// Périodes d'activité des séquences et des vacances scolaires
     private(set) var sequences = [SequenceData]()
+    /// Dates d'avancement réel de chacune des classes [Acronym: Date]
+    var datesClasses = [String: Date]()
 
     // MARK: - Initilizers
 
     init() {}
 
     init(
-        schoolYear: SchoolYearPref,
-        sequences: [SequenceData] = [SequenceData]()
-    ) {
-        self.schoolYear = schoolYear
-        self.sequences = sequences
-    }
-
-    init(
         forProgram program: ProgramEntity,
         schoolYear: SchoolYearPref
     ) {
         self.schoolYear = schoolYear
+        self.program = (
+            discipline: program.disciplineEnum,
+            level: program.levelEnum,
+            segpa: program.segpa
+        )
 
         let programSequencesData = ProgramManager.getProgramSequencesPeriods(
             program: program,
@@ -109,7 +110,7 @@ struct ProgramPlanningGraphData {
         // Calcul des périodes de vacance de chaque séquence du programme
         program.sequencesSortedByNumber.forEach { sequence in
             // Ajout des périodes de vacances de la Séquence
-            self.schoolYear.vacances.forEach { vacance in
+            self.schoolYear!.vacances.forEach { vacance in
                 self.sequences.append(
                     SequenceData(
                         name: sequence.viewName,
@@ -120,15 +121,5 @@ struct ProgramPlanningGraphData {
                 )
             }
         }
-    }
-
-    // MARK: - Methods
-
-    mutating func append(_ sequenceData: SequenceData) {
-        sequences.append(sequenceData)
-    }
-
-    mutating func append(_ sequencesData: [SequenceData]) {
-        sequences += sequencesData
     }
 }

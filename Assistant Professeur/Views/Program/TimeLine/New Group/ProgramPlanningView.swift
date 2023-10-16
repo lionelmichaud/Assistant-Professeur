@@ -7,6 +7,7 @@
 
 import AppFoundation
 import Charts
+import EventKit
 import SwiftUI
 
 struct ProgramPlanningView: View {
@@ -21,6 +22,28 @@ struct ProgramPlanningView: View {
 
     @State
     private var showClasses = false
+
+    @State
+    private var eventStore = EKEventStore()
+
+    @State
+    private var calendar: EKCalendar?
+
+    @State
+    private var alertTitle = ""
+
+    @State
+    private var alertMessage = ""
+
+    @State
+    private var alertIsPresented = false
+
+    @State
+    private var classesOffsets = [String: CGFloat]()
+
+    private let horizon = 3 // mois
+
+    // MARK: - Computed Properties
 
     private var sequences: [SequenceEntity] {
         program.sequencesSortedByNumber
@@ -37,15 +60,55 @@ struct ProgramPlanningView: View {
         )
     }
 
+    private func offset(classeName: String) -> CGFloat {
+        if let s = classeName.substring(
+            start: classeName.count - 1,
+            offsetBy: 1
+        ),
+            let i = Int(s) {
+            return CGFloat(i * 10)
+        } else {
+            return 0
+        }
+    }
+
     var body: some View {
         GeometryReader { geometry in
             Chart {
                 // élongation de l'année scolaire
-                schoolYearMark
+                if data.schoolYear != nil {
+                    schoolYearMark
+                }
 
                 // élongation des séquences pédagogiques
                 ForEach(data.sequences) { sequence in
                     sequenceMark(sequence: sequence)
+                }
+
+                if showClasses {
+                    // Dates d'avancement réel de chacune des classes
+                    ForEach(Array(data.datesClasses.keys), id: \.self) { classeName in
+                        RuleMark(x: .value(classeName, data.datesClasses[classeName]!))
+                            .foregroundStyle(programPlanningStyle.classeDateLineColor)
+                            .lineStyle(
+                                StrokeStyle(
+                                    lineWidth: programPlanningStyle.classeDateLineWidth,
+                                    lineCap: .round,
+                                    dash: [10, 5]
+                                )
+                            )
+                            .annotation(
+                                position: .top,
+                                alignment: .leading,
+                                spacing: nil,
+                                overflowResolution: .init(x: .fit, y: .fit)
+                            ) {
+                                Text(classeName)
+                                    .font(.footnote)
+                                    .bold()
+                                    .offset(y: ((classesOffsets[classeName] ?? CGFloat(0))))
+                            }
+                    }
                 }
 
                 // date courante
@@ -54,8 +117,7 @@ struct ProgramPlanningView: View {
                     .lineStyle(
                         StrokeStyle(
                             lineWidth: programPlanningStyle.currentDateLineWidth,
-                            lineCap: .round,
-                            dash: [10, 5]
+                            lineCap: .round
                         )
                     )
             }
@@ -102,17 +164,100 @@ struct ProgramPlanningView: View {
                     .background(programPlanningStyle.plotAreaColor)
             }
             .padding()
-            .onAppear {
-                buidChartDatum()
-            }
-        }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Toggle(isOn: $showClasses) {
-                    Image(systemName: EleveEntity.defaultImageName)
+            .alert(
+                alertTitle,
+                isPresented: $alertIsPresented,
+                actions: {},
+                message: { Text(alertMessage) }
+            )
+            .task {
+                await ProgramEntity.context.perform {
+                    data = ProgramPlanningGraphData(
+                        forProgram: program,
+                        schoolYear: pref.viewSchoolYearPref
+                    )
                 }
-                .controlSize(.mini)
-                .toggleStyle(.button)
+
+                // Calcul des dates d'avancement réel de chacune des classes
+                let classes = ProgramManager.classesAssociatedTo(thisProgram: program)
+                for classe in classes {
+                    // Liste des Séances à venir pour cette classe
+                    if let schoolName = classe.school?.viewName {
+                        // Demander les droits d'accès aux calendriers de l'utilisateur
+                        (
+                            calendar,
+                            alertIsPresented,
+                            alertTitle,
+                            alertMessage
+                        ) = await EventManager.shared
+                            .requestCalendarAccess(
+                                eventStore: eventStore,
+                                calendarName: schoolName
+                            )
+
+                        if let calendar {
+                            let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+                            var classeSeances: SeancesInDateInterval = .init()
+
+                            let horizon = DateInterval(
+                                start: schoolYear.interval.start,
+                                end: horizon.months.fromNow!
+                            )
+
+                            classeSeances.loadSeancesFromCalendar(
+                                forDiscipline: classe.disciplineEnum,
+                                forSchoolName: schoolName,
+                                forClasseName: classe.displayString,
+                                inCalendar: calendar,
+                                inEventStore: eventStore,
+                                during: horizon,
+                                schoolYear: schoolYear
+                            )
+
+                            // Liste des Progressions de la classe triée par numéro de Séquence / Activité
+                            let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+
+                            // Synchroniser les Progressions avec les Séances
+                            let plannedDate = SequenceSeanceCoordinator.plannedDateOfCurrentActivity(
+                                inProgram: program,
+                                classeProgresses: sortedClasseProgresses,
+                                yearSeances: classeSeances
+                            )
+
+                            if let plannedDate {
+                                data.datesClasses[classe.displayString] = plannedDate
+                            }
+                        }
+                    }
+                }
+
+                // Calcul des offsets des libellés de dates d'avancement actuelle de chaque classe
+                data.datesClasses.keys.forEach { name in
+                    if let s = name.substring(
+                        start: name.count - 1,
+                        offsetBy: 1
+                    ), let i = Int(s) {
+                        classesOffsets[name] = CGFloat(i * 10)
+                    } else {
+                        classesOffsets[name] = 0
+                    }
+                }
+                if let min = classesOffsets.values.min() {
+                    classesOffsets.keys.forEach { name in
+                        if classesOffsets[name] != nil {
+                            classesOffsets[name] = classesOffsets[name]! - min
+                        }
+                    }
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Toggle(isOn: $showClasses) {
+                        Image(systemName: EleveEntity.defaultImageName)
+                    }
+                    .controlSize(.mini)
+                    .toggleStyle(.button)
+                }
             }
         }
     }
@@ -137,8 +282,8 @@ extension ProgramPlanningView {
     private var schoolYearMark: some ChartContent {
         // barre
         RuleMark(
-            xStart: .value("Début", data.schoolYear.interval.start, unit: .month),
-            xEnd: .value("Fin", data.schoolYear.interval.end, unit: .day),
+            xStart: .value("Début", data.schoolYear!.interval.start, unit: .month),
+            xEnd: .value("Fin", data.schoolYear!.interval.end, unit: .day),
             y: .value("Année Scolaire", "Année Scolaire")
         )
         .foregroundStyle(.green)
@@ -147,12 +292,12 @@ extension ProgramPlanningView {
 
         // date de début
         .annotation(position: .bottom, alignment: .leading) {
-            dateLabel(date: data.schoolYear.interval.start)
+            dateLabel(date: data.schoolYear!.interval.start)
         }
 
         // date de fin
         .annotation(position: .bottom, alignment: .trailing) {
-            dateLabel(date: data.schoolYear.interval.end)
+            dateLabel(date: data.schoolYear!.interval.end)
         }
     }
 
@@ -193,16 +338,6 @@ extension ProgramPlanningView {
 
 // MARK: - Construction des données du graphique
 
-extension ProgramPlanningView {
-    /// Fabrication des données du graphique
-    private func buidChartDatum() {
-        data = ProgramPlanningGraphData(
-            forProgram: program,
-            schoolYear: pref.viewSchoolYearPref
-        )
-    }
-}
-
 struct ProgramPlanningPDF: View {
     @ObservedObject
     var program: ProgramEntity
@@ -223,7 +358,9 @@ struct ProgramPlanningPDF: View {
         if let data {
             Chart {
                 // élongation de l'année scolaire
-                schoolYearMark(data: data)
+                if data.schoolYear != nil {
+                    schoolYearMark(data: data)
+                }
 
                 // élongation des séquences pédagogiques
                 ForEach(data.sequences) { sequence in
@@ -281,8 +418,8 @@ extension ProgramPlanningPDF {
     /// Ligne de l'année scolaire
     private func schoolYearMark(data: ProgramPlanningGraphData) -> some ChartContent {
         RuleMark(
-            xStart: .value("Début", data.schoolYear.interval.start, unit: .month),
-            xEnd: .value("Fin", data.schoolYear.interval.end, unit: .day),
+            xStart: .value("Début", data.schoolYear!.interval.start, unit: .month),
+            xEnd: .value("Fin", data.schoolYear!.interval.end, unit: .day),
             y: .value("Année Scolaire", "Année Scolaire")
         )
         .foregroundStyle(.green)
@@ -292,7 +429,7 @@ extension ProgramPlanningPDF {
         // date de début
         .annotation(position: .bottom, alignment: .leading) {
             Text(
-                data.schoolYear.interval.start,
+                data.schoolYear!.interval.start,
                 format: .dateTime.day().month(.abbreviated).year(.twoDigits)
             )
             .dynamicTypeSize(.small)
@@ -301,7 +438,7 @@ extension ProgramPlanningPDF {
         // date de fin
         .annotation(position: .bottom, alignment: .trailing) {
             Text(
-                data.schoolYear.interval.end,
+                data.schoolYear!.interval.end,
                 format: .dateTime.day().month(.abbreviated).year(.twoDigits)
             )
             .dynamicTypeSize(.small)
