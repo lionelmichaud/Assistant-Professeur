@@ -251,12 +251,14 @@ struct ProgramPlanningView: View {
                 }
             }
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Toggle(isOn: $showClasses) {
-                        Image(systemName: EleveEntity.defaultImageName)
+                if calendar != nil {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Toggle(isOn: $showClasses) {
+                            Image(systemName: EleveEntity.defaultImageName)
+                        }
+                        .controlSize(.mini)
+                        .toggleStyle(.button)
                     }
-                    .controlSize(.mini)
-                    .toggleStyle(.button)
                 }
             }
         }
