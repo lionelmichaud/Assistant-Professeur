@@ -368,8 +368,9 @@ public extension ProgramEntity {
            SEGPA        : \(segpa.frenchString)
            Annotation   : \(String(describing: self.annotation))
            URL          : \(String(describing: url))
-           Durée s.marge: \(durationWithoutMargin)
-           Durée a.marge: \(durationWithMargin)
+           Durée sans marge : \(durationWithoutMargin)
+           Durée avec marge : \(durationWithMargin)
+           Marge à fin année: \(String(describing: marginToEndOfYear(schoolYear: UserPrefEntity.shared.viewSchoolYearPref)))
            Nb séquences : \(sequencesCount)
            Séquences : \(String(describing: sequencesSortedByNumber).withPrefixedSplittedLines("     "))
         """

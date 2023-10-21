@@ -53,11 +53,11 @@ struct Seance: Identifiable, CustomStringConvertible {
         """
 
         SEANCE:
-           Etablissement : \(String(describing: self.schoolName))
-           Nom : \(String(describing: self.name))
+           Etablissement    : \(String(describing: self.schoolName))
+           Nom              : \(String(describing: self.name))
            Plage temporelle : \(String(describing: interval))
-           Vacances: \(isVacance.frenchString)
-           Nb d'activités : \(activities.count)
+           Vacances         : \(isVacance.frenchString)
+           Nb d'activités   : \(activities.count)
            Activités  : \(String(describing: activities).withPrefixedSplittedLines("     "))
         """
     }
