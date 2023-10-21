@@ -14,6 +14,9 @@ struct ProgramStepperView: View {
     @ObservedObject
     var program: ProgramEntity
 
+    @ObservedObject
+    private var pref = UserPrefEntity.shared
+
     let forPdfExport: Bool
 
     var body: some View {
@@ -75,6 +78,15 @@ extension ProgramStepperView {
                     .padding(.trailing)
                 DurationView(duration: program.durationWithMargin, withMargin: true)
                     .padding(.trailing)
+                if let margin = program.marginToEndOfYear(schoolYear: pref.viewSchoolYearPref)?.nbSeances {
+                    let remainder = margin.remainder(dividingBy: 1.0)
+                    Label(
+                        "\(margin.formatted(.number.precision(.fractionLength(remainder == 0.0 ? 0 : 1)))) séances",
+                        systemImage: "arrowshape.left.arrowshape.right.fill"
+                    )
+                    .foregroundColor(margin > 0 ? .green : .red)
+                    Spacer()
+                }
                 WebsiteView(url: program.url, showURL: false)
             }
         }

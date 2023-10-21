@@ -155,6 +155,44 @@ extension ProgramEntity {
         allSequences.reduce(0) { $0 + $1.durationWithMargin }
     }
 
+    /// Calcule la marge entre la date de fin du programme prévu et
+    /// la date de fin d'année scolaire.
+    /// - Parameter schoolYear: Année scolaire
+    /// - Returns: Marge en nombre de séances et en nombre de semaines.
+    func marginToEndOfYear(
+        schoolYear: SchoolYearPref
+    ) -> (
+        nbSeances: Double,
+        nbWeeks: Double
+    )? {
+        guard let dateFinProgram =
+            ProgramManager
+                .getProgramSequencesPeriods(
+                    program: self,
+                    schoolYear: schoolYear
+                ).last?.dateInterval.end else {
+            return nil
+        }
+
+        let endOfSchoolYear = schoolYear.interval.end
+
+        // Nombre de séances de cours par semaine
+        let nbHeurePerWeek =
+            self.disciplineEnum
+                .nbHeurePerWeek(level: self.levelEnum)
+
+        let deltaDays = dateFinProgram.days(between: endOfSchoolYear)
+        let deltaWeeks = if endOfSchoolYear > dateFinProgram {
+            Double(deltaDays / 7)
+        } else {
+            -Double(deltaDays / 7)
+        }
+        return (
+            nbSeances: deltaWeeks * nbHeurePerWeek,
+            nbWeeks: deltaWeeks
+        )
+    }
+
     // MARK: - Connaissances Disciplinaires associées
 
     /// Liste des Compétences Disciplinaires triées par Acronym
