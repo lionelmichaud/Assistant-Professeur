@@ -49,11 +49,9 @@ struct SettingsView: View {
             )
         }
         .toolbar {
-            ToolbarItem {
-                Button {
+            ToolbarItem(placement: .cancellationAction) {
+                Button("Retour", systemImage: "xmark.circle.fill") {
                     dismiss()
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
                 }
             }
         }

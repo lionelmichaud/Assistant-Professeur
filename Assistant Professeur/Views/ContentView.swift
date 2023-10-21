@@ -105,6 +105,7 @@ struct ContentView: View {
             }
         }
         .environmentObject(navigationModel)
+        .badgeProminence(.decreased)
 
         // Alerte en cas d'erreur d'initilisation de l'App
         .alert(

@@ -25,11 +25,11 @@ struct ClasseTimerModal: View {
         )
         #if os(iOS)
         .navigationTitle("Chronomètre")
-            // .navigationBarTitleDisplayMode(.inline)
+        //.navigationBarTitleDisplayMode(.inline)
         #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Retour") {
+                    Button("Retour", systemImage: "xmark.circle.fill") {
                         dismiss()
                     }
                 }

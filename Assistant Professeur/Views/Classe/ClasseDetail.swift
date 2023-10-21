@@ -122,7 +122,7 @@ extension ClasseDetail {
                                 schoolName: schoolName
                             )
                         } else {
-                            Text("Impossible d'affciehr le chronomètre")
+                            Text("Impossible d'afficher le chronomètre")
                         }
                     }
                 }
@@ -187,6 +187,7 @@ extension ClasseDetail {
             } label: {
                 Label("Plus", systemImage: "ellipsis.circle")
             }
+            .controlGroupStyle(.automatic)
         }
     }
 }

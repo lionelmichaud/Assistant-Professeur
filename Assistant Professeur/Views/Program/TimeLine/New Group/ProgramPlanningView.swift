@@ -254,7 +254,7 @@ struct ProgramPlanningView: View {
                 if calendar != nil {
                     ToolbarItem(placement: .topBarTrailing) {
                         Toggle(isOn: $showClasses) {
-                            Image(systemName: EleveEntity.defaultImageName)
+                            Image(systemName: showClasses ? EleveEntity.defaultImageName+".fill" : EleveEntity.defaultImageName)
                         }
                         .controlSize(.mini)
                         .toggleStyle(.button)
