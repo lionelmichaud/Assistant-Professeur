@@ -210,9 +210,9 @@ extension ProgramEntity {
     /// Liste des séquences du programme triées par numéro de séquence
     var sequencesSortedByNumber: [SequenceEntity] {
         let sortComparators =
-        [
-            SortDescriptor(\SequenceEntity.number, order: .forward)
-        ]
+            [
+                SortDescriptor(\SequenceEntity.number, order: .forward)
+            ]
         return allSequences.sorted(using: sortComparators)
     }
 
@@ -225,9 +225,9 @@ extension ProgramEntity {
         }
 
         let sortComparators =
-        [
-            SortDescriptor(\SequenceEntity.number, order: .forward)
-        ]
+            [
+                SortDescriptor(\SequenceEntity.number, order: .forward)
+            ]
         return allSequences
             .filter { seq in
                 let string = searchString.lowercased()
