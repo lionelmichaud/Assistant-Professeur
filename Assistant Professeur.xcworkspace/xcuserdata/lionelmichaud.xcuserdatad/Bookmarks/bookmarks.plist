@@ -50,16 +50,12 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
-							<key>EndingColumnNumber</key>
-							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>114</string>
-							<key>StartingColumnNumber</key>
-							<string>0</string>
+							<string>393</string>
 							<key>StartingLineNumber</key>
-							<string>113</string>
+							<string>393</string>
 							<key>Timestamp</key>
-							<string>719595312.992087</string>
+							<string>719688616.151455</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -75,17 +71,13 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>                    compactView(date: timeLine.date, seance: seance)
-</string>
+						<string></string>
 						<key>leading</key>
-						<string>                ViewThatFits(in: .horizontal) {
-                    regularView(date: timeLine.date, seance: seance)
+						<string>    }
+}
 </string>
 						<key>trailing</key>
-						<string>                }
-
-            } else {
-</string>
+						<string></string>
 					</dict>
 					<key>type</key>
 					<string>bookmark</string>
@@ -101,16 +93,12 @@
 			<dict>
 				<key>location-parameters</key>
 				<dict>
-					<key>EndingColumnNumber</key>
-					<string>6</string>
 					<key>EndingLineNumber</key>
-					<string>198</string>
-					<key>StartingColumnNumber</key>
-					<string>6</string>
+					<string>393</string>
 					<key>StartingLineNumber</key>
-					<string>198</string>
+					<string>393</string>
 					<key>Timestamp</key>
-					<string>719595536.394267</string>
+					<string>719688616.152038</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -128,14 +116,11 @@
 				<key>focused</key>
 				<string></string>
 				<key>leading</key>
-				<string>            return .normal
-        }
-      </string>
-				<key>trailing</key>
-				<string>  vibrate(remainingMinutes: remainingMinutes)
-        playSound(
-            remainingMinutes: remainingMinutes,
+				<string>    }
+}
 </string>
+				<key>trailing</key>
+				<string></string>
 			</dict>
 			<key>type</key>
 			<string>bookmark</string>

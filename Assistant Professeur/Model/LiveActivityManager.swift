@@ -10,22 +10,28 @@
     import AppFoundation
     import Combine
     import Foundation
+    import os
+
+    private let customLog = Logger(
+        subsystem: "com.michaud.lionel.Fundation-Package",
+        category: "LiveActivityManager"
+    )
 
     /// This class is responsible for the live activity management
     ///  - Reference: [medium](https://medium.com/kinandcartacreated/how-to-build-ios-live-activity-d1b2f238819e)
+    @MainActor
     final class LiveActivityManager: ObservableObject {
-
         // MARK: - Properties
 
         /// The identifier of the activity that its generated once the activity is created
         /// (note that actually you can have multiple running activities in your app,
         /// but for this example we are going to basically always have just one)
-        @MainActor @Published
+        @Published
         private(set) var activityID: String?
 
         /// The token generated for the current activity,
         /// used in the backend for creating the activity-update push notification
-        @MainActor @Published
+        @Published
         private(set) var activityToken: String?
 
         private var attributes: LiveCoursProgressAttributes?
@@ -43,92 +49,131 @@
             return authorization.areActivitiesEnabled
         }
 
-        /// Cancel all running activities and then start a new one
+        /// Cancel all running activities and then start a new one if authorized.
+        /// - Note: No activity is started if Live Activity is not authorized.
         func start(
             withInitialState initialState: LiveCoursProgressState,
             fixedAttributes: LiveCoursProgressFixedAttributes
         ) async {
+            guard isPhone() else {
+                // Ne jamais exécuter des opérations LiveActivity sur un Mac
+                return
+            }
+
+            await endActivity()
+
             guard areActivitiesEnabled() else {
                 return
             }
-            await endActivity()
+
             await startNewLiveActivity(
                 withInitialState: initialState,
                 fixedAttributes: fixedAttributes
             )
         }
 
-        /// Actually request the initialisation and the start of a new activity,
-        /// passing the the initial properties values, and obtaining its activityID and activityToken
+        /// Requests the initialisation and the start of a new activity,
+        /// passing the initial properties values, and obtaining its activityID and activityToken.
+        /// - Note: No activity is started if Live Activity is not authorized.
         private func startNewLiveActivity(
             withInitialState initialState: LiveCoursProgressState,
             fixedAttributes: LiveCoursProgressFixedAttributes
         ) async {
+            guard isPhone() else {
+                // Ne jamais exécuter des opérations LiveActivity sur un Mac
+                return
+            }
             guard areActivitiesEnabled() else {
                 return
             }
-            self.attributes = LiveCoursProgressAttributes(fixedAttributes: fixedAttributes)
 
-            // Etat initial de l'activité
-            let initialContent = ActivityContent(
-                state: LiveCoursProgressAttributes.ContentState(
+            self.attributes =
+                LiveCoursProgressAttributes(
+                    fixedAttributes: fixedAttributes
+                )
+
+            // Etat initial de l'activité: fin 10 mintes après la fin du cours
+            let initialState =
+                LiveCoursProgressAttributes.ContentState(
                     dynamicAttributes: initialState
-                ),
-                staleDate: nil
-            )
-            let activity = try? Activity.request(
-                attributes: attributes!,
-                content: initialContent,
-                pushType: .token
-            )
-            guard let activity = activity else {
-                return
-            }
+                )
+            let initialContent =
+                ActivityContent(
+                    state: initialState,
+                    staleDate: 10.minutes.from(fixedAttributes.seance.end)
+                )
 
-            await MainActor.run {
-                activityID = activity.id
-            }
+            // Démarrer l'activité
+            do {
+                let activity = try Activity.request(
+                    attributes: attributes!,
+                    content: initialContent,
+                    pushType: .token
+                )
 
-            for await data in activity.pushTokenUpdates {
-                let token = data.map {
-                    String(
-                        format: "%02x",
-                        $0
-                    )
-                }.joined()
-                #if DEBUG
-                    print("Activity token: \(token)")
-                #endif
                 await MainActor.run {
-                    activityToken = token
+                    activityID = activity.id
                 }
-                // HERE SEND THE TOKEN TO THE SERVER
+
+                for await data in activity.pushTokenUpdates {
+                    let token = data.map {
+                        String(
+                            format: "%02x",
+                            $0
+                        )
+                    }.joined()
+                    #if DEBUG
+                        print("Activity token: \(token)")
+                    #endif
+                    await MainActor.run {
+                        activityToken = token
+                    }
+                    // HERE SEND THE TOKEN TO THE SERVER
+                }
+            } catch {
+                customLog.log(
+                    level: .error,
+                    "Couldn't start activity: '\(String(describing: error))'."
+                )
             }
         }
 
+        private func runningActivity(withID: String) -> Activity<LiveCoursProgressAttributes>? {
+            Activity<LiveCoursProgressAttributes>
+                .activities
+                .first {
+                    $0.id == withID
+                }
+        }
+
         /// Where the current running activity (if any) is updated with some random values
+        /// - Note: No activity is updated if Live Activity is not authorized.
         func updateActivity(
             withNewState newState: LiveCoursProgressState,
+            fixedAttributes: LiveCoursProgressFixedAttributes,
             alertConfiguration: AlertConfiguration? = nil
         ) async {
+            guard isPhone() else {
+                // Ne jamais exécuter des opérations LiveActivity sur un Mac
+                return
+            }
             guard areActivitiesEnabled() else {
                 return
             }
+
             // Recover the running live activity
-            guard let activityID = await activityID,
-                  let runningActivity = Activity<LiveCoursProgressAttributes>
-                  .activities
-                  .first(where: {
-                      $0.id == activityID
-                  }) else {
+            guard let activityID = activityID,
+                  let runningActivity = runningActivity(withID: activityID) else {
                 return
             }
 
             // Define the new dynamic content of the live activity
-            let newContentState = LiveCoursProgressAttributes.ContentState(dynamicAttributes: newState)
+            let newContentState =
+                LiveCoursProgressAttributes
+                    .ContentState(dynamicAttributes: newState)
             let newActivityContent = ActivityContent(
                 state: newContentState,
-                staleDate: nil
+                staleDate: 10.minutes.from(fixedAttributes.seance.end)
             )
 
             // Update the live activity
@@ -142,14 +187,18 @@
         /// Find in the running activities (of the specified type LiveCoursProgressAttributes)
         /// the one with the activityID that we stored in the manager and end it,
         /// so that means it will not be shown anymore in the dynamic island and in the lock screen
+        /// - Note: Any runing activity is ended, even if Live Activity is not authorized.
         func endActivity() async {
+            guard isPhone() else {
+                // Ne jamais exécuter des opérations LiveActivity sur un Mac
+                return
+            }
             guard areActivitiesEnabled() else {
                 return
             }
-            guard let activityID = await activityID,
-                  let runningActivity = Activity<LiveCoursProgressAttributes>.activities.first(where: {
-                      $0.id == activityID
-                  }) else {
+
+            guard let activityID = activityID,
+                  let runningActivity = runningActivity(withID: activityID) else {
                 return
             }
             let endContentState = LiveCoursProgressAttributes.ContentState(
@@ -171,7 +220,13 @@
         }
 
         /// Run through all the current running activities (of the specified type MatchLiveScoreAttributes) and end it all
+        /// - Note: Any runing activity is ended, even if Live Activity is not authorized.
         func cancelAllRunningActivities() async {
+            guard isPhone() else {
+                // Ne jamais exécuter des opérations LiveActivity sur un Mac
+                return
+            }
+
             let endContentState = LiveCoursProgressAttributes.ContentState(
                 dynamicAttributes: .defaultEndState
             )

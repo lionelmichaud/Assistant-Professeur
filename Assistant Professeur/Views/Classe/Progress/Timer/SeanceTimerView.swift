@@ -21,17 +21,6 @@ struct SeanceTimerView: View {
 
     // MARK: - Internal Types
 
-    enum TimerZone {
-        case normal, warning, alert
-        var color: Color {
-            switch self {
-                case .normal: return .green
-                case .warning: return .orange
-                case .alert: return .red
-            }
-        }
-    }
-
     // MARK: - Type Properties
 
     static let dingPlayer: AVPlayer = AVPlayer.soundPlayer(sound: "ding")
@@ -65,6 +54,11 @@ struct SeanceTimerView: View {
 
     @Environment(\.horizontalSizeClass)
     private var hClass
+
+    #if canImport(ActivityKit)
+        @EnvironmentObject
+        private var activityManager: LiveActivityManager
+    #endif
 
     @State
     private var timerVM: TodaySeances = .init()
@@ -138,7 +132,6 @@ struct SeanceTimerView: View {
                     calendarName: schoolName
                 )
             if let calendar {
-                // Récupérer les dates de conseils de classe
                 // Charge les heures de cours du jour
                 timerVM.loadTodaySeances(
                     forDiscipline: discipline,
@@ -146,6 +139,30 @@ struct SeanceTimerView: View {
                     inCalendar: calendar,
                     inEventStore: eventStore
                 )
+                #if canImport(ActivityKit)
+                    /// Démarrer la Live Activity
+                    if let seance = timerVM.seanceOngoing(at: .now) {
+                        let initialState =
+                            LiveCoursProgressState(
+                                elapsedTime: elapsedTime(for: .now),
+                                remainingTime: remainingTime(for: .now),
+                                cursorValue: cursorValue(for: .now),
+                                timerZone: timerZone(for: .now)
+                            )
+                        let attribute =
+                            LiveCoursProgressFixedAttributes(
+                                seance: seance,
+                                classeName: classeName,
+                                warningRemainingMinutes: warningRemainingMinutes,
+                                alertRemainingMinutes: alertRemainingMinutes
+                            )
+                        await activityManager.start(
+                            withInitialState: initialState,
+                            fixedAttributes: attribute
+                        )
+                        print("Lancement activité")
+                    }
+                #endif
             }
         }
     }
@@ -183,8 +200,8 @@ struct SeanceTimerView: View {
         #endif
 
         if let elapsedMinutes = timerVM.elapsedMinutes(to: date)?.double(),
-           let seanceDuration = timerVM.seanceDuration()?.minute?.double() {
-            return (elapsedMinutes / seanceDuration)
+           let seanceDuration = timerVM.seanceDuration() {
+            return (elapsedMinutes / (seanceDuration / 60.0))
         } else {
             return nil
         }

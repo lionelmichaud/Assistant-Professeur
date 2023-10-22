@@ -71,12 +71,12 @@ struct MainScene: Scene {
                 // Expect an app that enters the background phase to terminate.
 
                 #if canImport(ActivityKit)
-                    if isPhone() {
-                        // Ne jamais exécuter des opérations LiveActivity sur un Mac
-                        Task {
-                            await activityManager.cancelAllRunningActivities()
-                        }
-                    }
+//                    if isPhone() {
+//                        // Ne jamais exécuter des opérations LiveActivity sur un Mac
+//                        Task {
+//                            await activityManager.cancelAllRunningActivities()
+//                        }
+//                    }
                 #endif
                 try? coreDataManager.saveIfContextHasChanged()
                 //                    print("Scene Phase = .background")

@@ -71,6 +71,9 @@
 		79398D33296616850013564D /* ExamEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79398D32296616850013564D /* ExamEditor.swift */; };
 		79398D352966224A0013564D /* ExamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79398D342966224A0013564D /* ExamViewModel.swift */; };
 		79398D37296632D60013564D /* ExamDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79398D36296632D60013564D /* ExamDetail.swift */; };
+		793A67B72AE5881700673A24 /* ColorOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FFF42C295122F60037A327 /* ColorOptions.swift */; };
+		793A67BD2AE58A5C00673A24 /* TimerZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793A67BC2AE58A5C00673A24 /* TimerZone.swift */; };
+		793A67BE2AE58A8200673A24 /* TimerZone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793A67BC2AE58A5C00673A24 /* TimerZone.swift */; };
 		793C29CF2953BE4E00E7F65B /* Ressource+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793C29CE2953BE4E00E7F65B /* Ressource+Extensions.swift */; };
 		793C29D42953C08100E7F65B /* RessourceListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793C29D12953C08100E7F65B /* RessourceListSection.swift */; };
 		793C29D52953C08100E7F65B /* RessourceEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793C29D22953C08100E7F65B /* RessourceEditor.swift */; };
@@ -510,6 +513,7 @@
 		79398D32296616850013564D /* ExamEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExamEditor.swift; sourceTree = "<group>"; };
 		79398D342966224A0013564D /* ExamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamViewModel.swift; sourceTree = "<group>"; };
 		79398D36296632D60013564D /* ExamDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExamDetail.swift; sourceTree = "<group>"; };
+		793A67BC2AE58A5C00673A24 /* TimerZone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerZone.swift; sourceTree = "<group>"; };
 		793C29CE2953BE4E00E7F65B /* Ressource+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ressource+Extensions.swift"; sourceTree = "<group>"; };
 		793C29D12953C08100E7F65B /* RessourceListSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RessourceListSection.swift; sourceTree = "<group>"; };
 		793C29D22953C08100E7F65B /* RessourceEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RessourceEditor.swift; sourceTree = "<group>"; };
@@ -1110,6 +1114,7 @@
 				7901C6142AD5B0CB00003448 /* LiveActivityManager.swift */,
 				7921F54B2925825800173F39 /* ModelEntityP.swift */,
 				79388A4E29257025002AABB8 /* AppState.swift */,
+				793A67BB2AE58A4100673A24 /* Shared */,
 				79DEDB1D292598BE00F508EF /* Persistence */,
 				7983834D2A0FEB7200C4A4E2 /* Contacts */,
 				795415A62A129BA600B86746 /* Events */,
@@ -1179,6 +1184,14 @@
 				795EED0429673B88009AA6F4 /* Mark+Extensions.swift */,
 			);
 			path = Exam;
+			sourceTree = "<group>";
+		};
+		793A67BB2AE58A4100673A24 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				793A67BC2AE58A5C00673A24 /* TimerZone.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		793C29CD2953BE1E00E7F65B /* Ressource */ = {
@@ -2320,6 +2333,7 @@
 				79F7A2832A408B2C00CEC3D5 /* WCompTagList.swift in Sources */,
 				796521D22A14DC0C000C27D1 /* SchoolYearPref.swift in Sources */,
 				79EE3EA4296F6CF20075E9BD /* EleveTrombineStyling.swift in Sources */,
+				793A67BD2AE58A5C00673A24 /* TimerZone.swift in Sources */,
 				79F7A27B2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift in Sources */,
 				79398D30296616250013564D /* ClasseExamRow.swift in Sources */,
 				79A5737529BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift in Sources */,
@@ -2678,10 +2692,12 @@
 				79DD5A382AD30A570072290E /* LiveCoursProgressAttributes.swift in Sources */,
 				79DD5A2C2AD308C60072290E /* AppIntent.swift in Sources */,
 				79DD5A2A2AD308C60072290E /* LiveCoursProgress.swift in Sources */,
+				793A67B72AE5881700673A24 /* ColorOptions.swift in Sources */,
 				79960F2A2AE5131B006CF819 /* ProgressViews.swift in Sources */,
 				79DD5A262AD308C60072290E /* LiveCoursProgressBundle.swift in Sources */,
 				7905D5302AE52243004B04E5 /* LockScreenContent.swift in Sources */,
 				79960F2C2AE5140C006CF819 /* MinimalContentView.swift in Sources */,
+				793A67BE2AE58A8200673A24 /* TimerZone.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

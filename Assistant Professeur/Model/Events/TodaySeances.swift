@@ -55,16 +55,17 @@ struct TodaySeances {
         }
     }
 
-    /// Durée de la séance en cours à la `date`.
+    /// Durée de la séance en cours à la `date` exprimée en **secondes**.
     /// - Returns: `nil` si aucune séance n'est en cours
-    func seanceDuration(at thisDate: Date? = nil) -> DateComponents? {
+    func seanceDuration(at thisDate: Date? = nil) -> Double? {
         let date = thisDate ?? .now
         if let ongoingSeance = seanceOngoing(at: date) {
-            return Calendar.current.dateComponents(
-                [.hour, .minute, .second],
-                from: ongoingSeance.start,
-                to: ongoingSeance.end
-            )
+            let seconds = ongoingSeance.duration
+            if seconds > 0 {
+                return seconds
+            } else {
+                return nil
+            }
         } else {
             return nil
         }

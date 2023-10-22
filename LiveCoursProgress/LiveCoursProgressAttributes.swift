@@ -15,21 +15,11 @@ import SwiftUI
 struct LiveCoursProgressState: Codable, Equatable, Hashable {
     // MARK: - Type properties
 
-    enum TimerZone: Codable {
-        case normal, warning, alert
-        var color: Color {
-            switch self {
-                case .normal: return .green
-                case .warning: return .orange
-                case .alert: return .red
-            }
-        }
-    }
-
     static let defaultEndState =
     LiveCoursProgressState(
         elapsedTime: nil,
         remainingTime: nil, 
+        cursorValue: nil,
         timerZone: .alert
     )
 
