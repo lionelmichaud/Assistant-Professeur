@@ -23,21 +23,30 @@ struct TodaySeances {
     /// Charge toutes les séance de la journée pour les
     /// `discipline`, `classe` et `schoolName`.
     /// - Parameters:
-    ///   - discipline: La discipline recherchée.
-    ///   - classe: La classe recherchée.
+    ///   - discipline: La discipline recherchée ou `nil`.
+    ///   - classe: La classe recherchée ou `nil`.
     ///   - schoolName: L'école recherchée.
+    ///  - Note: Si `discipline` ou `classe` = `nil` alors toutes les séances sont chargées
+    ///           quelque soient la classe ou la discipline.
     mutating func loadTodaySeances(
-        forDiscipline discipline: Discipline,
-        forClasse classe: String,
+        forDiscipline discipline: Discipline? = nil,
+        forClasse classe: String? = nil,
         inCalendar calendar: EKCalendar,
         inEventStore eventStore: EKEventStore
     ) {
-        self.seances = EventManager.getTodaySeances(
-            forDiscipline: discipline,
-            forClasse: classe,
-            inCalendar: calendar,
-            inEventStore: eventStore
-        )
+        if let classe, let discipline {
+            self.seances = EventManager.getTodaySeances(
+                forDiscipline: discipline,
+                forClasse: classe,
+                inCalendar: calendar,
+                inEventStore: eventStore
+            )
+        } else {
+            self.seances = EventManager.getTodaySeances(
+                inCalendar: calendar,
+                inEventStore: eventStore
+            )
+        }
     }
 
     /// Retourne la séance en cours à la `date`.
