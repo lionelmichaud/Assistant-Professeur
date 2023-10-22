@@ -17,7 +17,7 @@ struct SeanceTimerView: View {
     var classeName: String
     var schoolName: String
     var lineWidth: Double = 40.0
-    var test: Bool = false
+    var preview: Bool = false
 
     // MARK: - Internal Types
 
@@ -155,7 +155,7 @@ struct SeanceTimerView: View {
     /// Temps écoulé depuis le début de la séance
     private func elapsedTime(for date: Date) -> DateComponents? {
         #if DEBUG
-            if test {
+            if preview {
                 return DateComponents(minute: date.minutes, second: date.seconds)
             }
         #endif
@@ -166,7 +166,7 @@ struct SeanceTimerView: View {
     /// Temps restant avant le début de la séance
     private func remainingTime(for date: Date) -> DateComponents? {
         #if DEBUG
-            if test {
+            if preview {
                 return DateComponents(minute: 60 - date.minutes, second: 60 - date.seconds)
             }
         #endif
@@ -177,7 +177,7 @@ struct SeanceTimerView: View {
     /// Position du curseur
     private func cursorValue(for date: Date) -> Double? {
         #if DEBUG
-            if test {
+            if preview {
                 return date.minutes.double() / 60.0
             }
         #endif
@@ -357,7 +357,7 @@ struct SeanceTimerView_Previews: PreviewProvider {
                 classeName: classe.displayString,
                 schoolName: classe.school!.viewName,
                 lineWidth: 40,
-                test: true
+                preview: true
             )
             .previewDevice("iPad mini (6th generation)")
 
@@ -366,7 +366,7 @@ struct SeanceTimerView_Previews: PreviewProvider {
                 classeName: classe.displayString,
                 schoolName: classe.school!.viewName,
                 lineWidth: 40,
-                test: true
+                preview: true
             )
             .previewDevice("iPhone 13")
         }

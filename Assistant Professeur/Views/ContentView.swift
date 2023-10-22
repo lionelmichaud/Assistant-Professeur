@@ -198,7 +198,7 @@ extension ContentView {
         }
     }
 
-    // Set the Style of the TabBar
+    /// Set the Style of the TabBar
     private func setTabBarStyle() {
         let appearance = UITabBarAppearance()
         appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
