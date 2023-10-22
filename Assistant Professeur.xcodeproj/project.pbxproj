@@ -18,6 +18,7 @@
 		790510C02AB4C462006CCC5B /* SchoolBonusMalusList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510BF2AB4C462006CCC5B /* SchoolBonusMalusList.swift */; };
 		790510C22AB4C4B3006CCC5B /* SchoolBonusMalusChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510C12AB4C4B3006CCC5B /* SchoolBonusMalusChart.swift */; };
 		790510C42AB4FC46006CCC5B /* BonusMalusMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790510C32AB4FC46006CCC5B /* BonusMalusMark.swift */; };
+		7905D5302AE52243004B04E5 /* LockScreenContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7905D52F2AE52243004B04E5 /* LockScreenContent.swift */; };
 		790A10712A472C5500BA3F5C /* ActivityTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790A10702A472C5500BA3F5C /* ActivityTagList.swift */; };
 		790A2AF32A6ACB55002A2900 /* PdfViewConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790A2AF22A6ACB55002A2900 /* PdfViewConverter.swift */; };
 		790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */; };
@@ -197,6 +198,9 @@
 		7994E3242972F4E500952D08 /* SchoolDocumentListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E3212972F4E500952D08 /* SchoolDocumentListSection.swift */; };
 		7994E3252972F4E500952D08 /* DocumentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E3222972F4E500952D08 /* DocumentRow.swift */; };
 		7994E3262972F4E500952D08 /* PdfDocumentViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7994E3232972F4E500952D08 /* PdfDocumentViewer.swift */; };
+		79960F2A2AE5131B006CF819 /* ProgressViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79960F292AE5131B006CF819 /* ProgressViews.swift */; };
+		79960F2C2AE5140C006CF819 /* MinimalContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79960F2B2AE5140C006CF819 /* MinimalContentView.swift */; };
+		79960F2E2AE51644006CF819 /* CompactContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79960F2D2AE51644006CF819 /* CompactContentView.swift */; };
 		79975316297B148800D1C66E /* ProgramSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975315297B148800D1C66E /* ProgramSplitView.swift */; };
 		79975318297B173800D1C66E /* SettingsProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975317297B173800D1C66E /* SettingsProgram.swift */; };
 		7997531A297C17E300D1C66E /* ProgramSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79975319297C17E300D1C66E /* ProgramSidebar.swift */; };
@@ -239,6 +243,9 @@
 		79B6632329244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B6632229244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift */; };
 		79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 79B6632F29244FC9007B1FBD /* AppModel.xcdatamodeld */; };
 		79B96B882AD9A9B100D8A164 /* ActivityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79B96B872AD9A9B100D8A164 /* ActivityKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		79BA0CDA2AE52B1C005E4C07 /* AppFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 79BA0CD92AE52B1C005E4C07 /* AppFoundation */; };
+		79BA0CDC2AE52B1C005E4C07 /* HelpersView in Frameworks */ = {isa = PBXBuildFile; productRef = 79BA0CDB2AE52B1C005E4C07 /* HelpersView */; };
+		79BA0CDF2AE52E77005E4C07 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BA0CDE2AE52E77005E4C07 /* Colors.swift */; };
 		79BA2D48299C0084006325CC /* JsonImportExportMng.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BA2D47299C0084006325CC /* JsonImportExportMng.swift */; };
 		79BA2D4A299C00CD006325CC /* CsvImportExportMng.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BA2D49299C00CD006325CC /* CsvImportExportMng.swift */; };
 		79BA2D4C299C0287006325CC /* ImageImportExportMng.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BA2D4B299C0287006325CC /* ImageImportExportMng.swift */; };
@@ -433,7 +440,7 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		79DD5A362AD308C80072290E /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
@@ -455,6 +462,7 @@
 		790510BF2AB4C462006CCC5B /* SchoolBonusMalusList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolBonusMalusList.swift; sourceTree = "<group>"; };
 		790510C12AB4C4B3006CCC5B /* SchoolBonusMalusChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolBonusMalusChart.swift; sourceTree = "<group>"; };
 		790510C32AB4FC46006CCC5B /* BonusMalusMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusMark.swift; sourceTree = "<group>"; };
+		7905D52F2AE52243004B04E5 /* LockScreenContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenContent.swift; sourceTree = "<group>"; };
 		790A10702A472C5500BA3F5C /* ActivityTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTagList.swift; sourceTree = "<group>"; };
 		790A2AF22A6ACB55002A2900 /* PdfViewConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfViewConverter.swift; sourceTree = "<group>"; };
 		790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAgenda.swift; sourceTree = "<group>"; };
@@ -628,6 +636,9 @@
 		7994E3212972F4E500952D08 /* SchoolDocumentListSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolDocumentListSection.swift; sourceTree = "<group>"; };
 		7994E3222972F4E500952D08 /* DocumentRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentRow.swift; sourceTree = "<group>"; };
 		7994E3232972F4E500952D08 /* PdfDocumentViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PdfDocumentViewer.swift; sourceTree = "<group>"; };
+		79960F292AE5131B006CF819 /* ProgressViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressViews.swift; sourceTree = "<group>"; };
+		79960F2B2AE5140C006CF819 /* MinimalContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimalContentView.swift; sourceTree = "<group>"; };
+		79960F2D2AE51644006CF819 /* CompactContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactContentView.swift; sourceTree = "<group>"; };
 		79975315297B148800D1C66E /* ProgramSplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramSplitView.swift; sourceTree = "<group>"; };
 		79975317297B173800D1C66E /* SettingsProgram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsProgram.swift; sourceTree = "<group>"; };
 		79975319297C17E300D1C66E /* ProgramSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramSidebar.swift; sourceTree = "<group>"; };
@@ -673,6 +684,7 @@
 		79B6632229244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assistant_ProfesseurUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		79B6633029244FC9007B1FBD /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		79B96B872AD9A9B100D8A164 /* ActivityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ActivityKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/ActivityKit.framework; sourceTree = DEVELOPER_DIR; };
+		79BA0CDE2AE52E77005E4C07 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		79BA2D47299C0084006325CC /* JsonImportExportMng.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonImportExportMng.swift; sourceTree = "<group>"; };
 		79BA2D49299C00CD006325CC /* CsvImportExportMng.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CsvImportExportMng.swift; sourceTree = "<group>"; };
 		79BA2D4B299C0287006325CC /* ImageImportExportMng.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageImportExportMng.swift; sourceTree = "<group>"; };
@@ -848,7 +860,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				79DD5A232AD308C60072290E /* SwiftUI.framework in Frameworks */,
+				79BA0CDC2AE52B1C005E4C07 /* HelpersView in Frameworks */,
 				79DD5A212AD308C60072290E /* WidgetKit.framework in Frameworks */,
+				79BA0CDA2AE52B1C005E4C07 /* AppFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1510,6 +1524,19 @@
 			path = Document;
 			sourceTree = "<group>";
 		};
+		79960F282AE512DA006CF819 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				79DD5A272AD308C60072290E /* LiveCoursProgressLiveActivity.swift */,
+				79960F292AE5131B006CF819 /* ProgressViews.swift */,
+				79960F2D2AE51644006CF819 /* CompactContentView.swift */,
+				79960F2B2AE5140C006CF819 /* MinimalContentView.swift */,
+				7905D52F2AE52243004B04E5 /* LockScreenContent.swift */,
+				79BA0CDE2AE52E77005E4C07 /* Colors.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		79975314297B146600D1C66E /* Program */ = {
 			isa = PBXGroup;
 			children = (
@@ -1759,9 +1786,9 @@
 		79DD5A242AD308C60072290E /* LiveCoursProgress */ = {
 			isa = PBXGroup;
 			children = (
+				79960F282AE512DA006CF819 /* Views */,
 				79DD5A372AD30A570072290E /* LiveCoursProgressAttributes.swift */,
 				79DD5A252AD308C60072290E /* LiveCoursProgressBundle.swift */,
-				79DD5A272AD308C60072290E /* LiveCoursProgressLiveActivity.swift */,
 				79DD5A292AD308C60072290E /* LiveCoursProgress.swift */,
 				79DD5A2B2AD308C60072290E /* AppIntent.swift */,
 				79DD5A2D2AD308C80072290E /* Assets.xcassets */,
@@ -2124,6 +2151,10 @@
 			dependencies = (
 			);
 			name = LiveCoursProgressExtension;
+			packageProductDependencies = (
+				79BA0CD92AE52B1C005E4C07 /* AppFoundation */,
+				79BA0CDB2AE52B1C005E4C07 /* HelpersView */,
+			);
 			productName = LiveCoursProgressExtension;
 			productReference = 79DD5A1F2AD308C60072290E /* LiveCoursProgressExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -2641,11 +2672,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79960F2E2AE51644006CF819 /* CompactContentView.swift in Sources */,
+				79BA0CDF2AE52E77005E4C07 /* Colors.swift in Sources */,
 				79DD5A282AD308C60072290E /* LiveCoursProgressLiveActivity.swift in Sources */,
 				79DD5A382AD30A570072290E /* LiveCoursProgressAttributes.swift in Sources */,
 				79DD5A2C2AD308C60072290E /* AppIntent.swift in Sources */,
 				79DD5A2A2AD308C60072290E /* LiveCoursProgress.swift in Sources */,
+				79960F2A2AE5131B006CF819 /* ProgressViews.swift in Sources */,
 				79DD5A262AD308C60072290E /* LiveCoursProgressBundle.swift in Sources */,
+				7905D5302AE52243004B04E5 /* LockScreenContent.swift in Sources */,
+				79960F2C2AE5140C006CF819 /* MinimalContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2986,7 +3022,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -3022,7 +3058,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -3144,6 +3180,14 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 79A56A5A2A4B4DCA00D1D4CC /* XCRemoteSwiftPackageReference "Stateful" */;
 			productName = Stateful;
+		};
+		79BA0CD92AE52B1C005E4C07 /* AppFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AppFoundation;
+		};
+		79BA0CDB2AE52B1C005E4C07 /* HelpersView */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HelpersView;
 		};
 		79DEDAE12925849600F508EF /* HelpersView */ = {
 			isa = XCSwiftPackageProductDependency;

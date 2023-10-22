@@ -5,13 +5,15 @@
 //  Created by Lionel MICHAUD on 08/10/2023.
 //
 
-import WidgetKit
 import SwiftUI
+import WidgetKit
 
 @main
 struct LiveCoursProgressBundle: WidgetBundle {
     var body: some Widget {
-        //LiveCoursProgress()
-        LiveCoursProgressLiveActivity()
+        // LiveCoursProgress()
+        #if canImport(ActivityKit)
+            LiveCoursProgressLiveActivity()
+        #endif
     }
 }

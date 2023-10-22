@@ -6,13 +6,45 @@
 //
 
 import SwiftUI
+import WidgetKit
 
-struct CompactContentView: View {
+struct CompactLeadingContent: View {
+    let fixedAttributes: LiveCoursProgressFixedAttributes
+    let dynamicAttributes: LiveCoursProgressState
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("\(fixedAttributes.classeName)")
+            .bold()
     }
 }
 
-#Preview {
-    CompactContentView()
+struct CompactTrailingContent: View {
+    let fixedAttributes: LiveCoursProgressFixedAttributes
+    let dynamicAttributes: LiveCoursProgressState
+
+    var body: some View {
+        if let remainingMinutes = dynamicAttributes.remainingTime?.minute,
+           let elapsedMinutes = dynamicAttributes.elapsedTime?.minute {
+            ProgressCircle(
+                value: Double(elapsedMinutes),
+                total: Double(elapsedMinutes + remainingMinutes),
+                foreGroundColor: dynamicAttributes.timerZone.color
+            )
+            .frame(height: 28)
+        } else {
+            EmptyView()
+        }
+    }
+}
+
+#Preview(
+    "Island Compact",
+    as: .dynamicIsland(.compact),
+    using: LiveCoursProgressAttributes.preview
+) {
+    LiveCoursProgressLiveActivity()
+} contentStates: {
+    LiveCoursProgressAttributes.ContentState.state1
+    LiveCoursProgressAttributes.ContentState.state2
+    LiveCoursProgressAttributes.ContentState.state3
 }

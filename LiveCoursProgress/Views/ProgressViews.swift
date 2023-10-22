@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct ProgressBar: View {
-    let level: Double
+    let value: Double
     let foreGroundColor: Color
 
     var body: some View {
         GeometryReader { geometry in
             let frame = geometry.frame(in: .local)
-            let boxWidth = frame.width * level
+            let boxWidth = frame.width * value
 
             RoundedRectangle(cornerRadius: 5)
                 .foregroundStyle(Color.gray)
@@ -26,3 +26,33 @@ struct ProgressBar: View {
     }
 }
 
+struct ProgressCircle: View {
+    let value: Double
+    let total: Double
+    let foreGroundColor: Color
+
+    var body: some View {
+        ProgressView(value: value, total: total) {
+            Text("\(value.formatted(.number))")
+                .bold()
+                .contentTransition(.numericText(value: value))
+        }
+        .progressViewStyle(.circular)
+        .tint(foreGroundColor)
+    }
+}
+
+#Preview {
+    ProgressBar(
+        value: 0.75,
+        foreGroundColor: .red
+    )
+}
+
+#Preview {
+    ProgressCircle(
+        value: 25,
+        total: 100,
+        foreGroundColor: .red
+    )
+}

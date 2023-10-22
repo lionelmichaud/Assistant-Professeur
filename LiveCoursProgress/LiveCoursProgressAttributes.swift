@@ -7,6 +7,7 @@
 
 import ActivityKit
 import WidgetKit
+import SwiftUI
 
 // MARK: - Dynamic content of the Live Activity
 
@@ -14,17 +15,39 @@ import WidgetKit
 struct LiveCoursProgressState: Codable, Equatable, Hashable {
     // MARK: - Type properties
 
-    static let defaultEndState = LiveCoursProgressState(remaingMinutes: 0)
+    enum TimerZone: Codable {
+        case normal, warning, alert
+        var color: Color {
+            switch self {
+                case .normal: return .green
+                case .warning: return .orange
+                case .alert: return .red
+            }
+        }
+    }
+
+    static let defaultEndState =
+    LiveCoursProgressState(
+        elapsedTime: nil,
+        remainingTime: nil, 
+        timerZone: .alert
+    )
 
     // MARK: - Properties
 
-    var remaingMinutes: Int
+    var elapsedTime: DateComponents?
+    var remainingTime: DateComponents?
+    var cursorValue: Double?
+    var timerZone: TimerZone
 }
 
 // MARK: - Fixed non-changing properties of the Live Activity
 
 struct LiveCoursProgressFixedAttributes: Codable {
+    let seance: DateInterval
     let classeName: String
+    let warningRemainingMinutes: Int
+    let alertRemainingMinutes: Int
 }
 
 // MARK: - Content that appears in your Live Activity
