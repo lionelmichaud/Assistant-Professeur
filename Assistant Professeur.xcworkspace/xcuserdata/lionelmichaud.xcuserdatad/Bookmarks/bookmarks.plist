@@ -42,6 +42,104 @@
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>
+		<dict>
+			<key>children</key>
+			<array>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
+							<key>EndingLineNumber</key>
+							<string>114</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
+							<key>StartingLineNumber</key>
+							<string>113</string>
+							<key>Timestamp</key>
+							<string>719595312.992087</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>Assistant Professeur/Assistant Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string>                    compactView(date: timeLine.date, seance: seance)
+</string>
+						<key>leading</key>
+						<string>                ViewThatFits(in: .horizontal) {
+                    regularView(date: timeLine.date, seance: seance)
+</string>
+						<key>trailing</key>
+						<string>                }
+
+            } else {
+</string>
+					</dict>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+			</array>
+			<key>title</key>
+			<string>Widget</string>
+			<key>type</key>
+			<string>group</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>6</string>
+					<key>EndingLineNumber</key>
+					<string>198</string>
+					<key>StartingColumnNumber</key>
+					<string>6</string>
+					<key>StartingLineNumber</key>
+					<string>198</string>
+					<key>Timestamp</key>
+					<string>719595536.394267</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Assistant Professeur/Assistant Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string></string>
+				<key>leading</key>
+				<string>            return .normal
+        }
+      </string>
+				<key>trailing</key>
+				<string>  vibrate(remainingMinutes: remainingMinutes)
+        playSound(
+            remainingMinutes: remainingMinutes,
+</string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
 	</array>
 </dict>
 </plist>

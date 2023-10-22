@@ -5,16 +5,18 @@
 //  Created by Lionel MICHAUD on 16/11/2022.
 //
 
-import SwiftUI
 import AppFoundation
+import SwiftUI
 
 /// Defines the main scene of the App
 struct MainScene: Scene {
     let coreDataManager: CoreDataManager
-    let activityManager: LiveActivityManager
+    #if canImport(ActivityKit)
+        let activityManager: LiveActivityManager
+    #endif
 
-    /// object that you want to use throughout your views and that will be specific to each scene
-    /// @StateObject private var uiState = UIState()
+    // object that you want to use throughout your views and that will be specific to each scene
+    // @StateObject private var uiState = UIState()
 
     // MARK: - Environment Properties
 
@@ -27,7 +29,9 @@ struct MainScene: Scene {
         WindowGroup {
             // defines the views hierachy of the scene
             ContentView()
+            #if canImport(ActivityKit)
                 .environmentObject(activityManager)
+            #endif
                 .environment(\.managedObjectContext, coreDataManager.context)
             #if os(macOS)
                 .frame(minWidth: 800, minHeight: 600)
@@ -35,9 +39,9 @@ struct MainScene: Scene {
         }
         .onChange(of: scenePhase, manageScenePhaseChanges)
         #if os(macOS)
-        .commands {
-            SidebarCommands()
-        }
+            .commands {
+                SidebarCommands()
+            }
         #endif
         #if os(macOS)
             Settings {
@@ -66,11 +70,14 @@ struct MainScene: Scene {
             case .background:
                 // Expect an app that enters the background phase to terminate.
 
-                if activityManager.areActivitiesEnabled() {
-                    Task {
-                        await activityManager.cancelAllRunningActivities()
+                #if canImport(ActivityKit)
+                    if isPhone() {
+                        // Ne jamais exécuter des opérations LiveActivity sur un Mac
+                        Task {
+                            await activityManager.cancelAllRunningActivities()
+                        }
                     }
-                }
+                #endif
                 try? coreDataManager.saveIfContextHasChanged()
                 //                    print("Scene Phase = .background")
 
