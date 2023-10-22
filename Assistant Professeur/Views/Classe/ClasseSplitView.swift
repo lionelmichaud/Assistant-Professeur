@@ -35,6 +35,23 @@ struct ClasseSplitView: View {
                     }
             }
         }
+        // Deep Link
+        .onOpenURL { url in
+            if url.absoluteString.hasPrefix("classe:///") {
+                if let classe =
+                    ClasseEntity.all()
+                        .filter({ classeObject in
+                            url.absoluteString.contains(classeObject.displayString)
+                        })
+                        .first {
+                    // Naviger jusqu'à l'actualisation de la progression de la classe
+                    navig.selectedClasseMngObjId =
+                        ClasseEntity.managedObjectID(id: classe.id)
+                    navig.classPath =
+                        [.progress(classe.id)]
+                }
+            }
+        }
     }
 }
 

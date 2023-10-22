@@ -121,7 +121,12 @@ struct ContentView: View {
             let message = failureReason + (recoverySuggestion == "" ? "" : "\n\(recoverySuggestion)")
             Text(message)
         }
-
+        // Deep Link
+        .onOpenURL { url in
+            if url.absoluteString.hasPrefix("classe:///") {
+                navigationModel.selectedTab = .classe
+            }
+        }
         // Alerte en cas d'erreur de connection iCloud
         .onChange(of: cloudKitVM.iCloudError, initial: false) {
             if cloudKitVM.iCloudError != .available {
