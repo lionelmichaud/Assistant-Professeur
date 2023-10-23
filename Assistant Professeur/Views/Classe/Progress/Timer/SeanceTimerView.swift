@@ -170,7 +170,7 @@ struct SeanceTimerView: View {
                             print(">>Activité lancée")
                         #endif
 
-                        var runLoop = true
+                        var keepOnLooping = true
                         repeat {
                             var alertConfig: AlertConfiguration?
                             // code you want to repeat
@@ -201,16 +201,16 @@ struct SeanceTimerView: View {
                             try? await Task.sleep(for: .seconds(updatePeriod)) // exception thrown when cancelled by SwiftUI when this view disappears.
 
                             if let elapsedSeconds = timerVM.elapsedSeconds() {
-                                runLoop = elapsedSeconds < seanceDuration - Int(updatePeriod)
+                                keepOnLooping = elapsedSeconds < seanceDuration - Int(updatePeriod)
                             } else {
-                                runLoop = false
+                                keepOnLooping = false
                             }
-                        } while !Task.isCancelled && runLoop
+                        } while !Task.isCancelled && keepOnLooping
 
                         // Arrêter la Live Activity
                         var finalState: LiveCoursProgressState
                         if Task.isCancelled {
-                            // Tâche annulée avant la fin du cours
+                            // Tâche annulée par la disparition de la View avant la fin du cours
                             finalState = LiveCoursProgressState(
                                 elapsedTime: elapsedTime(for: .now),
                                 remainingTime: remainingTime(for: .now),
@@ -218,6 +218,7 @@ struct SeanceTimerView: View {
                                 timerZone: timerZone(for: .now)
                             )
                         } else {
+                            // Fin du cours avant la disparition de la View
                             finalState = LiveCoursProgressState(
                                 elapsedTime: DateComponents(second: 1),
                                 remainingTime: DateComponents(second: 0),
@@ -278,29 +279,19 @@ struct SeanceTimerView: View {
     }
 
     private func timerZone(
-        for date: Date,
-        vibrateAndSound: Bool = false
+        for date: Date
     ) -> TimerZone {
-        guard let remainingTime = remainingTime(for: date),
-              let remainingMinutes = remainingTime.minute,
-              let remainingSeconds = remainingTime.second else {
-            return .normal
-        }
-        if vibrateAndSound {
-            vibrate(remainingMinutes: remainingMinutes)
-            playSound(remainingMinutes: remainingMinutes)
-        }
+        #if DEBUG
+            if preview {
+                return TimerZone.allCases.randomElement()!
+            }
+        #endif
 
-        switch remainingMinutes + 1 {
-            case 0 ... alertRemainingMinutes:
-                return .alert
-
-            case alertRemainingMinutes ... warningRemainingMinutes:
-                return .warning
-
-            default:
-                return .normal
-        }
+        return timerVM.timerZone(
+            for: date,
+            seuilAlert: alertRemainingMinutes,
+            seuilWarning: warningRemainingMinutes
+        )
     }
 
     /// Vibre à chaque appel durant la période de une minute suivant le franchissement d'un seuil d'alerte.
@@ -359,13 +350,20 @@ extension SeanceTimerView {
 
                 ProgressClockView(
                     trimValue: cursorValue(for: date)!,
-                    color: timerZone(for: date, vibrateAndSound: true).color,
+                    color: timerZone(for: date).color,
                     elapsedTime: elapsedTime(for: date),
                     remainingTime: remainingTime(for: date),
                     warningNotif: $warningAlarmIsActivited,
                     alertNotif: $alertAlarmIsActivated
                 )
                 .padding(lineWidth)
+                .task(id: date) {
+                    guard let remainingMinutes = timerVM.remainingMinutes(from: date) else {
+                        return
+                    }
+                    vibrate(remainingMinutes: remainingMinutes)
+                    playSound(remainingMinutes: remainingMinutes)
+                }
             }
 
             // seuils d'alerte
@@ -383,13 +381,20 @@ extension SeanceTimerView {
 
                 ProgressClockView(
                     trimValue: cursorValue(for: date)!,
-                    color: timerZone(for: date, vibrateAndSound: true).color,
+                    color: timerZone(for: date).color,
                     elapsedTime: elapsedTime(for: date),
                     remainingTime: remainingTime(for: date),
                     warningNotif: $warningAlarmIsActivited,
                     alertNotif: $alertAlarmIsActivated
                 )
                 .padding(lineWidth / 2)
+                .task(id: date) {
+                    guard let remainingMinutes = timerVM.remainingMinutes(from: date) else {
+                        return
+                    }
+                    vibrate(remainingMinutes: remainingMinutes)
+                    playSound(remainingMinutes: remainingMinutes)
+                }
             }
 
             VStack {

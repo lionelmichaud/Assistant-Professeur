@@ -676,17 +676,161 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2D9BE880-572A-4802-8A01-9D5D50EEF878"
+            uuid = "DE82D835-45B0-47F0-92E1-F9225A6C61FF"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/LiveActivityManager.swift"
+            filePath = "Assistant Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "dismissalPolicy"
+            startingLineNumber = "396"
+            endingLineNumber = "396"
+            landmarkName = "regularView(date:seance:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A0304630-264C-4566-A1EC-C2774C04BEBC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Assistant Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
+            landmarkName = "body"
             landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "A0304630-264C-4566-A1EC-C2774C04BEBC - c98a000049964489"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for closure #4 @Sendable () async -&gt; () in Assistant_Professeur.SeanceTimerView.body.getter : some"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "206"
+                  endingLineNumber = "206"
+                  offsetFromSymbolStart = "580">
+               </Location>
+               <Location
+                  uuid = "A0304630-264C-4566-A1EC-C2774C04BEBC - 2772056565a62a9b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(12) suspend resume partial function for closure #4 @Sendable () async -&gt; () in Assistant_Professeur.SeanceTimerView.body.getter : some"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "206"
+                  endingLineNumber = "206"
+                  offsetFromSymbolStart = "596">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3C2978C7-F954-4F2A-BC00-42A02D072AF3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Assistant Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "214"
+            endingLineNumber = "214"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "3C2978C7-F954-4F2A-BC00-42A02D072AF3 - c98a000049964581"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for closure #4 @Sendable () async -&gt; () in Assistant_Professeur.SeanceTimerView.body.getter : some"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "214"
+                  endingLineNumber = "214"
+                  offsetFromSymbolStart = "2164">
+               </Location>
+               <Location
+                  uuid = "3C2978C7-F954-4F2A-BC00-42A02D072AF3 - 2772056565a62b93"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(12) suspend resume partial function for closure #4 @Sendable () async -&gt; () in Assistant_Professeur.SeanceTimerView.body.getter : some"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "214"
+                  endingLineNumber = "214"
+                  offsetFromSymbolStart = "2180">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4C76EBFD-EED2-46C6-B108-F05485258A74"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Assistant Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "4C76EBFD-EED2-46C6-B108-F05485258A74 - c98a000049964299"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(9) suspend resume partial function for closure #4 @Sendable () async -&gt; () in Assistant_Professeur.SeanceTimerView.body.getter : some"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "222"
+                  endingLineNumber = "222"
+                  offsetFromSymbolStart = "2260">
+               </Location>
+               <Location
+                  uuid = "4C76EBFD-EED2-46C6-B108-F05485258A74 - 2772056565a62c8b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(12) suspend resume partial function for closure #4 @Sendable () async -&gt; () in Assistant_Professeur.SeanceTimerView.body.getter : some"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "222"
+                  endingLineNumber = "222"
+                  offsetFromSymbolStart = "2276">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

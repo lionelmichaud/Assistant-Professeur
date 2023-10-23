@@ -124,7 +124,7 @@ struct TodaySeances {
 
     /// Temps restant en **heures - minutes - secondes** avant la fin de la séance.
     /// - Returns: Temps écoulé en secondes
-    /// - Parameter thisDate: date/heure à laquelle faire le calcul
+    /// - Parameter thisDate: date/heure à laquelle faire le calcul.
     ///                         Si nil alors calcul fait à la date courante
     func remainingTime(from thisDate: Date? = nil) -> DateComponents? {
         let date = thisDate ?? .now
@@ -140,16 +140,54 @@ struct TodaySeances {
     }
 
     /// Temps restant en **secondes** avant la fin de la séance.
-    /// - Returns: Temps écoulé en secondes
-    /// - Parameter thisDate: date/heure à laquelle faire le calcul
+    /// - Returns: Temps restant en secondes
+    /// - Parameter thisDate: Date/heure à laquelle faire le calcul
     func remainingSeconds(from thisDate: Date? = nil) -> Int? {
-        return remainingTime(from: thisDate)?.second
+        guard let remainingTime = remainingTime(from: thisDate),
+              let hours = remainingTime.hour,
+              let minutes = remainingTime.minute,
+              let seconds = remainingTime.second else {
+            return nil
+        }
+        return hours * 60 * 60 + minutes * 60 + seconds
     }
 
     /// Temps restant en **minutes** avant la fin de la séance.
-    /// - Returns: Temps écoulé en secondes
-    /// - Parameter thisDate: date/heure à laquelle faire le calcul
+    /// - Returns: Temps restant en minutes
+    /// - Parameter thisDate: Date/heure à laquelle faire le calcul
     func remainingMinutes(from thisDate: Date? = nil) -> Int? {
-        return remainingTime(from: thisDate)?.minute
+        guard let remainingTime = remainingTime(from: thisDate),
+              let hours = remainingTime.hour,
+              let minutes = remainingTime.minute else {
+            return nil
+        }
+        return hours * 60 + minutes
+    }
+    
+    /// Retourne la zone dans laquelle se trouve le temps restant.
+    /// - Note: `.normal` si Temps restant > `seuilWarning`
+    /// - Note: `.warning` si `seuilWarning` > Temps restant > `seuilAlert`
+    /// - Note: `.alert` si `seuilAlert` > Temps restant
+    /// - Parameters:
+    ///   - date: Date/heure à laquelle faire le calcul
+    ///   - seuilAlert: Seuil d'alerte en minutes.
+    ///   - seuilWarning: Seuil de warning en minutes > `seuilAlert`.
+    func timerZone(for date: Date?,
+                   seuilAlert: Int,
+                   seuilWarning: Int) -> TimerZone {
+        guard let remainingMinutes = remainingMinutes(from: date) else {
+            return .undefined
+        }
+
+        switch remainingMinutes + 1 {
+            case 0 ... seuilAlert:
+                return .alert
+
+            case seuilAlert ... seuilWarning:
+                return .warning
+
+            default:
+                return .normal
+        }
     }
 }

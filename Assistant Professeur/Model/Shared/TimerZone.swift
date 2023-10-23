@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-enum TimerZone: Codable {
-    case normal, warning, alert
+enum TimerZone: Codable, CaseIterable {
+    case normal, warning, alert, undefined
     var color: Color {
         switch self {
             case .normal: return .green
             case .warning: return .orange
             case .alert: return .red
+            case .undefined: return .gray
         }
     }
 }
-
