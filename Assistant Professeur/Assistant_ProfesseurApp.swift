@@ -19,23 +19,10 @@ struct Assistant_ProfesseurApp: App {
     /// The managed object context for your Core Data container
     let coreDataManager = CoreDataManager.shared
 
-    #if canImport(ActivityKit)
-        /// The App live activity manager
-        @StateObject
-        private var activityManager = LiveActivityManager()
-    #endif
-
     var body: some Scene {
-        #if canImport(ActivityKit)
-            MainScene(
-                coreDataManager: coreDataManager,
-                activityManager: activityManager
-            )
-        #else
-            MainScene(
-                coreDataManager: coreDataManager
-            )
-        #endif
+        MainScene(
+            coreDataManager: coreDataManager
+        )
     }
 
     /// Vérifier l'existance du dossier `Documents`.

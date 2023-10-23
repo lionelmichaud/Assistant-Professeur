@@ -56,14 +56,15 @@ struct SeanceTimerView: View {
     private var hClass
 
     #if canImport(ActivityKit)
-        @EnvironmentObject
-        private var activityManager: LiveActivityManager
+        /// The App live activity manager
+        @StateObject
+        private var activityManager = LiveActivityManager.shared
     #endif
 
     @State
     private var timerVM: TodaySeances = .init()
 
-    private let period = TimeInterval(2) // seconds
+    private let period = TimeInterval(5) // seconds
 
     private let notificationFeedback = UINotificationFeedbackGenerator()
 
@@ -160,7 +161,22 @@ struct SeanceTimerView: View {
                             withInitialState: initialState,
                             fixedAttributes: attribute
                         )
-                        print("Lancement activité")
+                        #if DEBUG
+                            print(">>Activité lancée")
+                        #endif
+
+                        // Update Live Activity
+                        repeat {
+                            // code you want to repeat
+                            #if DEBUG
+                                print(">>Activité updated")
+                            #endif
+
+                            try? await Task.sleep(for: .seconds(10)) // exception thrown when cancelled by SwiftUI when this view disappears.
+                        } while !Task.isCancelled
+                        #if DEBUG
+                            print(">>Activité canceled")
+                        #endif
                     }
                 #endif
             }

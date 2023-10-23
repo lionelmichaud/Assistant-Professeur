@@ -20,8 +20,8 @@ struct TodaySeances {
 
     // MARK: - Properties
 
-    /// Charge toutes les séance de la journée pour les
-    /// `discipline`, `classe` et `schoolName`.
+    /// Charge toutes les séance de la journée pour les`discipline`, `classe` et `schoolName`
+    /// ou pour l'ensemble des disciplines et classe de`schoolName`.
     /// - Parameters:
     ///   - discipline: La discipline recherchée ou `nil`.
     ///   - classe: La classe recherchée ou `nil`.

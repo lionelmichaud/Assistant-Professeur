@@ -19,22 +19,27 @@
 
     /// This class is responsible for the live activity management
     ///  - Reference: [medium](https://medium.com/kinandcartacreated/how-to-build-ios-live-activity-d1b2f238819e)
-    @MainActor
     final class LiveActivityManager: ObservableObject {
+        // MARK: - Type Properties
+
+        static let shared = LiveActivityManager()
+
         // MARK: - Properties
 
         /// The identifier of the activity that its generated once the activity is created
         /// (note that actually you can have multiple running activities in your app,
         /// but for this example we are going to basically always have just one)
-        @Published
+        @MainActor @Published
         private(set) var activityID: String?
 
         /// The token generated for the current activity,
         /// used in the backend for creating the activity-update push notification
-        @Published
+        @MainActor @Published
         private(set) var activityToken: String?
 
-        private var attributes: LiveCoursProgressAttributes?
+        // MARK: - Initializer
+
+        private init() {}
 
         // MARK: - Methods
 
@@ -60,7 +65,7 @@
                 return
             }
 
-            await endActivity()
+            await cancelAllRunningActivities()
 
             guard areActivitiesEnabled() else {
                 return
@@ -79,15 +84,11 @@
             withInitialState initialState: LiveCoursProgressState,
             fixedAttributes: LiveCoursProgressFixedAttributes
         ) async {
-            guard isPhone() else {
-                // Ne jamais exécuter des opérations LiveActivity sur un Mac
-                return
-            }
             guard areActivitiesEnabled() else {
                 return
             }
 
-            self.attributes =
+            let attributes =
                 LiveCoursProgressAttributes(
                     fixedAttributes: fixedAttributes
                 )
@@ -100,13 +101,14 @@
             let initialContent =
                 ActivityContent(
                     state: initialState,
-                    staleDate: 10.minutes.from(fixedAttributes.seance.end)
+                    staleDate: 2.minutes.from(.now),
+                    relevanceScore: 0
                 )
 
             // Démarrer l'activité
             do {
                 let activity = try Activity.request(
-                    attributes: attributes!,
+                    attributes: attributes,
                     content: initialContent,
                     pushType: .token
                 )
@@ -115,21 +117,21 @@
                     activityID = activity.id
                 }
 
-                for await data in activity.pushTokenUpdates {
-                    let token = data.map {
-                        String(
-                            format: "%02x",
-                            $0
-                        )
-                    }.joined()
-                    #if DEBUG
-                        print("Activity token: \(token)")
-                    #endif
-                    await MainActor.run {
-                        activityToken = token
-                    }
-                    // HERE SEND THE TOKEN TO THE SERVER
-                }
+//                for await data in activity.pushTokenUpdates {
+//                    let token = data.map {
+//                        String(
+//                            format: "%02x",
+//                            $0
+//                        )
+//                    }.joined()
+//                    #if DEBUG
+//                        print("Activity token: \(token)")
+//                    #endif
+//                    await MainActor.run {
+//                        activityToken = token
+//                    }
+//                    // HERE SEND THE TOKEN TO THE SERVER
+//                }
             } catch {
                 customLog.log(
                     level: .error,
@@ -146,34 +148,32 @@
                 }
         }
 
-        /// Where the current running activity (if any) is updated with some random values
+        /// Where the current running activity (if any) is updated.
         /// - Note: No activity is updated if Live Activity is not authorized.
         func updateActivity(
             withNewState newState: LiveCoursProgressState,
-            fixedAttributes: LiveCoursProgressFixedAttributes,
+            fixedAttributes _: LiveCoursProgressFixedAttributes,
             alertConfiguration: AlertConfiguration? = nil
         ) async {
-            guard isPhone() else {
-                // Ne jamais exécuter des opérations LiveActivity sur un Mac
-                return
-            }
             guard areActivitiesEnabled() else {
                 return
             }
 
             // Recover the running live activity
-            guard let activityID = activityID,
+            guard let activityID = await activityID,
                   let runningActivity = runningActivity(withID: activityID) else {
                 return
             }
 
             // Define the new dynamic content of the live activity
             let newContentState =
-                LiveCoursProgressAttributes
-                    .ContentState(dynamicAttributes: newState)
+                LiveCoursProgressAttributes.ContentState(
+                    dynamicAttributes: newState
+                )
             let newActivityContent = ActivityContent(
                 state: newContentState,
-                staleDate: 10.minutes.from(fixedAttributes.seance.end)
+                staleDate: 2.minutes.from(.now),
+                relevanceScore: alertConfiguration == nil ? 0 : 50
             )
 
             // Update the live activity
@@ -193,11 +193,8 @@
                 // Ne jamais exécuter des opérations LiveActivity sur un Mac
                 return
             }
-            guard areActivitiesEnabled() else {
-                return
-            }
 
-            guard let activityID = activityID,
+            guard let activityID = await activityID,
                   let runningActivity = runningActivity(withID: activityID) else {
                 return
             }
@@ -208,7 +205,7 @@
             await runningActivity.end(
                 ActivityContent(
                     state: endContentState,
-                    staleDate: Date.distantFuture
+                    staleDate: .now
                 ),
                 dismissalPolicy: .immediate
             )
@@ -227,19 +224,16 @@
                 return
             }
 
-            let endContentState = LiveCoursProgressAttributes.ContentState(
-                dynamicAttributes: .defaultEndState
-            )
-            guard areActivitiesEnabled() else {
-                return
-            }
             for activity in Activity<LiveCoursProgressAttributes>.activities {
+                let endContentState = LiveCoursProgressAttributes.ContentState(
+                    dynamicAttributes: .defaultEndState
+                )
                 await activity.end(
                     ActivityContent(
                         state: endContentState,
-                        staleDate: Date.distantFuture
+                        staleDate: .now
                     ),
-                    dismissalPolicy: .immediate
+                    dismissalPolicy: .default
                 )
             }
 
