@@ -48,14 +48,16 @@ struct LiveCoursProgressLiveActivity: Widget {
             } compactTrailing: {
                 CompactTrailingContent(
                     fixedAttributes: context.attributes.fixedAttributes,
-                    dynamicAttributes: context.state.dynamicAttributes
+                    dynamicAttributes: context.state.dynamicAttributes, 
+                    isStale: context.isStale
                 )
 
                 // MARK: - Minimal
             } minimal: {
                 MinimalContent(
                     fixedAttributes: context.attributes.fixedAttributes,
-                    dynamicAttributes: context.state.dynamicAttributes
+                    dynamicAttributes: context.state.dynamicAttributes,
+                    isStale: context.isStale
                 )
             }
             .keylineTint(Color.red)
@@ -91,15 +93,8 @@ struct LiveCoursProgressLiveActivity: Widget {
         }
         DynamicIslandExpandedRegion(.bottom) {
             // Minuterie
-            if isStale {
-                // Information périmée
-                ProgressBar(
-                    value: 1.0,
-                    foreGroundColor: .gray
-                )
-
-            } else if let remainingMinutes = dynamicAttributes.remainingTime?.minute,
-                      let elapsedMinutes = dynamicAttributes.elapsedTime?.minute {
+            if let remainingMinutes = dynamicAttributes.remainingMinutes,
+               let elapsedMinutes = dynamicAttributes.elapsedMinutes {
                 if remainingMinutes <= 0 {
                     // Cours terminé
                     Text("Terminé \(Image(systemName: "clock.badge.exclamationmark.fill")) ")
@@ -112,10 +107,12 @@ struct LiveCoursProgressLiveActivity: Widget {
                     HStack(alignment: .center) {
                         ProgressBar(
                             value: Double(elapsedMinutes) / Double(elapsedMinutes + remainingMinutes),
-                            foreGroundColor: dynamicAttributes.timerZone.color
+                            foreGroundColor: isStale ? .gray : dynamicAttributes.timerZone.color
                         )
                         Text("\(remainingMinutes) min")
-                            .foregroundStyle(dynamicAttributes.timerZone.color)
+                            .foregroundStyle(
+                                isStale ? .gray : dynamicAttributes.timerZone.color
+                            )
                             .bold()
                             .contentTransition(.numericText(value: Double(remainingMinutes)))
                     }
@@ -155,8 +152,8 @@ extension LiveCoursProgressAttributes.ContentState {
     static var state1: LiveCoursProgressAttributes.ContentState {
         LiveCoursProgressAttributes.ContentState(
             dynamicAttributes: LiveCoursProgressState(
-                elapsedTime: DateComponents(minute: 30),
-                remainingTime: DateComponents(minute: 25),
+                elapsedMinutes: 30,
+                remainingMinutes: 25,
                 timerZone: .normal
             )
         )
@@ -165,8 +162,8 @@ extension LiveCoursProgressAttributes.ContentState {
     static var state2: LiveCoursProgressAttributes.ContentState {
         LiveCoursProgressAttributes.ContentState(
             dynamicAttributes: LiveCoursProgressState(
-                elapsedTime: DateComponents(minute: 45),
-                remainingTime: DateComponents(minute: 10),
+                elapsedMinutes: 45,
+                remainingMinutes: 10,
                 timerZone: .warning
             )
         )
@@ -175,9 +172,19 @@ extension LiveCoursProgressAttributes.ContentState {
     static var state3: LiveCoursProgressAttributes.ContentState {
         LiveCoursProgressAttributes.ContentState(
             dynamicAttributes: LiveCoursProgressState(
-                elapsedTime: DateComponents(minute: 52),
-                remainingTime: DateComponents(minute: 3),
+                elapsedMinutes: 52,
+                remainingMinutes: 3,
                 timerZone: .alert
+            )
+        )
+    }
+
+    static var state4: LiveCoursProgressAttributes.ContentState {
+        LiveCoursProgressAttributes.ContentState(
+            dynamicAttributes: LiveCoursProgressState(
+                elapsedMinutes: 56,
+                remainingMinutes: -1,
+                timerZone: .undefined
             )
         )
     }
@@ -193,4 +200,5 @@ extension LiveCoursProgressAttributes.ContentState {
     LiveCoursProgressAttributes.ContentState.state1
     LiveCoursProgressAttributes.ContentState.state2
     LiveCoursProgressAttributes.ContentState.state3
+    LiveCoursProgressAttributes.ContentState.state4
 }

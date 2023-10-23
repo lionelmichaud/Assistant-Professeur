@@ -6,6 +6,16 @@
 //
 
 import SwiftUI
+struct TimeOverSymbol : View {
+    var body: some View {
+        Image(systemName: "clock.badge.exclamationmark.fill")
+            .symbolRenderingMode(.multicolor)
+        //Image(systemName: "alarm.waves.left.and.right")
+            //.foregroundStyle(.primary, .red)
+            .imageScale(.large)
+
+    }
+}
 
 struct ProgressBar: View {
     let value: Double
@@ -40,19 +50,4 @@ struct ProgressCircle: View {
         .progressViewStyle(.circular)
         .tint(foreGroundColor)
     }
-}
-
-#Preview {
-    ProgressBar(
-        value: 0.75,
-        foreGroundColor: .red
-    )
-}
-
-#Preview {
-    ProgressCircle(
-        elapsed: 25,
-        remaining: 75,
-        foreGroundColor: .red
-    )
 }

@@ -150,8 +150,8 @@ struct SeanceTimerView: View {
                         // Démarrer la Live Activity
                         let initialState =
                             LiveCoursProgressState(
-                                elapsedTime: elapsedTime(for: .now),
-                                remainingTime: remainingTime(for: .now),
+                                elapsedMinutes: timerVM.elapsedMinutes(to: .now),
+                                remainingMinutes: timerVM.remainingMinutes(from: .now),
                                 cursorValue: cursorValue(for: .now),
                                 timerZone: timerZone(for: .now)
                             )
@@ -175,6 +175,7 @@ struct SeanceTimerView: View {
                             var alertConfig: AlertConfiguration?
                             // code you want to repeat
                             // Update périodique de la Live Activity
+                            // TODO: - Gérer le déclenchement des message d'alerte daans Live Activity
                             if false {
                                 alertConfig = AlertConfiguration(
                                     title: "Title",
@@ -184,8 +185,8 @@ struct SeanceTimerView: View {
                             }
                             let newState =
                                 LiveCoursProgressState(
-                                    elapsedTime: elapsedTime(for: .now),
-                                    remainingTime: remainingTime(for: .now),
+                                    elapsedMinutes: timerVM.elapsedMinutes(to: .now),
+                                    remainingMinutes: timerVM.remainingMinutes(from: .now),
                                     cursorValue: cursorValue(for: .now),
                                     timerZone: timerZone(for: .now)
                                 )
@@ -212,16 +213,16 @@ struct SeanceTimerView: View {
                         if Task.isCancelled {
                             // Tâche annulée par la disparition de la View avant la fin du cours
                             finalState = LiveCoursProgressState(
-                                elapsedTime: elapsedTime(for: .now),
-                                remainingTime: remainingTime(for: .now),
+                                elapsedMinutes: timerVM.elapsedMinutes(to: .now),
+                                remainingMinutes: timerVM.remainingMinutes(from: .now),
                                 cursorValue: cursorValue(for: .now),
                                 timerZone: timerZone(for: .now)
                             )
                         } else {
                             // Fin du cours avant la disparition de la View
                             finalState = LiveCoursProgressState(
-                                elapsedTime: DateComponents(second: 1),
-                                remainingTime: DateComponents(second: 0),
+                                elapsedMinutes: 1,
+                                remainingMinutes: 0,
                                 cursorValue: 1.0,
                                 timerZone: .alert
                             )
@@ -237,9 +238,11 @@ struct SeanceTimerView: View {
             }
         }
     }
+}
 
-    // MARK: - Methods
+// MARK: - Methods
 
+extension SeanceTimerView {
     /// Temps écoulé depuis le début de la séance
     private func elapsedTime(for date: Date) -> DateComponents? {
         #if DEBUG

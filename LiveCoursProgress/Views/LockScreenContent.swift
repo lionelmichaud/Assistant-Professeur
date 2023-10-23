@@ -31,15 +31,8 @@ struct LockScreenContent: View {
             .padding(.bottom)
 
             // Minuterie
-            if isStale {
-                // Information périmée
-                ProgressBar(
-                    value: 1.0,
-                    foreGroundColor: .gray
-                )
-
-            } else if let remainingMinutes = dynamicAttributes.remainingTime?.minute,
-                      let elapsedMinutes = dynamicAttributes.elapsedTime?.minute {
+            if let remainingMinutes = dynamicAttributes.remainingMinutes,
+               let elapsedMinutes = dynamicAttributes.elapsedMinutes {
                 if remainingMinutes <= 0 {
                     // Cours terminé
                     Text("Terminé \(Image(systemName: "clock.badge.exclamationmark.fill")) ")
@@ -52,10 +45,12 @@ struct LockScreenContent: View {
                     HStack(alignment: .center) {
                         ProgressBar(
                             value: Double(elapsedMinutes) / Double(elapsedMinutes + remainingMinutes),
-                            foreGroundColor: dynamicAttributes.timerZone.color
+                            foreGroundColor: isStale ? .gray : dynamicAttributes.timerZone.color
                         )
                         Text("\(remainingMinutes) min")
-                            .foregroundStyle(dynamicAttributes.timerZone.color)
+                            .foregroundStyle(
+                                isStale ? .gray : dynamicAttributes.timerZone.color
+                            )
                             .bold()
                             .contentTransition(.numericText(value: Double(remainingMinutes)))
                     }
@@ -89,4 +84,5 @@ struct LockScreenContent: View {
     LiveCoursProgressAttributes.ContentState.state1
     LiveCoursProgressAttributes.ContentState.state2
     LiveCoursProgressAttributes.ContentState.state3
+    LiveCoursProgressAttributes.ContentState.state4
 }

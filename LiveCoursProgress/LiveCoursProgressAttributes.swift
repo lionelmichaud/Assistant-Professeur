@@ -17,16 +17,16 @@ struct LiveCoursProgressState: Codable, Equatable, Hashable {
 
     static let defaultEndState =
     LiveCoursProgressState(
-        elapsedTime: nil,
-        remainingTime: nil, 
+        elapsedMinutes: nil,
+        remainingMinutes: nil, 
         cursorValue: nil,
         timerZone: .alert
     )
 
     // MARK: - Properties
 
-    var elapsedTime: DateComponents?
-    var remainingTime: DateComponents?
+    var elapsedMinutes: Int?
+    var remainingMinutes: Int?
     var cursorValue: Double?
     var timerZone: TimerZone
 }

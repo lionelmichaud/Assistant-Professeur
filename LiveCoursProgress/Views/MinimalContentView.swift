@@ -11,18 +11,27 @@ import WidgetKit
 struct MinimalContent: View {
     let fixedAttributes: LiveCoursProgressFixedAttributes
     let dynamicAttributes: LiveCoursProgressState
+    let isStale: Bool
 
     var body: some View {
-        if let remainingMinutes = dynamicAttributes.remainingTime?.minute,
-           let elapsedMinutes = dynamicAttributes.elapsedTime?.minute {
-            ProgressCircle(
-                elapsed: Double(elapsedMinutes),
-                remaining: Double(remainingMinutes),
-                foreGroundColor: dynamicAttributes.timerZone.color
-            )
-            .frame(height: 28)
+        if let remainingMinutes = dynamicAttributes.remainingMinutes,
+           let elapsedMinutes = dynamicAttributes.elapsedMinutes {
+            if remainingMinutes <= 0 {
+                // Cours terminé
+                TimeOverSymbol()
+            } else {
+                // Cours en cours
+                ProgressCircle(
+                    elapsed: Double(elapsedMinutes),
+                    remaining: Double(remainingMinutes),
+                    foreGroundColor: isStale ? .gray : dynamicAttributes.timerZone.color
+                )
+                .padding(2)
+                .containerRelativeFrame([.vertical])
+            }
         } else {
-            EmptyView()
+            // Cours terminé
+            TimeOverSymbol()
         }
     }
 }
@@ -37,4 +46,5 @@ struct MinimalContent: View {
     LiveCoursProgressAttributes.ContentState.state1
     LiveCoursProgressAttributes.ContentState.state2
     LiveCoursProgressAttributes.ContentState.state3
+    LiveCoursProgressAttributes.ContentState.state4
 }
