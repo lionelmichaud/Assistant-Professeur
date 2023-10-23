@@ -66,12 +66,12 @@ struct TodaySeances {
 
     /// Durée de la séance en cours à la `date` exprimée en **secondes**.
     /// - Returns: `nil` si aucune séance n'est en cours
-    func seanceDuration(at thisDate: Date? = nil) -> Double? {
+    func seanceDuration(at thisDate: Date? = nil) -> Int? {
         let date = thisDate ?? .now
         if let ongoingSeance = seanceOngoing(at: date) {
             let seconds = ongoingSeance.duration
             if seconds > 0 {
-                return seconds
+                return Int(seconds)
             } else {
                 return nil
             }
@@ -101,14 +101,25 @@ struct TodaySeances {
     /// - Returns: Temps écoulé en secondes
     /// - Parameter thisDate: date/heure à laquelle faire le calcul
     func elapsedSeconds(to thisDate: Date? = nil) -> Int? {
-        return elapsedTime(to: thisDate)?.second
+        guard let elapsedTime = elapsedTime(to: thisDate),
+              let hours = elapsedTime.hour,
+              let minutes = elapsedTime.minute,
+              let seconds = elapsedTime.second else {
+            return nil
+        }
+        return hours * 60 * 60 + minutes * 60 + seconds
     }
 
     /// Temps écoulé en **minutes** depuis le début de la séance.
-    /// - Returns: Temps écoulé en secondes
+    /// - Returns: Temps écoulé en minutes entières
     /// - Parameter thisDate: date/heure à laquelle faire le calcul
     func elapsedMinutes(to thisDate: Date? = nil) -> Int? {
-        return elapsedTime(to: thisDate)?.minute
+        guard let elapsedTime = elapsedTime(to: thisDate),
+              let hours = elapsedTime.hour,
+              let minutes = elapsedTime.minute else {
+            return nil
+        }
+        return hours * 60 + minutes
     }
 
     /// Temps restant en **heures - minutes - secondes** avant la fin de la séance.

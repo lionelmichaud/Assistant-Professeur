@@ -37,7 +37,7 @@ struct ClasseSplitView: View {
         }
         // Deep Link
         .onOpenURL { url in
-            if url.absoluteString.hasPrefix("classe:///") {
+            if url.absoluteString.hasPrefix("classeProgress:///") {
                 if let classe =
                     ClasseEntity.all()
                         .filter({ classeObject in

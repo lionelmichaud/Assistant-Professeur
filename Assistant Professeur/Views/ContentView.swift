@@ -123,7 +123,7 @@ struct ContentView: View {
         }
         // Deep Link
         .onOpenURL { url in
-            if url.absoluteString.hasPrefix("classe:///") {
+            if url.absoluteString.hasPrefix("classeProgress:///") {
                 navigationModel.selectedTab = .classe
             }
         }

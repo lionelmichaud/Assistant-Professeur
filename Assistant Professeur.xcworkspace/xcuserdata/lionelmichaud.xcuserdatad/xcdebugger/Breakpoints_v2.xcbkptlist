@@ -676,64 +676,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "104BE2C2-2396-4962-AD9E-3D06DD466557"
+            uuid = "2D9BE880-572A-4802-8A01-9D5D50EEF878"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Views/Classe/ClasseSplitView.swift"
+            filePath = "Assistant Professeur/Model/LiveActivityManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "body"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "dismissalPolicy"
             landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "104BE2C2-2396-4962-AD9E-3D06DD466557 - ede995477222a62c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "static Assistant_Professeur.ClasseSplitView_Previews.initialize() -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/Classe/ClasseSplitView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "41"
-                  endingLineNumber = "41"
-                  offsetFromSymbolStart = "12">
-               </Location>
-               <Location
-                  uuid = "104BE2C2-2396-4962-AD9E-3D06DD466557 - e8b76bfffe87a78f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #3 (Foundation.URL) -&gt; () in Assistant_Professeur.ClasseSplitView.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/Classe/ClasseSplitView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
-                  offsetFromSymbolStart = "564">
-               </Location>
-               <Location
-                  uuid = "104BE2C2-2396-4962-AD9E-3D06DD466557 - e8b76bfffe87a78f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #3 (Foundation.URL) -&gt; () in Assistant_Professeur.ClasseSplitView.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/Classe/ClasseSplitView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "40"
-                  endingLineNumber = "40"
-                  offsetFromSymbolStart = "372">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

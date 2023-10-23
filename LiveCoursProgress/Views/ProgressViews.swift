@@ -27,15 +27,15 @@ struct ProgressBar: View {
 }
 
 struct ProgressCircle: View {
-    let value: Double
-    let total: Double
+    let elapsed: Double
+    let remaining: Double
     let foreGroundColor: Color
 
     var body: some View {
-        ProgressView(value: value, total: total) {
-            Text("\(value.formatted(.number))")
+        ProgressView(value: elapsed, total: elapsed+remaining) {
+            Text("\(remaining.formatted(.number))")
                 .bold()
-                .contentTransition(.numericText(value: value))
+                .contentTransition(.numericText(value: elapsed))
         }
         .progressViewStyle(.circular)
         .tint(foreGroundColor)
@@ -51,8 +51,8 @@ struct ProgressCircle: View {
 
 #Preview {
     ProgressCircle(
-        value: 25,
-        total: 100,
+        elapsed: 25,
+        remaining: 75,
         foreGroundColor: .red
     )
 }

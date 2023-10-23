@@ -26,8 +26,8 @@ struct CompactTrailingContent: View {
         if let remainingMinutes = dynamicAttributes.remainingTime?.minute,
            let elapsedMinutes = dynamicAttributes.elapsedTime?.minute {
             ProgressCircle(
-                value: Double(elapsedMinutes),
-                total: Double(elapsedMinutes + remainingMinutes),
+                elapsed: Double(elapsedMinutes),
+                remaining: Double(remainingMinutes),
                 foreGroundColor: dynamicAttributes.timerZone.color
             )
             .frame(height: 28)

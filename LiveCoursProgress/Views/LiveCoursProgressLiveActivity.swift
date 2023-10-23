@@ -22,6 +22,10 @@ struct LiveCoursProgressLiveActivity: Widget {
             )
             .activityBackgroundTint(Color.liveActivityBackground.opacity(0.25))
 
+            // MARK: - Deep Link vers l'appli
+
+            .widgetURL(URL(string: "classeProgress:///\(context.attributes.fixedAttributes.classeName)"))
+
         } dynamicIsland: { context in
 
             // MARK: - Expanded
@@ -58,7 +62,7 @@ struct LiveCoursProgressLiveActivity: Widget {
 
             // MARK: - Deep Link vers l'appli
 
-            .widgetURL(URL(string: "classe:///\(context.attributes.fixedAttributes.classeName)"))
+            .widgetURL(URL(string: "classeProgress:///\(context.attributes.fixedAttributes.classeName)"))
         }
     }
 
@@ -76,16 +80,9 @@ struct LiveCoursProgressLiveActivity: Widget {
                 .bold()
         }
         DynamicIslandExpandedRegion(.trailing) {
-            if isStale {
-                Text("Terminé \(Image(systemName: "clock.badge.exclamationmark.fill")) ")
-                    .padding(4)
-                    .background(ContainerRelativeShape().fill(Color.red))
-
-            } else {
-                // heure de fin de cours
-                Text("\(fixedAttributes.seance.end.formatted(date: .omitted, time: .shortened))")
-                    .bold()
-            }
+            // heure de fin de cours
+            Text("\(fixedAttributes.seance.end.formatted(date: .omitted, time: .shortened))")
+                .bold()
         }
         DynamicIslandExpandedRegion(.center) {
             // Classe
@@ -94,21 +91,44 @@ struct LiveCoursProgressLiveActivity: Widget {
         }
         DynamicIslandExpandedRegion(.bottom) {
             // Minuterie
-            if let remainingMinutes = dynamicAttributes.remainingTime?.minute,
-               let elapsedMinutes = dynamicAttributes.elapsedTime?.minute {
-                HStack(alignment: .center) {
-                    ProgressBar(
-                        value: Double(elapsedMinutes) / Double(elapsedMinutes + remainingMinutes),
-                        foreGroundColor: dynamicAttributes.timerZone.color
-                    )
-                    Text("\(remainingMinutes) min")
-                        .foregroundStyle(dynamicAttributes.timerZone.color)
-                        .bold()
-                        .contentTransition(.numericText(value: Double(remainingMinutes)))
+            if isStale {
+                // Information périmée
+                ProgressBar(
+                    value: 1.0,
+                    foreGroundColor: .gray
+                )
+
+            } else if let remainingMinutes = dynamicAttributes.remainingTime?.minute,
+                      let elapsedMinutes = dynamicAttributes.elapsedTime?.minute {
+                if remainingMinutes <= 0 {
+                    // Cours terminé
+                    Text("Terminé \(Image(systemName: "clock.badge.exclamationmark.fill")) ")
+                        .padding(4)
+                        .background(ContainerRelativeShape().fill(Color.red))
+                        .padding(.vertical)
+
+                } else {
+                    // Cours en cours
+                    HStack(alignment: .center) {
+                        ProgressBar(
+                            value: Double(elapsedMinutes) / Double(elapsedMinutes + remainingMinutes),
+                            foreGroundColor: dynamicAttributes.timerZone.color
+                        )
+                        Text("\(remainingMinutes) min")
+                            .foregroundStyle(dynamicAttributes.timerZone.color)
+                            .bold()
+                            .contentTransition(.numericText(value: Double(remainingMinutes)))
+                    }
+                    .frame(height: 10)
+                    .padding(.horizontal)
                 }
-                .frame(height: 10)
+            } else {
+                // Cours terminé
+                Text("Terminé \(Image(systemName: "clock.badge.exclamationmark.fill")) ")
+                    .padding(4)
+                    .background(ContainerRelativeShape().fill(Color.red))
+                    .padding(.bottom)
             }
-            // more content
         }
     }
 }

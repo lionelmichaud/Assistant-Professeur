@@ -10,6 +10,9 @@ import AVFoundation
 import EventKit
 import HelpersView
 import SwiftUI
+#if canImport(ActivityKit)
+    import ActivityKit
+#endif
 
 /// Présentation d'un chronomètre de séance
 struct SeanceTimerView: View {
@@ -64,7 +67,7 @@ struct SeanceTimerView: View {
     @State
     private var timerVM: TodaySeances = .init()
 
-    private let period = TimeInterval(5) // seconds
+    private let updatePeriod = TimeInterval(15) // seconds
 
     private let notificationFeedback = UINotificationFeedbackGenerator()
 
@@ -102,7 +105,7 @@ struct SeanceTimerView: View {
     }
 
     var body: some View {
-        TimelineView(.periodic(from: .now, by: period)) { timeLine in
+        TimelineView(.periodic(from: .now, by: updatePeriod)) { timeLine in
             if let seance = timerVM.seanceOngoing(at: timeLine.date) {
                 ViewThatFits(in: .horizontal) {
                     regularView(date: timeLine.date, seance: seance)
@@ -141,8 +144,10 @@ struct SeanceTimerView: View {
                     inEventStore: eventStore
                 )
                 #if canImport(ActivityKit)
-                    /// Démarrer la Live Activity
                     if let seance = timerVM.seanceOngoing(at: .now) {
+                        let seanceDuration = Int(seance.duration) // seconds
+
+                        // Démarrer la Live Activity
                         let initialState =
                             LiveCoursProgressState(
                                 elapsedTime: elapsedTime(for: .now),
@@ -165,15 +170,64 @@ struct SeanceTimerView: View {
                             print(">>Activité lancée")
                         #endif
 
-                        // Update Live Activity
+                        var runLoop = true
                         repeat {
+                            var alertConfig: AlertConfiguration?
                             // code you want to repeat
+                            // Update périodique de la Live Activity
+                            if false {
+                                alertConfig = AlertConfiguration(
+                                    title: "Title",
+                                    body: "Body",
+                                    sound: .default
+                                )
+                            }
+                            let newState =
+                                LiveCoursProgressState(
+                                    elapsedTime: elapsedTime(for: .now),
+                                    remainingTime: remainingTime(for: .now),
+                                    cursorValue: cursorValue(for: .now),
+                                    timerZone: timerZone(for: .now)
+                                )
+                            await activityManager.updateActivity(
+                                withNewState: newState,
+                                alertConfiguration: alertConfig
+                            )
+
                             #if DEBUG
                                 print(">>Activité updated")
                             #endif
 
-                            try? await Task.sleep(for: .seconds(10)) // exception thrown when cancelled by SwiftUI when this view disappears.
-                        } while !Task.isCancelled
+                            try? await Task.sleep(for: .seconds(updatePeriod)) // exception thrown when cancelled by SwiftUI when this view disappears.
+
+                            if let elapsedSeconds = timerVM.elapsedSeconds() {
+                                runLoop = elapsedSeconds < seanceDuration - Int(updatePeriod)
+                            } else {
+                                runLoop = false
+                            }
+                        } while !Task.isCancelled && runLoop
+
+                        // Arrêter la Live Activity
+                        var finalState: LiveCoursProgressState
+                        if Task.isCancelled {
+                            // Tâche annulée avant la fin du cours
+                            finalState = LiveCoursProgressState(
+                                elapsedTime: elapsedTime(for: .now),
+                                remainingTime: remainingTime(for: .now),
+                                cursorValue: cursorValue(for: .now),
+                                timerZone: timerZone(for: .now)
+                            )
+                        } else {
+                            finalState = LiveCoursProgressState(
+                                elapsedTime: DateComponents(second: 1),
+                                remainingTime: DateComponents(second: 0),
+                                cursorValue: 1.0,
+                                timerZone: .alert
+                            )
+                        }
+                        await activityManager.endActivity(
+                            withFinalState: finalState
+                        )
                         #if DEBUG
                             print(">>Activité canceled")
                         #endif
@@ -207,7 +261,7 @@ struct SeanceTimerView: View {
         return timerVM.remainingTime(from: date)
     }
 
-    /// Position du curseur
+    /// Position du curseur en % [0; 1]
     private func cursorValue(for date: Date) -> Double? {
         #if DEBUG
             if preview {
@@ -216,24 +270,26 @@ struct SeanceTimerView: View {
         #endif
 
         if let elapsedMinutes = timerVM.elapsedMinutes(to: date)?.double(),
-           let seanceDuration = timerVM.seanceDuration() {
+           let seanceDuration = timerVM.seanceDuration(at: date)?.double() {
             return (elapsedMinutes / (seanceDuration / 60.0))
         } else {
             return nil
         }
     }
 
-    private func timerZone(for date: Date) -> TimerZone {
+    private func timerZone(
+        for date: Date,
+        vibrateAndSound: Bool = false
+    ) -> TimerZone {
         guard let remainingTime = remainingTime(for: date),
               let remainingMinutes = remainingTime.minute,
               let remainingSeconds = remainingTime.second else {
             return .normal
         }
-        vibrate(remainingMinutes: remainingMinutes)
-        playSound(
-            remainingMinutes: remainingMinutes,
-            remainingSeconds: remainingSeconds
-        )
+        if vibrateAndSound {
+            vibrate(remainingMinutes: remainingMinutes)
+            playSound(remainingMinutes: remainingMinutes)
+        }
 
         switch remainingMinutes + 1 {
             case 0 ... alertRemainingMinutes:
@@ -247,6 +303,9 @@ struct SeanceTimerView: View {
         }
     }
 
+    /// Vibre à chaque appel durant la période de une minute suivant le franchissement d'un seuil d'alerte.
+    /// - Parameters:
+    ///   - remainingMinutes: Nombre de minutes restantes avant la fin du cours.
     private func vibrate(remainingMinutes: Int) {
         let duration = 1
         switch remainingMinutes + 1 {
@@ -265,10 +324,10 @@ struct SeanceTimerView: View {
         }
     }
 
-    private func playSound(
-        remainingMinutes: Int,
-        remainingSeconds _: Int
-    ) {
+    /// Joue un son à chaque appel durant la période de une minute suivant le franchissement d'un seuil d'alerte.
+    /// - Parameters:
+    ///   - remainingMinutes: Nombre de minutes restantes avant la fin du cours.
+    private func playSound(remainingMinutes: Int) {
         let duration = 1
         switch remainingMinutes + 1 {
             case (alertRemainingMinutes - duration) ... alertRemainingMinutes:
@@ -300,7 +359,7 @@ extension SeanceTimerView {
 
                 ProgressClockView(
                     trimValue: cursorValue(for: date)!,
-                    color: timerZone(for: date).color,
+                    color: timerZone(for: date, vibrateAndSound: true).color,
                     elapsedTime: elapsedTime(for: date),
                     remainingTime: remainingTime(for: date),
                     warningNotif: $warningAlarmIsActivited,
@@ -324,7 +383,7 @@ extension SeanceTimerView {
 
                 ProgressClockView(
                     trimValue: cursorValue(for: date)!,
-                    color: timerZone(for: date).color,
+                    color: timerZone(for: date, vibrateAndSound: true).color,
                     elapsedTime: elapsedTime(for: date),
                     remainingTime: remainingTime(for: date),
                     warningNotif: $warningAlarmIsActivited,
