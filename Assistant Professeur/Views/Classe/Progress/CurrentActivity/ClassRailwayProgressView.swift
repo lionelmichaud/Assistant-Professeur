@@ -113,7 +113,7 @@ struct ClassRailwayProgressView: View {
                             end: horizon.months.fromNow!
                         )
 
-                        classeSeances.loadSeancesFromCalendar(
+                        classeSeances.loadClasseSeancesFromCalendar(
                             forDiscipline: classe.disciplineEnum,
                             forSchoolName: schoolName,
                             forClasseName: classe.displayString,

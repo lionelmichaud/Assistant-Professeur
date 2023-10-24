@@ -124,7 +124,7 @@ extension ClasseProgressSection {
 
                     if let calendar {
                         // Liste des Séances à venir pour cette classe
-                        classeSeances.loadSeancesFromCalendar(
+                        classeSeances.loadClasseSeancesFromCalendar(
                             forDiscipline: classe.disciplineEnum,
                             forSchoolName: schoolName,
                             forClasseName: classe.displayString,

@@ -111,7 +111,7 @@ struct SeancesInDateInterval {
     ///   - eventStore: Le store des événements du calendrier.
     ///   - period: Intervalle de temps de recherche.
     ///   - schoolYear: Calendrier de l'année scolaires (début, fin, vacances).
-    mutating func loadSeancesFromCalendar( // // swiftlint:disable:this function_parameter_count
+    mutating func loadClasseSeancesFromCalendar( // // swiftlint:disable:this function_parameter_count
         forDiscipline discipline: Discipline,
         forSchoolName school: String,
         forClasseName classe: String,
@@ -146,6 +146,73 @@ struct SeancesInDateInterval {
                 return nil
             }
         }
+    }
+    /// Retourne un objet `SeancesInDateInterval` contenant la liste des Séances à venir
+    /// pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
+    static func loadedNextSeancesForSchool(
+        schoolClasses: [ClasseEntity],
+        schoolName: String,
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore,
+        overHorizon horizon: Int
+    ) async -> SeancesInDateInterval {
+        var foundSeances = [Seance]()
+
+        await withTaskGroup(of: [Seance].self) { group in
+            for classe in schoolClasses {
+                group.addTask {
+                    var sortedClasseProgresses = [ActivityProgressEntity]()
+                    var classeSeances = SeancesInDateInterval()
+                    var forDiscipline = Discipline.autre
+                    var forClasseName = ""
+                    var schoolYear = SchoolYearPref()
+
+                    await ClasseEntity.context.perform {
+                        // Liste des Progressions de la classe triée par numéro de Séquence / Activité
+                        sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+                        forDiscipline = classe.disciplineEnum
+                        forClasseName = classe.displayString
+                        schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+                    }
+
+                    let horizon = DateInterval(
+                        start: Date.now,
+                        end: horizon.months.fromNow!
+                    )
+
+                    // Liste des Séances à venir pour cette classe
+                    classeSeances.loadClasseSeancesFromCalendar(
+                        forDiscipline: forDiscipline,
+                        forSchoolName: schoolName,
+                        forClasseName: forClasseName,
+                        inCalendar: calendar,
+                        inEventStore: eventStore,
+                        during: horizon,
+                        schoolYear: schoolYear
+                    )
+
+                    await ClasseEntity.context.perform {
+                        // Synchroniser les Progressions de la classe avec les Séances de la classe
+                        SequenceSeanceCoordinator.synchronize(
+                            classeSeances: &classeSeances,
+                            withProgresses: sortedClasseProgresses
+                        )
+                    }
+
+                    return classeSeances.seances
+                }
+            }
+            for await seances in group {
+                foundSeances.append(contentsOf: seances)
+            }
+        }
+
+        // remettre les séances dans l'ordre (async => désordre)
+        foundSeances.sort(by: {
+            $0.interval.start < $1.interval.start
+        })
+
+        return .init(from: foundSeances)
     }
 
     func print() {

@@ -98,7 +98,7 @@ struct ClassNextSeancesView: View {
                         )
 
                         // Charger les prochaines séances de cours sur un horizon de temps à venir
-                        classeSeances.loadSeancesFromCalendar(
+                        classeSeances.loadClasseSeancesFromCalendar(
                             forDiscipline: classe.disciplineEnum,
                             forSchoolName: schoolName,
                             forClasseName: classe.displayString,
