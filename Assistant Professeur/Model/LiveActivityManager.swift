@@ -17,7 +17,9 @@
         category: "LiveActivityManager"
     )
 
-    /// This class is responsible for the live activity management
+    /// This class is responsible for the live activity management.
+    /// Only one Live Activity may be active at a time.
+    /// When a new activity is started, any running actity is stopped.
     ///  - Reference: [medium](https://medium.com/kinandcartacreated/how-to-build-ios-live-activity-d1b2f238819e)
     final class LiveActivityManager: ObservableObject {
         // MARK: - Type Properties
@@ -69,6 +71,14 @@
         }
 
         // MARK: - Methods
+
+        private func runningActivity(withID: String) -> Activity<LiveCoursProgressAttributes>? {
+            Activity<LiveCoursProgressAttributes>
+                .activities
+                .first {
+                    $0.id == withID
+                }
+        }
 
         /// Retuns a boolean value that indicates whether your app can start a Live Activity
         /// - Important: retourne `false` si le matériel n'est pas un iPhone.
@@ -168,14 +178,6 @@
             }
         }
 
-        private func runningActivity(withID: String) -> Activity<LiveCoursProgressAttributes>? {
-            Activity<LiveCoursProgressAttributes>
-                .activities
-                .first {
-                    $0.id == withID
-                }
-        }
-
         /// Where the current running activity (if any) is updated.
         /// - Note: No activity is updated if Live Activity is not authorized.
         func updateActivity(
@@ -216,7 +218,7 @@
                 return
             }
 
-            guard let activity = await runningActivity, areActivitiesEnabled() else {
+            guard let activity = await runningActivity else {
                 return
             }
 
