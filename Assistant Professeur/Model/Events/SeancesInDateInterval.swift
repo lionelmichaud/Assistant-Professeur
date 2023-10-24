@@ -157,6 +157,7 @@ struct SeancesInDateInterval {
     ) {
         let schoolClasses = school.classesSortedByLevelNumber
         let schoolName = school.viewName
+        self.seances = []
 
         schoolClasses.forEach {classe in
             var classeSeances = SeancesInDateInterval()

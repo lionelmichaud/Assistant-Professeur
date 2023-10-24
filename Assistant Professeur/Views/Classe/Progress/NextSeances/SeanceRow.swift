@@ -13,6 +13,9 @@ import SwiftUI
 struct SeanceRow: View {
     var seance: Seance
 
+    @EnvironmentObject
+    private var navig: NavigationModel
+
     @Environment(\.horizontalSizeClass)
     private var hClass
 
@@ -47,6 +50,13 @@ struct SeanceRow: View {
                 maxWidth: .infinity,
                 alignment: .leading
             )
+            Button("Actualiser la progression") {
+                if let classeName = seance.name {
+                    Task {
+                        await navigateTo(thisClasseName: classeName)
+                    }
+                }
+            }.buttonStyle(.bordered)
 
         } label: {
             if seance.isVacance {
@@ -54,6 +64,50 @@ struct SeanceRow: View {
             } else {
                 coursLabelView
             }
+        }
+    }
+}
+
+// MARK: - Metods
+
+extension SeanceRow {
+    private func navigateTo(thisClasseName: String) async {
+        await ClasseEntity.context.perform {
+            if let classe =
+                ClasseEntity.all().filter({ classeObject in
+                    classeObject.displayString == thisClasseName
+                })
+                .first {
+                // Naviger jusqu'à l'actualisation de la progression de la classe
+                navig.selectedTab = .classe
+                navig.selectedClasseMngObjId =
+                    ClasseEntity.managedObjectID(id: classe.id)
+//                navig.classPath = [.progress(classe.id)]
+            }
+        }
+    }
+
+    private func formattedDate(_ date: Date) -> String {
+        let delta = date.days(between: Date.now)
+        switch delta {
+            case 0:
+                return "Aujourd'hui"
+
+            case 1:
+                return "Demain"
+
+            case 2:
+                return "Après-demain"
+
+            case 3 ... 6:
+                return "\(date.formatted(Date.FormatStyle().weekday(.wide))) prochain"
+
+            default:
+                return date
+                    .formatted(Date.FormatStyle()
+                        .weekday(.wide)
+                        .day(.twoDigits)
+                        .month(.twoDigits))
         }
     }
 }
@@ -222,30 +276,6 @@ extension SeanceRow {
             .padding(.vertical)
             .frame(maxWidth: .infinity)
             .background(.gray.opacity(0.25))
-    }
-
-    private func formattedDate(_ date: Date) -> String {
-        let delta = date.days(between: Date.now)
-        switch delta {
-            case 0:
-                return "Aujourd'hui"
-
-            case 1:
-                return "Demain"
-
-            case 2:
-                return "Après-demain"
-
-            case 3 ... 6:
-                return "\(date.formatted(Date.FormatStyle().weekday(.wide))) prochain"
-
-            default:
-                return date
-                    .formatted(Date.FormatStyle()
-                        .weekday(.wide)
-                        .day(.twoDigits)
-                        .month(.twoDigits))
-        }
     }
 }
 

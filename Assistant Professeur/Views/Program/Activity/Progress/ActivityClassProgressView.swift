@@ -54,7 +54,7 @@ struct ActivityClassProgressView: View {
             Button {
                 navig.selectedTab = .classe
                 navig.selectedClasseMngObjId = progress.classe?.objectID
-//                navig.classPath.append(ClasseNavigationRoute.progress(progress.classe!))
+                navig.classPath = [.progress(progress.classe?.id)]
             } label: {
                 Text(progress.classe?.displayString ?? "nil")
                     .bold()

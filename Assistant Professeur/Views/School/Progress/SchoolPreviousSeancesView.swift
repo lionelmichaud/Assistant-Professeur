@@ -83,9 +83,10 @@ struct SchoolPreviousSeancesView: View {
                 await SchoolEntity.context.perform {
                     var schoolYear = SchoolYearPref()
                     schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+                    let startOfDay = Calendar.current.startOfDay(for: .now)
 
                     let dateInterval = DateInterval(
-                        start: Calendar.current.startOfDay(for: .now),
+                        start: startOfDay,
                         end: .now
                     )
 

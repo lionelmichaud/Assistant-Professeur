@@ -47,8 +47,7 @@ struct ClasseSplitView: View {
                     // Naviger jusqu'à l'actualisation de la progression de la classe
                     navig.selectedClasseMngObjId =
                         ClasseEntity.managedObjectID(id: classe.id)
-                    navig.classPath =
-                        [.progress(classe.id)]
+                    navig.classPath = [.progress(classe.id)]
                 }
             }
         }
