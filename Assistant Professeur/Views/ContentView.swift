@@ -122,10 +122,8 @@ struct ContentView: View {
             Text(message)
         }
         // Deep Link
-        .onOpenURL { url in
-            if url.absoluteString.hasPrefix("classeProgress:///") {
-                navigationModel.selectedTab = .classe
-            }
+        .onOpenURL { incomingURL in
+            handleIncomingURL(incomingURL)
         }
         // Alerte en cas d'erreur de connection iCloud
         .onChange(of: cloudKitVM.iCloudError, initial: false) {
@@ -213,6 +211,38 @@ extension ContentView {
         UITabBar.appearance().standardAppearance = appearance
         // Use this appearance when scrolled all the way up:
         UITabBar.appearance().scrollEdgeAppearance = appearance
+    }
+
+    /// Gérer un deep link entrant
+    private func handleIncomingURL(_ url: URL) {
+        guard let scheme = url.scheme else {
+            customLog.log(level: .debug, "No scheme detected in incoming URL: \(url)")
+            return
+        }
+
+        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
+            customLog.log(level: .debug, "Invalid URL: \(url)")
+            return
+        }
+
+        guard let action = components.host else {
+            customLog.log(level: .debug, "Unknown URL, we can't handle this one!: \(url)")
+            return
+        }
+
+        switch action {
+            case "update-progress":
+                guard let classeName = components.queryItems?.first(where: { $0.name == "classe" })?.value else {
+                    customLog.log(level: .debug, "Classe name not found: \(url)")
+                    return
+                }
+
+                print("scheme = \(scheme) - action = \(action) - queryItem = \(classeName)")
+                navigationModel.selectedTab = .classe
+
+            default:
+                customLog.log(level: .debug, "Action unknown: \(action)")
+        }
     }
 }
 

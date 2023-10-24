@@ -24,7 +24,7 @@ struct LiveCoursProgressLiveActivity: Widget {
 
             // MARK: - Deep Link vers l'appli
 
-            .widgetURL(URL(string: "classeProgress:///\(context.attributes.fixedAttributes.classeName)"))
+            .widgetURL(URL(string: "assistprof://update-progress?classe=\(context.attributes.fixedAttributes.classeName)"))
 
         } dynamicIsland: { context in
 
@@ -64,7 +64,7 @@ struct LiveCoursProgressLiveActivity: Widget {
 
             // MARK: - Deep Link vers l'appli
 
-            .widgetURL(URL(string: "classeProgress:///\(context.attributes.fixedAttributes.classeName)"))
+            .widgetURL(URL(string: "assistprof://update-progress?classe=\(context.attributes.fixedAttributes.classeName)"))
         }
     }
 

@@ -1632,9 +1632,9 @@
 				79B3083929EE115300C69C79 /* Documentation.docc */,
 				7966DCF7292573A1001D6C7F /* Packages */,
 				79B6630329244C3F007B1FBD /* Assistant Professeur */,
+				79DD5A242AD308C60072290E /* LiveCoursProgress */,
 				79B6631529244C3F007B1FBD /* Assistant ProfesseurTests */,
 				79B6631F29244C3F007B1FBD /* Assistant ProfesseurUITests */,
-				79DD5A242AD308C60072290E /* LiveCoursProgress */,
 				79B6630229244C3F007B1FBD /* Products */,
 				7921F548292575B400173F39 /* Frameworks */,
 			);

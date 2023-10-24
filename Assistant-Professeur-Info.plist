@@ -2,6 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.michaud.lionel.Assistant-Professeur</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>assistprof</string>
+			</array>
+		</dict>
+	</array>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>Cette application demande l'accès à votre agenda pour se synchroniser avec votre emploi du temps</string>
 	<key>UIBackgroundModes</key>

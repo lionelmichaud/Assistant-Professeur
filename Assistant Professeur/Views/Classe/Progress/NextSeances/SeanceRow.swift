@@ -80,9 +80,8 @@ extension SeanceRow {
                 .first {
                 // Naviger jusqu'à l'actualisation de la progression de la classe
                 navig.selectedTab = .classe
-                navig.selectedClasseMngObjId =
-                    ClasseEntity.managedObjectID(id: classe.id)
-//                navig.classPath = [.progress(classe.id)]
+                navig.selectedClasseMngObjId = classe.objectID
+                //navig.classPath = [.progress(classe.id)]
             }
         }
     }
