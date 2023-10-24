@@ -125,6 +125,82 @@
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Assistant Professeur/Assistant Professeur/Views/School/SchoolNextSeancesView.swift</string>
+					</dict>
+				</dict>
+				<key>type</key>
+				<string>DVTDocumentLocation</string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Assistant Professeur/Assistant Professeur/Model/Events/SeancesInDateInterval.swift</string>
+					</dict>
+				</dict>
+				<key>type</key>
+				<string>DVTDocumentLocation</string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Assistant Professeur/Assistant Professeur/Model/Events/SeancesInDateInterval.swift</string>
+					</dict>
+				</dict>
+				<key>type</key>
+				<string>DVTDocumentLocation</string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Assistant Professeur/Assistant Professeur/Views/Classe/Progress/ClasseProgressSection.swift</string>
+					</dict>
+				</dict>
+				<key>type</key>
+				<string>DVTDocumentLocation</string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
 	</array>
 </dict>
 </plist>
