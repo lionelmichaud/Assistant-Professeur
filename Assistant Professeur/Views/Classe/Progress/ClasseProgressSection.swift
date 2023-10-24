@@ -119,25 +119,25 @@ extension ClasseProgressSection {
                             calendarName: schoolName
                         )
 
-                    var schoolYear = SchoolYearPref()
                     await ClasseEntity.context.perform {
+                        var schoolYear = SchoolYearPref()
                         schoolYear = UserPrefEntity.shared.viewSchoolYearPref
-                    }
 
-                    if let calendar {
-                        // Liste des Séances à venir pour cette classe
-                        classeSeances.loadClasseSeancesFromCalendar(
-                            forDiscipline: classe.disciplineEnum,
-                            forSchoolName: schoolName,
-                            forClasseName: classe.displayString,
-                            inCalendar: calendar,
-                            inEventStore: eventStore,
-                            during: DateInterval(
-                                start: Date.now,
-                                end: horizon.months.fromNow!
-                            ),
-                            schoolYear: schoolYear
-                        )
+                        if let calendar {
+                            // Liste des Séances à venir pour cette classe
+                            classeSeances.loadClasseSeancesFromCalendar(
+                                forDiscipline: classe.disciplineEnum,
+                                forSchoolName: schoolName,
+                                forClasseName: classe.displayString,
+                                inCalendar: calendar,
+                                inEventStore: eventStore,
+                                during: DateInterval(
+                                    start: Date.now,
+                                    end: horizon.months.fromNow!
+                                ),
+                                schoolYear: schoolYear
+                            )
+                        }
                     }
                 }
             }

@@ -9,6 +9,8 @@ import SwiftUI
 
 enum SchoolNavigationRoute: Hashable, Codable {
     case infos(SchoolEntity.ID)
+    case previousSeances(SchoolEntity.ID)
+    case currentSeances(SchoolEntity.ID)
     case nextSeances(SchoolEntity.ID)
     case bonusMalus(SchoolEntity.ID)
 
@@ -16,6 +18,12 @@ enum SchoolNavigationRoute: Hashable, Codable {
         switch (lhs, rhs) {
             case let (.infos(schoollId), .infos(schoolrId)):
                 return (schoollId == schoolrId)
+
+            case let (.previousSeances(schoollId), .previousSeances(schoolrId)):
+                return schoollId == schoolrId
+
+            case let (.currentSeances(schoollId), .currentSeances(schoolrId)):
+                return schoollId == schoolrId
 
             case let (.nextSeances(schoollId), .nextSeances(schoolrId)):
                 return schoollId == schoolrId
@@ -31,6 +39,14 @@ enum SchoolNavigationRoute: Hashable, Codable {
         switch self {
             case let .infos(schoolId):
                 hasher.combine("infos")
+                hasher.combine(schoolId)
+
+            case let .previousSeances(schoolId):
+                hasher.combine("previousSeances")
+                hasher.combine(schoolId)
+
+            case let .currentSeances(schoolId):
+                hasher.combine("currentSeances")
                 hasher.combine(schoolId)
 
             case let .nextSeances(schoolId):
@@ -54,6 +70,20 @@ enum SchoolNavigationRoute: Hashable, Codable {
                 case let .infos(schoolId):
                     if let school = SchoolEntity.byId(id: schoolId!) {
                         SchoolInfosView(school: school)
+                    } else {
+                        errorView
+                    }
+
+                case let .previousSeances(schoolId):
+                    if let school = SchoolEntity.byId(id: schoolId!) {
+                        SchoolPreviousSeancesView(school: school)
+                    } else {
+                        errorView
+                    }
+
+                case let .currentSeances(schoolId):
+                    if let school = SchoolEntity.byId(id: schoolId!) {
+                        SchoolCurrentSeanceView(school: school)
                     } else {
                         errorView
                     }

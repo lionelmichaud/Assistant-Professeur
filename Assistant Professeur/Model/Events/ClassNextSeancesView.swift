@@ -16,8 +16,8 @@ struct ClassNextSeancesView: View {
     @ObservedObject
     private var pref = UserPrefEntity.shared
 
-    private let horizon = 3 // mois
     // TODO: - A mettre en préférence
+    private let horizon = 3 // mois
 
     @State
     private var classeSeances: SeancesInDateInterval = .init()

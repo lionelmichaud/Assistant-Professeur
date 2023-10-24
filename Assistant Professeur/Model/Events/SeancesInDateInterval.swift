@@ -111,7 +111,7 @@ struct SeancesInDateInterval {
     ///   - eventStore: Le store des événements du calendrier.
     ///   - period: Intervalle de temps de recherche.
     ///   - schoolYear: Calendrier de l'année scolaires (début, fin, vacances).
-    mutating func loadClasseSeancesFromCalendar( // // swiftlint:disable:this function_parameter_count
+    mutating func loadClasseSeancesFromCalendar( // swiftlint:disable:this function_parameter_count
         forDiscipline discipline: Discipline,
         forSchoolName school: String,
         forClasseName classe: String,
@@ -145,6 +145,31 @@ struct SeancesInDateInterval {
                 // Élimine toutes les séances tombant pendant les vacances scolaires prévue des les péréfrences
                 return nil
             }
+        }
+    }
+
+    mutating func loadSchoolSeancesFromCalendar(
+        school: SchoolEntity,
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore,
+        during period: DateInterval,
+        schoolYear: SchoolYearPref
+    ) {
+        let schoolClasses = school.classesSortedByLevelNumber
+        let schoolName = school.viewName
+
+        schoolClasses.forEach {classe in
+            var classeSeances = SeancesInDateInterval()
+            classeSeances.loadClasseSeancesFromCalendar(
+                forDiscipline: classe.disciplineEnum,
+                forSchoolName: schoolName,
+                forClasseName: classe.displayString,
+                inCalendar: calendar,
+                inEventStore: eventStore,
+                during: period,
+                schoolYear: schoolYear
+            )
+            self.seances += classeSeances.seances
         }
     }
 

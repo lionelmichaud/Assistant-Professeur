@@ -52,6 +52,17 @@ struct SchoolDetail: View {
                     Label("Informations", systemImage: "info.circle")
                         .fontWeight(.bold)
                     }
+                // Liste des cours précédents terminés
+                NavigationLink(value: SchoolNavigationRoute.previousSeances(school.id)) {
+                    Label("Cours précédents", systemImage: "clock.arrow.circlepath")
+                        .fontWeight(.bold)
+                }
+                // Le cours en cours
+                NavigationLink(value: SchoolNavigationRoute.currentSeances(school.id)) {
+                    Label("Cours actuel", systemImage: "clock.badge.checkmark")
+                        .fontWeight(.bold)
+                }
+                // Liste des cours à venir
                 NavigationLink(value: SchoolNavigationRoute.nextSeances(school.id)) {
                     Label("Prochains cours", systemImage: "clock")
                         .fontWeight(.bold)
