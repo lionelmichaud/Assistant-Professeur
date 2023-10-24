@@ -34,6 +34,14 @@ struct Assistant_ProfesseurApp: App {
         #if DEBUG
             print(">> Assistant_ProfesseurApp.init() initialization has started")
         #endif
+
+        // Stopper les éventuelles Live Activity en cours
+        #if canImport(ActivityKit)
+            Task {
+                await LiveActivityManager.shared.endAllRunningActivities()
+            }
+        #endif
+
         // URLCache.shared.memoryCapacity = 100_000_000 // ~100 MB memory space
 
         // vérifier l'existance du dossier `Documents`

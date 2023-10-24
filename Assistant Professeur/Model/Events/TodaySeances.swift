@@ -163,7 +163,7 @@ struct TodaySeances {
         }
         return hours * 60 + minutes
     }
-    
+
     /// Retourne la zone dans laquelle se trouve le temps restant.
     /// - Note: `.normal` si Temps restant > `seuilWarning`
     /// - Note: `.warning` si `seuilWarning` > Temps restant > `seuilAlert`
@@ -172,9 +172,11 @@ struct TodaySeances {
     ///   - date: Date/heure à laquelle faire le calcul
     ///   - seuilAlert: Seuil d'alerte en minutes.
     ///   - seuilWarning: Seuil de warning en minutes > `seuilAlert`.
-    func timerZone(for date: Date?,
-                   seuilAlert: Int,
-                   seuilWarning: Int) -> TimerZone {
+    func timerZone(
+        for date: Date?,
+        seuilAlert: Int,
+        seuilWarning: Int
+    ) -> TimerZone {
         guard let remainingMinutes = remainingMinutes(from: date) else {
             return .undefined
         }
@@ -188,6 +190,16 @@ struct TodaySeances {
 
             default:
                 return .normal
+        }
+    }
+
+    /// Position du curseur en % [0; 1]
+    func cursorValue(for date: Date?) -> Double? {
+        if let elapsedMinutes = elapsedMinutes(to: date)?.double(),
+           let seanceDuration = seanceDuration(at: date)?.double() {
+            return (elapsedMinutes / (seanceDuration / 60.0))
+        } else {
+            return nil
         }
     }
 }

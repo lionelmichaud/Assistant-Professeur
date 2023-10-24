@@ -36,12 +36,15 @@
         /// (note that actually you can have multiple running activities in your app,
         /// but for this example we are going to basically always have just one)
         @MainActor @Published
-        private(set) var activityID: String?
+        private(set) var runningActivityID: String?
 
         /// The token generated for the current activity,
         /// used in the backend for creating the activity-update push notification
         @MainActor @Published
-        private(set) var activityToken: String?
+        private(set) var runningActivityToken: String?
+
+        @MainActor
+        private(set) var runningActivity: Activity<LiveCoursProgressAttributes>?
 
         // MARK: - Computed Properties
 
@@ -89,7 +92,7 @@
                 return
             }
 
-            await cancelAllRunningActivities()
+            await endAllRunningActivities()
 
             guard areActivitiesEnabled() else {
                 return
@@ -138,7 +141,8 @@
                 )
 
                 await MainActor.run {
-                    activityID = activity.id
+                    self.runningActivityID = activity.id
+                    self.runningActivity = activity
                 }
 
 //                for await data in activity.pushTokenUpdates {
@@ -178,13 +182,7 @@
             withNewState newState: LiveCoursProgressState,
             alertConfiguration: AlertConfiguration? = nil
         ) async {
-            guard areActivitiesEnabled() else {
-                return
-            }
-
-            // Recover the running live activity
-            guard let activityID = await activityID,
-                  let runningActivity = runningActivity(withID: activityID) else {
+            guard let activity = await runningActivity, areActivitiesEnabled() else {
                 return
             }
 
@@ -200,11 +198,10 @@
             )
 
             // Update the live activity
-            await runningActivity
-                .update(
-                    newActivityContent,
-                    alertConfiguration: alertConfiguration
-                )
+            await activity.update(
+                newActivityContent,
+                alertConfiguration: alertConfiguration
+            )
         }
 
         /// Find in the running activities (of the specified type LiveCoursProgressAttributes)
@@ -219,15 +216,15 @@
                 return
             }
 
-            guard let activityID = await activityID,
-                  let runningActivity = runningActivity(withID: activityID) else {
+            guard let activity = await runningActivity, areActivitiesEnabled() else {
                 return
             }
+
             let endContentState = LiveCoursProgressAttributes.ContentState(
                 dynamicAttributes: finalState
             )
 
-            await runningActivity.end(
+            await activity.end(
                 ActivityContent(
                     state: endContentState,
                     staleDate: LiveActivityManager.staleDate
@@ -236,14 +233,15 @@
             )
 
             await MainActor.run {
-                self.activityID = nil
-                self.activityToken = nil
+                self.runningActivity = nil
+                self.runningActivityID = nil
+                self.runningActivityToken = nil
             }
         }
 
         /// Run through all the current running activities (of the specified type MatchLiveScoreAttributes) and end it all
         /// - Note: Any runing activity is ended, even if Live Activity is not authorized.
-        func cancelAllRunningActivities() async {
+        func endAllRunningActivities() async {
             guard isPhone() else {
                 // Ne jamais exécuter des opérations LiveActivity sur un Mac
                 return
@@ -263,8 +261,9 @@
             }
 
             await MainActor.run {
-                activityID = nil
-                activityToken = nil
+                self.runningActivity = nil
+                self.runningActivityID = nil
+                self.runningActivityToken = nil
             }
         }
     }

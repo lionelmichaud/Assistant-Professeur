@@ -50,16 +50,12 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
-							<key>EndingColumnNumber</key>
-							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>476</string>
-							<key>StartingColumnNumber</key>
-							<string>0</string>
+							<string>483</string>
 							<key>StartingLineNumber</key>
-							<string>476</string>
+							<string>483</string>
 							<key>Timestamp</key>
-							<string>719781301.960683</string>
+							<string>719792549.647602</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -97,16 +93,12 @@
 			<dict>
 				<key>location-parameters</key>
 				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>476</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
+					<string>483</string>
 					<key>StartingLineNumber</key>
-					<string>476</string>
+					<string>483</string>
 					<key>Timestamp</key>
-					<string>719781301.959855</string>
+					<string>719792549.646623</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>

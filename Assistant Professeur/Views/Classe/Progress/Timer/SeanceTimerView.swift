@@ -152,8 +152,12 @@ struct SeanceTimerView: View {
                             LiveCoursProgressState(
                                 elapsedMinutes: timerVM.elapsedMinutes(to: .now),
                                 remainingMinutes: timerVM.remainingMinutes(from: .now),
-                                cursorValue: cursorValue(for: .now),
-                                timerZone: timerZone(for: .now)
+                                cursorValue: timerVM.cursorValue(for: .now),
+                                timerZone: timerVM.timerZone(
+                                    for: .now,
+                                    seuilAlert: alertRemainingMinutes,
+                                    seuilWarning: warningRemainingMinutes
+                                )
                             )
                         let attribute =
                             LiveCoursProgressFixedAttributes(
@@ -187,8 +191,12 @@ struct SeanceTimerView: View {
                                 LiveCoursProgressState(
                                     elapsedMinutes: timerVM.elapsedMinutes(to: .now),
                                     remainingMinutes: timerVM.remainingMinutes(from: .now),
-                                    cursorValue: cursorValue(for: .now),
-                                    timerZone: timerZone(for: .now)
+                                    cursorValue: timerVM.cursorValue(for: .now),
+                                    timerZone: timerVM.timerZone(
+                                        for: .now,
+                                        seuilAlert: alertRemainingMinutes,
+                                        seuilWarning: warningRemainingMinutes
+                                    )
                                 )
                             await activityManager.updateActivity(
                                 withNewState: newState,
@@ -215,8 +223,12 @@ struct SeanceTimerView: View {
                             finalState = LiveCoursProgressState(
                                 elapsedMinutes: timerVM.elapsedMinutes(to: .now),
                                 remainingMinutes: timerVM.remainingMinutes(from: .now),
-                                cursorValue: cursorValue(for: .now),
-                                timerZone: timerZone(for: .now)
+                                cursorValue: timerVM.cursorValue(for: .now),
+                                timerZone: timerVM.timerZone(
+                                    for: .now,
+                                    seuilAlert: alertRemainingMinutes,
+                                    seuilWarning: warningRemainingMinutes
+                                )
                             )
                         } else {
                             // Fin du cours avant la disparition de la View
@@ -273,12 +285,7 @@ extension SeanceTimerView {
             }
         #endif
 
-        if let elapsedMinutes = timerVM.elapsedMinutes(to: date)?.double(),
-           let seanceDuration = timerVM.seanceDuration(at: date)?.double() {
-            return (elapsedMinutes / (seanceDuration / 60.0))
-        } else {
-            return nil
-        }
+        return timerVM.cursorValue(for: date)
     }
 
     private func timerZone(
