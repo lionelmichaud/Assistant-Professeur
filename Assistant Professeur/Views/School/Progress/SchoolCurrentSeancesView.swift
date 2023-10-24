@@ -85,7 +85,6 @@ struct SchoolCurrentSeanceView: View {
                     schoolYear = UserPrefEntity.shared.viewSchoolYearPref
                     let startOfDay = Calendar.current.startOfDay(for: .now)
                     let endOfDay = 24.hours.from(startOfDay)!
-
                     let dateInterval = DateInterval(
                         start: startOfDay,
                         end: endOfDay

@@ -20,6 +20,9 @@ struct SeanceRow: View {
     private var hClass
 
     @State
+    private var isShowingClasseTimer = false
+
+    @State
     private var documentToBeViewed: DocumentEntity?
 
     @State
@@ -50,13 +53,38 @@ struct SeanceRow: View {
                 maxWidth: .infinity,
                 alignment: .leading
             )
-            Button("Actualiser la progression") {
-                if let classeName = seance.name {
-                    Task {
-                        await navigateTo(thisClasseName: classeName)
+
+            HStack {
+                Button("Actualiser la progression") {
+                    if let classeName = seance.name {
+                        Task {
+                            await navigateTo(thisClasseName: classeName)
+                        }
                     }
                 }
-            }.buttonStyle(.bordered)
+                .padding(.trailing)
+
+                // Chronomètre de classe
+                if let classe,
+                   let schoolName = classe.school?.viewName {
+                    Button {
+                        isShowingClasseTimer.toggle()
+                    } label: {
+                        Image(systemName: "stopwatch")
+                    }
+                    .fullScreenCover(isPresented: $isShowingClasseTimer) {
+                        NavigationStack {
+                            ClasseTimerModal(
+                                discipline: classe.disciplineEnum,
+                                classeName: classe.displayString,
+                                schoolName: schoolName
+                            )
+                        }
+                    }
+                }
+            }
+            .buttonStyle(.bordered)
+            .padding(.top)
 
         } label: {
             if seance.isVacance {
@@ -81,7 +109,7 @@ extension SeanceRow {
                 // Naviger jusqu'à l'actualisation de la progression de la classe
                 navig.selectedTab = .classe
                 navig.selectedClasseMngObjId = classe.objectID
-                //navig.classPath = [.progress(classe.id)]
+                // navig.classPath = [.progress(classe.id)]
             }
         }
     }
