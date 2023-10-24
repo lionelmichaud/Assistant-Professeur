@@ -69,7 +69,7 @@ struct SchoolNextSeancesView: View {
             actions: {},
             message: { Text(alertMessage) }
         )
-        .task {
+        .task(id: school.objectID) {
             var foundSeances = [Seance]()
             let schoolClasses = school.classesSortedByLevelNumber
             let schoolName = school.viewName
@@ -86,14 +86,18 @@ struct SchoolNextSeancesView: View {
                     calendarName: schoolName
                 )
             if let calendar {
+                let dateInterval = DateInterval(
+                    start: Date.now,
+                    end: horizon.months.fromNow!
+                )
+
                 // `SeancesInDateInterval` contenant la liste des Séances à venir
                 // pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
                 schoolSeances = await SeancesInDateInterval.loadedNextSeancesForSchool(
-                    schoolClasses: schoolClasses,
-                    schoolName: schoolName,
+                    school: school,
                     inCalendar: calendar,
                     inEventStore: eventStore,
-                    overHorizon: horizon
+                    inDateInterval: dateInterval
                 )
             }
         }

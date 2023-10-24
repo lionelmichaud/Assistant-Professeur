@@ -28,7 +28,7 @@ import SwiftUI
 //            forClasseName: classe,
 //            inCalendar: calendar,
 //            inEventStore: eventStore,
-//            during: period, 
+//            during: period,
 //            schoolYear: schoolYear
 //        )
 //    }
@@ -147,16 +147,99 @@ struct SeancesInDateInterval {
             }
         }
     }
+
+    // MARK: - Type Methods
+
     /// Retourne un objet `SeancesInDateInterval` contenant la liste des Séances à venir
-    /// pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
-    static func loadedNextSeancesForSchool(
-        schoolClasses: [ClasseEntity],
+    /// pour une classe d'un établissement avec le contenu pédagogique de chaque séance.
+    /// - Important: Élimine toutes les séances trouvées tombant pendant les vacances scolaires.
+    /// - Parameters:
+    ///   - schoolName: Le nom de l'école de la classe.
+    ///   - classe: La classe recherchée.
+    ///   - calendar: Calendrier à utiliser dans l'application Calendrier.
+    ///   - eventStore: Le store des événements du calendrier.
+    ///   - dateInterval: Intervalle de temps de recherche.
+    static func loadedNextSeancesForClasse(
         schoolName: String,
+        classe: ClasseEntity,
         inCalendar calendar: EKCalendar,
         inEventStore eventStore: EKEventStore,
-        overHorizon horizon: Int
+        inDateInterval dateInterval: DateInterval
+    ) async -> SeancesInDateInterval {
+        var classeSeances = SeancesInDateInterval()
+
+        await ClasseEntity.context.perform {
+            var schoolYear = SchoolYearPref()
+            schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+
+            // Charger les prochaines séances de cours sur un horizon de temps à venir
+            classeSeances.loadClasseSeancesFromCalendar(
+                forDiscipline: classe.disciplineEnum,
+                forSchoolName: schoolName,
+                forClasseName: classe.displayString,
+                inCalendar: calendar,
+                inEventStore: eventStore,
+                during: dateInterval,
+                schoolYear: schoolYear
+            )
+            // classeSeances.print()
+
+            // Liste des Progressions annuelles de la classe triée par numéro de Séquence / Activité
+            let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+
+            // Synchroniser les Progressions annuelles avec les Séances à venir
+            SequenceSeanceCoordinator.synchronize(
+                classeSeances: &classeSeances,
+                withProgresses: sortedClasseProgresses
+            )
+            //                    classeSeances.print()
+
+            // Insérer des pseudo-séances pour chaque période
+            // de vacances inclue dans la période
+            let vacancesIncludedInPeriod = schoolYear.vacancesContained(in: dateInterval)
+
+            if classeSeances.seances.count >= 2 {
+                vacancesIncludedInPeriod.forEach { vacance in
+                    //                            print("startIndex: \(classeSeances.seances.startIndex), endIndex: \(classeSeances.seances.endIndex)")
+                    for idx in classeSeances.seances.startIndex ... classeSeances.seances.endIndex - 2
+                        where (classeSeances[idx].interval.end ... classeSeances[idx + 1].interval.start).contains(vacance.interval.start) {
+                        let pseudoSeance = Seance(
+                            name: vacance.name,
+                            interval: vacance.interval,
+                            isVacance: true
+                        )
+                        classeSeances
+                            .seances
+                            .insert(pseudoSeance, at: idx + 1)
+                        break
+                    }
+                }
+            }
+        }
+        return classeSeances
+    }
+
+    /// Retourne un objet `SeancesInDateInterval` contenant la liste des Séances à venir
+    /// pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
+    /// - Important: Élimine toutes les séances trouvées tombant pendant les vacances scolaires.
+    /// - Parameters:
+    ///   - school: L'école recherchée.
+    ///   - calendar: Calendrier à utiliser dans l'application Calendrier.
+    ///   - eventStore: Le store des événements du calendrier.
+    ///   - dateInterval: Intervalle de temps de recherche.
+    static func loadedNextSeancesForSchool(
+        school: SchoolEntity,
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore,
+        inDateInterval dateInterval: DateInterval
     ) async -> SeancesInDateInterval {
         var foundSeances = [Seance]()
+
+        var schoolClasses = [ClasseEntity]()
+
+        await SchoolEntity.context.perform {
+            schoolClasses = school.classesSortedByLevelNumber
+        }
 
         await withTaskGroup(of: [Seance].self) { group in
             for classe in schoolClasses {
@@ -164,7 +247,8 @@ struct SeancesInDateInterval {
                     var sortedClasseProgresses = [ActivityProgressEntity]()
                     var classeSeances = SeancesInDateInterval()
                     var forDiscipline = Discipline.autre
-                    var forClasseName = ""
+                    var schoolName: String = ""
+                    var forClasseName: String = ""
                     var schoolYear = SchoolYearPref()
 
                     await ClasseEntity.context.perform {
@@ -173,25 +257,19 @@ struct SeancesInDateInterval {
                         forDiscipline = classe.disciplineEnum
                         forClasseName = classe.displayString
                         schoolYear = UserPrefEntity.shared.viewSchoolYearPref
-                    }
+                        schoolName = school.viewName
 
-                    let horizon = DateInterval(
-                        start: Date.now,
-                        end: horizon.months.fromNow!
-                    )
+                        // Liste des Séances à venir pour cette classe
+                        classeSeances.loadClasseSeancesFromCalendar(
+                            forDiscipline: forDiscipline,
+                            forSchoolName: schoolName,
+                            forClasseName: forClasseName,
+                            inCalendar: calendar,
+                            inEventStore: eventStore,
+                            during: dateInterval,
+                            schoolYear: schoolYear
+                        )
 
-                    // Liste des Séances à venir pour cette classe
-                    classeSeances.loadClasseSeancesFromCalendar(
-                        forDiscipline: forDiscipline,
-                        forSchoolName: schoolName,
-                        forClasseName: forClasseName,
-                        inCalendar: calendar,
-                        inEventStore: eventStore,
-                        during: horizon,
-                        schoolYear: schoolYear
-                    )
-
-                    await ClasseEntity.context.perform {
                         // Synchroniser les Progressions de la classe avec les Séances de la classe
                         SequenceSeanceCoordinator.synchronize(
                             classeSeances: &classeSeances,
@@ -211,6 +289,29 @@ struct SeancesInDateInterval {
         foundSeances.sort(by: {
             $0.interval.start < $1.interval.start
         })
+
+        // Insérer des pseudo-séances pour chaque période
+        // de vacances inclue dans la période
+        await ClasseEntity.context.perform {
+            let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+            let vacancesIncludedInPeriod = schoolYear.vacancesContained(in: dateInterval)
+
+            if foundSeances.count >= 2 {
+                vacancesIncludedInPeriod.forEach { vacance in
+                    //                            print("startIndex: \(classeSeances.seances.startIndex), endIndex: \(classeSeances.seances.endIndex)")
+                    for idx in foundSeances.startIndex ... foundSeances.endIndex - 2
+                        where (foundSeances[idx].interval.end ... foundSeances[idx + 1].interval.start).contains(vacance.interval.start) {
+                        let pseudoSeance = Seance(
+                            name: vacance.name,
+                            interval: vacance.interval,
+                            isVacance: true
+                        )
+                        foundSeances.insert(pseudoSeance, at: idx + 1)
+                        break
+                    }
+                }
+            }
+        }
 
         return .init(from: foundSeances)
     }

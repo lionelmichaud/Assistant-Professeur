@@ -73,7 +73,7 @@ struct ClassNextSeancesView: View {
             actions: {},
             message: { Text(alertMessage) }
         )
-        .task {
+        .task(id: classe.objectID) {
             // Suite des Séances à venir pour cette classe sur un `horizon`
             if let schoolName = classe.school?.viewName {
                 // Demander les droits d'accès aux calendriers de l'utilisateur
@@ -88,60 +88,20 @@ struct ClassNextSeancesView: View {
                         calendarName: schoolName
                     )
                 if let calendar {
-                    await ClasseEntity.context.perform {
-                        var schoolYear = SchoolYearPref()
-                        schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+                    let dateInterval = DateInterval(
+                        start: Date.now,
+                        end: horizon.months.fromNow!
+                    )
 
-                        let horizon = DateInterval(
-                            start: Date.now,
-                            end: horizon.months.fromNow!
-                        )
-
-                        // Charger les prochaines séances de cours sur un horizon de temps à venir
-                        classeSeances.loadClasseSeancesFromCalendar(
-                            forDiscipline: classe.disciplineEnum,
-                            forSchoolName: schoolName,
-                            forClasseName: classe.displayString,
-                            inCalendar: calendar,
-                            inEventStore: eventStore,
-                            during: horizon,
-                            schoolYear: schoolYear
-                        )
-                        // classeSeances.print()
-
-                        // Liste des Progressions annuelles de la classe triée par numéro de Séquence / Activité
-                        let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
-
-                        // Synchroniser les Progressions annuelles avec les Séances à venir
-                        SequenceSeanceCoordinator.synchronize(
-                            classeSeances: &classeSeances,
-                            withProgresses: sortedClasseProgresses
-                        )
-                        //                    classeSeances.print()
-
-                        // Insérer des pseudo-séances pour chaque période
-                        // de vacances inclue dans la période
-                        let vacancesIncludedInPeriod = schoolYear.vacancesContained(in: horizon)
-                        
-                        if classeSeances.seances.count >= 2 {
-                            vacancesIncludedInPeriod.forEach { vacance in
-                                //                            print("startIndex: \(classeSeances.seances.startIndex), endIndex: \(classeSeances.seances.endIndex)")
-                                for idx in classeSeances.seances.startIndex ... classeSeances.seances.endIndex - 2
-                                where (classeSeances[idx].interval.end ... classeSeances[idx + 1].interval.start).contains(vacance.interval.start) {
-                                    let pseudoSeance = Seance(
-                                        name: vacance.name,
-                                        interval: vacance.interval,
-                                        isVacance: true
-                                    )
-                                    classeSeances
-                                        .seances
-                                        .insert(pseudoSeance, at: idx + 1)
-                                    break
-                                }
-                            }
-                        }
-                    }
-
+                    // `SeancesInDateInterval` contenant la liste des Séances à venir
+                    // pour une classe d'un établissement avec le contenu pédagogique de chaque séance.
+                    classeSeances = await SeancesInDateInterval.loadedNextSeancesForClasse(
+                        schoolName: schoolName,
+                        classe: classe,
+                        inCalendar: calendar,
+                        inEventStore: eventStore,
+                        inDateInterval: dateInterval
+                    )
                 }
             }
         }

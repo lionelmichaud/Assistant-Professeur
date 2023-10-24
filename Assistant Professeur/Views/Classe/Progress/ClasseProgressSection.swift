@@ -33,6 +33,8 @@ struct ClasseProgressSection: View {
     @State
     private var alertIsPresented = false
 
+    private let horizon = 3 // mois
+
     var body: some View {
         if let progresses = classe.progresses,
            progresses.count != 0 {
@@ -132,7 +134,7 @@ extension ClasseProgressSection {
                             inEventStore: eventStore,
                             during: DateInterval(
                                 start: Date.now,
-                                end: 3.months.fromNow!
+                                end: horizon.months.fromNow!
                             ),
                             schoolYear: schoolYear
                         )
