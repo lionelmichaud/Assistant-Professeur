@@ -13,6 +13,9 @@ struct ClassCurrentActivityView: View {
     @ObservedObject
     var classe: ClasseEntity
 
+    @EnvironmentObject
+    private var navig: NavigationModel
+
     @Environment(\.horizontalSizeClass)
     private var hClass
 
@@ -29,18 +32,15 @@ struct ClassCurrentActivityView: View {
                         .first(where: { $0.activity == activity })
 
                 // Chemin de fer de la séquence en cours
-                ScrollView(.horizontal, showsIndicators: true) {
-                    ClassRailwayProgressView(classe: classe)
-                        .padding(.top)
-                }
-
-                // Présentation de la séquence en cours
                 Text("Sequence en cours \(Text("(avancement \(progressInSequence, format: .percent.precision(.fractionLength(0))))").foregroundColor(.secondary))")
                     .font(.headline)
                     .bold()
                     .padding([.top, .leading])
                     .horizontallyAligned(.leading)
-                SequenceDetailGroupBox(sequence: sequence)
+                ScrollView(.horizontal, showsIndicators: true) {
+                    ClassRailwayProgressView(classe: classe)
+                        .padding(.top)
+                }
 
                 // Présentation de l'activité en cours
                 Text("Activité en cours \(Text("(avancement \(currentActivityProgress!.progress, format: .percent.precision(.fractionLength(0))))").foregroundColor(.secondary))")
@@ -49,13 +49,22 @@ struct ClassCurrentActivityView: View {
                     .padding([.top, .leading])
                     .horizontallyAligned(.leading)
                 ActivityDetailGroupBox(activity: activity)
+
+                // Navigation vers la page d'actualisation de la progression
+                Button("Actualiser la progression") {
+                    Task {
+                        await navig.navigateToProgressOf(thisClasse: classe)
+                    }
+                }
+                .buttonStyle(.bordered)
+                .padding(.top)
             } else {
                 Text("Aucune activité en cours ni à venir")
             }
         }
         .verticallyAligned(.top)
         #if os(iOS)
-        .navigationTitle("\(classe.displayString) - Activité en cours")
+            .navigationTitle("\(classe.displayString) - Activité en cours")
         #endif
             .navigationBarTitleDisplayModeInline()
     }

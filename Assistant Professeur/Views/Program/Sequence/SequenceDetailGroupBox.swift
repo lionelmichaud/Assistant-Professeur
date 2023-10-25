@@ -12,6 +12,8 @@ struct SequenceDetailGroupBox: View {
     @ObservedObject
     var sequence: SequenceEntity
 
+    let withDetails: Bool
+
     @Environment(\.horizontalSizeClass)
     private var hClass
 
@@ -33,40 +35,41 @@ struct SequenceDetailGroupBox: View {
                         .textSelection(.enabled)
                         .font(hClass == .compact ? .body : .title3)
                 }
-
-                // note sur la séquence
-                if pref.viewSequenceAnnotationEnabled && sequence.viewAnnotation.isNotEmpty {
-                    AnnotationView(
-                        annotation: sequence.viewAnnotation,
-                        scrollable: true,
-                        scrollHeight: 40
-                    )
-                }
-
-                // Document
-                ForEach(sequence.documentsSortedByName) { document in
-                    Button {
-                        documentToBeViewed = document
-                    } label: {
-                        Label(
-                            document.viewName,
-                            systemImage: DocumentEntity.defaultImageName
+                if withDetails {
+                    // note sur la séquence
+                    if pref.viewSequenceAnnotationEnabled && sequence.viewAnnotation.isNotEmpty {
+                        AnnotationView(
+                            annotation: sequence.viewAnnotation,
+                            scrollable: true,
+                            scrollHeight: 40
                         )
+                    }
+                    
+                    // Document
+                    ForEach(sequence.documentsSortedByName) { document in
+                        Button {
+                            documentToBeViewed = document
+                        } label: {
+                            Label(
+                                document.viewName,
+                                systemImage: DocumentEntity.defaultImageName
+                            )
+                        }
+                        .padding(.top, 4)
+                    }
+                    
+                    // Durées / url
+                    HStack {
+                        DurationSquareView(
+                            duration: sequence.durationWithoutMargin,
+                            withMargin: true,
+                            margin: Int(sequence.margePostSequence)
+                        )
+                        Spacer()
+                        WebsiteView(url: sequence.url, showURL: false)
                     }
                     .padding(.top, 4)
                 }
-
-                // Durées / url
-                HStack {
-                    DurationSquareView(
-                        duration: sequence.durationWithoutMargin,
-                        withMargin: true,
-                        margin: Int(sequence.margePostSequence)
-                    )
-                    Spacer()
-                    WebsiteView(url: sequence.url, showURL: false)
-                }
-                .padding(.top, 4)
             }
             .font(hClass == .compact ? .callout : .body)
         }
@@ -95,11 +98,17 @@ struct SequenceDetailGroupBox_Previews: PreviewProvider {
     static var previews: some View {
         initialize()
         return Group {
-            SequenceDetailGroupBox(sequence: SequenceEntity.all().first!)
+            SequenceDetailGroupBox(
+                sequence: SequenceEntity.all().first!,
+                withDetails: true
+            )
                 .environmentObject(NavigationModel(selectedSequenceMngObjId: SequenceEntity.all().first!.objectID))
                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
                 .previewDevice("iPad mini (6th generation)")
-            SequenceDetailGroupBox(sequence: SequenceEntity.all().first!)
+            SequenceDetailGroupBox(
+                sequence: SequenceEntity.all().first!,
+                withDetails: true
+            )
                 .environmentObject(NavigationModel(selectedSequenceMngObjId: SequenceEntity.all().first!.objectID))
                 .environment(\.managedObjectContext, CoreDataManager.shared.context)
                 .previewDevice("iPhone 13")

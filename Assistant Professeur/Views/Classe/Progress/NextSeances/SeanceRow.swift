@@ -56,6 +56,7 @@ struct SeanceRow: View {
             )
 
             HStack {
+                // Navigation vers la page d'actualisation de la progression
                 if let classe {
                     Button("Actualiser la progression") {
                         Task {
@@ -101,17 +102,6 @@ struct SeanceRow: View {
 // MARK: - Metods
 
 extension SeanceRow {
-//    private func navigateToProgressOf(thisClasse: ClasseEntity) async {
-//        // Changer d'onglet pour l'onglet Classe
-//        navig.selectedTab = .classe
-//        // Sélectionner la Classe souhaitée
-//        navig.selectedClasseMngObjId = thisClasse.objectID
-//        // ATTENTION: indispensable pour laisser le temps à la RunLoop de faire les choses dans l'ordre
-//        try? await Task.sleep(for: .seconds(0.1))
-//        // Naviguer jusqu'à l'actualisation de la progression de la Classe
-//        navig.classPath = [.progress(thisClasse.id)]
-//    }
-
     private func formattedDate(_ date: Date) -> String {
         let delta = date.days(between: Date.now)
         switch delta {
