@@ -189,12 +189,8 @@ extension NavigationModel {
         selectedSequenceMngObjId = sequence.objectID
         try? await Task.sleep(for: .seconds(0.1))
 
-        if programPath.isNotEmpty {
-            // Pop to root view by clearing the stack
-            programPath.removeLast(programPath.count)
-            programPath.append(sequence)
-            try? await Task.sleep(for: .seconds(0.1))
-        }
+        programPath = [sequence]
+        try? await Task.sleep(for: .seconds(0.1))
 
         selectedActivityMngObjId = activity.objectID
         try? await Task.sleep(for: .seconds(0.1))

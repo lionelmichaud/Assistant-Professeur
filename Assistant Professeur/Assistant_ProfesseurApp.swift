@@ -37,9 +37,9 @@ struct Assistant_ProfesseurApp: App {
 
         // Stopper les éventuelles Live Activity en cours
         #if canImport(ActivityKit)
-            Task {
-                await LiveActivityManager.shared.endAllRunningActivities()
-            }
+//            Task {
+//                await LiveActivityManager.shared.endAllRunningActivities()
+//            }
         #endif
 
         // URLCache.shared.memoryCapacity = 100_000_000 // ~100 MB memory space
