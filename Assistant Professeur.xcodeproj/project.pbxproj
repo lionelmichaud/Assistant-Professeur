@@ -1544,8 +1544,8 @@
 		79960F282AE512DA006CF819 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				79DD5A272AD308C60072290E /* LiveCoursProgressLiveActivity.swift */,
 				79960F292AE5131B006CF819 /* ProgressViews.swift */,
+				79DD5A272AD308C60072290E /* LiveCoursProgressLiveActivity.swift */,
 				79960F2D2AE51644006CF819 /* CompactContentView.swift */,
 				79960F2B2AE5140C006CF819 /* MinimalContentView.swift */,
 				7905D52F2AE52243004B04E5 /* LockScreenContent.swift */,

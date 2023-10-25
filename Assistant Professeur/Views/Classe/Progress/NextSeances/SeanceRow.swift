@@ -55,6 +55,7 @@ struct SeanceRow: View {
                 alignment: .leading
             )
 
+            // Boutons
             HStack {
                 // Navigation vers la page d'actualisation de la progression
                 if let classe {
@@ -65,7 +66,6 @@ struct SeanceRow: View {
                     } label: {
                         Label("Actualiser la progression", systemImage: "figure.walk.motion")
                     }
-                    .padding(.trailing)
                 }
 
                 // Chronomètre de classe
@@ -76,7 +76,9 @@ struct SeanceRow: View {
                         isShowingClasseTimer.toggle()
                     } label: {
                         Label("Chrono.", systemImage: "stopwatch")
+                            .labelStyle(.iconOnly)
                     }
+                    .padding(.leading)
                     .fullScreenCover(isPresented: $isShowingClasseTimer) {
                         NavigationStack {
                             ClasseTimerModal(
@@ -217,6 +219,19 @@ extension SeanceRow {
                                 SequenceTagWithPopOver(sequence: sequence)
                             }
                             ActivityTag(activity: activity)
+                        }
+                        // Naviguer vers l'activité pédagogique
+                        .onTapGesture {
+                            if let sequence = activity.sequence,
+                               let program = sequence.program {
+                                Task {
+                                    await navig.navigateToActivity(
+                                        program: program,
+                                        sequence: sequence,
+                                        activity: activity
+                                    )
+                                }
+                            }
                         }
                     }
                     Divider()

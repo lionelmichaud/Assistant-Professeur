@@ -191,7 +191,7 @@ extension ClassActivityProgressEditView {
                 }
             }
         } label: {
-            Label("Voir l'activité", systemImage: "figure.walk.motion")
+            Label("Voir l'activité", systemImage: ActivityEntity.defaultImageName)
         }
         .buttonStyle(.bordered)
     }

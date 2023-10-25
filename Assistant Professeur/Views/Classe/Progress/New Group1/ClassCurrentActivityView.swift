@@ -50,16 +50,36 @@ struct ClassCurrentActivityView: View {
                     .horizontallyAligned(.leading)
                 ActivityDetailGroupBox(activity: activity)
 
-                // Navigation vers la page d'actualisation de la progression
-                Button {
-                    Task {
-                        await navig.navigateToProgressOf(thisClasse: classe)
+                // Naviguer vers l'activité pédagogique
+                HStack {
+                    Button {
+                        if let sequence = activity.sequence,
+                           let program = sequence.program {
+                            Task {
+                                await navig.navigateToActivity(
+                                    program: program,
+                                    sequence: sequence,
+                                    activity: activity
+                                )
+                            }
+                        }
+                    } label: {
+                        Label("Voir l'activité", systemImage: ActivityEntity.defaultImageName)
                     }
-                } label: {
-                    Label("Actualiser la progression", systemImage: "figure.walk.motion")
+                    .buttonStyle(.bordered)
+                    .padding(.top)
+
+                    // Navigation vers la page d'actualisation de la progression
+                    Button {
+                        Task {
+                            await navig.navigateToProgressOf(thisClasse: classe)
+                        }
+                    } label: {
+                        Label("Actualiser la progression", systemImage: "figure.walk.motion")
+                    }
+                    .buttonStyle(.bordered)
+                    .padding(.top)
                 }
-                .buttonStyle(.bordered)
-                .padding(.top)
             } else {
                 Text("Aucune activité en cours ni à venir")
             }

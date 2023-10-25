@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 18/06/2023.
 //
 
-import SwiftUI
 import EventKit
+import SwiftUI
 
 struct ClasseProgressSection: View {
     @ObservedObject

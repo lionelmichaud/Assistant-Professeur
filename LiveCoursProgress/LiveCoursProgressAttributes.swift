@@ -35,6 +35,7 @@ struct LiveCoursProgressState: Codable, Equatable, Hashable {
 
 struct LiveCoursProgressFixedAttributes: Codable {
     let seance: DateInterval
+    let schoolName: String
     let classeName: String
     let warningRemainingMinutes: Int
     let alertRemainingMinutes: Int
