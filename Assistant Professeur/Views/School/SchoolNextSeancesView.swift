@@ -70,8 +70,6 @@ struct SchoolNextSeancesView: View {
             message: { Text(alertMessage) }
         )
         .task(id: school.objectID) {
-            var foundSeances = [Seance]()
-            let schoolClasses = school.classesSortedByLevelNumber
             let schoolName = school.viewName
 
             // Demander les droits d'accès aux calendriers de l'utilisateur

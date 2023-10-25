@@ -181,20 +181,25 @@ extension NavigationModel {
         activity: ActivityEntity
     ) async {
         selectedTab = .program
+        try? await Task.sleep(for: .seconds(0.1))
+
         selectedProgramMngObjId = program.objectID
         try? await Task.sleep(for: .seconds(0.1))
+
         selectedSequenceMngObjId = sequence.objectID
         try? await Task.sleep(for: .seconds(0.1))
-        selectedActivityMngObjId = activity.objectID
-        try? await Task.sleep(for: .seconds(0.1))
-        programDetailColumnState = .showActivityDetail
 
         if programPath.isNotEmpty {
-            try? await Task.sleep(for: .seconds(0.1))
             // Pop to root view by clearing the stack
             programPath.removeLast(programPath.count)
             programPath.append(sequence)
+            try? await Task.sleep(for: .seconds(0.1))
         }
+
+        selectedActivityMngObjId = activity.objectID
+        try? await Task.sleep(for: .seconds(0.1))
+
+        programDetailColumnState = .showActivityDetail
     }
 
     /// Pop to Tab's root view when the current tab is tapped again
