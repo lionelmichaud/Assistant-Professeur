@@ -51,11 +51,11 @@
 						<key>location-parameters</key>
 						<dict>
 							<key>EndingLineNumber</key>
-							<string>483</string>
+							<string>484</string>
 							<key>StartingLineNumber</key>
-							<string>483</string>
+							<string>484</string>
 							<key>Timestamp</key>
-							<string>719792549.647602</string>
+							<string>719932168.027239</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -94,11 +94,11 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingLineNumber</key>
-					<string>483</string>
+					<string>484</string>
 					<key>StartingLineNumber</key>
-					<string>483</string>
+					<string>484</string>
 					<key>Timestamp</key>
-					<string>719792549.646623</string>
+					<string>719932168.027565</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -121,6 +121,82 @@
 </string>
 				<key>trailing</key>
 				<string></string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Assistant Professeur/Assistant Professeur/Views/School/SchoolNextSeancesView.swift</string>
+					</dict>
+				</dict>
+				<key>type</key>
+				<string>DVTDocumentLocation</string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Assistant Professeur/Assistant Professeur/Model/Events/SeancesInDateInterval.swift</string>
+					</dict>
+				</dict>
+				<key>type</key>
+				<string>DVTDocumentLocation</string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Assistant Professeur/Assistant Professeur/Model/Events/SeancesInDateInterval.swift</string>
+					</dict>
+				</dict>
+				<key>type</key>
+				<string>DVTDocumentLocation</string>
+			</dict>
+			<key>type</key>
+			<string>bookmark</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Assistant Professeur/Assistant Professeur/Views/Classe/Progress/ClasseProgressSection.swift</string>
+					</dict>
+				</dict>
+				<key>type</key>
+				<string>DVTDocumentLocation</string>
 			</dict>
 			<key>type</key>
 			<string>bookmark</string>

@@ -31,6 +31,8 @@
 		791802A42A365A5E001588B2 /* DKnowledgeEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791802A32A365A5E001588B2 /* DKnowledgeEntity+CoreDataClass.swift */; };
 		791802A62A365E29001588B2 /* DKnowledgeEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791802A52A365E29001588B2 /* DKnowledgeEntity+Extensions.swift */; };
 		791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791A0CDC29746A31004CA543 /* DataBaseManager.swift */; };
+		791A190E2AE8220E00DD41DD /* SchoolCurrentSeancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791A190D2AE8220E00DD41DD /* SchoolCurrentSeancesView.swift */; };
+		791A19102AE8222400DD41DD /* SchoolPreviousSeancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791A190F2AE8222400DD41DD /* SchoolPreviousSeancesView.swift */; };
 		791DEE182A2FFB7C00D0E248 /* WCompBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791DEE172A2FFB7C00D0E248 /* WCompBrowserRow.swift */; };
 		7920A5242957345A0092A7DD /* EleveLabelWithTrombineFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A5232957345A0092A7DD /* EleveLabelWithTrombineFlag.swift */; };
 		792135572978724C0036A5EA /* Program+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792135562978724C0036A5EA /* Program+Extensions.swift */; };
@@ -479,6 +481,8 @@
 		791802A32A365A5E001588B2 /* DKnowledgeEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DKnowledgeEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		791802A52A365E29001588B2 /* DKnowledgeEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DKnowledgeEntity+Extensions.swift"; sourceTree = "<group>"; };
 		791A0CDC29746A31004CA543 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
+		791A190D2AE8220E00DD41DD /* SchoolCurrentSeancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolCurrentSeancesView.swift; sourceTree = "<group>"; };
+		791A190F2AE8222400DD41DD /* SchoolPreviousSeancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolPreviousSeancesView.swift; sourceTree = "<group>"; };
 		791DEE172A2FFB7C00D0E248 /* WCompBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompBrowserRow.swift; sourceTree = "<group>"; };
 		7920A5232957345A0092A7DD /* EleveLabelWithTrombineFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveLabelWithTrombineFlag.swift; sourceTree = "<group>"; };
 		792135562978724C0036A5EA /* Program+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Program+Extensions.swift"; sourceTree = "<group>"; };
@@ -1540,8 +1544,8 @@
 		79960F282AE512DA006CF819 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				79DD5A272AD308C60072290E /* LiveCoursProgressLiveActivity.swift */,
 				79960F292AE5131B006CF819 /* ProgressViews.swift */,
+				79DD5A272AD308C60072290E /* LiveCoursProgressLiveActivity.swift */,
 				79960F2D2AE51644006CF819 /* CompactContentView.swift */,
 				79960F2B2AE5140C006CF819 /* MinimalContentView.swift */,
 				7905D52F2AE52243004B04E5 /* LockScreenContent.swift */,
@@ -1628,9 +1632,9 @@
 				79B3083929EE115300C69C79 /* Documentation.docc */,
 				7966DCF7292573A1001D6C7F /* Packages */,
 				79B6630329244C3F007B1FBD /* Assistant Professeur */,
+				79DD5A242AD308C60072290E /* LiveCoursProgress */,
 				79B6631529244C3F007B1FBD /* Assistant ProfesseurTests */,
 				79B6631F29244C3F007B1FBD /* Assistant ProfesseurUITests */,
-				79DD5A242AD308C60072290E /* LiveCoursProgress */,
 				79B6630229244C3F007B1FBD /* Products */,
 				7921F548292575B400173F39 /* Frameworks */,
 			);
@@ -1953,6 +1957,8 @@
 		79E00C512A5B7F6400362743 /* Progress */ = {
 			isa = PBXGroup;
 			children = (
+				791A190F2AE8222400DD41DD /* SchoolPreviousSeancesView.swift */,
+				791A190D2AE8220E00DD41DD /* SchoolCurrentSeancesView.swift */,
 				79E00C522A5B7F7800362743 /* SchoolNextSeancesView.swift */,
 			);
 			path = Progress;
@@ -2304,6 +2310,7 @@
 				79B298E829EC5F2C008BAF50 /* SeanceTimerView.swift in Sources */,
 				7997531E297C3D5B00D1C66E /* ProgramCreatorModal.swift in Sources */,
 				79FD21A62A34D41000A8D925 /* DCompEditorModal.swift in Sources */,
+				791A190E2AE8220E00DD41DD /* SchoolCurrentSeancesView.swift in Sources */,
 				7963720C297DA37E00ECDBC3 /* ActivityBrowserRow.swift in Sources */,
 				79F7708D2A2B7F89004E9089 /* NavigationModel+Extensions.swift in Sources */,
 				79F38D0829D747D9006C9B35 /* ColorPalettes.swift in Sources */,
@@ -2586,6 +2593,7 @@
 				79E40E752996BEED006BBE49 /* Seat+CoreDataClass.swift in Sources */,
 				79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */,
 				79E40E8A2997FD45006BBE49 /* Group+CoreDataClass.swift in Sources */,
+				791A19102AE8222400DD41DD /* SchoolPreviousSeancesView.swift in Sources */,
 				7937A24229859A5500D0ED59 /* ExamStep.swift in Sources */,
 				795C2C2B296E2DCA00EDFF09 /* EditableSeatLabel.swift in Sources */,
 				79ED5AAD2998100E00D536BF /* Mark+CoreDataClass.swift in Sources */,

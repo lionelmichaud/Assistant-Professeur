@@ -1,19 +1,17 @@
 //
-//  SchoolNextSeancesView.swift
+//  SchoolCurrentSeancesView.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 10/07/2023.
+//  Created by Lionel MICHAUD on 24/10/2023.
 //
 
 import EventKit
 import HelpersView
 import SwiftUI
 
-struct SchoolNextSeancesView: View {
+struct SchoolCurrentSeanceView: View {
     @ObservedObject
     var school: SchoolEntity
-
-    private let horizon = 3 // mois
 
     @State
     private var schoolSeances: SeancesInDateInterval = .init()
@@ -51,7 +49,7 @@ struct SchoolNextSeancesView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
             ForEach(schoolSeances.seances) { seance in
-                SeanceRow(seance: seance, showWatchButton: false)
+                SeanceRow(seance: seance, showWatchButton: true)
             }
             .emptyListPlaceHolder(schoolSeances.seances) {
                 ContentUnavailableView(
@@ -70,8 +68,6 @@ struct SchoolNextSeancesView: View {
             message: { Text(alertMessage) }
         )
         .task(id: school.objectID) {
-            let schoolName = school.viewName
-
             // Demander les droits d'accès aux calendriers de l'utilisateur
             (
                 calendar,
@@ -81,26 +77,40 @@ struct SchoolNextSeancesView: View {
             ) = await EventManager.shared
                 .requestCalendarAccess(
                     eventStore: eventStore,
-                    calendarName: schoolName
+                    calendarName: school.viewName
                 )
             if let calendar {
-                let dateInterval = DateInterval(
-                    start: Date.now,
-                    end: horizon.months.fromNow!
-                )
+                await SchoolEntity.context.perform {
+                    var schoolYear = SchoolYearPref()
+                    schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+                    let startOfDay = Calendar.current.startOfDay(for: .now)
+                    let endOfDay = 24.hours.from(startOfDay)!
+                    let dateInterval = DateInterval(
+                        start: startOfDay,
+                        end: endOfDay
+                    )
 
-                // `SeancesInDateInterval` contenant la liste des Séances à venir
-                // pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
-                schoolSeances = await SeancesInDateInterval.loadedNextSeancesForSchool(
-                    school: school,
-                    inCalendar: calendar,
-                    inEventStore: eventStore,
-                    inDateInterval: dateInterval
-                )
+                    // `SeancesInDateInterval` contenant la liste des Séances à venir
+                    // pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
+                    schoolSeances.loadSchoolSeancesFromCalendar(
+                        school: school,
+                        inCalendar: calendar,
+                        inEventStore: eventStore,
+                        during: dateInterval,
+                        schoolYear: schoolYear
+                    )
+
+                    // Ne concerver que le cours qui est en cours d'éxécution
+                    schoolSeances.seances =
+                        schoolSeances.seances
+                            .filter { seance in
+                                seance.interval.contains(.now)
+                            }
+                }
             }
         }
         #if os(iOS)
-        .navigationTitle("Cours à venir")
+        .navigationTitle("Cours actuel")
         #endif
         .toolbar {
             ToolbarItem(placement: .automatic) {
@@ -119,8 +129,6 @@ struct SchoolNextSeancesView: View {
     }
 }
 
-// struct SchoolNextSeancesView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SchoolNextSeancesView()
-//    }
+// #Preview {
+//    SchoolCurrentSeancesView()
 // }

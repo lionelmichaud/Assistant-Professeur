@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 18/06/2023.
 //
 
-import SwiftUI
 import EventKit
+import SwiftUI
 
 struct ClasseProgressSection: View {
     @ObservedObject
@@ -32,6 +32,8 @@ struct ClasseProgressSection: View {
 
     @State
     private var alertIsPresented = false
+
+    private let horizon = 3 // mois
 
     var body: some View {
         if let progresses = classe.progresses,
@@ -117,25 +119,25 @@ extension ClasseProgressSection {
                             calendarName: schoolName
                         )
 
-                    var schoolYear = SchoolYearPref()
                     await ClasseEntity.context.perform {
+                        var schoolYear = SchoolYearPref()
                         schoolYear = UserPrefEntity.shared.viewSchoolYearPref
-                    }
 
-                    if let calendar {
-                        // Liste des Séances à venir pour cette classe
-                        classeSeances.loadSeancesFromCalendar(
-                            forDiscipline: classe.disciplineEnum,
-                            forSchoolName: schoolName,
-                            forClasseName: classe.displayString,
-                            inCalendar: calendar,
-                            inEventStore: eventStore,
-                            during: DateInterval(
-                                start: Date.now,
-                                end: 3.months.fromNow!
-                            ),
-                            schoolYear: schoolYear
-                        )
+                        if let calendar {
+                            // Liste des Séances à venir pour cette classe
+                            classeSeances.loadClasseSeancesFromCalendar(
+                                forDiscipline: classe.disciplineEnum,
+                                forSchoolName: schoolName,
+                                forClasseName: classe.displayString,
+                                inCalendar: calendar,
+                                inEventStore: eventStore,
+                                during: DateInterval(
+                                    start: Date.now,
+                                    end: horizon.months.fromNow!
+                                ),
+                                schoolYear: schoolYear
+                            )
+                        }
                     }
                 }
             }
@@ -144,7 +146,7 @@ extension ClasseProgressSection {
 
     private var progressView: some View {
         NavigationLink(value: ClasseNavigationRoute.progress(classe.id)) {
-            Label("Actualiser la progression", systemImage: ProgramEntity.defaultImageName)
+            Label("Actualiser la progression", systemImage: "figure.walk.motion")
                 .fontWeight(.bold)
         }
     }

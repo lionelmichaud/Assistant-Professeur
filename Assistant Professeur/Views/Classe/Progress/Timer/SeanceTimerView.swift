@@ -123,7 +123,7 @@ struct SeanceTimerView: View {
             actions: {},
             message: { Text(alertMessage) }
         )
-        .task(id: classeName) {
+        .task(id: classeName + schoolName) {
             // Demander les droits d'accès aux calendriers de l'utilisateur
             (
                 calendar,
@@ -161,7 +161,8 @@ struct SeanceTimerView: View {
                             )
                         let attribute =
                             LiveCoursProgressFixedAttributes(
-                                seance: seance,
+                                seance: seance, 
+                                schoolName: schoolName,
                                 classeName: classeName,
                                 warningRemainingMinutes: warningRemainingMinutes,
                                 alertRemainingMinutes: alertRemainingMinutes

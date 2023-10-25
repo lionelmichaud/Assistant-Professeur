@@ -12,9 +12,16 @@ import SwiftUI
 /// Si plusieurs activités sont programmées, chacune est affichée
 struct SeanceRow: View {
     var seance: Seance
+    let showWatchButton: Bool
+
+    @EnvironmentObject
+    private var navig: NavigationModel
 
     @Environment(\.horizontalSizeClass)
     private var hClass
+
+    @State
+    private var isShowingClasseTimer = false
 
     @State
     private var documentToBeViewed: DocumentEntity?
@@ -48,12 +55,78 @@ struct SeanceRow: View {
                 alignment: .leading
             )
 
+            // Boutons
+            HStack {
+                // Navigation vers la page d'actualisation de la progression
+                if let classe {
+                    Button {
+                        Task {
+                            await navig.navigateToProgressOf(thisClasse: classe)
+                        }
+                    } label: {
+                        Label("Actualiser la progression", systemImage: "figure.walk.motion")
+                    }
+                }
+
+                // Chronomètre de classe
+                if showWatchButton,
+                   let classe,
+                   let schoolName = seance.schoolName {
+                    Button {
+                        isShowingClasseTimer.toggle()
+                    } label: {
+                        Label("Chrono.", systemImage: "stopwatch")
+                            .labelStyle(.iconOnly)
+                    }
+                    .padding(.leading)
+                    .fullScreenCover(isPresented: $isShowingClasseTimer) {
+                        NavigationStack {
+                            ClasseTimerModal(
+                                discipline: classe.disciplineEnum,
+                                classeName: classe.displayString,
+                                schoolName: schoolName
+                            )
+                        }
+                    }
+                }
+            }
+            .buttonStyle(.bordered)
+            .padding(.top)
+
         } label: {
             if seance.isVacance {
                 vacancesLabelView
             } else {
                 coursLabelView
             }
+        }
+    }
+}
+
+// MARK: - Metods
+
+extension SeanceRow {
+    private func formattedDate(_ date: Date) -> String {
+        let delta = date.days(between: Date.now)
+        switch delta {
+            case 0:
+                return "Aujourd'hui"
+
+            case 1:
+                return "Demain"
+
+            case 2:
+                return "Après-demain"
+
+            case 3 ... 6:
+                return "\(date.formatted(Date.FormatStyle().weekday(.wide))) prochain"
+
+            default:
+                return date
+                    .formatted(Date.FormatStyle()
+                        .weekday(.wide)
+                        .day(.twoDigits)
+                        .month(.twoDigits))
         }
     }
 }
@@ -147,6 +220,19 @@ extension SeanceRow {
                             }
                             ActivityTag(activity: activity)
                         }
+                        // Naviguer vers l'activité pédagogique
+                        .onTapGesture {
+                            if let sequence = activity.sequence,
+                               let program = sequence.program {
+                                Task {
+                                    await navig.navigateToActivity(
+                                        program: program,
+                                        sequence: sequence,
+                                        activity: activity
+                                    )
+                                }
+                            }
+                        }
                     }
                     Divider()
 
@@ -222,30 +308,6 @@ extension SeanceRow {
             .padding(.vertical)
             .frame(maxWidth: .infinity)
             .background(.gray.opacity(0.25))
-    }
-
-    private func formattedDate(_ date: Date) -> String {
-        let delta = date.days(between: Date.now)
-        switch delta {
-            case 0:
-                return "Aujourd'hui"
-
-            case 1:
-                return "Demain"
-
-            case 2:
-                return "Après-demain"
-
-            case 3 ... 6:
-                return "\(date.formatted(Date.FormatStyle().weekday(.wide))) prochain"
-
-            default:
-                return date
-                    .formatted(Date.FormatStyle()
-                        .weekday(.wide)
-                        .day(.twoDigits)
-                        .month(.twoDigits))
-        }
     }
 }
 

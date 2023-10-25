@@ -108,21 +108,19 @@ extension ClasseDetail {
         ToolbarItem(placement: .primaryAction) {
             ControlGroup {
                 // Chronomètre de classe
-                Button {
-                    isShowingClasseTimer.toggle()
-                } label: {
-                    Image(systemName: "stopwatch")
-                }
-                .fullScreenCover(isPresented: $isShowingClasseTimer) {
-                    NavigationStack {
-                        if let schoolName = classe.school?.viewName {
+                if let schoolName = classe.school?.viewName {
+                    Button {
+                        isShowingClasseTimer.toggle()
+                    } label: {
+                        Label("Chrono.", systemImage: "stopwatch")
+                    }
+                    .fullScreenCover(isPresented: $isShowingClasseTimer) {
+                        NavigationStack {
                             ClasseTimerModal(
                                 discipline: classe.disciplineEnum,
                                 classeName: classe.displayString,
                                 schoolName: schoolName
                             )
-                        } else {
-                            Text("Impossible d'afficher le chronomètre")
                         }
                     }
                 }

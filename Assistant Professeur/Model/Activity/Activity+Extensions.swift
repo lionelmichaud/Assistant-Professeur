@@ -20,9 +20,7 @@ extension ActivityEntity {
     // MARK: - Computed properties
 
     /// Nom de l'image par défaut utilisée pour représenter une activité
-    static var defaultImageName: String {
-        "book"
-    }
+    static let defaultImageName: String = "book"
 
     /// Wrapper of `name`
     /// - Important: *Saves the context to the store after modification is done*

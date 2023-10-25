@@ -36,7 +36,10 @@ struct ActivitySideBar: View {
     var body: some View {
         List(selection: $navig.selectedActivityMngObjId) {
             if sequence.program != nil {
-                SequenceDetailGroupBox(sequence: sequence)
+                SequenceDetailGroupBox(
+                    sequence: sequence,
+                    withDetails: true
+                )
             } else {
                 Text("Progression associée introuvable")
                     .foregroundStyle(.secondary)

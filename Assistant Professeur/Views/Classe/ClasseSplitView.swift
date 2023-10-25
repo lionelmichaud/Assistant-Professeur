@@ -5,7 +5,13 @@
 //  Created by Lionel MICHAUD on 14/04/2022.
 //
 
+import os
 import SwiftUI
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "ClasseSplitView"
+)
 
 struct ClasseSplitView: View {
     @Environment(\.horizontalSizeClass)
@@ -33,23 +39,6 @@ struct ClasseSplitView: View {
                     .navigationDestination(for: ClasseNavigationRoute.self) { route in
                         route.destination(horizontalSizeClass: horizontalSizeClass)
                     }
-            }
-        }
-        // Deep Link
-        .onOpenURL { url in
-            if url.absoluteString.hasPrefix("classeProgress:///") {
-                if let classe =
-                    ClasseEntity.all()
-                        .filter({ classeObject in
-                            url.absoluteString.contains(classeObject.displayString)
-                        })
-                        .first {
-                    // Naviger jusqu'à l'actualisation de la progression de la classe
-                    navig.selectedClasseMngObjId =
-                        ClasseEntity.managedObjectID(id: classe.id)
-                    navig.classPath =
-                        [.progress(classe.id)]
-                }
             }
         }
     }

@@ -22,9 +22,12 @@ struct LiveCoursProgressLiveActivity: Widget {
             )
             .activityBackgroundTint(Color.liveActivityBackground.opacity(0.25))
 
-            // MARK: - Deep Link vers l'appli
-
-            .widgetURL(URL(string: "classeProgress:///\(context.attributes.fixedAttributes.classeName)"))
+            // Deep Link vers l'appli
+            .widgetURL(
+                URL(
+                    string: urlScheme + "://" + urlAction + "?" + urlQueries(context.attributes.fixedAttributes)
+                )
+            )
 
         } dynamicIsland: { context in
 
@@ -62,9 +65,12 @@ struct LiveCoursProgressLiveActivity: Widget {
             }
             .keylineTint(Color.red)
 
-            // MARK: - Deep Link vers l'appli
-
-            .widgetURL(URL(string: "classeProgress:///\(context.attributes.fixedAttributes.classeName)"))
+            // Deep Link vers l'appli
+            .widgetURL(
+                URL(
+                    string: urlScheme + "://" + urlAction + "?" + urlQueries(context.attributes.fixedAttributes)
+                )
+            )
         }
     }
 
@@ -128,6 +134,23 @@ struct LiveCoursProgressLiveActivity: Widget {
             }
         }
     }
+
+    // MARK: - Deep Link URL
+
+    private let urlScheme: String = "assistprof"
+    private let urlAction: String = "update-progress"
+
+    private func urlQueries(_ fixedAttributes: LiveCoursProgressFixedAttributes) -> String {
+        schoolQuery(fixedAttributes) + "&" + classeQuery(fixedAttributes)
+    }
+
+    private func schoolQuery(_ fixedAttributes: LiveCoursProgressFixedAttributes) -> String {
+        "school=\(fixedAttributes.schoolName)"
+    }
+
+    private func classeQuery(_ fixedAttributes: LiveCoursProgressFixedAttributes) -> String {
+        "classe=\(fixedAttributes.classeName)"
+    }
 }
 
 // MARK: - Previews
@@ -139,7 +162,8 @@ extension LiveCoursProgressAttributes {
                 seance: .init(
                     start: Date.now,
                     end: 55.minutes.fromNow!
-                ),
+                ), 
+                schoolName: "Niel",
                 classeName: "4E2",
                 warningRemainingMinutes: 10,
                 alertRemainingMinutes: 5
