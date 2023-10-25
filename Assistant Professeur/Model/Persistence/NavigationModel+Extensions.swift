@@ -83,14 +83,14 @@ extension NavigationModel {
         programDetailColumnState = .showSequenceSteps
     }
 
-    // Désélectionner la séquence et l'activité quand on change de programme
+    /// Désélectionner la séquence et l'activité quand on change de programme
     func changeSelectedProgram() {
         selectedSequenceMngObjId = nil
         selectedActivityMngObjId = nil
         programDetailColumnState = nil
     }
 
-    // Désélectionner l'activité quand on change de séquence
+    /// Désélectionner l'activité quand on change de séquence
     func changeSelectedSequence() {
         selectedActivityMngObjId = nil
         programDetailColumnState = nil
@@ -158,6 +158,43 @@ extension NavigationModel {
 
         popToSchoolRootView()
         popToClasseRootView()
+    }
+
+    /// Naviguer vers la page "Actualiser la progression" de la "Classe"
+    @MainActor
+    func navigateToProgressOf(thisClasse: ClasseEntity) async {
+        // Changer d'onglet pour l'onglet Classe
+        selectedTab = .classe
+        // Sélectionner la Classe souhaitée
+        selectedClasseMngObjId = thisClasse.objectID
+        // ATTENTION: indispensable pour laisser le temps à la RunLoop de faire les choses dans l'ordre
+        try? await Task.sleep(for: .seconds(0.1))
+        // Naviguer jusqu'à l'actualisation de la progression de la Classe
+        classPath = [.progress(thisClasse.id)]
+    }
+
+    /// Naviguer vers la page "Activité" de la "Séquence" du "Programme"
+    @MainActor
+    func navigateToActivity(
+        program: ProgramEntity,
+        sequence: SequenceEntity,
+        activity: ActivityEntity
+    ) async {
+        selectedTab = .program
+        selectedProgramMngObjId = program.objectID
+        try? await Task.sleep(for: .seconds(0.1))
+        selectedSequenceMngObjId = sequence.objectID
+        try? await Task.sleep(for: .seconds(0.1))
+        selectedActivityMngObjId = activity.objectID
+        try? await Task.sleep(for: .seconds(0.1))
+        programDetailColumnState = .showActivityDetail
+
+        if programPath.isNotEmpty {
+            try? await Task.sleep(for: .seconds(0.1))
+            // Pop to root view by clearing the stack
+            programPath.removeLast(programPath.count)
+            programPath.append(sequence)
+        }
     }
 
     /// Pop to Tab's root view when the current tab is tapped again

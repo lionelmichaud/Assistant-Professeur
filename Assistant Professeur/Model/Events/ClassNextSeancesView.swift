@@ -55,7 +55,7 @@ struct ClassNextSeancesView: View {
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
             ForEach(classeSeances.seances) { seance in
-                SeanceRow(seance: seance)
+                SeanceRow(seance: seance, showWatchButton: false)
             }
             .emptyListPlaceHolder(classeSeances.seances) {
                 ContentUnavailableView(

@@ -51,34 +51,34 @@ struct ClassActivityProgressEditView: View {
         }
         #if os(macOS)
         .sheet(isPresented: $isShowingActivityTimer) {
-            NavigationStack {
-                if let discipline = progress.classe?.disciplineEnum,
-                   let classeName = progress.classe?.displayString,
-                   let schoolName = progress.classe!.school?.viewName {
+            if let discipline = progress.classe?.disciplineEnum,
+               let classeName = progress.classe?.displayString,
+               let schoolName = progress.classe!.school?.viewName {
+                NavigationStack {
                     ClasseTimerModal(
                         discipline: discipline,
                         classeName: classeName,
                         schoolName: schoolName
                     )
-                } else {
-                    Text("Impossible d'afficher le chronomètre")
                 }
+            } else {
+                Text("Impossible d'afficher le chronomètre")
             }
         }
         #else
                 .fullScreenCover(isPresented: $isShowingActivityTimer) {
-                    NavigationStack {
-                        if let discipline = progress.classe?.disciplineEnum,
-                           let classeName = progress.classe?.displayString,
-                           let schoolName = progress.classe!.school?.viewName {
+                    if let discipline = progress.classe?.disciplineEnum,
+                       let classeName = progress.classe?.displayString,
+                       let schoolName = progress.classe!.school?.viewName {
+                        NavigationStack {
                             ClasseTimerModal(
                                 discipline: discipline,
                                 classeName: classeName,
                                 schoolName: schoolName
                             )
-                        } else {
-                            Text("Impossible d'afficher le chronomètre")
                         }
+                    } else {
+                        Text("Impossible d'afficher le chronomètre")
                     }
                 }
         #endif
@@ -182,16 +182,12 @@ extension ClassActivityProgressEditView {
             if let activity = progress.activity,
                let sequence = activity.sequence,
                let program = sequence.program {
-                navig.selectedTab = .program
-                navig.selectedProgramMngObjId = program.objectID
-                navig.selectedSequenceMngObjId = sequence.objectID
-                navig.selectedActivityMngObjId = activity.objectID
-                navig.programDetailColumnState = .showActivityDetail
-
-                if navig.programPath.isNotEmpty {
-                    // Pop to root view by clearing the stack
-                    navig.programPath.removeLast(navig.programPath.count)
-                    navig.programPath.append(sequence)
+                Task {
+                    await navig.navigateToActivity(
+                        program: program,
+                        sequence: sequence,
+                        activity: activity
+                    )
                 }
             }
         } label: {
@@ -202,13 +198,17 @@ extension ClassActivityProgressEditView {
 
     @ViewBuilder
     private func stopWatchButton(for _: ActivityEntity) -> some View {
-        Button {
-            isShowingActivityTimer.toggle()
-        } label: {
-            Text("Chrono")
-            Image(systemName: "stopwatch")
+        if progress.classe?.disciplineEnum != nil &&
+            progress.classe?.displayString != nil &&
+            progress.classe!.school?.viewName != nil {
+            Button {
+                isShowingActivityTimer.toggle()
+            } label: {
+                Text("Chrono")
+                Image(systemName: "stopwatch")
+            }
+            .buttonStyle(.borderedProminent)
         }
-        .buttonStyle(.borderedProminent)
     }
 
     private var buttons: some View {

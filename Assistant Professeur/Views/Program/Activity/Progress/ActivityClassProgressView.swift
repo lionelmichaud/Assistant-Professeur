@@ -52,9 +52,11 @@ struct ActivityClassProgressView: View {
             }
         } label: {
             Button {
-                navig.selectedTab = .classe
-                navig.selectedClasseMngObjId = progress.classe?.objectID
-                navig.classPath = [.progress(progress.classe?.id)]
+                if let classe = progress.classe {
+                    Task {
+                        await navig.navigateToProgressOf(thisClasse: classe)
+                    }
+                }
             } label: {
                 Text(progress.classe?.displayString ?? "nil")
                     .bold()

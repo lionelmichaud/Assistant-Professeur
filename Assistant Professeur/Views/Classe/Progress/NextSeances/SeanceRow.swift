@@ -12,6 +12,7 @@ import SwiftUI
 /// Si plusieurs activités sont programmées, chacune est affichée
 struct SeanceRow: View {
     var seance: Seance
+    let showWatchButton: Bool
 
     @EnvironmentObject
     private var navig: NavigationModel
@@ -55,18 +56,19 @@ struct SeanceRow: View {
             )
 
             HStack {
-                Button("Actualiser la progression") {
-                    if let classeName = seance.name {
+                if let classe {
+                    Button("Actualiser la progression") {
                         Task {
-                            await navigateTo(thisClasseName: classeName)
+                            await navig.navigateToProgressOf(thisClasse: classe)
                         }
                     }
+                    .padding(.trailing)
                 }
-                .padding(.trailing)
 
                 // Chronomètre de classe
-                if let classe,
-                   let schoolName = classe.school?.viewName {
+                if showWatchButton,
+                   let classe,
+                   let schoolName = seance.schoolName {
                     Button {
                         isShowingClasseTimer.toggle()
                     } label: {
@@ -99,20 +101,16 @@ struct SeanceRow: View {
 // MARK: - Metods
 
 extension SeanceRow {
-    private func navigateTo(thisClasseName: String) async {
-        await ClasseEntity.context.perform {
-            if let classe =
-                ClasseEntity.all().filter({ classeObject in
-                    classeObject.displayString == thisClasseName
-                })
-                .first {
-                // Naviger jusqu'à l'actualisation de la progression de la classe
-                navig.selectedTab = .classe
-                navig.selectedClasseMngObjId = classe.objectID
-                // navig.classPath = [.progress(classe.id)]
-            }
-        }
-    }
+//    private func navigateToProgressOf(thisClasse: ClasseEntity) async {
+//        // Changer d'onglet pour l'onglet Classe
+//        navig.selectedTab = .classe
+//        // Sélectionner la Classe souhaitée
+//        navig.selectedClasseMngObjId = thisClasse.objectID
+//        // ATTENTION: indispensable pour laisser le temps à la RunLoop de faire les choses dans l'ordre
+//        try? await Task.sleep(for: .seconds(0.1))
+//        // Naviguer jusqu'à l'actualisation de la progression de la Classe
+//        navig.classPath = [.progress(thisClasse.id)]
+//    }
 
     private func formattedDate(_ date: Date) -> String {
         let delta = date.days(between: Date.now)
