@@ -182,13 +182,14 @@ extension ClassActivityProgressEditView {
             if let activity = progress.activity,
                let sequence = activity.sequence,
                let program = sequence.program {
-                Task {
-                    await navig.navigateToActivity(
+                DeepLinkManager.handle(
+                    navigateTo: .activity(
                         program: program,
                         sequence: sequence,
                         activity: activity
-                    )
-                }
+                    ),
+                    using: navig
+                )
             }
         } label: {
             Label("Voir l'activité", systemImage: ActivityEntity.defaultImageName)

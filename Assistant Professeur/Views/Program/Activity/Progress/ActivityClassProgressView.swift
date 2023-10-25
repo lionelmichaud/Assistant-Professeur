@@ -53,9 +53,10 @@ struct ActivityClassProgressView: View {
         } label: {
             Button {
                 if let classe = progress.classe {
-                    Task {
-                        await navig.navigateToProgressOf(thisClasse: classe)
-                    }
+                    DeepLinkManager.handle(
+                        navigateTo: .classeProgressUpdate(classe: classe),
+                        using: navig
+                    )
                 }
             } label: {
                 Text(progress.classe?.displayString ?? "nil")

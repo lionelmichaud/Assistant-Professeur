@@ -55,13 +55,14 @@ struct ClassCurrentActivityView: View {
                     Button {
                         if let sequence = activity.sequence,
                            let program = sequence.program {
-                            Task {
-                                await navig.navigateToActivity(
+                            DeepLinkManager.handle(
+                                navigateTo: .activity(
                                     program: program,
                                     sequence: sequence,
                                     activity: activity
-                                )
-                            }
+                                ),
+                                using: navig
+                            )
                         }
                     } label: {
                         Label("Voir l'activité", systemImage: ActivityEntity.defaultImageName)
@@ -71,9 +72,10 @@ struct ClassCurrentActivityView: View {
 
                     // Navigation vers la page d'actualisation de la progression
                     Button {
-                        Task {
-                            await navig.navigateToProgressOf(thisClasse: classe)
-                        }
+                        DeepLinkManager.handle(
+                            navigateTo: .classeProgressUpdate(classe: classe),
+                            using: navig
+                        )
                     } label: {
                         Label("Actualiser la progression", systemImage: "figure.walk.motion")
                     }

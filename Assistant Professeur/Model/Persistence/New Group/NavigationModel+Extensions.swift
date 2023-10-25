@@ -160,6 +160,24 @@ extension NavigationModel {
         popToClasseRootView()
     }
 
+    /// Naviguer vers la page de la classe `thisClasse`.
+    @MainActor
+    func navigateTo(thisClasse: ClasseEntity) async {
+        // Changer d'onglet pour l'onglet Classe
+        selectedTab = .classe
+        // Sélectionner la Classe souhaitée
+        selectedClasseMngObjId = thisClasse.objectID
+    }
+
+    /// Naviguer vers la page de l'élève `thisEleve`.
+    @MainActor
+    func navigateTo(thisEleve: EleveEntity) async {
+        // Changer d'onglet pour l'onglet Elève
+        selectedTab = .eleve
+        // Sélectionner l'élève souhaité
+        selectedEleveMngObjId = thisEleve.objectID
+    }
+
     /// Naviguer vers la page "Actualiser la progression" de la "Classe"
     @MainActor
     func navigateToProgressOf(thisClasse: ClasseEntity) async {

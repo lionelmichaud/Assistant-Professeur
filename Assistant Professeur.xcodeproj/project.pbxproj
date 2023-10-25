@@ -66,7 +66,6 @@
 		79388A5029257025002AABB8 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4E29257025002AABB8 /* AppState.swift */; };
 		79388A5129257025002AABB8 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A4E29257025002AABB8 /* AppState.swift */; };
 		79388A5329257045002AABB8 /* NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A5229257045002AABB8 /* NavigationModel.swift */; };
-		79388A5429257045002AABB8 /* NavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79388A5229257045002AABB8 /* NavigationModel.swift */; };
 		79398D2D2965FABE0013564D /* Exam+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79398D2C2965FABE0013564D /* Exam+Extensions.swift */; };
 		79398D30296616250013564D /* ClasseExamRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79398D2E296616250013564D /* ClasseExamRow.swift */; };
 		79398D31296616250013564D /* ExamCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79398D2F296616250013564D /* ExamCreatorModal.swift */; };
@@ -167,6 +166,7 @@
 		7974CD112A2BF7DD004B3716 /* WCompChapterEntity+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7974CD102A2BF7DD004B3716 /* WCompChapterEntity+Extension.swift */; };
 		797AD2B229902BCE00BE5D37 /* ActivityProgressesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797AD2B129902BCE00BE5D37 /* ActivityProgressesView.swift */; };
 		797AD2B429913B4C00BE5D37 /* School+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */; };
+		797B7F852AE979A4009042A4 /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797B7F842AE979A4009042A4 /* DeepLinkManager.swift */; };
 		797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */; };
 		7981280629F1CB3500A3817E /* AgendaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981280529F1CB3500A3817E /* AgendaManager.swift */; };
 		7981C22129A8054A0085986D /* ProgramTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981C22029A8054A0085986D /* ProgramTimeLine.swift */; };
@@ -608,6 +608,7 @@
 		7974CD102A2BF7DD004B3716 /* WCompChapterEntity+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WCompChapterEntity+Extension.swift"; sourceTree = "<group>"; };
 		797AD2B129902BCE00BE5D37 /* ActivityProgressesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityProgressesView.swift; sourceTree = "<group>"; };
 		797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "School+CoreDataClass.swift"; sourceTree = "<group>"; };
+		797B7F842AE979A4009042A4 /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
 		797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDisciplineLevel.swift; sourceTree = "<group>"; };
 		7981280529F1CB3500A3817E /* AgendaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AgendaManager.swift; path = "Assistant Professeur/Views/Classe/Progress/ActivityTimer/AgendaManager.swift"; sourceTree = SOURCE_ROOT; };
 		7981C22029A8054A0085986D /* ProgramTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramTimeLine.swift; sourceTree = "<group>"; };
@@ -789,7 +790,7 @@
 		79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySymbolViews.swift; sourceTree = "<group>"; };
 		79F5BEC62A3674AA003F112E /* DKnowListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKnowListView.swift; sourceTree = "<group>"; };
 		79F60D072996A02200981385 /* Ressource+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Ressource+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/School/Ressource/Ressource+CoreDataClass.swift"; sourceTree = "<absolute>"; };
-		79F7708C2A2B7F89004E9089 /* NavigationModel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationModel+Extensions.swift"; sourceTree = "<group>"; };
+		79F7708C2A2B7F89004E9089 /* NavigationModel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NavigationModel+Extensions.swift"; path = "../New Group/NavigationModel+Extensions.swift"; sourceTree = "<group>"; };
 		79F7708F2A2B9B7E004E9089 /* CompetencySplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencySplitView.swift; sourceTree = "<group>"; };
 		79F770912A2B9F4E004E9089 /* CompetencySidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencySidebarView.swift; sourceTree = "<group>"; };
 		79F79B822A2D1F1800DEE003 /* WCompEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "WCompEntity+CoreDataClass.swift"; path = "../New Group/WCompEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -1456,6 +1457,27 @@
 			path = Competency;
 			sourceTree = "<group>";
 		};
+		797B7F822AE9791F009042A4 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				79388A5229257045002AABB8 /* NavigationModel.swift */,
+				79F7708C2A2B7F89004E9089 /* NavigationModel+Extensions.swift */,
+				797B7F842AE979A4009042A4 /* DeepLinkManager.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		797B7F832AE97945009042A4 /* Import-Export */ = {
+			isa = PBXGroup;
+			children = (
+				798B825F296CAC84004A24A8 /* ImportExportManager.swift */,
+				79BA2D4B299C0287006325CC /* ImageImportExportMng.swift */,
+				79012C6F2A39F76D00BF0772 /* JsonImportExportMng */,
+				79012C6A2A39EA3300BF0772 /* CsvImportExportMng */,
+			);
+			path = "Import-Export";
+			sourceTree = "<group>";
+		};
 		7981280429F1CB1300A3817E /* Agenda */ = {
 			isa = PBXGroup;
 			children = (
@@ -1941,14 +1963,10 @@
 			children = (
 				796521D02A14DB3B000C27D1 /* Preferences */,
 				796699D82A30D37100DF14AB /* DataBase */,
+				797B7F822AE9791F009042A4 /* Navigation */,
+				797B7F832AE97945009042A4 /* Import-Export */,
 				79DEDB212925991100F508EF /* Persistence.swift */,
 				79DEDB242925996E00F508EF /* Interoperability.swift */,
-				79388A5229257045002AABB8 /* NavigationModel.swift */,
-				79F7708C2A2B7F89004E9089 /* NavigationModel+Extensions.swift */,
-				798B825F296CAC84004A24A8 /* ImportExportManager.swift */,
-				79BA2D4B299C0287006325CC /* ImageImportExportMng.swift */,
-				79012C6F2A39F76D00BF0772 /* JsonImportExportMng */,
-				79012C6A2A39EA3300BF0772 /* CsvImportExportMng */,
 				799EFBA32A2CFC66008E9775 /* FileOperationTypes.swift */,
 			);
 			path = Persistence;
@@ -2478,6 +2496,7 @@
 				79FC04E5298DCC240093BC8B /* IndividualSteppedlMarkModal.swift in Sources */,
 				796A17862A3F49E600413DDD /* KnowledgeListSection.swift in Sources */,
 				79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */,
+				797B7F852AE979A4009042A4 /* DeepLinkManager.swift in Sources */,
 				79012C6E2A39EB7300BF0772 /* CsvExport.swift in Sources */,
 				79FD21992A339A7700A8D925 /* DSectionEditorModal.swift in Sources */,
 				79012C6C2A39EA8700BF0772 /* CsvImport.swift in Sources */,
@@ -2647,7 +2666,6 @@
 			files = (
 				79388A4A29256E13002AABB8 /* MainScene.swift in Sources */,
 				79388A4629256819002AABB8 /* CoreDataManager.swift in Sources */,
-				79388A5429257045002AABB8 /* NavigationModel.swift in Sources */,
 				79DEDB232925991100F508EF /* Persistence.swift in Sources */,
 				79DEDB282925996E00F508EF /* Interoperability.swift in Sources */,
 				79B6631729244C3F007B1FBD /* Assistant_ProfesseurTests.swift in Sources */,

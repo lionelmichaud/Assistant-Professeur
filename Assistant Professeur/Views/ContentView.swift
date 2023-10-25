@@ -275,9 +275,10 @@ extension ContentView {
             return
         }
 
-        Task {
-            await navig.navigateToProgressOf(thisClasse: classe)
-        }
+        DeepLinkManager.handle(
+            navigateTo: .classeProgressUpdate(classe: classe),
+            using: navig
+        )
     }
 }
 

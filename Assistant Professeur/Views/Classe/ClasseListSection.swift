@@ -36,8 +36,10 @@ struct ClasseListSection: View {
 
                     .onTapGesture {
                         // Programatic Navigation
-                        navigationModel.selectedTab = .classe
-                        navigationModel.selectedClasseMngObjId = classe.objectID
+                        DeepLinkManager.handle(
+                            navigateTo: .classe(classe: classe),
+                            using: navigationModel
+                        )
                     }
 
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
