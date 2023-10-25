@@ -13,9 +13,7 @@ extension ColleEntity {
     // MARK: - Computed properties
 
     /// Nom de l'image par défaut utilisée pour représenter un établissement
-    static var defaultImageName: String {
-        "lock"
-    }
+    static let defaultImageName: String = "lock"
 
     /// Wrapper of `motif`
     /// - Important: *Saves the context to the store after modification is done*

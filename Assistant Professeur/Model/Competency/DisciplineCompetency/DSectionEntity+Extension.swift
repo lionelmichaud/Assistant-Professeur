@@ -13,9 +13,7 @@ extension DSectionEntity {
 
     /// Nom de l'image par défaut utilisée pour représenter
     /// une section de compétences disciplinaires
-    static var defaultImageName: String {
-        "text.book.closed.fill"
-    }
+    static let defaultImageName: String = "text.book.closed.fill"
 
     /// Wrapper of `number`
     /// - Important: *Saves the context to the store after modification is done*

@@ -13,9 +13,7 @@ extension DKnowledgeEntity {
 
     /// Nom de l'image par défaut utilisée pour représenter
     /// une section de compétences disciplinaires
-    static var defaultImageName: String {
-        "brain.head.profile"
-    }
+    static let defaultImageName: String = "brain.head.profile"
 
     /// Wrapper of `number`
     /// - Important: *Saves the context to the store after modification is done*

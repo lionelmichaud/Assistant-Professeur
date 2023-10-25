@@ -13,9 +13,7 @@ extension ProgramEntity {
     // MARK: - Computed properties
 
     /// Nom de l'image par défaut utilisée pour représenter une progression
-    static var defaultImageName: String {
-        "books.vertical"
-    }
+    static let defaultImageName: String = "books.vertical"
 
     /// Wrapper of `discipline`
     /// - Important: *Saves the context to the store after modification is done*

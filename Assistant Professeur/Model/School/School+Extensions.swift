@@ -14,9 +14,7 @@ extension SchoolEntity {
     // MARK: - Computed properties
 
     /// Nom de l'image par défaut utilisée pour représenter un établissement
-    static var defaultImageName: String {
-        LevelSchool.college.imageName
-    }
+    static let defaultImageName: String = LevelSchool.college.imageName
 
     /// Wrapper of `level`
     /// - Important: *Saves the context to the store after modification is done*

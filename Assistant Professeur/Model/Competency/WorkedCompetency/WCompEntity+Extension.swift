@@ -13,9 +13,7 @@ extension WCompEntity {
     // MARK: - Computed properties
 
     /// Nom de l'image par défaut utilisée pour représenter une compétence travaillée
-    static var defaultImageName: String {
-        "gearshape.2"
-    }
+    static let defaultImageName: String = "gearshape.2"
 
     /// Wrapper of `number`
     /// - Important: *Saves the context to the store after modification is done*

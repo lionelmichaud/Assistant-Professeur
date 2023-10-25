@@ -19,9 +19,7 @@ extension ClasseEntity {
     // MARK: - Computed properties
 
     /// Nom de l'image par défaut utilisée pour représenter un établissement
-    static var defaultImageName: String {
-        "person.3.sequence.fill"
-    }
+    static let defaultImageName: String = "person.3.sequence.fill"
 
     /// Wrapper of `discipline`
     /// - Important: *Saves the context to the store after modification is done*

@@ -12,9 +12,7 @@ extension WCompChapterEntity {
     // MARK: - Computed properties
 
     /// Nom de l'image par défaut utilisée pour représenter un établissement
-    static var defaultImageName: String {
-        "text.book.closed.fill"
-    }
+    static let defaultImageName: String = "text.book.closed.fill"
 
     /// Wrapper of `cycle`
     /// - Important: *Saves the context to the store after modification is done*

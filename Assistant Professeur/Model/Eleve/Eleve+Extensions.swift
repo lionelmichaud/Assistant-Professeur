@@ -24,9 +24,7 @@ extension EleveEntity {
     // MARK: - Computed properties
 
     /// Nom de l'image par défaut utilisée pour représenter un établissement
-    static var defaultImageName: String {
-        "graduationcap"
-    }
+    static let defaultImageName: String = "graduationcap"
 
     /// Wrapper of `trombine`
     /// - Important: *Saves the context to the store after modification is done*
