@@ -58,10 +58,12 @@ struct SeanceRow: View {
             HStack {
                 // Navigation vers la page d'actualisation de la progression
                 if let classe {
-                    Button("Actualiser la progression") {
+                    Button {
                         Task {
                             await navig.navigateToProgressOf(thisClasse: classe)
                         }
+                    } label: {
+                        Label("Actualiser la progression", systemImage: "figure.walk.motion")
                     }
                     .padding(.trailing)
                 }

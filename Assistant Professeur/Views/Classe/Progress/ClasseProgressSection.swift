@@ -146,7 +146,7 @@ extension ClasseProgressSection {
 
     private var progressView: some View {
         NavigationLink(value: ClasseNavigationRoute.progress(classe.id)) {
-            Label("Actualiser la progression", systemImage: ProgramEntity.defaultImageName)
+            Label("Actualiser la progression", systemImage: "figure.walk.motion")
                 .fontWeight(.bold)
         }
     }

@@ -51,10 +51,12 @@ struct ClassCurrentActivityView: View {
                 ActivityDetailGroupBox(activity: activity)
 
                 // Navigation vers la page d'actualisation de la progression
-                Button("Actualiser la progression") {
+                Button {
                     Task {
                         await navig.navigateToProgressOf(thisClasse: classe)
                     }
+                } label: {
+                    Label("Actualiser la progression", systemImage: "figure.walk.motion")
                 }
                 .buttonStyle(.bordered)
                 .padding(.top)
