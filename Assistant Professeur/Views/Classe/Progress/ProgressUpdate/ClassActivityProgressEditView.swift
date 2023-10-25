@@ -191,9 +191,9 @@ extension ClassActivityProgressEditView {
                 }
             }
         } label: {
-            Text("Voir l'activité")
+            Label("Voir l'activité", systemImage: "figure.walk.motion")
         }
-        .buttonStyle(.borderedProminent)
+        .buttonStyle(.bordered)
     }
 
     @ViewBuilder
@@ -204,10 +204,9 @@ extension ClassActivityProgressEditView {
             Button {
                 isShowingActivityTimer.toggle()
             } label: {
-                Text("Chrono")
-                Image(systemName: "stopwatch")
+                Label("Chrono.", systemImage: "stopwatch")
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(.bordered)
         }
     }
 

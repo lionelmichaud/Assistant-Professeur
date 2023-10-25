@@ -112,7 +112,7 @@ extension ClasseDetail {
                     Button {
                         isShowingClasseTimer.toggle()
                     } label: {
-                        Image(systemName: "stopwatch")
+                        Label("Chrono.", systemImage: "stopwatch")
                     }
                     .fullScreenCover(isPresented: $isShowingClasseTimer) {
                         NavigationStack {
