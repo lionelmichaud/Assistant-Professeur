@@ -262,10 +262,10 @@ extension ElevesTableView {
                         EleveEntity.byObjectIdentifier(objectIDs: selection)
                             .forEach { eleve in
                                 // supprimer l'élève et tous ses descendants
-                                try? eleve.delete()
                                 if navig.selectedEleveMngObjId == eleve.objectID {
                                     navig.selectedEleveMngObjId = nil
                                 }
+                                try? eleve.delete()
                             }
                     }
                 } label: {

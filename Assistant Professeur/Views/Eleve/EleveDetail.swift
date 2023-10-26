@@ -208,10 +208,10 @@ extension EleveDetail {
                         // supprimer un élève
                         Button(role: .destructive) {
                             withAnimation {
-                                try? observ.delete()
                                 if navigationModel.selectedObservMngObjId == observ.objectID {
                                     navigationModel.selectedObservMngObjId = nil
                                 }
+                                try? observ.delete()
                             }
                         } label: {
                             Label("Supprimer", systemImage: "trash")
@@ -249,10 +249,10 @@ extension EleveDetail {
                         // supprimer un élève
                         Button(role: .destructive) {
                             withAnimation {
-                                try? colle.delete()
                                 if navigationModel.selectedColleMngObjId == colle.objectID {
                                     navigationModel.selectedColleMngObjId = nil
                                 }
+                                try? colle.delete()
                             }
                         } label: {
                             Label("Supprimer", systemImage: "trash")

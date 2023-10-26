@@ -51,10 +51,10 @@ struct ElevesListView: View {
                         Button(role: .destructive) {
                             withAnimation {
                                 // supprimer l'élève et tous ses descendants
-                                try? eleve.delete()
                                 if navig.selectedEleveMngObjId == eleve.objectID {
                                     navig.selectedEleveMngObjId = nil
                                 }
+                                try? eleve.delete()
                             }
                         } label: {
                             Label("Supprimer", systemImage: "trash")

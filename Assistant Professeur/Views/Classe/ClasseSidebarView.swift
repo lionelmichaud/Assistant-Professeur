@@ -69,10 +69,11 @@ struct ClasseSidebarSchoolSubview: View {
                     // supprimer la classe et tous ses descendants
                     Button(role: .destructive) {
                         withAnimation {
-                            try? classe.delete()
                             if navigationModel.selectedClasseMngObjId == classe.objectID {
                                 navigationModel.selectedClasseMngObjId = nil
                             }
+                            // ATTENTION: à mettre en dernier
+                            try? classe.delete()
                         }
                     } label: {
                         Label("Supprimer", systemImage: "trash")

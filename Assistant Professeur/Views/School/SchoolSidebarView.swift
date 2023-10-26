@@ -87,10 +87,11 @@ struct SchoolSidebarView: View {
                                     // supprimer l'établissement et tous ses descendants
                                     Button(role: .destructive) {
                                         withAnimation {
-                                            try? school.delete()
                                             if navigationModel.selectedSchoolMngObjId == school.objectID {
                                                 navigationModel.selectedSchoolMngObjId = nil
                                             }
+                                            // ATTENTION: à mettre en dernier
+                                            try? school.delete()
                                         }
                                     } label: {
                                         Label("Supprimer", systemImage: "trash")

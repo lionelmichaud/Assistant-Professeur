@@ -91,10 +91,10 @@ struct ObservSidebarSchoolSubview: View {
                                 // supprimer l'observation
                                 Button(role: .destructive) {
                                     withAnimation {
-                                        try? observ.delete()
                                         if navig.selectedObservMngObjId == observ.objectID {
                                             navig.selectedObservMngObjId = nil
                                         }
+                                        try? observ.delete()
                                     }
                                 } label: {
                                     Label("Supprimer", systemImage: "trash")

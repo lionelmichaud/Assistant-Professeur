@@ -97,6 +97,36 @@
                   endingLineNumber = "58"
                   offsetFromSymbolStart = "3676">
                </Location>
+               <Location
+                  uuid = "1CB73EDC-C7DD-4D22-BAAD-E06CBD2F3CF7 - 5cd2cbf152226da"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.ClasseEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.ClasseEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Classe/Classe+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "7228">
+               </Location>
+               <Location
+                  uuid = "1CB73EDC-C7DD-4D22-BAAD-E06CBD2F3CF7 - 5cd2cbf152226da"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.ClasseEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.ClasseEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Classe/Classe+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "3836">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -189,6 +219,36 @@
                   startingLineNumber = "64"
                   endingLineNumber = "64"
                   offsetFromSymbolStart = "5932">
+               </Location>
+               <Location
+                  uuid = "056424E1-A327-4F02-886E-B483462664DE - 8a77f35c8ad25c5c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.EleveEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.EleveEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Eleve/Eleve+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "10836">
+               </Location>
+               <Location
+                  uuid = "056424E1-A327-4F02-886E-B483462664DE - 8a77f35c8ad25c5c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.EleveEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.EleveEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Eleve/Eleve+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "64"
+                  endingLineNumber = "64"
+                  offsetFromSymbolStart = "5892">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -298,6 +358,36 @@
                   endingLineNumber = "51"
                   offsetFromSymbolStart = "3768">
                </Location>
+               <Location
+                  uuid = "67FE157E-C920-48C0-9B1A-FF60A947EC26 - 8a77f35c8ad25e09"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.EleveEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.EleveEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Eleve/Eleve+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "7400">
+               </Location>
+               <Location
+                  uuid = "67FE157E-C920-48C0-9B1A-FF60A947EC26 - 8a77f35c8ad25e09"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.EleveEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.EleveEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Eleve/Eleve+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "3724">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -406,6 +496,36 @@
                   endingLineNumber = "42"
                   offsetFromSymbolStart = "1684">
                </Location>
+               <Location
+                  uuid = "7F0ABC3C-AA30-48A2-9A70-9226A0B25075 - e0fc264aae32e5e3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.MarkEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.MarkEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Classe/Exam/Mark+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "4312">
+               </Location>
+               <Location
+                  uuid = "7F0ABC3C-AA30-48A2-9A70-9226A0B25075 - e0fc264aae32e5e3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.MarkEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.MarkEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Classe/Exam/Mark+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "2908">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -484,6 +604,36 @@
                   endingLineNumber = "240"
                   offsetFromSymbolStart = "320">
                </Location>
+               <Location
+                  uuid = "B96C8A20-FA6F-4EB5-810C-D1892EE97883 - 8152cfd9f780c47f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Assistant_Professeur.DataBaseManager.populateWithMockData(storeType: Assistant_Professeur.StoreType) -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Persistence/DataBase/DataBaseManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "240"
+                  endingLineNumber = "240"
+                  offsetFromSymbolStart = "1912">
+               </Location>
+               <Location
+                  uuid = "B96C8A20-FA6F-4EB5-810C-D1892EE97883 - 8152cfd9f780c47f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Assistant_Professeur.DataBaseManager.populateWithMockData(storeType: Assistant_Professeur.StoreType) -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Persistence/DataBase/DataBaseManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "240"
+                  endingLineNumber = "240"
+                  offsetFromSymbolStart = "768">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -561,6 +711,36 @@
                   startingLineNumber = "47"
                   endingLineNumber = "47"
                   offsetFromSymbolStart = "328">
+               </Location>
+               <Location
+                  uuid = "27C7D2DC-8CB9-4355-9544-368770A8311C - b92414e384e882de"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Assistant_Professeur.GroupManager.permuter(thisEleve: Assistant_Professeur.EleveEntity, withThisEleve: Assistant_Professeur.EleveEntity) -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Classe/Group/GroupManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47"
+                  offsetFromSymbolStart = "1424">
+               </Location>
+               <Location
+                  uuid = "27C7D2DC-8CB9-4355-9544-368770A8311C - b92414e384e882de"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static Assistant_Professeur.GroupManager.permuter(thisEleve: Assistant_Professeur.EleveEntity, withThisEleve: Assistant_Professeur.EleveEntity) -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Classe/Group/GroupManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47"
+                  offsetFromSymbolStart = "484">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -669,6 +849,54 @@
                   startingLineNumber = "499"
                   endingLineNumber = "499"
                   offsetFromSymbolStart = "10608">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D1D2DEB5-F0FD-441E-B1EA-1483062BEE09"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Assistant Professeur/Views/Classe/Liste/ElevesListView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "body"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "D1D2DEB5-F0FD-441E-B1EA-1483062BEE09 - 1a50cc9a4f863102"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in closure #1 () -&gt; () in closure #2 () -&gt; SwiftUI.Button&lt;SwiftUI.Label&lt;SwiftUI.Text, SwiftUI.Image&gt;&gt; in closure #3 (Assistant_Professeur.EleveEntity) -&gt; &lt;&lt;opaque return type of SwiftUI.View.swipeActions&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(edge: SwiftUI.HorizontalEdge, allowsFullSwipe: Swift.Bool, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0 in closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.buttonStyle&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.PrimitiveButtonStyle&gt;(&#x3c4;_1_0) -&gt; some&gt;&gt;.0, SwiftUI.ForEach&lt;Swift.Array&lt;Assistant_Professeur.EleveEntity&gt;, Swift.Optional&lt;Foundation.UUID&gt;, &lt;&lt;opaque return type of SwiftUI.View.swipeActions&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(edge: SwiftUI.HorizontalEdge, allowsFullSwipe: Swift.Bool, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0&gt;)&gt; in Assistant_Professeur.ElevesListView.body.getter : some"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/Classe/Liste/ElevesListView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "616">
+               </Location>
+               <Location
+                  uuid = "D1D2DEB5-F0FD-441E-B1EA-1483062BEE09 - 1a50cc9a4f863102"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in closure #1 () -&gt; () in closure #2 () -&gt; SwiftUI.Button&lt;SwiftUI.Label&lt;SwiftUI.Text, SwiftUI.Image&gt;&gt; in closure #3 (Assistant_Professeur.EleveEntity) -&gt; &lt;&lt;opaque return type of SwiftUI.View.swipeActions&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(edge: SwiftUI.HorizontalEdge, allowsFullSwipe: Swift.Bool, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0 in closure #1 () -&gt; SwiftUI.TupleView&lt;(&lt;&lt;opaque return type of SwiftUI.View.buttonStyle&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.PrimitiveButtonStyle&gt;(&#x3c4;_1_0) -&gt; some&gt;&gt;.0, SwiftUI.ForEach&lt;Swift.Array&lt;Assistant_Professeur.EleveEntity&gt;, Swift.Optional&lt;Foundation.UUID&gt;, &lt;&lt;opaque return type of SwiftUI.View.swipeActions&lt;&#x3c4;_0_0 where &#x3c4;_1_0: SwiftUI.View&gt;(edge: SwiftUI.HorizontalEdge, allowsFullSwipe: Swift.Bool, content: () -&gt; &#x3c4;_1_0) -&gt; some&gt;&gt;.0&gt;)&gt; in Assistant_Professeur.ElevesListView.body.getter : some"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/Classe/Liste/ElevesListView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "592">
                </Location>
             </Locations>
          </BreakpointContent>

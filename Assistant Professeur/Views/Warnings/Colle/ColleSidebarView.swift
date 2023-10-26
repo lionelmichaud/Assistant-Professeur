@@ -91,10 +91,10 @@ struct ColleSidebarSchoolSubview: View {
                                 // supprimer la Colle
                                 Button(role: .destructive) {
                                     withAnimation {
-                                        try? colle.delete()
                                         if navig.selectedColleMngObjId == colle.objectID {
                                             navig.selectedColleMngObjId = nil
                                         }
+                                        try? colle.delete()
                                     }
                                 } label: {
                                     Label("Supprimer", systemImage: "trash")

@@ -150,10 +150,11 @@ struct EleveSidebarClasseSubview: View {
                                 Button(role: .destructive) {
                                     withAnimation {
                                         // supprimer l'élève et tous ses descendants
-                                        try? eleve.delete()
                                         if navigationModel.selectedEleveMngObjId == eleve.objectID {
                                             navigationModel.selectedEleveMngObjId = nil
                                         }
+                                        // ATTENTION: à mettre en dernier
+                                        try? eleve.delete()
                                     }
                                 } label: {
                                     Label("Supprimer", systemImage: "trash")

@@ -47,10 +47,10 @@ struct ClasseListSection: View {
                         Button(role: .destructive) {
                             withAnimation {
                                 // supprimer la classe et tous ses descendants
-                                try? classe.delete()
                                 if navigationModel.selectedClasseMngObjId == classe.objectID {
                                     navigationModel.selectedClasseMngObjId = nil
                                 }
+                                try? classe.delete()
                             }
                         } label: {
                             Label("Supprimer", systemImage: "trash")
