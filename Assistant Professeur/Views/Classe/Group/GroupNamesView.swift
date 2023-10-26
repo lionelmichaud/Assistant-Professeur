@@ -22,7 +22,7 @@ struct GroupNamesView: View {
     let searchString: String
 
     @EnvironmentObject
-    private var navigationModel: NavigationModel
+    private var navig: NavigationModel
 
     @State
     private var permutationEleve: EleveEntity?
@@ -53,8 +53,10 @@ struct GroupNamesView: View {
                     // afficher la fiche de l'élève du groupe
                     .onTapGesture {
                         // Programatic Navigation
-                        navigationModel.selectedTab = .eleve
-                        navigationModel.selectedEleveMngObjId = eleve.objectID
+                        DeepLinkManager.handle(
+                            navigateTo: .eleve(eleve: eleve),
+                            using: navig
+                        )
                     }
 
                     // retirer l'élève du groupe

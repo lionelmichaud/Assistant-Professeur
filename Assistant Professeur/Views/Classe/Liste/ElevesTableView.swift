@@ -22,7 +22,7 @@ struct ElevesTableView: View {
     // MARK: - Private
 
     @EnvironmentObject
-    private var navigationModel: NavigationModel
+    private var navig: NavigationModel
 
     @State
     private var isAddingNewEleve = false
@@ -214,11 +214,12 @@ extension ElevesTableView {
             // aller à la fiche élève
             Button {
                 // Programatic Navigation
-                navigationModel.selectedTab = .eleve
-                navigationModel.selectedEleveMngObjId =
-                    EleveEntity
-                        .byObjectIdentifier(objectID: selection.first!)!
-                        .objectID
+                DeepLinkManager.handle(
+                    navigateTo: .eleve(
+                        eleve: EleveEntity
+                            .byObjectIdentifier(objectID: selection.first!)!),
+                    using: navig
+                )
             } label: {
                 Label(
                     "Fiche élève",
@@ -262,8 +263,8 @@ extension ElevesTableView {
                             .forEach { eleve in
                                 // supprimer l'élève et tous ses descendants
                                 try? eleve.delete()
-                                if navigationModel.selectedEleveMngObjId == eleve.objectID {
-                                    navigationModel.selectedEleveMngObjId = nil
+                                if navig.selectedEleveMngObjId == eleve.objectID {
+                                    navig.selectedEleveMngObjId = nil
                                 }
                             }
                     }

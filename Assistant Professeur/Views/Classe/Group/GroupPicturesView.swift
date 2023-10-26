@@ -14,7 +14,7 @@ struct GroupPicturesView: View {
     let searchString: String
 
     @EnvironmentObject
-    private var navigationModel: NavigationModel
+    private var navig: NavigationModel
 
     let smallColumns = [
         GridItem(
@@ -43,8 +43,10 @@ struct GroupPicturesView: View {
                 }
                 .onTapGesture {
                     // Programatic Navigation
-                    navigationModel.selectedTab = .eleve
-                    navigationModel.selectedEleveMngObjId = eleve.objectID
+                    DeepLinkManager.handle(
+                        navigateTo: .eleve(eleve: eleve),
+                        using: navig
+                    )
                 }
             }
         }

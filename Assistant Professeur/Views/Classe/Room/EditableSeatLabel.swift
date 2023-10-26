@@ -134,8 +134,10 @@ struct SeatMenu: View {
                     // aller à la fiche élève
                     Button {
                         // Programatic Navigation
-                        navig.selectedTab = .eleve
-                        navig.selectedEleveMngObjId = eleveOnSeat.objectID
+                        DeepLinkManager.handle(
+                            navigateTo: .eleve(eleve: eleveOnSeat),
+                            using: navig
+                        )
                     } label: {
                         Label(
                             "Fiche élève",

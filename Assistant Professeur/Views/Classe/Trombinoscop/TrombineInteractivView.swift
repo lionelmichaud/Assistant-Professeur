@@ -13,7 +13,7 @@ struct TrombineInteractivView: View {
     var eleve: EleveEntity
 
     @EnvironmentObject
-    private var navigationModel: NavigationModel
+    private var navig: NavigationModel
 
     @State
     private var isAddingNewObserv = false
@@ -26,8 +26,10 @@ struct TrombineInteractivView: View {
             // aller à la fiche élève
             Button {
                 // Programatic Navigation
-                navigationModel.selectedTab = .eleve
-                navigationModel.selectedEleveMngObjId = eleve.objectID
+                DeepLinkManager.handle(
+                    navigateTo: .eleve(eleve: eleve),
+                    using: navig
+                )
             } label: {
                 Label(
                     "Fiche élève",

@@ -194,20 +194,20 @@ extension NavigationModel {
     /// Naviguer vers la page "Activité" de la "Séquence" du "Programme"
     @MainActor
     func navigateToActivity(
-        program: ProgramEntity,
-        sequence: SequenceEntity,
-        activity: ActivityEntity
+        activity: ActivityEntity,
+        inSequence: SequenceEntity,
+        inProgram: ProgramEntity
     ) async {
         selectedTab = .program
         try? await Task.sleep(for: .seconds(0.1))
 
-        selectedProgramMngObjId = program.objectID
+        selectedProgramMngObjId = inProgram.objectID
         try? await Task.sleep(for: .seconds(0.1))
 
-        selectedSequenceMngObjId = sequence.objectID
+        selectedSequenceMngObjId = inSequence.objectID
         try? await Task.sleep(for: .seconds(0.1))
 
-        programPath = [sequence]
+        programPath = [inSequence]
         try? await Task.sleep(for: .seconds(0.1))
 
         selectedActivityMngObjId = activity.objectID

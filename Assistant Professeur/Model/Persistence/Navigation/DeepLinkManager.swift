@@ -53,9 +53,9 @@ enum DeepLinkManager {
                 Task {
                     await navigationModel
                         .navigateToActivity(
-                            program: program,
-                            sequence: sequence,
-                            activity: activity
+                            activity: activity,
+                            inSequence: sequence,
+                            inProgram: program
                         )
                 }
         }

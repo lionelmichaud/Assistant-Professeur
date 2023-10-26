@@ -12,7 +12,7 @@ struct ElevesListView: View {
     var classe: ClasseEntity
 
     @EnvironmentObject
-    private var navigationModel: NavigationModel
+    private var navig: NavigationModel
 
     @State
     private var isAddingNewEleve = false
@@ -40,8 +40,10 @@ struct ElevesListView: View {
 
                     .onTapGesture {
                         // Programatic Navigation
-                        navigationModel.selectedTab = .eleve
-                        navigationModel.selectedEleveMngObjId = eleve.objectID
+                        DeepLinkManager.handle(
+                            navigateTo: .eleve(eleve: eleve),
+                            using: navig
+                        )
                     }
 
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
@@ -50,8 +52,8 @@ struct ElevesListView: View {
                             withAnimation {
                                 // supprimer l'élève et tous ses descendants
                                 try? eleve.delete()
-                                if navigationModel.selectedEleveMngObjId == eleve.objectID {
-                                    navigationModel.selectedEleveMngObjId = nil
+                                if navig.selectedEleveMngObjId == eleve.objectID {
+                                    navig.selectedEleveMngObjId = nil
                                 }
                             }
                         } label: {
