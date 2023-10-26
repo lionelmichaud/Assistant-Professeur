@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 10/07/2023.
 //
 
+import AppFoundation
 import EventKit
 import HelpersView
 import SwiftUI
@@ -13,6 +14,22 @@ struct SchoolNextSeancesView: View {
     @ObservedObject
     var school: SchoolEntity
 
+    enum PeriodEnum: String, PickableEnumP {
+        case today
+        case oneWeek
+        case all
+
+        var pickerString: String {
+            switch self {
+                case .today: "Aujourd'hui"
+                case .oneWeek: "Semaine à venir"
+                case .all: "3 prochains mois"
+            }
+        }
+    }
+
+    @State
+    private var period: PeriodEnum = .oneWeek
     private let horizon = 3 // mois
 
     @State
@@ -36,6 +53,8 @@ struct SchoolNextSeancesView: View {
     @State
     private var alertIsPresented = false
 
+    // MARK: - Computed Properties
+
     private var infoView: some View {
         VStack {
             Text("Pour apparaître ici les noms des événements")
@@ -49,16 +68,25 @@ struct SchoolNextSeancesView: View {
     }
 
     var body: some View {
-        ScrollView(.vertical, showsIndicators: true) {
-            ForEach(schoolSeances.seances) { seance in
-                SeanceRow(seance: seance, showWatchButton: false)
-            }
-            .emptyListPlaceHolder(schoolSeances.seances) {
-                ContentUnavailableView(
-                    "Aucun cours trouvé dans votre agenda...",
-                    systemImage: "clock",
-                    description: Text("Les cours plannifiés dans votre agenda pour les classes de cet établissement apparaîtront ici.")
-                )
+        VStack {
+            CasePicker(
+                pickedCase: $period,
+                label: "Période"
+            )
+            .pickerStyle(.segmented)
+            .padding(.vertical)
+
+            ScrollView(.vertical, showsIndicators: true) {
+                ForEach(schoolSeances.seances) { seance in
+                    SeanceRow(seance: seance, showWatchButton: false)
+                }
+                .emptyListPlaceHolder(schoolSeances.seances) {
+                    ContentUnavailableView(
+                        "Aucun cours trouvé dans votre agenda...",
+                        systemImage: "clock",
+                        description: Text("Les cours plannifiés dans votre agenda pour les classes de cet établissement apparaîtront ici.")
+                    )
+                }
             }
         }
         .padding(.horizontal)
@@ -69,7 +97,7 @@ struct SchoolNextSeancesView: View {
             actions: {},
             message: { Text(alertMessage) }
         )
-        .task(id: school.objectID) {
+        .task(id: school.id!.uuidString + period.pickerString) {
             let schoolName = school.viewName
 
             // Demander les droits d'accès aux calendriers de l'utilisateur
@@ -84,9 +112,15 @@ struct SchoolNextSeancesView: View {
                     calendarName: schoolName
                 )
             if let calendar {
+                var endDate: Date?
+                switch period {
+                    case .today: endDate = 1.days.from(Calendar.current.startOfDay(for: .now))
+                    case .oneWeek: endDate = 1.weeks.fromNow
+                    case .all: endDate = horizon.months.fromNow
+                }
                 let dateInterval = DateInterval(
                     start: Date.now,
-                    end: horizon.months.fromNow!
+                    end: endDate!
                 )
 
                 // `SeancesInDateInterval` contenant la liste des Séances à venir
