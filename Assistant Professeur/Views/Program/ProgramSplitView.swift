@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 20/01/2023.
 //
 
-import Stateful
 import SwiftUI
+import AppFoundation
 
 // MARK: - State Machine de l'état de la colonne "détail"
 
@@ -23,7 +23,7 @@ struct ProgramSplitView: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @State 
+    @State
     private var preferredColumn = NavigationSplitViewColumn.sidebar
 
     var body: some View {
@@ -44,8 +44,10 @@ struct ProgramSplitView: View {
             NavigationStack(path: $navig.programPath) {
                 SequenceSidebar(preferredColumn: $preferredColumn)
                     .navigationDestination(for: SequenceEntity.self) { sequence in
-                        ActivitySideBar(sequence: sequence,
-                                        preferredColumn: $preferredColumn)
+                        ActivitySideBar(
+                            sequence: sequence,
+                            preferredColumn: $preferredColumn
+                        )
                     }
                     .navigationSplitViewColumnWidth(
                         min: 400,
@@ -56,7 +58,9 @@ struct ProgramSplitView: View {
 
         } detail: {
             // 3ième colonne
-            ProgramDetailedColumn()
+            ProgramDetailedColumn(
+                content: navig.programDetailColumnState
+            )
         }
         .navigationSplitViewStyle(.balanced)
 
@@ -77,16 +81,15 @@ struct ProgramSplitView: View {
     }
 }
 
-/// Détail dans la 3ième colonne de la Tab des Compétences
+/// Détail dans la 3ième colonne de la Tab des Program
 struct ProgramDetailedColumn: View {
-    @EnvironmentObject
-    private var navig: NavigationModel
+    let content: ProgramDetailColumnState?
 
-    @Environment(\.horizontalSizeClass) 
+    @Environment(\.horizontalSizeClass)
     private var horizontalSizeClass
 
     var body: some View {
-        switch navig.programDetailColumnState {
+        switch content {
             case .none:
                 ContentUnavailableView(
                     "Aucune activité sélectionnée...",

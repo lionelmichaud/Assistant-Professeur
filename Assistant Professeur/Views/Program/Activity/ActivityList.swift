@@ -12,6 +12,9 @@ struct ActivityList: View {
     @ObservedObject
     var sequence: SequenceEntity
 
+    @Binding
+    var preferredColumn: NavigationSplitViewColumn
+
     var searchString: String = ""
 
     @EnvironmentObject
@@ -21,11 +24,16 @@ struct ActivityList: View {
         let filteredActivities = sequence.filteredActivitiesSortedByNumber(searchString: searchString)
 
         return Section {
-            ForEach(filteredActivities,id: \.objectID) { activity in
+            ForEach(filteredActivities, id: \.objectID) { activity in
                 ActivityBrowserRow(activity: activity)
                     .customizedListItemStyle(
                         isSelected: activity.objectID == navig.selectedActivityMngObjId
                     )
+//                    .onTapGesture {
+//                        navig.showActivityDetails()
+//                        // FIXME: Fait planter l'app
+//                        preferredColumn = .detail
+//                    }
             }
             .onMove(perform: moveItems)
             .onDelete(perform: deleteItems)

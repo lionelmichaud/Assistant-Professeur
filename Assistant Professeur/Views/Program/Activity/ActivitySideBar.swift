@@ -47,7 +47,8 @@ struct ActivitySideBar: View {
             }
 
             ActivityList(
-                sequence: sequence,
+                sequence: sequence, 
+                preferredColumn: $preferredColumn,
                 searchString: searchString
             )
         }
