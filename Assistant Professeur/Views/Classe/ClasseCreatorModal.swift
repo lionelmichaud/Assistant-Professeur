@@ -127,6 +127,9 @@ struct ClasseCreatorModal: View {
         #endif
         .onAppear {
             isHoursFocused = true
+            classeVM.levelEnum = LevelClasse.allCases
+                .filter({ $0.isCompatible(withSchool: inSchool) })
+                .first!
         }
     }
 }
@@ -141,10 +144,14 @@ extension ClasseCreatorModal {
                 .sfSymbolStyling()
                 .foregroundColor(classeVM.levelEnum.imageColor)
 
-            CasePicker(
-                pickedCase: $classeVM.levelEnum,
-                label: ""
-            )
+            Picker("", selection: $classeVM.levelEnum) {
+                let items = LevelClasse.allCases.filter {
+                    $0.isCompatible(withSchool: inSchool)
+                }
+                ForEach(items, id: \.self) { enu in
+                    Text(enu.pickerString)
+                }
+            }
             .pickerStyle(.menu)
         }
     }
