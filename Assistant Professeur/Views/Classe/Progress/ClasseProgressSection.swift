@@ -37,7 +37,7 @@ struct ClasseProgressSection: View {
 
     var body: some View {
         if let progresses = classe.progresses,
-           progresses.count != 0 {
+           !progresses.isEmpty {
             Section {
                 // Activité en cours
                 currentActivityView
@@ -123,21 +123,23 @@ extension ClasseProgressSection {
                         var schoolYear = SchoolYearPref()
                         schoolYear = UserPrefEntity.shared.viewSchoolYearPref
 
-                        if let calendar {
-                            // Liste des Séances à venir pour cette classe
-                            classeSeances.loadClasseSeancesFromCalendar(
-                                forDiscipline: classe.disciplineEnum,
-                                forSchoolName: schoolName,
-                                forClasseName: classe.displayString,
-                                inCalendar: calendar,
-                                inEventStore: eventStore,
-                                during: DateInterval(
-                                    start: Date.now,
-                                    end: horizon.months.fromNow!
-                                ),
-                                schoolYear: schoolYear
-                            )
+                        guard let calendar else {
+                            return
                         }
+
+                        // Liste des Séances à venir pour cette classe
+                        classeSeances.loadClasseSeancesFromCalendar(
+                            forDiscipline: classe.disciplineEnum,
+                            forSchoolName: schoolName,
+                            forClasseName: classe.displayString,
+                            inCalendar: calendar,
+                            inEventStore: eventStore,
+                            during: DateInterval(
+                                start: Date.now,
+                                end: horizon.months.fromNow!
+                            ),
+                            schoolYear: schoolYear
+                        )
                     }
                 }
             }

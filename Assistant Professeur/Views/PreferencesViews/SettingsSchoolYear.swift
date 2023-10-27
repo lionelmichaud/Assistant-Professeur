@@ -131,23 +131,26 @@ struct SettingsSchoolYear: View {
                     eventStore: eventStore,
                     calendarName: pref.viewSchoolYearPref.calName
                 )
-            if let calendar {
-                let success = EventManager.saveOrUpdate(
-                    eventTitle: eventTitle,
-                    eventDateInterval: eventDateInterval,
-                    during: pref.viewSchoolYearPref.interval,
-                    inCalendar: calendar,
-                    inEventStore: eventStore
-                )
-                if success {
-                    alertTitle = "L'événement a été enregistré."
-                    alertMessage = ""
-                    alertIsPresented.toggle()
-                } else {
-                    alertTitle = "L'enregistrement à échoué."
-                    alertMessage = ""
-                    alertIsPresented.toggle()
-                }
+
+            guard let calendar else {
+                return
+            }
+
+            let success = EventManager.saveOrUpdate(
+                eventTitle: eventTitle,
+                eventDateInterval: eventDateInterval,
+                during: pref.viewSchoolYearPref.interval,
+                inCalendar: calendar,
+                inEventStore: eventStore
+            )
+            if success {
+                alertTitle = "L'événement a été enregistré."
+                alertMessage = ""
+                alertIsPresented.toggle()
+            } else {
+                alertTitle = "L'enregistrement à échoué."
+                alertMessage = ""
+                alertIsPresented.toggle()
             }
         }
     }

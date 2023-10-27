@@ -5,34 +5,28 @@
 //  Created by Lionel MICHAUD on 24/10/2023.
 //
 
-import EventKit
-import HelpersView
 import SwiftUI
+import HelpersView
 
 struct SchoolPreviousSeancesView: View {
     @ObservedObject
     var school: SchoolEntity
 
-    @State
-    private var schoolSeances: SeancesInDateInterval = .init()
+    // MARK: - Properties
 
     @State
     private var popOverIsPresented: Bool = false
 
-    @State
-    private var eventStore = EKEventStore()
+    // MARK: - Computed Properties
 
-    @State
-    private var calendar: EKCalendar?
-
-    @State
-    private var alertTitle = ""
-
-    @State
-    private var alertMessage = ""
-
-    @State
-    private var alertIsPresented = false
+    /// Période de recherche
+    private var dateInterval: DateInterval {
+        let startOfDay = Calendar.current.startOfDay(for: .now)
+        return DateInterval(
+            start: startOfDay,
+            end: .now
+        )
+    }
 
     private var infoView: some View {
         VStack {
@@ -47,68 +41,14 @@ struct SchoolPreviousSeancesView: View {
     }
 
     var body: some View {
-        ScrollView(.vertical, showsIndicators: true) {
-            ForEach(schoolSeances.seances) { seance in
-                SeanceRow(seance: seance, showWatchButton: false)
-            }
-            .emptyListPlaceHolder(schoolSeances.seances) {
-                ContentUnavailableView(
-                    "Aucun cours trouvé dans votre agenda...",
-                    systemImage: "clock",
-                    description: Text("Les cours plannifiés dans votre agenda pour les classes de cet établissement apparaîtront ici.")
-                )
-            }
-        }
+        // Afficher le resultat de la recherche
+        SchoolSeancesList(
+            school: school,
+            dateInterval: dateInterval, 
+            showOnlyOngoingSeance: false
+        )
         .padding(.horizontal)
         .verticallyAligned(.top)
-        .alert(
-            alertTitle,
-            isPresented: $alertIsPresented,
-            actions: {},
-            message: { Text(alertMessage) }
-        )
-        .task(id: school.objectID) {
-            // Demander les droits d'accès aux calendriers de l'utilisateur
-            (
-                calendar,
-                alertIsPresented,
-                alertTitle,
-                alertMessage
-            ) = await EventManager.shared
-                .requestCalendarAccess(
-                    eventStore: eventStore,
-                    calendarName: school.viewName
-                )
-            if let calendar {
-                await SchoolEntity.context.perform {
-                    var schoolYear = SchoolYearPref()
-                    schoolYear = UserPrefEntity.shared.viewSchoolYearPref
-                    let startOfDay = Calendar.current.startOfDay(for: .now)
-
-                    let dateInterval = DateInterval(
-                        start: startOfDay,
-                        end: .now
-                    )
-
-                    // `SeancesInDateInterval` contenant la liste des Séances à venir
-                    // pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
-                    schoolSeances.loadSchoolSeancesFromCalendar(
-                        school: school,
-                        inCalendar: calendar,
-                        inEventStore: eventStore,
-                        during: dateInterval,
-                        schoolYear: schoolYear
-                    )
-
-                    // Eliminer l'éventuel cours en cours d'éxécution
-                    schoolSeances.seances =
-                        schoolSeances.seances
-                            .filter { seance in
-                                !seance.interval.contains(.now)
-                            }
-                }
-            }
-        }
         #if os(iOS)
         .navigationTitle("Cours précédents")
         #endif

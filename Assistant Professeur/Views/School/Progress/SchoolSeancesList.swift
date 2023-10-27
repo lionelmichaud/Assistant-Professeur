@@ -12,7 +12,9 @@ struct SchoolSeancesList: View {
     @ObservedObject
     var school: SchoolEntity
 
-    var dateInterval: DateInterval
+    let dateInterval: DateInterval
+
+    let showOnlyOngoingSeance: Bool
 
     @State
     private var loadingStatus: CalendarSeancesLoadingStatus = .pending
@@ -70,6 +72,14 @@ struct SchoolSeancesList: View {
                 inEventStore: eventStore,
                 inDateInterval: dateInterval
             )
+
+            if showOnlyOngoingSeance {
+                schoolSeances.seances =
+                    schoolSeances.seances
+                        .filter { seance in
+                            seance.interval.contains(.now)
+                        }
+            }
 
             loadingStatus = .finished(seancesInInterval: schoolSeances)
         }

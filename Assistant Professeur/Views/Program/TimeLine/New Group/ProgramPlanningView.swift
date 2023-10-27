@@ -194,8 +194,11 @@ struct ProgramPlanningView: View {
                                 eventStore: eventStore,
                                 calendarName: schoolName
                             )
+                        guard let calendar else {
+                            return
+                        }
 
-                        if let calendar {
+                        await ClasseEntity.context.perform {
                             let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
                             var classeSeances: SeancesInDateInterval = .init()
 
@@ -227,7 +230,6 @@ struct ProgramPlanningView: View {
                             if let plannedDate {
                                 data.datesClasses[classe.displayString] = plannedDate
                             }
-                        }
                     }
                 }
 

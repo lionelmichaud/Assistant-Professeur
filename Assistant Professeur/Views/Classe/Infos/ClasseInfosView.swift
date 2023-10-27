@@ -184,22 +184,24 @@ struct ClasseInfosView: View {
                         eventStore: eventStore,
                         calendarName: school.viewName
                     )
-                if let calendar {
-                    // Récupérer les dates d'arrêt des notes avant conseils de classe
-                    arretsNotes = EventManager.getAllArretsNotes(
-                        forClasseLevel: classe.levelEnum,
-                        inCalendar: calendar,
-                        inEventStore: eventStore,
-                        during: pref.viewSchoolYearPref.interval
-                    )
-                    // Récupérer les dates de conseils de classe
-                    conseils = EventManager.getAllConseils(
-                        forClasseName: classe.displayString,
-                        inCalendar: calendar,
-                        inEventStore: eventStore,
-                        during: pref.viewSchoolYearPref.interval
-                    )
+                guard let calendar else {
+                    return
                 }
+
+                // Récupérer les dates d'arrêt des notes avant conseils de classe
+                arretsNotes = EventManager.getAllArretsNotes(
+                    forClasseLevel: classe.levelEnum,
+                    inCalendar: calendar,
+                    inEventStore: eventStore,
+                    during: pref.viewSchoolYearPref.interval
+                )
+                // Récupérer les dates de conseils de classe
+                conseils = EventManager.getAllConseils(
+                    forClasseName: classe.displayString,
+                    inCalendar: calendar,
+                    inEventStore: eventStore,
+                    during: pref.viewSchoolYearPref.interval
+                )
             }
         }
     }

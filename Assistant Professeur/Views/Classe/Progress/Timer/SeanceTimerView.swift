@@ -135,20 +135,63 @@ struct SeanceTimerView: View {
                     eventStore: eventStore,
                     calendarName: schoolName
                 )
-            if let calendar {
-                // Charge les heures de cours du jour
-                timerVM.loadTodaySeances(
-                    forDiscipline: discipline,
-                    forClasse: classeName,
-                    inCalendar: calendar,
-                    inEventStore: eventStore
-                )
-                #if canImport(ActivityKit)
-                    if let seance = timerVM.seanceOngoing(at: .now) {
-                        let seanceDuration = Int(seance.duration) // seconds
+            guard let calendar else {
+                return
+            }
 
-                        // Démarrer la Live Activity
-                        let initialState =
+            // Charge les heures de cours du jour
+            timerVM.loadTodaySeances(
+                forDiscipline: discipline,
+                forClasse: classeName,
+                inCalendar: calendar,
+                inEventStore: eventStore
+            )
+            #if canImport(ActivityKit)
+                if let seance = timerVM.seanceOngoing(at: .now) {
+                    let seanceDuration = Int(seance.duration) // seconds
+
+                    // Démarrer la Live Activity
+                    let initialState =
+                        LiveCoursProgressState(
+                            elapsedMinutes: timerVM.elapsedMinutes(to: .now),
+                            remainingMinutes: timerVM.remainingMinutes(from: .now),
+                            cursorValue: timerVM.cursorValue(for: .now),
+                            timerZone: timerVM.timerZone(
+                                for: .now,
+                                seuilAlert: alertRemainingMinutes,
+                                seuilWarning: warningRemainingMinutes
+                            )
+                        )
+                    let attribute =
+                        LiveCoursProgressFixedAttributes(
+                            seance: seance,
+                            schoolName: schoolName,
+                            classeName: classeName,
+                            warningRemainingMinutes: warningRemainingMinutes,
+                            alertRemainingMinutes: alertRemainingMinutes
+                        )
+                    await activityManager.start(
+                        withInitialState: initialState,
+                        fixedAttributes: attribute
+                    )
+                    #if DEBUG
+                        print(">>Activité lancée")
+                    #endif
+
+                    var keepOnLooping = true
+                    repeat {
+                        var alertConfig: AlertConfiguration?
+                        // code you want to repeat
+                        // Update périodique de la Live Activity
+                        // TODO: - Gérer le déclenchement des message d'alerte daans Live Activity
+                        if false {
+                            alertConfig = AlertConfiguration(
+                                title: "Title",
+                                body: "Body",
+                                sound: .default
+                            )
+                        }
+                        let newState =
                             LiveCoursProgressState(
                                 elapsedMinutes: timerVM.elapsedMinutes(to: .now),
                                 remainingMinutes: timerVM.remainingMinutes(from: .now),
@@ -159,96 +202,55 @@ struct SeanceTimerView: View {
                                     seuilWarning: warningRemainingMinutes
                                 )
                             )
-                        let attribute =
-                            LiveCoursProgressFixedAttributes(
-                                seance: seance, 
-                                schoolName: schoolName,
-                                classeName: classeName,
-                                warningRemainingMinutes: warningRemainingMinutes,
-                                alertRemainingMinutes: alertRemainingMinutes
-                            )
-                        await activityManager.start(
-                            withInitialState: initialState,
-                            fixedAttributes: attribute
+                        await activityManager.updateActivity(
+                            withNewState: newState,
+                            alertConfiguration: alertConfig
                         )
+
                         #if DEBUG
-                            print(">>Activité lancée")
+                            print(">>Activité updated")
                         #endif
 
-                        var keepOnLooping = true
-                        repeat {
-                            var alertConfig: AlertConfiguration?
-                            // code you want to repeat
-                            // Update périodique de la Live Activity
-                            // TODO: - Gérer le déclenchement des message d'alerte daans Live Activity
-                            if false {
-                                alertConfig = AlertConfiguration(
-                                    title: "Title",
-                                    body: "Body",
-                                    sound: .default
-                                )
-                            }
-                            let newState =
-                                LiveCoursProgressState(
-                                    elapsedMinutes: timerVM.elapsedMinutes(to: .now),
-                                    remainingMinutes: timerVM.remainingMinutes(from: .now),
-                                    cursorValue: timerVM.cursorValue(for: .now),
-                                    timerZone: timerVM.timerZone(
-                                        for: .now,
-                                        seuilAlert: alertRemainingMinutes,
-                                        seuilWarning: warningRemainingMinutes
-                                    )
-                                )
-                            await activityManager.updateActivity(
-                                withNewState: newState,
-                                alertConfiguration: alertConfig
-                            )
+                        try? await Task.sleep(for: .seconds(updatePeriod)) // exception thrown when cancelled by SwiftUI when this view disappears.
 
-                            #if DEBUG
-                                print(">>Activité updated")
-                            #endif
-
-                            try? await Task.sleep(for: .seconds(updatePeriod)) // exception thrown when cancelled by SwiftUI when this view disappears.
-
-                            if let elapsedSeconds = timerVM.elapsedSeconds() {
-                                keepOnLooping = elapsedSeconds < seanceDuration - Int(updatePeriod)
-                            } else {
-                                keepOnLooping = false
-                            }
-                        } while !Task.isCancelled && keepOnLooping
-
-                        // Arrêter la Live Activity
-                        var finalState: LiveCoursProgressState
-                        if Task.isCancelled {
-                            // Tâche annulée par la disparition de la View avant la fin du cours
-                            finalState = LiveCoursProgressState(
-                                elapsedMinutes: timerVM.elapsedMinutes(to: .now),
-                                remainingMinutes: timerVM.remainingMinutes(from: .now),
-                                cursorValue: timerVM.cursorValue(for: .now),
-                                timerZone: timerVM.timerZone(
-                                    for: .now,
-                                    seuilAlert: alertRemainingMinutes,
-                                    seuilWarning: warningRemainingMinutes
-                                )
-                            )
+                        if let elapsedSeconds = timerVM.elapsedSeconds() {
+                            keepOnLooping = elapsedSeconds < seanceDuration - Int(updatePeriod)
                         } else {
-                            // Fin du cours avant la disparition de la View
-                            finalState = LiveCoursProgressState(
-                                elapsedMinutes: 1,
-                                remainingMinutes: 0,
-                                cursorValue: 1.0,
-                                timerZone: .alert
-                            )
+                            keepOnLooping = false
                         }
-                        await activityManager.endActivity(
-                            withFinalState: finalState
+                    } while !Task.isCancelled && keepOnLooping
+
+                    // Arrêter la Live Activity
+                    var finalState: LiveCoursProgressState
+                    if Task.isCancelled {
+                        // Tâche annulée par la disparition de la View avant la fin du cours
+                        finalState = LiveCoursProgressState(
+                            elapsedMinutes: timerVM.elapsedMinutes(to: .now),
+                            remainingMinutes: timerVM.remainingMinutes(from: .now),
+                            cursorValue: timerVM.cursorValue(for: .now),
+                            timerZone: timerVM.timerZone(
+                                for: .now,
+                                seuilAlert: alertRemainingMinutes,
+                                seuilWarning: warningRemainingMinutes
+                            )
                         )
-                        #if DEBUG
-                            print(">>Activité canceled")
-                        #endif
+                    } else {
+                        // Fin du cours avant la disparition de la View
+                        finalState = LiveCoursProgressState(
+                            elapsedMinutes: 1,
+                            remainingMinutes: 0,
+                            cursorValue: 1.0,
+                            timerZone: .alert
+                        )
                     }
-                #endif
-            }
+                    await activityManager.endActivity(
+                        withFinalState: finalState
+                    )
+                    #if DEBUG
+                        print(">>Activité canceled")
+                    #endif
+                }
+            #endif
         }
     }
 }
