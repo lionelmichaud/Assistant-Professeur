@@ -37,7 +37,7 @@ struct ClasseProgressSection: View {
 
     var body: some View {
         if let progresses = classe.progresses,
-           !progresses.isEmpty {
+           progresses.count != 0 {
             Section {
                 // Activité en cours
                 currentActivityView
@@ -90,9 +90,9 @@ extension ClasseProgressSection {
         NavigationLink(value: ClasseNavigationRoute.nextSeances(classe.id)) {
             HStack {
                 Label("Prochains cours", systemImage: "clock")
-                if classeSeances.seances.isNotEmpty {
+                if let firstSeance = classeSeances.seances.first {
                     Spacer()
-                    Text(formattedDate(classeSeances.seances.first!.interval.start))
+                    Text(formattedDate(firstSeance.interval.start))
                         .foregroundColor(.secondary)
                         .bold(false)
                 }

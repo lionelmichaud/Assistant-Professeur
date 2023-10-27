@@ -17,6 +17,9 @@ struct ClasseInfosView: View {
     @ObservedObject
     private var pref = UserPrefEntity.shared
 
+    @State
+    private var eventsLoadingStatus: LoadingStatus = .pending
+
     /// Conseils de classe
     @State
     private var conseils = [EKEvent]()
@@ -114,12 +117,16 @@ struct ClasseInfosView: View {
 
             // Section arrêt des notes avant conseil de classe
             Section {
-                arretNotesList
-                    .popover(isPresented: $popOverArretIsPresented) {
-                        Text("Nom requis pour l'événement du calendrier de cet établissement: \"**Arrêt notes - Niveau**\". Exemple: \"**Arrêt notes - 5E**\"")
-                            .foregroundColor(.primary)
-                            .padding()
-                    }
+                if eventsLoadingStatus == .finished {
+                    arretNotesList
+                        .popover(isPresented: $popOverArretIsPresented) {
+                            Text("Nom requis pour l'événement du calendrier de cet établissement: \"**Arrêt notes - Niveau**\". Exemple: \"**Arrêt notes - 5E**\"")
+                                .foregroundColor(.primary)
+                                .padding()
+                        }
+                } else {
+                    eventsLoadingStatus.view
+                }
             } header: {
                 HStack {
                     Text("Arrêt des notes")
@@ -137,12 +144,16 @@ struct ClasseInfosView: View {
 
             // Section Conseils de classe
             Section {
-                conseilList
-                    .popover(isPresented: $popOverConseilIsPresented) {
-                        Text("Nom requis pour l'événement du calendrier de cet établissement: \"**Conseil - Classe**\". Exemple: \"**Conseil - 5E2**\"")
-                            .foregroundColor(.primary)
-                            .padding()
-                    }
+                if eventsLoadingStatus == .finished {
+                    conseilList
+                        .popover(isPresented: $popOverConseilIsPresented) {
+                            Text("Nom requis pour l'événement du calendrier de cet établissement: \"**Conseil - Classe**\". Exemple: \"**Conseil - 5E2**\"")
+                                .foregroundColor(.primary)
+                                .padding()
+                        }
+                } else {
+                    eventsLoadingStatus.view
+                }
             } header: {
                 HStack {
                     Text("Conseils de classe")
@@ -172,6 +183,8 @@ struct ClasseInfosView: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .task(id: classe.objectID) {
+            eventsLoadingStatus = .loading
+
             if let school = classe.school {
                 // Demander les droits d'accès aux calendriers de l'utilisateur
                 (
@@ -185,6 +198,7 @@ struct ClasseInfosView: View {
                         calendarName: school.viewName
                     )
                 guard let calendar else {
+                    eventsLoadingStatus = .failed
                     return
                 }
 
@@ -202,6 +216,9 @@ struct ClasseInfosView: View {
                     inEventStore: eventStore,
                     during: pref.viewSchoolYearPref.interval
                 )
+                eventsLoadingStatus = .finished
+            } else {
+                eventsLoadingStatus = .finished
             }
         }
     }

@@ -65,7 +65,7 @@ struct ProgramPlanningView: View {
             start: classeName.count - 1,
             offsetBy: 1
         ),
-            let i = Int(s) {
+           let i = Int(s) {
             return CGFloat(i * 10)
         } else {
             return 0
@@ -194,11 +194,8 @@ struct ProgramPlanningView: View {
                                 eventStore: eventStore,
                                 calendarName: schoolName
                             )
-                        guard let calendar else {
-                            return
-                        }
 
-                        await ClasseEntity.context.perform {
+                        if let calendar {
                             let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
                             var classeSeances: SeancesInDateInterval = .init()
 
@@ -230,6 +227,7 @@ struct ProgramPlanningView: View {
                             if let plannedDate {
                                 data.datesClasses[classe.displayString] = plannedDate
                             }
+                        }
                     }
                 }
 
@@ -317,7 +315,7 @@ extension ProgramPlanningView {
         .lineStyle(
             StrokeStyle(
                 lineWidth: sequence.serie == .activity ?
-                    programPlanningStyle.lineWidth * 2 :
+                programPlanningStyle.lineWidth * 2 :
                     programPlanningStyle.lineWidth,
                 lineCap: sequence.serie == .activity ? .round : .butt
             )
@@ -496,3 +494,4 @@ extension ProgramPlanningPDF {
 //        ProgramPlanningView()
 //    }
 // }
+

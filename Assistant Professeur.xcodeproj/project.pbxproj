@@ -375,6 +375,7 @@
 		79F655672AEBD7CE00AB3AEB /* CalendarSeancesLoadingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F655662AEBD7CE00AB3AEB /* CalendarSeancesLoadingStatus.swift */; };
 		79F6556A2AEBD94D00AB3AEB /* PeriodEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */; };
 		79F6556C2AEBF46200AB3AEB /* SchoolSeancesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F6556B2AEBF46200AB3AEB /* SchoolSeancesList.swift */; };
+		79F6556E2AEC0DB700AB3AEB /* LoadingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F6556D2AEC0DB700AB3AEB /* LoadingStatus.swift */; };
 		79F7708D2A2B7F89004E9089 /* NavigationModel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7708C2A2B7F89004E9089 /* NavigationModel+Extensions.swift */; };
 		79F770902A2B9B7E004E9089 /* CompetencySplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7708F2A2B9B7E004E9089 /* CompetencySplitView.swift */; };
 		79F770922A2B9F4E004E9089 /* CompetencySidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F770912A2B9F4E004E9089 /* CompetencySidebarView.swift */; };
@@ -796,6 +797,7 @@
 		79F655662AEBD7CE00AB3AEB /* CalendarSeancesLoadingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSeancesLoadingStatus.swift; sourceTree = "<group>"; };
 		79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodEnum.swift; sourceTree = "<group>"; };
 		79F6556B2AEBF46200AB3AEB /* SchoolSeancesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolSeancesList.swift; sourceTree = "<group>"; };
+		79F6556D2AEC0DB700AB3AEB /* LoadingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingStatus.swift; sourceTree = "<group>"; };
 		79F7708C2A2B7F89004E9089 /* NavigationModel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NavigationModel+Extensions.swift"; path = "../New Group/NavigationModel+Extensions.swift"; sourceTree = "<group>"; };
 		79F7708F2A2B9B7E004E9089 /* CompetencySplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencySplitView.swift; sourceTree = "<group>"; };
 		79F770912A2B9F4E004E9089 /* CompetencySidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencySidebarView.swift; sourceTree = "<group>"; };
@@ -2067,6 +2069,7 @@
 			children = (
 				79F655662AEBD7CE00AB3AEB /* CalendarSeancesLoadingStatus.swift */,
 				79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */,
+				79F6556D2AEC0DB700AB3AEB /* LoadingStatus.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -2384,6 +2387,7 @@
 				79F7A2832A408B2C00CEC3D5 /* WCompTagList.swift in Sources */,
 				796521D22A14DC0C000C27D1 /* SchoolYearPref.swift in Sources */,
 				79EE3EA4296F6CF20075E9BD /* EleveTrombineStyling.swift in Sources */,
+				79F6556E2AEC0DB700AB3AEB /* LoadingStatus.swift in Sources */,
 				793A67BD2AE58A5C00673A24 /* TimerZone.swift in Sources */,
 				79F7A27B2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift in Sources */,
 				79398D30296616250013564D /* ClasseExamRow.swift in Sources */,
