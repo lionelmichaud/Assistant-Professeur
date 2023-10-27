@@ -19,13 +19,21 @@ struct ElevesTableView: View {
         var newClasse: ClasseEntity?
     }
 
+    enum Sheet: String, Identifiable {
+        case addingNewEleve
+        case addingNewObserv
+        case addingNewColle
+
+        var id: String { rawValue }
+    }
+
     // MARK: - Private
 
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @State
-    private var isAddingNewEleve = false
+    @State 
+    private var presentedSheet: Sheet?
 
     @State
     private var selection: Set<EleveEntity.ID> = []
@@ -40,12 +48,6 @@ struct ElevesTableView: View {
             KeyPathComparator(\EleveEntity.nbOfObservs),
             KeyPathComparator(\EleveEntity.nbOfColles)
         ]
-
-    @State
-    private var isAddingNewObserv = false
-
-    @State
-    private var isAddingNewColle = false
 
     @State
     private var searchString: String = ""
@@ -180,26 +182,27 @@ struct ElevesTableView: View {
             .navigationTitle("Élèves de " + classe.displayString + " (\(classe.nbOfEleves))")
             .navigationBarTitleDisplayMode(.inline)
         #endif
-            .sheet(isPresented: $isAddingNewEleve) {
-                NavigationStack {
-                    EleveCreatorModal(inClasse: classe)
-                        .presentationDetents([.medium])
-                }
-            }
-            .sheet(isPresented: $isAddingNewObserv) {
-                if let eleve = selectedEleve {
-                    NavigationStack {
-                        ObservCreatorModal(eleve: eleve)
-                            .presentationDetents([.medium])
-                    }
-                }
-            }
-            .sheet(isPresented: $isAddingNewColle) {
-                if let eleve = selectedEleve {
-                    NavigationStack {
-                        ColleCreatorModal(eleve: eleve)
-                            .presentationDetents([.medium])
-                    }
+            .sheet(item: $presentedSheet) { sheet in
+                switch sheet {
+                    case .addingNewEleve:
+                        NavigationStack {
+                            EleveCreatorModal(inClasse: classe)
+                                .presentationDetents([.medium])
+                        }
+                    case .addingNewObserv:
+                        if let eleve = selectedEleve {
+                            NavigationStack {
+                                ObservCreatorModal(eleve: eleve)
+                                    .presentationDetents([.medium])
+                            }
+                        }
+                    case .addingNewColle:
+                        if let eleve = selectedEleve {
+                            NavigationStack {
+                                ColleCreatorModal(eleve: eleve)
+                                    .presentationDetents([.medium])
+                            }
+                        }
                 }
             }
     }
@@ -278,7 +281,7 @@ extension ElevesTableView {
 
                 // ajouter un élève
                 Button {
-                    isAddingNewEleve = true
+                    presentedSheet = .addingNewEleve
                 } label: {
                     Label(
                         "Ajouter",
@@ -335,7 +338,7 @@ extension ElevesTableView {
 
             // ajouter une observation
             Button {
-                isAddingNewObserv = true
+                presentedSheet = .addingNewObserv
             } label: {
                 Label(
                     "Nouvelle observation",
@@ -346,7 +349,7 @@ extension ElevesTableView {
 
             // ajouter une colle
             Button {
-                isAddingNewColle = true
+                presentedSheet = .addingNewColle
             } label: {
                 Label(
                     "Nouvelle colle",

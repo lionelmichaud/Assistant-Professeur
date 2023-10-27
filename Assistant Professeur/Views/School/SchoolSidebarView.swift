@@ -16,6 +16,19 @@ private let customLog = Logger(
 )
 
 struct SchoolSidebarView: View {
+    // MARK: - Internal Types
+
+    enum Sheet: String, Identifiable {
+        case showAbout, showingUrgencyTel
+        case showingInfoPerso, editingPreferences
+        case addingNewSchool
+
+        var id: String { rawValue }
+    }
+    
+    @State
+    var presentedSheet: Sheet?
+
     @EnvironmentObject
     private var navigationModel: NavigationModel
 
@@ -37,22 +50,10 @@ struct SchoolSidebarView: View {
     private var alertIsPresented = false
 
     @State
-    var isAddingNewSchool = false
-
-    @State
-    var isEditingPreferences = false
-
-    @State
     var fileImportOperation = FileImportOperation.none
     @State
     var fileExportOperation = FileExportOperation.none
 
-    @State
-    var isShowingAbout = false
-    @State
-    var isShowingUrgencyTel = false
-    @State
-    var isShowingInfoPerso = false
     @State
     var isShowingDeleteConfirmDialog = false
     @State
@@ -150,38 +151,32 @@ struct SchoolSidebarView: View {
             message: { Text(alertMessage) }
         )
 
-        .sheet(isPresented: $isShowingAbout) {
-            AppVersionView()
-                .presentationDetents([.large])
-        }
+        .sheet(item: $presentedSheet) { sheet in
+            switch sheet {
+                case .showAbout:
+                    AppVersionView()
+                        .presentationDetents([.large])
 
-        .sheet(isPresented: $isShowingUrgencyTel) {
-            UrgencyTelView()
-                .presentationDetents([.large])
-        }
+                case .showingUrgencyTel:
+                    UrgencyTelView()
+                        .presentationDetents([.large])
 
-        .sheet(isPresented: $isShowingInfoPerso) {
-            InfoPersoView()
-                .presentationDetents([.large])
-        }
+                case .showingInfoPerso:
+                    InfoPersoView()
+                        .presentationDetents([.large])
 
-        // Modal Sheet de gestion des Préférences
-        .sheet(isPresented: $isEditingPreferences) {
-            NavigationStack {
-                SettingsView()
-                    .environmentObject(navigationModel)
-            }
-            .presentationDetents([.large])
-        }
+                case .editingPreferences:
+                    NavigationStack {
+                        SettingsView()
+                            .environmentObject(navigationModel)
+                    }
+                    .presentationDetents([.large])
 
-        // Modal Sheet de création d'un nouvel établissement
-        .sheet(
-            isPresented: $isAddingNewSchool
-            // onDismiss: {}
-        ) {
-            NavigationStack {
-                SchoolCreatorModal()
-                    .presentationDetents([.medium])
+                case .addingNewSchool:
+                    NavigationStack {
+                        SchoolCreatorModal()
+                            .presentationDetents([.medium])
+                    }
             }
         }
 

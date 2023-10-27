@@ -16,7 +16,7 @@ extension SchoolSidebarView {
         // Ajouter un établissement
         ToolbarItemGroup(placement: .status) {
             Button {
-                isAddingNewSchool = true
+                presentedSheet = .addingNewSchool
             } label: {
                 Label(
                     "Ajouter un établissement",
@@ -29,7 +29,7 @@ extension SchoolSidebarView {
         // Edition des préférences utilisateur
         ToolbarItem(placement: .navigationBarLeading) {
             Button {
-                isEditingPreferences = true
+                presentedSheet = .editingPreferences
             } label: {
                 Label(
                     "Préférences",
@@ -44,7 +44,7 @@ extension SchoolSidebarView {
                 Section {
                     // A propos
                     Button {
-                        isShowingAbout = true
+                        presentedSheet = .showAbout
                     } label: {
                         Label(
                             "À propos",
@@ -55,7 +55,7 @@ extension SchoolSidebarView {
                 Section {
                     // Numéros d'urgence
                     Button {
-                        isShowingUrgencyTel = true
+                        presentedSheet = .showingUrgencyTel
                     } label: {
                         Label(
                             "Numéros d'urgence",
@@ -65,7 +65,7 @@ extension SchoolSidebarView {
 
                     // Infos personnelles
                     Button {
-                        isShowingInfoPerso = true
+                        presentedSheet = .showingInfoPerso
                     } label: {
                         Label(
                             "Infos personnelles",
