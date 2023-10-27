@@ -372,6 +372,9 @@
 		79F57E38298EB2D30014B73D /* ActivitySymbolViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */; };
 		79F5BEC72A3674AA003F112E /* DKnowListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F5BEC62A3674AA003F112E /* DKnowListView.swift */; };
 		79F60D092996A02200981385 /* Ressource+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F60D072996A02200981385 /* Ressource+CoreDataClass.swift */; };
+		79F655672AEBD7CE00AB3AEB /* CalendarSeancesLoadingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F655662AEBD7CE00AB3AEB /* CalendarSeancesLoadingStatus.swift */; };
+		79F6556A2AEBD94D00AB3AEB /* PeriodEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */; };
+		79F6556C2AEBF46200AB3AEB /* NextSeancesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F6556B2AEBF46200AB3AEB /* NextSeancesList.swift */; };
 		79F7708D2A2B7F89004E9089 /* NavigationModel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7708C2A2B7F89004E9089 /* NavigationModel+Extensions.swift */; };
 		79F770902A2B9B7E004E9089 /* CompetencySplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F7708F2A2B9B7E004E9089 /* CompetencySplitView.swift */; };
 		79F770922A2B9F4E004E9089 /* CompetencySidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F770912A2B9F4E004E9089 /* CompetencySidebarView.swift */; };
@@ -790,6 +793,9 @@
 		79F57E37298EB2D30014B73D /* ActivitySymbolViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitySymbolViews.swift; sourceTree = "<group>"; };
 		79F5BEC62A3674AA003F112E /* DKnowListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKnowListView.swift; sourceTree = "<group>"; };
 		79F60D072996A02200981385 /* Ressource+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Ressource+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/School/Ressource/Ressource+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		79F655662AEBD7CE00AB3AEB /* CalendarSeancesLoadingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSeancesLoadingStatus.swift; sourceTree = "<group>"; };
+		79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodEnum.swift; sourceTree = "<group>"; };
+		79F6556B2AEBF46200AB3AEB /* NextSeancesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextSeancesList.swift; sourceTree = "<group>"; };
 		79F7708C2A2B7F89004E9089 /* NavigationModel+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "NavigationModel+Extensions.swift"; path = "../New Group/NavigationModel+Extensions.swift"; sourceTree = "<group>"; };
 		79F7708F2A2B9B7E004E9089 /* CompetencySplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencySplitView.swift; sourceTree = "<group>"; };
 		79F770912A2B9F4E004E9089 /* CompetencySidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencySidebarView.swift; sourceTree = "<group>"; };
@@ -1626,6 +1632,8 @@
 		79A800272AC81DE6001F2E25 /* SharedViews */ = {
 			isa = PBXGroup;
 			children = (
+				79F655682AEBD89A00AB3AEB /* Views */,
+				79F655652AEBD7C000AB3AEB /* Types */,
 				79A800282AC81DFC001F2E25 /* Controls */,
 			);
 			path = SharedViews;
@@ -1978,6 +1986,7 @@
 				791A190F2AE8222400DD41DD /* SchoolPreviousSeancesView.swift */,
 				791A190D2AE8220E00DD41DD /* SchoolCurrentSeancesView.swift */,
 				79E00C522A5B7F7800362743 /* SchoolNextSeancesView.swift */,
+				79F6556B2AEBF46200AB3AEB /* NextSeancesList.swift */,
 			);
 			path = Progress;
 			sourceTree = "<group>";
@@ -1995,7 +2004,6 @@
 			isa = PBXGroup;
 			children = (
 				79E7B8762A587EED008E8B83 /* ClassNextSeancesView.swift */,
-				79E7B87A2A58A050008E8B83 /* SeanceRow.swift */,
 			);
 			path = NextSeances;
 			sourceTree = "<group>";
@@ -2052,6 +2060,23 @@
 				79F41E6A2954C83A00EAAC52 /* ClasseEleveRow.swift */,
 			);
 			path = Liste;
+			sourceTree = "<group>";
+		};
+		79F655652AEBD7C000AB3AEB /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				79F655662AEBD7CE00AB3AEB /* CalendarSeancesLoadingStatus.swift */,
+				79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */,
+			);
+			path = Types;
+			sourceTree = "<group>";
+		};
+		79F655682AEBD89A00AB3AEB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				79E7B87A2A58A050008E8B83 /* SeanceRow.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		79F7708E2A2B9B68004E9089 /* Competencies */ = {
@@ -2344,6 +2369,7 @@
 				796A242729A17C16009B2A6C /* ClassProgressesView.swift in Sources */,
 				7951063E294FD9520015AC5C /* ClasseListSection.swift in Sources */,
 				7997531A297C17E300D1C66E /* ProgramSidebar.swift in Sources */,
+				79F6556A2AEBD94D00AB3AEB /* PeriodEnum.swift in Sources */,
 				793D627F295F33D300477932 /* ColleViewModel.swift in Sources */,
 				79C20A802A326D0C00E43A07 /* DThemeListView.swift in Sources */,
 				79DEDAE9292585E300F508EF /* SchoolSplitView.swift in Sources */,
@@ -2532,6 +2558,7 @@
 				7915DC842A031C6A001C1249 /* Owner+CoreDataClass.swift in Sources */,
 				79ECF1FF295A02EE008F0282 /* EleveDetail.swift in Sources */,
 				7937A2492987F7B400D0ED59 /* StepsListView.swift in Sources */,
+				79F6556C2AEBF46200AB3AEB /* NextSeancesList.swift in Sources */,
 				797AD2B229902BCE00BE5D37 /* ActivityProgressesView.swift in Sources */,
 				795716142AAD10E500DECA1F /* ClasseDocumentListSection.swift in Sources */,
 				79A6AC9529F57DD0003705D0 /* ProgressClockView.swift in Sources */,
@@ -2611,6 +2638,7 @@
 				7951B6A229B14012006DC88D /* WarningSidebarView.swift in Sources */,
 				79E40E752996BEED006BBE49 /* Seat+CoreDataClass.swift in Sources */,
 				79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */,
+				79F655672AEBD7CE00AB3AEB /* CalendarSeancesLoadingStatus.swift in Sources */,
 				79E40E8A2997FD45006BBE49 /* Group+CoreDataClass.swift in Sources */,
 				791A19102AE8222400DD41DD /* SchoolPreviousSeancesView.swift in Sources */,
 				7937A24229859A5500D0ED59 /* ExamStep.swift in Sources */,

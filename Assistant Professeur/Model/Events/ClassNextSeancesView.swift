@@ -5,7 +5,6 @@
 //  Created by Lionel MICHAUD on 07/07/2023.
 //
 
-import AppFoundation
 import EventKit
 import HelpersView
 import SwiftUI
@@ -14,26 +13,16 @@ struct ClassNextSeancesView: View {
     @ObservedObject
     var classe: ClasseEntity
 
+    // MARK: - Properties
+
     @ObservedObject
     private var pref = UserPrefEntity.shared
 
-    enum PeriodEnum: String, PickableEnumP {
-        case today
-        case oneWeek
-        case all
-
-        var pickerString: String {
-            switch self {
-                case .today: "Aujourd'hui"
-                case .oneWeek: "Semaine à venir"
-                case .all: "3 prochains mois"
-            }
-        }
-    }
+    @State
+    private var loadingStatus: CalendarSeancesLoadingStatus = .pending
 
     @State
-    private var period: PeriodEnum = .oneWeek
-    /// TODO: - A mettre en préférence
+    private var period: PeriodEnum = .nextWeek
     private let horizon = 3 // mois
 
     @State
@@ -73,6 +62,7 @@ struct ClassNextSeancesView: View {
 
     var body: some View {
         VStack {
+            // Sélecteur de période de recherche dans Calendrier
             CasePicker(
                 pickedCase: $period,
                 label: "Période"
@@ -80,18 +70,8 @@ struct ClassNextSeancesView: View {
             .pickerStyle(.segmented)
             .padding(.vertical)
 
-            ScrollView(.vertical, showsIndicators: true) {
-                ForEach(classeSeances.seances) { seance in
-                    SeanceRow(seance: seance, showWatchButton: false)
-                }
-                .emptyListPlaceHolder(classeSeances.seances) {
-                    ContentUnavailableView(
-                        "Aucun événement trouvé dans le calendrier de cet établissement pour cette classe...",
-                        systemImage: "clock",
-                        description: Text("Les événements plannifiés dans votre agenda pour cet établissement et cette classe apparaîtront ici.")
-                    )
-                }
-            }
+            // Afficher le resultat de la recherche
+            loadingStatus.view
         }
         .padding(.horizontal)
         .verticallyAligned(.top)
@@ -101,43 +81,55 @@ struct ClassNextSeancesView: View {
             actions: {},
             message: { Text(alertMessage) }
         )
+        // Chargement des données recherchées depuis l'application Calendrier
         .task(id: classe.id!.uuidString + period.pickerString) {
-            // Suite des Séances à venir pour cette classe sur un `horizon`
-            if let schoolName = classe.school?.viewName {
-                // Demander les droits d'accès aux calendriers de l'utilisateur
-                (
-                    calendar,
-                    alertIsPresented,
-                    alertTitle,
-                    alertMessage
-                ) = await EventManager.shared
-                    .requestCalendarAccess(
-                        eventStore: eventStore,
-                        calendarName: schoolName
-                    )
-                if let calendar {
-                    var endDate: Date?
-                    switch period {
-                        case .today: endDate = 1.days.from(Calendar.current.startOfDay(for: .now))
-                        case .oneWeek: endDate = 1.weeks.fromNow
-                        case .all: endDate = horizon.months.fromNow
-                    }
-                    let dateInterval = DateInterval(
-                        start: Date.now,
-                        end: endDate!
-                    )
+            loadingStatus = .pending
 
-                    // `SeancesInDateInterval` contenant la liste des Séances à venir
-                    // pour une classe d'un établissement avec le contenu pédagogique de chaque séance.
-                    classeSeances = await SeancesInDateInterval.loadedNextSeancesForClasse(
-                        schoolName: schoolName,
-                        classe: classe,
-                        inCalendar: calendar,
-                        inEventStore: eventStore,
-                        inDateInterval: dateInterval
-                    )
-                }
+            guard let schoolName = classe.school?.viewName else {
+                return
             }
+
+            // Demander les droits d'accès aux calendriers de l'utilisateur
+            (
+                calendar,
+                alertIsPresented,
+                alertTitle,
+                alertMessage
+            ) = await EventManager.shared
+                .requestCalendarAccess(
+                    eventStore: eventStore,
+                    calendarName: schoolName
+                )
+            guard let calendar else {
+                loadingStatus = .failed
+                return
+            }
+
+            // Période de recherche
+            var endDate: Date?
+            switch period {
+                case .today: endDate = 1.days.from(Calendar.current.startOfDay(for: .now))
+                case .nextWeek: endDate = 1.weeks.fromNow
+                case .all: endDate = horizon.months.fromNow
+            }
+            let dateInterval = DateInterval(
+                start: Date.now,
+                end: endDate!
+            )
+
+            loadingStatus = .loading
+
+            // Recherche: `SeancesInDateInterval` contenant la liste des Séances à venir
+            // pour une classe d'un établissement avec le contenu pédagogique de chaque séance.
+            classeSeances = await SeancesInDateInterval.loadedNextSeancesForClasse(
+                schoolName: schoolName,
+                classe: classe,
+                inCalendar: calendar,
+                inEventStore: eventStore,
+                inDateInterval: dateInterval
+            )
+
+            loadingStatus = .finished(seancesInInterval: classeSeances)
         }
         #if os(iOS)
         .navigationTitle("Cours à venir")
