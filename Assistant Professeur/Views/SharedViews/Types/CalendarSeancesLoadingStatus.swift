@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 27/10/2023.
 //
 
+import HelpersView
 import SwiftUI
 
 enum CalendarSeancesLoadingStatus {

@@ -5,7 +5,6 @@
 //  Created by Lionel MICHAUD on 13/05/2023.
 //
 
-import AppFoundation
 import Contacts
 import HelpersView
 import os
@@ -19,6 +18,9 @@ private let customLog = Logger(
 struct PersonsContactsView: View {
     @ObservedObject
     var school: SchoolEntity
+
+    @State
+    private var loadingStatus: ContactsLoadingStatus = .pending
 
     @State
     private var contactStore = CNContactStore()
@@ -43,37 +45,15 @@ struct PersonsContactsView: View {
 
     var body: some View {
         Section {
+            // Choix de l'ordre de tri
             Picker("Tri", selection: $contactSortOrder) {
                 Text("Tri par Nom").tag(ContactManager.SortOrder.byName)
                 Text("Tri par Titre").tag(ContactManager.SortOrder.byJobTitle)
             }
             .pickerStyle(.segmented)
-            ForEach(contacts, id: \.identifier) { contact in
-                DisclosureGroup(label(contact)) {
-                    if hasJobTitle(contact) {
-                        Text(CNContactFormatter.string(from: contact, style: .fullName) ?? "")
-                            .textSelection(.enabled)
-                    }
-                    if hasPhoneNumber(contact) {
-                        Text(contact.phoneNumbers.first!.value.stringValue.formatPhoneNumber())
-                            .foregroundColor(.accentColor)
-                            .onLongPressGesture(minimumDuration: 1) {
-                                call(telNumber: contact.phoneNumbers.first!.value.stringValue
-                                    .replacingOccurrences(of: " ", with: "", count: 10))
-                            }
-                    }
-                    if hasEmailAddress(contact) {
-                        Text((contact.emailAddresses.first!.value) as String)
-                            .foregroundColor(.accentColor)
-                            .onLongPressGesture(minimumDuration: 1) {
-                                sendMail(to: contact.emailAddresses.first!.value as String)
-                            }
-                    }
-                }
-            }
-            .emptyListPlaceHolder(contacts) {
-                Text("Aucun contact trouvé dans votre appli **Contacts** pour cet établissement.")
-            }
+
+            // Liste des contacts
+            loadingStatus.view
         } header: {
             Label("Contacts", systemImage: "person")
                 .font(.callout)
@@ -88,7 +68,10 @@ struct PersonsContactsView: View {
             actions: {},
             message: { Text(alertMessage) }
         )
+        // Récupérer les contacts dans l'appli "Contacts"
         .task(id: contactSortOrder) {
+            loadingStatus = .pending
+
             (
                 contactGroup,
                 alertIsPresented,
@@ -98,43 +81,32 @@ struct PersonsContactsView: View {
                 contactStore: contactStore,
                 groupName: school.viewName
             )
-            if let contactGroup {
-                do {
-                    contacts = try ContactManager.shared.allPersonContacts(
-                        inOrganizationName: school.viewName,
-                        inContactGroup: contactGroup,
-                        inContactStore: contactStore,
-                        sortedBy: contactSortOrder
-                    )
-                } catch {
-                    customLog.log(
-                        level: .error,
-                        "La tentative de récupération des contacts dans l'appli **Contacts** pour cet établissement à échouée."
-                    )
-                    alertTitle = "Echec"
-                    alertMessage = "La tentative de récupération des vos contacts dans votre appli **Contacts** pour cet établissement à échouée."
-                    alertIsPresented = true
-                }
+            guard let contactGroup else {
+                loadingStatus = .failed
+                return
+            }
+
+            loadingStatus = .loading
+
+            do {
+                contacts = try ContactManager.shared.allPersonContacts(
+                    inOrganizationName: school.viewName,
+                    inContactGroup: contactGroup,
+                    inContactStore: contactStore,
+                    sortedBy: contactSortOrder
+                )
+                loadingStatus = .finished(contacts: contacts)
+            } catch {
+                customLog.log(
+                    level: .error,
+                    "La tentative de récupération des contacts dans l'appli **Contacts** pour cet établissement à échouée."
+                )
+                loadingStatus = .finished(contacts: [])
+                alertTitle = "Echec"
+                alertMessage = "La tentative de récupération des vos contacts dans votre appli **Contacts** pour cet établissement à échouée."
+                alertIsPresented = true
             }
         }
-    }
-
-    private func label(_ contact: CNContact) -> String {
-        hasJobTitle(contact) ?
-            contact.jobTitle :
-            CNContactFormatter.string(from: contact, style: .fullName) ?? ""
-    }
-
-    private func hasJobTitle(_ contact: CNContact) -> Bool {
-        contact.isKeyAvailable(CNContactJobTitleKey) && contact.jobTitle.isNotEmpty
-    }
-
-    private func hasPhoneNumber(_ contact: CNContact) -> Bool {
-        contact.isKeyAvailable(CNContactPhoneNumbersKey) && contact.phoneNumbers.first != nil
-    }
-
-    private func hasEmailAddress(_ contact: CNContact) -> Bool {
-        contact.isKeyAvailable(CNContactEmailAddressesKey) && contact.emailAddresses.first != nil
     }
 }
 

@@ -61,7 +61,6 @@ struct SchoolSeancesList: View {
                 return
             }
 
-            // Période de recherche
             loadingStatus = .loading
 
             // Recherche: `SeancesInDateInterval` contenant la liste des Séances à venir

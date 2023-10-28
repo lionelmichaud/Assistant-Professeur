@@ -47,6 +47,8 @@
 		792381192960B04F009E51B7 /* GroupPicturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792381162960B04F009E51B7 /* GroupPicturesView.swift */; };
 		7923811A2960B04F009E51B7 /* GroupNamesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792381172960B04F009E51B7 /* GroupNamesView.swift */; };
 		7923811B2960B04F009E51B7 /* GroupsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792381182960B04F009E51B7 /* GroupsListView.swift */; };
+		7923BC7B2AED396F00F824C2 /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7923BC7A2AED396F00F824C2 /* ContactView.swift */; };
+		7923BC7D2AED39F500F824C2 /* ContactsLoadingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7923BC7C2AED39F500F824C2 /* ContactsLoadingStatus.swift */; };
 		792621EF2A45F0F800ADA8FB /* SequenceTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792621EE2A45F0F800ADA8FB /* SequenceTagList.swift */; };
 		7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7927E6C72980A12F007002CE /* SequenceEditorModal.swift */; };
 		792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */; };
@@ -501,6 +503,8 @@
 		792381162960B04F009E51B7 /* GroupPicturesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupPicturesView.swift; sourceTree = "<group>"; };
 		792381172960B04F009E51B7 /* GroupNamesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupNamesView.swift; sourceTree = "<group>"; };
 		792381182960B04F009E51B7 /* GroupsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsListView.swift; sourceTree = "<group>"; };
+		7923BC7A2AED396F00F824C2 /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
+		7923BC7C2AED39F500F824C2 /* ContactsLoadingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsLoadingStatus.swift; sourceTree = "<group>"; };
 		792621EE2A45F0F800ADA8FB /* SequenceTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceTagList.swift; sourceTree = "<group>"; };
 		7927E6C72980A12F007002CE /* SequenceEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceEditorModal.swift; sourceTree = "<group>"; };
 		792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailGroupBox.swift; sourceTree = "<group>"; };
@@ -1518,6 +1522,7 @@
 			children = (
 				7967CFF92A0D57BA00392F89 /* SchoolContactEditView.swift */,
 				798383512A0FF38C00C4A4E2 /* PersonsContactsView.swift */,
+				7923BC7A2AED396F00F824C2 /* ContactView.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -2067,9 +2072,10 @@
 		79F655652AEBD7C000AB3AEB /* Types */ = {
 			isa = PBXGroup;
 			children = (
-				79F655662AEBD7CE00AB3AEB /* CalendarSeancesLoadingStatus.swift */,
-				79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */,
 				79F6556D2AEC0DB700AB3AEB /* LoadingStatus.swift */,
+				79F655662AEBD7CE00AB3AEB /* CalendarSeancesLoadingStatus.swift */,
+				7923BC7C2AED39F500F824C2 /* ContactsLoadingStatus.swift */,
+				79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -2380,6 +2386,7 @@
 				79398D37296632D60013564D /* ExamDetail.swift in Sources */,
 				7920A5242957345A0092A7DD /* EleveLabelWithTrombineFlag.swift in Sources */,
 				79F770902A2B9B7E004E9089 /* CompetencySplitView.swift in Sources */,
+				7923BC7D2AED39F500F824C2 /* ContactsLoadingStatus.swift in Sources */,
 				79ECF204295A1607008F0282 /* ColleBrowserRow.swift in Sources */,
 				79F7A2872A40A9AF00CEC3D5 /* ActivityPicker.swift in Sources */,
 				791802A62A365E29001588B2 /* DKnowledgeEntity+Extensions.swift in Sources */,
@@ -2393,6 +2400,7 @@
 				79398D30296616250013564D /* ClasseExamRow.swift in Sources */,
 				79A5737529BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift in Sources */,
 				79DEDB13292593C200F508EF /* SettingsClasse.swift in Sources */,
+				7923BC7B2AED396F00F824C2 /* ContactView.swift in Sources */,
 				795EED0C29677C76009AA6F4 /* MarkListView.swift in Sources */,
 				79F41E5C2954983100EAAC52 /* ClasseNameGroupBox.swift in Sources */,
 				79F41E5E2954987F00EAAC52 /* ClasseAcronym.swift in Sources */,

@@ -149,44 +149,46 @@ struct SchoolContactEditView: View {
         )
         .onAppear {
             focus = SchoolContactEditView.FocusableField.none
-            Task {
-                (
-                    contactGroup,
-                    alertIsPresented,
-                    alertTitle,
-                    alertMessage
-                ) = await ContactManager.shared.requestContactsAccess(
-                    contactStore: contactStore,
-                    groupName: school.viewName
-                )
-                if let contactGroup {
-                    do {
-                        if let schoolContact = try ContactManager.shared
-                            .organizationContact(
-                                inContactGroup: contactGroup,
-                                inContactStore: contactStore,
-                                withOrganizationName: school.viewName
-                            ),
-                           let contact = ContactEnum(from: schoolContact) {
-                            if case let ContactEnum.organization(_, phoneNumber, emailAddress, urlAddress, street, city, postalCode) = contact {
-                                self.phoneNumber = phoneNumber
-                                self.emailAddress = emailAddress
-                                self.urlAddress = urlAddress
-                                self.street = street
-                                self.city = city
-                                self.postalCode = postalCode
-                            }
-                        }
-                    } catch {
-                        customLog.log(
-                            level: .error,
-                            "La tentative de récupération des contacts dans l'appli **Contacts** pour cet établissement a échouée."
-                        )
-                        alertTitle = "Echec"
-                        alertMessage = "La tentative de récupération des vos contacts dans votre appli **Contacts** pour cet établissement a échouée."
-                        alertIsPresented = true
+        }
+        .task {
+            (
+                contactGroup,
+                alertIsPresented,
+                alertTitle,
+                alertMessage
+            ) = await ContactManager.shared.requestContactsAccess(
+                contactStore: contactStore,
+                groupName: school.viewName
+            )
+            guard let contactGroup else {
+                return
+            }
+
+            do {
+                if let schoolContact = try ContactManager.shared
+                    .organizationContact(
+                        inContactGroup: contactGroup,
+                        inContactStore: contactStore,
+                        withOrganizationName: school.viewName
+                    ),
+                    let contact = ContactEnum(from: schoolContact) {
+                    if case let ContactEnum.organization(_, phoneNumber, emailAddress, urlAddress, street, city, postalCode) = contact {
+                        self.phoneNumber = phoneNumber
+                        self.emailAddress = emailAddress
+                        self.urlAddress = urlAddress
+                        self.street = street
+                        self.city = city
+                        self.postalCode = postalCode
                     }
                 }
+            } catch {
+                customLog.log(
+                    level: .error,
+                    "La tentative de récupération des contacts dans l'appli **Contacts** pour cet établissement a échouée."
+                )
+                alertTitle = "Echec"
+                alertMessage = "La tentative de récupération des vos contacts dans votre appli **Contacts** pour cet établissement a échouée."
+                alertIsPresented = true
             }
         }
     }
