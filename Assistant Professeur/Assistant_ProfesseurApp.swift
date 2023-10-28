@@ -8,6 +8,7 @@
 import Files
 import os
 import SwiftUI
+import AppFoundation
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -48,7 +49,7 @@ struct Assistant_ProfesseurApp: App {
         guard let documentsFolder = Folder.documents else {
             let error = FileError.failedToResolveDocuments
             customLog.log(level: .error, "\(error.rawValue))")
-            AppState.shared.initError = .failedToInitialize
+            AppState.shared.initError = AppInitError.failedToInitialize
             return
         }
 
@@ -69,13 +70,13 @@ struct Assistant_ProfesseurApp: App {
                         )
 
                 } catch {
-                    AppState.shared.initError = .failedToLoadApplicationData
+                    AppState.shared.initError = AppInitError.failedToLoadApplicationData
                 }
             }
         } catch {
             let error = FileError.failedToCheckCompatibility
             customLog.log(level: .fault, "\(error.rawValue))")
-            AppState.shared.initError = .failedToCheckCompatibility
+            AppState.shared.initError = AppInitError.failedToCheckCompatibility
         }
         #if DEBUG
             print(">> Assistant_ProfesseurApp.init() initialization has completed")

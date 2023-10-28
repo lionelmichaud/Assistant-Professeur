@@ -10,13 +10,14 @@ import CloudKit
 import Foundation
 
 class CloudKitViewModel: ObservableObject {
-    /// True si l'utilisateur est connceté à iCloud
+    /// True si l'utilisateur est connecté à iCloud
     @Published
     var isSignedInToicloud: Bool = false
 
     /// `nil` si aucune erreur; sinon retourne l'erreur
     @Published
-    var iCloudError: ICloudError?
+    //var iCloudError: ICloudError?
+    var iCloudError: Error?
 
     init() {
         Task(priority: .medium) {
@@ -33,28 +34,36 @@ class CloudKitViewModel: ObservableObject {
     /// Détermine le status iCloud et consigne le status et l'erreur éventuelle
     @MainActor
     private func getiCloudStatus() async {
-        let accountStatus = try? await CKContainer.default().accountStatus()
+        do {
+            let accountStatus = try await CKContainer.default().accountStatus()
 
-        switch accountStatus {
-            case .none, .couldNotDetermine:
-                self.iCloudError = .couldNotDetermine
+            switch accountStatus {
+                case .couldNotDetermine:
+                    self.iCloudError = ICloudError.couldNotDetermine
 
-            case .available:
-                self.isSignedInToicloud = true
-                return
+                case .available:
+                    // Succès
+                    self.isSignedInToicloud = true
+                    return
 
-            case .restricted:
-                self.iCloudError = .restricted
+                case .restricted:
+                    self.iCloudError = ICloudError.restricted
 
-            case .noAccount:
-                self.iCloudError = .noAccount
+                case .noAccount:
+                    self.iCloudError = ICloudError.noAccount
 
-            case .temporarilyUnavailable:
-                self.iCloudError = .temporarilyUnavailable
+                case .temporarilyUnavailable:
+                    self.iCloudError = ICloudError.temporarilyUnavailable
 
-            @unknown default:
-                self.iCloudError = .unknown
+                @unknown default:
+                    self.iCloudError = ICloudError.unknown
+            }
+            // Echec
+            self.isSignedInToicloud = false
+
+        } catch {
+            self.iCloudError = ICloudError.couldNotDetermine
+            self.isSignedInToicloud = false
         }
-        self.isSignedInToicloud = false
     }
 }

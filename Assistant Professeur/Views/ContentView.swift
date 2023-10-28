@@ -27,9 +27,6 @@ struct ContentView: View {
     private var cloudKitVM = CloudKitViewModel()
 
     @State
-    private var isInitAlertPresented = false
-
-    @State
     private var isiCloudAlertPresented = false
 
     var body: some View {
@@ -108,59 +105,70 @@ struct ContentView: View {
         .badgeProminence(.decreased)
 
         // Alerte en cas d'erreur d'initilisation de l'App
-        .alert(
-            isPresented: $isInitAlertPresented,
-            error: AppState.shared.initError
-        ) { error in
-            Button("OK", role: .cancel) {
-                customLog.log(level: .error, "\(error.failureReason ?? "Raison inconue.")")
+        .errorAlert(
+            error: .constant(AppState.shared.initError), // cette propriété n'est pas un Binding @Published
+            actions: { error in
+                customLog.log(level: .error, "\(error.errorDescription ?? "Raison inconue.")")
             }
-        } message: { error in
-            let failureReason = error.failureReason ?? "Raison inconnue."
-            let recoverySuggestion = error.recoverySuggestion ?? ""
-            let message = failureReason + (recoverySuggestion == "" ? "" : "\n\(recoverySuggestion)")
-            Text(message)
-        }
+        )
+//        .alert(
+//            isPresented: .constant(AppState.shared.initError != nil),
+//            error: AppState.shared.initError
+//        ) { error in
+//            Button("OK", role: .cancel) {
+//                customLog.log(level: .error, "\(error.failureReason ?? "Raison inconue.")")
+//                // set the error back to nil so our alert will be dismissed
+//                AppState.shared.initError = nil
+//            }
+//        } message: { error in
+//            let failureReason = error.failureReason ?? "Raison inconnue."
+//            let recoverySuggestion = error.recoverySuggestion ?? ""
+//            let message = failureReason + (recoverySuggestion == "" ? "" : "\n\(recoverySuggestion)")
+//            Text(message)
+//        }
+
         // Deep Link
         .onOpenURL { incomingURL in
             handleIncomingURL(incomingURL)
         }
+
         // Alerte en cas d'erreur de connection iCloud
-        .onChange(of: cloudKitVM.iCloudError, initial: false) {
-            if cloudKitVM.iCloudError != .available {
-                isiCloudAlertPresented = true
+        .errorAlert(
+            error: $cloudKitVM.iCloudError,
+            actions: { error in
+                customLog.log(level: .error, "\(error.errorDescription ?? "Raison inconue.")")
             }
-        }
-        .alert(
-            isPresented: $isiCloudAlertPresented,
-            error: cloudKitVM.iCloudError
-        ) { error in
-            #if os(iOS) || os(tvOS)
-                // Ouvre les réglages de l'App sous iOS ou tvOS
-                //                Button("Réglages") {
-                //                    Task {
-                //                        // Create the URL that deep links to your app's custom settings.
-                //                        if let url = URL(string: UIApplication.openSettingsURLString) {
-                //                            // Ask the system to open that URL.
-                //                            await UIApplication.shared.open(url)
-                //                        }
-                //                    }
-                //                }
-            #endif
-            Button("OK", role: .cancel) {
-                customLog.log(level: .error, "\(error.failureReason ?? "Raison inconue.")")
-            }
-        } message: { error in
-            let failureReason = error.failureReason ?? "Raison inconnue."
-            let recoverySuggestion = error.recoverySuggestion ?? ""
-            let message = failureReason + (recoverySuggestion == "" ? "" : "\n\(recoverySuggestion)")
-            Text(message)
-        }
+        )
+//        .alert(
+//            isPresented: .constant(cloudKitVM.iCloudError != nil),
+//            error: cloudKitVM.iCloudError
+//        ) { error in
+//            #if os(iOS) || os(tvOS)
+//                // Ouvre les réglages de l'App sous iOS ou tvOS
+//                //                Button("Réglages") {
+//                //                    Task {
+//                //                        // Create the URL that deep links to your app's custom settings.
+//                //                        if let url = URL(string: UIApplication.openSettingsURLString) {
+//                //                            // Ask the system to open that URL.
+//                //                            await UIApplication.shared.open(url)
+//                //                        }
+//                //                    }
+//                //                }
+//            #endif
+//            Button("OK", role: .cancel) {
+//                customLog.log(level: .error, "\(error.failureReason ?? "Raison inconue.")")
+//                // set the error back to nil so our alert will be dismissed
+//                cloudKitVM.iCloudError = nil
+//            }
+//        } message: { error in
+//            let failureReason = error.failureReason ?? "Raison inconnue."
+//            let recoverySuggestion = error.recoverySuggestion ?? ""
+//            let message = failureReason + (recoverySuggestion == "" ? "" : "\n\(recoverySuggestion)")
+//            Text(message)
+//        }
+
         // Synchronous initializing of the View
         .onAppear {
-            // Afficher une alerte en cas de problème d'initialisation de l'App
-            checkAppInitFailure()
-
             // Set the Style of the TabBar
             setTabBarStyle()
         }
@@ -285,22 +293,6 @@ extension ContentView {
 // MARK: - Methods
 
 extension ContentView {
-    /// Afficher une alerte en cas de problème d'initialisation de l'App
-    private func checkAppInitFailure() {
-        switch AppState.shared.initError {
-            case .none,
-                 .failedToInitializeCloudKitSchema:
-                isInitAlertPresented = false
-
-            case .failedToLoadUserData,
-                 .failedToInitialize,
-                 .failedToLoadApplicationData,
-                 .failedToCheckCompatibility,
-                 .failedToLoadPersistentStores:
-                isInitAlertPresented = true
-        }
-    }
-
     /// Set the Style of the TabBar
     private func setTabBarStyle() {
         let appearance = UITabBarAppearance()

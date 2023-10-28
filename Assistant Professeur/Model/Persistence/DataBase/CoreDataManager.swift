@@ -9,6 +9,7 @@ import CoreData
 import Foundation
 import os
 import SwiftUI
+import AppFoundation
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -168,7 +169,7 @@ class CoreDataManager {
         // load the content of the persistent store (empty if .inMemory)
         persistentCloudKitContainer.loadPersistentStores { _, error in
             if let error {
-                AppState.shared.initError = .failedToLoadPersistentStores
+                AppState.shared.initError = AppInitError.failedToLoadPersistentStores
                 customLog.log(
                     level: .fault,
                     "Failed to load the persistence store from Core Data: \(error.localizedDescription)"
@@ -204,7 +205,7 @@ class CoreDataManager {
                 #endif
             } catch {
                 // Handle any errors.
-                AppState.shared.initError = .failedToInitializeCloudKitSchema
+                AppState.shared.initError = AppInitError.failedToInitializeCloudKitSchema
                 customLog.log(
                     level: .error,
                     ">> Failed to initialize the development schema in ClouKit: \(error.localizedDescription)"

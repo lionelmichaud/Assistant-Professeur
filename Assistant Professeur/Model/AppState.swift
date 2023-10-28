@@ -11,7 +11,8 @@ import AppFoundation
 struct AppState {
     static var shared = AppState()
 
-    var initError: AppInitError?
+    //    var initError: AppInitError?
+    var initError: Error?
 
     private init() {}
 }

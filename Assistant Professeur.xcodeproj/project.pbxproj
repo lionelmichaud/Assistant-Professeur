@@ -49,6 +49,7 @@
 		7923811B2960B04F009E51B7 /* GroupsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792381182960B04F009E51B7 /* GroupsListView.swift */; };
 		7923BC7B2AED396F00F824C2 /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7923BC7A2AED396F00F824C2 /* ContactView.swift */; };
 		7923BC7D2AED39F500F824C2 /* ContactsLoadingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7923BC7C2AED39F500F824C2 /* ContactsLoadingStatus.swift */; };
+		7923BC7F2AED608100F824C2 /* ErrorAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7923BC7E2AED608100F824C2 /* ErrorAlertModifier.swift */; };
 		792621EF2A45F0F800ADA8FB /* SequenceTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792621EE2A45F0F800ADA8FB /* SequenceTagList.swift */; };
 		7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7927E6C72980A12F007002CE /* SequenceEditorModal.swift */; };
 		792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */; };
@@ -505,6 +506,7 @@
 		792381182960B04F009E51B7 /* GroupsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsListView.swift; sourceTree = "<group>"; };
 		7923BC7A2AED396F00F824C2 /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
 		7923BC7C2AED39F500F824C2 /* ContactsLoadingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsLoadingStatus.swift; sourceTree = "<group>"; };
+		7923BC7E2AED608100F824C2 /* ErrorAlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlertModifier.swift; sourceTree = "<group>"; };
 		792621EE2A45F0F800ADA8FB /* SequenceTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceTagList.swift; sourceTree = "<group>"; };
 		7927E6C72980A12F007002CE /* SequenceEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceEditorModal.swift; sourceTree = "<group>"; };
 		792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailGroupBox.swift; sourceTree = "<group>"; };
@@ -1550,6 +1552,7 @@
 			isa = PBXGroup;
 			children = (
 				798EE56F2ADA8DBD00F9AE24 /* ListViewModifiers.swift */,
+				7923BC7E2AED608100F824C2 /* ErrorAlertModifier.swift */,
 			);
 			path = SharedViewModifiers;
 			sourceTree = "<group>";
@@ -2450,6 +2453,7 @@
 				7957A8342A375DC400D64786 /* DKnowViewModel.swift in Sources */,
 				794F6E14295CEC0C00042B95 /* ObservViewModel.swift in Sources */,
 				79FD21972A33980800A8D925 /* DSectionBrowserView.swift in Sources */,
+				7923BC7F2AED608100F824C2 /* ErrorAlertModifier.swift in Sources */,
 				795EED0529673B88009AA6F4 /* Mark+Extensions.swift in Sources */,
 				794AE9C22A59706E009C819A /* AppTextStyle.swift in Sources */,
 				79401350295624EF007AD790 /* Dsicipline.swift in Sources */,
