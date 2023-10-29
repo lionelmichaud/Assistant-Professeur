@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Natures des compétences: Socle commun / Disciplinaires
 enum CompetencySelection: Hashable, Codable {
     case workedCompetencies
     case disciplineCompetencies(discipline: Discipline)
@@ -125,8 +126,14 @@ struct CompetencyDetailedColumn: View {
     }
 }
 
-struct CompetencySplitView_Previews: PreviewProvider {
-    static var previews: some View {
-        CompetencySplitView()
+#Preview {
+    func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
     }
+    initialize()
+    return CompetencySplitView()
+        .padding()
+        .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+        .previewDevice("iPad mini (6th generation)")
 }

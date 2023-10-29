@@ -293,11 +293,8 @@
 		79DD5A382AD30A570072290E /* LiveCoursProgressAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD5A372AD30A570072290E /* LiveCoursProgressAttributes.swift */; };
 		79DEDAE22925849600F508EF /* HelpersView in Frameworks */ = {isa = PBXBuildFile; productRef = 79DEDAE12925849600F508EF /* HelpersView */; };
 		79DEDAE9292585E300F508EF /* SchoolSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAE8292585E300F508EF /* SchoolSplitView.swift */; };
-		79DEDAEA292585E300F508EF /* SchoolSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAE8292585E300F508EF /* SchoolSplitView.swift */; };
 		79DEDAEC2925864A00F508EF /* ClasseSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAEB2925864A00F508EF /* ClasseSplitView.swift */; };
-		79DEDAED2925864A00F508EF /* ClasseSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAEB2925864A00F508EF /* ClasseSplitView.swift */; };
 		79DEDAEF292586A500F508EF /* EleveSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAEE292586A500F508EF /* EleveSplitView.swift */; };
-		79DEDAF0292586A500F508EF /* EleveSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAEE292586A500F508EF /* EleveSplitView.swift */; };
 		79DEDAF82925870500F508EF /* ColleSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAF72925870500F508EF /* ColleSidebarView.swift */; };
 		79DEDAF92925870500F508EF /* ColleSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAF72925870500F508EF /* ColleSidebarView.swift */; };
 		79DEDAFB2925897600F508EF /* ObservSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAFA2925897600F508EF /* ObservSidebarView.swift */; };
@@ -305,7 +302,6 @@
 		79DEDAFE292589F400F508EF /* EleveSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAFD292589F400F508EF /* EleveSidebarView.swift */; };
 		79DEDAFF292589F400F508EF /* EleveSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAFD292589F400F508EF /* EleveSidebarView.swift */; };
 		79DEDB0129258D4000F508EF /* ClasseSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB0029258D4000F508EF /* ClasseSidebarView.swift */; };
-		79DEDB0229258D4000F508EF /* ClasseSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB0029258D4000F508EF /* ClasseSidebarView.swift */; };
 		79DEDB042925902800F508EF /* SchoolSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB032925902800F508EF /* SchoolSidebarView.swift */; };
 		79DEDB052925902800F508EF /* SchoolSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB032925902800F508EF /* SchoolSidebarView.swift */; };
 		79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDB07292593C200F508EF /* AppVersionView.swift */; };
@@ -2729,12 +2725,9 @@
 				79BF1DA929290F5A005D6CF3 /* Classe+Extensions.swift in Sources */,
 				79BF1DB72929105D005D6CF3 /* Event+Extensions.swift in Sources */,
 				79DEDAFC2925897600F508EF /* ObservSidebarView.swift in Sources */,
-				79DEDAF0292586A500F508EF /* EleveSplitView.swift in Sources */,
 				79DEDB10292593C200F508EF /* SettingsView.swift in Sources */,
 				79388A5129257025002AABB8 /* AppState.swift in Sources */,
-				79DEDAED2925864A00F508EF /* ClasseSplitView.swift in Sources */,
 				79DEDAFF292589F400F508EF /* EleveSidebarView.swift in Sources */,
-				79DEDB0229258D4000F508EF /* ClasseSidebarView.swift in Sources */,
 				79388A4B29256E13002AABB8 /* MainScene.swift in Sources */,
 				79DEDAF92925870500F508EF /* ColleSidebarView.swift in Sources */,
 				79DEDB18292593C200F508EF /* SettingsSchool.swift in Sources */,
@@ -2747,7 +2740,6 @@
 				79B6632329244C3F007B1FBD /* Assistant_ProfesseurUITestsLaunchTests.swift in Sources */,
 				79DEDB14292593C200F508EF /* SettingsClasse.swift in Sources */,
 				79E40E6D2996A3A3006BBE49 /* Event+CoreDataClass.swift in Sources */,
-				79DEDAEA292585E300F508EF /* SchoolSplitView.swift in Sources */,
 				79DEDB052925902800F508EF /* SchoolSidebarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

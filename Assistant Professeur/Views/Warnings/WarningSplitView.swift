@@ -95,26 +95,38 @@ struct WarningDetailColumn: View {
     }
 }
 
-struct WarningSpliView_Previews: PreviewProvider {
-    static func initialize() {
+//struct WarningSpliView_Previews: PreviewProvider {
+//    static func initialize() {
+//        DataBaseManager.populateWithMockData(storeType: .inMemory)
+//    }
+//
+//    static var previews: some View {
+//        initialize()
+//
+//        return Group {
+//            WarningSplitView()
+//                .padding()
+//                .environmentObject(NavigationModel(selectedWarningType: .colle))
+//                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+//                .previewDevice("iPad mini (6th generation)")
+//
+//            WarningSplitView()
+//                .padding()
+//                .environmentObject(NavigationModel(selectedWarningType: .colle))
+//                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+//                .previewDevice("iPhone 13")
+//        }
+//    }
+//}
+
+#Preview {
+    func initialize() {
         DataBaseManager.populateWithMockData(storeType: .inMemory)
     }
-
-    static var previews: some View {
-        initialize()
-
-        return Group {
-            WarningSplitView()
-                .padding()
-                .environmentObject(NavigationModel(selectedWarningType: .colle))
-                .environment(\.managedObjectContext, CoreDataManager.shared.context)
-                .previewDevice("iPad mini (6th generation)")
-
-            WarningSplitView()
-                .padding()
-                .environmentObject(NavigationModel(selectedWarningType: .colle))
-                .environment(\.managedObjectContext, CoreDataManager.shared.context)
-                .previewDevice("iPhone 13")
-        }
-    }
+    initialize()
+    return WarningSplitView()
+        .padding()
+        .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+        .previewDevice("iPad mini (6th generation)")
 }

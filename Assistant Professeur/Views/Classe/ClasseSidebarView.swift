@@ -98,23 +98,33 @@ struct ClasseSidebarSchoolSubview: View {
     }
 }
 
-struct ClasseSidebarView_Previews: PreviewProvider {
-    static func initialize() {
+//struct ClasseSidebarView_Previews: PreviewProvider {
+//    static func initialize() {
+//        DataBaseManager.populateWithMockData(storeType: .inMemory)
+//    }
+//
+//    static var previews: some View {
+//        initialize()
+//        return Group {
+//            ClasseSidebarView()
+//                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+//                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+//                .previewDevice("iPad mini (6th generation)")
+//
+//            ClasseSidebarView()
+//                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+//                .environment(\.managedObjectContext, CoreDataManager.shared.context)
+//                .previewDevice("iPhone 13")
+//        }
+//    }
+//}
+
+#Preview {
+    func initialize() {
         DataBaseManager.populateWithMockData(storeType: .inMemory)
     }
-
-    static var previews: some View {
-        initialize()
-        return Group {
-            ClasseSidebarView()
-                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
-                .environment(\.managedObjectContext, CoreDataManager.shared.context)
-                .previewDevice("iPad mini (6th generation)")
-
-            ClasseSidebarView()
-                .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
-                .environment(\.managedObjectContext, CoreDataManager.shared.context)
-                .previewDevice("iPhone 13")
-        }
-    }
+    initialize()
+    return ClasseSidebarView()
+        .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
 }

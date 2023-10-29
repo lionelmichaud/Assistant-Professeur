@@ -114,3 +114,15 @@ struct ProgramDetailedColumn: View {
 //        ProgramSplitView()
 //    }
 // }
+
+#Preview {
+    func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+    initialize()
+    return ProgramSplitView()
+        .padding()
+        .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+        .previewDevice("iPad mini (6th generation)")
+}

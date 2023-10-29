@@ -64,3 +64,20 @@ struct BonusMalusGroupBox: View {
 //        BonusMalusView(minBonus: -4, maxBonus: 5, averageBonus: 2.54)
 //    }
 // }
+
+#Preview {
+    func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
+    initialize()
+    return BonusMalusGroupBox(
+        minBonus: -4,
+        maxBonus: 5,
+        averageBonus: 2.54,
+        showClasse: ClasseEntity.all().first!
+    )
+        .padding()
+        .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+        .previewDevice("iPad mini (6th generation)")
+}
