@@ -1153,8 +1153,7 @@
 			children = (
 				7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */,
 				79B6630629244C3F007B1FBD /* ContentView.swift */,
-				79A800272AC81DE6001F2E25 /* SharedViews */,
-				798EE56E2ADA8D9400F9AE24 /* SharedViewModifiers */,
+				794615872AEE9A87002D725E /* Shared */,
 				794AE9C32A5970C3009C819A /* AppStyles */,
 				79DEDB06292593C200F508EF /* PreferencesViews */,
 				7901B2E22A16C1FB00C55108 /* Events */,
@@ -1256,6 +1255,15 @@
 				7915DC832A031C6A001C1249 /* Owner+CoreDataClass.swift */,
 			);
 			path = Owner;
+			sourceTree = "<group>";
+		};
+		794615872AEE9A87002D725E /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				798EE56E2ADA8D9400F9AE24 /* SharedViewModifiers */,
+				79A800272AC81DE6001F2E25 /* SharedViews */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		794AE9C32A5970C3009C819A /* AppStyles */ = {
@@ -1642,7 +1650,8 @@
 				79F655652AEBD7C000AB3AEB /* Types */,
 				79A800282AC81DFC001F2E25 /* Controls */,
 			);
-			path = SharedViews;
+			name = SharedViews;
+			path = "../New Group1/SharedViews";
 			sourceTree = "<group>";
 		};
 		79A800282AC81DFC001F2E25 /* Controls */ = {

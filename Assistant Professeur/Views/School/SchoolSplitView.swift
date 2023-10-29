@@ -60,7 +60,7 @@ struct SchoolSplitView: View {
     initialize()
     return SchoolSplitView()
         .padding()
-        .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+        .environmentObject(NavigationModel(selectedClasseMngObjId: SchoolEntity.all().first!.objectID))
         .environment(\.managedObjectContext, CoreDataManager.shared.context)
         .previewDevice("iPad mini (6th generation)")
 }
