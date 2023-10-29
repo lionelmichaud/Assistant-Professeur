@@ -97,13 +97,13 @@ struct EventManager { // swiftlint:disable:this type_body_length
                     @unknown default:
                         reason = "inconnue"
                 }
-                let alertTitle: String = "Accès au calendrier non autorisé car \(reason)"
+                let alertTitle: String = "Accès à l'application Calendrier non autorisé"
                 customLog.log(level: .error, "\(alertTitle, privacy: .public)")
                 return (
                     calendar: nil,
                     alertIsPresented: true,
                     alertTitle: alertTitle,
-                    alertMessage: "The app doesn't have permission to access calendar data. Please grant the app access to Calendar in Settings."
+                    alertMessage: reason
                 )
             }
 
