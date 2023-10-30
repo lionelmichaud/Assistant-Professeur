@@ -36,7 +36,7 @@ import SwiftUI
 
 /// Un cours et son contenu en activités pédagogique.
 /// Plusieurs activités peuvent être abordées pendant le même cours.
-struct Seance: Identifiable, CustomStringConvertible {
+struct Seance: Identifiable, Hashable, Codable, CustomStringConvertible {
     var id = UUID()
     /// Acronym de la classe concernée par la séance ou nom de la période de vacance
     var name: String?
@@ -62,6 +62,14 @@ struct Seance: Identifiable, CustomStringConvertible {
         """
     }
 }
+
+extension Seance: Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.id == rhs.id
+    }
+}
+
+typealias Seances = [Seance]
 
 /// Suite de séances (cours) pour une classe donnée et sur un horizon de temps donné.
 /// Recherche dans l'App Calendar les séances à venir d'une classe.

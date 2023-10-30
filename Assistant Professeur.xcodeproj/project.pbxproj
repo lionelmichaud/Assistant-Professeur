@@ -100,6 +100,7 @@
 		7940135629565B48007AD790 /* EleveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7940135529565B48007AD790 /* EleveViewModel.swift */; };
 		7941BC662A030C5100EF9F30 /* Owner+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */; };
 		7942F23829A5612E007E3C3B /* StepperView in Frameworks */ = {isa = PBXBuildFile; productRef = 7942F23729A5612E007E3C3B /* StepperView */; };
+		794615892AEEBE69002D725E /* ToDoScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794615882AEEBE69002D725E /* ToDoScrollView.swift */; };
 		794AE9C22A59706E009C819A /* AppTextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794AE9C12A59706E009C819A /* AppTextStyle.swift */; };
 		794B83CA2AB5B7A600F5B14E /* BonusMalusStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */; };
 		794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */; };
@@ -545,6 +546,7 @@
 		79401353295659B6007AD790 /* EleveNameGroupBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveNameGroupBox.swift; sourceTree = "<group>"; };
 		7940135529565B48007AD790 /* EleveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveViewModel.swift; sourceTree = "<group>"; };
 		7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Owner+Extensions.swift"; path = "../New Group/Owner+Extensions.swift"; sourceTree = "<group>"; };
+		794615882AEEBE69002D725E /* ToDoScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoScrollView.swift; sourceTree = "<group>"; };
 		794AE9C12A59706E009C819A /* AppTextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextStyle.swift; sourceTree = "<group>"; };
 		794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusStats.swift; sourceTree = "<group>"; };
 		794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DuplicateActivityModal.swift; path = "Assistant Professeur/Model/Eleve/BonusMalus/DuplicateActivityModal.swift"; sourceTree = SOURCE_ROOT; };
@@ -2002,6 +2004,7 @@
 				791A190D2AE8220E00DD41DD /* SchoolCurrentSeancesView.swift */,
 				79E00C522A5B7F7800362743 /* SchoolNextSeancesView.swift */,
 				79F6556B2AEBF46200AB3AEB /* SchoolSeancesList.swift */,
+				794615882AEEBE69002D725E /* ToDoScrollView.swift */,
 			);
 			path = Progress;
 			sourceTree = "<group>";
@@ -2446,6 +2449,7 @@
 				799421862A02BFDC002999C4 /* SchoolSidebarToolbar.swift in Sources */,
 				7923811A2960B04F009E51B7 /* GroupNamesView.swift in Sources */,
 				79DEDB11292593C200F508EF /* SettingsEleve.swift in Sources */,
+				794615892AEEBE69002D725E /* ToDoScrollView.swift in Sources */,
 				79F41E642954B08A00EAAC52 /* Eleve+Extensions.swift in Sources */,
 				7937A24B298830CC00D0ED59 /* StepEditor.swift in Sources */,
 				79AFBFB82981D264001576DD /* ActivityEditorModal.swift in Sources */,

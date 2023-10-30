@@ -40,15 +40,18 @@ struct ActivityClassProgressView: View {
                 .font(hClass == .compact ? .callout : .body)
                 .textFieldStyle(.roundedBorder)
 
-                DocPrintedToggle(
-                    isPrinted: $progress.isPrinted,
-                    nbExemplaires: progress.classe?.nbOfEleves,
-                    save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
-                )
-                DocDistributedToggle(
-                    isDistributed: $progress.isDistributed,
-                    save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
-                )
+                if let activity = progress.activity,
+                   activity.nbOfDocuments > 0 {
+                    DocPrintedToggle(
+                        isPrinted: $progress.isPrinted,
+                        nbExemplaires: progress.classe?.nbOfEleves,
+                        save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
+                    )
+                    DocDistributedToggle(
+                        isDistributed: $progress.isDistributed,
+                        save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
+                    )
+                }
             }
         } label: {
             Button {

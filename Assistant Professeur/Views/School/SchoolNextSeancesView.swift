@@ -7,6 +7,7 @@
 
 import HelpersView
 import SwiftUI
+import AppFoundation
 
 struct SchoolNextSeancesView: View {
     @ObservedObject
@@ -25,15 +26,23 @@ struct SchoolNextSeancesView: View {
 
     /// Période de recherche
     private var dateInterval: DateInterval {
-        var endDate: Date?
+        var endDate: Date
         switch period {
-            case .today: endDate = 1.days.from(Calendar.current.startOfDay(for: .now))
-            case .nextWeek: endDate = 1.weeks.fromNow
-            case .all: endDate = horizon.months.fromNow
+            case .today: 
+                endDate = 1.days.from(Calendar.current.startOfDay(for: .now))!
+
+            case .nextWeek:
+                let date = 1.weeks.fromNow!
+                let startOfDay = Calendar.current.startOfDay(for: date)
+                let secondsInOneDay = 60 * 60 * 24.0
+                endDate = startOfDay.addingTimeInterval(secondsInOneDay)
+
+            case .all:
+                endDate = horizon.months.fromNow!
         }
         return DateInterval(
             start: Date.now,
-            end: endDate!
+            end: endDate
         )
     }
 
@@ -63,7 +72,8 @@ struct SchoolNextSeancesView: View {
             SchoolSeancesList(
                 school: school,
                 dateInterval: dateInterval,
-                showOnlyOngoingSeance: false
+                showOnlyOngoingSeance: false, 
+                showToDoList: true
             )
         }
         .padding(.horizontal)

@@ -45,7 +45,8 @@ struct SchoolCurrentSeanceView: View {
         SchoolSeancesList(
             school: school,
             dateInterval: dateInterval,
-            showOnlyOngoingSeance: true
+            showOnlyOngoingSeance: true, 
+            showToDoList: false
         )
         .padding(.horizontal)
         .verticallyAligned(.top)

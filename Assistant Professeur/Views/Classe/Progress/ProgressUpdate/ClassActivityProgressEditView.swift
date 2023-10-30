@@ -251,21 +251,24 @@ extension ClassActivityProgressEditView {
 
             annotation
 
-            HStack {
-                DocPrintedToggle(
-                    isPrinted: $progress.isPrinted,
-                    nbExemplaires: progress.classe?.nbOfEleves,
-                    save: {
-                        try? ActivityProgressEntity.saveIfContextHasChanged()
-                    }
-                )
-                Spacer()
-                DocDistributedToggle(
-                    isDistributed: $progress.isDistributed,
-                    save: {
-                        try? ActivityProgressEntity.saveIfContextHasChanged()
-                    }
-                )
+            if let activity = progress.activity,
+               activity.nbOfDocuments > 0 {
+                HStack {
+                    DocPrintedToggle(
+                        isPrinted: $progress.isPrinted,
+                        nbExemplaires: progress.classe?.nbOfEleves,
+                        save: {
+                            try? ActivityProgressEntity.saveIfContextHasChanged()
+                        }
+                    )
+                    Spacer()
+                    DocDistributedToggle(
+                        isDistributed: $progress.isDistributed,
+                        save: {
+                            try? ActivityProgressEntity.saveIfContextHasChanged()
+                        }
+                    )
+                }
             }
 
             buttons
@@ -281,19 +284,22 @@ extension ClassActivityProgressEditView {
 
             annotation
 
-            DocPrintedToggle(
-                isPrinted: $progress.isPrinted,
-                nbExemplaires: progress.classe?.nbOfEleves,
-                save: {
-                    try? ActivityProgressEntity.saveIfContextHasChanged()
-                }
-            )
-            DocDistributedToggle(
-                isDistributed: $progress.isDistributed,
-                save: {
-                    try? ActivityProgressEntity.saveIfContextHasChanged()
-                }
-            )
+            if let activity = progress.activity,
+               activity.nbOfDocuments > 0 {
+                DocPrintedToggle(
+                    isPrinted: $progress.isPrinted,
+                    nbExemplaires: progress.classe?.nbOfEleves,
+                    save: {
+                        try? ActivityProgressEntity.saveIfContextHasChanged()
+                    }
+                )
+                DocDistributedToggle(
+                    isDistributed: $progress.isDistributed,
+                    save: {
+                        try? ActivityProgressEntity.saveIfContextHasChanged()
+                    }
+                )
+            }
 
             buttons
         }

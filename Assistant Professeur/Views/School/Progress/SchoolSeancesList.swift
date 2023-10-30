@@ -11,13 +11,12 @@ import SwiftUI
 struct SchoolSeancesList: View {
     @ObservedObject
     var school: SchoolEntity
-
     let dateInterval: DateInterval
-
     let showOnlyOngoingSeance: Bool
+    let showToDoList: Bool
 
     @State
-    private var loadingStatus: CalendarSeancesLoadingStatus = .pending
+    private var seancesLoadingStatus: CalendarSeancesLoadingStatus = .pending
 
     @State
     private var schoolSeances: SeancesInDateInterval = .init()
@@ -35,13 +34,33 @@ struct SchoolSeancesList: View {
     private var alertIsPresented = false
 
     var body: some View {
-        // Afficher le resultat de la recherche
-        VStack {
-            loadingStatus.view
+        // Afficher la ToDo liste
+        VStack(alignment: .leading) {
+            if showToDoList {
+                switch seancesLoadingStatus {
+                    case .pending, .loading, .failed:
+                        EmptyView()
+
+                    case .finished(let seancesInInterval):
+                        if seancesInInterval.seances.isNotEmpty {
+                            NavigationLink(value: SchoolNavigationRoute.toDoList(seancesInInterval.seances)) {
+                                Label("A faire avant ces cours...", systemImage: "checklist")
+                                    .font(.headline)
+                                    .fontWeight(.bold)
+                            }
+                            .padding(.bottom)
+                        } else {
+                            EmptyView()
+                        }
+                }
+            }
+
+            // Afficher toutes les séances trouvées
+            seancesLoadingStatus.view
         }
         // Chargement des données recherchées depuis l'application Calendrier
         .task(id: school.id!.uuidString + dateInterval.description) {
-            loadingStatus = .pending
+            seancesLoadingStatus = .pending
 
             let schoolName = school.viewName
 
@@ -57,11 +76,11 @@ struct SchoolSeancesList: View {
                     calendarName: schoolName
                 )
             guard let calendar else {
-                loadingStatus = .failed
+                seancesLoadingStatus = .failed
                 return
             }
 
-            loadingStatus = .loading
+            seancesLoadingStatus = .loading
 
             // Recherche: `SeancesInDateInterval` contenant la liste des Séances à venir
             // pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
@@ -73,6 +92,7 @@ struct SchoolSeancesList: View {
             )
 
             if showOnlyOngoingSeance {
+                // Filtrer pour ne garder que la séance en cours
                 schoolSeances.seances =
                     schoolSeances.seances
                         .filter { seance in
@@ -80,7 +100,7 @@ struct SchoolSeancesList: View {
                         }
             }
 
-            loadingStatus = .finished(seancesInInterval: schoolSeances)
+            seancesLoadingStatus = .finished(seancesInInterval: schoolSeances)
         }
         .alert(
             alertTitle,

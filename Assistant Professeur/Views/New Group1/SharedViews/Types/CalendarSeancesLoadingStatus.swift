@@ -50,3 +50,40 @@ enum CalendarSeancesLoadingStatus {
         }
     }
 }
+
+#Preview("Pending") {
+    let status: CalendarSeancesLoadingStatus = .pending
+    return VStack {
+        Divider()
+        status.view
+        Divider()
+    }
+}
+
+#Preview("Loading", traits: .sizeThatFitsLayout) {
+    let status: CalendarSeancesLoadingStatus = .loading
+    return VStack {
+        Divider()
+        status.view
+        Divider()
+    }
+}
+
+#Preview("Failed") {
+    let status: CalendarSeancesLoadingStatus = .failed
+    return VStack {
+        Divider()
+        status.view
+        Divider()
+    }
+}
+
+#Preview("Finished - Empty") {
+    let status: CalendarSeancesLoadingStatus =
+        .finished(seancesInInterval: SeancesInDateInterval())
+    return VStack {
+        Divider()
+        status.view
+        Divider()
+    }
+}

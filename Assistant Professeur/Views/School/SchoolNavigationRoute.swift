@@ -13,6 +13,7 @@ enum SchoolNavigationRoute: Hashable, Codable {
     case currentSeances(SchoolEntity.ID)
     case nextSeances(SchoolEntity.ID)
     case bonusMalus(SchoolEntity.ID)
+    case toDoList([Seance])
 
     static func == (lhs: SchoolNavigationRoute, rhs: SchoolNavigationRoute) -> Bool {
         switch (lhs, rhs) {
@@ -30,6 +31,9 @@ enum SchoolNavigationRoute: Hashable, Codable {
 
             case let (.bonusMalus(schoollId), .bonusMalus(schoolrId)):
                 return schoollId == schoolrId
+
+            case let (.toDoList(seancesl), .toDoList(seancesr)):
+                return seancesl == seancesr
 
             default: return false
         }
@@ -56,6 +60,9 @@ enum SchoolNavigationRoute: Hashable, Codable {
             case let .bonusMalus(schoolId):
                 hasher.combine("bonusMalus")
                 hasher.combine(schoolId)
+                
+            case let .toDoList(seances):
+                hasher.combine(seances)
         }
     }
 
@@ -101,6 +108,8 @@ enum SchoolNavigationRoute: Hashable, Codable {
                     } else {
                         errorView
                     }
+                case let .toDoList(seances):
+                    ToDoScrollView(seances: seances)
             }
         }
     }
