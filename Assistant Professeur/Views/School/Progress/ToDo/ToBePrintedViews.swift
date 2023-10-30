@@ -63,9 +63,8 @@ struct ToBePrintedDisclosureGroup: View {
                 )
             }
         } label: {
-            Label("A imprimer pour le mois à venir", systemImage: "printer")
+            Label("A imprimer pour le mois à venir (\(docsToBePrinted.count, format: .number))", systemImage: "printer")
                 .font(.headline)
-                .fontWeight(.bold)
                 .padding(.bottom)
         }
         .padding(.leading)
@@ -106,7 +105,8 @@ struct ToBePrintedDisclosureGroup: View {
 
             seance.activities.forEach { activity in
                 // Pour chaque activité inclue dans la séance
-                guard let progress = ProgressClasseCoordinator.progressFor(thisActivity: activity, thisClasse: classe),
+                guard activity.hasSomeDocumentForEleves,
+                      let progress = ProgressClasseCoordinator.progressFor(thisActivity: activity, thisClasse: classe),
                       !progress.isPrinted else {
                     return
                 }
@@ -114,13 +114,15 @@ struct ToBePrintedDisclosureGroup: View {
 
                 // Les documents de l'activité ne sont pas imprimés
                 activity.allDocuments.forEach { document in
-                    printings.append(
-                        Printing(
-                            classe: classe,
-                            document: document,
-                            beforeDate: dateSeance
+                    if document.isForEleve {
+                        printings.append(
+                            Printing(
+                                classe: classe,
+                                document: document,
+                                beforeDate: dateSeance
+                            )
                         )
-                    )
+                    }
                 }
             }
         }

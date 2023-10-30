@@ -252,7 +252,7 @@ extension ClassActivityProgressEditView {
             annotation
 
             if let activity = progress.activity,
-               activity.nbOfDocuments > 0 {
+               activity.hasSomeDocumentForEleves {
                 HStack {
                     DocPrintedToggle(
                         isPrinted: $progress.isPrinted,
@@ -285,7 +285,7 @@ extension ClassActivityProgressEditView {
             annotation
 
             if let activity = progress.activity,
-               activity.nbOfDocuments > 0 {
+               activity.hasSomeDocumentForEleves {
                 DocPrintedToggle(
                     isPrinted: $progress.isPrinted,
                     nbExemplaires: progress.classe?.nbOfEleves,

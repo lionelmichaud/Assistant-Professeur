@@ -17,22 +17,43 @@ struct DocumentRow: View {
     private var isViewing = false
 
     var body: some View {
-        HStack {
-            Image(systemName: DocumentEntity.defaultImageName)
-                .sfSymbolStyling()
-                .foregroundColor(.accentColor)
-            TextField(
-                "Nom du document",
-                text: saveChanges ? $document.viewName : $document.docName.bound
-            )
-            .textFieldStyle(.roundedBorder)
-            Spacer(minLength: 12)
-            Button {
-                isViewing.toggle()
-            } label: {
-                Image(systemName: "eye")
+        VStack(alignment: .leading) {
+            HStack {
+                Image(systemName: DocumentEntity.defaultImageName)
+                    .sfSymbolStyling()
+                    .foregroundColor(.accentColor)
+                TextField(
+                    "Nom du document",
+                    text: saveChanges ? $document.viewName : $document.docName.bound
+                )
+                .textFieldStyle(.roundedBorder)
             }
-            .buttonStyle(.bordered)
+            HStack {
+                Toggle(
+                    isOn: saveChanges ? $document.viewIsForEleve : $document.isForEleve,
+                    label: {
+                        Label("Elèves", systemImage: "person.3.sequence.fill")
+                    }
+                )
+                .toggleStyle(.button)
+
+                Toggle(
+                    isOn: saveChanges ? $document.viewIsForTeacher : $document.isForTeacher,
+                    label: {
+                        Label("Prof.", systemImage: "person.and.background.striped.horizontal")
+                    }
+                )
+                .toggleStyle(.button)
+
+                Spacer()
+                
+                Button {
+                    isViewing.toggle()
+                } label: {
+                    Image(systemName: "eye")
+                }
+                .buttonStyle(.bordered)
+            }
         }
         // Modal: visualisation du document PDF
         #if os(macOS)

@@ -41,7 +41,7 @@ struct ActivityClassProgressView: View {
                 .textFieldStyle(.roundedBorder)
 
                 if let activity = progress.activity,
-                   activity.nbOfDocuments > 0 {
+                   activity.hasSomeDocumentForEleves {
                     DocPrintedToggle(
                         isPrinted: $progress.isPrinted,
                         nbExemplaires: progress.classe?.nbOfEleves,
