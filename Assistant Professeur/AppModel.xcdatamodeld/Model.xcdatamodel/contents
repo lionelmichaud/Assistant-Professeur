@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22222" systemVersion="23A344" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22518" systemVersion="23B74" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
     <entity name="ActivityEntity" representedClassName="ActivityEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="documentCount" optional="YES" attributeType="Integer 16" derived="YES" derivationExpression="documents.@count" usesScalarValueType="YES"/>
@@ -81,6 +81,8 @@
     <entity name="DocumentEntity" representedClassName="DocumentEntity" syncable="YES" codeGenerationType="category">
         <attribute name="docName" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isForEleve" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="isForTeacher" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="pdfData" optional="YES" attributeType="Binary"/>
         <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ActivityEntity" inverseName="documents" inverseEntity="ActivityEntity"/>
         <relationship name="classe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="documents" inverseEntity="ClasseEntity"/>

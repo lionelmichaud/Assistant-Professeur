@@ -62,6 +62,32 @@ extension DocumentEntity {
         }
     }
 
+    /// Wrapper of `isForEleve`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewIsForEleve: Bool {
+        get {
+            self.isForEleve
+        }
+        set {
+            self.isForEleve = newValue
+            try? DocumentEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `isForTeacher`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewIsForTeacher: Bool {
+        get {
+            self.isForTeacher
+        }
+        set {
+            self.isForTeacher = newValue
+            try? DocumentEntity.saveIfContextHasChanged()
+        }
+    }
+
     /// Retourne le nom du fichier PDF associé pour les archivages / désarchivage JSON
     var uuidFileName: String? {
         guard let uuidString = id?.uuidString else {
@@ -99,6 +125,10 @@ extension DocumentEntity {
         }
         doc.docName = name
 
+        // Les documents attachés à un établissement sont destinés au professeur
+        doc.isForEleve = false
+        doc.isForTeacher = true
+
         try? SchoolEntity.saveIfContextHasChanged()
 
         return doc
@@ -126,6 +156,10 @@ extension DocumentEntity {
             doc.pdfData = data
         }
         doc.docName = name
+
+        // Les documents attachés à une classe sont destinés au professeur
+        doc.isForEleve = false
+        doc.isForTeacher = true
 
         try? ClasseEntity.saveIfContextHasChanged()
 
@@ -155,6 +189,11 @@ extension DocumentEntity {
         }
         doc.docName = name
 
+        // Les documents attachés à programme peuvent être destinés
+        // au professeur et aux élèves
+        doc.isForEleve = true
+        doc.isForTeacher = true
+
         return doc
     }
 
@@ -181,6 +220,11 @@ extension DocumentEntity {
         }
         doc.docName = name
 
+        // Les documents attachés à une séquence peuvent être destinés
+        // au professeur et aux élèves
+        doc.isForEleve = true
+        doc.isForTeacher = true
+
         return doc
     }
 
@@ -206,6 +250,11 @@ extension DocumentEntity {
             doc.pdfData = data
         }
         doc.docName = name
+
+        // Les documents attachés à une activité peuvent être destinés
+        // au professeur et aux élèves
+        doc.isForEleve = true
+        doc.isForTeacher = true
 
         return doc
     }
@@ -325,6 +374,8 @@ public extension DocumentEntity {
             DOCUMENT:
                ID         : \(String(describing: id))
                Nom        : \(viewName)
+               Pour élèves: \(isForEleve)
+               Pour prof. : \(isForTeacher)
 
             """
         if let school {

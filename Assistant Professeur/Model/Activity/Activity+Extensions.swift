@@ -216,6 +216,17 @@ extension ActivityEntity {
         }
     }
 
+    /// Retourne `true` si au moins un document est detiné aux élèves.
+    var hasSomeDocumentForEleves: Bool {
+        let docs = allDocuments
+        guard docs.isNotEmpty else {
+            return false
+        }
+        return !allDocuments.allSatisfy { document in
+            document.isForTeacher
+        }
+    }
+
     /// Liste des documents importants triées par ordre alphabétique
     var documentsSortedByName: [DocumentEntity] {
         let sortComparators =
