@@ -24,3 +24,10 @@ struct ToDoScrollView: View {
         #endif
     }
 }
+
+// MARK: - Previews
+
+#Preview("ToDoDisclosureGroup") {
+    let seances = [Seance(interval: .init(start: .now, end: 1.hours.fromNow!))]
+    return ToDoScrollView(seances: seances)
+}

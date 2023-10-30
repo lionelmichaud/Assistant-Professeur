@@ -110,7 +110,6 @@ struct ToBePrintedDisclosureGroup: View {
                       !progress.isPrinted else {
                     return
                 }
-                // print(ProgressClasseCoordinator.progressFor(thisActivity: activity, thisClasse: classe))
                 let dateSeance = seance.interval.start
 
                 // Les documents de l'activité ne sont pas imprimés
@@ -133,7 +132,6 @@ struct ToBePrintedDisclosureGroup: View {
         }) {
             uniquePrintings.append(element)
         }
-        // print(String(describing: uniquePrintings))
 
         // Cumuler les quantités de documents à imprimer et
         // calculer la date au plus tard de l'impression
@@ -239,13 +237,6 @@ struct DocToBePrintedGroupBox: View {
                         .month(.twoDigits))
         }
     }
-}
-
-// MARK: - Previews
-
-#Preview("ToDoDisclosureGroup") {
-    let seances = [Seance(interval: .init(start: .now, end: 1.hours.fromNow!))]
-    return ToDoScrollView(seances: seances)
 }
 
 // #Preview("DocToBePrintedView") {
