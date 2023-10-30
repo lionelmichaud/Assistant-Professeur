@@ -12,7 +12,7 @@ import SwiftUI
 struct DocToBePrinted: Identifiable {
     var id = UUID()
     var levelClasse: String
-    var title: String
+    var document: DocumentEntity
     var quantity: Int
     var beforeDate: Date
 }
@@ -32,9 +32,9 @@ struct ToBePrintedDisclosureGroup: View {
 
         var description: String {
             "\nClasse  : \(classe.displayString)" +
-            "\(document.description)\n" +
-            "Quantité: \(classe.nbOfEleves)\n" +
-            "Date    : \(beforeDate.formatted(date: .abbreviated, time: .omitted))\n"
+                "\(document.description)\n" +
+                "Quantité: \(classe.nbOfEleves)\n" +
+                "Date    : \(beforeDate.formatted(date: .abbreviated, time: .omitted))\n"
         }
     }
 
@@ -50,7 +50,7 @@ struct ToBePrintedDisclosureGroup: View {
             ForEach(docsToBePrinted) { doc in
                 DocToBePrintedGroupBox(
                     levelClasse: doc.levelClasse,
-                    title: doc.title,
+                    document: doc.document,
                     quantity: doc.quantity,
                     beforeDate: doc.beforeDate
                 )
@@ -63,7 +63,7 @@ struct ToBePrintedDisclosureGroup: View {
                 )
             }
         } label: {
-            Label("A imprimer pour le mois à venir", systemImage: "checklist")
+            Label("A imprimer pour le mois à venir", systemImage: "printer")
                 .font(.headline)
                 .fontWeight(.bold)
                 .padding(.bottom)
@@ -98,9 +98,9 @@ struct ToBePrintedDisclosureGroup: View {
             guard let schoolName = seance.schoolName,
                   let classeName = seance.name,
                   let classe =
-                    SchoolEntity
-                .school(withName: schoolName)?
-                .classe(withAcronym: classeName) else {
+                  SchoolEntity
+                      .school(withName: schoolName)?
+                      .classe(withAcronym: classeName) else {
                 return
             }
 
@@ -143,7 +143,7 @@ struct ToBePrintedDisclosureGroup: View {
             docsToBePrinted.append(
                 DocToBePrinted(
                     levelClasse: printing.classe.levelString,
-                    title: printing.document.viewName,
+                    document: printing.document,
                     quantity: printing.classe.nbOfEleves,
                     beforeDate: printing.beforeDate
                 )
@@ -156,17 +156,35 @@ struct ToBePrintedDisclosureGroup: View {
 /// dans un certain nombre d'exemplaires avant une certaine date
 struct DocToBePrintedGroupBox: View {
     var levelClasse: String
-    var title: String
+    var document: DocumentEntity
     var quantity: Int
     var beforeDate: Date
+
+    @State
+    private var documentToBeViewed: DocumentEntity?
 
     var body: some View {
         GroupBox {
             LabeledContent(
                 content: {
-                    Button {} label: {
-                        Text(title)
+                    Button {
+                        documentToBeViewed = document
+                    } label: {
+                        Text(document.viewName)
                     }
+                    #if os(macOS)
+                    .sheet(item: $documentToBeViewed) { doc in
+                        NavigationStack {
+                            PdfDocumentViewer(document: doc)
+                        }
+                    }
+                    #else
+                            .fullScreenCover(item: $documentToBeViewed) { doc in
+                                NavigationStack {
+                                    PdfDocumentViewer(document: doc)
+                                }
+                            }
+                    #endif
                 },
                 label: {
                     Text(levelClasse)
@@ -230,24 +248,25 @@ struct DocToBePrintedGroupBox: View {
     return ToDoScrollView(seances: seances)
 }
 
-#Preview("DocToBePrintedView") {
-    DisclosureGroup(isExpanded: .constant(true)) {
-        DocToBePrintedGroupBox(
-            levelClasse: LevelClasse.n3ieme.displayString,
-            title: "Le nom du document à imprimer qui est très très long et ne tient pas sur une seule ligne",
-            quantity: 64,
-            beforeDate: .now
-        )
-        DocToBePrintedGroupBox(
-            levelClasse: LevelClasse.n0terminale.displayString,
-            title: "Le nom d'un autre document à imprimer qui est très très long et ne tient pas sur une seule ligne",
-            quantity: 128,
-            beforeDate: 1.months.fromNow!
-        )
-    } label: {
-        Label("A imprimer...", systemImage: "checklist")
-            .font(.headline)
-            .fontWeight(.bold)
-    }
-    .padding(.leading)
-}
+// #Preview("DocToBePrintedView") {
+//    DisclosureGroup(isExpanded: .constant(true)) {
+//        DocToBePrintedGroupBox(
+//            levelClasse: LevelClasse.n3ieme.displayString,
+//            title: "Le nom du document à imprimer qui est très très long et ne tient pas sur une seule ligne",
+//            quantity: 64,
+//            beforeDate: .now
+//        )
+//        DocToBePrintedGroupBox(
+//            levelClasse: LevelClasse.n0terminale.displayString,
+//            title: "Le nom d'un autre document à imprimer qui est très très long et ne tient pas sur une seule ligne",
+//            quantity: 128,
+//            beforeDate: 1.months.fromNow!
+//        )
+//    } label: {
+//        Label("A imprimer pour le mois à venir", systemImage: "printer")
+//            .font(.headline)
+//            .fontWeight(.bold)
+//            .padding(.bottom)
+//    }
+//    .padding(.leading)
+// }
