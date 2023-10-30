@@ -124,6 +124,7 @@
 		795804BA29A69CB800AEB7DA /* SequenceStepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795804B929A69CB800AEB7DA /* SequenceStepperView.swift */; };
 		79595C6F2934298300C81021 /* SchoolBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79595C6E2934298300C81021 /* SchoolBrowserRow.swift */; };
 		795A34132999476100E36959 /* LoadRoomPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795A34122999476100E36959 /* LoadRoomPlanView.swift */; };
+		795BC98F2AF003A7006F3A8F /* ToBePrintedViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795BC98E2AF003A7006F3A8F /* ToBePrintedViews.swift */; };
 		795C2C20296E24E900EDFF09 /* Seat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C1F296E24E900EDFF09 /* Seat+Extensions.swift */; };
 		795C2C2A296E2DCA00EDFF09 /* RoomPlanEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C22296E2DCA00EDFF09 /* RoomPlanEditView.swift */; };
 		795C2C2B296E2DCA00EDFF09 /* EditableSeatLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795C2C23296E2DCA00EDFF09 /* EditableSeatLabel.swift */; };
@@ -546,7 +547,7 @@
 		79401353295659B6007AD790 /* EleveNameGroupBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveNameGroupBox.swift; sourceTree = "<group>"; };
 		7940135529565B48007AD790 /* EleveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveViewModel.swift; sourceTree = "<group>"; };
 		7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Owner+Extensions.swift"; path = "../New Group/Owner+Extensions.swift"; sourceTree = "<group>"; };
-		794615882AEEBE69002D725E /* ToDoScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoScrollView.swift; sourceTree = "<group>"; };
+		794615882AEEBE69002D725E /* ToDoScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ToDoScrollView.swift; path = "../New Group/ToDoScrollView.swift"; sourceTree = "<group>"; };
 		794AE9C12A59706E009C819A /* AppTextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextStyle.swift; sourceTree = "<group>"; };
 		794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusStats.swift; sourceTree = "<group>"; };
 		794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DuplicateActivityModal.swift; path = "Assistant Professeur/Model/Eleve/BonusMalus/DuplicateActivityModal.swift"; sourceTree = SOURCE_ROOT; };
@@ -570,6 +571,7 @@
 		795804B929A69CB800AEB7DA /* SequenceStepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceStepperView.swift; sourceTree = "<group>"; };
 		79595C6E2934298300C81021 /* SchoolBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolBrowserRow.swift; sourceTree = "<group>"; };
 		795A34122999476100E36959 /* LoadRoomPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadRoomPlanView.swift; sourceTree = "<group>"; };
+		795BC98E2AF003A7006F3A8F /* ToBePrintedViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToBePrintedViews.swift; sourceTree = "<group>"; };
 		795C2C1F296E24E900EDFF09 /* Seat+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Seat+Extensions.swift"; sourceTree = "<group>"; };
 		795C2C22296E2DCA00EDFF09 /* RoomPlanEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomPlanEditView.swift; sourceTree = "<group>"; };
 		795C2C23296E2DCA00EDFF09 /* EditableSeatLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditableSeatLabel.swift; sourceTree = "<group>"; };
@@ -1351,6 +1353,15 @@
 			path = TimeLine;
 			sourceTree = "<group>";
 		};
+		795BC98D2AF0038A006F3A8F /* ToDo */ = {
+			isa = PBXGroup;
+			children = (
+				794615882AEEBE69002D725E /* ToDoScrollView.swift */,
+				795BC98E2AF003A7006F3A8F /* ToBePrintedViews.swift */,
+			);
+			path = ToDo;
+			sourceTree = "<group>";
+		};
 		795C2C21296E2DCA00EDFF09 /* Room */ = {
 			isa = PBXGroup;
 			children = (
@@ -2004,7 +2015,7 @@
 				791A190D2AE8220E00DD41DD /* SchoolCurrentSeancesView.swift */,
 				79E00C522A5B7F7800362743 /* SchoolNextSeancesView.swift */,
 				79F6556B2AEBF46200AB3AEB /* SchoolSeancesList.swift */,
-				794615882AEEBE69002D725E /* ToDoScrollView.swift */,
+				795BC98D2AF0038A006F3A8F /* ToDo */,
 			);
 			path = Progress;
 			sourceTree = "<group>";
@@ -2437,6 +2448,7 @@
 				79A8E7BE29AF6109006D0EAA /* IndicatorImageView.swift in Sources */,
 				796A17802A3F416D00413DDD /* EleveListSection.swift in Sources */,
 				793D6277295DD9E600477932 /* ObservSignIcon.swift in Sources */,
+				795BC98F2AF003A7006F3A8F /* ToBePrintedViews.swift in Sources */,
 				793C29D52953C08100E7F65B /* RessourceEditor.swift in Sources */,
 				79F57E38298EB2D30014B73D /* ActivitySymbolViews.swift in Sources */,
 				798DD4D6298C366300C47B2C /* TrombineView.swift in Sources */,

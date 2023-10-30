@@ -1,8 +1,8 @@
 //
-//  ToDoList.swift
+//  ToBePrinted.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 29/10/2023.
+//  Created by Lionel MICHAUD on 30/10/2023.
 //
 
 import AppFoundation
@@ -19,7 +19,7 @@ struct DocToBePrinted: Identifiable {
 
 /// Liste des documents à imprimer
 /// dans un certain nombre d'exemplaires avant une certaine date
-struct ToDoScrollView: View {
+struct ToBePrintedDisclosureGroup: View {
     let seances: [Seance]
 
     /// Un document devant être imprimés en un certain nombre d'exemplaires
@@ -32,9 +32,9 @@ struct ToDoScrollView: View {
 
         var description: String {
             "\nClasse  : \(classe.displayString)" +
-                "\(document.description)\n" +
-                "Quantité: \(classe.nbOfEleves)\n" +
-                "Date    : \(beforeDate.formatted(date: .abbreviated, time: .omitted))\n"
+            "\(document.description)\n" +
+            "Quantité: \(classe.nbOfEleves)\n" +
+            "Date    : \(beforeDate.formatted(date: .abbreviated, time: .omitted))\n"
         }
     }
 
@@ -45,42 +45,33 @@ struct ToDoScrollView: View {
     @State
     private var docsToBePrinted: [DocToBePrinted] = []
 
-    @State
-    private var show = true
-
     var body: some View {
-        ScrollView(.vertical, showsIndicators: true) {
-            DisclosureGroup(isExpanded: $isExpanded) {
-                ForEach(docsToBePrinted) { doc in
-                    DocToBePrintedGroupBox(
-                        levelClasse: doc.levelClasse,
-                        title: doc.title,
-                        quantity: doc.quantity,
-                        beforeDate: doc.beforeDate
-                    )
-                }
-                .emptyListPlaceHolder(docsToBePrinted) {
-                    ContentUnavailableView(
-                        "Aucune impression à réaliser pour le moi à venir...",
-                        systemImage: "checklist",
-                        description: Text("Les impressions nécessaires au cours du prochain mois apparaîtront ici.")
-                    )
-                }
-            } label: {
-                Label("A imprimer pour le mois à venir", systemImage: "checklist")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .padding(.bottom)
+        DisclosureGroup(isExpanded: $isExpanded) {
+            ForEach(docsToBePrinted) { doc in
+                DocToBePrintedGroupBox(
+                    levelClasse: doc.levelClasse,
+                    title: doc.title,
+                    quantity: doc.quantity,
+                    beforeDate: doc.beforeDate
+                )
             }
-            .padding(.leading)
-            .task {
-                getAllDocsToBePrinted()
+            .emptyListPlaceHolder(docsToBePrinted) {
+                ContentUnavailableView(
+                    "Aucune impression à réaliser pour le moi à venir...",
+                    systemImage: "checklist",
+                    description: Text("Les impressions nécessaires au cours du prochain mois apparaîtront ici.")
+                )
             }
+        } label: {
+            Label("A imprimer pour le mois à venir", systemImage: "checklist")
+                .font(.headline)
+                .fontWeight(.bold)
+                .padding(.bottom)
         }
-        #if os(iOS)
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("A faire...")
-        #endif
+        .padding(.leading)
+        .task {
+            getAllDocsToBePrinted()
+        }
     }
 
     // MARK: - Methods
@@ -107,9 +98,9 @@ struct ToDoScrollView: View {
             guard let schoolName = seance.schoolName,
                   let classeName = seance.name,
                   let classe =
-                  SchoolEntity
-                      .school(withName: schoolName)?
-                      .classe(withAcronym: classeName) else {
+                    SchoolEntity
+                .school(withName: schoolName)?
+                .classe(withAcronym: classeName) else {
                 return
             }
 
@@ -158,8 +149,6 @@ struct ToDoScrollView: View {
                 )
             )
         }
-
-        show = docsToBePrinted.isNotEmpty
     }
 }
 
