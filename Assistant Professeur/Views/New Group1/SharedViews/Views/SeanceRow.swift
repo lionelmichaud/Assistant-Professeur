@@ -243,20 +243,23 @@ extension SeanceRow {
                         // Nom de l'activité
                         Text(activity.viewName)
 
-                        // Documents utilisés
-                        if activity.nbOfDocuments != 0 {
+                        // Documents à distribuer aux élèves
+                        if activity.hasSomeDocumentForEleves {
                             DisclosureGroup(isExpanded: $isDocumentExpanded) {
                                 ForEach(activity.documentsSortedByName) { document in
-                                    Button {
-                                        documentToBeViewed = document
-                                    } label: {
-                                        Label(
-                                            document.viewName,
-                                            systemImage: DocumentEntity.defaultImageName
-                                        )
-                                        Spacer()
+                                    // N'afficher que les documents distribués aux élèves
+                                    if document.isForEleve {
+                                        Button {
+                                            documentToBeViewed = document
+                                        } label: {
+                                            Label(
+                                                document.viewName,
+                                                systemImage: DocumentEntity.defaultImageName
+                                            )
+                                            Spacer()
+                                        }
+                                        .padding(.top, 4)
                                     }
-                                    .padding(.top, 4)
                                 }
                             } label: {
                                 HStack {

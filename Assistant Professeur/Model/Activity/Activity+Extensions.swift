@@ -216,15 +216,15 @@ extension ActivityEntity {
         }
     }
 
-    /// Retourne `true` si au moins un document est detiné aux élèves.
+    /// Retourne `true` si au moins un document est destiné aux élèves.
     var hasSomeDocumentForEleves: Bool {
         let docs = allDocuments
         guard docs.isNotEmpty else {
             return false
         }
-        return !allDocuments.allSatisfy { document in
-            document.isForTeacher
-        }
+        return allDocuments.contains(where: { document in
+            document.isForEleve
+        })
     }
 
     /// Liste des documents importants triées par ordre alphabétique

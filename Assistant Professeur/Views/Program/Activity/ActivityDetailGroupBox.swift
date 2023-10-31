@@ -49,7 +49,7 @@ struct ActivityDetailGroupBox: View {
                     } label: {
                         Label(
                             document.viewName,
-                            systemImage: DocumentEntity.defaultImageName
+                            systemImage: document.isForEleve ? "printer" : DocumentEntity.defaultImageName
                         )
                     }
                     .padding(.top, 4)
