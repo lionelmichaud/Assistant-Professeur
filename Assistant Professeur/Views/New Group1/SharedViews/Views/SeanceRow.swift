@@ -263,7 +263,7 @@ extension SeanceRow {
                                 }
                             } label: {
                                 HStack {
-                                    Text("Documents")
+                                    Text("Documents distribuables aux élèves")
                                     if let classe,
                                        let progress = ProgressClasseCoordinator.progressFor(thisActivity: activity, thisClasse: classe),
                                        !progress.isPrinted {
