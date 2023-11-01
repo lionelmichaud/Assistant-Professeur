@@ -79,6 +79,13 @@ extension ActivityProgressEntity {
         isDistributed.toggle()
         try? ActivityProgressEntity.saveIfContextHasChanged()
     }
+
+    /// Toggle l'attribut `isLoaded` de la progression
+    /// - Important: *Saves the context to the store after modification is done*
+    func toggleIsLoaded() {
+        isLoaded.toggle()
+        try? ActivityProgressEntity.saveIfContextHasChanged()
+    }
 }
 
 // MARK: - Extension Core Data
@@ -231,6 +238,7 @@ public extension ActivityProgressEntity {
            Activité  : \(String(describing: activity?.viewName))
            Imprimé   : \(isPrinted.frenchString)
            Distribué : \(isDistributed.frenchString)
+           Chargé    : \(isLoaded.frenchString)
            Annotation: \(viewAnnotation)
            Status    : \(status)
            Progrès   : \(progress * 100.0) %

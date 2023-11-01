@@ -76,3 +76,35 @@ struct DocDistributedToggle: View {
         .buttonStyle(.plain)
     }
 }
+
+/// Contrôle checkbox permettant de définir si les documents ont été stocké sur l'ENT
+struct DocLoadedToggle: View {
+    @Binding
+    var isLoaded: Bool
+    let save: (() -> Void)?
+
+    @Environment(\.horizontalSizeClass)
+    private var hClass
+
+    var label: String {
+        if hClass == .compact { "Ressources chargées" } else { "Ressources chargées sur ENT" }
+    }
+
+    var body: some View {
+        // checkbox isDistributed
+        Button {
+            isLoaded.toggle()
+            (save ?? {}) ()
+        } label: {
+            Label(
+                title: {
+                    Text(label)
+                }, icon: {
+                    Image(systemName: isLoaded ? "checkmark.circle.fill" : "circle")
+                        .foregroundColor(isLoaded ? .green : .gray)
+                }
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}

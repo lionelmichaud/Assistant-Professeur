@@ -96,7 +96,7 @@ struct SequenceDocumentList: View {
             ForEach(sequence.documentsSortedByName, id: \.objectID) { document in
                 DocumentRow(
                     document: document,
-                    saveChanges: true
+                    saveChanges: false
                 )
             }
             .onDelete(perform: deleteItems)

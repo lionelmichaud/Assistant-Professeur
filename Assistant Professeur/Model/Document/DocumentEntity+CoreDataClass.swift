@@ -12,7 +12,7 @@ import Foundation
 @objc(DocumentEntity)
 public final class DocumentEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
-        case id, docName, isForEleve, isForTeacher
+        case id, docName, isForEleve, isForTeacher, isForENT
     }
 
     /// Conformance to Decodable
@@ -24,6 +24,7 @@ public final class DocumentEntity: NSManagedObject, Codable, ModelEntityP {
         self.docName = try container.decode(String.self, forKey: .docName)
         self.isForEleve = try container.decode(Bool.self, forKey: .isForEleve)
         self.isForTeacher = try container.decode(Bool.self, forKey: .isForTeacher)
+        self.isForENT = try container.decode(Bool.self, forKey: .isForENT)
     }
 
     /// Conformance to Encodable
@@ -33,5 +34,6 @@ public final class DocumentEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(docName, forKey: .docName)
         try container.encode(isForEleve, forKey: .isForEleve)
         try container.encode(isForTeacher, forKey: .isForTeacher)
+        try container.encode(isForTeacher, forKey: .isForENT)
     }
 }

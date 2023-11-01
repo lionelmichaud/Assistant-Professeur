@@ -209,6 +209,59 @@
 			<key>type</key>
 			<string>bookmark</string>
 		</dict>
+		<dict>
+			<key>children</key>
+			<array>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>36</string>
+							<key>EndingLineNumber</key>
+							<string>186</string>
+							<key>StartingColumnNumber</key>
+							<string>12</string>
+							<key>StartingLineNumber</key>
+							<string>186</string>
+							<key>Timestamp</key>
+							<string>720537379.6675971</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>Assistant Professeur/Assistant Professeur/Model/Persistence/DataBase/CoreDataManager.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string>initializeCloudKitSchema</string>
+						<key>leading</key>
+						<string>        #if DEBUG
+            // LIGNE À DESACTIVER sous la cible "My Mac (Designed for iPad)"
+            // </string>
+						<key>trailing</key>
+						<string>()
+        #endif
+    }
+</string>
+					</dict>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+			</array>
+			<key>title</key>
+			<string>Database</string>
+			<key>type</key>
+			<string>group</string>
+		</dict>
 	</array>
 </dict>
 </plist>

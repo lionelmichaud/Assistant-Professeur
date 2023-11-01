@@ -16,7 +16,7 @@ private let customLog = Logger(
     category: "ActivityDocumentList"
 )
 
-/// Vue de la liste des documents importants de l'activité
+/// Edition de la liste des documents importants de l'activité
 struct ActivityDocListSection: View {
     @ObservedObject
     var activity: ActivityEntity
@@ -96,7 +96,7 @@ struct ActivityDocListSection: View {
             ForEach(activity.documentsSortedByName, id: \.objectID) { document in
                 DocumentRow(
                     document: document,
-                    saveChanges: true
+                    saveChanges: false
                 )
             }
             .onDelete(perform: deleteItems)

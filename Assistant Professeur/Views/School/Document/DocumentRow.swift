@@ -16,6 +16,9 @@ struct DocumentRow: View {
     @State
     private var isViewing = false
 
+    @Environment(\.horizontalSizeClass)
+    private var hClass
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -30,23 +33,43 @@ struct DocumentRow: View {
             }
             HStack {
                 Toggle(
-                    isOn: saveChanges ? $document.viewIsForEleve : $document.isForEleve,
+                    isOn: saveChanges ? $document.viewIsForEleve : $document.unsavedIsForEleve,
                     label: {
-                        Label("Elèves", systemImage: "person.3.sequence.fill")
+                        if hClass == .compact {
+                            Label("Elèves", systemImage: DocumentEntity.forEleveImageName)
+                                .labelStyle(.iconOnly)
+                        } else {
+                            Label("Doc. Elèves", systemImage: DocumentEntity.forEleveImageName)
+                        }
                     }
                 )
-                .toggleStyle(.button)
 
                 Toggle(
-                    isOn: saveChanges ? $document.viewIsForTeacher : $document.isForTeacher,
+                    isOn: saveChanges ? $document.viewIsForENT : $document.unsavedIsForENT,
                     label: {
-                        Label("Prof.", systemImage: "person.and.background.striped.horizontal")
+                        if hClass == .compact {
+                            Label("ENT", systemImage: DocumentEntity.forEntImageName)
+                                .labelStyle(.iconOnly)
+                        } else {
+                            Label("Ressource ENT", systemImage: DocumentEntity.forEntImageName)
+                        }
                     }
                 )
-                .toggleStyle(.button)
+
+                Toggle(
+                    isOn: saveChanges ? $document.viewIsForTeacher : $document.unsavedIsForTeacher,
+                    label: {
+                        if hClass == .compact {
+                            Label("Prof.", systemImage: DocumentEntity.forTeacherImageName)
+                                .labelStyle(.iconOnly)
+                        } else {
+                            Label("Professeur seul.", systemImage: DocumentEntity.forTeacherImageName)
+                        }
+                    }
+                )
 
                 Spacer()
-                
+
                 Button {
                     isViewing.toggle()
                 } label: {
@@ -54,6 +77,7 @@ struct DocumentRow: View {
                 }
                 .buttonStyle(.bordered)
             }
+            .toggleStyle(.button)
         }
         // Modal: visualisation du document PDF
         #if os(macOS)

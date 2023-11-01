@@ -34,6 +34,7 @@ struct ActivitySideBar: View {
     }
 
     var body: some View {
+
         List(selection: $navig.selectedActivityMngObjId) {
             if sequence.program != nil {
                 SequenceDetailGroupBox(

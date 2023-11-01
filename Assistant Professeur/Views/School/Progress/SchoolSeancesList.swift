@@ -45,6 +45,7 @@ struct SchoolSeancesList: View {
                         if seancesInInterval.seances.isNotEmpty {
                             NavigationLink(value: SchoolNavigationRoute.toDoList(seancesInInterval.seances)) {
                                 Label("A faire avant ces cours...", systemImage: "checklist")
+                                    .imageScale(.large)
                                     .font(.headline)
                                     .fontWeight(.bold)
                             }

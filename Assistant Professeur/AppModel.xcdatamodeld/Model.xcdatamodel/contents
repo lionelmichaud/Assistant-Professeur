@@ -23,6 +23,7 @@
         <attribute name="endDate" optional="YES" transient="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isDistributed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isLoaded" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isPrinted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="progress" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="startDate" optional="YES" transient="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -82,7 +83,8 @@
         <attribute name="docName" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isForEleve" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
-        <attribute name="isForTeacher" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isForENT" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="isForTeacher" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="pdfData" optional="YES" attributeType="Binary"/>
         <relationship name="activity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ActivityEntity" inverseName="documents" inverseEntity="ActivityEntity"/>
         <relationship name="classe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ClasseEntity" inverseName="documents" inverseEntity="ClasseEntity"/>

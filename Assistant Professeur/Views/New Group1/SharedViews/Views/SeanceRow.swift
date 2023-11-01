@@ -65,7 +65,10 @@ struct SeanceRow: View {
                             using: navig
                         )
                     } label: {
-                        Label("Actualiser la progression", systemImage: "figure.walk.motion")
+                        Label(
+                            "Actualiser la progression",
+                            systemImage: "figure.walk.motion"
+                        )
                     }
                 }
 
@@ -203,6 +206,15 @@ extension SeanceRow {
         .foregroundColor(.secondary)
     }
 
+    private var vacancesInfoView: some View {
+        Text(seance.name ?? "Vacances")
+            .font(.title3)
+            .foregroundColor(.secondary)
+            .padding(.vertical)
+            .frame(maxWidth: .infinity)
+            .background(.gray.opacity(0.25))
+    }
+
     private var coursInfoView: some View {
         VStack(alignment: .leading) {
             // Pour chaque activité prévue pendant la séance
@@ -243,18 +255,18 @@ extension SeanceRow {
                         // Nom de l'activité
                         Text(activity.viewName)
 
-                        // Documents à distribuer aux élèves
-                        if activity.hasSomeDocumentForEleves {
+                        // Documents de l'activité à distribuer aux élèves ou à stocker sur l'ENT
+                        if activity.hasSomeDocumentForEleves || activity.hasSomeDocumentForENT {
                             DisclosureGroup(isExpanded: $isDocumentExpanded) {
                                 ForEach(activity.documentsSortedByName) { document in
-                                    // N'afficher que les documents distribués aux élèves
-                                    if document.isForEleve {
+                                    // N'afficher que les documents destinés aux élèves ou à l'ENT
+                                    if document.isForEleve || document.isForENT {
                                         Button {
                                             documentToBeViewed = document
                                         } label: {
                                             Label(
                                                 document.viewName,
-                                                systemImage: DocumentEntity.defaultImageName
+                                                systemImage: document.destinationImageName
                                             )
                                             Spacer()
                                         }
@@ -263,18 +275,8 @@ extension SeanceRow {
                                 }
                             } label: {
                                 HStack {
-                                    Text("Documents distribuables aux élèves")
-                                    if let classe,
-                                       let progress = ProgressClasseCoordinator.progressFor(thisActivity: activity, thisClasse: classe),
-                                       !progress.isPrinted {
-                                        // Documents non imprimés
-                                        Image(systemName: "printer.filled.and.paper").tint(.red)
-                                    } else if let classe,
-                                              let progress = ProgressClasseCoordinator.progressFor(thisActivity: activity, thisClasse: classe),
-                                              !progress.isDistributed {
-                                        // Documents imprimés mais non distribués
-                                        Image(systemName: "arrow.up.doc").tint(.red)
-                                    }
+                                    Text(hClass == .compact ? "Documents élèves" : "Documents destinés aux élèves")
+                                    progressDocumentsSymbol(classe: classe, activity: activity)
                                 }
                             }
                         }
@@ -306,13 +308,30 @@ extension SeanceRow {
         #endif
     }
 
-    private var vacancesInfoView: some View {
-        Text(seance.name ?? "Vacances")
-            .font(.title3)
-            .foregroundColor(.secondary)
-            .padding(.vertical)
-            .frame(maxWidth: .infinity)
-            .background(.gray.opacity(0.25))
+    @ViewBuilder
+    func progressDocumentsSymbol(
+        classe: ClasseEntity?,
+        activity: ActivityEntity
+    ) -> some View {
+        Group {
+            if let classe,
+               let progress = ProgressClasseCoordinator.progressFor(thisActivity: activity, thisClasse: classe) {
+                if activity.hasSomeDocumentForEleves && !progress.isPrinted {
+                    // Documents pas déclarés comme tous imprimés par l'utilisateur
+                    Image(systemName: "printer.filled.and.paper").tint(.red)
+                }
+                if activity.hasSomeDocumentForEleves && progress.isPrinted && !progress.isDistributed {
+                    // Documents imprimés mais pas déclarés comme tous distribués par l'utilisateur
+                    Image(systemName: "arrow.up.doc").tint(.red)
+                }
+                if activity.hasSomeDocumentForENT && !progress.isLoaded {
+                    // Documents pas déclarés comme tous stockés sur l'ENT
+                    Image(systemName: "externaldrive").tint(.red)
+                }
+            } else {
+                EmptyView()
+            }
+        }
     }
 }
 

@@ -227,6 +227,17 @@ extension ActivityEntity {
         })
     }
 
+    /// Retourne `true` si au moins un document est destiné à l'ENT.
+    var hasSomeDocumentForENT: Bool {
+        let docs = allDocuments
+        guard docs.isNotEmpty else {
+            return false
+        }
+        return allDocuments.contains(where: { document in
+            document.isForENT
+        })
+    }
+
     /// Liste des documents importants triées par ordre alphabétique
     var documentsSortedByName: [DocumentEntity] {
         let sortComparators =

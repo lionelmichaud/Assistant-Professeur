@@ -12,8 +12,27 @@ import PDFKit
 extension DocumentEntity {
     // MARK: - Computed properties
 
-    /// Nom de l'image par défaut utilisée pour représenter un établissement
+    /// Nom du symbol par défaut utilisée pour représenter un établissement
     static let defaultImageName: String = "doc.richtext"
+
+    static let forEleveImageName: String = "printer"
+    static let forEntImageName: String = "externaldrive"
+    static let forTeacherImageName: String = "person.and.background.striped.horizontal"
+
+    /// Nom du symbol à utiliser en tête du document en fonction des destinations du document.
+    var destinationImageName: String {
+        if isForEleve {
+            if isForENT {
+                "externaldrive.badge.person.crop"
+            } else {
+                DocumentEntity.forEleveImageName
+            }
+        } else if isForENT {
+            DocumentEntity.forEntImageName
+        } else {
+            DocumentEntity.forTeacherImageName
+        }
+    }
 
     /// Wrapper of `docName`
     /// - Important: *Saves the context to the store after modification is done*
@@ -63,6 +82,7 @@ extension DocumentEntity {
     }
 
     /// Wrapper of `isForEleve`
+    /// - Note: Un doc à distribuer aux élèves n'est pas pour le prof seulement
     /// - Important: *Saves the context to the store after modification is done*
     @objc
     var viewIsForEleve: Bool {
@@ -71,11 +91,33 @@ extension DocumentEntity {
         }
         set {
             self.isForEleve = newValue
+            if newValue {
+                // Un doc à distribuer aux élèves n'est pas pour le prof seulement
+                self.isForTeacher = false
+            }
             try? DocumentEntity.saveIfContextHasChanged()
         }
     }
 
+    /// Wrapper of `isForEleve`
+    /// - Note: Un doc à distribuer aux élèves n'est pas pour le prof seulement
+    /// - Important: *Does NOT the context to the store after modification is done*
+    @objc
+    var unsavedIsForEleve: Bool {
+        get {
+            self.isForEleve
+        }
+        set {
+            self.isForEleve = newValue
+            if newValue {
+                // Un doc à distribuer aux élèves n'est pas pour le prof seulement
+                self.isForTeacher = false
+            }
+        }
+    }
+
     /// Wrapper of `isForTeacher`
+    /// - Note: Un doc pour le prof seulement ne peut être partagé sur l'ENT ni distribué aux élèves
     /// - Important: *Saves the context to the store after modification is done*
     @objc
     var viewIsForTeacher: Bool {
@@ -84,7 +126,65 @@ extension DocumentEntity {
         }
         set {
             self.isForTeacher = newValue
+            if newValue {
+                // Un doc pour le prof seulement ne peut être partagé sur l'ENT ni distribué aux élèves
+                self.isForEleve = false
+                self.isForENT = false
+            }
             try? DocumentEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `isForTeacher`
+    /// - Note: Un doc pour le prof seulement ne peut être partagé sur l'ENT ni distribué aux élèves
+    /// - Important: *Does NOT the context to the store after modification is done*
+    @objc
+    var unsavedIsForTeacher: Bool {
+        get {
+            self.isForTeacher
+        }
+        set {
+            self.isForTeacher = newValue
+            if newValue {
+                // Un doc pour le prof seulement ne peut être partagé sur l'ENT ni distribué aux élèves
+                self.isForEleve = false
+                self.isForENT = false
+            }
+        }
+    }
+
+    /// Wrapper of `isForENT`
+    /// - Note: Un doc à stocker sur l'ENT n'est pas pour le prof seulement
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewIsForENT: Bool {
+        get {
+            self.isForENT
+        }
+        set {
+            self.isForENT = newValue
+            if newValue {
+                // Un doc à stocker sur l'ENT n'est pas pour le prof seulement
+                self.isForTeacher = false
+            }
+            try? DocumentEntity.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `isForENT`
+    /// - Note: Un doc à stocker sur l'ENT n'est pas pour le prof seulement
+    /// - Important: *Does NOT the context to the store after modification is done*
+    @objc
+    var unsavedIsForENT: Bool {
+        get {
+            self.isForENT
+        }
+        set {
+            self.isForENT = newValue
+            if newValue {
+                // Un doc à stocker sur l'ENT n'est pas pour le prof seulement
+                self.isForTeacher = false
+            }
         }
     }
 
@@ -127,6 +227,7 @@ extension DocumentEntity {
 
         // Les documents attachés à un établissement sont destinés au professeur
         doc.isForEleve = false
+        doc.isForENT = false
         doc.isForTeacher = true
 
         try? SchoolEntity.saveIfContextHasChanged()
@@ -159,6 +260,7 @@ extension DocumentEntity {
 
         // Les documents attachés à une classe sont destinés au professeur
         doc.isForEleve = false
+        doc.isForENT = false
         doc.isForTeacher = true
 
         try? ClasseEntity.saveIfContextHasChanged()
@@ -189,9 +291,9 @@ extension DocumentEntity {
         }
         doc.docName = name
 
-        // Les documents attachés à programme peuvent être destinés
-        // au professeur et aux élèves
-        doc.isForEleve = true
+        // Les documents attachés à une progression sont destinés au professeur
+        doc.isForEleve = false
+        doc.isForENT = false
         doc.isForTeacher = true
 
         return doc
@@ -208,7 +310,10 @@ extension DocumentEntity {
     static func createWithoutSaving(
         forSequence sequence: SequenceEntity,
         withData data: Data?,
-        withName name: String
+        withName name: String,
+        isForEleve: Bool? = nil,
+        isForENT: Bool? = nil,
+        isForTeacher: Bool? = nil
     ) -> DocumentEntity {
         let doc = DocumentEntity.create()
         // établissement d'appartenance.
@@ -220,10 +325,22 @@ extension DocumentEntity {
         }
         doc.docName = name
 
-        // Les documents attachés à une séquence peuvent être destinés
-        // au professeur et aux élèves
-        doc.isForEleve = true
-        doc.isForTeacher = true
+        // Les documents attachés à une séquence sont destinés au professeur
+        if let isForEleve {
+            doc.isForEleve = isForEleve
+        } else {
+            doc.isForEleve = false
+        }
+        if let isForENT {
+            doc.isForENT = isForENT
+        } else {
+            doc.isForENT = false
+        }
+        if let isForTeacher {
+            doc.isForTeacher = isForTeacher
+        } else {
+            doc.isForTeacher = true
+        }
 
         return doc
     }
@@ -239,7 +356,10 @@ extension DocumentEntity {
     static func createWithoutSaving(
         forActivity activity: ActivityEntity,
         withData data: Data?,
-        withName name: String
+        withName name: String,
+        isForEleve: Bool? = nil,
+        isForENT: Bool? = nil,
+        isForTeacher: Bool? = nil
     ) -> DocumentEntity {
         let doc = DocumentEntity.create()
         // établissement d'appartenance.
@@ -251,10 +371,23 @@ extension DocumentEntity {
         }
         doc.docName = name
 
-        // Les documents attachés à une activité peuvent être destinés
-        // au professeur et aux élèves
-        doc.isForEleve = true
-        doc.isForTeacher = true
+        // Les documents attachés à une activité
+        // sont par défaut destinés aux élèves
+        if let isForEleve {
+            doc.isForEleve = isForEleve
+        } else {
+            doc.isForEleve = true
+        }
+        if let isForENT {
+            doc.isForENT = isForENT
+        } else {
+            doc.isForENT = false
+        }
+        if let isForTeacher {
+            doc.isForTeacher = isForTeacher
+        } else {
+            doc.isForTeacher = false
+        }
 
         return doc
     }
@@ -302,6 +435,9 @@ extension DocumentEntity {
         super.awakeFromInsert()
         // Set defaults here
         self.id = UUID()
+        self.isForEleve = false
+        self.isForENT = false
+        self.isForTeacher = true
     }
 
     /// Cloner le document et l'associer à une séquence pédagogique.
@@ -314,7 +450,10 @@ extension DocumentEntity {
         let newDoc = DocumentEntity.createWithoutSaving(
             forSequence: sequence,
             withData: self.pdfData,
-            withName: self.viewName
+            withName: self.viewName,
+            isForEleve: self.isForEleve,
+            isForENT: self.isForENT,
+            isForTeacher: self.isForTeacher
         )
 
         try? Self.saveIfContextHasChanged()
@@ -376,6 +515,7 @@ public extension DocumentEntity {
                Nom        : \(viewName)
                Pour élèves: \(isForEleve)
                Pour prof. : \(isForTeacher)
+               Pour ENT   : \(isForENT)
 
             """
         if let school {
