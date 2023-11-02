@@ -47,7 +47,7 @@ struct WCompMasteryLevels: View {
                     Button {
                         editedLevel = masteryLevel
                     } label: {
-                        Image(systemName: "pencil")
+                        Image(systemName: "square.and.pencil")
                     }
                     .buttonStyle(.borderedProminent)
                 }
@@ -56,7 +56,7 @@ struct WCompMasteryLevels: View {
                     Button {
                         editedLevel = masteryLevel
                     } label: {
-                        Label("Modifier", systemImage: "pencil")
+                        Label("Modifier", systemImage: "square.and.pencil")
                     }
                 }
             }

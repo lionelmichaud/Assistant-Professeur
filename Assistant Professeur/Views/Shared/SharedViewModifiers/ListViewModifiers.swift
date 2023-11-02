@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension View {
-    /// Remplace une liste  de données`data`vide par un `placeHolderContent`
+    /// Modifer le fond d'un item d'une liste en fonction de Séelctionné ou Pas sélectionné.
     ///
     /// Usage:
     ///

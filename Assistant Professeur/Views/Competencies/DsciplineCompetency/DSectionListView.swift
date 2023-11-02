@@ -65,7 +65,7 @@ struct DSectionListView: View {
                         Button {
                             editedSection = section
                         } label: {
-                            Label("Modifier", systemImage: "pencil")
+                            Label("Modifier", systemImage: "square.and.pencil")
                         }
                     }
                 }

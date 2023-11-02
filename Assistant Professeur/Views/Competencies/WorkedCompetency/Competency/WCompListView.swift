@@ -66,7 +66,7 @@ struct WCompListView: View {
                             Button {
                                 editedWorkedCompetency = competency
                             } label: {
-                                Label("Modifier", systemImage: "pencil")
+                                Label("Modifier", systemImage: "square.and.pencil")
                             }
                         }
                     }

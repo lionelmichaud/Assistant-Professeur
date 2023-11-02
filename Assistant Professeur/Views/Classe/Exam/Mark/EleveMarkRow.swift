@@ -160,7 +160,7 @@ extension EleveMarkRow {
                     Button {
                         isEditing.toggle()
                     } label: {
-                        Label("Modifier", systemImage: "pencil")
+                        Label("Modifier", systemImage: "square.and.pencil")
                     }
                     .buttonStyle(.bordered)
             }

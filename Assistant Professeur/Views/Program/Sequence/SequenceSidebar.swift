@@ -103,7 +103,7 @@ extension SequenceSidebar {
                 } label: {
                     Label(
                         "Modifier",
-                        systemImage: "pencil"
+                        systemImage: "square.and.pencil"
                     )
                 }
             }

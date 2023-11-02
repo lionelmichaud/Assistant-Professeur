@@ -54,7 +54,7 @@ struct WCompChapterListView: View {
                                     Button {
                                         editedWorkedChapter = workedChapter
                                     } label: {
-                                        Label("Modifier", systemImage: "pencil")
+                                        Label("Modifier", systemImage: "square.and.pencil")
                                     }
                                 }
                             //                            }

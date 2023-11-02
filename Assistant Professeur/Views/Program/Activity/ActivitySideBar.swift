@@ -110,7 +110,7 @@ extension ActivitySideBar {
                 isEditing.toggle()
             } label: {
                 Label(
-                    "Modifier", systemImage: "pencil"
+                    "Modifier", systemImage: "square.and.pencil"
                 )
             }
 

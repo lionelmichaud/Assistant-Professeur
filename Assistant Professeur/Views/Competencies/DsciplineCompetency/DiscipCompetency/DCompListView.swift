@@ -62,7 +62,7 @@ struct DCompListView: View {
                     Button {
                         editedCompetency = competency
                     } label: {
-                        Label("Modifier", systemImage: "pencil")
+                        Label("Modifier", systemImage: "square.and.pencil")
                     }
                 }
             }
