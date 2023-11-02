@@ -42,7 +42,7 @@ struct ActivityBrowserRow: View {
             },
             icon: {
                 ActivityTag(
-                    activity: activity,
+                    activityNumber: activity.viewNumber,
                     font: hClass == .compact ? .callout : .body
                 ).frame(minWidth: 50)
             }

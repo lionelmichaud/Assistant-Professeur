@@ -24,7 +24,7 @@ struct AssociatedActivityBrowerRow: View {
                 if let sequence = activity.sequence {
                     SequenceTagWithPopOver(sequence: sequence)
                 }
-                ActivityTag(activity: activity)
+                ActivityTag(activityNumber: activity.viewNumber)
             }
 
             if let sequence = activity.sequence,

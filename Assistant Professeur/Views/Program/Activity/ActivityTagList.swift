@@ -19,7 +19,7 @@ struct ActivityPopOverContent: View {
 
             VStack(alignment: .leading) {
                 HStack {
-                    ActivityTag(activity: activity)
+                    ActivityTag(activityNumber: activity.viewNumber)
                     Text(activity.viewName)
                         .bold()
                 }
@@ -34,14 +34,14 @@ struct ActivityPopOverContent: View {
 }
 
 struct ActivityTag: View {
-    let activity: ActivityEntity
+    let activityNumber: Int
     var font: Font = .callout
 
     @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         TagCapsule(
-            tag: "A\(activity.viewNumber)",
+            tag: "A\(activityNumber)",
             style: .activityTagStyle
         )
         .font(font)

@@ -26,7 +26,7 @@ struct ActivityDetailGroupBox: View {
             VStack(alignment: .leading) {
                 HStack {
                     ActivityTag(
-                        activity: activity,
+                        activityNumber: activity.viewNumber,
                         font: hClass == .compact ? .callout : .body
                     )
                     Text(activity.viewName)

@@ -118,7 +118,7 @@ extension ClassActivityProgressEditView {
                             )
 
                             ActivityTag(
-                                activity: activity,
+                                activityNumber: activity.viewNumber,
                                 font: hClass == .compact ? .callout : .body
                             )
                         }

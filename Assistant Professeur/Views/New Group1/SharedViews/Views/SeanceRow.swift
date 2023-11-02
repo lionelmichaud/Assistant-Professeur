@@ -231,21 +231,21 @@ extension SeanceRow {
                             if let sequence = activity.sequence {
                                 SequenceTagWithPopOver(sequence: sequence)
                             }
-                            ActivityTag(activity: activity)
-                        }
-                        // Naviguer vers l'activité pédagogique
-                        .onTapGesture {
-                            if let sequence = activity.sequence,
-                               let program = sequence.program {
-                                DeepLinkManager.handle(
-                                    navigateTo: .activity(
-                                        program: program,
-                                        sequence: sequence,
-                                        activity: activity
-                                    ),
-                                    using: navig
-                                )
-                            }
+                            ActivityTag(activityNumber: activity.viewNumber)
+                                // Naviguer vers l'activité pédagogique
+                                .onTapGesture {
+                                    if let sequence = activity.sequence,
+                                       let program = sequence.program {
+                                        DeepLinkManager.handle(
+                                            navigateTo: .activity(
+                                                program: program,
+                                                sequence: sequence,
+                                                activity: activity
+                                            ),
+                                            using: navig
+                                        )
+                                    }
+                                }
                         }
                     }
                     Divider()
