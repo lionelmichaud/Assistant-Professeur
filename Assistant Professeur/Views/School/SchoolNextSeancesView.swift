@@ -16,7 +16,7 @@ struct SchoolNextSeancesView: View {
     // MARK: - Properties
 
     @State
-    private var period: PeriodEnum = .nextWeek
+    private var period: PeriodEnum = .today
 
     @State
     private var popOverIsPresented: Bool = false

@@ -22,7 +22,7 @@ enum CalendarSeancesLoadingStatus {
 
                 case .loading:
                     ProgressView(label: {
-                        Text("Chargement à partir de l'appliaction Calendrier")
+                        Text("Chargement à partir de l'application Calendrier")
                     })
                     .progressViewStyle(.automatic)
 
