@@ -11,7 +11,7 @@ import SwiftUI
 
 struct DocToBePrinted: Identifiable {
     var id = UUID()
-    var levelClasse: String
+    var classe: ClasseEntity
     var document: DocumentEntity
     var quantity: Int
     var beforeDate: Date
@@ -49,7 +49,7 @@ struct ToBePrintedDisclosureGroup: View {
         DisclosureGroup(isExpanded: $isExpanded) {
             ForEach(docsToBePrinted) { doc in
                 DocToBePrintedGroupBox(
-                    levelClasse: doc.levelClasse,
+                    classe: doc.classe,
                     document: doc.document,
                     quantity: doc.quantity,
                     beforeDate: doc.beforeDate
@@ -96,10 +96,9 @@ struct ToBePrintedDisclosureGroup: View {
             // Pour la séance
             guard let schoolName = seance.schoolName,
                   let classeName = seance.name,
-                  let classe =
-                  SchoolEntity
-                      .school(withName: schoolName)?
-                      .classe(withAcronym: classeName) else {
+                  let classe = SchoolEntity
+                  .school(withName: schoolName)?
+                  .classe(withAcronym: classeName) else {
                 return
             }
 
@@ -114,6 +113,7 @@ struct ToBePrintedDisclosureGroup: View {
 
                 // Les documents de l'activité ne sont pas imprimés
                 activity.allDocuments.forEach { document in
+                    // Ajouter tous les documents de l'activité à la liste des docs à imprimer
                     if document.isForEleve {
                         printings.append(
                             Printing(
@@ -142,7 +142,7 @@ struct ToBePrintedDisclosureGroup: View {
         uniquePrintings.forEach { printing in
             docsToBePrinted.append(
                 DocToBePrinted(
-                    levelClasse: printing.classe.levelString,
+                    classe: printing.classe,
                     document: printing.document,
                     quantity: printing.classe.nbOfEleves,
                     beforeDate: printing.beforeDate
@@ -155,7 +155,7 @@ struct ToBePrintedDisclosureGroup: View {
 /// GrouepBox présentant un document à imprimer
 /// dans un certain nombre d'exemplaires avant une certaine date
 struct DocToBePrintedGroupBox: View {
-    var levelClasse: String
+    var classe: ClasseEntity
     var document: DocumentEntity
     var quantity: Int
     var beforeDate: Date
@@ -163,41 +163,90 @@ struct DocToBePrintedGroupBox: View {
     @State
     private var documentToBeViewed: DocumentEntity?
 
-    var body: some View {
-        GroupBox {
-            HStack {
-                Text(levelClasse)
-                    .foregroundStyle(.secondary)
-                    .bold()
-                // Tags Séquence/Activité
-                if let activity = document.activity,
-                   let sequence = activity.sequence,
-                   let discipline = sequence.program?.disciplineEnum {
-                    Text(discipline.acronym)
-                        .foregroundColor(.secondary)
-                    SequenceTagWithPopOver(sequence: sequence)
-                    ActivityTagWithPopOver(activity: activity)
-                }
-                Spacer()
-                Button {
-                    documentToBeViewed = document
-                } label: {
-                    Text(document.viewName)
-                }
-                #if os(macOS)
-                .sheet(item: $documentToBeViewed) { doc in
+    @EnvironmentObject
+    private var navig: NavigationModel
+
+    @Environment(\.horizontalSizeClass)
+    private var hClass
+
+    /// Classe - Discipline - Sequence - Activité
+    private var classeSequenceActivityView: some View {
+        HStack {
+            // Classe
+            Button {
+                DeepLinkManager.handle(
+                    navigateTo: .classeProgressUpdate(classe: classe),
+                    using: navig
+                )
+            } label: {
+                Text(classe.displayString)
+            }
+            .buttonStyle(.bordered)
+
+            // Tags Séquence/Activité
+            if let activity = document.activity,
+               let sequence = activity.sequence,
+               let discipline = sequence.program?.disciplineEnum {
+                Text(discipline.acronym)
+                    .foregroundColor(.secondary)
+                SequenceTagWithPopOver(sequence: sequence)
+                ActivityTag(activityNumber: activity.viewNumber)
+                    // Naviguer vers l'activité pédagogique
+                    .onTapGesture {
+                        DeepLinkManager.handle(
+                            navigateTo: .activity(
+                                program: sequence.program!,
+                                sequence: sequence,
+                                activity: activity
+                            ),
+                            using: navig
+                        )
+                    }
+            }
+        }
+    }
+
+    private var documentView: some View {
+        Button {
+            documentToBeViewed = document
+        } label: {
+            Text(document.viewName)
+        }
+        #if os(macOS)
+        .sheet(item: $documentToBeViewed) { doc in
+            NavigationStack {
+                PdfDocumentViewer(document: doc)
+            }
+        }
+        #else
+                .fullScreenCover(item: $documentToBeViewed) { doc in
                     NavigationStack {
                         PdfDocumentViewer(document: doc)
                     }
                 }
-                #else
-                        .fullScreenCover(item: $documentToBeViewed) { doc in
-                            NavigationStack {
-                                PdfDocumentViewer(document: doc)
-                            }
-                        }
-                #endif
+        #endif
+    }
+
+    var body: some View {
+        GroupBox {
+            if hClass == .regular {
+                HStack {
+                    // Classe - Discipline - Sequence - Activité
+                    classeSequenceActivityView
+                    Spacer()
+                    // Document
+                    documentView
+                }
+            } else {
+                VStack(alignment: .leading) {
+                    // Classe - Discipline - Sequence - Activité
+                    classeSequenceActivityView
+                    // Document
+                    documentView
+                }
+                .horizontallyAligned(.leading)
             }
+
             HStack {
                 if quantity > 0 {
                     HStack {
