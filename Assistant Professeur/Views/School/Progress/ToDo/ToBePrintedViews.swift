@@ -165,33 +165,39 @@ struct DocToBePrintedGroupBox: View {
 
     var body: some View {
         GroupBox {
-            LabeledContent(
-                content: {
-                    Button {
-                        documentToBeViewed = document
-                    } label: {
-                        Text(document.viewName)
-                    }
-                    #if os(macOS)
-                    .sheet(item: $documentToBeViewed) { doc in
-                        NavigationStack {
-                            PdfDocumentViewer(document: doc)
-                        }
-                    }
-                    #else
-                            .fullScreenCover(item: $documentToBeViewed) { doc in
-                                NavigationStack {
-                                    PdfDocumentViewer(document: doc)
-                                }
-                            }
-                    #endif
-                },
-                label: {
-                    Text(levelClasse)
-                        .foregroundStyle(.secondary)
-                        .bold()
+            HStack {
+                Text(levelClasse)
+                    .foregroundStyle(.secondary)
+                    .bold()
+                // Tags Séquence/Activité
+                if let activity = document.activity,
+                   let sequence = activity.sequence,
+                   let discipline = sequence.program?.disciplineEnum {
+                    Text(discipline.acronym)
+                        .foregroundColor(.secondary)
+                    SequenceTagWithPopOver(sequence: sequence)
+                    ActivityTagWithPopOver(activity: activity)
                 }
-            )
+                Spacer()
+                Button {
+                    documentToBeViewed = document
+                } label: {
+                    Text(document.viewName)
+                }
+                #if os(macOS)
+                .sheet(item: $documentToBeViewed) { doc in
+                    NavigationStack {
+                        PdfDocumentViewer(document: doc)
+                    }
+                }
+                #else
+                        .fullScreenCover(item: $documentToBeViewed) { doc in
+                            NavigationStack {
+                                PdfDocumentViewer(document: doc)
+                            }
+                        }
+                #endif
+            }
             HStack {
                 if quantity > 0 {
                     HStack {

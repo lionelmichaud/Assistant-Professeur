@@ -75,7 +75,7 @@ struct ProgramDisclosure: View {
             ForEach(program.sequencesSortedByNumber, id: \.objectID) { sequence in
                 HStack {
                     SequenceTag(
-                        sequence: sequence,
+                        sequenceNumber: sequence.viewNumber,
                         font: hClass == .compact ? .body : .headline
                     )
                     Text(sequence.viewName)

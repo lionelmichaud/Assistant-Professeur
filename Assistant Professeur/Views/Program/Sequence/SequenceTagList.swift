@@ -19,7 +19,7 @@ struct SequencePopOverContent: View {
 
             VStack(alignment: .leading) {
                 HStack {
-                    SequenceTag(sequence: sequence)
+                    SequenceTag(sequenceNumber: sequence.viewNumber)
                     Text(sequence.viewName)
                         .bold()
                 }
@@ -34,12 +34,12 @@ struct SequencePopOverContent: View {
 }
 
 struct SequenceTag: View {
-    let sequence: SequenceEntity
+    let sequenceNumber: Int
     var font: Font = .callout
 
     var body: some View {
         TagCapsule(
-            tag: "S\(sequence.viewNumber)",
+            tag: "S\(sequenceNumber)",
             style: .sequenceTagStyle
         )
         .font(font)

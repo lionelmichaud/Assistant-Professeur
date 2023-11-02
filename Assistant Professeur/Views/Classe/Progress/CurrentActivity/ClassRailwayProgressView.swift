@@ -245,7 +245,7 @@ extension ClassRailwayProgressView {
                 size: 32
             )
             SequenceTag(
-                sequence: sequence,
+                sequenceNumber: sequence.viewNumber,
                 font: .body
             )
             Text(sequence.viewName)

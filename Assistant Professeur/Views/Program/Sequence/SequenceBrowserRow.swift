@@ -37,7 +37,7 @@ struct SequenceBrowserRow: View {
             },
             icon: {
                 SequenceTag(
-                    sequence: sequence,
+                    sequenceNumber: sequence.viewNumber,
                     font: hClass == .compact ? .callout : .body
                 ).frame(minWidth: 50)
             }

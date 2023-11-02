@@ -72,7 +72,7 @@ extension ClasseProgressSection {
                     Spacer()
                     if hClass == .compact {
                         HStack {
-                            SequenceTag(sequence: sequence, font: .body)
+                            SequenceTag(sequenceNumber: sequence.viewNumber, font: .body)
                             ActivityTag(activity: activity, font: .body)
                             Text("(\(currentActivityProgress!.progress, format: .percent))")
                                 .foregroundColor(.secondary)

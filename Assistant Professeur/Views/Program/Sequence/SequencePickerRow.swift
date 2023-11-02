@@ -17,7 +17,7 @@ struct SequencePickerRow: View {
                 LevelTag(level: level)
             }
 
-            SequenceTag(sequence: sequence)
+            SequenceTag(sequenceNumber: sequence.viewNumber)
             
             Text(sequence.viewName)
         }

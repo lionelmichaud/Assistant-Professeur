@@ -28,7 +28,7 @@ struct SequenceDetailGroupBox: View {
             VStack(alignment: .leading) {
                 HStack {
                     SequenceTag(
-                        sequence: sequence,
+                        sequenceNumber: sequence.viewNumber,
                         font: hClass == .compact ? .body : .headline
                     )
                     Text(sequence.viewName)

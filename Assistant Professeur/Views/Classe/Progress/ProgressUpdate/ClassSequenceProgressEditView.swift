@@ -56,7 +56,7 @@ struct ClassSequenceProgressEditView: View {
                     status: sequence.statusFor(classe: classe)
                 )
                 SequenceTag(
-                    sequence: sequence,
+                    sequenceNumber: sequence.viewNumber,
                     font: hClass == .compact ? .body : .title3
                 )
                 Text(sequence.viewName)

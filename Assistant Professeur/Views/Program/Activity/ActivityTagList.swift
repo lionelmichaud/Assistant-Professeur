@@ -8,6 +8,31 @@
 import SwiftUI
 import TagKit
 
+struct ActivityPopOverContent: View {
+    let activity: ActivityEntity
+
+    var body: some View {
+        ZStack {
+            // Scaled-up background
+            Color.gray
+                .scaleEffect(1.5)
+
+            VStack(alignment: .leading) {
+                HStack {
+                    ActivityTag(activity: activity)
+                    Text(activity.viewName)
+                        .bold()
+                }
+                Text(activity.viewAnnotation)
+                    .foregroundColor(.secondary)
+            }
+            .font(.body)
+            .padding(.horizontal)
+            .frame(maxWidth: 500)
+        }
+    }
+}
+
 struct ActivityTag: View {
     let activity: ActivityEntity
     var font: Font = .callout
@@ -21,6 +46,29 @@ struct ActivityTag: View {
         )
         .font(font)
         .bold()
+    }
+}
+
+struct ActivityTagWithPopOver: View {
+    let activity: ActivityEntity
+    var font: Font = .callout
+
+    @State
+    private var isPresented: Bool = false
+
+    var body: some View {
+        TagCapsule(
+            tag: "A\(activity.viewNumber)",
+            style: .activityTagStyle
+        )
+        .font(font)
+        .bold()
+        .onTapGesture {
+            isPresented = true
+        }
+        .popover(isPresented: $isPresented) {
+            ActivityPopOverContent(activity: activity)
+        }
     }
 }
 
