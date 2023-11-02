@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DocToBeLoaded: Identifiable {
     var id = UUID()
-    var classe: ClasseEntity
+    var classeLevel: LevelClasse
     var document: DocumentEntity
     var beforeDate: Date
 }
@@ -29,30 +29,36 @@ struct DocToBeLoadedGroupBox: View {
     var body: some View {
         GroupBox {
             if hClass == .regular {
-                HStack {
-                    // Classe - Discipline - Sequence - Activité
-                    classeSequenceActivityView
-                    Spacer()
-                    // Document
-                    documentView
+                VStack {
+                    HStack {
+                        // Classe - Discipline - Sequence - Activité
+                        classeSequenceActivityView
+                        Spacer()
+                        navigateToActivityButton
+                    }
+                    HStack {
+                        // Document
+                        documentView
+                        Spacer()
+                        dateBeforeView
+                    }
+                    .padding(.top, 2)
                 }
             } else {
                 VStack(alignment: .leading) {
                     // Classe - Discipline - Sequence - Activité
-                    classeSequenceActivityView
+                    HStack {
+                        classeSequenceActivityView
+                        Spacer()
+                        navigateToActivityButton
+                    }
                     // Document
                     documentView
+                        .padding(.top, 2)
+                    dateBeforeView
+                        .padding(.top, 2)
                 }
-                .horizontallyAligned(.leading)
             }
-
-            HStack {
-                Spacer()
-                Text("Avant:")
-                    .foregroundStyle(.secondary)
-                Text(formattedDate(docToLoad.beforeDate))
-            }
-            .padding(.top, 2)
         }
         .font(.callout)
         .frame(maxWidth: .infinity)
@@ -66,16 +72,8 @@ extension DocToBeLoadedGroupBox {
     /// Classe - Discipline - Sequence - Activité
     private var classeSequenceActivityView: some View {
         HStack {
-            // Classe
-            Button {
-                DeepLinkManager.handle(
-                    navigateTo: .classeProgressUpdate(classe: docToLoad.classe),
-                    using: navig
-                )
-            } label: {
-                Text(docToLoad.classe.displayString)
-            }
-            .buttonStyle(.bordered)
+            // Niveau de Classe
+            Text(docToLoad.classeLevel.pickerString)
 
             // Tags Séquence/Activité
             if let activity = docToLoad.document.activity,
@@ -84,7 +82,7 @@ extension DocToBeLoadedGroupBox {
                 Text(discipline.acronym)
                     .foregroundColor(.secondary)
                 SequenceTagWithPopOver(sequence: sequence)
-                ActivityTag(activityNumber: activity.viewNumber)
+                ActivityTagWithPopOver(activity: activity)
                     // Naviguer vers l'activité pédagogique
                     .onTapGesture {
                         DeepLinkManager.handle(
@@ -97,6 +95,39 @@ extension DocToBeLoadedGroupBox {
                         )
                     }
             }
+        }
+    }
+
+    private var navigateToActivityButton: some View {
+        Group {
+            if let activity = docToLoad.document.activity,
+               let sequence = activity.sequence {
+                Button {
+                    DeepLinkManager.handle(
+                        navigateTo: .activity(
+                            program: sequence.program!,
+                            sequence: sequence,
+                            activity: activity
+                        ),
+                        using: navig
+                    )
+                } label: {
+                    Label(
+                        "Voir l'activité",
+                        systemImage: "figure.walk.motion"
+                    )
+                }
+                .buttonStyle(.bordered)
+            }
+        }
+    }
+
+    private var dateBeforeView: some View {
+        HStack {
+            Spacer()
+            Text("Avant:")
+                .foregroundStyle(.secondary)
+            Text(formattedDate(docToLoad.beforeDate))
         }
     }
 

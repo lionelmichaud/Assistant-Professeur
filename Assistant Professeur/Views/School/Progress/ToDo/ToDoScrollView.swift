@@ -178,7 +178,7 @@ struct ToDoScrollView: View {
                     return
                 }
 
-                // Les documents de l'activité ne sont pas imprimés/uploadés
+                // Pour les documents de l'activité qui ne sont pas imprimés/uploadés
                 activity.allDocuments.forEach { document in
                     // Ajouter, si nécessaire, le document de l'activité à la liste des docs à actionner
                     if action == .print && document.isForEleve ||
@@ -195,17 +195,17 @@ struct ToDoScrollView: View {
             }
         }
 
-        // Supprimer les doublons (Classe, Document)
-        var actions = [DocToBeActionned]()
-        for element in docsToBeActionned where !actions.contains(where: {
-            $0.document == element.document && $0.classe == element.classe
-        }) {
-            actions.append(element)
-        }
-
         // Compilation des actions à réaliser
         switch action {
             case .print:
+                // Supprimer les doublons (Classe, Document)
+                var actions = [DocToBeActionned]()
+                for element in docsToBeActionned where !actions.contains(where: {
+                    $0.document == element.document && $0.classe == element.classe
+                }) {
+                    actions.append(element)
+                }
+
                 docsToBePrinted = []
                 actions.forEach { action in
                     docsToBePrinted.append(
@@ -219,11 +219,19 @@ struct ToDoScrollView: View {
                 }
 
             case .load:
+                // Supprimer les doublons (Niveau de classe, Document)
+                var actions = [DocToBeActionned]()
+                for element in docsToBeActionned where !actions.contains(where: {
+                    $0.document == element.document && $0.classe.levelEnum == element.classe.levelEnum
+                }) {
+                    actions.append(element)
+                }
+
                 docsToBeLoaded = []
                 actions.forEach { action in
                     docsToBeLoaded.append(
                         DocToBeLoaded(
-                            classe: action.classe,
+                            classeLevel: action.classe.levelEnum,
                             document: action.document,
                             beforeDate: action.beforeDate
                         )

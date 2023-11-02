@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 02/11/2023.
 //
 
+import HelpersView
 import SwiftUI
 
 struct DocToBePrinted: Identifiable {
@@ -32,21 +33,31 @@ struct DocToBePrintedGroupBox: View {
     var body: some View {
         GroupBox {
             if hClass == .regular {
-                HStack {
-                    // Classe - Discipline - Sequence - Activité
-                    classeSequenceActivityView
-                    Spacer()
+                VStack {
+                    HStack {
+                        // Classe - Discipline - Sequence - Activité
+                        classeSequenceActivityView
+                        Spacer()
+                        navigateToActivityButton
+                    }
                     // Document
                     documentView
+                        .horizontallyAligned(.leading)
+                        .padding(.top, 2)
                 }
             } else {
                 VStack(alignment: .leading) {
                     // Classe - Discipline - Sequence - Activité
-                    classeSequenceActivityView
+                    HStack {
+                        classeSequenceActivityView
+                        Spacer()
+                        navigateToActivityButton
+                    }
                     // Document
                     documentView
+                        .horizontallyAligned(.leading)
+                        .padding(.top, 2)
                 }
-                .horizontallyAligned(.leading)
             }
 
             HStack {
@@ -58,11 +69,7 @@ struct DocToBePrintedGroupBox: View {
                     }
                 }
                 Spacer()
-                HStack {
-                    Text("Avant:")
-                        .foregroundStyle(.secondary)
-                    Text(formattedDate(docToPrint.beforeDate))
-                }
+                dateBeforeView
             }
             .padding(.top, 2)
         }
@@ -109,6 +116,39 @@ extension DocToBePrintedGroupBox {
                         )
                     }
             }
+        }
+    }
+
+    private var navigateToActivityButton: some View {
+        Group {
+            if let activity = docToPrint.document.activity,
+               let sequence = activity.sequence {
+                Button {
+                    DeepLinkManager.handle(
+                        navigateTo: .activity(
+                            program: sequence.program!,
+                            sequence: sequence,
+                            activity: activity
+                        ),
+                        using: navig
+                    )
+                } label: {
+                    Label(
+                        "Voir l'activité",
+                        systemImage: "figure.walk.motion"
+                    )
+                }
+                .buttonStyle(.bordered)
+            }
+        }
+    }
+
+    private var dateBeforeView: some View {
+        HStack {
+            Spacer()
+            Text("Avant:")
+                .foregroundStyle(.secondary)
+            Text(formattedDate(docToPrint.beforeDate))
         }
     }
 
