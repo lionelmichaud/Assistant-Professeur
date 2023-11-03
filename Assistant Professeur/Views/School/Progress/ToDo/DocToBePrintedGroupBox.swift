@@ -12,6 +12,7 @@ struct BatchOfDocsToBePrinted: Identifiable {
     var id = UUID()
     var classe: ClasseEntity
     var activity: ActivityEntity
+    var progress: ActivityProgressEntity
     var documents: [DocumentEntity]
     var quantity: Int
     var beforeDate: Date
@@ -28,6 +29,9 @@ struct DocsToBePrintedGroupBox: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
+    @State
+    private var isPrinted: Bool = false
+
     var body: some View {
         GroupBox {
             VStack(alignment: .leading) {
@@ -40,15 +44,16 @@ struct DocsToBePrintedGroupBox: View {
                 // Document
                 documentsView
                     .padding(.top, 2)
+                // Bouton
+                printedButton
+                    .horizontallyAligned(.leading)
+                    .padding(.top, 2)
             }
 
+            // Nb exemplaires - date limite
             HStack {
                 if batchOfDocToPrint.quantity > 0 {
-                    HStack {
-                        Text("Nombre d'ex.:")
-                            .foregroundStyle(.secondary)
-                        Text("\(batchOfDocToPrint.quantity, format: .number)")
-                    }
+                    nbExemplaires
                 }
                 Spacer()
                 dateBeforeView
@@ -58,6 +63,12 @@ struct DocsToBePrintedGroupBox: View {
         .font(.callout)
         .frame(maxWidth: .infinity)
         .padding(.horizontal)
+        .onAppear {
+            isPrinted = batchOfDocToPrint.progress.isPrinted
+        }
+        .onChange(of: isPrinted) {
+            batchOfDocToPrint.progress.isPrinted = isPrinted
+        }
     }
 }
 
@@ -112,6 +123,14 @@ extension DocsToBePrintedGroupBox {
         }
     }
 
+    private var printedButton: some View {
+        DocPrintedToggle(
+            isPrinted: $isPrinted,
+            nbExemplaires: nil,
+            save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
+        )
+    }
+
     private var dateBeforeView: some View {
         HStack {
             Spacer()
@@ -144,6 +163,14 @@ extension DocsToBePrintedGroupBox {
                         }
                 #endif
             }
+        }
+    }
+
+    private var nbExemplaires: some View {
+        HStack {
+            Text("Nombre d'ex.:")
+                .foregroundStyle(.secondary)
+            Text("\(batchOfDocToPrint.quantity, format: .number)")
         }
     }
 }

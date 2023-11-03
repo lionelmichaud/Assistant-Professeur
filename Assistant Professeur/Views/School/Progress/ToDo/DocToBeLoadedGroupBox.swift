@@ -48,10 +48,12 @@ struct DocsToBeLoadedGroupBox: View {
                     Spacer()
                     navigateToActivityButton
                 }
+
                 // Document
                 documentsView
                     .horizontallyAligned(.leading)
                     .padding(.top, 2)
+
                 HStack {
                     uploadedButton
                     Spacer()
@@ -60,7 +62,7 @@ struct DocsToBeLoadedGroupBox: View {
                 .padding(.top, 2)
             }
         }
-        .task {
+        .onAppear {
             isLoaded = batchOfDocToLoad.activity.allProgresses.allSatisfy { $0.isLoaded }
         }
         .font(.callout)
@@ -90,25 +92,23 @@ extension DocsToBeLoadedGroupBox {
     }
 
     private var uploadedButton: some View {
-        Group {
-            Button {
-                isLoaded.toggle()
-                batchOfDocToLoad.activity.allProgresses.forEach { prog in
-                    prog.isLoaded = isLoaded
-                }
-                try? ActivityProgressEntity.saveIfContextHasChanged()
-            } label: {
-                Label(
-                    title: {
-                        Text(label)
-                    }, icon: {
-                        Image(systemName: isLoaded ? "checkmark.circle.fill" : "circle")
-                            .foregroundColor(isLoaded ? .green : .gray)
-                    }
-                )
+        Button {
+            isLoaded.toggle()
+            batchOfDocToLoad.activity.allProgresses.forEach { prog in
+                prog.isLoaded = isLoaded
             }
-            .buttonStyle(.plain)
+            try? ActivityProgressEntity.saveIfContextHasChanged()
+        } label: {
+            Label(
+                title: {
+                    Text(label)
+                }, icon: {
+                    Image(systemName: isLoaded ? "checkmark.circle.fill" : "circle")
+                        .foregroundColor(isLoaded ? .green : .gray)
+                }
+            )
         }
+        .buttonStyle(.plain)
     }
 
     private var navigateToActivityButton: some View {

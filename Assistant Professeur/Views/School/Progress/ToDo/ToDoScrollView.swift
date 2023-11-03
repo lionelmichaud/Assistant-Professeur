@@ -37,6 +37,7 @@ struct ToDoScrollView: View {
         var id = UUID()
         var classe: ClasseEntity
         var activity: ActivityEntity
+        var progress: ActivityProgressEntity
         var documents: [DocumentEntity]
         var beforeDate: Date
 
@@ -193,6 +194,7 @@ struct ToDoScrollView: View {
                     BatchOfDocToBeActionned(
                         classe: classe,
                         activity: activity,
+                        progress: progress, 
                         documents: actionableDocuments,
                         beforeDate: dateSeance
                     )
@@ -217,6 +219,7 @@ struct ToDoScrollView: View {
                         BatchOfDocsToBePrinted(
                             classe: batch.classe,
                             activity: batch.activity,
+                            progress: batch.progress,
                             documents: batch.documents,
                             quantity: batch.classe.nbOfEleves,
                             beforeDate: batch.beforeDate
