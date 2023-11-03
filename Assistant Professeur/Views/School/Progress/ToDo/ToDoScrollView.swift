@@ -17,8 +17,8 @@ struct ToDoScrollView: View {
     // MARK: - Internal Types
 
     enum Action: String, PickableEnumP {
-        case print = "Impressions"
-        case load = "Partages"
+        case print = "A IMPRIMER POUR ÉLÈVES"
+        case load = "A PARTAGER SUR ENT"
 
         var pickerString: String { self.rawValue }
         var imageName: String {
@@ -33,15 +33,16 @@ struct ToDoScrollView: View {
 
     /// Un document devant être imprimés en un certain nombre d'exemplaires
     /// avant une certaine date.
-    struct DocToBeActionned: Identifiable, CustomStringConvertible {
+    struct BatchOfDocToBeActionned: Identifiable, CustomStringConvertible {
         var id = UUID()
         var classe: ClasseEntity
-        var document: DocumentEntity
+        var activity: ActivityEntity
+        var documents: [DocumentEntity]
         var beforeDate: Date
 
         var description: String {
             "\nClasse  : \(classe.displayString)" +
-                "\(document.description)\n" +
+                "\(documents.description)\n" +
                 "Quantité: \(classe.nbOfEleves)\n" +
                 "Date    : \(beforeDate.formatted(date: .abbreviated, time: .omitted))\n"
         }
@@ -54,11 +55,11 @@ struct ToDoScrollView: View {
 
     /// Tableau des documents à imprimer dans les séances à venir
     @State
-    private var docsToBePrinted: [DocToBePrinted] = []
+    private var batchesOfDocsToBePrinted: [BatchOfDocsToBePrinted] = []
 
     /// Tableau des documents à charger dans l'ENT dans les séances à venir
     @State
-    private var docsToBeLoaded: [DocToBeLoaded] = []
+    private var batchesOfDocsToBeLoaded: [BatchOfDocsToBeLoaded] = []
 
     @State
     private var selectedAction: Action = .print
@@ -77,10 +78,10 @@ struct ToDoScrollView: View {
             switch selectedAction {
                 case .print:
                     ScrollView(.vertical, showsIndicators: true) {
-                        ForEach(docsToBePrinted) { doc in
-                            DocToBePrintedGroupBox(docToPrint: doc)
+                        ForEach(batchesOfDocsToBePrinted) { batch in
+                            DocsToBePrintedGroupBox(batchOfDocToPrint: batch)
                         }
-                        .emptyListPlaceHolder(docsToBePrinted) {
+                        .emptyListPlaceHolder(batchesOfDocsToBePrinted) {
                             ContentUnavailableView(
                                 "Aucune impression à réaliser pour le mois à venir...",
                                 systemImage: "checklist",
@@ -91,10 +92,10 @@ struct ToDoScrollView: View {
 
                 case .load:
                     ScrollView(.vertical, showsIndicators: true) {
-                        ForEach(docsToBeLoaded) { doc in
-                            DocToBeLoadedGroupBox(docToLoad: doc)
+                        ForEach(batchesOfDocsToBeLoaded) { batch in
+                            DocsToBeLoadedGroupBox(batchOfDocToLoad: batch)
                         }
-                        .emptyListPlaceHolder(docsToBeLoaded) {
+                        .emptyListPlaceHolder(batchesOfDocsToBeLoaded) {
                             ContentUnavailableView(
                                 "Aucun partage à réaliser pour le mois à venir...",
                                 systemImage: "checklist",
@@ -137,7 +138,7 @@ struct ToDoScrollView: View {
                 high: seances.endIndex - 1
             )
         let seancesToProcess = seances[seances.startIndex ... maxIndex]
-        var docsToBeActionned = [DocToBeActionned]()
+        var batchesOfDocsToBeActionned = [BatchOfDocToBeActionned]()
 
         seancesToProcess.forEach { seance in
             // Pour la séance
@@ -178,62 +179,68 @@ struct ToDoScrollView: View {
                     return
                 }
 
-                // Pour les documents de l'activité qui ne sont pas imprimés/uploadés
-                activity.allDocuments.forEach { document in
-                    // Ajouter, si nécessaire, le document de l'activité à la liste des docs à actionner
-                    if action == .print && document.isForEleve ||
-                        action == .load && document.isForENT {
-                        docsToBeActionned.append(
-                            DocToBeActionned(
-                                classe: classe,
-                                document: document,
-                                beforeDate: dateSeance
-                            )
-                        )
+                // Liste de documents actionnables pour cette activité
+                let actionableDocuments = activity.allDocuments.filter {
+                    switch action {
+                        // Liste de documents imprimable de l'activité
+                        case .print: $0.isForEleve
+                        // Liste de documents partageables de l'activité
+                        case .load: $0.isForENT
                     }
                 }
+
+                batchesOfDocsToBeActionned.append(
+                    BatchOfDocToBeActionned(
+                        classe: classe,
+                        activity: activity,
+                        documents: actionableDocuments,
+                        beforeDate: dateSeance
+                    )
+                )
             }
         }
 
         // Compilation des actions à réaliser
         switch action {
             case .print:
-                // Supprimer les doublons (Classe, Document)
-                var actions = [DocToBeActionned]()
-                for element in docsToBeActionned where !actions.contains(where: {
-                    $0.document == element.document && $0.classe == element.classe
+                /// Supprimer les doublons (Activité, Classe)
+                var batches = [BatchOfDocToBeActionned]()
+                for element in batchesOfDocsToBeActionned where !batches.contains(where: {
+                    $0.activity == element.activity && $0.classe == element.classe
                 }) {
-                    actions.append(element)
+                    batches.append(element)
                 }
 
-                docsToBePrinted = []
-                actions.forEach { action in
-                    docsToBePrinted.append(
-                        DocToBePrinted(
-                            classe: action.classe,
-                            document: action.document,
-                            quantity: action.classe.nbOfEleves,
-                            beforeDate: action.beforeDate
+                batchesOfDocsToBePrinted = []
+                batches.forEach { batch in
+                    batchesOfDocsToBePrinted.append(
+                        BatchOfDocsToBePrinted(
+                            classe: batch.classe,
+                            activity: batch.activity,
+                            documents: batch.documents,
+                            quantity: batch.classe.nbOfEleves,
+                            beforeDate: batch.beforeDate
                         )
                     )
                 }
 
             case .load:
-                // Supprimer les doublons (Niveau de classe, Document)
-                var actions = [DocToBeActionned]()
-                for element in docsToBeActionned where !actions.contains(where: {
-                    $0.document == element.document && $0.classe.levelEnum == element.classe.levelEnum
+                /// Supprimer les doublons (Activité, Niveau de classe,)
+                var batches = [BatchOfDocToBeActionned]()
+                for element in batchesOfDocsToBeActionned where !batches.contains(where: {
+                    $0.activity == element.activity && $0.classe.levelEnum == element.classe.levelEnum
                 }) {
-                    actions.append(element)
+                    batches.append(element)
                 }
 
-                docsToBeLoaded = []
-                actions.forEach { action in
-                    docsToBeLoaded.append(
-                        DocToBeLoaded(
-                            classeLevel: action.classe.levelEnum,
-                            document: action.document,
-                            beforeDate: action.beforeDate
+                batchesOfDocsToBeLoaded = []
+                batches.forEach { batch in
+                    batchesOfDocsToBeLoaded.append(
+                        BatchOfDocsToBeLoaded(
+                            classeLevel: batch.classe.levelEnum,
+                            activity: batch.activity,
+                            documents: batch.documents,
+                            beforeDate: batch.beforeDate
                         )
                     )
                 }
