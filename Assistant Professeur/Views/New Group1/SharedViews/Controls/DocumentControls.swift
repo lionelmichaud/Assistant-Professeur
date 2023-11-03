@@ -81,7 +81,7 @@ struct DocDistributedToggle: View {
 struct DocLoadedToggle: View {
     @Binding
     var isLoaded: Bool
-    let save: (() -> Void)?
+    let save: ((Bool) -> Void)?
 
     @Environment(\.horizontalSizeClass)
     private var hClass
@@ -94,7 +94,7 @@ struct DocLoadedToggle: View {
         // checkbox isDistributed
         Button {
             isLoaded.toggle()
-            (save ?? {}) ()
+            ((save ?? { _ in })(isLoaded))
         } label: {
             Label(
                 title: {

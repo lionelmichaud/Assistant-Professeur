@@ -274,7 +274,10 @@ extension ClassActivityProgressEditView {
                     Spacer()
                     DocLoadedToggle(
                         isLoaded: $progress.isLoaded,
-                        save: {
+                        save: { newValue in
+                            activity.allProgresses.forEach { prog in
+                                prog.isLoaded = newValue
+                            }
                             try? ActivityProgressEntity.saveIfContextHasChanged()
                         }
                     )
@@ -313,7 +316,10 @@ extension ClassActivityProgressEditView {
                 if activity.hasSomeDocumentForENT {
                     DocLoadedToggle(
                         isLoaded: $progress.isLoaded,
-                        save: {
+                        save: { newValue in
+                            activity.allProgresses.forEach { prog in
+                                prog.isLoaded = newValue
+                            }
                             try? ActivityProgressEntity.saveIfContextHasChanged()
                         }
                     )

@@ -27,37 +27,19 @@ struct DocToBePrintedGroupBox: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @Environment(\.horizontalSizeClass)
-    private var hClass
-
     var body: some View {
         GroupBox {
-            if hClass == .regular {
-                VStack {
-                    HStack {
-                        // Classe - Discipline - Sequence - Activité
-                        classeSequenceActivityView
-                        Spacer()
-                        navigateToActivityButton
-                    }
-                    // Document
-                    documentView
-                        .horizontallyAligned(.leading)
-                        .padding(.top, 2)
+            VStack(alignment: .leading) {
+                // Classe - Discipline - Sequence - Activité
+                HStack {
+                    classeSequenceActivityView
+                    Spacer()
+                    navigateToActivityButton
                 }
-            } else {
-                VStack(alignment: .leading) {
-                    // Classe - Discipline - Sequence - Activité
-                    HStack {
-                        classeSequenceActivityView
-                        Spacer()
-                        navigateToActivityButton
-                    }
-                    // Document
-                    documentView
-                        .horizontallyAligned(.leading)
-                        .padding(.top, 2)
-                }
+                // Document
+                documentView
+                    .horizontallyAligned(.leading)
+                    .padding(.top, 2)
             }
 
             HStack {

@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 02/11/2023.
 //
 
+import HelpersView
 import SwiftUI
 
 struct DocToBeLoaded: Identifiable {
@@ -20,44 +21,47 @@ struct DocToBeLoadedGroupBox: View {
     @State
     private var documentToBeViewed: DocumentEntity?
 
+    @State
+    private var isLoaded: Bool = false
+
     @EnvironmentObject
     private var navig: NavigationModel
 
     @Environment(\.horizontalSizeClass)
     private var hClass
 
+    var label: String {
+        if hClass == .compact {
+            "Ressource chargée"
+        } else {
+            "Ressource chargée sur ENT"
+        }
+    }
+
     var body: some View {
         GroupBox {
-            if hClass == .regular {
-                VStack {
-                    HStack {
-                        // Classe - Discipline - Sequence - Activité
-                        classeSequenceActivityView
-                        Spacer()
-                        navigateToActivityButton
-                    }
-                    HStack {
-                        // Document
-                        documentView
-                        Spacer()
-                        dateBeforeView
-                    }
-                    .padding(.top, 2)
-                }
-            } else {
-                VStack(alignment: .leading) {
+            VStack {
+                HStack {
                     // Classe - Discipline - Sequence - Activité
-                    HStack {
-                        classeSequenceActivityView
-                        Spacer()
-                        navigateToActivityButton
-                    }
-                    // Document
-                    documentView
-                        .padding(.top, 2)
-                    dateBeforeView
-                        .padding(.top, 2)
+                    classeSequenceActivityView
+                    Spacer()
+                    navigateToActivityButton
                 }
+                // Document
+                documentView
+                    .horizontallyAligned(.leading)
+                    .padding(.top, 2)
+                HStack {
+                    uploadedButton
+                    Spacer()
+                    dateBeforeView
+                }
+                .padding(.top, 2)
+            }
+        }
+        .task {
+            if let activity = docToLoad.document.activity {
+                isLoaded = activity.allProgresses.allSatisfy { $0.isLoaded }
             }
         }
         .font(.callout)
@@ -94,6 +98,30 @@ extension DocToBeLoadedGroupBox {
                             using: navig
                         )
                     }
+            }
+        }
+    }
+
+    private var uploadedButton: some View {
+        Group {
+            if let activity = docToLoad.document.activity {
+                Button {
+                    isLoaded.toggle()
+                    activity.allProgresses.forEach { prog in
+                        prog.isLoaded = isLoaded
+                    }
+                    try? ActivityProgressEntity.saveIfContextHasChanged()
+                } label: {
+                    Label(
+                        title: {
+                            Text(label)
+                        }, icon: {
+                            Image(systemName: isLoaded ? "checkmark.circle.fill" : "circle")
+                                .foregroundColor(isLoaded ? .green : .gray)
+                        }
+                    )
+                }
+                .buttonStyle(.plain)
             }
         }
     }
@@ -137,12 +165,13 @@ extension DocToBeLoadedGroupBox {
         } label: {
             Text(docToLoad.document.viewName)
         }
+        .horizontallyAligned(.leading)
         #if os(macOS)
-        .sheet(item: $documentToBeViewed) { doc in
-            NavigationStack {
-                PdfDocumentViewer(document: doc)
+            .sheet(item: $documentToBeViewed) { doc in
+                NavigationStack {
+                    PdfDocumentViewer(document: doc)
+                }
             }
-        }
         #else
                 .fullScreenCover(item: $documentToBeViewed) { doc in
                     NavigationStack {
