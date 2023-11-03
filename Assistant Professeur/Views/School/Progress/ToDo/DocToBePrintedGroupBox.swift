@@ -8,18 +8,19 @@
 import HelpersView
 import SwiftUI
 
-struct DocToBePrinted: Identifiable {
+struct BatchOfDocsToBePrinted: Identifiable {
     var id = UUID()
     var classe: ClasseEntity
-    var document: DocumentEntity
+    var activity: ActivityEntity
+    var documents: [DocumentEntity]
     var quantity: Int
     var beforeDate: Date
 }
 
 /// GrouepBox présentant un document à imprimer
 /// dans un certain nombre d'exemplaires avant une certaine date
-struct DocToBePrintedGroupBox: View {
-    let docToPrint: DocToBePrinted
+struct DocsToBePrintedGroupBox: View {
+    let batchOfDocToPrint: BatchOfDocsToBePrinted
 
     @State
     private var documentToBeViewed: DocumentEntity?
@@ -37,17 +38,16 @@ struct DocToBePrintedGroupBox: View {
                     navigateToActivityButton
                 }
                 // Document
-                documentView
-                    .horizontallyAligned(.leading)
+                documentsView
                     .padding(.top, 2)
             }
 
             HStack {
-                if docToPrint.quantity > 0 {
+                if batchOfDocToPrint.quantity > 0 {
                     HStack {
                         Text("Nombre d'ex.:")
                             .foregroundStyle(.secondary)
-                        Text("\(docToPrint.quantity, format: .number)")
+                        Text("\(batchOfDocToPrint.quantity, format: .number)")
                     }
                 }
                 Spacer()
@@ -63,54 +63,41 @@ struct DocToBePrintedGroupBox: View {
 
 // MARK: - Subviews
 
-extension DocToBePrintedGroupBox {
+extension DocsToBePrintedGroupBox {
     /// Classe - Discipline - Sequence - Activité
     private var classeSequenceActivityView: some View {
         HStack {
             // Classe
             Button {
                 DeepLinkManager.handle(
-                    navigateTo: .classeProgressUpdate(classe: docToPrint.classe),
+                    navigateTo: .classeProgressUpdate(classe: batchOfDocToPrint.classe),
                     using: navig
                 )
             } label: {
-                Text(docToPrint.classe.displayString)
+                Text(batchOfDocToPrint.classe.displayString)
             }
             .buttonStyle(.bordered)
 
             // Tags Séquence/Activité
-            if let activity = docToPrint.document.activity,
-               let sequence = activity.sequence,
+            if let sequence = batchOfDocToPrint.activity.sequence,
                let discipline = sequence.program?.disciplineEnum {
                 Text(discipline.acronym)
                     .foregroundColor(.secondary)
                 SequenceTagWithPopOver(sequence: sequence)
-                ActivityTag(activityNumber: activity.viewNumber)
-                    // Naviguer vers l'activité pédagogique
-                    .onTapGesture {
-                        DeepLinkManager.handle(
-                            navigateTo: .activity(
-                                program: sequence.program!,
-                                sequence: sequence,
-                                activity: activity
-                            ),
-                            using: navig
-                        )
-                    }
+                ActivityTagWithPopOver(activity: batchOfDocToPrint.activity)
             }
         }
     }
 
     private var navigateToActivityButton: some View {
         Group {
-            if let activity = docToPrint.document.activity,
-               let sequence = activity.sequence {
+            if let sequence = batchOfDocToPrint.activity.sequence {
                 Button {
                     DeepLinkManager.handle(
                         navigateTo: .activity(
                             program: sequence.program!,
                             sequence: sequence,
-                            activity: activity
+                            activity: batchOfDocToPrint.activity
                         ),
                         using: navig
                     )
@@ -130,35 +117,40 @@ extension DocToBePrintedGroupBox {
             Spacer()
             Text("Avant:")
                 .foregroundStyle(.secondary)
-            Text(formattedDate(docToPrint.beforeDate))
+            Text(formattedDate(batchOfDocToPrint.beforeDate))
         }
     }
 
-    private var documentView: some View {
-        Button {
-            documentToBeViewed = docToPrint.document
-        } label: {
-            Text(docToPrint.document.viewName)
-        }
-        #if os(macOS)
-        .sheet(item: $documentToBeViewed) { doc in
-            NavigationStack {
-                PdfDocumentViewer(document: doc)
+    private var documentsView: some View {
+        Group {
+            ForEach(batchOfDocToPrint.documents) { document in
+                Button {
+                    documentToBeViewed = document
+                } label: {
+                    Text(document.viewName)
+                }
+                .horizontallyAligned(.leading)
+                #if os(macOS)
+                    .sheet(item: $documentToBeViewed) { doc in
+                        NavigationStack {
+                            PdfDocumentViewer(document: doc)
+                        }
+                    }
+                #else
+                        .fullScreenCover(item: $documentToBeViewed) { doc in
+                            NavigationStack {
+                                PdfDocumentViewer(document: doc)
+                            }
+                        }
+                #endif
             }
         }
-        #else
-                .fullScreenCover(item: $documentToBeViewed) { doc in
-                    NavigationStack {
-                        PdfDocumentViewer(document: doc)
-                    }
-                }
-        #endif
     }
 }
 
 // MARK: - Methods
 
-extension DocToBePrintedGroupBox {
+extension DocsToBePrintedGroupBox {
     private func formattedDate(_ date: Date) -> String {
         let delta = date.days(between: Date.now)
         switch delta {
