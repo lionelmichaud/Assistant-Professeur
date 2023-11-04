@@ -109,7 +109,7 @@ enum SchoolNavigationRoute: Hashable, Codable {
                         errorView
                     }
                 case let .toDoList(seances):
-                    ToDoScrollView(seances: seances)
+                    ToDoView(seances: seances)
             }
         }
     }

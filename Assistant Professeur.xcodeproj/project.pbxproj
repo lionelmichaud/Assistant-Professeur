@@ -54,8 +54,8 @@
 		7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7927E6C72980A12F007002CE /* SequenceEditorModal.swift */; };
 		792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */; };
 		792E82BA2A570C6400FE95E8 /* SequenceSeanceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792E82B92A570C6400FE95E8 /* SequenceSeanceCoordinator.swift */; };
-		7931F3312AF4032400EC6E10 /* DocToBePrintedGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7931F3302AF4032400EC6E10 /* DocToBePrintedGroupBox.swift */; };
-		7931F3332AF4036400EC6E10 /* DocToBeLoadedGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7931F3322AF4036400EC6E10 /* DocToBeLoadedGroupBox.swift */; };
+		7931F3312AF4032400EC6E10 /* DocToBePrintedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7931F3302AF4032400EC6E10 /* DocToBePrintedScrollView.swift */; };
+		7931F3332AF4036400EC6E10 /* DocToBeLoadedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7931F3322AF4036400EC6E10 /* DocToBeLoadedScrollView.swift */; };
 		7934D8A129E49D740031C8AA /* Eleve+ItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7934D8A029E49D740031C8AA /* Eleve+ItemProvider.swift */; };
 		7937A24229859A5500D0ED59 /* ExamStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A24129859A5500D0ED59 /* ExamStep.swift */; };
 		7937A2442986AD9100D0ED59 /* CloudKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */; };
@@ -102,7 +102,7 @@
 		7940135629565B48007AD790 /* EleveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7940135529565B48007AD790 /* EleveViewModel.swift */; };
 		7941BC662A030C5100EF9F30 /* Owner+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */; };
 		7942F23829A5612E007E3C3B /* StepperView in Frameworks */ = {isa = PBXBuildFile; productRef = 7942F23729A5612E007E3C3B /* StepperView */; };
-		794615892AEEBE69002D725E /* ToDoScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794615882AEEBE69002D725E /* ToDoScrollView.swift */; };
+		794615892AEEBE69002D725E /* ToDoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794615882AEEBE69002D725E /* ToDoView.swift */; };
 		794AE9C22A59706E009C819A /* AppTextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794AE9C12A59706E009C819A /* AppTextStyle.swift */; };
 		794B83CA2AB5B7A600F5B14E /* BonusMalusStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */; };
 		794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */; };
@@ -513,8 +513,8 @@
 		7927E6C72980A12F007002CE /* SequenceEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceEditorModal.swift; sourceTree = "<group>"; };
 		792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailGroupBox.swift; sourceTree = "<group>"; };
 		792E82B92A570C6400FE95E8 /* SequenceSeanceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceSeanceCoordinator.swift; sourceTree = "<group>"; };
-		7931F3302AF4032400EC6E10 /* DocToBePrintedGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocToBePrintedGroupBox.swift; sourceTree = "<group>"; };
-		7931F3322AF4036400EC6E10 /* DocToBeLoadedGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocToBeLoadedGroupBox.swift; sourceTree = "<group>"; };
+		7931F3302AF4032400EC6E10 /* DocToBePrintedScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocToBePrintedScrollView.swift; sourceTree = "<group>"; };
+		7931F3322AF4036400EC6E10 /* DocToBeLoadedScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocToBeLoadedScrollView.swift; sourceTree = "<group>"; };
 		7934D8A029E49D740031C8AA /* Eleve+ItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Eleve+ItemProvider.swift"; sourceTree = "<group>"; };
 		7937A24129859A5500D0ED59 /* ExamStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamStep.swift; sourceTree = "<group>"; };
 		7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitViewModel.swift; sourceTree = "<group>"; };
@@ -553,7 +553,7 @@
 		79401353295659B6007AD790 /* EleveNameGroupBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveNameGroupBox.swift; sourceTree = "<group>"; };
 		7940135529565B48007AD790 /* EleveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveViewModel.swift; sourceTree = "<group>"; };
 		7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Owner+Extensions.swift"; path = "../New Group/Owner+Extensions.swift"; sourceTree = "<group>"; };
-		794615882AEEBE69002D725E /* ToDoScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoScrollView.swift; sourceTree = "<group>"; };
+		794615882AEEBE69002D725E /* ToDoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoView.swift; sourceTree = "<group>"; };
 		794AE9C12A59706E009C819A /* AppTextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextStyle.swift; sourceTree = "<group>"; };
 		794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusStats.swift; sourceTree = "<group>"; };
 		794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DuplicateActivityModal.swift; path = "Assistant Professeur/Model/Eleve/BonusMalus/DuplicateActivityModal.swift"; sourceTree = SOURCE_ROOT; };
@@ -1364,9 +1364,9 @@
 		795BC98D2AF0038A006F3A8F /* ToDo */ = {
 			isa = PBXGroup;
 			children = (
-				794615882AEEBE69002D725E /* ToDoScrollView.swift */,
-				7931F3302AF4032400EC6E10 /* DocToBePrintedGroupBox.swift */,
-				7931F3322AF4036400EC6E10 /* DocToBeLoadedGroupBox.swift */,
+				794615882AEEBE69002D725E /* ToDoView.swift */,
+				7931F3302AF4032400EC6E10 /* DocToBePrintedScrollView.swift */,
+				7931F3322AF4036400EC6E10 /* DocToBeLoadedScrollView.swift */,
 			);
 			path = ToDo;
 			sourceTree = "<group>";
@@ -2473,7 +2473,7 @@
 				799421862A02BFDC002999C4 /* SchoolSidebarToolbar.swift in Sources */,
 				7923811A2960B04F009E51B7 /* GroupNamesView.swift in Sources */,
 				79DEDB11292593C200F508EF /* SettingsEleve.swift in Sources */,
-				794615892AEEBE69002D725E /* ToDoScrollView.swift in Sources */,
+				794615892AEEBE69002D725E /* ToDoView.swift in Sources */,
 				79F41E642954B08A00EAAC52 /* Eleve+Extensions.swift in Sources */,
 				7937A24B298830CC00D0ED59 /* StepEditor.swift in Sources */,
 				79AFBFB82981D264001576DD /* ActivityEditorModal.swift in Sources */,
@@ -2494,7 +2494,7 @@
 				798383522A0FF38C00C4A4E2 /* PersonsContactsView.swift in Sources */,
 				794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */,
 				799421892A02C714002999C4 /* UrgencyTelView.swift in Sources */,
-				7931F3332AF4036400EC6E10 /* DocToBeLoadedGroupBox.swift in Sources */,
+				7931F3332AF4036400EC6E10 /* DocToBeLoadedScrollView.swift in Sources */,
 				7989B4D129A257DD00383F84 /* Activity+CoreDataClass.swift in Sources */,
 				7989B4CF29A257C500383F84 /* Sequence+CoreDataClass.swift in Sources */,
 				79DEDAEF292586A500F508EF /* EleveSplitView.swift in Sources */,
@@ -2511,7 +2511,7 @@
 				7937A2462986C57D00D0ED59 /* ExamTypeEnum.swift in Sources */,
 				796521D62A14EF1E000C27D1 /* DailySchedulePref.swift in Sources */,
 				793D6270295DCBBC00477932 /* MotifView.swift in Sources */,
-				7931F3312AF4032400EC6E10 /* DocToBePrintedGroupBox.swift in Sources */,
+				7931F3312AF4032400EC6E10 /* DocToBePrintedScrollView.swift in Sources */,
 				79B6630529244C3F007B1FBD /* Assistant_ProfesseurApp.swift in Sources */,
 				795C2C2E296E2DCA00EDFF09 /* RoomRowEditor.swift in Sources */,
 				793D6276295DD9E600477932 /* ObservNotifIcon.swift in Sources */,

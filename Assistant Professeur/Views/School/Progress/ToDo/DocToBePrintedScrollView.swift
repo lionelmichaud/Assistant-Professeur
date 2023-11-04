@@ -1,5 +1,5 @@
 //
-//  DocToBeLoadedGroupBox.swift
+//  DocToBePrintedGroupBox.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 02/11/2023.
@@ -8,118 +8,129 @@
 import HelpersView
 import SwiftUI
 
-struct BatchOfDocsToBeLoaded: Identifiable {
+struct BatchOfDocsToBePrinted: Identifiable {
     var id = UUID()
-    var classeLevel: LevelClasse
+    var classe: ClasseEntity
     var activity: ActivityEntity
+    var progress: ActivityProgressEntity
     var documents: [DocumentEntity]
+    var quantity: Int
     var beforeDate: Date
 }
 
-struct DocsToBeLoadedGroupBox: View {
-    let batchOfDocToLoad: BatchOfDocsToBeLoaded
+/// ScrollView présentant une liste de documents à imprimer
+/// dans un certain nombre d'exemplaires avant une certaine date
+struct DocsToBePrintedScrollView: View {
+    @Binding
+    var batchesOfDocsToBePrinted: [BatchOfDocsToBePrinted]
+
+    var body: some View {
+        ScrollView(.vertical, showsIndicators: true) {
+            ForEach(batchesOfDocsToBePrinted) { batch in
+                DocsToBePrintedGroupBox(batchOfDocToPrint: batch)
+            }
+            .emptyListPlaceHolder(batchesOfDocsToBePrinted) {
+                ContentUnavailableView(
+                    "Aucune impression à réaliser pour le mois à venir...",
+                    systemImage: "checklist",
+                    description: Text("Les impressions nécessaires au cours du prochain mois apparaîtront ici.")
+                )
+            }
+        }
+    }
+}
+
+/// GrouepBox présentant un document à imprimer
+/// dans un certain nombre d'exemplaires avant une certaine date
+struct DocsToBePrintedGroupBox: View {
+    let batchOfDocToPrint: BatchOfDocsToBePrinted
 
     @State
     private var documentToBeViewed: DocumentEntity?
 
-    @State
-    private var isLoaded: Bool = false
-
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @Environment(\.horizontalSizeClass)
-    private var hClass
-
-    var label: String {
-        if hClass == .compact {
-            "Ressources chargées"
-        } else {
-            "Ressources chargées sur ENT"
-        }
-    }
+    @State
+    private var isPrinted: Bool = false
 
     var body: some View {
         GroupBox {
-            VStack {
+            VStack(alignment: .leading) {
+                // Classe - Discipline - Sequence - Activité
                 HStack {
-                    // Classe - Discipline - Sequence - Activité
                     classeSequenceActivityView
                     Spacer()
                     navigateToActivityButton
                 }
-
                 // Document
                 documentsView
+                    .padding(.top, 2)
+                // Bouton
+                printedButton
                     .horizontallyAligned(.leading)
                     .padding(.top, 2)
-
-                HStack {
-                    uploadedButton
-                    Spacer()
-                    dateBeforeView
-                }
-                .padding(.top, 2)
             }
-        }
-        .onAppear {
-            isLoaded = batchOfDocToLoad.activity.allProgresses.allSatisfy { $0.isLoaded }
+
+            // Nb exemplaires - date limite
+            HStack {
+                if batchOfDocToPrint.quantity > 0 {
+                    nbExemplaires
+                }
+                Spacer()
+                dateBeforeView
+            }
+            .padding(.top, 2)
         }
         .font(.callout)
         .frame(maxWidth: .infinity)
         .padding(.horizontal)
+        .onAppear {
+            isPrinted = batchOfDocToPrint.progress.isPrinted
+        }
+        .onChange(of: isPrinted) {
+            batchOfDocToPrint.progress.isPrinted = isPrinted
+        }
     }
 }
 
 // MARK: - Subviews
 
-extension DocsToBeLoadedGroupBox {
+extension DocsToBePrintedGroupBox {
     /// Classe - Discipline - Sequence - Activité
     private var classeSequenceActivityView: some View {
         HStack {
-            // Niveau de Classe
-            Text(batchOfDocToLoad.classeLevel.pickerString)
+            // Classe
+            Button {
+                DeepLinkManager.handle(
+                    navigateTo: .classeProgressUpdate(classe: batchOfDocToPrint.classe),
+                    using: navig
+                )
+            } label: {
+                Text(batchOfDocToPrint.classe.displayString)
+            }
+            .buttonStyle(.bordered)
 
             // Tags Séquence/Activité
-            if let sequence = batchOfDocToLoad.activity.sequence,
+            if let sequence = batchOfDocToPrint.activity.sequence,
                let discipline = sequence.program?.disciplineEnum {
                 Text(discipline.acronym)
                     .foregroundColor(.secondary)
                 SequenceTagWithPopOver(sequence: sequence)
-                ActivityTagWithPopOver(activity: batchOfDocToLoad.activity)
+                ActivityTagWithPopOver(activity: batchOfDocToPrint.activity)
             }
         }
-    }
-
-    private var uploadedButton: some View {
-        Button {
-            isLoaded.toggle()
-            batchOfDocToLoad.activity.allProgresses.forEach { prog in
-                prog.isLoaded = isLoaded
-            }
-            try? ActivityProgressEntity.saveIfContextHasChanged()
-        } label: {
-            Label(
-                title: {
-                    Text(label)
-                }, icon: {
-                    Image(systemName: isLoaded ? "checkmark.circle.fill" : "circle")
-                        .foregroundColor(isLoaded ? .green : .gray)
-                }
-            )
-        }
-        .buttonStyle(.plain)
     }
 
     private var navigateToActivityButton: some View {
         Group {
-            if let sequence = batchOfDocToLoad.activity.sequence {
+            if let sequence = batchOfDocToPrint.activity.sequence {
                 Button {
                     DeepLinkManager.handle(
                         navigateTo: .activity(
                             program: sequence.program!,
                             sequence: sequence,
-                            activity: batchOfDocToLoad.activity
+                            activity: batchOfDocToPrint.activity
                         ),
                         using: navig
                     )
@@ -134,18 +145,26 @@ extension DocsToBeLoadedGroupBox {
         }
     }
 
+    private var printedButton: some View {
+        DocPrintedToggle(
+            isPrinted: $isPrinted,
+            nbExemplaires: nil,
+            save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
+        )
+    }
+
     private var dateBeforeView: some View {
         HStack {
             Spacer()
             Text("Avant:")
                 .foregroundStyle(.secondary)
-            Text(formattedDate(batchOfDocToLoad.beforeDate))
+            Text(formattedDate(batchOfDocToPrint.beforeDate))
         }
     }
 
     private var documentsView: some View {
         Group {
-            ForEach(batchOfDocToLoad.documents) { document in
+            ForEach(batchOfDocToPrint.documents) { document in
                 Button {
                     documentToBeViewed = document
                 } label: {
@@ -168,11 +187,19 @@ extension DocsToBeLoadedGroupBox {
             }
         }
     }
+
+    private var nbExemplaires: some View {
+        HStack {
+            Text("Nombre d'ex.:")
+                .foregroundStyle(.secondary)
+            Text("\(batchOfDocToPrint.quantity, format: .number)")
+        }
+    }
 }
 
 // MARK: - Methods
 
-extension DocsToBeLoadedGroupBox {
+extension DocsToBePrintedGroupBox {
     private func formattedDate(_ date: Date) -> String {
         let delta = date.days(between: Date.now)
         switch delta {
@@ -199,5 +226,5 @@ extension DocsToBeLoadedGroupBox {
 }
 
 // #Preview {
-//    DocToBeLoadedGroupBox()
+//    DocToBePrintedGroupBox()
 // }

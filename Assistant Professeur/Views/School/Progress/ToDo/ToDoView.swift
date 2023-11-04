@@ -11,7 +11,7 @@ import SwiftUI
 
 /// Liste des documents à imprimer
 /// dans un certain nombre d'exemplaires avant une certaine date
-struct ToDoScrollView: View {
+struct ToDoView: View {
     let seances: [Seance]
 
     // MARK: - Internal Types
@@ -79,32 +79,14 @@ struct ToDoScrollView: View {
 
             switch selectedAction {
                 case .print:
-                    ScrollView(.vertical, showsIndicators: true) {
-                        ForEach(batchesOfDocsToBePrinted) { batch in
-                            DocsToBePrintedGroupBox(batchOfDocToPrint: batch)
-                        }
-                        .emptyListPlaceHolder(batchesOfDocsToBePrinted) {
-                            ContentUnavailableView(
-                                "Aucune impression à réaliser pour le mois à venir...",
-                                systemImage: "checklist",
-                                description: Text("Les impressions nécessaires au cours du prochain mois apparaîtront ici.")
-                            )
-                        }
-                    }
+                    DocsToBePrintedScrollView(
+                        batchesOfDocsToBePrinted: $batchesOfDocsToBePrinted
+                    )
 
                 case .load:
-                    ScrollView(.vertical, showsIndicators: true) {
-                        ForEach(batchesOfDocsToBeLoaded) { batch in
-                            DocsToBeLoadedGroupBox(batchOfDocToLoad: batch)
-                        }
-                        .emptyListPlaceHolder(batchesOfDocsToBeLoaded) {
-                            ContentUnavailableView(
-                                "Aucun partage à réaliser pour le mois à venir...",
-                                systemImage: "checklist",
-                                description: Text("Les partages nécessaires au cours du prochain mois apparaîtront ici.")
-                            )
-                        }
-                    }
+                    DocsToBeLoadedScrollView(
+                        batchesOfDocsToBeLoaded: $batchesOfDocsToBeLoaded
+                    )
             }
         }
         #if os(iOS)
@@ -195,7 +177,7 @@ struct ToDoScrollView: View {
                     BatchOfDocToBeActionned(
                         classe: classe,
                         activity: activity,
-                        progress: progress, 
+                        progress: progress,
                         documents: actionableDocuments,
                         beforeDate: dateSeance
                     )
