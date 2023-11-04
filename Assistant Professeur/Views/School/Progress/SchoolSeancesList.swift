@@ -5,7 +5,6 @@
 //  Created by Lionel MICHAUD on 27/10/2023.
 //
 
-import EventKit
 import SwiftUI
 
 struct SchoolSeancesList: View {
@@ -29,6 +28,12 @@ struct SchoolSeancesList: View {
             // Afficher toutes les séances trouvées
             viewModel.seancesListView
         }
+        .alert(
+            alert.title,
+            isPresented: $alert.isPresented,
+            actions: {},
+            message: { Text(alert.message) }
+        )
         // Chargement des données recherchées depuis l'application Calendrier
         .task(id: school.id!.uuidString + dateInterval.description) {
             let alert = await viewModel.updateItems(
@@ -39,12 +44,6 @@ struct SchoolSeancesList: View {
             )
             self.alert = alert
         }
-        .alert(
-            alert.title,
-            isPresented: $alert.isPresented,
-            actions: {},
-            message: { Text(alert.message) }
-        )
     }
 }
 

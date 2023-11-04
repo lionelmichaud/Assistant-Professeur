@@ -31,6 +31,7 @@
 		791802A42A365A5E001588B2 /* DKnowledgeEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791802A32A365A5E001588B2 /* DKnowledgeEntity+CoreDataClass.swift */; };
 		791802A62A365E29001588B2 /* DKnowledgeEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791802A52A365E29001588B2 /* DKnowledgeEntity+Extensions.swift */; };
 		7918D56C2AF6AC360085C639 /* ComputingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7918D56B2AF6AC360085C639 /* ComputingStatus.swift */; };
+		7918D56E2AF700BA0085C639 /* ContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7918D56D2AF700BA0085C639 /* ContactsViewModel.swift */; };
 		791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791A0CDC29746A31004CA543 /* DataBaseManager.swift */; };
 		791A190E2AE8220E00DD41DD /* SchoolCurrentSeancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791A190D2AE8220E00DD41DD /* SchoolCurrentSeancesView.swift */; };
 		791A19102AE8222400DD41DD /* SchoolPreviousSeancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791A190F2AE8222400DD41DD /* SchoolPreviousSeancesView.swift */; };
@@ -492,6 +493,7 @@
 		791802A32A365A5E001588B2 /* DKnowledgeEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DKnowledgeEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		791802A52A365E29001588B2 /* DKnowledgeEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DKnowledgeEntity+Extensions.swift"; sourceTree = "<group>"; };
 		7918D56B2AF6AC360085C639 /* ComputingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputingStatus.swift; sourceTree = "<group>"; };
+		7918D56D2AF700BA0085C639 /* ContactsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewModel.swift; sourceTree = "<group>"; };
 		791A0CDC29746A31004CA543 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
 		791A190D2AE8220E00DD41DD /* SchoolCurrentSeancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolCurrentSeancesView.swift; sourceTree = "<group>"; };
 		791A190F2AE8222400DD41DD /* SchoolPreviousSeancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolPreviousSeancesView.swift; sourceTree = "<group>"; };
@@ -1556,6 +1558,7 @@
 				7967CFF92A0D57BA00392F89 /* SchoolContactEditView.swift */,
 				798383512A0FF38C00C4A4E2 /* PersonsContactsView.swift */,
 				7923BC7A2AED396F00F824C2 /* ContactView.swift */,
+				7918D56D2AF700BA0085C639 /* ContactsViewModel.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -2448,6 +2451,7 @@
 				7957A8322A375D7C00D64786 /* DKnowEditorModal.swift in Sources */,
 				79398D31296616250013564D /* ExamCreatorModal.swift in Sources */,
 				79ECF206295A16E2008F0282 /* EleveColleRow.swift in Sources */,
+				7918D56E2AF700BA0085C639 /* ContactsViewModel.swift in Sources */,
 				79BA2D48299C0084006325CC /* JsonImportExportMng.swift in Sources */,
 				7918D56C2AF6AC360085C639 /* ComputingStatus.swift in Sources */,
 				79CD363929D989C900BF5ADC /* EmptyListMessage.swift in Sources */,

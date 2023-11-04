@@ -5,43 +5,20 @@
 //  Created by Lionel MICHAUD on 13/05/2023.
 //
 
-import Contacts
-import HelpersView
-import os
 import SwiftUI
-
-private let customLog = Logger(
-    subsystem: "com.michaud.lionel.Assistant-Professeur",
-    category: "PersonsContactsView"
-)
 
 struct PersonsContactsView: View {
     @ObservedObject
     var school: SchoolEntity
 
-    @State
-    private var loadingStatus: ContactsLoadingStatus = .pending
+    @StateObject
+    private var viewModel = ContactsViewModel()
 
     @State
-    private var contactStore = CNContactStore()
-
-    @State
-    private var contacts = [CNContact]()
-
-    @State
-    private var contactGroup: CNGroup?
+    private var alert = AlertInfo()
 
     @State
     private var contactSortOrder: ContactManager.SortOrder = .byJobTitle
-
-    @State
-    private var alertTitle = ""
-
-    @State
-    private var alertMessage = ""
-
-    @State
-    private var alertIsPresented = false
 
     var body: some View {
         Section {
@@ -53,7 +30,7 @@ struct PersonsContactsView: View {
             .pickerStyle(.segmented)
 
             // Liste des contacts
-            loadingStatus.view
+            viewModel.status.view
         } header: {
             Label("Contacts", systemImage: "person")
                 .font(.callout)
@@ -63,49 +40,18 @@ struct PersonsContactsView: View {
             Text("Les contacts de votre appli **Contacts**, enregistrés dans la liste nommée **\(school.viewName)** sont affichés ici.")
         }
         .alert(
-            alertTitle,
-            isPresented: $alertIsPresented,
+            alert.title,
+            isPresented: $alert.isPresented,
             actions: {},
-            message: { Text(alertMessage) }
+            message: { Text(alert.message) }
         )
         // Récupérer les contacts dans l'appli "Contacts"
         .task(id: contactSortOrder) {
-            loadingStatus = .pending
-
-            (
-                contactGroup,
-                alertIsPresented,
-                alertTitle,
-                alertMessage
-            ) = await ContactManager.shared.requestContactsAccess(
-                contactStore: contactStore,
-                groupName: school.viewName
+            let alert = await viewModel.getAllContacts(
+                forSchoolName: school.viewName,
+                contactSortOrder: contactSortOrder
             )
-            guard let contactGroup else {
-                loadingStatus = .failed
-                return
-            }
-
-            loadingStatus = .loading
-
-            do {
-                contacts = try ContactManager.shared.allPersonContacts(
-                    inOrganizationName: school.viewName,
-                    inContactGroup: contactGroup,
-                    inContactStore: contactStore,
-                    sortedBy: contactSortOrder
-                )
-                loadingStatus = .finished(contacts: contacts)
-            } catch {
-                customLog.log(
-                    level: .error,
-                    "La tentative de récupération des contacts dans l'appli **Contacts** pour cet établissement à échouée."
-                )
-                loadingStatus = .finished(contacts: [])
-                alertTitle = "Echec"
-                alertMessage = "La tentative de récupération des vos contacts dans votre appli **Contacts** pour cet établissement à échouée."
-                alertIsPresented = true
-            }
+            self.alert = alert
         }
     }
 }
