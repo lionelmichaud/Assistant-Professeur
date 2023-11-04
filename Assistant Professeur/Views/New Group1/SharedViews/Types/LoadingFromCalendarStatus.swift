@@ -9,7 +9,7 @@ import Foundation
 import EventKit
 import SwiftUI
 
-enum LoadingStatus {
+enum LoadingFromCalendarStatus {
     case pending
     case loading
     case finished

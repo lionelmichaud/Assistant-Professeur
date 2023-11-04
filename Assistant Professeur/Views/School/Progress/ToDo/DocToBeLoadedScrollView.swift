@@ -26,15 +26,21 @@ struct DocsToBeLoadedScrollView: View {
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
-            ForEach(toDoViewModel.batchesOfDocsToBeLoaded) { batch in
-                DocsToBeLoadedGroupBox(batchOfDocToLoad: batch)
-            }
-            .emptyListPlaceHolder(toDoViewModel.batchesOfDocsToBeLoaded) {
-                ContentUnavailableView(
-                    "Aucun partage à réaliser pour le mois à venir...",
-                    systemImage: "checklist",
-                    description: Text("Les partages nécessaires au cours du prochain mois apparaîtront ici.")
-                )
+            switch toDoViewModel.status {
+                case .pending, .computing, .failed:
+                    toDoViewModel.status.view
+                        .horizontallyAligned(.center)
+                case .finished:
+                    ForEach(toDoViewModel.batchesOfDocsToBeLoaded) { batch in
+                        DocsToBeLoadedGroupBox(batchOfDocToLoad: batch)
+                    }
+                    .emptyListPlaceHolder(toDoViewModel.batchesOfDocsToBeLoaded) {
+                        ContentUnavailableView(
+                            "Aucun partage à réaliser pour le mois à venir...",
+                            systemImage: "checklist",
+                            description: Text("Les partages nécessaires au cours du prochain mois apparaîtront ici.")
+                        )
+                    }
             }
         }
         .task {

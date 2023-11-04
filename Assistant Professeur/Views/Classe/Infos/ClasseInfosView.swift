@@ -18,7 +18,7 @@ struct ClasseInfosView: View {
     private var pref = UserPrefEntity.shared
 
     @State
-    private var eventsLoadingStatus: LoadingStatus = .pending
+    private var eventsLoadingStatus: LoadingFromCalendarStatus = .pending
 
     /// Conseils de classe
     @State

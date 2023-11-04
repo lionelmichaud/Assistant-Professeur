@@ -19,7 +19,7 @@ struct ClassNextSeancesView: View {
     private var pref = UserPrefEntity.shared
 
     @State
-    private var loadingStatus: CalendarSeancesLoadingStatus = .pending
+    private var loadingStatus: SeancesLoadingStatus = .pending
 
     @State
     private var period: PeriodEnum = .nextWeek

@@ -35,16 +35,36 @@ class ToDoViewModel: ObservableObject {
     @Published
     var batchesOfDocsToBeLoaded: [BatchOfDocsToBeLoaded] = []
 
+    /// Avancement de la recherche des ToDo dans les futurs séances
+    @Published
+    var status: ComputingStatus = .pending
+
     /// Recherche tous les documents à imprimer/partager dans les séances à venir
     /// et calcule le nombre d'exemplaires à imprimer et la date au plus tard.
     func getAllDocsToBeActioned(
         fromSeances seances: [Seance],
         forThisAction action: ToDoAction
     ) async {
+        status = .computing(message: "Recherche en cours")
+
         guard seances.isNotEmpty else {
+            status = .finished(message: "Aucun résultat trouvé.")
             return
         }
 
+        await collect(
+            fromSeances: seances,
+            forThisAction: action
+        )
+        
+        status = .finished(message: "Recherche terminée.")
+    }
+
+    private func collect(
+        fromSeances seances: [Seance],
+        forThisAction action: ToDoAction
+    ) async {
+        // try? await Task.sleep(for: .seconds(5))
         // Colecter tous les documents restant à imprimer
         let nbSeancesToProcess = 4 * 18 // 3 semaines de cours en temps complet
         let maxIndex = (seances.startIndex + nbSeancesToProcess)
@@ -117,7 +137,7 @@ class ToDoViewModel: ObservableObject {
         }
 
         // Compilation des actions à réaliser
-        filterDocsToBeActioned(
+        await filterDocsToBeActioned(
             batchesOfDocsToBeActionned: batchesOfDocsToBeActionned,
             forThisAction: action
         )
@@ -126,7 +146,7 @@ class ToDoViewModel: ObservableObject {
     private func filterDocsToBeActioned(
         batchesOfDocsToBeActionned: [BatchOfDocToBeActionned],
         forThisAction action: ToDoAction
-    ) {
+    ) async {
         // Compilation des actions à réaliser
         switch action {
             case .print:

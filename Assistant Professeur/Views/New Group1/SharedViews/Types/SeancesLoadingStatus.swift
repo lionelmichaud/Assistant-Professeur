@@ -12,7 +12,7 @@ import SwiftUI
 /// survenants pendant une période de temps donnée.
 ///
 ///Permet d'afficher une vue qui dépend de l'état courant.
-enum CalendarSeancesLoadingStatus {
+enum SeancesLoadingStatus {
     case pending
     case loading
     case finished(seancesInInterval: SeancesInDateInterval)
@@ -57,7 +57,7 @@ enum CalendarSeancesLoadingStatus {
 }
 
 #Preview("Pending") {
-    let status: CalendarSeancesLoadingStatus = .pending
+    let status: SeancesLoadingStatus = .pending
     return VStack {
         Divider()
         status.view
@@ -66,7 +66,7 @@ enum CalendarSeancesLoadingStatus {
 }
 
 #Preview("Loading", traits: .sizeThatFitsLayout) {
-    let status: CalendarSeancesLoadingStatus = .loading
+    let status: SeancesLoadingStatus = .loading
     return VStack {
         Divider()
         status.view
@@ -75,7 +75,7 @@ enum CalendarSeancesLoadingStatus {
 }
 
 #Preview("Failed") {
-    let status: CalendarSeancesLoadingStatus = .failed
+    let status: SeancesLoadingStatus = .failed
     return VStack {
         Divider()
         status.view
@@ -84,7 +84,7 @@ enum CalendarSeancesLoadingStatus {
 }
 
 #Preview("Finished - Empty") {
-    let status: CalendarSeancesLoadingStatus =
+    let status: SeancesLoadingStatus =
         .finished(seancesInInterval: SeancesInDateInterval())
     return VStack {
         Divider()

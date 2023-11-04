@@ -28,15 +28,21 @@ struct DocsToBePrintedScrollView: View {
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
-            ForEach(toDoViewModel.batchesOfDocsToBePrinted) { batch in
-                DocsToBePrintedGroupBox(batchOfDocToPrint: batch)
-            }
-            .emptyListPlaceHolder(toDoViewModel.batchesOfDocsToBePrinted) {
-                ContentUnavailableView(
-                    "Aucune impression à réaliser pour le mois à venir...",
-                    systemImage: "checklist",
-                    description: Text("Les impressions nécessaires au cours du prochain mois apparaîtront ici.")
-                )
+            switch toDoViewModel.status {
+                case .pending, .computing, .failed:
+                    toDoViewModel.status.view
+                        .horizontallyAligned(.center)
+                case .finished:
+                    ForEach(toDoViewModel.batchesOfDocsToBePrinted) { batch in
+                        DocsToBePrintedGroupBox(batchOfDocToPrint: batch)
+                    }
+                    .emptyListPlaceHolder(toDoViewModel.batchesOfDocsToBePrinted) {
+                        ContentUnavailableView(
+                            "Aucune impression à réaliser pour le mois à venir...",
+                            systemImage: "checklist",
+                            description: Text("Les impressions nécessaires au cours du prochain mois apparaîtront ici.")
+                        )
+                    }
             }
         }
         .task {

@@ -17,7 +17,7 @@ struct AlertInfo {
 @MainActor
 class SchoolSeancesViewModel: ObservableObject {
     @Published
-    var state: CalendarSeancesLoadingStatus = .pending
+    var state: SeancesLoadingStatus = .pending
     private var showToDoListButton: Bool = false
 
     var seancesListView: some View {
@@ -67,7 +67,7 @@ class SchoolSeancesViewModel: ObservableObject {
         let schoolName = school.viewName
 
         // Demander les droits d'accès aux calendriers de l'utilisateur
-        var eventStore = EKEventStore()
+        let eventStore = EKEventStore()
         var calendar: EKCalendar?
         (
             calendar,
