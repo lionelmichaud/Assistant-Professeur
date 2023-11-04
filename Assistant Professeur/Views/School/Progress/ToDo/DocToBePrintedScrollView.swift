@@ -21,21 +21,29 @@ struct BatchOfDocsToBePrinted: Identifiable {
 /// ScrollView présentant une liste de documents à imprimer
 /// dans un certain nombre d'exemplaires avant une certaine date
 struct DocsToBePrintedScrollView: View {
-    @Binding
-    var batchesOfDocsToBePrinted: [BatchOfDocsToBePrinted]
+    let seances: [Seance]
+
+    @StateObject
+    private var toDoViewModel = ToDoViewModel()
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
-            ForEach(batchesOfDocsToBePrinted) { batch in
+            ForEach(toDoViewModel.batchesOfDocsToBePrinted) { batch in
                 DocsToBePrintedGroupBox(batchOfDocToPrint: batch)
             }
-            .emptyListPlaceHolder(batchesOfDocsToBePrinted) {
+            .emptyListPlaceHolder(toDoViewModel.batchesOfDocsToBePrinted) {
                 ContentUnavailableView(
                     "Aucune impression à réaliser pour le mois à venir...",
                     systemImage: "checklist",
                     description: Text("Les impressions nécessaires au cours du prochain mois apparaîtront ici.")
                 )
             }
+        }
+        .task {
+            await toDoViewModel.getAllDocsToBeActioned(
+                fromSeances: seances,
+                forThisAction: ToDoAction.print
+            )
         }
     }
 }

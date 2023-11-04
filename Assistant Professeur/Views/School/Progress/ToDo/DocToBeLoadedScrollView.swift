@@ -19,21 +19,29 @@ struct BatchOfDocsToBeLoaded: Identifiable {
 /// ScrollView présentant une liste de documents à partager
 /// sur l'ENT avant une certaine date
 struct DocsToBeLoadedScrollView: View {
-    @Binding
-    var batchesOfDocsToBeLoaded: [BatchOfDocsToBeLoaded]
+    let seances: [Seance]
+
+    @StateObject
+    private var toDoViewModel = ToDoViewModel()
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
-            ForEach(batchesOfDocsToBeLoaded) { batch in
+            ForEach(toDoViewModel.batchesOfDocsToBeLoaded) { batch in
                 DocsToBeLoadedGroupBox(batchOfDocToLoad: batch)
             }
-            .emptyListPlaceHolder(batchesOfDocsToBeLoaded) {
+            .emptyListPlaceHolder(toDoViewModel.batchesOfDocsToBeLoaded) {
                 ContentUnavailableView(
                     "Aucun partage à réaliser pour le mois à venir...",
                     systemImage: "checklist",
                     description: Text("Les partages nécessaires au cours du prochain mois apparaîtront ici.")
                 )
             }
+        }
+        .task {
+            await toDoViewModel.getAllDocsToBeActioned(
+                fromSeances: seances,
+                forThisAction: ToDoAction.load
+            )
         }
     }
 }

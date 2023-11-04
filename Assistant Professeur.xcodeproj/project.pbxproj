@@ -57,6 +57,7 @@
 		7931F3312AF4032400EC6E10 /* DocToBePrintedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7931F3302AF4032400EC6E10 /* DocToBePrintedScrollView.swift */; };
 		7931F3332AF4036400EC6E10 /* DocToBeLoadedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7931F3322AF4036400EC6E10 /* DocToBeLoadedScrollView.swift */; };
 		7934D8A129E49D740031C8AA /* Eleve+ItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7934D8A029E49D740031C8AA /* Eleve+ItemProvider.swift */; };
+		7934E13C2AF6A42800104733 /* ToDoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7934E13B2AF6A42700104733 /* ToDoViewModel.swift */; };
 		7937A24229859A5500D0ED59 /* ExamStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A24129859A5500D0ED59 /* ExamStep.swift */; };
 		7937A2442986AD9100D0ED59 /* CloudKitViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */; };
 		7937A2462986C57D00D0ED59 /* ExamTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */; };
@@ -516,6 +517,7 @@
 		7931F3302AF4032400EC6E10 /* DocToBePrintedScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocToBePrintedScrollView.swift; sourceTree = "<group>"; };
 		7931F3322AF4036400EC6E10 /* DocToBeLoadedScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocToBeLoadedScrollView.swift; sourceTree = "<group>"; };
 		7934D8A029E49D740031C8AA /* Eleve+ItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Eleve+ItemProvider.swift"; sourceTree = "<group>"; };
+		7934E13B2AF6A42700104733 /* ToDoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoViewModel.swift; sourceTree = "<group>"; };
 		7937A24129859A5500D0ED59 /* ExamStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamStep.swift; sourceTree = "<group>"; };
 		7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitViewModel.swift; sourceTree = "<group>"; };
 		7937A2452986C57D00D0ED59 /* ExamTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamTypeEnum.swift; sourceTree = "<group>"; };
@@ -1367,6 +1369,7 @@
 				794615882AEEBE69002D725E /* ToDoView.swift */,
 				7931F3302AF4032400EC6E10 /* DocToBePrintedScrollView.swift */,
 				7931F3322AF4036400EC6E10 /* DocToBeLoadedScrollView.swift */,
+				7934E13B2AF6A42700104733 /* ToDoViewModel.swift */,
 			);
 			path = ToDo;
 			sourceTree = "<group>";
@@ -2543,6 +2546,7 @@
 				79BF1DA829290F5A005D6CF3 /* Classe+Extensions.swift in Sources */,
 				79E7B8772A587EEE008E8B83 /* ClassNextSeancesView.swift in Sources */,
 				79F41E6F2954C83A00EAAC52 /* ElevesTableView.swift in Sources */,
+				7934E13C2AF6A42800104733 /* ToDoViewModel.swift in Sources */,
 				795804B729A696CC00AEB7DA /* SequenceTimeLine.swift in Sources */,
 				79AFBFB42981A4B0001576DD /* SequenceDetailGroupBox.swift in Sources */,
 				79388A4529256819002AABB8 /* CoreDataManager.swift in Sources */,
