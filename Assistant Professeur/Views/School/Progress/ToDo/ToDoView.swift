@@ -51,11 +51,6 @@ struct ToDoView: View {
         }
     }
 
-    @State
-    private var isExpandedPrintings = true
-    @State
-    private var isExpandedLoadings = true
-
     /// Tableau des documents à imprimer dans les séances à venir
     @State
     private var batchesOfDocsToBePrinted: [BatchOfDocsToBePrinted] = []
@@ -186,6 +181,17 @@ struct ToDoView: View {
             }
         }
 
+        // Compilation des actions à réaliser
+        filterDocsToBeActioned(
+            batchesOfDocsToBeActionned: batchesOfDocsToBeActionned,
+            action: action
+        )
+    }
+
+    private func filterDocsToBeActioned(
+        batchesOfDocsToBeActionned: [BatchOfDocToBeActionned],
+        action: Action
+    ) {
         // Compilation des actions à réaliser
         switch action {
             case .print:
