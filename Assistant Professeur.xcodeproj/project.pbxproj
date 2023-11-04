@@ -170,6 +170,8 @@
 		796B6A802A0C42BD00F00929 /* SchoolInfosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796B6A7F2A0C42BD00F00929 /* SchoolInfosView.swift */; };
 		7974CD0E2A2BF358004B3716 /* Cycle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7974CD0D2A2BF358004B3716 /* Cycle.swift */; };
 		7974CD112A2BF7DD004B3716 /* WCompChapterEntity+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7974CD102A2BF7DD004B3716 /* WCompChapterEntity+Extension.swift */; };
+		7976272D2AF5635300DC5EA6 /* CompactProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7976272C2AF5635300DC5EA6 /* CompactProgressView.swift */; };
+		7976272F2AF5657C00DC5EA6 /* RegularProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7976272E2AF5657C00DC5EA6 /* RegularProgressView.swift */; };
 		797AD2B229902BCE00BE5D37 /* ActivityProgressesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797AD2B129902BCE00BE5D37 /* ActivityProgressesView.swift */; };
 		797AD2B429913B4C00BE5D37 /* School+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */; };
 		797B7F852AE979A4009042A4 /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797B7F842AE979A4009042A4 /* DeepLinkManager.swift */; };
@@ -618,6 +620,8 @@
 		796B6A7F2A0C42BD00F00929 /* SchoolInfosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SchoolInfosView.swift; path = "Assistant Professeur/Model/Persistence/SchoolInfosView.swift"; sourceTree = SOURCE_ROOT; };
 		7974CD0D2A2BF358004B3716 /* Cycle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cycle.swift; sourceTree = "<group>"; };
 		7974CD102A2BF7DD004B3716 /* WCompChapterEntity+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WCompChapterEntity+Extension.swift"; sourceTree = "<group>"; };
+		7976272C2AF5635300DC5EA6 /* CompactProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompactProgressView.swift; sourceTree = "<group>"; };
+		7976272E2AF5657C00DC5EA6 /* RegularProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegularProgressView.swift; sourceTree = "<group>"; };
 		797AD2B129902BCE00BE5D37 /* ActivityProgressesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityProgressesView.swift; sourceTree = "<group>"; };
 		797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "School+CoreDataClass.swift"; sourceTree = "<group>"; };
 		797B7F842AE979A4009042A4 /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
@@ -2109,6 +2113,8 @@
 			isa = PBXGroup;
 			children = (
 				79E7B87A2A58A050008E8B83 /* SeanceRow.swift */,
+				7976272C2AF5635300DC5EA6 /* CompactProgressView.swift */,
+				7976272E2AF5657C00DC5EA6 /* RegularProgressView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2527,6 +2533,7 @@
 				79DEDB222925991100F508EF /* Persistence.swift in Sources */,
 				795C2C30296E2DCA00EDFF09 /* RoomListSection.swift in Sources */,
 				793D627D295F2A2900477932 /* ColleNotifIcon.swift in Sources */,
+				7976272D2AF5635300DC5EA6 /* CompactProgressView.swift in Sources */,
 				79F41E682954B1E500EAAC52 /* TroubleDys.swift in Sources */,
 				794F6E0E295CDC9100042B95 /* ColleCreatorModal.swift in Sources */,
 				79BF1DA829290F5A005D6CF3 /* Classe+Extensions.swift in Sources */,
@@ -2541,6 +2548,7 @@
 				795415A82A129BBF00B86746 /* EventManager.swift in Sources */,
 				79F41E662954B1DC00EAAC52 /* Sexe.swift in Sources */,
 				79012C732A39F84B00BF0772 /* JsonExport.swift in Sources */,
+				7976272F2AF5657C00DC5EA6 /* RegularProgressView.swift in Sources */,
 				79E524BE295376EA00DA99A7 /* EventEditor.swift in Sources */,
 				79BF1DB62929105D005D6CF3 /* Event+Extensions.swift in Sources */,
 				79FD21A82A34DAB300A8D925 /* DCompBrowserRow.swift in Sources */,

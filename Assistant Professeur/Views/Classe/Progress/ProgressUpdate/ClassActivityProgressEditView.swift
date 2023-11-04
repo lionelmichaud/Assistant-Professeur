@@ -29,9 +29,6 @@ struct ClassActivityProgressEditView: View {
     @State
     private var isShowingActivityTimer: Bool = false
 
-    @State
-    private var progressValue: Double = 0
-
     var body: some View {
         DisclosureGroup(isExpanded: $isExpanded) {
             ViewThatFits(in: .horizontal) {
@@ -176,6 +173,41 @@ extension ClassActivityProgressEditView {
         }
     }
 
+    private var regularView: some View {
+        VStack(alignment: .leading) {
+            RegularProgressView(
+                progress: progress,
+                progressChanged: $progressChanged
+            )
+
+            buttons
+        }
+    }
+
+    private var compactView: some View {
+        VStack(alignment: .leading) {
+            CompactProgressView(
+                progress: progress,
+                progressChanged: $progressChanged
+            )
+
+            buttons
+        }
+    }
+
+    private var buttons: some View {
+        HStack {
+            Spacer()
+            if let activity = progress.activity,
+               activity.isTP || activity.isProject {
+                stopWatchButton(for: activity)
+                Spacer()
+            }
+            jumpToActivityButton
+            Spacer()
+        }
+    }
+
     /// Bouton navigant vers l'activité associée
     private var jumpToActivityButton: some View {
         Button {
@@ -211,124 +243,6 @@ extension ClassActivityProgressEditView {
         }
     }
 
-    private var buttons: some View {
-        HStack {
-            Spacer()
-            if let activity = progress.activity,
-               activity.isTP || activity.isProject {
-                stopWatchButton(for: activity)
-                Spacer()
-            }
-            jumpToActivityButton
-            Spacer()
-        }
-    }
-
-    private var annotation: some View {
-        TextField(
-            "",
-            text: $progress.annotation.bound,
-            prompt: Text("description"),
-            axis: .vertical
-        )
-        .multilineTextAlignment(.leading)
-        .lineLimit(5)
-        .textFieldStyle(.roundedBorder)
-        .onSubmit {
-            try? ActivityProgressEntity.saveIfContextHasChanged()
-        }
-    }
-
-    private var regularView: some View {
-        VStack(alignment: .leading) {
-            LabeledContent("Progression") {
-                ActivityProgressSlider(
-                    progress: progress,
-                    progressChanged: $progressChanged
-                )
-                .frame(minWidth: 250)
-            }
-
-            annotation
-
-            if let activity = progress.activity {
-                if activity.hasSomeDocumentForEleves {
-                    HStack {
-                        DocPrintedToggle(
-                            isPrinted: $progress.isPrinted,
-                            nbExemplaires: progress.classe?.nbOfEleves,
-                            save: {
-                                try? ActivityProgressEntity.saveIfContextHasChanged()
-                            }
-                        )
-                        Spacer()
-                        DocDistributedToggle(
-                            isDistributed: $progress.isDistributed,
-                            save: {
-                                try? ActivityProgressEntity.saveIfContextHasChanged()
-                            }
-                        )
-                    }
-                }
-                if activity.hasSomeDocumentForENT {
-                    Spacer()
-                    DocLoadedToggle(
-                        isLoaded: $progress.isLoaded,
-                        save: { newValue in
-                            activity.allProgresses.forEach { prog in
-                                prog.isLoaded = newValue
-                            }
-                            try? ActivityProgressEntity.saveIfContextHasChanged()
-                        }
-                    )
-                }
-            }
-
-            buttons
-        }
-    }
-
-    private var compactView: some View {
-        VStack(alignment: .leading) {
-            ActivityProgressSlider(
-                progress: progress,
-                progressChanged: $progressChanged
-            )
-
-            annotation
-
-            if let activity = progress.activity {
-                if activity.hasSomeDocumentForEleves {
-                    DocPrintedToggle(
-                        isPrinted: $progress.isPrinted,
-                        nbExemplaires: progress.classe?.nbOfEleves,
-                        save: {
-                            try? ActivityProgressEntity.saveIfContextHasChanged()
-                        }
-                    )
-                    DocDistributedToggle(
-                        isDistributed: $progress.isDistributed,
-                        save: {
-                            try? ActivityProgressEntity.saveIfContextHasChanged()
-                        }
-                    )
-                }
-                if activity.hasSomeDocumentForENT {
-                    DocLoadedToggle(
-                        isLoaded: $progress.isLoaded,
-                        save: { newValue in
-                            activity.allProgresses.forEach { prog in
-                                prog.isLoaded = newValue
-                            }
-                            try? ActivityProgressEntity.saveIfContextHasChanged()
-                        }
-                    )
-                }
-            }
-
-            buttons
-        }
-    }
 }
 
 struct ClassActivityProgressView_Previews: PreviewProvider {

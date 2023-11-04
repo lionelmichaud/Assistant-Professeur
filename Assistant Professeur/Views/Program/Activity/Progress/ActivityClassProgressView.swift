@@ -12,58 +12,26 @@ struct ActivityClassProgressView: View {
     @ObservedObject
     var progress: ActivityProgressEntity
 
+    @State
+    var progressChanged: Bool = false
+
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @Environment(\.horizontalSizeClass)
-    private var hClass
-
     var body: some View {
         LabeledContent {
-            VStack(alignment: .leading) {
-                ActivityProgressSlider(
+            ViewThatFits(in: .horizontal) {
+                // priorité 1
+                RegularProgressView(
                     progress: progress,
-                    progressChanged: .constant(false)
+                    progressChanged: $progressChanged
                 )
-
-                TextField(
-                    "",
-                    text: $progress.annotation.bound,
-                    prompt: Text("description"),
-                    axis: .vertical
+                // .padding(.leading)
+                // priorité 2
+                CompactProgressView(
+                    progress: progress,
+                    progressChanged: $progressChanged
                 )
-                .onSubmit {
-                    try? ActivityProgressEntity.saveIfContextHasChanged()
-                }
-                .multilineTextAlignment(.leading)
-                .lineLimit(5)
-                .font(hClass == .compact ? .callout : .body)
-                .textFieldStyle(.roundedBorder)
-
-                if let activity = progress.activity {
-                    if activity.hasSomeDocumentForEleves {
-                        DocPrintedToggle(
-                            isPrinted: $progress.isPrinted,
-                            nbExemplaires: progress.classe?.nbOfEleves,
-                            save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
-                        )
-                        DocDistributedToggle(
-                            isDistributed: $progress.isDistributed,
-                            save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
-                        )
-                    }
-                    if activity.hasSomeDocumentForENT {
-                        DocLoadedToggle(
-                            isLoaded: $progress.isLoaded,
-                            save: { newValue in
-                                activity.allProgresses.forEach { prog in
-                                    prog.isLoaded = newValue
-                                }
-                                try? ActivityProgressEntity.saveIfContextHasChanged()
-                            }
-                        )
-                    }
-                }
             }
         } label: {
             Button {
