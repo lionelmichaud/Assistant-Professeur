@@ -13,101 +13,37 @@ struct SchoolSeancesList: View {
     var school: SchoolEntity
     let dateInterval: DateInterval
     let showOnlyOngoingSeance: Bool
-    let showToDoList: Bool
+    let showToDoListButton: Bool
+
+    @StateObject
+    private var viewModel = SchoolSeancesViewModel()
 
     @State
-    private var seancesLoadingStatus: CalendarSeancesLoadingStatus = .pending
-
-    @State
-    private var schoolSeances: SeancesInDateInterval = .init()
-
-    @State
-    private var eventStore = EKEventStore()
-    @State
-    private var calendar: EKCalendar?
-
-    @State
-    private var alertTitle = ""
-    @State
-    private var alertMessage = ""
-    @State
-    private var alertIsPresented = false
+    private var alert = AlertInfo()
 
     var body: some View {
         // Afficher la ToDo liste
         VStack(alignment: .leading) {
-            if showToDoList {
-                switch seancesLoadingStatus {
-                    case .pending, .loading, .failed:
-                        EmptyView()
-
-                    case .finished(let seancesInInterval):
-                        if seancesInInterval.seances.isNotEmpty {
-                            NavigationLink(value: SchoolNavigationRoute.toDoList(seancesInInterval.seances)) {
-                                Label("A faire avant ces cours...", systemImage: "checklist")
-                                    .imageScale(.large)
-                                    .font(.headline)
-                                    .fontWeight(.bold)
-                            }
-                            .padding(.bottom)
-                        } else {
-                            EmptyView()
-                        }
-                }
-            }
+            viewModel.toDoListButton
 
             // Afficher toutes les séances trouvées
-            seancesLoadingStatus.view
+            viewModel.seancesListView
         }
         // Chargement des données recherchées depuis l'application Calendrier
         .task(id: school.id!.uuidString + dateInterval.description) {
-            seancesLoadingStatus = .pending
-
-            let schoolName = school.viewName
-
-            // Demander les droits d'accès aux calendriers de l'utilisateur
-            (
-                calendar,
-                alertIsPresented,
-                alertTitle,
-                alertMessage
-            ) = await EventManager.shared
-                .requestCalendarAccess(
-                    eventStore: eventStore,
-                    calendarName: schoolName
-                )
-            guard let calendar else {
-                seancesLoadingStatus = .failed
-                return
-            }
-
-            seancesLoadingStatus = .loading
-
-            // Recherche: `SeancesInDateInterval` contenant la liste des Séances à venir
-            // pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
-            schoolSeances = await SeancesInDateInterval.loadedNextSeancesForSchool(
-                school: school,
-                inCalendar: calendar,
-                inEventStore: eventStore,
-                inDateInterval: dateInterval
+            let alert = await viewModel.updateItems(
+                forSchool: school,
+                inDateInterval: dateInterval,
+                showOnlyOngoingSeance: showOnlyOngoingSeance,
+                showToDoListButton: showToDoListButton
             )
-
-            if showOnlyOngoingSeance {
-                // Filtrer pour ne garder que la séance en cours
-                schoolSeances.seances =
-                    schoolSeances.seances
-                        .filter { seance in
-                            seance.interval.contains(.now)
-                        }
-            }
-
-            seancesLoadingStatus = .finished(seancesInInterval: schoolSeances)
+            self.alert = alert
         }
         .alert(
-            alertTitle,
-            isPresented: $alertIsPresented,
+            alert.title,
+            isPresented: $alert.isPresented,
             actions: {},
-            message: { Text(alertMessage) }
+            message: { Text(alert.message) }
         )
     }
 }

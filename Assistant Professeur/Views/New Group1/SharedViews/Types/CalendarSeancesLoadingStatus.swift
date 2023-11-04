@@ -8,12 +8,17 @@
 import HelpersView
 import SwiftUI
 
+/// Représente l'état courant de la tâche de collection des séances 
+/// survenants pendant une période de temps donnée.
+///
+///Permet d'afficher une vue qui dépend de l'état courant.
 enum CalendarSeancesLoadingStatus {
     case pending
     case loading
     case finished(seancesInInterval: SeancesInDateInterval)
     case failed
 
+    ///Une vue qui dépend de l'état courant de la tâche de collection des séances.
     var view: some View {
         Group {
             switch self {

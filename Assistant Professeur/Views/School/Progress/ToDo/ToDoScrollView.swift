@@ -16,6 +16,7 @@ struct ToDoScrollView: View {
 
     // MARK: - Internal Types
 
+    /// Picker selectors
     enum Action: String, PickableEnumP {
         case print = "A IMPRIMER POUR ÉLÈVES"
         case load = "A PARTAGER SUR ENT"

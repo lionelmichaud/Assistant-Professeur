@@ -73,7 +73,7 @@ struct SchoolNextSeancesView: View {
                 school: school,
                 dateInterval: dateInterval,
                 showOnlyOngoingSeance: false, 
-                showToDoList: true
+                showToDoListButton: true
             )
         }
         .padding(.horizontal)

@@ -16,7 +16,7 @@ private let customLog = Logger(
 )
 
 /// A navigation model used to persist and restore the navigation state.
-/// @MainActor
+@MainActor
 final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:this type_body_length
     // MARK: - Embeded Types
 
