@@ -1,5 +1,5 @@
 //
-//  DocToBePrintedGroupBox.swift
+//  DocsToBePrintedScrollView.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 02/11/2023.

@@ -1,5 +1,5 @@
 //
-//  ToDoScrollView.swift
+//  ToDoView.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 29/10/2023.
@@ -26,6 +26,7 @@ struct ToDoView: View {
             switch self {
                 case .print:
                     DocumentEntity.forEleveImageName
+
                 case .load:
                     DocumentEntity.forEntImageName
             }

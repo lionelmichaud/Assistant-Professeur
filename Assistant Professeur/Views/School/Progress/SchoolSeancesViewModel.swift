@@ -1,5 +1,5 @@
 //
-//  SchoolSeancesListViewModel.swift
+//  SchoolSeancesViewModel.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 04/11/2023.
