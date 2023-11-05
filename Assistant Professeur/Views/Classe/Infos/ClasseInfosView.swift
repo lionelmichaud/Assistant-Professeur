@@ -17,15 +17,8 @@ struct ClasseInfosView: View {
     @ObservedObject
     private var pref = UserPrefEntity.shared
 
-    @State
-    private var eventsLoadingStatus: LoadingFromCalendarStatus = .pending
-
-    /// Conseils de classe
-    @State
-    private var conseils = [EKEvent]()
-
-    @State
-    private var arretsNotes = [EKEvent]()
+    @StateObject
+    private var viewModel = ClasseEventsViewModel()
 
     @State
     private var popOverConseilIsPresented: Bool = false
@@ -34,19 +27,7 @@ struct ClasseInfosView: View {
     private var popOverArretIsPresented: Bool = false
 
     @State
-    private var eventStore = EKEventStore()
-
-    @State
-    private var calendar: EKCalendar?
-
-    @State
-    private var alertTitle = ""
-
-    @State
-    private var alertMessage = ""
-
-    @State
-    private var alertIsPresented = false
+    private var alert = AlertInfo()
 
     var body: some View {
         List {
@@ -75,7 +56,7 @@ struct ClasseInfosView: View {
 
             // Section arrêt des notes avant conseil de classe
             Section {
-                if eventsLoadingStatus == .finished {
+                if viewModel.state == .finished {
                     arretNotesList
                         .popover(isPresented: $popOverArretIsPresented) {
                             Text("Nom requis pour l'événement du calendrier de cet établissement: \"**Arrêt notes - Niveau**\". Exemple: \"**Arrêt notes - 5E**\"")
@@ -83,7 +64,7 @@ struct ClasseInfosView: View {
                                 .padding()
                         }
                 } else {
-                    eventsLoadingStatus.view
+                    viewModel.state.view
                 }
             } header: {
                 HStack {
@@ -102,7 +83,7 @@ struct ClasseInfosView: View {
 
             // Section Conseils de classe
             Section {
-                if eventsLoadingStatus == .finished {
+                if viewModel.state == .finished {
                     conseilList
                         .popover(isPresented: $popOverConseilIsPresented) {
                             Text("Nom requis pour l'événement du calendrier de cet établissement: \"**Conseil - Classe**\". Exemple: \"**Conseil - 5E2**\"")
@@ -110,7 +91,7 @@ struct ClasseInfosView: View {
                                 .padding()
                         }
                 } else {
-                    eventsLoadingStatus.view
+                    viewModel.state.view
                 }
             } header: {
                 HStack {
@@ -131,54 +112,21 @@ struct ClasseInfosView: View {
             ClasseDocumentListSection(classe: classe)
         }
         .alert(
-            alertTitle,
-            isPresented: $alertIsPresented,
+            alert.title,
+            isPresented: $alert.isPresented,
             actions: {},
-            message: { Text(alertMessage) }
+            message: { Text(alert.message) }
         )
         #if os(iOS)
         .navigationTitle("Informations sur \(classe.displayString)")
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .task(id: classe.objectID) {
-            eventsLoadingStatus = .loading
-
-            guard let school = classe.school else {
-                eventsLoadingStatus = .failed
-                return
-            }
-
-            // Demander les droits d'accès aux calendriers de l'utilisateur
-            (
-                calendar,
-                alertIsPresented,
-                alertTitle,
-                alertMessage
-            ) = await EventManager.shared
-                .requestCalendarAccess(
-                    eventStore: eventStore,
-                    calendarName: school.viewName
-                )
-            guard let calendar else {
-                eventsLoadingStatus = .failed
-                return
-            }
-
-            // Récupérer les dates d'arrêt des notes avant conseils de classe
-            arretsNotes = EventManager.getAllArretsNotes(
-                forClasseLevel: classe.levelEnum,
-                inCalendar: calendar,
-                inEventStore: eventStore,
+        .task {
+            let alert = await viewModel.getAllEvents(
+                forClasse: classe,
                 during: pref.viewSchoolYearPref.interval
             )
-            // Récupérer les dates de conseils de classe
-            conseils = EventManager.getAllConseils(
-                forClasseName: classe.displayString,
-                inCalendar: calendar,
-                inEventStore: eventStore,
-                during: pref.viewSchoolYearPref.interval
-            )
-            eventsLoadingStatus = .finished
+            self.alert = alert
         }
     }
 }
@@ -187,19 +135,19 @@ struct ClasseInfosView: View {
 
 extension ClasseInfosView {
     private var arretNotesList: some View {
-        ForEach(arretsNotes, id: \.eventIdentifier) { arretNotes in
+        ForEach(viewModel.arretsNotes, id: \.eventIdentifier) { arretNotes in
             VStack {
                 Text("Date: ").foregroundColor(.secondary) +
                     Text(arretNotes.startDate.formatted(date: .complete, time: .standard))
             }
         }
-        .emptyListPlaceHolder(arretsNotes) {
+        .emptyListPlaceHolder(viewModel.arretsNotes) {
             Text("Aucune date d'arrêt des notes prévue pour cette classe")
         }
     }
 
     private var conseilList: some View {
-        ForEach(conseils, id: \.eventIdentifier) { conseil in
+        ForEach(viewModel.conseils, id: \.eventIdentifier) { conseil in
             VStack {
                 Text("Date: ").foregroundColor(.secondary) +
                     Text(conseil.startDate.formatted(date: .complete, time: .standard))
@@ -209,7 +157,7 @@ extension ClasseInfosView {
                 }
             }
         }
-        .emptyListPlaceHolder(conseils) {
+        .emptyListPlaceHolder(viewModel.conseils) {
             Text("Aucun conseil prévu pour cette classe")
         }
     }

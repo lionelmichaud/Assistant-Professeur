@@ -125,6 +125,7 @@
 		7957A5AA2AF7A184002C8721 /* ClasseSeancesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A5A92AF7A184002C8721 /* ClasseSeancesViewModel.swift */; };
 		7957A5AC2AF7A1B1002C8721 /* AlertInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A5AB2AF7A1B1002C8721 /* AlertInfo.swift */; };
 		7957A5AE2AF7A87A002C8721 /* ClasseSeancesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A5AD2AF7A87A002C8721 /* ClasseSeancesList.swift */; };
+		7957A5B02AF7CE82002C8721 /* ClasseEventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A5AF2AF7CE82002C8721 /* ClasseEventsViewModel.swift */; };
 		7957A8302A3759E400D64786 /* DKnowBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A82F2A3759E400D64786 /* DKnowBrowserRow.swift */; };
 		7957A8322A375D7C00D64786 /* DKnowEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A8312A375D7C00D64786 /* DKnowEditorModal.swift */; };
 		7957A8342A375DC400D64786 /* DKnowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A8332A375DC400D64786 /* DKnowViewModel.swift */; };
@@ -582,6 +583,7 @@
 		7957A5A92AF7A184002C8721 /* ClasseSeancesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseSeancesViewModel.swift; sourceTree = "<group>"; };
 		7957A5AB2AF7A1B1002C8721 /* AlertInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertInfo.swift; sourceTree = "<group>"; };
 		7957A5AD2AF7A87A002C8721 /* ClasseSeancesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseSeancesList.swift; sourceTree = "<group>"; };
+		7957A5AF2AF7CE82002C8721 /* ClasseEventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseEventsViewModel.swift; sourceTree = "<group>"; };
 		7957A82F2A3759E400D64786 /* DKnowBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKnowBrowserRow.swift; sourceTree = "<group>"; };
 		7957A8312A375D7C00D64786 /* DKnowEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKnowEditorModal.swift; sourceTree = "<group>"; };
 		7957A8332A375DC400D64786 /* DKnowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKnowViewModel.swift; sourceTree = "<group>"; };
@@ -1096,6 +1098,7 @@
 		79225B502A26BC0E005030B5 /* Infos */ = {
 			isa = PBXGroup;
 			children = (
+				7957A5AF2AF7CE82002C8721 /* ClasseEventsViewModel.swift */,
 				79225B512A26BC38005030B5 /* ClasseInfosView.swift */,
 				795716132AAD10E500DECA1F /* ClasseDocumentListSection.swift */,
 			);
@@ -2469,6 +2472,7 @@
 				79975322297C4AEF00D1C66E /* ProgramBrowserRow.swift in Sources */,
 				7989B4D329A2733D00383F84 /* ClassActivityProgressEditView.swift in Sources */,
 				7989B4D729A276F400383F84 /* ActivityProgressSlider.swift in Sources */,
+				7957A5B02AF7CE82002C8721 /* ClasseEventsViewModel.swift in Sources */,
 				79B6630729244C3F007B1FBD /* ContentView.swift in Sources */,
 				79398D2D2965FABE0013564D /* Exam+Extensions.swift in Sources */,
 				79ECF1FB2959F915008F0282 /* ClasseColleLabel.swift in Sources */,
