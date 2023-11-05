@@ -122,6 +122,9 @@
 		795415A82A129BBF00B86746 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795415A72A129BBF00B86746 /* EventManager.swift */; };
 		795695D92A2CCB6700435FDB /* WCompChapterEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795695D82A2CCB6700435FDB /* WCompChapterEntity+CoreDataClass.swift */; };
 		795716142AAD10E500DECA1F /* ClasseDocumentListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795716132AAD10E500DECA1F /* ClasseDocumentListSection.swift */; };
+		7957A5AA2AF7A184002C8721 /* ClasseSeancesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A5A92AF7A184002C8721 /* ClasseSeancesViewModel.swift */; };
+		7957A5AC2AF7A1B1002C8721 /* AlertInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A5AB2AF7A1B1002C8721 /* AlertInfo.swift */; };
+		7957A5AE2AF7A87A002C8721 /* ClasseSeancesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A5AD2AF7A87A002C8721 /* ClasseSeancesList.swift */; };
 		7957A8302A3759E400D64786 /* DKnowBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A82F2A3759E400D64786 /* DKnowBrowserRow.swift */; };
 		7957A8322A375D7C00D64786 /* DKnowEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A8312A375D7C00D64786 /* DKnowEditorModal.swift */; };
 		7957A8342A375DC400D64786 /* DKnowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A8332A375DC400D64786 /* DKnowViewModel.swift */; };
@@ -576,6 +579,9 @@
 		795415A72A129BBF00B86746 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		795695D82A2CCB6700435FDB /* WCompChapterEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WCompChapterEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		795716132AAD10E500DECA1F /* ClasseDocumentListSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseDocumentListSection.swift; sourceTree = "<group>"; };
+		7957A5A92AF7A184002C8721 /* ClasseSeancesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseSeancesViewModel.swift; sourceTree = "<group>"; };
+		7957A5AB2AF7A1B1002C8721 /* AlertInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertInfo.swift; sourceTree = "<group>"; };
+		7957A5AD2AF7A87A002C8721 /* ClasseSeancesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseSeancesList.swift; sourceTree = "<group>"; };
 		7957A82F2A3759E400D64786 /* DKnowBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKnowBrowserRow.swift; sourceTree = "<group>"; };
 		7957A8312A375D7C00D64786 /* DKnowEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKnowEditorModal.swift; sourceTree = "<group>"; };
 		7957A8332A375DC400D64786 /* DKnowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKnowViewModel.swift; sourceTree = "<group>"; };
@@ -1556,9 +1562,9 @@
 			isa = PBXGroup;
 			children = (
 				7967CFF92A0D57BA00392F89 /* SchoolContactEditView.swift */,
+				7918D56D2AF700BA0085C639 /* ContactsViewModel.swift */,
 				798383512A0FF38C00C4A4E2 /* PersonsContactsView.swift */,
 				7923BC7A2AED396F00F824C2 /* ContactView.swift */,
-				7918D56D2AF700BA0085C639 /* ContactsViewModel.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -2051,6 +2057,8 @@
 			isa = PBXGroup;
 			children = (
 				79E7B8762A587EED008E8B83 /* ClassNextSeancesView.swift */,
+				7957A5A92AF7A184002C8721 /* ClasseSeancesViewModel.swift */,
+				7957A5AD2AF7A87A002C8721 /* ClasseSeancesList.swift */,
 			);
 			path = NextSeances;
 			sourceTree = "<group>";
@@ -2117,6 +2125,7 @@
 				7923BC7C2AED39F500F824C2 /* ContactsLoadingStatus.swift */,
 				79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */,
 				7918D56B2AF6AC360085C639 /* ComputingStatus.swift */,
+				7957A5AB2AF7A1B1002C8721 /* AlertInfo.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -2444,6 +2453,7 @@
 				79398D30296616250013564D /* ClasseExamRow.swift in Sources */,
 				79A5737529BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift in Sources */,
 				79DEDB13292593C200F508EF /* SettingsClasse.swift in Sources */,
+				7957A5AE2AF7A87A002C8721 /* ClasseSeancesList.swift in Sources */,
 				7923BC7B2AED396F00F824C2 /* ContactView.swift in Sources */,
 				795EED0C29677C76009AA6F4 /* MarkListView.swift in Sources */,
 				79F41E5C2954983100EAAC52 /* ClasseNameGroupBox.swift in Sources */,
@@ -2530,6 +2540,7 @@
 				79C2E47029DC22C2008DF730 /* EleveTextName.swift in Sources */,
 				792311362A312BBA008556E1 /* DThemeEntity+CoreDataClass.swift in Sources */,
 				79225B522A26BC38005030B5 /* ClasseInfosView.swift in Sources */,
+				7957A5AC2AF7A1B1002C8721 /* AlertInfo.swift in Sources */,
 				798EE5702ADA8DBD00F9AE24 /* ListViewModifiers.swift in Sources */,
 				793D6273295DD96600477932 /* ObservBrowserRow.swift in Sources */,
 				798D24F42A2E085F008500D2 /* WCompChapterListView.swift in Sources */,
@@ -2605,6 +2616,7 @@
 				79B3083A29EE115300C69C79 /* Documentation.docc in Sources */,
 				79DEDAEC2925864A00F508EF /* ClasseSplitView.swift in Sources */,
 				79BF1DAD29290FBC005D6CF3 /* Observ+Extensions.swift in Sources */,
+				7957A5AA2AF7A184002C8721 /* ClasseSeancesViewModel.swift in Sources */,
 				79637201297D707400ECDBC3 /* SequenceList.swift in Sources */,
 				79FB2E492A3E4DFB00F05D61 /* ConnectToWCompModal.swift in Sources */,
 				7951B6A029B13E6F006DC88D /* WarningSplitView.swift in Sources */,

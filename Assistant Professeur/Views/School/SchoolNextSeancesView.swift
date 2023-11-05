@@ -7,7 +7,6 @@
 
 import HelpersView
 import SwiftUI
-import AppFoundation
 
 struct SchoolNextSeancesView: View {
     @ObservedObject
@@ -20,31 +19,8 @@ struct SchoolNextSeancesView: View {
 
     @State
     private var popOverIsPresented: Bool = false
-    private let horizon = 3 // mois
 
-    // MARK: - Computed Properties
-
-    /// Période de recherche
-    private var dateInterval: DateInterval {
-        var endDate: Date
-        switch period {
-            case .today: 
-                endDate = 1.days.from(Calendar.current.startOfDay(for: .now))!
-
-            case .nextWeek:
-                let date = 1.weeks.fromNow!
-                let startOfDay = Calendar.current.startOfDay(for: date)
-                let secondsInOneDay = 60 * 60 * 24.0
-                endDate = startOfDay.addingTimeInterval(secondsInOneDay)
-
-            case .all:
-                endDate = horizon.months.fromNow!
-        }
-        return DateInterval(
-            start: Date.now,
-            end: endDate
-        )
-    }
+    // MARK: - Subviews
 
     private var infoView: some View {
         VStack {
@@ -52,7 +28,7 @@ struct SchoolNextSeancesView: View {
             Text("du calendrier de cet établissement doivent contenir:")
             Text("\"**Acronyme Discipline - Classe**\"\n")
             Text("Exemple: pour la discipline de \(Discipline.technologie.pickerString),")
-            Text("et la classe de 4ième 2: \"**TECHNO - 4E2)**\"")
+            Text("et la classe de 4ième 2: \"**\(Discipline.technologie.pickerString) - 4E2)**\"")
         }
         .foregroundColor(.primary)
         .padding()
@@ -71,8 +47,8 @@ struct SchoolNextSeancesView: View {
             // Afficher le resultat de la recherche
             SchoolSeancesList(
                 school: school,
-                dateInterval: dateInterval,
-                showOnlyOngoingSeance: false, 
+                dateInterval: period.dateInterval,
+                showOnlyOngoingSeance: false,
                 showToDoListButton: true
             )
         }

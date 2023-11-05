@@ -8,12 +8,6 @@
 import EventKit
 import SwiftUI
 
-struct AlertInfo {
-    var isPresented: Bool = false
-    var title: String = ""
-    var message: String = ""
-}
-
 @MainActor
 class SchoolSeancesViewModel: ObservableObject {
     @Published
