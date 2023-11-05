@@ -306,13 +306,13 @@
 							<key>EndingColumnNumber</key>
 							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>107</string>
+							<string>199</string>
 							<key>StartingColumnNumber</key>
 							<string>0</string>
 							<key>StartingLineNumber</key>
-							<string>106</string>
+							<string>199</string>
 							<key>Timestamp</key>
-							<string>720892886.324784</string>
+							<string>720904563.167114</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -328,17 +328,13 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>            .task(id: classe.objectID) { // actualiser si on sélectionne une autre classe
-</string>
+						<string></string>
 						<key>leading</key>
-						<string>                message: { Text(alertMessage) }
-            )
+						<string>    }
+}
 </string>
 						<key>trailing</key>
-						<string>                // Liste des Séances à venir pour cette classe
-                if let schoolName = classe.school?.viewName {
-                    // Demander les droits d'accès aux calendriers de l'utilisateur
-</string>
+						<string></string>
 					</dict>
 					<key>type</key>
 					<string>bookmark</string>
@@ -351,13 +347,13 @@
 							<key>EndingColumnNumber</key>
 							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>116</string>
+							<string>221</string>
 							<key>StartingColumnNumber</key>
 							<string>0</string>
 							<key>StartingLineNumber</key>
-							<string>115</string>
+							<string>221</string>
 							<key>Timestamp</key>
-							<string>720892942.1854759</string>
+							<string>720908187.17536</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -373,17 +369,13 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>        .task(id: progressChanged) {
-</string>
+						<string></string>
 						<key>leading</key>
-						<string>            message: { Text(alertMessage) }
-        )
+						<string>    }
+}
 </string>
 						<key>trailing</key>
-						<string>            progressChanged = false
-
-            // Liste des Séquences suivies par une classe triée par numéro de Séquence
-</string>
+						<string></string>
 					</dict>
 					<key>type</key>
 					<string>bookmark</string>
@@ -393,16 +385,12 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
-							<key>EndingColumnNumber</key>
-							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>89</string>
-							<key>StartingColumnNumber</key>
-							<string>0</string>
+							<string>283</string>
 							<key>StartingLineNumber</key>
-							<string>88</string>
+							<string>283</string>
 							<key>Timestamp</key>
-							<string>720892923.70003</string>
+							<string>720907728.906876</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -418,17 +406,13 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>        .task(id: classe.id) {
-</string>
+						<string></string>
 						<key>leading</key>
-						<string>            message: { Text(alertMessage) }
-        )
+						<string>    }
+}
 </string>
 						<key>trailing</key>
-						<string>            // Séquences en cours pour cette classe
-            classeSequencesEnCours = classe.currentSequences
-
-</string>
+						<string></string>
 					</dict>
 					<key>type</key>
 					<string>bookmark</string>
@@ -528,16 +512,12 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
-							<key>EndingColumnNumber</key>
-							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>173</string>
-							<key>StartingColumnNumber</key>
-							<string>0</string>
+							<string>503</string>
 							<key>StartingLineNumber</key>
-							<string>172</string>
+							<string>503</string>
 							<key>Timestamp</key>
-							<string>720893017.18761</string>
+							<string>720907477.117576</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -553,17 +533,13 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>            .task {
-</string>
+						<string></string>
 						<key>leading</key>
-						<string>                message: { Text(alertMessage) }
-            )
+						<string>//    }
+// }
 </string>
 						<key>trailing</key>
-						<string>                await ProgramEntity.context.perform {
-                    data = ProgramPlanningGraphData(
-                        forProgram: program,
-</string>
+						<string></string>
 					</dict>
 					<key>type</key>
 					<string>bookmark</string>

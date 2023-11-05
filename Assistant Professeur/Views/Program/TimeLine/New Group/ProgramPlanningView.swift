@@ -65,7 +65,7 @@ struct ProgramPlanningView: View {
             start: classeName.count - 1,
             offsetBy: 1
         ),
-           let i = Int(s) {
+            let i = Int(s) {
             return CGFloat(i * 10)
         } else {
             return 0
@@ -106,7 +106,7 @@ struct ProgramPlanningView: View {
                                 Text(classeName)
                                     .font(.footnote)
                                     .bold()
-                                    .offset(y: ((classesOffsets[classeName] ?? CGFloat(0))))
+                                    .offset(y: classesOffsets[classeName] ?? CGFloat(0))
                             }
                     }
                 }
@@ -182,52 +182,59 @@ struct ProgramPlanningView: View {
                 let classes = ProgramManager.classesAssociatedTo(thisProgram: program)
                 for classe in classes {
                     // Liste des Séances à venir pour cette classe
-                    if let schoolName = classe.school?.viewName {
-                        // Demander les droits d'accès aux calendriers de l'utilisateur
-                        (
-                            calendar,
-                            alertIsPresented,
-                            alertTitle,
-                            alertMessage
-                        ) = await EventManager.shared
-                            .requestCalendarAccess(
-                                eventStore: eventStore,
-                                calendarName: schoolName
-                            )
+                    guard let schoolName = classe.school?.viewName else {
+                        continue
+                    }
 
-                        if let calendar {
-                            let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
-                            var classeSeances: SeancesInDateInterval = .init()
+                    // Demander les droits d'accès aux calendriers de l'utilisateur
+                    (
+                        calendar,
+                        alertIsPresented,
+                        alertTitle,
+                        alertMessage
+                    ) = await EventManager.shared
+                        .requestCalendarAccess(
+                            eventStore: eventStore,
+                            calendarName: schoolName
+                        )
+                    guard let calendar else {
+                        continue
+                    }
 
-                            let horizon = DateInterval(
-                                start: schoolYear.interval.start,
-                                end: horizon.months.fromNow!
-                            )
+                    var plannedDate: Date?
+                    await ClasseEntity.context.perform {
+                        let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+                        var classeSeances: SeancesInDateInterval = .init()
 
-                            classeSeances.loadClasseSeancesFromCalendar(
-                                forDiscipline: classe.disciplineEnum,
-                                forSchoolName: schoolName,
-                                forClasseName: classe.displayString,
-                                inCalendar: calendar,
-                                inEventStore: eventStore,
-                                during: horizon,
-                                schoolYear: schoolYear
-                            )
+                        let horizon = DateInterval(
+                            start: schoolYear.interval.start,
+                            end: horizon.months.fromNow!
+                        )
 
-                            // Liste des Progressions de la classe triée par numéro de Séquence / Activité
-                            let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+                        // Liste des Séances à venir pour cette classe
+                        classeSeances.loadClasseSeancesFromCalendar(
+                            forDiscipline: classe.disciplineEnum,
+                            forSchoolName: schoolName,
+                            forClasseName: classe.displayString,
+                            inCalendar: calendar,
+                            inEventStore: eventStore,
+                            during: horizon,
+                            schoolYear: schoolYear
+                        )
 
-                            // Synchroniser les Progressions avec les Séances
-                            let plannedDate = SequenceSeanceCoordinator.plannedDateOfCurrentActivity(
+                        // Liste des Progressions de la classe triée par numéro de Séquence / Activité
+                        let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+
+                        // Calculer la date à laquelle l'activité en cours aurait due survenir
+                        plannedDate = SequenceSeanceCoordinator
+                            .plannedDateOfCurrentActivity(
                                 inProgram: program,
                                 classeProgresses: sortedClasseProgresses,
                                 yearSeances: classeSeances
                             )
-
-                            if let plannedDate {
-                                data.datesClasses[classe.displayString] = plannedDate
-                            }
-                        }
+                    }
+                    if let plannedDate {
+                        data.datesClasses[classe.displayString] = plannedDate
                     }
                 }
 
@@ -254,7 +261,7 @@ struct ProgramPlanningView: View {
                 if calendar != nil {
                     ToolbarItem(placement: .topBarTrailing) {
                         Toggle(isOn: $showClasses) {
-                            Image(systemName: showClasses ? EleveEntity.defaultImageName+".fill" : EleveEntity.defaultImageName)
+                            Image(systemName: showClasses ? EleveEntity.defaultImageName + ".fill" : EleveEntity.defaultImageName)
                         }
                         .controlSize(.mini)
                         .toggleStyle(.button)
@@ -315,7 +322,7 @@ extension ProgramPlanningView {
         .lineStyle(
             StrokeStyle(
                 lineWidth: sequence.serie == .activity ?
-                programPlanningStyle.lineWidth * 2 :
+                    programPlanningStyle.lineWidth * 2 :
                     programPlanningStyle.lineWidth,
                 lineCap: sequence.serie == .activity ? .round : .butt
             )
@@ -494,4 +501,3 @@ extension ProgramPlanningPDF {
 //        ProgramPlanningView()
 //    }
 // }
-

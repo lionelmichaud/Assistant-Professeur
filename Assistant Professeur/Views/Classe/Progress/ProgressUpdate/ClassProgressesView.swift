@@ -120,50 +120,53 @@ struct ClassProgressesView: View {
             classeSequences = classe.allFollowedSequencesSortedBySequenceNumber
 
             // Liste des Séances à venir pour cette classe
-            if let schoolName = classe.school?.viewName {
-                // Demander les droits d'accès aux calendriers de l'utilisateur
-                (
-                    calendar,
-                    alertIsPresented,
-                    alertTitle,
-                    alertMessage
-                ) = await EventManager.shared
-                    .requestCalendarAccess(
-                        eventStore: eventStore,
-                        calendarName: schoolName
-                    )
-                guard let calendar else {
-                    return
-                }
+            guard let schoolName = classe.school?.viewName else {
+                return
+            }
 
-                await ClasseEntity.context.perform {
-                    let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+            // Demander les droits d'accès aux calendriers de l'utilisateur
+            (
+                calendar,
+                alertIsPresented,
+                alertTitle,
+                alertMessage
+            ) = await EventManager.shared
+                .requestCalendarAccess(
+                    eventStore: eventStore,
+                    calendarName: schoolName
+                )
+            guard let calendar else {
+                return
+            }
 
-                    let horizon = DateInterval(
-                        start: Date.now,
-                        end: horizon.months.fromNow!
-                    )
+            await ClasseEntity.context.perform {
+                let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
 
-                    classeSeances.loadClasseSeancesFromCalendar(
-                        forDiscipline: classe.disciplineEnum,
-                        forSchoolName: schoolName,
-                        forClasseName: classe.displayString,
-                        inCalendar: calendar,
-                        inEventStore: eventStore,
-                        during: horizon,
-                        schoolYear: schoolYear
-                    )
+                let horizon = DateInterval(
+                    start: Date.now,
+                    end: horizon.months.fromNow!
+                )
 
-                    // Liste des Progressions de la classe triée par numéro de Séquence / Activité
-                    let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+                // Liste des Séances à venir pour cette classe
+                classeSeances.loadClasseSeancesFromCalendar(
+                    forDiscipline: classe.disciplineEnum,
+                    forSchoolName: schoolName,
+                    forClasseName: classe.displayString,
+                    inCalendar: calendar,
+                    inEventStore: eventStore,
+                    during: horizon,
+                    schoolYear: schoolYear
+                )
 
-                    // Synchroniser les dates des Progressions d'activités
-                    // avec les dates des Séances à venir
-                    SequenceSeanceCoordinator.synchronize(
-                        classeProgresses: sortedClasseProgresses,
-                        withSeances: classeSeances
-                    )
-                }
+                // Liste des Progressions de la classe triée par numéro de Séquence / Activité
+                let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+
+                // Synchroniser les dates des Progressions d'activités
+                // avec les dates des Séances à venir
+                SequenceSeanceCoordinator.synchronize(
+                    classeProgresses: sortedClasseProgresses,
+                    withSeances: classeSeances
+                )
             }
 
             // Avancement réel de la classe dans le programme annuel

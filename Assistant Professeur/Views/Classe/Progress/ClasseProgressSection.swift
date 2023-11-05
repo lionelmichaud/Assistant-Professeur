@@ -106,41 +106,43 @@ extension ClasseProgressSection {
             )
             .task(id: classe.objectID) { // actualiser si on sélectionne une autre classe
                 // Liste des Séances à venir pour cette classe
-                if let schoolName = classe.school?.viewName {
-                    // Demander les droits d'accès aux calendriers de l'utilisateur
-                    (
-                        calendar,
-                        alertIsPresented,
-                        alertTitle,
-                        alertMessage
-                    ) = await EventManager.shared
-                        .requestCalendarAccess(
-                            eventStore: eventStore,
-                            calendarName: schoolName
-                        )
+                guard let schoolName = classe.school?.viewName else {
+                    return
+                }
 
-                    await ClasseEntity.context.perform {
-                        var schoolYear = SchoolYearPref()
-                        schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+                // Demander les droits d'accès aux calendriers de l'utilisateur
+                (
+                    calendar,
+                    alertIsPresented,
+                    alertTitle,
+                    alertMessage
+                ) = await EventManager.shared
+                    .requestCalendarAccess(
+                        eventStore: eventStore,
+                        calendarName: schoolName
+                    )
+                guard let calendar else {
+                    return
+                }
 
-                        guard let calendar else {
-                            return
-                        }
+                await ClasseEntity.context.perform {
+                    let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
 
-                        // Liste des Séances à venir pour cette classe
-                        classeSeances.loadClasseSeancesFromCalendar(
-                            forDiscipline: classe.disciplineEnum,
-                            forSchoolName: schoolName,
-                            forClasseName: classe.displayString,
-                            inCalendar: calendar,
-                            inEventStore: eventStore,
-                            during: DateInterval(
-                                start: Date.now,
-                                end: horizon.months.fromNow!
-                            ),
-                            schoolYear: schoolYear
-                        )
-                    }
+                    let horizon = DateInterval(
+                        start: Date.now,
+                        end: horizon.months.fromNow!
+                    )
+
+                    // Liste des Séances à venir pour cette classe
+                    classeSeances.loadClasseSeancesFromCalendar(
+                        forDiscipline: classe.disciplineEnum,
+                        forSchoolName: schoolName,
+                        forClasseName: classe.displayString,
+                        inCalendar: calendar,
+                        inEventStore: eventStore,
+                        during: horizon,
+                        schoolYear: schoolYear
+                    )
                 }
             }
         }

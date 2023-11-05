@@ -253,7 +253,7 @@ extension UserPrefEntity {
         return UserPrefEntity.allSortedbyCreationDate().first!
     }
 
-    static var byCreationDateNSSortDescriptor: [NSSortDescriptor] =
+    private static var byCreationDateNSSortDescriptor: [NSSortDescriptor] =
         [
             NSSortDescriptor(
                 keyPath: \UserPrefEntity.creationDate,
@@ -302,12 +302,8 @@ extension UserPrefEntity {
         return userPref
     }
 
-    /// Retourne tous les établissements triées.
-    ///
-    /// Ordre de tri:
-    ///   1. Niveau d'école
-    ///   2. Nom de l'école
-    static func allSortedbyCreationDate() -> [UserPrefEntity] {
+    /// Retourne toutes les entitées triées par date de création.
+    private static func allSortedbyCreationDate() -> [UserPrefEntity] {
         do {
             return try UserPrefEntity
                 .context
@@ -317,7 +313,7 @@ extension UserPrefEntity {
         }
     }
 
-    static func removeAllButTheOldest() {
+    private static func removeAllButTheOldest() {
         let nbItemsToRemove = cardinal() - 1
 
         if nbItemsToRemove > 0 {
