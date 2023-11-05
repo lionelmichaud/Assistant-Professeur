@@ -48,48 +48,6 @@ struct ClasseInfosView: View {
     @State
     private var alertIsPresented = false
 
-    private var arretNotesList: some View {
-        ForEach(arretsNotes, id: \.eventIdentifier) { arretNotes in
-            VStack {
-                Text("Date: ").foregroundColor(.secondary) +
-                    Text(arretNotes.startDate.formatted(date: .complete, time: .standard))
-            }
-        }
-        .emptyListPlaceHolder(arretsNotes) {
-            Text("Aucune date d'arrêt des notes prévue pour cette classe")
-        }
-    }
-
-    private var conseilList: some View {
-        ForEach(conseils, id: \.eventIdentifier) { conseil in
-            VStack {
-                Text("Date: ").foregroundColor(.secondary) +
-                    Text(conseil.startDate.formatted(date: .complete, time: .standard))
-                if let location = conseil.location {
-                    Text("Lieu: ").foregroundColor(.secondary) +
-                        Text(location)
-                }
-            }
-        }
-        .emptyListPlaceHolder(conseils) {
-            Text("Aucun conseil prévu pour cette classe")
-        }
-    }
-
-    private var roomView: some View {
-        NavigationLink(value: ClasseNavigationRoute.room(classe.id)) {
-            HStack {
-                Label("Salle de classe", systemImage: "door.left.hand.open")
-                    .fontWeight(.bold)
-                if classe.hasAssociatedRoom {
-                    Spacer()
-                    Text(classe.room!.viewName)
-                        .foregroundColor(.secondary)
-                }
-            }
-        }
-    }
-
     var body: some View {
         List {
             Section {
@@ -185,40 +143,87 @@ struct ClasseInfosView: View {
         .task(id: classe.objectID) {
             eventsLoadingStatus = .loading
 
-            if let school = classe.school {
-                // Demander les droits d'accès aux calendriers de l'utilisateur
-                (
-                    calendar,
-                    alertIsPresented,
-                    alertTitle,
-                    alertMessage
-                ) = await EventManager.shared
-                    .requestCalendarAccess(
-                        eventStore: eventStore,
-                        calendarName: school.viewName
-                    )
-                guard let calendar else {
-                    eventsLoadingStatus = .failed
-                    return
-                }
+            guard let school = classe.school else {
+                eventsLoadingStatus = .failed
+                return
+            }
 
-                // Récupérer les dates d'arrêt des notes avant conseils de classe
-                arretsNotes = EventManager.getAllArretsNotes(
-                    forClasseLevel: classe.levelEnum,
-                    inCalendar: calendar,
-                    inEventStore: eventStore,
-                    during: pref.viewSchoolYearPref.interval
+            // Demander les droits d'accès aux calendriers de l'utilisateur
+            (
+                calendar,
+                alertIsPresented,
+                alertTitle,
+                alertMessage
+            ) = await EventManager.shared
+                .requestCalendarAccess(
+                    eventStore: eventStore,
+                    calendarName: school.viewName
                 )
-                // Récupérer les dates de conseils de classe
-                conseils = EventManager.getAllConseils(
-                    forClasseName: classe.displayString,
-                    inCalendar: calendar,
-                    inEventStore: eventStore,
-                    during: pref.viewSchoolYearPref.interval
-                )
-                eventsLoadingStatus = .finished
-            } else {
-                eventsLoadingStatus = .finished
+            guard let calendar else {
+                eventsLoadingStatus = .failed
+                return
+            }
+
+            // Récupérer les dates d'arrêt des notes avant conseils de classe
+            arretsNotes = EventManager.getAllArretsNotes(
+                forClasseLevel: classe.levelEnum,
+                inCalendar: calendar,
+                inEventStore: eventStore,
+                during: pref.viewSchoolYearPref.interval
+            )
+            // Récupérer les dates de conseils de classe
+            conseils = EventManager.getAllConseils(
+                forClasseName: classe.displayString,
+                inCalendar: calendar,
+                inEventStore: eventStore,
+                during: pref.viewSchoolYearPref.interval
+            )
+            eventsLoadingStatus = .finished
+        }
+    }
+}
+
+// MARK: - Subviews
+
+extension ClasseInfosView {
+    private var arretNotesList: some View {
+        ForEach(arretsNotes, id: \.eventIdentifier) { arretNotes in
+            VStack {
+                Text("Date: ").foregroundColor(.secondary) +
+                    Text(arretNotes.startDate.formatted(date: .complete, time: .standard))
+            }
+        }
+        .emptyListPlaceHolder(arretsNotes) {
+            Text("Aucune date d'arrêt des notes prévue pour cette classe")
+        }
+    }
+
+    private var conseilList: some View {
+        ForEach(conseils, id: \.eventIdentifier) { conseil in
+            VStack {
+                Text("Date: ").foregroundColor(.secondary) +
+                    Text(conseil.startDate.formatted(date: .complete, time: .standard))
+                if let location = conseil.location {
+                    Text("Lieu: ").foregroundColor(.secondary) +
+                        Text(location)
+                }
+            }
+        }
+        .emptyListPlaceHolder(conseils) {
+            Text("Aucun conseil prévu pour cette classe")
+        }
+    }
+
+    private var roomView: some View {
+        NavigationLink(value: ClasseNavigationRoute.room(classe.id)) {
+            HStack {
+                Label("Salle de classe", systemImage: "door.left.hand.open")
+                    .fontWeight(.bold)
+                if classe.hasAssociatedRoom {
+                    Spacer()
+                    Text(classe.room!.viewName)
+                        .foregroundColor(.secondary)
+                }
             }
         }
     }

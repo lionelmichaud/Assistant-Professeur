@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+/// Présentation des informations sur les contacts au sein de l'établissement
+/// obtenues auprès del'appplication Contacts.
 struct PersonsContactsView: View {
     @ObservedObject
     var school: SchoolEntity

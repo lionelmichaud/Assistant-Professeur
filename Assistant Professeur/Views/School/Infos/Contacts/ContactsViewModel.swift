@@ -16,11 +16,11 @@ private let customLog = Logger(
 
 @MainActor
 class ContactsViewModel: ObservableObject {
-    /// Tableau des documents à imprimer dans les séances à venir
+    /// Tableau des contacts trouvés dans l'application Contacts
     @Published
     var contacts: [CNContact] = []
 
-    /// Avancement de la recherche des ToDo dans les futurs séances
+    /// Avancement de la recherche des contacts
     @Published
     var status: ContactsLoadingStatus = .pending
 

@@ -18,36 +18,6 @@ class ClasseSeancesViewModel: ObservableObject {
         state.view
     }
 
-//    var toDoListButton: some View {
-//        Group {
-//            if showToDoListButton {
-//                // Bouton de navigation vers la liste des ToDo
-//                switch state {
-//                    case .pending, .loading, .failed:
-//                        EmptyView()
-//
-//                    case let .finished(seancesInInterval):
-//                        if seancesInInterval.seances.isNotEmpty {
-//                            NavigationLink(
-//                                value: SchoolNavigationRoute.toDoList(seancesInInterval.seances)
-//                            ) {
-//                                Label(
-//                                    "A faire avant ces cours...",
-//                                    systemImage: "checklist"
-//                                )
-//                                .imageScale(.large)
-//                                .font(.headline)
-//                                .fontWeight(.bold)
-//                            }
-//                            .padding(.bottom)
-//                        } else {
-//                            EmptyView()
-//                        }
-//                }
-//            }
-//        }
-//    }
-
     func updateItems(
         forClasse classe: ClasseEntity,
         inDateInterval dateInterval: DateInterval,

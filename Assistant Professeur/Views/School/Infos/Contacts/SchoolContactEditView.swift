@@ -16,6 +16,8 @@ private let customLog = Logger(
     category: "SchoolContactEditView"
 )
 
+/// Présentation des informations sur l'établissement obtenue auprès de
+/// l'appplication Contacts
 struct SchoolContactEditView: View {
     @ObservedObject
     var school: SchoolEntity

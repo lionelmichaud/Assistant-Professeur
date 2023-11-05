@@ -23,7 +23,7 @@ enum ContactsLoadingStatus {
 
                 case .loading:
                     ProgressView(label: {
-                        Text("Chargement à partir de l'appliaction Calendrier")
+                        Text("Chargement à partir de l'appliaction Contacts")
                     })
                     .progressViewStyle(.automatic)
 

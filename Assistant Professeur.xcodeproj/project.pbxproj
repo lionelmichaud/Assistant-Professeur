@@ -2120,8 +2120,8 @@
 		79F655652AEBD7C000AB3AEB /* Types */ = {
 			isa = PBXGroup;
 			children = (
-				79F6556D2AEC0DB700AB3AEB /* LoadingFromCalendarStatus.swift */,
 				79F655662AEBD7CE00AB3AEB /* SeancesLoadingStatus.swift */,
+				79F6556D2AEC0DB700AB3AEB /* LoadingFromCalendarStatus.swift */,
 				7923BC7C2AED39F500F824C2 /* ContactsLoadingStatus.swift */,
 				79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */,
 				7918D56B2AF6AC360085C639 /* ComputingStatus.swift */,
