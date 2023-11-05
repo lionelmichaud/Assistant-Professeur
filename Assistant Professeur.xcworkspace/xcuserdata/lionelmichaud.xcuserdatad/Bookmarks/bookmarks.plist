@@ -262,6 +262,318 @@
 			<key>type</key>
 			<string>group</string>
 		</dict>
+		<dict>
+			<key>children</key>
+			<array>
+				<dict>
+					<key>query-specification</key>
+					<dict>
+						<key>query</key>
+						<string>text</string>
+						<key>term</key>
+						<dict>
+							<key>text</key>
+							<string>.task</string>
+						</dict>
+					</dict>
+					<key>type</key>
+					<string>batch-find-query</string>
+				</dict>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>Assistant Professeur/Assistant Professeur/Views/School/Infos/Contacts/SchoolContactEditView.swift</string>
+							</dict>
+						</dict>
+						<key>type</key>
+						<string>DVTDocumentLocation</string>
+					</dict>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
+							<key>EndingLineNumber</key>
+							<string>107</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
+							<key>StartingLineNumber</key>
+							<string>106</string>
+							<key>Timestamp</key>
+							<string>720892886.324784</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>Assistant Professeur/Assistant Professeur/Views/Classe/Progress/ClasseProgressSection.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string>            .task(id: classe.objectID) { // actualiser si on sélectionne une autre classe
+</string>
+						<key>leading</key>
+						<string>                message: { Text(alertMessage) }
+            )
+</string>
+						<key>trailing</key>
+						<string>                // Liste des Séances à venir pour cette classe
+                if let schoolName = classe.school?.viewName {
+                    // Demander les droits d'accès aux calendriers de l'utilisateur
+</string>
+					</dict>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
+							<key>EndingLineNumber</key>
+							<string>116</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
+							<key>StartingLineNumber</key>
+							<string>115</string>
+							<key>Timestamp</key>
+							<string>720892942.1854759</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>Assistant Professeur/Assistant Professeur/Views/Classe/Progress/ProgressUpdate/ClassProgressesView.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string>        .task(id: progressChanged) {
+</string>
+						<key>leading</key>
+						<string>            message: { Text(alertMessage) }
+        )
+</string>
+						<key>trailing</key>
+						<string>            progressChanged = false
+
+            // Liste des Séquences suivies par une classe triée par numéro de Séquence
+</string>
+					</dict>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
+							<key>EndingLineNumber</key>
+							<string>89</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
+							<key>StartingLineNumber</key>
+							<string>88</string>
+							<key>Timestamp</key>
+							<string>720892923.70003</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>Assistant Professeur/Assistant Professeur/Views/Classe/Progress/CurrentActivity/ClassRailwayProgressView.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string>        .task(id: classe.id) {
+</string>
+						<key>leading</key>
+						<string>            message: { Text(alertMessage) }
+        )
+</string>
+						<key>trailing</key>
+						<string>            // Séquences en cours pour cette classe
+            classeSequencesEnCours = classe.currentSequences
+
+</string>
+					</dict>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
+							<key>EndingLineNumber</key>
+							<string>126</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
+							<key>StartingLineNumber</key>
+							<string>125</string>
+							<key>Timestamp</key>
+							<string>720892900.935042</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>Assistant Professeur/Assistant Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string>        .task(id: classeName + schoolName) {
+</string>
+						<key>leading</key>
+						<string>            message: { Text(alertMessage) }
+        )
+</string>
+						<key>trailing</key>
+						<string>            // Demander les droits d'accès aux calendriers de l'utilisateur
+            (
+                calendar,
+</string>
+					</dict>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
+							<key>EndingLineNumber</key>
+							<string>203</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
+							<key>StartingLineNumber</key>
+							<string>202</string>
+							<key>Timestamp</key>
+							<string>720893001.790444</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>Assistant Professeur/Assistant Professeur/Views/Eleve/EleveSidebarView.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string>        .task(id: taskId) {
+</string>
+						<key>leading</key>
+						<string>
+        // Filtrer les élèves
+</string>
+						<key>trailing</key>
+						<string>            filteredEleveInClasse = classe.filteredElevesSortedByName(
+                searchString: searchString,
+                withObservation: navigationModel.filterObservation,
+</string>
+					</dict>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
+							<key>EndingLineNumber</key>
+							<string>173</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
+							<key>StartingLineNumber</key>
+							<string>172</string>
+							<key>Timestamp</key>
+							<string>720893017.18761</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>Assistant Professeur/Assistant Professeur/Views/Program/TimeLine/New Group/ProgramPlanningView.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string>            .task {
+</string>
+						<key>leading</key>
+						<string>                message: { Text(alertMessage) }
+            )
+</string>
+						<key>trailing</key>
+						<string>                await ProgramEntity.context.perform {
+                    data = ProgramPlanningGraphData(
+                        forProgram: program,
+</string>
+					</dict>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+			</array>
+			<key>title</key>
+			<string>Task</string>
+			<key>type</key>
+			<string>group</string>
+		</dict>
 	</array>
 </dict>
 </plist>

@@ -11,7 +11,8 @@ import SwiftUI
 @MainActor
 class ClasseSeancesViewModel: ObservableObject {
     @Published
-    var state: SeancesLoadingStatus = .pending
+    private(set) var state: SeancesLoadingStatus = .pending
+    
     private var showToDoListButton: Bool = false
 
     var seancesListView: some View {
@@ -54,13 +55,14 @@ class ClasseSeancesViewModel: ObservableObject {
 
         // Recherche: `SeancesInDateInterval` contenant la liste des Séances à venir
         // pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
-        var classeSeances = await SeancesInDateInterval.loadedNextSeancesForClasse(
-            schoolName: schoolName,
-            classe: classe,
-            inCalendar: calendar,
-            inEventStore: eventStore,
-            inDateInterval: dateInterval
-        )
+        let classeSeances = await SeancesInDateInterval
+            .loadedNextSeancesForClasse(
+                schoolName: schoolName,
+                classe: classe,
+                inCalendar: calendar,
+                inEventStore: eventStore,
+                inDateInterval: dateInterval
+            )
 
         state = .finished(seancesInInterval: classeSeances)
         return alert

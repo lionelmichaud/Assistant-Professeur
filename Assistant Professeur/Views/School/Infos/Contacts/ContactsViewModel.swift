@@ -18,11 +18,11 @@ private let customLog = Logger(
 class ContactsViewModel: ObservableObject {
     /// Tableau des contacts trouvés dans l'application Contacts
     @Published
-    var contacts: [CNContact] = []
+    private(set) var contacts: [CNContact] = []
 
     /// Avancement de la recherche des contacts
     @Published
-    var status: ContactsLoadingStatus = .pending
+    private(set) var status: ContactsLoadingStatus = .pending
 
     /// Récupérer les contacts dans l'appli "Contacts"
     func getAllContacts(
@@ -31,9 +31,9 @@ class ContactsViewModel: ObservableObject {
     ) async -> AlertInfo {
         status = .pending
 
+        var alert = AlertInfo()
         var contactGroup: CNGroup?
         var contacts = [CNContact]()
-        var alert = AlertInfo()
         let contactStore = CNContactStore()
 
         (
@@ -53,12 +53,12 @@ class ContactsViewModel: ObservableObject {
         status = .loading
 
         do {
-            contacts = try ContactManager.shared.allPersonContacts(
-                inOrganizationName: schoolName,
-                inContactGroup: contactGroup,
-                inContactStore: contactStore,
-                sortedBy: contactSortOrder
-            )
+            contacts = try await ContactManager.shared
+                .allPersonContacts(
+                    inContactGroup: contactGroup,
+                    inContactStore: contactStore,
+                    sortedBy: contactSortOrder
+                )
             status = .finished(contacts: contacts)
             return alert
 

@@ -12,13 +12,13 @@ import Foundation
 class ClasseEventsViewModel: ObservableObject {
     /// Avancement de la recherche des contacts
     @Published
-    var state: LoadingFromCalendarStatus = .pending
+    private(set) var state: LoadingFromCalendarStatus = .pending
 
     @Published
-    var conseils = [EKEvent]()
+    private(set) var conseils = [EKEvent]()
 
     @Published
-    var arretsNotes = [EKEvent]()
+    private(set) var arretsNotes = [EKEvent]()
 
     /// Récupérer les événements de la classe dans l'appli "Calendrier"
     func getAllEvents(

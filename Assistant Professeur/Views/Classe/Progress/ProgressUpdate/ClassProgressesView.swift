@@ -157,7 +157,8 @@ struct ClassProgressesView: View {
                     // Liste des Progressions de la classe triée par numéro de Séquence / Activité
                     let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
 
-                    // Synchroniser les Progressions avec les Séances
+                    // Synchroniser les dates des Progressions d'activités
+                    // avec les dates des Séances à venir
                     SequenceSeanceCoordinator.synchronize(
                         classeProgresses: sortedClasseProgresses,
                         withSeances: classeSeances

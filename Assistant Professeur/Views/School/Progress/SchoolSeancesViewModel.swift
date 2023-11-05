@@ -11,7 +11,8 @@ import SwiftUI
 @MainActor
 class SchoolSeancesViewModel: ObservableObject {
     @Published
-    var state: SeancesLoadingStatus = .pending
+    private(set) var state: SeancesLoadingStatus = .pending
+
     private var showToDoListButton: Bool = false
 
     var seancesListView: some View {
@@ -82,23 +83,29 @@ class SchoolSeancesViewModel: ObservableObject {
 
         // Recherche: `SeancesInDateInterval` contenant la liste des Séances à venir
         // pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
-        var schoolSeances = await SeancesInDateInterval.loadedNextSeancesForSchool(
-            school: school,
-            inCalendar: calendar,
-            inEventStore: eventStore,
-            inDateInterval: dateInterval
-        )
+        var schoolSeances = await SeancesInDateInterval
+            .loadedNextSeancesForSchool(
+                school: school,
+                inCalendar: calendar,
+                inEventStore: eventStore,
+                inDateInterval: dateInterval
+            )
 
         if showOnlyOngoingSeance {
             // Filtrer pour ne garder que la séance en cours
-            schoolSeances.seances =
-                schoolSeances.seances
-                    .filter { seance in
-                        seance.interval.contains(Date.now)
-                    }
+            let filteredSeances =
+                SeancesInDateInterval(
+                    from: schoolSeances
+                        .seances
+                        .filter { seance in
+                            seance.interval.contains(Date.now)
+                        })
+            state = .finished(seancesInInterval: filteredSeances)
+
+        } else {
+            state = .finished(seancesInInterval: schoolSeances)
         }
 
-        state = .finished(seancesInInterval: schoolSeances)
         return alert
     }
 }

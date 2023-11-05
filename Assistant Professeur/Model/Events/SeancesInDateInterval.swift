@@ -80,7 +80,7 @@ struct SeancesInDateInterval {
     // MARK: - Properties
 
     /// Séances de la période
-    var seances: [Seance]
+    private(set) var seances: [Seance]
 
     // MARK: - Initializers
 
@@ -186,6 +186,7 @@ struct SeancesInDateInterval {
 
     /// Retourne un objet `SeancesInDateInterval` contenant la liste des Séances à venir
     /// pour une classe d'un établissement avec le contenu pédagogique de chaque séance.
+    /// Les dates des progression d'activité sont synchronisées sur les dates des séances à venir.
     /// - Important: Élimine toutes les séances trouvées tombant pendant les vacances scolaires.
     /// - Parameters:
     ///   - schoolName: Le nom de l'école de la classe.
@@ -203,8 +204,7 @@ struct SeancesInDateInterval {
         var classeSeances = SeancesInDateInterval()
 
         await ClasseEntity.context.perform {
-            var schoolYear = SchoolYearPref()
-            schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+            let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
 
             // Charger les prochaines séances de cours sur un horizon de temps à venir
             classeSeances.loadClasseSeancesFromCalendar(
@@ -278,20 +278,15 @@ struct SeancesInDateInterval {
         await withTaskGroup(of: [Seance].self) { group in
             for classe in schoolClasses {
                 group.addTask {
-                    var sortedClasseProgresses = [ActivityProgressEntity]()
                     var classeSeances = SeancesInDateInterval()
-                    var forDiscipline = Discipline.autre
-                    var schoolName: String = ""
-                    var forClasseName: String = ""
-                    var schoolYear = SchoolYearPref()
 
                     await ClasseEntity.context.perform {
                         // Liste des Progressions de la classe triée par numéro de Séquence / Activité
-                        sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
-                        forDiscipline = classe.disciplineEnum
-                        forClasseName = classe.displayString
-                        schoolYear = UserPrefEntity.shared.viewSchoolYearPref
-                        schoolName = school.viewName
+                        let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
+                        let forDiscipline = classe.disciplineEnum
+                        let forClasseName = classe.displayString
+                        let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+                        let schoolName = school.viewName
 
                         // Liste des Séances à venir pour cette classe
                         classeSeances.loadClasseSeancesFromCalendar(

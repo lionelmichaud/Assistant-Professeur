@@ -123,9 +123,16 @@ struct SchoolContactEditView: View {
                     .submitLabel(.next)
                     .focused($focus, equals: .city)
             }
-            Button(action: saveContact) {
-                Text("Mettre à jour l'app Contacts")
-            }
+            Button(
+                action: {
+                    Task {
+                        await saveContact()
+                    }
+                },
+                label: {
+                    Text("Mettre à jour l'app Contacts")
+                }
+            )
             .buttonStyle(.borderless)
             .disabled(!ContactManager.shared.isAccessAuthorized)
             .horizontallyAligned(.center)
@@ -167,7 +174,7 @@ struct SchoolContactEditView: View {
             }
 
             do {
-                if let schoolContact = try ContactManager.shared
+                if let schoolContact = try await ContactManager.shared
                     .organizationContact(
                         inContactGroup: contactGroup,
                         inContactStore: contactStore,
@@ -195,7 +202,7 @@ struct SchoolContactEditView: View {
         }
     }
 
-    private func saveContact() {
+    private func saveContact() async {
         let contact =
             ContactEnum.organization(
                 organization: school.viewName,
@@ -209,7 +216,7 @@ struct SchoolContactEditView: View {
         guard let contactGroup else {
             return
         }
-        if ContactManager.shared
+        if await ContactManager.shared
             .saveOrUpdate(
                 contact: contact,
                 inContactGroup: contactGroup,

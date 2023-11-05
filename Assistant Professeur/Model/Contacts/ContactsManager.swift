@@ -137,7 +137,7 @@ struct ContactManager { // swiftlint:disable:this type_body_length
         inContactGroup group: CNGroup,
         inContactStore contactStore: CNContactStore,
         withOrganizationName organizationName: String
-    ) throws -> CNContact? {
+    ) async throws -> CNContact? {
         let predicate =
             CNContact
                 .predicateForContactsInGroup(withIdentifier: group.identifier)
@@ -157,11 +157,11 @@ struct ContactManager { // swiftlint:disable:this type_body_length
     ///  - organizationName: Nom du groupe de contacts dans lequel recherchés les contacts.
     ///  - givenName: prénom du contact
     ///  - familyName: nom du contact
-    func personContact(
+    private func personContact(
         givenName: String,
         familyName: String,
         inContactStore contactStore: CNContactStore
-    ) throws -> CNContact? {
+    ) async throws -> CNContact? {
         let predicate =
             CNContact
                 .predicateForContacts(matchingName: "\(givenName) \(familyName)")
@@ -174,16 +174,15 @@ struct ContactManager { // swiftlint:disable:this type_body_length
         return matchingContacts.first
     }
 
-    /// Retourne tous les contacts de personnes inclus dans le groupe de contact nommé `organizationName`.
+    /// Retourne tous les contacts de personnes inclus dans le groupe de contact nommé `group`.
     /// - Parameters:
     ///  -  organizationName: Nom du groupe de contacts dans lequel recherchés les contacts.
     ///  - sortedBy: Ordre de tri.
     func allPersonContacts(
-        inOrganizationName _: String,
         inContactGroup group: CNGroup,
         inContactStore contactStore: CNContactStore,
         sortedBy: SortOrder
-    ) throws -> [CNContact] {
+    ) async throws -> [CNContact] {
         let predicate =
             CNContact
                 .predicateForContactsInGroup(withIdentifier: group.identifier)
@@ -227,11 +226,11 @@ struct ContactManager { // swiftlint:disable:this type_body_length
         contact: ContactEnum,
         inContactGroup group: CNGroup,
         inContactStore contactStore: CNContactStore
-    ) -> Bool {
+    ) async -> Bool {
         switch contact {
             case let .person(givenName, familyName, _, _, _, _):
                 do {
-                    if let existingContact = try personContact(
+                    if let existingContact = try await personContact(
                         givenName: givenName,
                         familyName: familyName,
                         inContactStore: contactStore
@@ -288,7 +287,7 @@ struct ContactManager { // swiftlint:disable:this type_body_length
 
             case let .organization(organizationName, _, _, _, _, _, _):
                 do {
-                    if let existingContact = try organizationContact(
+                    if let existingContact = try await organizationContact(
                         inContactGroup: group,
                         inContactStore: contactStore,
                         withOrganizationName: organizationName
@@ -348,7 +347,7 @@ struct ContactManager { // swiftlint:disable:this type_body_length
     /// Si le groupe n'existe pas, il est créé.
     /// - Parameter groupName: Nomn du groupe de contacts recherché.
     /// - Returns: Le groupe de contacts nommé `groupName`.
-    func getOrCreateGroup(
+    private func getOrCreateGroup(
         named groupName: String,
         inContactStore contactStore: CNContactStore
     ) -> (
