@@ -279,7 +279,6 @@ struct SeancesInDateInterval {
             for classe in schoolClasses {
                 group.addTask {
                     var classeSeances = SeancesInDateInterval()
-
                     await ClasseEntity.context.perform {
                         // Liste des Progressions de la classe triée par numéro de Séquence / Activité
                         let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
@@ -310,9 +309,18 @@ struct SeancesInDateInterval {
                 }
             }
             for await seances in group {
+                if Task.isCancelled {
+                    break
+                }
+                await Task.yield()
                 foundSeances.append(contentsOf: seances)
             }
         }
+
+        guard !Task.isCancelled else {
+            return .init()
+        }
+        await Task.yield()
 
         // remettre les séances dans l'ordre (async => désordre)
         foundSeances.sort(by: {
@@ -321,6 +329,7 @@ struct SeancesInDateInterval {
 
         // Insérer des pseudo-séances pour chaque période
         // de vacances inclue dans la période
+        await Task.yield()
         await ClasseEntity.context.perform {
             let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
             let vacancesIncludedInPeriod = schoolYear.vacancesContained(in: dateInterval)
