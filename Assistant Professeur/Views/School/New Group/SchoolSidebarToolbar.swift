@@ -26,7 +26,7 @@ extension SchoolSidebarView {
             }
         }
 
-        // Edition des préférences utilisateur
+        // Préférences utilisateur
         ToolbarItem(placement: .navigationBarLeading) {
             Button {
                 presentedSheet = .editingPreferences
@@ -38,11 +38,11 @@ extension SchoolSidebarView {
             }
         }
 
-        // Préférences utilisateur et Menu
+        // Menu
         ToolbarItem(placement: .navigationBarTrailing) {
             Menu {
+                // A propos
                 Section {
-                    // A propos
                     Button {
                         presentedSheet = .showAbout
                     } label: {
@@ -52,6 +52,8 @@ extension SchoolSidebarView {
                         )
                     }
                 }
+
+                // Numéros d'urgence / Infos personnelles
                 Section {
                     // Numéros d'urgence
                     Button {
@@ -74,6 +76,7 @@ extension SchoolSidebarView {
                     }
                 }
 
+                // Importations / Exportations
                 Section {
                     Menu("Importer") {
                         // Importer des fichiers JPEG pour le trombinoscope
@@ -85,7 +88,7 @@ extension SchoolSidebarView {
                                 systemImage: "person.crop.rectangle.stack.fill"
                             )
                         }
-                        
+
                         // Importer les données depuis des fichiers au format JSON
                         Button(role: .destructive) {
                             isShowingJsonImportConfirmDialog = true
@@ -95,7 +98,7 @@ extension SchoolSidebarView {
                                 systemImage: "square.and.arrow.down"
                             )
                         }
-                        
+
                         // Importer des fichiers depuis le Bundle Application
                         Button(role: .destructive) {
                             isShowingAppImportConfirmDialog = true
@@ -106,7 +109,7 @@ extension SchoolSidebarView {
                             )
                         }
                     }
-                    
+
                     Menu("Exporter") {
                         // Exporter les données dans des fichiers au format JSON
                         Button {
@@ -155,8 +158,8 @@ extension SchoolSidebarView {
                     }
                 }
 
+                // Vérifier la cohérence de la base de donnée
                 Section {
-                    // Vérifier la cohérence de la base de donnée
                     Button {
                         checkAllUserData()
                     } label: {
@@ -173,6 +176,18 @@ extension SchoolSidebarView {
                         Label(
                             "Supprimer toutes les données",
                             systemImage: "trash"
+                        )
+                    }
+                }
+
+                // Déconnection
+                Section {
+                    Button {
+                        authentication.updateValidation(success: false)
+                    } label: {
+                        Label(
+                            "Se déconnecter",
+                            systemImage: "rectangle.portrait.and.arrow.forward"
                         )
                     }
                 }

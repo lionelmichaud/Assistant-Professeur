@@ -252,6 +252,11 @@
 		79AFBFB42981A4B0001576DD /* SequenceDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */; };
 		79AFBFB62981C9DA001576DD /* ActivityCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AFBFB52981C9DA001576DD /* ActivityCreatorModal.swift */; };
 		79AFBFB82981D264001576DD /* ActivityEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AFBFB72981D264001576DD /* ActivityEditorModal.swift */; };
+		79B060802AFA533B00B381FE /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B0607F2AFA533B00B381FE /* SignInView.swift */; };
+		79B060832AFAA05C00B381FE /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B060822AFAA05C00B381FE /* KeychainItem.swift */; };
+		79B060852AFAA47F00B381FE /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B060842AFAA47F00B381FE /* Authentication.swift */; };
+		79B060872AFAA50A00B381FE /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B060862AFAA50A00B381FE /* Credentials.swift */; };
+		79B060892AFAA6F800B381FE /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B060882AFAA6F800B381FE /* HomeScreen.swift */; };
 		79B1C8142A5F1EB5006E6B37 /* ProgramPlanningGraphData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B1C8132A5F1EB5006E6B37 /* ProgramPlanningGraphData.swift */; };
 		79B298E829EC5F2C008BAF50 /* SeanceTimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B298E729EC5F2C008BAF50 /* SeanceTimerView.swift */; };
 		79B3083A29EE115300C69C79 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 79B3083929EE115300C69C79 /* Documentation.docc */; };
@@ -709,6 +714,11 @@
 		79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceDetailGroupBox.swift; sourceTree = "<group>"; };
 		79AFBFB52981C9DA001576DD /* ActivityCreatorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCreatorModal.swift; sourceTree = "<group>"; };
 		79AFBFB72981D264001576DD /* ActivityEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityEditorModal.swift; sourceTree = "<group>"; };
+		79B0607F2AFA533B00B381FE /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		79B060822AFAA05C00B381FE /* KeychainItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
+		79B060842AFAA47F00B381FE /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
+		79B060862AFAA50A00B381FE /* Credentials.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
+		79B060882AFAA6F800B381FE /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 		79B1C8132A5F1EB5006E6B37 /* ProgramPlanningGraphData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramPlanningGraphData.swift; sourceTree = "<group>"; };
 		79B298E729EC5F2C008BAF50 /* SeanceTimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SeanceTimerView.swift; path = "Assistant Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"; sourceTree = SOURCE_ROOT; };
 		79B3083929EE115300C69C79 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
@@ -1179,6 +1189,8 @@
 			isa = PBXGroup;
 			children = (
 				7937A2432986AD9100D0ED59 /* CloudKitViewModel.swift */,
+				79B060882AFAA6F800B381FE /* HomeScreen.swift */,
+				79B0607F2AFA533B00B381FE /* SignInView.swift */,
 				79B6630629244C3F007B1FBD /* ContentView.swift */,
 				794615872AEE9A87002D725E /* Shared */,
 				794AE9C32A5970C3009C819A /* AppStyles */,
@@ -1701,6 +1713,16 @@
 			path = Controls;
 			sourceTree = "<group>";
 		};
+		79B060812AFAA02B00B381FE /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				79B060862AFAA50A00B381FE /* Credentials.swift */,
+				79B060842AFAA47F00B381FE /* Authentication.swift */,
+				79B060822AFAA05C00B381FE /* KeychainItem.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
 		79B1C8122A5F1E9B006E6B37 /* ProgramPlanningGraph */ = {
 			isa = PBXGroup;
 			children = (
@@ -2023,6 +2045,7 @@
 		79DEDB1D292598BE00F508EF /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
+				79B060812AFAA02B00B381FE /* Authentication */,
 				796521D02A14DB3B000C27D1 /* Preferences */,
 				796699D82A30D37100DF14AB /* DataBase */,
 				797B7F822AE9791F009042A4 /* Navigation */,
@@ -2466,6 +2489,7 @@
 				79ECF206295A16E2008F0282 /* EleveColleRow.swift in Sources */,
 				7918D56E2AF700BA0085C639 /* ContactsViewModel.swift in Sources */,
 				79BA2D48299C0084006325CC /* JsonImportExportMng.swift in Sources */,
+				79B060802AFA533B00B381FE /* SignInView.swift in Sources */,
 				7918D56C2AF6AC360085C639 /* ComputingStatus.swift in Sources */,
 				79CD363929D989C900BF5ADC /* EmptyListMessage.swift in Sources */,
 				796B6A802A0C42BD00F00929 /* SchoolInfosView.swift in Sources */,
@@ -2555,6 +2579,7 @@
 				790510C22AB4C4B3006CCC5B /* SchoolBonusMalusChart.swift in Sources */,
 				79975318297B173800D1C66E /* SettingsProgram.swift in Sources */,
 				793C5D242A1A837C00FB2691 /* TodaySeances.swift in Sources */,
+				79B060872AFAA50A00B381FE /* Credentials.swift in Sources */,
 				793C29CF2953BE4E00E7F65B /* Ressource+Extensions.swift in Sources */,
 				796B6A7D2A0BD24600F00929 /* ContactsManager.swift in Sources */,
 				79FFF42929511E040037A327 /* ClasseCreatorModal.swift in Sources */,
@@ -2607,6 +2632,7 @@
 				79FD21992A339A7700A8D925 /* DSectionEditorModal.swift in Sources */,
 				79012C6C2A39EA8700BF0772 /* CsvImport.swift in Sources */,
 				7921355A2978726E0036A5EA /* Sequence+Extensions.swift in Sources */,
+				79B060832AFAA05C00B381FE /* KeychainItem.swift in Sources */,
 				7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */,
 				7921355D2978728A0036A5EA /* Activity+Extensions.swift in Sources */,
 				79637203297D826400ECDBC3 /* ProgramManager.swift in Sources */,
@@ -2719,6 +2745,7 @@
 				7951B6A229B14012006DC88D /* WarningSidebarView.swift in Sources */,
 				79E40E752996BEED006BBE49 /* Seat+CoreDataClass.swift in Sources */,
 				79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */,
+				79B060852AFAA47F00B381FE /* Authentication.swift in Sources */,
 				79F655672AEBD7CE00AB3AEB /* SeancesLoadingStatus.swift in Sources */,
 				79E40E8A2997FD45006BBE49 /* Group+CoreDataClass.swift in Sources */,
 				791A19102AE8222400DD41DD /* SchoolPreviousSeancesView.swift in Sources */,
@@ -2754,6 +2781,7 @@
 				792311382A312FDB008556E1 /* DThemeEntity+Extension.swift in Sources */,
 				79BA2D4C299C0287006325CC /* ImageImportExportMng.swift in Sources */,
 				79E40E732996AEBF006BBE49 /* Room+CoreDataClass.swift in Sources */,
+				79B060892AFAA6F800B381FE /* HomeScreen.swift in Sources */,
 				79388A5329257045002AABB8 /* NavigationModel.swift in Sources */,
 				797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */,
 				79E40E812997D8BB006BBE49 /* Observ+CoreDataClass.swift in Sources */,

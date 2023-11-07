@@ -111,21 +111,6 @@ struct ContentView: View {
                 customLog.log(level: .error, "\(error.errorDescription ?? "Raison inconue.")")
             }
         )
-//        .alert(
-//            isPresented: .constant(AppState.shared.initError != nil),
-//            error: AppState.shared.initError
-//        ) { error in
-//            Button("OK", role: .cancel) {
-//                customLog.log(level: .error, "\(error.failureReason ?? "Raison inconue.")")
-//                // set the error back to nil so our alert will be dismissed
-//                AppState.shared.initError = nil
-//            }
-//        } message: { error in
-//            let failureReason = error.failureReason ?? "Raison inconnue."
-//            let recoverySuggestion = error.recoverySuggestion ?? ""
-//            let message = failureReason + (recoverySuggestion == "" ? "" : "\n\(recoverySuggestion)")
-//            Text(message)
-//        }
 
         // Deep Link
         .onOpenURL { incomingURL in

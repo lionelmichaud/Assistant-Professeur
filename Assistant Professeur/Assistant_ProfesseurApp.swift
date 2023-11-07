@@ -20,9 +20,15 @@ struct Assistant_ProfesseurApp: App {
     /// The managed object context for your Core Data container
     let coreDataManager = CoreDataManager.shared
 
+    // object that you want to use throughout your scenes and that will be global to the App
+    // @StateObject private var uiState = UIState()
+    @StateObject
+    private var authentication = Authentication()
+
     var body: some Scene {
         MainScene(
-            coreDataManager: coreDataManager
+            coreDataManager: coreDataManager,
+            authentication: authentication
         )
     }
 

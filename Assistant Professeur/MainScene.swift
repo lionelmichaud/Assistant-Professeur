@@ -11,6 +11,7 @@ import SwiftUI
 /// Defines the main scene of the App
 struct MainScene: Scene {
     let coreDataManager: CoreDataManager
+    let authentication: Authentication
 
     // object that you want to use throughout your views and that will be specific to each scene
     // @StateObject private var uiState = UIState()
@@ -25,11 +26,9 @@ struct MainScene: Scene {
     var body: some Scene {
         WindowGroup {
             // defines the views hierachy of the scene
-            ContentView()
+            HomeScreen()
                 .environment(\.managedObjectContext, coreDataManager.context)
-            #if os(macOS)
-                .frame(minWidth: 800, minHeight: 600)
-            #endif
+                .environmentObject(authentication)
         }
         .onChange(of: scenePhase, manageScenePhaseChanges)
         #if os(macOS)
