@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AuthenticationServices
 
 struct Credentials: Codable {
     var userIdentifier: String = ""
@@ -13,7 +14,8 @@ struct Credentials: Codable {
     var userName: String?
     var email: String?
     var password: String?
-    
+    //var realUserStatus: ASUserDetectionStatus
+
     func encoded() -> String {
         let encoder = JSONEncoder()
         let credentialsData = try! encoder.encode(self)

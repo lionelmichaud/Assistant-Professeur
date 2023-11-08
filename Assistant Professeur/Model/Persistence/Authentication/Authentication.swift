@@ -79,7 +79,7 @@ class Authentication: ObservableObject {
                 self.isAuthorizedUser = true
 
             case .revoked, .notFound:
-                // The Apple ID credential is either revoked or was not found, so show the sign-in UI.
+                // The Apple ID credential is either revoked (e.g. signed-out) or was not found, so show the sign-in UI.
                 customLog.log(level: .info, "Apple ID credential = revoked ou notFound")
                 #if DEBUG
                     print(">> Apple ID credential = revoked ou notFound")
@@ -105,6 +105,7 @@ class Authentication: ObservableObject {
                 let userIdentifier = appleIDCredential.user
                 let fullName = appleIDCredential.fullName
                 let email = appleIDCredential.email
+                let realUserStatus = appleIDCredential.realUserStatus
 
                 // For the purpose of this demo app, show the Apple ID credential information.
                 userCredentials =
