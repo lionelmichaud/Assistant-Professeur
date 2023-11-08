@@ -17,7 +17,7 @@ struct HomeScreen: View {
 
     var body: some View {
         VStack {
-            if authentication.isValidated {
+            if authentication.isValidated || authentication.isAuthorizedUser {
                 ContentView()
                 #if os(macOS)
                     .frame(minWidth: 800, minHeight: 600)
@@ -26,6 +26,9 @@ struct HomeScreen: View {
             } else {
                 SignInView()
             }
+        }
+        .task {
+            await authentication.processUserCredentials()
         }
     }
 }

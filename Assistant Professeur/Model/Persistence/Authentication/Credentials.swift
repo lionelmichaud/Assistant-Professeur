@@ -8,8 +8,12 @@
 import Foundation
 
 struct Credentials: Codable {
-    var email: String = ""
-    var password: String = ""
+    var userIdentifier: String = ""
+    var fullName: PersonNameComponents?
+    var userName: String?
+    var email: String?
+    var password: String?
+    
     func encoded() -> String {
         let encoder = JSONEncoder()
         let credentialsData = try! encoder.encode(self)

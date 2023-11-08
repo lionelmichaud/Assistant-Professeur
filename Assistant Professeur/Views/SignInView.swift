@@ -28,7 +28,11 @@ struct SignInView: View {
                         print("Auth success. Result: \(authResult)")
                         // Post-authentication updates on persistence and/or states.
                         // authResult.credential
-                        authentication.updateValidation(success: true)
+                        withAnimation {
+                            authentication.processAuthorization(
+                                authorization:authResult
+                            )
+                        }
 
                     case let .failure(error):
                         print("Auth failed. Result: \(error.localizedDescription)")
