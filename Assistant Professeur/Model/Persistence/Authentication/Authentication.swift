@@ -7,7 +7,13 @@
 
 import AuthenticationServices
 import LocalAuthentication
+import os
 import SwiftUI
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "Authentication"
+)
 
 @MainActor
 class Authentication: ObservableObject {
@@ -66,16 +72,25 @@ class Authentication: ObservableObject {
         switch credentialState {
             case .authorized:
                 // The Apple ID credential is valid; so do NOT show the sign-in UI.
-                print(">> Apple ID credential = authorized")
+                customLog.log(level: .info, "Apple ID credential = authorized")
+                #if DEBUG
+                    print(">> Apple ID credential = authorized")
+                #endif
                 self.isAuthorizedUser = true
 
             case .revoked, .notFound:
                 // The Apple ID credential is either revoked or was not found, so show the sign-in UI.
-                print(">> Apple ID credential = revoked ou notFound")
+                customLog.log(level: .info, "Apple ID credential = revoked ou notFound")
+                #if DEBUG
+                    print(">> Apple ID credential = revoked ou notFound")
+                #endif
                 self.isAuthorizedUser = false
 
             default:
-                print(">> Apple ID credential = undefined")
+                customLog.log(level: .info, "Apple ID credential = undefined")
+                #if DEBUG
+                    print(">> Apple ID credential = undefined")
+                #endif
                 self.isAuthorizedUser = false
         }
     }
@@ -105,12 +120,16 @@ class Authentication: ObservableObject {
                 if let fullName, let email {
                     // First loging (Signing up).
                     // Save this information to CloudKit
-                    print(">> Signed-up with appleIDCredential")
+                    #if DEBUG
+                        print(">> Signed-up with appleIDCredential")
+                    #endif
                 } else {
                     // Returning user (signing in)
                     // Fetch the user name/ email address
                     // from private CloudKit
-                    print(">> Signed-in with appleIDCredential")
+                    #if DEBUG
+                        print(">> Signed-in with appleIDCredential")
+                    #endif
                 }
 
             case let passwordCredential as ASPasswordCredential:
@@ -125,7 +144,9 @@ class Authentication: ObservableObject {
                         userName: username,
                         password: password
                     )
-                print(">> Signed-in with passwordCredential. Username: \(username). Password: \(password)")
+                #if DEBUG
+                    print(">> Signed-in with passwordCredential. Username: \(username). Password: \(password)")
+                #endif
 
             default:
                 break

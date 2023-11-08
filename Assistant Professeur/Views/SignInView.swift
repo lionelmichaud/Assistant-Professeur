@@ -7,6 +7,12 @@
 
 import AuthenticationServices
 import SwiftUI
+import os
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "SignInView"
+)
 
 struct SignInView: View {
     @Environment(\.colorScheme)
@@ -25,7 +31,8 @@ struct SignInView: View {
             } onCompletion: { result in
                 switch result {
                     case let .success(authResult):
-                        print("Auth success. Result: \(authResult)")
+                        customLog.log(level: .info, "Auth success. Result: \(authResult)")
+
                         // Post-authentication updates on persistence and/or states.
                         // authResult.credential
                         withAnimation {
@@ -35,8 +42,7 @@ struct SignInView: View {
                         }
 
                     case let .failure(error):
-                        print("Auth failed. Result: \(error.localizedDescription)")
-                        // TODO: - Présenter une alerte
+                        customLog.log(level: .info,"Auth failed. Result: \(error.localizedDescription)")
                         // Handle auth failures
                 }
             }

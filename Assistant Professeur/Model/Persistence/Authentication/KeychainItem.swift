@@ -7,6 +7,13 @@
 
 import Foundation
 
+import os
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "KeychainItem"
+)
+
 struct KeychainItem {
     // MARK: Types
 
@@ -168,7 +175,6 @@ struct KeychainItem {
             ).readItem()
             return storedIdentifier
         } catch {
-            print(">> Unable to retrieve userIdentifier from keychain.")
             return ""
         }
     }
@@ -180,7 +186,10 @@ struct KeychainItem {
                 account: "userIdentifier"
             ).saveItem(userIdentifier)
         } catch {
-            print(">> Unable to save userIdentifier to keychain.")
+            customLog.log(level: .error, "Unable to save userIdentifier to keychain")
+            #if DEBUG
+                print(">> Unable to save userIdentifier to keychain.")
+            #endif
         }
     }
 
@@ -191,7 +200,10 @@ struct KeychainItem {
                 account: "userIdentifier"
             ).deleteItem()
         } catch {
-            print(">> Unable to delete userIdentifier from keychain")
+            customLog.log(level: .error, "Unable to delete userIdentifier from keychain")
+            #if DEBUG
+                print(">> Unable to delete userIdentifier from keychain")
+            #endif
         }
     }
 }
