@@ -20,7 +20,7 @@ struct SignInView: View {
             Text("Veuillez vous authentifier")
                 .padding()
 
-            SignInWithAppleButton(.continue) { request in
+            SignInWithAppleButton(.signIn) { request in
                 request.requestedScopes = [.fullName, .email]
             } onCompletion: { result in
                 switch result {
@@ -29,13 +29,14 @@ struct SignInView: View {
                         // Post-authentication updates on persistence and/or states.
                         // authResult.credential
                         withAnimation {
-                            authentication.processAuthorization(
+                            authentication.checkAuthorization(
                                 authorization:authResult
                             )
                         }
 
                     case let .failure(error):
                         print("Auth failed. Result: \(error.localizedDescription)")
+                        // TODO: - Présenter une alerte
                         // Handle auth failures
                 }
             }

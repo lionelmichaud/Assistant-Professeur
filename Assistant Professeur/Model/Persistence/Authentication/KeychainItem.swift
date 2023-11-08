@@ -90,7 +90,11 @@ struct KeychainItem {
             var attributesToUpdate = [String: AnyObject]()
             attributesToUpdate[kSecValueData as String] = encodedPassword as AnyObject?
 
-            let query = KeychainItem.keychainQuery(withService: service, account: account, accessGroup: accessGroup)
+            let query = KeychainItem.keychainQuery(
+                withService: service,
+                account: account,
+                accessGroup: accessGroup
+            )
             let status = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
 
             // Throw an error if an unexpected status was returned.
@@ -102,7 +106,11 @@ struct KeychainItem {
              No password was found in the keychain. Create a dictionary to save
              as a new keychain item.
              */
-            var newItem = KeychainItem.keychainQuery(withService: service, account: account, accessGroup: accessGroup)
+            var newItem = KeychainItem.keychainQuery(
+                withService: service,
+                account: account,
+                accessGroup: accessGroup
+            )
             newItem[kSecValueData as String] = encodedPassword as AnyObject?
 
             // Add a the new item to the keychain.
@@ -117,7 +125,11 @@ struct KeychainItem {
 
     func deleteItem() throws {
         // Delete the existing item from the keychain.
-        let query = KeychainItem.keychainQuery(withService: service, account: account, accessGroup: accessGroup)
+        let query = KeychainItem.keychainQuery(
+            withService: service,
+            account: account,
+            accessGroup: accessGroup
+        )
         let status = SecItemDelete(query as CFDictionary)
 
         // Throw an error if an unexpected status was returned.
@@ -156,6 +168,7 @@ struct KeychainItem {
             ).readItem()
             return storedIdentifier
         } catch {
+            print(">> Unable to retrieve userIdentifier from keychain.")
             return ""
         }
     }
@@ -167,7 +180,7 @@ struct KeychainItem {
                 account: "userIdentifier"
             ).saveItem(userIdentifier)
         } catch {
-            print("Unable to save userIdentifier to keychain.")
+            print(">> Unable to save userIdentifier to keychain.")
         }
     }
 
@@ -178,7 +191,7 @@ struct KeychainItem {
                 account: "userIdentifier"
             ).deleteItem()
         } catch {
-            print("Unable to delete userIdentifier from keychain")
+            print(">> Unable to delete userIdentifier from keychain")
         }
     }
 }

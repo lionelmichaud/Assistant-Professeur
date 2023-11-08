@@ -28,7 +28,7 @@ struct HomeScreen: View {
             }
         }
         .task {
-            await authentication.processUserCredentials()
+            await authentication.checkUserCredentials()
         }
     }
 }

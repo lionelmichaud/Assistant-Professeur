@@ -56,8 +56,8 @@ class Authentication: ObservableObject {
         }
     }
 
-    /// Process the User Apple ID credential for the App to determine if the User is already authorized.
-    func processUserCredentials() async {
+    /// Check the User Apple ID credential for the App, at start-up, to determine if the User is already authorized.
+    func checkUserCredentials() async {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let credentialState = try? await appleIDProvider.credentialState(
             forUserID: KeychainItem.currentUserIdentifier
@@ -65,19 +65,23 @@ class Authentication: ObservableObject {
 
         switch credentialState {
             case .authorized:
-                // The Apple ID credential is valid.
+                // The Apple ID credential is valid; so do NOT show the sign-in UI.
+                print(">> Apple ID credential = authorized")
                 self.isAuthorizedUser = true
 
             case .revoked, .notFound:
                 // The Apple ID credential is either revoked or was not found, so show the sign-in UI.
+                print(">> Apple ID credential = revoked ou notFound")
                 self.isAuthorizedUser = false
 
             default:
+                print(">> Apple ID credential = undefined")
                 self.isAuthorizedUser = false
         }
     }
 
-    func processAuthorization(authorization: ASAuthorization) {
+    /// Check if the User is authoriezd after sign-in.
+    func checkAuthorization(authorization: ASAuthorization) {
         isValidated = true
         switch authorization.credential {
             case let appleIDCredential as ASAuthorizationAppleIDCredential:
@@ -101,10 +105,12 @@ class Authentication: ObservableObject {
                 if let fullName, let email {
                     // First loging (Signing up).
                     // Save this information to CloudKit
+                    print(">> Signed-up with appleIDCredential")
                 } else {
                     // Returning user (signing in)
                     // Fetch the user name/ email address
                     // from private CloudKit
+                    print(">> Signed-in with appleIDCredential")
                 }
 
             case let passwordCredential as ASPasswordCredential:
@@ -119,6 +125,7 @@ class Authentication: ObservableObject {
                         userName: username,
                         password: password
                     )
+                print(">> Signed-in with passwordCredential. Username: \(username). Password: \(password)")
 
             default:
                 break
@@ -128,6 +135,19 @@ class Authentication: ObservableObject {
     func updateValidation(success: Bool) {
         withAnimation {
             isValidated = success
+        }
+    }
+
+    /// Invalider les autorization et supprimer les credentials dans la KeyChain
+    func logOut() {
+        updateValidation(success: false)
+        updateAuthentication(isAuthorized: false)
+        KeychainItem.deleteUserIdentifierFromKeychain()
+    }
+
+    func updateAuthentication(isAuthorized: Bool) {
+        withAnimation {
+            isAuthorizedUser = isAuthorized
         }
     }
 

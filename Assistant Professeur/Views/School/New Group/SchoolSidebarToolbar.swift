@@ -183,7 +183,7 @@ extension SchoolSidebarView {
                 // Déconnection
                 Section {
                     Button {
-                        authentication.updateValidation(success: false)
+                        authentication.logOut()
                     } label: {
                         Label(
                             "Se déconnecter",
