@@ -10,8 +10,8 @@ import SwiftUI
 
 /// Infos perso de l'utilisateur de l'app
 struct InfoPersoView: View {
-    @StateObject
-    private var owner: OwnerEntity = OwnerEntity.singleOwner()
+    @ObservedObject
+    var owner: OwnerEntity
 
     var body: some View {
         GroupBox {
@@ -32,6 +32,13 @@ struct InfoPersoView: View {
                     .autocapitalization(.allCharacters)
                 #endif
             }
+            #if DEBUG
+                LabeledContent(
+                    "Apple User ID",
+                    value: owner.userIdentifier ?? "nil"
+                )
+                .padding(.vertical)
+            #endif
 
             EmailEditView(
                 title: "Mail académique",

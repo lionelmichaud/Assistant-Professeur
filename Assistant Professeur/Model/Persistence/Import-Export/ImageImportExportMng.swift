@@ -132,15 +132,15 @@ enum ImageImportExportMng {
                     } catch {
                         customLog.log(
                             level: .fault,
-                            "L'importation des fichiers trombines a échouée: \(error.localizedDescription)"
+                            "L'import des fichiers trombines a échoué: \(error.localizedDescription)"
                         )
                         alertTitle = "Échec"
-                        alertMessage = "L'importation de certains fichiers a échouée!"
+                        alertMessage = "L'import de certains fichiers a échoué!"
                         alertIsPresented = true
                     }
                 }
                 
-                alertTitle = "Importation terminée"
+                alertTitle = "Import terminé"
                 alertMessage = "\(filesUrl.count) fichiers importés"
                 alertIsPresented = true
         }

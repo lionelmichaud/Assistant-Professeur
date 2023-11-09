@@ -184,8 +184,11 @@
         <attribute name="idMailAcademy" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="mailAdressAcademy" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="numen" optional="YES" attributeType="String" defaultValueString=""/>
+        <attribute name="password" attributeType="String" defaultValueString=""/>
         <attribute name="pwdMailAcademy" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="urlMailAcademy" optional="YES" attributeType="URI"/>
+        <attribute name="userIdentifier" attributeType="String" defaultValueString=""/>
+        <attribute name="username" attributeType="String" defaultValueString=""/>
     </entity>
     <entity name="ProgramEntity" representedClassName="ProgramEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" optional="YES" attributeType="String" defaultValueString=""/>

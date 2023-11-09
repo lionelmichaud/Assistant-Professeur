@@ -245,7 +245,7 @@
 						<string></string>
 						<key>leading</key>
 						<string>            // LIGNE À DESACTIVER sous la cible "My Mac (Designed for iPad)"
-            // initializeCloudKitSchema()
+            initializeCloudKitSchema()
 </string>
 						<key>trailing</key>
 						<string>        #endif

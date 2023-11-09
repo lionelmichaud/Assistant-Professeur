@@ -65,20 +65,22 @@ class Authentication: ObservableObject {
     /// Check the User Apple ID credential for the App, at start-up, to determine if the User is already authorized.
     func checkUserCredentials() async {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let userIdentifier = KeychainItem.currentUserIdentifier
         let credentialState = try? await appleIDProvider.credentialState(
-            forUserID: KeychainItem.currentUserIdentifier
+            forUserID: userIdentifier
         )
 
         switch credentialState {
             case .authorized:
                 // The Apple ID credential is valid; so do NOT show the sign-in UI.
+                setUserCredentialsFromiCloud(userIdentifier: userIdentifier)
                 customLog.log(level: .info, "Apple ID credential = authorized")
                 #if DEBUG
                     print(">> Apple ID credential = authorized")
                 #endif
                 self.isAuthorizedUser = true
 
-            case .revoked, .notFound:
+            case .revoked, .notFound, .transferred:
                 // The Apple ID credential is either revoked (e.g. signed-out) or was not found, so show the sign-in UI.
                 customLog.log(level: .info, "Apple ID credential = revoked ou notFound")
                 #if DEBUG
@@ -100,51 +102,59 @@ class Authentication: ObservableObject {
         isValidated = true
         switch authorization.credential {
             case let appleIDCredential as ASAuthorizationAppleIDCredential:
+                // Connection par "Sign-In with Apple"
 
                 /// Create an account in your system.
                 let userIdentifier = appleIDCredential.user
                 let fullName = appleIDCredential.fullName
                 let email = appleIDCredential.email
-                let realUserStatus = appleIDCredential.realUserStatus
-
-                // For the purpose of this demo app, show the Apple ID credential information.
-                userCredentials =
-                    Credentials(
-                        userIdentifier: userIdentifier,
-                        fullName: fullName,
-                        email: email
-                    )
 
                 // For the purpose of this demo app, store the `userIdentifier` in the keychain.
                 KeychainItem.saveUserIdentifierToKeychain(userIdentifier)
 
-                if let fullName, let email {
+                if let fullName,
+                   let familyName = fullName.familyName,
+                   let givenName = fullName.givenName {
                     // First loging (Signing up).
-                    // Save this information to CloudKit
+                    userCredentials = Credentials(
+                        userIdentifier: userIdentifier,
+                        fullName: fullName,
+                        email: email
+                    )
+                    // Save this information to CloudKit.
+                    // Créer un Owner s'il n'existe pas encore avec cet AppleID
+                    if OwnerEntity.byUserIdentifier(userIdentifier: userIdentifier) == nil {
+                        OwnerEntity.create(
+                            familyName: familyName,
+                            givenName: givenName,
+                            numen: "",
+                            userIdentifier: userIdentifier
+                        )
+                    }
                     #if DEBUG
                         print(">> Signed-up with appleIDCredential")
                     #endif
+
                 } else {
                     // Returning user (signing in)
-                    // Fetch the user name/ email address
-                    // from private CloudKit
+                    setUserCredentialsFromiCloud(userIdentifier: userIdentifier)
                     #if DEBUG
                         print(">> Signed-in with appleIDCredential")
                     #endif
                 }
 
             case let passwordCredential as ASPasswordCredential:
+                // Connection par "username / password"
 
                 /// Sign in using an existing iCloud Keychain credential.
                 let username = passwordCredential.user
                 let password = passwordCredential.password
 
                 // For the purpose of this demo app, show the password credential.
-                userCredentials =
-                    Credentials(
-                        userName: username,
-                        password: password
-                    )
+                userCredentials = Credentials(
+                    userName: username,
+                    password: password
+                )
                 #if DEBUG
                     print(">> Signed-in with passwordCredential. Username: \(username). Password: \(password)")
                 #endif
@@ -152,6 +162,23 @@ class Authentication: ObservableObject {
             default:
                 break
         }
+    }
+
+    private func setUserCredentialsFromiCloud(userIdentifier: String) {
+        var fullName: PersonNameComponents?
+        // Fetch the user name / email address from private CloudKit
+        if let owner = OwnerEntity.byUserIdentifier(userIdentifier: userIdentifier),
+           let familyName = owner.familyName,
+           let givenName = owner.givenName {
+            fullName = PersonNameComponents(
+                givenName: givenName,
+                familyName: familyName
+            )
+        }
+        userCredentials = Credentials(
+            userIdentifier: userIdentifier,
+            fullName: fullName
+        )
     }
 
     func updateValidation(success: Bool) {
@@ -183,6 +210,8 @@ class Authentication: ObservableObject {
                 return .touch
             case .faceID:
                 return .face
+            case .opticID:
+                return .none
             @unknown default:
                 return .none
         }

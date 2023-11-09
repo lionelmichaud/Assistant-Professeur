@@ -244,6 +244,7 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
             familyName: "MICHAUD",
             givenName: "Lionel",
             numen: "16 E2 23 18 02 HNL",
+            userIdentifier: "000084.94028cc2513e470ebf5d13e508831beb.0107",
             mailAdressAcademy: "Lionel.Michaud@ac-toulouse.fr",
             urlMailAcademy: URL(string: "https://messagerie.ac-toulouse.fr"),
             idMailAcademy: "lmichaud1",
