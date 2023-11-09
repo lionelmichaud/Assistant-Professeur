@@ -79,7 +79,7 @@ extension SchoolEntity {
         }
         set {
             self.idENT = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? SchoolEntity.saveIfContextHasChanged()
         }
     }
 
@@ -92,7 +92,7 @@ extension SchoolEntity {
         }
         set {
             self.idNetwork = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? SchoolEntity.saveIfContextHasChanged()
         }
     }
 
@@ -105,7 +105,7 @@ extension SchoolEntity {
         }
         set {
             self.pwdENT = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? SchoolEntity.saveIfContextHasChanged()
         }
     }
 
@@ -118,7 +118,7 @@ extension SchoolEntity {
         }
         set {
             self.pwdNetwork = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? SchoolEntity.saveIfContextHasChanged()
         }
     }
 
@@ -131,7 +131,7 @@ extension SchoolEntity {
         }
         set {
             self.codeEntree = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? SchoolEntity.saveIfContextHasChanged()
         }
     }
 
@@ -144,7 +144,7 @@ extension SchoolEntity {
         }
         set {
             self.codePhotocopie = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? SchoolEntity.saveIfContextHasChanged()
         }
     }
 
@@ -157,7 +157,7 @@ extension SchoolEntity {
         }
         set {
             self.mailAddressSchool = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? SchoolEntity.saveIfContextHasChanged()
         }
     }
 
@@ -170,7 +170,7 @@ extension SchoolEntity {
         }
         set {
             self.idMailSchool = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? SchoolEntity.saveIfContextHasChanged()
         }
     }
 
@@ -183,7 +183,7 @@ extension SchoolEntity {
         }
         set {
             self.pwdMailSchool = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? SchoolEntity.saveIfContextHasChanged()
         }
     }
 

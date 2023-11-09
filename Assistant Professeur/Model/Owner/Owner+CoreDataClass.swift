@@ -11,7 +11,7 @@ import Foundation
 @objc(OwnerEntity)
 public final class OwnerEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
-        case id, familyName, givenName, annotation, numen
+        case id, familyName, givenName, annotation, numen, userIdentifier
         case mailAdressAcademy, urlMailAcademy, idMailAcademy, pwdMailAcademy
     }
 
@@ -24,6 +24,7 @@ public final class OwnerEntity: NSManagedObject, Codable, ModelEntityP {
         self.givenName = try container.decode(String.self, forKey: .givenName)
         self.annotation = try container.decodeIfPresent(String.self, forKey: .annotation)
         self.numen = try container.decodeIfPresent(String.self, forKey: .numen)
+        self.userIdentifier = try container.decodeIfPresent(String.self, forKey: .userIdentifier)
 
         // e-mail académique
         self.mailAdressAcademy = try container.decodeIfPresent(String.self, forKey: .mailAdressAcademy)
@@ -39,6 +40,7 @@ public final class OwnerEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(givenName, forKey: .givenName)
         try container.encodeIfPresent(annotation, forKey: .annotation)
         try container.encodeIfPresent(numen, forKey: .numen)
+        try container.encodeIfPresent(userIdentifier, forKey: .userIdentifier)
 
         // e-mail académique
         try container.encodeIfPresent(mailAdressAcademy, forKey: .mailAdressAcademy)

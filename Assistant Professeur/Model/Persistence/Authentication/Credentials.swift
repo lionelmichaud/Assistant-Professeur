@@ -9,12 +9,14 @@ import Foundation
 import AuthenticationServices
 
 struct Credentials: Codable {
+    // AppleID credentials
     var userIdentifier: String = ""
     var fullName: PersonNameComponents?
-    var userName: String?
     var email: String?
+    // Password credentials
+    var userName: String?
     var password: String?
-    //var realUserStatus: ASUserDetectionStatus
+    //var realUserStatus: ASUserDetectionStatus // pas Codable
 
     func encoded() -> String {
         let encoder = JSONEncoder()

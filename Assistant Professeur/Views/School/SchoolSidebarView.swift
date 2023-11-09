@@ -25,7 +25,7 @@ struct SchoolSidebarView: View {
 
         var id: String { rawValue }
     }
-    
+
     @State
     var presentedSheet: Sheet?
 
@@ -76,6 +76,13 @@ struct SchoolSidebarView: View {
     private var dataBaseErrorList = DataBaseErrorList()
 
     // MARK: - Computed Properties
+
+    var owner: OwnerEntity? {
+        guard let userIdentifier = authentication.userCredentials?.userIdentifier else {
+            return nil
+        }
+        return OwnerEntity.byUserIdentifier(userIdentifier: userIdentifier)
+    }
 
     var body: some View {
         List(selection: $navigationModel.selectedSchoolMngObjId) {
@@ -165,8 +172,17 @@ struct SchoolSidebarView: View {
                         .presentationDetents([.large])
 
                 case .showingInfoPerso:
-                    InfoPersoView()
+                    if let owner {
+                        InfoPersoView(
+                            owner: owner
+                        )
                         .presentationDetents([.large])
+                    } else {
+                        ContentUnavailableView(
+                            "Impossible de trouver le propriétaire des données. Attendre la fin de la synchronisation avec iCloud.",
+                            systemImage: "arrow.triangle.2.circlepath.icloud"
+                        )
+                    }
 
                 case .editingPreferences:
                     NavigationStack {
@@ -229,11 +245,11 @@ struct SchoolSidebarView: View {
                         "Error exporting JSON files: \(error.localizedDescription)"
                     )
                     alertTitle = "Échec"
-                    alertMessage = "L'exportation des fichiers a échouée!"
+                    alertMessage = "L'export des fichiers a échoué!"
                     alertIsPresented = true
 
                 case .success:
-                    alertTitle = "Exportation terminée."
+                    alertTitle = "Export terminé."
                     alertMessage = ""
                     alertIsPresented = true
             }

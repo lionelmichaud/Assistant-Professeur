@@ -18,7 +18,7 @@ extension OwnerEntity {
         }
         set {
             self.familyName = newValue.trimmed.uppercased()
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? Self.saveIfContextHasChanged()
         }
     }
 
@@ -31,7 +31,7 @@ extension OwnerEntity {
         }
         set {
             self.givenName = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? Self.saveIfContextHasChanged()
         }
     }
 
@@ -57,7 +57,7 @@ extension OwnerEntity {
         }
         set {
             self.numen = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? Self.saveIfContextHasChanged()
         }
     }
 
@@ -70,7 +70,7 @@ extension OwnerEntity {
         }
         set {
             self.mailAdressAcademy = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? Self.saveIfContextHasChanged()
         }
     }
 
@@ -83,7 +83,7 @@ extension OwnerEntity {
         }
         set {
             self.idMailAcademy = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? Self.saveIfContextHasChanged()
         }
     }
 
@@ -96,7 +96,20 @@ extension OwnerEntity {
         }
         set {
             self.pwdMailAcademy = newValue.trimmed
-            try? OwnerEntity.saveIfContextHasChanged()
+            try? Self.saveIfContextHasChanged()
+        }
+    }
+
+    /// Wrapper of `userIdentifier`
+    /// - Important: *Saves the context to the store after modification is done*
+    @objc
+    var viewUserIdentifier: String {
+        get {
+            self.userIdentifier ?? ""
+        }
+        set {
+            self.userIdentifier = newValue.trimmed
+            try? Self.saveIfContextHasChanged()
         }
     }
 }
@@ -112,21 +125,27 @@ extension OwnerEntity {
         self.id = UUID()
     }
 
+    static func byUserIdentifier(userIdentifier: String) -> Self? {
+        all().first { object in
+            object.userIdentifier == userIdentifier
+        }
+    }
+
     // MARK: - Type Methods
 
     /// Retourne les données personnelles de l'unique utilisateur de l'appli.
     /// S'il n'existe pas encore, créer le record unique de l'utilisateur de l'appli.
-    static func singleOwner() -> OwnerEntity {
-        if OwnerEntity.cardinal() == 0 {
-            // créer le singleton de l'unique Owner
-            OwnerEntity.create(
-                familyName: "",
-                givenName: "",
-                numen: ""
-            )
-        }
-        return OwnerEntity.all().first!
-    }
+//    static func singleOwner() -> OwnerEntity {
+//        if OwnerEntity.cardinal() == 0 {
+//            // créer le singleton de l'unique Owner
+//            OwnerEntity.create(
+//                familyName: "",
+//                givenName: "",
+//                numen: ""
+//            )
+//        }
+//        return OwnerEntity.all().first!
+//    }
 
     /// Créer un utilisateur de l'appli **s'il n'en existe aucun**.
     /// - Important: Sauvegarder le Context.
@@ -150,25 +169,27 @@ extension OwnerEntity {
         familyName: String,
         givenName: String,
         numen: String,
+        userIdentifier: String,
         mailAdressAcademy: String = "",
         urlMailAcademy: URL? = nil,
         idMailAcademy: String = "",
         pwdMailAcademy: String = ""
     ) -> OwnerEntity? {
-        guard OwnerEntity.cardinal() == 0 else {
+        guard Self.cardinal() == 0 else {
             return nil
         }
-        let owner = OwnerEntity.create()
+        let owner = Self.create()
         owner.familyName = familyName
         owner.givenName = givenName
         owner.numen = numen
+        owner.userIdentifier = userIdentifier
 
         owner.mailAdressAcademy = mailAdressAcademy
         owner.urlMailAcademy = urlMailAcademy
         owner.idMailAcademy = idMailAcademy
         owner.pwdMailAcademy = pwdMailAcademy
 
-        try? OwnerEntity.saveIfContextHasChanged()
+        try? Self.saveIfContextHasChanged()
 
         return owner
     }
@@ -183,9 +204,10 @@ extension OwnerEntity {
         if cardinal() == 0 {
             if tryToRepair {
                 create(
-                    familyName: "",
-                    givenName: "",
-                    numen: ""
+                    familyName: "Nom",
+                    givenName: "Prénom",
+                    numen: "numen",
+                    userIdentifier: KeychainItem.currentUserIdentifier
                 )
             }
             if cardinal() == 0 {
@@ -223,9 +245,10 @@ public extension OwnerEntity {
         """
 
         OWNER:
-           ID    : \(String(describing: id))
-           Nom   : \(viewGivenName) \(viewFamilyName)
-           NUMEN : \(viewNumen)
+           ID            : \(String(describing: id))
+           Apple USer ID : \(String(describing: userIdentifier))
+           Nom           : \(viewGivenName) \(viewFamilyName)
+           NUMEN         : \(viewNumen)
 
            eMail académique : \(viewEmailAdressAcademy)
            URL webmail : \(String(describing: urlMailAcademy?.absoluteString))
