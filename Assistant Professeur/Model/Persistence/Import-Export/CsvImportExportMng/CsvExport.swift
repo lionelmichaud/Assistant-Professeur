@@ -37,13 +37,21 @@ extension CsvImportExportMng {
 
     // MARK: - Export des Compétences
 
-    /// Exporter les compétences
+    /// Exporter les compétences du **socle commun** ainsi que
+    /// les compétences **disciplinaires** sous forme de tableau au format CSV.
     static func exportCompetencies() {
+        // Exporter les compétences du socle commun
         exportWCompetencies()
+
+        // Exporter les compétences du disciplinaires
         exportDCompetencies()
     }
 
-    /// Exporter les compétences du socle
+    /// Exporter les compétences du **socle commun** sous forme de tableau au format CSV.
+    ///
+    /// Le tableau et constitué de deux parties:
+    /// 1) Eléments du socle: partie gauche
+    /// 2) Compétences travaillées pour chaque lémént du socle: partie droite
     static func exportWCompetencies() {
         var total = DataFrame()
         WCompChapterEntity.allSortedbyCycleAcronymTitle()
@@ -68,7 +76,7 @@ extension CsvImportExportMng {
         )
     }
 
-    /// Construit la table des éléments d'un chapitre de compétences du socle
+    /// Construit la table des éléments d'un **chapitre de compétences du socle**
     static func wCompChapterDataFrame(de chapter: WCompChapterEntity) -> DataFrame {
         // colonnes relatives au Chapitre
         func appendChapterToChapterColumns(chapter: WCompChapterEntity) {
@@ -87,7 +95,7 @@ extension CsvImportExportMng {
                 compDescripColumn.append("aucune")
             }
         }
-        
+
         // TODO: - Ajouter les colonnes relatives aux compétences disciplinaires associées
 
         var dataFrame = DataFrame()
@@ -120,17 +128,17 @@ extension CsvImportExportMng {
 
         if competencies.isNotEmpty {
             competencies.forEach { competency in
-                // colonnes relatives au Chapitre
+                // Ajout de lignes aux colonnes relatives au Chapitre (commun)
                 appendChapterToChapterColumns(chapter: chapter)
 
-                // colonnes relatives à la compétence
+                // Ajout de lignes aux colonnes relatives à la compétence
                 appendCompetencyToCompetencyColumns(competency: competency)
             }
         } else {
-            // colonnes relatives au Chapitre
+            // Ajout de lignes aux colonnes relatives au Chapitre
             appendChapterToChapterColumns(chapter: chapter)
 
-            // colonnes VIDES relatives à la compétence
+            // Ajout de lignes aux colonnes VIDES relatives à la compétence
             appendCompetencyToCompetencyColumns(competency: nil)
         }
 

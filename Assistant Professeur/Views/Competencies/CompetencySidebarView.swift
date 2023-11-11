@@ -114,8 +114,14 @@ extension CompetencySidebarView {
     }
 }
 
-struct CompetencySidebarView_Previews: PreviewProvider {
-    static var previews: some View {
-        CompetencySidebarView()
+#Preview {
+    func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
     }
+    initialize()
+    return CompetencySidebarView()
+        .padding()
+        .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
+        .environment(\.managedObjectContext, CoreDataManager.shared.context)
+        .previewDevice("iPad mini (6th generation)")
 }

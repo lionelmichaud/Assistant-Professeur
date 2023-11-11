@@ -107,6 +107,8 @@
 		7942F23829A5612E007E3C3B /* StepperView in Frameworks */ = {isa = PBXBuildFile; productRef = 7942F23729A5612E007E3C3B /* StepperView */; };
 		794615892AEEBE69002D725E /* ToDoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794615882AEEBE69002D725E /* ToDoView.swift */; };
 		794827402AFEA197001640CD /* SequenceModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7948273F2AFEA197001640CD /* SequenceModalView.swift */; };
+		794827422AFF8297001640CD /* CompetencyMiddleColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794827412AFF8297001640CD /* CompetencyMiddleColumn.swift */; };
+		794827442AFF82DD001640CD /* CompetencyDetailedColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794827432AFF82DD001640CD /* CompetencyDetailedColumn.swift */; };
 		794AE9C22A59706E009C819A /* AppTextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794AE9C12A59706E009C819A /* AppTextStyle.swift */; };
 		794B83CA2AB5B7A600F5B14E /* BonusMalusStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */; };
 		794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */; };
@@ -572,6 +574,8 @@
 		7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Owner+Extensions.swift"; path = "../New Group/Owner+Extensions.swift"; sourceTree = "<group>"; };
 		794615882AEEBE69002D725E /* ToDoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoView.swift; sourceTree = "<group>"; };
 		7948273F2AFEA197001640CD /* SequenceModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceModalView.swift; sourceTree = "<group>"; };
+		794827412AFF8297001640CD /* CompetencyMiddleColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencyMiddleColumn.swift; sourceTree = "<group>"; };
+		794827432AFF82DD001640CD /* CompetencyDetailedColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetencyDetailedColumn.swift; sourceTree = "<group>"; };
 		794AE9C12A59706E009C819A /* AppTextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextStyle.swift; sourceTree = "<group>"; };
 		794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusStats.swift; sourceTree = "<group>"; };
 		794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DuplicateActivityModal.swift; path = "Assistant Professeur/Model/Eleve/BonusMalus/DuplicateActivityModal.swift"; sourceTree = SOURCE_ROOT; };
@@ -2177,6 +2181,8 @@
 			children = (
 				79F7708F2A2B9B7E004E9089 /* CompetencySplitView.swift */,
 				79F770912A2B9F4E004E9089 /* CompetencySidebarView.swift */,
+				794827412AFF8297001640CD /* CompetencyMiddleColumn.swift */,
+				794827432AFF82DD001640CD /* CompetencyDetailedColumn.swift */,
 				79F7A2842A409C5200CEC3D5 /* LevelInCyclePicker.swift */,
 				79C20A7E2A326CD300E43A07 /* DsciplineCompetency */,
 				799EFBA92A2D0260008E9775 /* WorkedCompetency */,
@@ -2506,6 +2512,7 @@
 				7957A5B02AF7CE82002C8721 /* ClasseEventsViewModel.swift in Sources */,
 				79B6630729244C3F007B1FBD /* ContentView.swift in Sources */,
 				79398D2D2965FABE0013564D /* Exam+Extensions.swift in Sources */,
+				794827422AFF8297001640CD /* CompetencyMiddleColumn.swift in Sources */,
 				79ECF1FB2959F915008F0282 /* ClasseColleLabel.swift in Sources */,
 				792135572978724C0036A5EA /* Program+Extensions.swift in Sources */,
 				79975320297C3F9200D1C66E /* ProgramViewModel.swift in Sources */,
@@ -2672,6 +2679,7 @@
 				7923811B2960B04F009E51B7 /* GroupsListView.swift in Sources */,
 				7915DC842A031C6A001C1249 /* Owner+CoreDataClass.swift in Sources */,
 				79ECF1FF295A02EE008F0282 /* EleveDetail.swift in Sources */,
+				794827442AFF82DD001640CD /* CompetencyDetailedColumn.swift in Sources */,
 				7937A2492987F7B400D0ED59 /* StepsListView.swift in Sources */,
 				79F6556C2AEBF46200AB3AEB /* SchoolSeancesList.swift in Sources */,
 				797AD2B229902BCE00BE5D37 /* ActivityProgressesView.swift in Sources */,
