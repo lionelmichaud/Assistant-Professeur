@@ -54,7 +54,8 @@ enum FileExportOperation {
             case .exportCsvPrograms:
                 return ImportExportManager.cachesURLsToShare(
                     fileNames: [
-                        CsvImportExportMng.csvProgramListFileName
+                        CsvImportExportMng.csvProgramListFileName,
+                        CsvImportExportMng.csvProgramCompetencyListFileName
                     ]
                 )
 

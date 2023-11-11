@@ -80,7 +80,7 @@ class Authentication: ObservableObject {
                     userIdentifier: userIdentifier,
                     userContext: userContext
                 )
-                customLog.log(level: .info, "Apple ID credential = authorized")
+                customLog.log(level: .info, "Apple ID credential: 'authorized' with Apple User ID = \(userIdentifier)")
                 self.isAuthorizedUser = true
 
             case .revoked, .notFound, .transferred:

@@ -19,6 +19,7 @@ private let customLog = Logger(
 extension CsvImportExportMng {
     static let csvEleveListFileName = "élèves.csv"
     static let csvProgramListFileName = "programmes.csv"
+    static let csvProgramCompetencyListFileName = "programmes-compétances.csv"
     static let csvWCompetencyListFileName = "compétances du socle.csv"
     static let csvDCompetencyListFileName = "compétances disciplinaires.csv"
 
@@ -446,10 +447,152 @@ extension CsvImportExportMng {
 
     /// Exporter la liste des Programmes
     static func exportPrograms() {
+        exportProgramsDetails()
+        exportProgramsCompetencies()
+    }
+
+    /// Exporter la matrice des Programmes versus compétences
+    static func exportProgramsCompetencies() {
         var total = DataFrame()
         ProgramEntity.allSortedbyDisciplineLevelSegpa()
             .forEach { program in
-                let dataFrame = programDataFrame(de: program)
+                let dataFrame = programCompetenciesDataFrame(de: program)
+                #if DEBUG
+                    print(dataFrame)
+                #endif
+                if total.isEmpty {
+                    total = dataFrame
+                } else {
+                    total.append(rowsOf: dataFrame)
+                }
+            }
+
+        let cachesUrl = URL.cachesDirectory
+        let fileUrl = cachesUrl.appending(component: csvProgramCompetencyListFileName)
+
+        try? total.writeCSV(
+            to: fileUrl,
+            options: csWritingOptions
+        )
+    }
+
+    static func programCompetenciesDataFrame(de program: ProgramEntity) -> DataFrame {
+        // colonnes relatives au programme
+        func appendProgramToProgramColumns(program: ProgramEntity) {
+            disciplineColumn.append(program.disciplineString)
+            levelColumn.append(program.viewLevelEnum.pickerString)
+        }
+
+        // colonnes relatives à la séquence
+        func appendSequenceToSequenceColumns(sequence: SequenceEntity?) {
+            if let sequence {
+                seqNumColumn.append(sequence.viewNumber)
+                seqNameColumn.append(sequence.viewName)
+            } else {
+                seqNumColumn.append(0)
+                seqNameColumn.append("aucune")
+            }
+        }
+
+        // colonnes relatives aux compétences
+        func appendSequenceToCompetenciesColumns(sequence: SequenceEntity?) {
+            if let sequence {
+                var str = sequence.disciplineCompSortedByAcronym
+                    .map { dComp in
+                        "\(dComp.viewAcronym)"
+                    }
+                    .joined(separator: " / ")
+                dCompColumn.append(str)
+
+                str = sequence.workedCompSortedByAcronym
+                    .map { dComp in
+                        "\(dComp.viewAcronym)"
+                    }
+                    .joined(separator: " / ")
+                wCompColumn.append(str)
+            } else {
+                dCompColumn.append("aucune")
+                wCompColumn.append("aucune")
+            }
+        }
+
+        var dataFrame = DataFrame()
+
+        // colonnes relatives au programme
+        var disciplineColumn = Column(
+            ColumnID("Discipline", String.self),
+            capacity: 4
+        )
+        var levelColumn = Column(
+            ColumnID("Niveau", String.self),
+            capacity: 4
+        )
+
+        // colonnes relatives à la séquence
+        var seqNumColumn = Column(
+            ColumnID("Séquence numéro", Int.self),
+            capacity: 4
+        )
+        var seqNameColumn = Column(
+            ColumnID("Séquence nom", String.self),
+            capacity: 4
+        )
+
+        // colonnes relatives aux compétences
+        var dCompColumn = Column(
+            ColumnID("Compétences disciplinaires", String.self),
+            capacity: 4
+        )
+        var wCompColumn = Column(
+            ColumnID("Compétences du socle", String.self),
+            capacity: 4
+        )
+
+        let sequences = program.sequencesSortedByNumber
+
+        if sequences.isNotEmpty {
+            sequences.forEach { sequence in
+                // colonnes relatives au programme
+                appendProgramToProgramColumns(program: program)
+
+                // colonnes relatives à la séquence
+                appendSequenceToSequenceColumns(sequence: sequence)
+
+                // colonnes relatives à l'activité
+                appendSequenceToCompetenciesColumns(sequence: sequence)
+            }
+        } else {
+            // colonnes relatives au programme
+            appendProgramToProgramColumns(program: program)
+
+            // colonnes VIDES relatives à la séquence
+            appendSequenceToSequenceColumns(sequence: nil)
+
+            // colonnes VIDES relatives à l'activité
+            appendSequenceToCompetenciesColumns(sequence: nil)
+        }
+
+        // colonnes relatives au programme
+        dataFrame.append(column: disciplineColumn)
+        dataFrame.append(column: levelColumn)
+
+        // colonnes relatives à la séquence
+        dataFrame.append(column: seqNumColumn)
+        dataFrame.append(column: seqNameColumn)
+
+        // colonnes relatives aux compétences
+        dataFrame.append(column: dCompColumn)
+        dataFrame.append(column: wCompColumn)
+
+        return dataFrame
+    }
+
+    /// Exporter la liste des Programmes détaillés
+    static func exportProgramsDetails() {
+        var total = DataFrame()
+        ProgramEntity.allSortedbyDisciplineLevelSegpa()
+            .forEach { program in
+                let dataFrame = programDetailsDataFrame(de: program)
                 #if DEBUG
                     print(dataFrame)
                 #endif
@@ -470,7 +613,7 @@ extension CsvImportExportMng {
     }
 
     /// Construit la table des séquences d'un programme
-    static func programDataFrame(de program: ProgramEntity) -> DataFrame {
+    static func programDetailsDataFrame(de program: ProgramEntity) -> DataFrame {
         // colonnes relatives au programme
         func appendProgramToProgramColumns(program: ProgramEntity) {
             disciplineColumn.append(program.disciplineString)
