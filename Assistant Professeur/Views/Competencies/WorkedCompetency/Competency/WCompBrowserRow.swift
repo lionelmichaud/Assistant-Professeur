@@ -37,20 +37,21 @@ struct WCompBrowserRow: View {
                             .foregroundColor(.primary)
                             .padding([.top, .bottom])
                     }
-
-                    // Description des compétences disciplinaires et séquences associées
-                    let dicoPerDisciplineLevel = workedComp.sequencesPerDiscipleSortedByDisciplineNumber()
-                    let dicoPerDiscipline = workedComp.disciplineCompSortedByDisciplineAcronym()
-                    ScrollView(.horizontal) {
-                        HStack(alignment: .top) {
-                            ForEach(dicoPerDisciplineLevel.keys) { discipline in
-                                AssociatedDCompSequencesView(
-                                    dicoSequencesPerLevel: dicoPerDisciplineLevel[discipline]!,
-                                    associatedDComps: dicoPerDiscipline[discipline],
-                                    discipline: discipline,
-                                    showDisciplineCompetencies: showDisciplineCompetencies,
-                                    showSequences: showSequences
-                                )
+                    if showDisciplineCompetencies || showSequences {
+                        // Description des compétences disciplinaires et séquences associées
+                        let dicoPerDisciplineLevel = workedComp.sequencesPerDiscipleSortedByDisciplineNumber()
+                        let dicoPerDiscipline = workedComp.disciplineCompSortedByDisciplineAcronym()
+                        ScrollView(.horizontal) {
+                            HStack(alignment: .top) {
+                                ForEach(dicoPerDisciplineLevel.keys) { discipline in
+                                    AssociatedDCompSequencesView(
+                                        dicoSequencesPerLevel: dicoPerDisciplineLevel[discipline]!,
+                                        associatedDComps: dicoPerDiscipline[discipline],
+                                        discipline: discipline,
+                                        showDisciplineCompetencies: showDisciplineCompetencies,
+                                        showSequences: showSequences
+                                    )
+                                }
                             }
                         }
                     }
