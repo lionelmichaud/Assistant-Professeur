@@ -63,7 +63,8 @@ class Authentication: ObservableObject {
     }
 
     /// Check the User Apple ID credential for the App, at start-up, to determine if the User is already authorized.
-    func checkUserCredentials() async {
+    /// Si oui, mettre à jour les context utilisateur.
+    func checkUserCredentials(userContext: UserContext) async {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let userIdentifier = KeychainItem.currentUserIdentifier
         let credentialState = try? await appleIDProvider.credentialState(
@@ -73,32 +74,32 @@ class Authentication: ObservableObject {
         switch credentialState {
             case .authorized:
                 // The Apple ID credential is valid; so do NOT show the sign-in UI.
-                setUserCredentialsFromiCloud(userIdentifier: userIdentifier)
+                //   Créer les Credential à partir des données iCloud du Owner.
+                //   Mettre à jour les context utilisateur avec le Owner.
+                setUserCredentialsFromiCloud(
+                    userIdentifier: userIdentifier,
+                    userContext: userContext
+                )
                 customLog.log(level: .info, "Apple ID credential = authorized")
-                #if DEBUG
-                    print(">> Apple ID credential = authorized")
-                #endif
                 self.isAuthorizedUser = true
 
             case .revoked, .notFound, .transferred:
                 // The Apple ID credential is either revoked (e.g. signed-out) or was not found, so show the sign-in UI.
                 customLog.log(level: .info, "Apple ID credential = revoked ou notFound")
-                #if DEBUG
-                    print(">> Apple ID credential = revoked ou notFound")
-                #endif
                 self.isAuthorizedUser = false
 
             default:
                 customLog.log(level: .info, "Apple ID credential = undefined")
-                #if DEBUG
-                    print(">> Apple ID credential = undefined")
-                #endif
                 self.isAuthorizedUser = false
         }
     }
 
     /// Check if the User is authoriezd after sign-in.
-    func checkAuthorization(authorization: ASAuthorization) {
+    /// Si oui, mettre à jour les context utilisateur avec le Owner.
+    func checkAuthorization(
+        authorization: ASAuthorization,
+        userContext: UserContext
+    ) {
         isValidated = true
         switch authorization.credential {
             case let appleIDCredential as ASAuthorizationAppleIDCredential:
@@ -113,34 +114,28 @@ class Authentication: ObservableObject {
                 KeychainItem.saveUserIdentifierToKeychain(userIdentifier)
 
                 if let fullName,
-                   let familyName = fullName.familyName,
-                   let givenName = fullName.givenName {
+                   fullName.familyName != nil,
+                   fullName.givenName != nil {
                     // First loging (Signing up).
-                    userCredentials = Credentials(
+                    //   Créer les Credential à partir des Credential Apple.
+                    //   Mettre à jour les context utilisateur avec le Owner.
+                    setUserCredentialsFromAppleIDCredential(
                         userIdentifier: userIdentifier,
                         fullName: fullName,
-                        email: email
+                        email: email,
+                        userContext: userContext
                     )
-                    // Save this information to CloudKit.
-                    // Créer un Owner s'il n'existe pas encore avec cet AppleID
-                    if OwnerEntity.byUserIdentifier(userIdentifier: userIdentifier) == nil {
-                        OwnerEntity.create(
-                            familyName: familyName,
-                            givenName: givenName,
-                            numen: "",
-                            userIdentifier: userIdentifier
-                        )
-                    }
-                    #if DEBUG
-                        print(">> Signed-up with appleIDCredential")
-                    #endif
+                    customLog.log(level: .info, "Signed-up with appleIDCredential. AppleUserID = \(userIdentifier)")
 
                 } else {
                     // Returning user (signing in)
-                    setUserCredentialsFromiCloud(userIdentifier: userIdentifier)
-                    #if DEBUG
-                        print(">> Signed-in with appleIDCredential")
-                    #endif
+                    //   Créer les Credential à partir des données iCloud du Owner.
+                    //   Mettre à jour les context utilisateur avec le Owner.
+                    setUserCredentialsFromiCloud(
+                        userIdentifier: userIdentifier,
+                        userContext: userContext
+                    )
+                    customLog.log(level: .info, "Signed-in with appleIDCredential. AppleUserID = \(userIdentifier)")
                 }
 
             case let passwordCredential as ASPasswordCredential:
@@ -155,25 +150,62 @@ class Authentication: ObservableObject {
                     userName: username,
                     password: password
                 )
-                #if DEBUG
-                    print(">> Signed-in with passwordCredential. Username: \(username). Password: \(password)")
-                #endif
+                customLog.log(level: .info, "Signed-in with passwordCredential. Username: \(username). Password: \(password)")
 
             default:
                 break
         }
     }
 
-    private func setUserCredentialsFromiCloud(userIdentifier: String) {
+    /// Créer les Credential à partir des Credential Apple.
+    /// Mettre à jour les context utilisateur avec le Owner.
+    private func setUserCredentialsFromAppleIDCredential(
+        userIdentifier: String,
+        fullName: PersonNameComponents,
+        email: String?,
+        userContext: UserContext
+    ) {
+        // Save this information to CloudKit.
+        // Créer un Owner s'il n'existe pas encore avec cet AppleID
+        if let owner = OwnerEntity.byUserIdentifier(userIdentifier: userIdentifier) {
+            userContext.setOwner(to: owner)
+        } else {
+            let newOwner = OwnerEntity.create(
+                familyName: fullName.familyName!,
+                givenName: fullName.givenName!,
+                numen: "",
+                userIdentifier: userIdentifier
+            )
+            userContext.setOwner(to: newOwner)
+        }
+        userCredentials = Credentials(
+            userIdentifier: userIdentifier,
+            fullName: fullName,
+            email: email
+        )
+    }
+
+    /// Créer les Credential à partir des données iCloud du Owner.
+    /// Mettre à jour les context utilisateur avec le Owner.
+    private func setUserCredentialsFromiCloud(
+        userIdentifier: String,
+        userContext: UserContext
+    ) {
         var fullName: PersonNameComponents?
         // Fetch the user name / email address from private CloudKit
-        if let owner = OwnerEntity.byUserIdentifier(userIdentifier: userIdentifier),
-           let familyName = owner.familyName,
-           let givenName = owner.givenName {
-            fullName = PersonNameComponents(
-                givenName: givenName,
-                familyName: familyName
-            )
+        if let owner = OwnerEntity.byUserIdentifier(userIdentifier: userIdentifier) {
+            userContext.setOwner(to: owner)
+
+            if let familyName = owner.familyName,
+               let givenName = owner.givenName {
+                fullName = PersonNameComponents(
+                    givenName: givenName,
+                    familyName: familyName
+                )
+            }
+        } else {
+            // TODO: - Gérer ce cas qui conduit à un crash dès que l'on utilise les données utilisateur ou ses préférences
+            customLog.log(level: .error, "Utilisateur (Owner) supposé exister mais pas trouvé dans CoreData pour Apple User ID = \(userIdentifier)")
         }
         userCredentials = Credentials(
             userIdentifier: userIdentifier,
@@ -202,7 +234,7 @@ class Authentication: ObservableObject {
 
     func biometricType() -> BiometricType {
         let authContext = LAContext()
-        let _ = authContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+        _ = authContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
         switch authContext.biometryType {
             case .none:
                 return .none
@@ -216,46 +248,4 @@ class Authentication: ObservableObject {
                 return .none
         }
     }
-
-//    func requestBiometricUnlock(completion: @escaping (Result<Credentials, AuthenticationError>) -> Void) {
-//        let credentials:Credentials? = Credentials(email: "anything", password: "password")
-//        let credentials:Credentials? = nil
-
-//        let credentials = KeychainStorage.getCredentials()
-//        guard let credentials = credentials else {
-//            completion(.failure(.credentialsNotSaved))
-//            return
-//        }
-//        let context = LAContext()
-//        var error: NSError?
-//        let canEvaluate = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
-//        if let error = error {
-//            switch error.code {
-//            case -6:
-//                completion(.failure(.deniedAccess))
-//            case -7:
-//                if context.biometryType == .faceID {
-//                    completion(.failure(.noFaceIdEnrolled))
-//                } else {
-//                    completion(.failure(.noFingerprintEnrolled))
-//                }
-//            default:
-//                completion(.failure(.biometrictError))
-//            }
-//            return
-//        }
-//        if canEvaluate {
-//            if context.biometryType != .none {
-//                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Need to access credentials.") { success, error in
-//                    DispatchQueue.main.async {
-//                        if error != nil {
-//                            completion(.failure(.biometrictError))
-//                        } else {
-//                            completion(.success(credentials))
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
 }

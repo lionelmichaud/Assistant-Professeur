@@ -114,7 +114,7 @@ extension CsvImportExportMng {
         var compDescripColumn = Column(
             ColumnID("Compétence Description", String.self),
             capacity: 4
-        ) // TODO: - Implémenter export CSV des Compétences
+        )
 
         let competencies = chapter.allWorkedCompetenciesSortedByNumber
 
@@ -148,7 +148,6 @@ extension CsvImportExportMng {
 
     /// Exporter les compétences disciplinairs
     static func exportDCompetencies() {
-        // TODO: - Implémenter export CSV des Compétences
         var total = DataFrame()
         DThemeEntity.allSortedByDiscCycleTitle()
             .forEach { theme in
@@ -631,7 +630,7 @@ extension CsvImportExportMng {
                 schoolColumn.append(schoolName)
                 classeColumn.append(classeName)
                 groupeColumn.append(group.displayString)
-                eleveColumn.append(eleve.displayName)
+                eleveColumn.append(eleve.displayName(.nomPrenom))
             }
         }
 

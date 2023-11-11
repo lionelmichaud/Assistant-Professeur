@@ -11,8 +11,8 @@ struct EleveListSection: View {
     @ObservedObject
     var classe: ClasseEntity
 
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     var body: some View {
         Section {
@@ -20,7 +20,7 @@ struct EleveListSection: View {
             elevesListView
 
             // trombinoscope
-            if pref.viewElevePref.trombineEnabled {
+            if userContext.prefs.viewElevePref.trombineEnabled {
                 trombinoscopeView
             }
 

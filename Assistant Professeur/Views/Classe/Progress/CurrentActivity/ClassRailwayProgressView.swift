@@ -18,6 +18,9 @@ struct ClassRailwayProgressView: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     // MARK: - Properties
 
     private let horizon = 3 // mois
@@ -113,7 +116,7 @@ struct ClassRailwayProgressView: View {
             }
 
             await ClasseEntity.context.perform {
-                let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+                let schoolYear = userContext.prefs.viewSchoolYearPref
 
                 let horizon = DateInterval(
                     start: Date.now,

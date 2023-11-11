@@ -5,211 +5,14 @@
 	<key>top-level-items</key>
 	<array>
 		<dict>
-			<key>destination</key>
-			<dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>Assistant Professeur/Assistant Professeur/Views/Program/ProgramSplitView.swift</string>
-					</dict>
-				</dict>
-				<key>type</key>
-				<string>DVTDocumentLocation</string>
-			</dict>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>Assistant Professeur/Assistant Professeur/Views/Competencies/DsciplineCompetency/Knowledge/ConnectToActivityModal.swift</string>
-					</dict>
-				</dict>
-				<key>type</key>
-				<string>DVTDocumentLocation</string>
-			</dict>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
 			<key>children</key>
-			<array>
-				<dict>
-					<key>destination</key>
-					<dict>
-						<key>location-parameters</key>
-						<dict>
-							<key>EndingColumnNumber</key>
-							<string>0</string>
-							<key>EndingLineNumber</key>
-							<string>486</string>
-							<key>StartingColumnNumber</key>
-							<string>0</string>
-							<key>StartingLineNumber</key>
-							<string>486</string>
-							<key>Timestamp</key>
-							<string>720112725.564059</string>
-						</dict>
-						<key>rebasable-url</key>
-						<dict>
-							<key>base</key>
-							<string>workspace</string>
-							<key>payload</key>
-							<dict>
-								<key>relative-path</key>
-								<string>Assistant Professeur/Assistant Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift</string>
-							</dict>
-						</dict>
-					</dict>
-					<key>text-context</key>
-					<dict>
-						<key>focused</key>
-						<string></string>
-						<key>leading</key>
-						<string>    }
-}
-</string>
-						<key>trailing</key>
-						<string></string>
-					</dict>
-					<key>type</key>
-					<string>bookmark</string>
-				</dict>
-			</array>
+			<array/>
 			<key>title</key>
 			<string>Widget</string>
 			<key>type</key>
 			<string>group</string>
 		</dict>
 		<dict>
-			<key>destination</key>
-			<dict>
-				<key>location-parameters</key>
-				<dict>
-					<key>EndingColumnNumber</key>
-					<string>0</string>
-					<key>EndingLineNumber</key>
-					<string>486</string>
-					<key>StartingColumnNumber</key>
-					<string>0</string>
-					<key>StartingLineNumber</key>
-					<string>486</string>
-					<key>Timestamp</key>
-					<string>720112725.5640759</string>
-				</dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>Assistant Professeur/Assistant Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>text-context</key>
-			<dict>
-				<key>focused</key>
-				<string></string>
-				<key>leading</key>
-				<string>    }
-}
-</string>
-				<key>trailing</key>
-				<string></string>
-			</dict>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>Assistant Professeur/Assistant Professeur/Views/School/SchoolNextSeancesView.swift</string>
-					</dict>
-				</dict>
-				<key>type</key>
-				<string>DVTDocumentLocation</string>
-			</dict>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>Assistant Professeur/Assistant Professeur/Model/Events/SeancesInDateInterval.swift</string>
-					</dict>
-				</dict>
-				<key>type</key>
-				<string>DVTDocumentLocation</string>
-			</dict>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>Assistant Professeur/Assistant Professeur/Model/Events/SeancesInDateInterval.swift</string>
-					</dict>
-				</dict>
-				<key>type</key>
-				<string>DVTDocumentLocation</string>
-			</dict>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
-			<key>destination</key>
-			<dict>
-				<key>rebasable-url</key>
-				<dict>
-					<key>base</key>
-					<string>workspace</string>
-					<key>payload</key>
-					<dict>
-						<key>relative-path</key>
-						<string>Assistant Professeur/Assistant Professeur/Views/Classe/Progress/ClasseProgressSection.swift</string>
-					</dict>
-				</dict>
-				<key>type</key>
-				<string>DVTDocumentLocation</string>
-			</dict>
-			<key>type</key>
-			<string>bookmark</string>
-		</dict>
-		<dict>
 			<key>children</key>
 			<array>
 				<dict>
@@ -224,9 +27,9 @@
 							<key>StartingColumnNumber</key>
 							<string>0</string>
 							<key>StartingLineNumber</key>
-							<string>187</string>
+							<string>186</string>
 							<key>Timestamp</key>
-							<string>720574755.086773</string>
+							<string>721343235.72111</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -242,10 +45,11 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string></string>
+						<string>            //initializeCloudKitSchema()
+</string>
 						<key>leading</key>
-						<string>            // LIGNE À DESACTIVER sous la cible "My Mac (Designed for iPad)"
-            initializeCloudKitSchema()
+						<string>        #if DEBUG
+            // LIGNE À DESACTIVER sous la cible "My Mac (Designed for iPad)"
 </string>
 						<key>trailing</key>
 						<string>        #endif
@@ -253,6 +57,8 @@
 
 </string>
 					</dict>
+					<key>title</key>
+					<string>A désactiver sur Mac</string>
 					<key>type</key>
 					<string>bookmark</string>
 				</dict>
@@ -303,16 +109,12 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
-							<key>EndingColumnNumber</key>
-							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>199</string>
-							<key>StartingColumnNumber</key>
-							<string>0</string>
+							<string>202</string>
 							<key>StartingLineNumber</key>
-							<string>199</string>
+							<string>202</string>
 							<key>Timestamp</key>
-							<string>720904563.167114</string>
+							<string>721317917.816767</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -344,16 +146,12 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
-							<key>EndingColumnNumber</key>
-							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>221</string>
-							<key>StartingColumnNumber</key>
-							<string>0</string>
+							<string>224</string>
 							<key>StartingLineNumber</key>
-							<string>221</string>
+							<string>224</string>
 							<key>Timestamp</key>
-							<string>720908187.17536</string>
+							<string>721317960.860458</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -386,11 +184,11 @@
 						<key>location-parameters</key>
 						<dict>
 							<key>EndingLineNumber</key>
-							<string>283</string>
+							<string>286</string>
 							<key>StartingLineNumber</key>
-							<string>283</string>
+							<string>286</string>
 							<key>Timestamp</key>
-							<string>720907728.906876</string>
+							<string>721317997.969106</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -470,13 +268,13 @@
 							<key>EndingColumnNumber</key>
 							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>203</string>
+							<string>206</string>
 							<key>StartingColumnNumber</key>
 							<string>0</string>
 							<key>StartingLineNumber</key>
-							<string>202</string>
+							<string>205</string>
 							<key>Timestamp</key>
-							<string>720893001.790444</string>
+							<string>721326281.979098</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -513,11 +311,11 @@
 						<key>location-parameters</key>
 						<dict>
 							<key>EndingLineNumber</key>
-							<string>503</string>
+							<string>500</string>
 							<key>StartingLineNumber</key>
-							<string>503</string>
+							<string>500</string>
 							<key>Timestamp</key>
-							<string>720907477.117576</string>
+							<string>721318457.857224</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -549,6 +347,38 @@
 			<string>Task</string>
 			<key>type</key>
 			<string>group</string>
+		</dict>
+		<dict>
+			<key>query-specification</key>
+			<dict>
+				<key>match-case</key>
+				<integer>1</integer>
+				<key>query</key>
+				<string>text</string>
+				<key>term</key>
+				<dict>
+					<key>text</key>
+					<string>TODO</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>batch-find-query</string>
+		</dict>
+		<dict>
+			<key>query-specification</key>
+			<dict>
+				<key>match-case</key>
+				<integer>1</integer>
+				<key>query</key>
+				<string>text</string>
+				<key>term</key>
+				<dict>
+					<key>text</key>
+					<string>FIXME</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>batch-find-query</string>
 		</dict>
 	</array>
 </dict>

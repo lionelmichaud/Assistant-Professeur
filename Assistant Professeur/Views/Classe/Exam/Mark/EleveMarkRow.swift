@@ -12,8 +12,8 @@ struct EleveMarkRow: View {
     @ObservedObject
     var mark: MarkEntity
 
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     @Environment(\.horizontalSizeClass)
     private var hClass
@@ -46,7 +46,7 @@ struct EleveMarkRow: View {
 
                                 CasePicker(
                                     pickedCase: $mark.markTypeEnum,
-                                    label: mark.eleve!.displayName
+                                    label: mark.eleve!.displayName(userContext.prefs.nameDisplayOrderEnum)
                                 )
                                 .pickerStyle(.menu)
                             }
@@ -74,7 +74,7 @@ struct EleveMarkRow: View {
                             trombineButton
                             CasePicker(
                                 pickedCase: $mark.markTypeEnum,
-                                label: eleve.displayName
+                                label: eleve.displayName(userContext.prefs.nameDisplayOrderEnum)
                             )
                             .pickerStyle(.menu)
                         }
@@ -102,7 +102,7 @@ extension EleveMarkRow {
             switch examType {
                 case .global:
                     AmountEditView(
-                        label: mark.eleve!.displayName,
+                        label: mark.eleve!.displayName(userContext.prefs.nameDisplayOrderEnum),
                         amount: $mark.viewMark,
                         validity: .within(range: 0.0 ... Double(mark.exam!.viewMaxMark)),
                         currency: false
@@ -124,7 +124,7 @@ extension EleveMarkRow {
 
                 case .multiStep:
                     LabeledContent(
-                        mark.eleve!.displayName,
+                        mark.eleve!.displayName(userContext.prefs.nameDisplayOrderEnum),
                         value: mark.viewMark,
                         format: .number.precision(.fractionLength(1))
                     )
@@ -193,7 +193,7 @@ extension EleveMarkRow {
                 .foregroundColor(mark.eleve!.sexEnum.color)
         }
         .buttonStyle(.borderless)
-        .disabled(!pref.viewElevePref.trombineEnabled)
+        .disabled(!userContext.prefs.viewElevePref.trombineEnabled)
         .popover(item: $selectedEleve) { eleve in
             TrombineView(eleve: eleve)
                 .scaledToFit()

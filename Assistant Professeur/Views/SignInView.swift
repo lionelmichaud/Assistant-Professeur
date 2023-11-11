@@ -6,8 +6,8 @@
 //
 
 import AuthenticationServices
-import SwiftUI
 import os
+import SwiftUI
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -20,6 +20,9 @@ struct SignInView: View {
 
     @EnvironmentObject
     private var authentication: Authentication
+
+    @EnvironmentObject
+    private var userContext: UserContext
 
     var body: some View {
         VStack {
@@ -34,15 +37,17 @@ struct SignInView: View {
                         customLog.log(level: .info, "Auth success. Result: \(authResult)")
 
                         // Post-authentication updates on persistence and/or states.
-                        // authResult.credential
+                        //   Check if the User is authoriezd after sign-in.
+                        //   Si oui, mettre à jour les context utilisateur avec le Owner.
                         withAnimation {
                             authentication.checkAuthorization(
-                                authorization:authResult
+                                authorization: authResult,
+                                userContext: userContext
                             )
                         }
 
                     case let .failure(error):
-                        customLog.log(level: .info,"Auth failed. Result: \(error.localizedDescription)")
+                        customLog.log(level: .info, "Auth failed. Result: \(error.localizedDescription)")
                         // Handle auth failures
                 }
             }

@@ -12,21 +12,28 @@ struct SequenceCreatorModal: View {
     @ObservedObject
     var program: ProgramEntity
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     /// This will not show changes to the variables in this View
     @State
-    var newSequence: SequenceEntity?
+    private var newSequence: SequenceEntity?
 
     var body: some View {
         Group {
-            if let newSequence {
-                SequenceEditorModal(sequence: newSequence)
+            if let aNewSequence = newSequence {
+                SequenceEditorModal(sequence: aNewSequence)
             } else {
                 // Likely wont ever be visible but there has to be a fallback
                 ProgressView()
-                    .onAppear {
-                        newSequence = SequenceEntity.createWithoutSaving(dans: program)
-                    }
             }
+        }
+        .onAppear {
+            newSequence =
+                SequenceEntity.createWithoutSaving(
+                    margePostSequence: userContext.prefs.viewMargeInterSequence, 
+                    dans: program
+                )
         }
     }
 }

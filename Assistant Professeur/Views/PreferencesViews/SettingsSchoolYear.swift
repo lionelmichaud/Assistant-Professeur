@@ -10,14 +10,17 @@ import HelpersView
 import SwiftUI
 
 struct SettingsSchoolYear: View {
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     @State
     private var eventStore = EKEventStore()
 
     @State
     private var calendar: EKCalendar?
+
+    @State
+    private var popOverSynchroIsPresented: Bool = false
 
     @State
     private var alertTitle = ""
@@ -33,11 +36,11 @@ struct SettingsSchoolYear: View {
             // Zone scolaire
             Section {
                 CasePicker(
-                    pickedCase: $pref.viewSchoolYearPref.zone,
+                    pickedCase: $userContext.prefs.viewSchoolYearPref.zone,
                     label: "Zone scolaire"
                 )
                 .pickerStyle(.segmented)
-                Text("\(pref.viewSchoolYearPref.zone.academy)")
+                Text("\(userContext.prefs.viewSchoolYearPref.zone.academy)")
                     .foregroundColor(.secondary)
             } header: {
                 Text("Zone scolaire")
@@ -50,17 +53,25 @@ struct SettingsSchoolYear: View {
                     Text("du")
                     DatePicker(
                         "Début",
-                        selection: $pref.viewSchoolYearPref.interval.start,
+                        selection: $userContext.prefs.viewSchoolYearPref.interval.start,
                         displayedComponents: .date
                     )
                     .labelsHidden()
                     Text("au")
                     DatePicker(
                         "Fin",
-                        selection: $pref.viewSchoolYearPref.interval.end,
+                        selection: $userContext.prefs.viewSchoolYearPref.interval.end,
                         displayedComponents: .date
                     )
                     .labelsHidden()
+                }
+                .popover(isPresented: $popOverSynchroIsPresented) {
+                    Text("""
+                            Il est possible de mettre à jour le calendrier **'Année Scolaire'** dans l'application Calendrier depuis ici.
+                            Mais une mise à jour dans l'application Calndrier ne sera pas répercutée ici.
+                            """)
+                    .foregroundColor(.primary)
+                    .padding()
                 }
             } header: {
                 Text("Année scolaire")
@@ -68,7 +79,7 @@ struct SettingsSchoolYear: View {
             }
 
             // Périodes de vacances scolaires
-            ForEach($pref.viewSchoolYearPref.vacances) { $vacance in
+            ForEach($userContext.prefs.viewSchoolYearPref.vacances) { $vacance in
                 Section {
                     HStack {
                         Text("du")
@@ -97,8 +108,16 @@ struct SettingsSchoolYear: View {
                     .disabled(!EventManager.shared.isFullAccessAuthorized)
                     .horizontallyAligned(.center)
                 } header: {
-                    Text(vacance.name)
-                        .style(.sectionHeader)
+                    HStack {
+                        Text(vacance.name)
+                            .style(.sectionHeader)
+                        // Afficher le PopOver d'information
+                        Button {
+                            popOverSynchroIsPresented = true
+                        } label: {
+                            Image(systemName: "info.bubble")
+                        }
+                    }
                 }
             }
         }
@@ -115,6 +134,11 @@ struct SettingsSchoolYear: View {
         #endif
     }
 
+    /// Ajouter ou mettre à jour le calendrier "Année scoalire" dans l'appli Calendrier.
+    ///
+    /// - Parameters:
+    ///   - eventTitle: Nom de l'événement à ajouter / modifier
+    ///   - eventDateInterval: Dates début / fin
     private func saveOrUpdate(
         eventTitle: String,
         eventDateInterval: DateInterval
@@ -129,7 +153,7 @@ struct SettingsSchoolYear: View {
             ) = await EventManager.shared
                 .requestCalendarAccess(
                     eventStore: eventStore,
-                    calendarName: pref.viewSchoolYearPref.calName
+                    calendarName: userContext.prefs.viewSchoolYearPref.calName
                 )
 
             guard let calendar else {
@@ -139,7 +163,7 @@ struct SettingsSchoolYear: View {
             let success = EventManager.saveOrUpdate(
                 eventTitle: eventTitle,
                 eventDateInterval: eventDateInterval,
-                during: pref.viewSchoolYearPref.interval,
+                during: userContext.prefs.viewSchoolYearPref.interval,
                 inCalendar: calendar,
                 inEventStore: eventStore
             )

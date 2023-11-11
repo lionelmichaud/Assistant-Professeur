@@ -14,6 +14,9 @@ struct SchoolSeancesList: View {
     let showOnlyOngoingSeance: Bool
     let showToDoListButton: Bool
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     @StateObject
     private var viewModel = SchoolSeancesViewModel()
 
@@ -40,7 +43,8 @@ struct SchoolSeancesList: View {
                 forSchool: school,
                 inDateInterval: dateInterval,
                 showOnlyOngoingSeance: showOnlyOngoingSeance,
-                showToDoListButton: showToDoListButton
+                showToDoListButton: showToDoListButton,
+                schoolYear: userContext.prefs.viewSchoolYearPref
             )
             self.alert = alert
         }

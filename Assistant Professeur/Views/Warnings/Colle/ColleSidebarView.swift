@@ -76,6 +76,9 @@ struct ColleSidebarSchoolSubview: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     var body: some View {
         // pour chaque Classe
         ForEach(school.classesSortedByLevelNumber) { classe in
@@ -128,7 +131,10 @@ struct ColleSidebarSchoolSubview: View {
     }
 
     private func filteredSortedColles(dans classe: ClasseEntity) -> [ColleEntity] {
-        classe.filteredSortedColles(isConsignee: filterColle ? false : nil)
+        classe.filteredSortedColles(
+            isConsignee: filterColle ? false : nil,
+            nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
+        )
     }
 }
 

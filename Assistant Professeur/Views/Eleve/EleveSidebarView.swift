@@ -118,6 +118,9 @@ struct EleveSidebarClasseSubview: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     @Environment(\.isSearching)
     private var isSearching
 
@@ -205,7 +208,8 @@ struct EleveSidebarClasseSubview: View {
                 searchString: searchString,
                 withObservation: navigationModel.filterObservation,
                 withColle: navigationModel.filterColle,
-                withFlag: navigationModel.filterFlag
+                withFlag: navigationModel.filterFlag,
+                nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
             )
             numberOfHit = filteredEleveInClasse.count
             isClasseExpanded = (searchString.isNotEmpty && numberOfHit > 0) ||

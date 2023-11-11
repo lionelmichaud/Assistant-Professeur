@@ -11,7 +11,7 @@ import Foundation
 @objc(OwnerEntity)
 public final class OwnerEntity: NSManagedObject, Codable, ModelEntityP {
     enum CodingKeys: CodingKey {
-        case id, familyName, givenName, annotation, numen, userIdentifier
+        case id, familyName, givenName, annotation, numen, userIdentifier, prefs
         case mailAdressAcademy, urlMailAcademy, idMailAcademy, pwdMailAcademy
     }
 
@@ -31,6 +31,8 @@ public final class OwnerEntity: NSManagedObject, Codable, ModelEntityP {
         self.urlMailAcademy = try container.decodeIfPresent(URL.self, forKey: .urlMailAcademy)
         self.idMailAcademy = try container.decodeIfPresent(String.self, forKey: .idMailAcademy)
         self.pwdMailAcademy = try container.decodeIfPresent(String.self, forKey: .pwdMailAcademy)
+
+        self.prefs = try container.decodeIfPresent(UserPrefEntity.self, forKey: .prefs)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -47,5 +49,7 @@ public final class OwnerEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encodeIfPresent(urlMailAcademy, forKey: .urlMailAcademy)
         try container.encodeIfPresent(idMailAcademy, forKey: .idMailAcademy)
         try container.encodeIfPresent(pwdMailAcademy, forKey: .pwdMailAcademy)
+
+        try container.encodeIfPresent(prefs, forKey: .prefs)
     }
 }

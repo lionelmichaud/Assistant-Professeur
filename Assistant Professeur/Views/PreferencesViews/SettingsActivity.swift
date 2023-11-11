@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct SettingsActivity: View {
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     var body: some View {
         List {
             Section {
-                Toggle("Annotation", isOn: $pref.viewActivityAnnotationEnabled)
+                Toggle("Annotation", isOn: $userContext.prefs.viewActivityAnnotationEnabled)
             } header: {
                 Text("Champs")
                     .style(.sectionHeader)

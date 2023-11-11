@@ -12,8 +12,10 @@ import SwiftUI
 struct MarkListView: View {
     @ObservedObject
     var exam: ExamEntity
-
     var searchString: String
+
+    @EnvironmentObject
+    private var userContext: UserContext
 
     @State
     private var isAddingGroupMark = false
@@ -25,7 +27,12 @@ struct MarkListView: View {
 
     var body: some View {
         Section {
-            ForEach(exam.sortedMarksByEleveName(searchString: searchString)) { mark in
+            ForEach(
+                exam.sortedMarksByEleveName(
+                    searchString: searchString,
+                    nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
+                )
+            ) { mark in
                 EleveMarkRow(mark: mark)
                     .listRowSeparatorTint(.secondary)
             }

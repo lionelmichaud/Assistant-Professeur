@@ -22,7 +22,8 @@ class ClasseSeancesViewModel: ObservableObject {
     func updateItems(
         forClasse classe: ClasseEntity,
         inDateInterval dateInterval: DateInterval,
-        showToDoListButton: Bool
+        showToDoListButton: Bool,
+        schoolYear: SchoolYearPref
     ) async -> AlertInfo {
         self.showToDoListButton = showToDoListButton
         self.state = .pending
@@ -61,7 +62,8 @@ class ClasseSeancesViewModel: ObservableObject {
                 classe: classe,
                 inCalendar: calendar,
                 inEventStore: eventStore,
-                inDateInterval: dateInterval
+                inDateInterval: dateInterval, 
+                schoolYear: schoolYear
             )
 
         state = .finished(seancesInInterval: classeSeances)

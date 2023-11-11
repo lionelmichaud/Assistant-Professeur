@@ -19,8 +19,8 @@ struct EleveLabelWithTrombineFlag: View {
     var imageSize: Image.Scale = .large
     var flagSize: Image.Scale = .medium
 
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     @Environment(\.horizontalSizeClass)
     var hClass
@@ -117,7 +117,7 @@ struct EleveLabelWithTrombineFlag: View {
                         .symbolRenderingMode(.monochrome)
                         .foregroundColor(eleve.sexEnum.color)
                 }
-                .disabled(!pref.viewElevePref.trombineEnabled)
+                .disabled(!userContext.prefs.viewElevePref.trombineEnabled)
 
                 // Nom
                 if hClass == .compact {

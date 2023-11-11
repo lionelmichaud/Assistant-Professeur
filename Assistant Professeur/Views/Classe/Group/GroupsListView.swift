@@ -18,6 +18,9 @@ struct GroupsListView: View {
         case picture
     }
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     @State
     private var isShowingDeleteGroupsDialog = false
 
@@ -192,7 +195,8 @@ extension GroupsListView {
                             withAnimation {
                                 GroupManager.formOrderedGroups(
                                     nbEleveParGroupe: 2,
-                                    dans: classe
+                                    dans: classe, 
+                                    nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
                                 )
                             }
                         }
@@ -200,7 +204,8 @@ extension GroupsListView {
                             withAnimation {
                                 GroupManager.formOrderedGroups(
                                     nbEleveParGroupe: 3,
-                                    dans: classe
+                                    dans: classe,
+                                    nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
                                 )
                             }
                         }
@@ -208,7 +213,8 @@ extension GroupsListView {
                             withAnimation {
                                 GroupManager.formOrderedGroups(
                                     nbEleveParGroupe: 4,
-                                    dans: classe
+                                    dans: classe,
+                                    nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
                                 )
                             }
                         }
@@ -216,7 +222,8 @@ extension GroupsListView {
                             withAnimation {
                                 GroupManager.formOrderedGroups(
                                     nbEleveParGroupe: 5,
-                                    dans: classe
+                                    dans: classe,
+                                    nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
                                 )
                             }
                         }
@@ -229,7 +236,8 @@ extension GroupsListView {
                             withAnimation {
                                 GroupManager.formRandomGroups(
                                     nbEleveParGroupe: 2,
-                                    dans: classe
+                                    dans: classe,
+                                    nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
                                 )
                             }
                         }
@@ -237,7 +245,8 @@ extension GroupsListView {
                             withAnimation {
                                 GroupManager.formRandomGroups(
                                     nbEleveParGroupe: 3,
-                                    dans: classe
+                                    dans: classe,
+                                    nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
                                 )
                             }
                         }
@@ -245,7 +254,8 @@ extension GroupsListView {
                             withAnimation {
                                 GroupManager.formRandomGroups(
                                     nbEleveParGroupe: 4,
-                                    dans: classe
+                                    dans: classe,
+                                    nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
                                 )
                             }
                         }
@@ -253,7 +263,8 @@ extension GroupsListView {
                             withAnimation {
                                 GroupManager.formRandomGroups(
                                     nbEleveParGroupe: 5,
-                                    dans: classe
+                                    dans: classe,
+                                    nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
                                 )
                             }
                         }

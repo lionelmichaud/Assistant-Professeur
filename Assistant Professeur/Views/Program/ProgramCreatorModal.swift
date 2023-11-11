@@ -18,8 +18,8 @@ struct ProgramCreatorModal: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     @State
     private var alertTitle = ""
@@ -55,7 +55,7 @@ struct ProgramCreatorModal: View {
                 }
             }
 
-            if pref.viewProgramAnnotationEnabled {
+            if userContext.prefs.viewProgramAnnotationEnabled {
                 TextField(
                     "Annotation",
                     text: $programVM.annotation,

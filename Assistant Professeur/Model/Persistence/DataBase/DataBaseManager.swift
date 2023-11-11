@@ -443,7 +443,8 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
         // Groupes
         GroupManager.formOrderedGroups(
             nbEleveParGroupe: 2,
-            dans: classe5E1
+            dans: classe5E1,
+            nameSortOrderEnum: .nomPrenom
         )
 
         // Observations
@@ -519,34 +520,40 @@ enum DataBaseManager { // swiftlint:disable:this type_body_length
         // Séquences
         let progTechno5Seq1 = SequenceEntity.create(
             name: "Séquence 1 du Programme de Technologie de 5ième",
-            annotation: "Une annotation de séquence 1",
+            annotation: "Une annotation de séquence 1", 
+            margePostSequence: 1,
             url: URL(string: "http://www.google.com"),
             dans: progTechno5
         )
         let progTechno5Seq2 = SequenceEntity.create(
             name: "Séquence 2 du Programme de Technologie de 5ième",
-            annotation: "Une annotation de séquence 2",
+            annotation: "Une annotation de séquence 2", 
+            margePostSequence: 2,
             dans: progTechno5
         )
         SequenceEntity.create(
             name: "Séquence 3 du Programme de Technologie de 5ième",
             annotation: "Une annotation de séquence 3",
+            margePostSequence: 0,
             dans: progTechno5
         )
         SequenceEntity.create(
             name: "Séquence 4 du Programme de Technologie de 5ième",
             annotation: "Une annotation de séquence 4",
+            margePostSequence: 1,
             dans: progTechno5
         )
         _ = SequenceEntity.create(
             name: "Séquence 1 du Programme de SNT",
-            annotation: "Une annotation de séquence 1 du Programme de SNT",
+            annotation: "Une annotation de séquence 1 du Programme de SNT", 
+            margePostSequence: 2,
             url: URL(string: "http://www.google.com"),
             dans: progSntTerm
         )
         let progSntTermSeq2 = SequenceEntity.create(
             name: "Séquence 2 du Programme de SNT",
-            annotation: "Une annotation de séquence 2 du Programme de SNT",
+            annotation: "Une annotation de séquence 2 du Programme de SNT", 
+            margePostSequence: 3,
             dans: progSntTerm
         )
 

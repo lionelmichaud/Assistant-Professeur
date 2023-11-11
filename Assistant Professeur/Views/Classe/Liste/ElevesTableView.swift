@@ -32,7 +32,10 @@ struct ElevesTableView: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @State 
+    @EnvironmentObject
+    private var userContext: UserContext
+
+    @State
     private var presentedSheet: Sheet?
 
     @State
@@ -127,7 +130,10 @@ struct ElevesTableView: View {
     var body: some View {
         VStack {
             Table(
-                classe.filteredSortedEleves(searchString: searchString, sortOrder: sortOrder),
+                classe.filteredSortedEleves(
+                    searchString: searchString,
+                    sortOrder: sortOrder
+                ),
                 selection: $selection,
                 sortOrder: $sortOrder
             ) {

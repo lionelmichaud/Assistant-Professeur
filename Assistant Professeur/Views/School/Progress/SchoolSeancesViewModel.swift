@@ -53,7 +53,8 @@ class SchoolSeancesViewModel: ObservableObject {
         forSchool school: SchoolEntity,
         inDateInterval dateInterval: DateInterval,
         showOnlyOngoingSeance: Bool,
-        showToDoListButton: Bool
+        showToDoListButton: Bool,
+        schoolYear: SchoolYearPref
     ) async -> AlertInfo {
         self.showToDoListButton = showToDoListButton
         self.state = .pending
@@ -83,12 +84,13 @@ class SchoolSeancesViewModel: ObservableObject {
 
         // Recherche: `SeancesInDateInterval` contenant la liste des Séances à venir
         // pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
-        var schoolSeances = await SeancesInDateInterval
+        let schoolSeances = await SeancesInDateInterval
             .loadedNextSeancesForSchool(
                 school: school,
                 inCalendar: calendar,
                 inEventStore: eventStore,
-                inDateInterval: dateInterval
+                inDateInterval: dateInterval,
+                schoolYear: schoolYear
             )
 
         if showOnlyOngoingSeance {

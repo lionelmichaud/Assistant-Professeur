@@ -25,10 +25,14 @@ struct Assistant_ProfesseurApp: App {
     @StateObject
     private var authentication = Authentication()
 
+    @StateObject
+    private var userContext = UserContext()
+
     var body: some Scene {
         MainScene(
             coreDataManager: coreDataManager,
-            authentication: authentication
+            authentication: authentication,
+            userContext: userContext
         )
     }
 

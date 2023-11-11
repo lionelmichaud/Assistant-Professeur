@@ -15,8 +15,8 @@ struct ActivityDetailGroupBox: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     @State
     private var documentToBeViewed: DocumentEntity?
@@ -34,7 +34,7 @@ struct ActivityDetailGroupBox: View {
                 }
 
                 // note sur le programme
-                if pref.viewActivityAnnotationEnabled && activity.viewAnnotation.isNotEmpty {
+                if userContext.prefs.viewActivityAnnotationEnabled && activity.viewAnnotation.isNotEmpty {
                     AnnotationView(
                         annotation: activity.viewAnnotation,
                         scrollable: true,

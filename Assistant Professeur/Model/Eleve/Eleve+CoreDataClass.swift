@@ -50,7 +50,7 @@ public final class EleveEntity: NSManagedObject, Codable, ModelEntityP {
             } else {
                 customLog.log(
                     level: .error,
-                    "Erreur: Groupe de l'élève \(self.displayName) introuvable!"
+                    "Erreur: Groupe de l'élève \(self.displayName(.nomPrenom)) introuvable!"
                 )
             }
         }
@@ -63,7 +63,7 @@ public final class EleveEntity: NSManagedObject, Codable, ModelEntityP {
             } else {
                 customLog.log(
                     level: .error,
-                    "Erreur: Siège de l'élève \(self.displayName) introuvable dans sa salle de classe!"
+                    "Erreur: Siège de l'élève \(self.displayName(.nomPrenom)) introuvable dans sa salle de classe!"
                 )
             }
         }

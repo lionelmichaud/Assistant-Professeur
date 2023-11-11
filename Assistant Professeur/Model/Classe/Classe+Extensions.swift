@@ -523,8 +523,11 @@ extension ClasseEntity {
     /// Ordre de tri selon la préférence `.nameSortOrder`:
     ///   1. Nom / Prénom
     ///   2. Prénon / Nom
-    var elevesSortedByName: [EleveEntity] {
-        filteredElevesSortedByName(searchString: "")
+    func elevesSortedByName(_ nameSortOrderEnum: NameOrdering) -> [EleveEntity] {
+        filteredElevesSortedByName(
+            searchString: "",
+            nameSortOrderEnum: nameSortOrderEnum
+        )
     }
 
     // MARK: - Computed Properties Bonus/Malus
@@ -725,7 +728,7 @@ extension ClasseEntity {
     /// * **nbOfSeanceSuposidelyCompleted**: nombre de séance qui devraient être complétées à la date courante.
     /// * **nbOfSeanceInProgram**: nombre total de séance (hors marges) contenues dans le programme prévu pour cette classe.
     /// * **theoricalProgress**: avancement théorique à la date courantet [0, 1] : `nbOfSeanceSuposidelyCompleted` / `nbOfSeanceInProgram`
-    func theoricalProgressInProgram() ->
+    func theoricalProgressInProgram(schoolYear: SchoolYearPref) ->
         (
             nbOfSeanceSuposidelyCompleted: Double,
             nbOfSeanceInProgram: Double,
@@ -746,7 +749,7 @@ extension ClasseEntity {
         // Nombre de séances qui devraient être complétées à la date courante
         let nbOfSeanceSuposidlyCompleted = ProgramManager.nbOfSeanceSuposidlyCompleted(
             program: program,
-            schoolYear: UserPrefEntity.shared.viewSchoolYearPref,
+            schoolYear: schoolYear,
             atThisDate: Date.now
         )
 
@@ -807,9 +810,10 @@ extension ClasseEntity {
         searchString: String,
         withObservation: Bool = false,
         withColle: Bool = false,
-        withFlag: Bool = false
+        withFlag: Bool = false,
+        nameSortOrderEnum: NameOrdering
     ) -> [EleveEntity] {
-        let sortComparators = UserPrefEntity.shared.nameSortOrderEnum == .nomPrenom ?
+        let sortComparators = nameSortOrderEnum == .nomPrenom ?
             [
                 SortDescriptor(\EleveEntity.familyName, order: .forward),
                 SortDescriptor(\EleveEntity.givenName, order: .forward)
@@ -858,8 +862,8 @@ extension ClasseEntity {
     /// Retourne la liste des élèves de la classe qui n'ont pas de place assise.
     ///
     /// Les élèves trouvés sont triés en utilisant les péréférences `nameSortOrder`.
-    func unseatedEleves() -> [EleveEntity] {
-        let sortComparators = UserPrefEntity.shared.nameSortOrderEnum == .nomPrenom ?
+    func unseatedEleves(nameSortOrderEnum: NameOrdering) -> [EleveEntity] {
+        let sortComparators = nameSortOrderEnum == .nomPrenom ?
             [
                 SortDescriptor(\EleveEntity.familyName, order: .forward),
                 SortDescriptor(\EleveEntity.givenName, order: .forward)
@@ -926,11 +930,12 @@ extension ClasseEntity {
     /// - Returns: Liste des `ObservEntity` associées aux élèves de la classe
     func filteredSortedObservations(
         isConsignee: Bool? = nil,
-        isVerified: Bool? = nil
+        isVerified: Bool? = nil,
+        nameSortOrderEnum: NameOrdering
     ) -> [ObservEntity] {
         var observs = [ObservEntity]()
 
-        self.elevesSortedByName
+        self.elevesSortedByName(nameSortOrderEnum)
             .forEach { eleve in
                 observs += eleve.sortedObservations(
                     isConsignee: isConsignee,
@@ -990,11 +995,12 @@ extension ClasseEntity {
     /// - Returns: Liste des `ColleEntity` associées aux élèves de la classe
     func filteredSortedColles(
         isConsignee: Bool? = nil,
-        isVerified: Bool? = nil
+        isVerified: Bool? = nil,
+        nameSortOrderEnum: NameOrdering
     ) -> [ColleEntity] {
         var observs = [ColleEntity]()
 
-        self.elevesSortedByName
+        self.elevesSortedByName(nameSortOrderEnum)
             .forEach { eleve in
                 observs += eleve.sortedColles(
                     isConsignee: isConsignee,

@@ -25,6 +25,9 @@ struct GroupSteppedlMarkModal: View {
     @ObservedObject
     private var exam: ExamEntity
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     @Environment(\.dismiss)
     private var dismiss
 
@@ -105,7 +108,7 @@ struct GroupSteppedlMarkModal: View {
             ForEach(
                 exam.classe?
                     .groupe(number: selectedGroupeNb)
-                    .elevesSortedByName ?? []) { eleve in
+                    .elevesSortedByName(nameSortOrderEnum: userContext.prefs.nameSortOrderEnum) ?? []) { eleve in
                 VStack {
                     TrombineView(eleve: eleve)
 

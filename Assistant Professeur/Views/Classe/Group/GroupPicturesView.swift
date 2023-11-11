@@ -16,6 +16,9 @@ struct GroupPicturesView: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     let smallColumns = [
         GridItem(
             .adaptive(minimum: 120, maximum: 200),
@@ -30,7 +33,13 @@ struct GroupPicturesView: View {
             columns: smallColumns,
             spacing: 4
         ) {
-            ForEach(groupe.filteredElevesSortedByName(searchString: searchString), id: \.objectID) { eleve in
+            ForEach(
+                groupe.filteredElevesSortedByName(
+                    searchString: searchString,
+                    nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
+                ),
+                id: \.objectID
+            ) { eleve in
                 VStack {
                     TrombineInteractivView(eleve: eleve)
 

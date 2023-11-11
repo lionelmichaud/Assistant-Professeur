@@ -12,8 +12,11 @@ struct HomeScreen: View {
     @Environment(\.colorScheme)
     private var colorScheme
 
-    @EnvironmentObject 
+    @EnvironmentObject
     private var authentication: Authentication
+
+    @EnvironmentObject
+    private var userContext: UserContext
 
     var body: some View {
         VStack {
@@ -28,7 +31,11 @@ struct HomeScreen: View {
             }
         }
         .task {
-            await authentication.checkUserCredentials()
+            // Vérifier si l'utilisateur est déjà autroisé.
+            // Si oui, mettre à jour les context utilisateur.
+            await authentication.checkUserCredentials(
+                userContext: userContext
+            )
         }
     }
 }
