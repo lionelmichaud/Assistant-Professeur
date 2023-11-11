@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 14/06/2023.
 //
 
+import AppFoundation
 import Foundation
 import os
 import TabularData
@@ -96,6 +97,32 @@ extension CsvImportExportMng {
             }
         }
 
+        // colonne relative aux séquences pédagogiques associées
+        func appendCompetencyToSequenceColumns(competency: WCompEntity?) {
+            if let competency {
+                var str = ""
+                let dicoPerDisciplineLevel = competency.sequencesPerDiscipleSortedByDisciplineNumber()
+
+                for (discipline, dicoPerLevel) in dicoPerDisciplineLevel {
+                    // Pour chaque discipline
+                    str += "\(discipline.acronym) (\(dicoPerLevel.cardinal))\n"
+                    for (level, sequences) in dicoPerLevel {
+                        // Pour chaque niveau
+                        str += "\(level.displayString) => "
+                        str += sequences
+                            .map { seq in
+                                "S\(seq.viewNumber)"
+                            }
+                            .joined(separator: " ")
+                        str += "\n"
+                    }
+                }
+                sequencesColumn.append(str)
+            } else {
+                sequencesColumn.append("aucune")
+            }
+        }
+
         // TODO: - Ajouter les colonnes relatives aux compétences disciplinaires associées
 
         var dataFrame = DataFrame()
@@ -124,22 +151,38 @@ extension CsvImportExportMng {
             capacity: 4
         )
 
+        // colonne relative aux séquences pédagogiques associées
+        var sequencesColumn = Column(
+            ColumnID("Séquences pédagogiques", String.self),
+            capacity: 4
+        )
+
+        let cycle = chapter.cycleEnum
+        let levels = cycle.associatedLevels
+
+        // Compétences inclues dans ce chapitre
         let competencies = chapter.allWorkedCompetenciesSortedByNumber
 
         if competencies.isNotEmpty {
             competencies.forEach { competency in
-                // Ajout de lignes aux colonnes relatives au Chapitre (commun)
+                // Ajout d'une ligne aux colonnes relatives au Chapitre (commun)
                 appendChapterToChapterColumns(chapter: chapter)
 
-                // Ajout de lignes aux colonnes relatives à la compétence
+                // Ajout d'une ligne aux colonnes relatives à la compétence
                 appendCompetencyToCompetencyColumns(competency: competency)
+
+                // Ajout d'une ligne à la colonne relative aux séquences pédagogiques associées
+                appendCompetencyToSequenceColumns(competency: competency)
             }
         } else {
-            // Ajout de lignes aux colonnes relatives au Chapitre
+            // Ajout d'une ligne aux colonnes relatives au Chapitre
             appendChapterToChapterColumns(chapter: chapter)
 
-            // Ajout de lignes aux colonnes VIDES relatives à la compétence
+            // Ajout d'une ligne aux colonnes VIDES relatives à la compétence
             appendCompetencyToCompetencyColumns(competency: nil)
+
+            // Ajout d'une ligne à la colonne relative aux séquences pédagogiques associées
+            appendCompetencyToSequenceColumns(competency: nil)
         }
 
         // colonnes relatives au Chapitre
@@ -150,6 +193,9 @@ extension CsvImportExportMng {
         // colonnes relatives à la compétence
         dataFrame.append(column: compAcronymColumn)
         dataFrame.append(column: compDescripColumn)
+
+        // colonne relative aux séquences pédagogiques associées
+        dataFrame.append(column: sequencesColumn)
 
         return dataFrame
     }

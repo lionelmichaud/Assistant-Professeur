@@ -109,6 +109,9 @@
 		794827402AFEA197001640CD /* SequenceModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7948273F2AFEA197001640CD /* SequenceModalView.swift */; };
 		794827422AFF8297001640CD /* CompetencyMiddleColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794827412AFF8297001640CD /* CompetencyMiddleColumn.swift */; };
 		794827442AFF82DD001640CD /* CompetencyDetailedColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794827432AFF82DD001640CD /* CompetencyDetailedColumn.swift */; };
+		794827472AFF9CE4001640CD /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 794827462AFF9CE4001640CD /* Collections */; };
+		794827492AFF9CE4001640CD /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 794827482AFF9CE4001640CD /* DequeModule */; };
+		7948274B2AFF9CE4001640CD /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 7948274A2AFF9CE4001640CD /* OrderedCollections */; };
 		794AE9C22A59706E009C819A /* AppTextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794AE9C12A59706E009C819A /* AppTextStyle.swift */; };
 		794B83CA2AB5B7A600F5B14E /* BonusMalusStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */; };
 		794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */; };
@@ -894,10 +897,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7948274B2AFF9CE4001640CD /* OrderedCollections in Frameworks */,
 				79B96B882AD9A9B100D8A164 /* ActivityKit.framework in Frameworks */,
 				79F7A29A2A4258A700CEC3D5 /* TagKit in Frameworks */,
+				794827472AFF9CE4001640CD /* Collections in Frameworks */,
 				7921F54A292575B400173F39 /* AppFoundation in Frameworks */,
 				7942F23829A5612E007E3C3B /* StepperView in Frameworks */,
+				794827492AFF9CE4001640CD /* DequeModule in Frameworks */,
 				79DEDAE22925849600F508EF /* HelpersView in Frameworks */,
 				79A56A5C2A4B4DCA00D1D4CC /* Stateful in Frameworks */,
 				79DEDB1C292594ED00F508EF /* FileAndFolder in Frameworks */,
@@ -2258,6 +2264,9 @@
 				7942F23729A5612E007E3C3B /* StepperView */,
 				79F7A2992A4258A700CEC3D5 /* TagKit */,
 				79A56A5B2A4B4DCA00D1D4CC /* Stateful */,
+				794827462AFF9CE4001640CD /* Collections */,
+				794827482AFF9CE4001640CD /* DequeModule */,
+				7948274A2AFF9CE4001640CD /* OrderedCollections */,
 			);
 			productName = "Assistant Professeur";
 			productReference = 79B6630129244C3F007B1FBD /* Assistant Professeur.app */;
@@ -2359,6 +2368,7 @@
 				7942F23629A5612E007E3C3B /* XCRemoteSwiftPackageReference "StepperView" */,
 				79F7A2982A4258A700CEC3D5 /* XCRemoteSwiftPackageReference "TagKit" */,
 				79A56A5A2A4B4DCA00D1D4CC /* XCRemoteSwiftPackageReference "Stateful" */,
+				794827452AFF9CE4001640CD /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = 79B6630229244C3F007B1FBD /* Products */;
 			projectDirPath = "";
@@ -3341,6 +3351,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		794827452AFF9CE4001640CD /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.5;
+			};
+		};
 		79A56A5A2A4B4DCA00D1D4CC /* XCRemoteSwiftPackageReference "Stateful" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/albertodebortoli/Stateful.git";
@@ -3368,6 +3386,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7942F23629A5612E007E3C3B /* XCRemoteSwiftPackageReference "StepperView" */;
 			productName = StepperView;
+		};
+		794827462AFF9CE4001640CD /* Collections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 794827452AFF9CE4001640CD /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = Collections;
+		};
+		794827482AFF9CE4001640CD /* DequeModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 794827452AFF9CE4001640CD /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = DequeModule;
+		};
+		7948274A2AFF9CE4001640CD /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 794827452AFF9CE4001640CD /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
 		};
 		79A56A5B2A4B4DCA00D1D4CC /* Stateful */ = {
 			isa = XCSwiftPackageProductDependency;

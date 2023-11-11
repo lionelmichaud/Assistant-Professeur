@@ -5,8 +5,30 @@
 //  Created by Lionel MICHAUD on 04/06/2023.
 //
 
+import Collections
 import CoreData
 import Foundation
+
+/// Dictionnaire ordonné par niveau de classe. [ Niveau de classe : Sequences ].
+typealias DicoSequencesPerLevel = OrderedDictionary<LevelClasse, [SequenceEntity]>
+extension DicoSequencesPerLevel {
+    var cardinal: Int {
+        self.values.reduce(into: 0) { partialResult, sequences in
+            partialResult += sequences.count
+        }
+    }
+}
+
+/// Dictionnaire ordonné par discipline et niveau. [Discipline : [ Niveau de classe : Sequences ] ].
+typealias DicoSequencesPerDisciplineLevel = OrderedDictionary<Discipline, DicoSequencesPerLevel>
+extension DicoSequencesPerDisciplineLevel {
+    var cardinal: Int {
+        self.values.reduce(into: 0) { partialResult, dico in
+            partialResult += dico.cardinal
+        }
+    }
+}
+
 
 /// Compétence travaillée du Socle de compétence
 extension WCompEntity {
@@ -142,24 +164,100 @@ extension WCompEntity {
                 activity.sequence
             }
         }
-        return Array(Set(allSequences))
+        return Array(Set(allSequences)) // élimine les doublons
             .sorted(using: sortComparators)
     }
 
     /// Retourne les séquences associées à cette compétence
     /// de niveau `level` et triées.
     ///
+    /// - Note: Les séquences retournées sont toutes disciplines confondues.
+    ///
     /// Ordre de tri:
     ///   1. Discipline
-    ///   2. Niveau de classe
-    ///   3. Numéro de séquence
-    func sequencesSortedByDisciplineLevelNumber(
+    ///   2. Numéro de séquence
+    func sequencesSortedByDisciplineNumber(
         level: LevelClasse
     ) -> [SequenceEntity] {
         allSequencesSortedByDisciplineLevelNumber
             .filter { sequence in
                 sequence.program?.levelEnum == level
             }
+    }
+
+    /// Retourne les séquences associées à cette compétence
+    /// pour la `discipline` et triées.
+    ///
+    /// - Note: Les séquences retournées sont tous niveaux de classe confondus.
+    ///
+    /// Ordre de tri:
+    ///   1. Niveau de classe
+    ///   2. Numéro de séquence
+    func sequencesSortedByLevelNumber(
+        discipline: Discipline
+    ) -> [SequenceEntity] {
+        allSequencesSortedByDisciplineLevelNumber
+            .filter { sequence in
+                sequence.program?.disciplineEnum == discipline
+            }
+    }
+
+    /// Retourne les séquences associées à cette compétence sous forme d'un
+    /// tableau de tableau [Dsicipline [Niveau de classe ] ].
+    ///
+    /// - Note: Les séquences retournées sont toutes disciplines et tous niveaux de classe confondus.
+    ///
+    /// Ordre de classement dans le tableau:
+    ///   1. Discipline
+    ///   2. Niveau de classe
+    ///   3. Numéro de séquence
+    func sequencesArraysPerDiscipleSortedByDisciplineNumber() -> [[SequenceEntity]] {
+        let allSequences = allDisciplineCompetencies.flatMap { dComp in
+            dComp.allActivities.compactMap { activity in
+                activity.sequence
+            }
+        }
+        let disciplines =
+            Array(Set(allSequences.compactMap { $0.program?.disciplineEnum }))
+        var table = [[SequenceEntity]]()
+        disciplines.forEach { discipline in
+            let sequences = sequencesSortedByLevelNumber(discipline: discipline)
+            table.append(sequences)
+        }
+
+        return table
+    }
+
+    /// Retourne les séquences associées à cette compétence sous forme d'un
+    /// dictionnaire de dictionnaires ordonné par discipline et niveau. [Discipline : [ Niveau de classe : Sequences ] ].
+    ///
+    /// - Note: Les séquences retournées sont toutes disciplines et tous niveaux de classe confondus.
+    ///
+    /// Ordre de classement dans les dictionnaires:
+    ///   1. Discipline
+    ///   2. Niveau de classe
+    ///   3. Numéro de séquence
+    func sequencesPerDiscipleSortedByDisciplineNumber() -> DicoSequencesPerDisciplineLevel {
+        // toutes les séquences
+        let allSequences = allSequencesSortedByDisciplineLevelNumber
+
+        // Creates a new dictionary whose keys are the groupings returned by the given closure
+        // and whose values are arrays of the elements that returned each key
+        let dicoOfSequencesArraysByDiscipline = OrderedDictionary(
+            grouping: allSequences,
+            by: { $0.program!.disciplineEnum }
+        )
+
+        var result = DicoSequencesPerDisciplineLevel()
+        for (discipline, sequences) in dicoOfSequencesArraysByDiscipline {
+            let dicoOfSequencesArraysByLevel = OrderedDictionary(
+                grouping: sequences,
+                by: { $0.program!.levelEnum }
+            )
+            result[discipline] = dicoOfSequencesArraysByLevel
+        }
+
+        return result
     }
 
     // MARK: - Gestion de la BDD

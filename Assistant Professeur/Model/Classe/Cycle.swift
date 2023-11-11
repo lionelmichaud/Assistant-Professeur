@@ -29,6 +29,7 @@ enum Cycle: String, PickableIdentifiableEnumP, Codable {
         }
     }
 
+    /// Niveaux de classe associés à ce cycle d'étude
     var associatedLevels: [LevelClasse] {
         switch self {
             case .cycle1: return []

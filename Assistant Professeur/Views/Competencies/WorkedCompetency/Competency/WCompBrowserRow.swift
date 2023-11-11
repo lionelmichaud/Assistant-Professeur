@@ -24,7 +24,7 @@ struct WCompBrowserRow: View {
         Group {
             if let cycle {
                 ForEach(cycle.associatedLevels) { level in
-                    let levelSequences = workedComp.sequencesSortedByDisciplineLevelNumber(level: level)
+                    let levelSequences = workedComp.sequencesSortedByDisciplineNumber(level: level)
 
                     // Tags des séquences pédagogiques par année dans le cycle
                     if showSequences && levelSequences.isNotEmpty {
