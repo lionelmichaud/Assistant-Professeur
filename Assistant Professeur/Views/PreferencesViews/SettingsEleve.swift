@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct SettingsEleve: View {
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     @State private var isShowingBonusResetConfirmDialog = false
 
     var body: some View {
         List {
             Section {
-                Toggle("Trombine", isOn: $pref.viewElevePref.trombineEnabled)
-                Toggle("Appréciation", isOn: $pref.viewElevePref.appreciationEnabled)
-                Toggle("Annotation", isOn: $pref.viewElevePref.annotationEnabled)
+                Toggle("Trombine", isOn: $userContext.prefs.viewElevePref.trombineEnabled)
+                Toggle("Appréciation", isOn: $userContext.prefs.viewElevePref.appreciationEnabled)
+                Toggle("Annotation", isOn: $userContext.prefs.viewElevePref.annotationEnabled)
             } header: {
                 Text("Champs")
                     .style(.sectionHeader)
@@ -27,30 +27,30 @@ struct SettingsEleve: View {
             }
 
             Section {
-                Toggle("Afficher", isOn: $pref.viewElevePref.bonusEnabled)
-                if pref.viewElevePref.bonusEnabled {
+                Toggle("Afficher", isOn: $userContext.prefs.viewElevePref.bonusEnabled)
+                if userContext.prefs.viewElevePref.bonusEnabled {
                     Stepper(
-                        value: $pref.viewElevePref.maxBonusMalus,
+                        value: $userContext.prefs.viewElevePref.maxBonusMalus,
                         in: 0 ... 100,
                         step: 1
                     ) {
                         HStack {
                             Text("Limite")
                             Spacer()
-                            Text("+/-\(pref.viewElevePref.maxBonusMalus.formatted(.number.precision(.fractionLength(0)))) points")
+                            Text("+/-\(userContext.prefs.viewElevePref.maxBonusMalus.formatted(.number.precision(.fractionLength(0)))) points")
                                 .foregroundColor(.secondary)
                         }
                     }
 
                     Stepper(
-                        value: $pref.viewElevePref.maxBonusIncrement,
+                        value: $userContext.prefs.viewElevePref.maxBonusIncrement,
                         in: 1 ... 5,
                         step: 1
                     ) {
                         HStack {
                             Text("Incrément de")
                             Spacer()
-                            Text("\(pref.viewElevePref.maxBonusIncrement.formatted(.number.precision(.fractionLength(0)))) points")
+                            Text("\(userContext.prefs.viewElevePref.maxBonusIncrement.formatted(.number.precision(.fractionLength(0)))) points")
                                 .foregroundColor(.secondary)
                         }
                     }

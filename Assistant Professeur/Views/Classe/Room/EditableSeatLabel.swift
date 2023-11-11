@@ -107,6 +107,9 @@ struct SeatMenu: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     @State
     private var isAddingNewObserv = false
 
@@ -124,7 +127,10 @@ struct SeatMenu: View {
     }
 
     private var unSeatedEleves: [EleveEntity] {
-        classe.filteredElevesSortedByName(searchString: "")
+        classe.filteredElevesSortedByName(
+            searchString: "",
+            nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
+        )
     }
 
     var body: some View {
@@ -213,7 +219,7 @@ struct SeatMenu: View {
                             }
                         } label: {
                             Label(
-                                (eleve.seat == nil ? "    " : "✓ ") + eleve.displayName,
+                                (eleve.seat == nil ? "    " : "✓ ") + eleve.displayName(userContext.prefs.nameDisplayOrderEnum),
                                 systemImage: EleveEntity.defaultImageName
                             )
                         }

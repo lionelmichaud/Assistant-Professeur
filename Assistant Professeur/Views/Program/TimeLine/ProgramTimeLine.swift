@@ -11,8 +11,8 @@ struct ProgramTimeLine: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     enum ViewMode: Int {
         case steps
@@ -166,7 +166,7 @@ extension ProgramTimeLine {
 
         return ProgramPlanningGraphData(
             forProgram: program,
-            schoolYear: pref.viewSchoolYearPref
+            schoolYear: userContext.prefs.viewSchoolYearPref
         )
     }
 }

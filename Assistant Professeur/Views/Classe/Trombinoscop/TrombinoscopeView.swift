@@ -12,6 +12,9 @@ struct TrombinoscopeView: View {
     @ObservedObject
     var classe: ClasseEntity
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     private let smallColumns = [
         GridItem(
             .adaptive(minimum: 120, maximum: 200),
@@ -46,7 +49,12 @@ struct TrombinoscopeView: View {
                 columns: pictureSize == "Small picture" ? smallColumns : largeColumns,
                 spacing: 4
             ) {
-                ForEach(classe.filteredElevesSortedByName(searchString: searchString)) { eleve in
+                ForEach(
+                    classe.filteredElevesSortedByName(
+                        searchString: searchString,
+                        nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
+                    )
+                ) { eleve in
                     VStack(alignment: .center) {
                         TrombineInteractivView(eleve: eleve)
 

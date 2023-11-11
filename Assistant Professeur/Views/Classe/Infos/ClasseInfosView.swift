@@ -14,8 +14,8 @@ struct ClasseInfosView: View {
     @ObservedObject
     var classe: ClasseEntity
 
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     @StateObject
     private var viewModel = ClasseEventsViewModel()
@@ -33,11 +33,11 @@ struct ClasseInfosView: View {
         List {
             Section {
                 // appréciation sur la classe
-                if pref.viewClasseAppreciationEnabled {
+                if userContext.prefs.viewClasseAppreciationEnabled {
                     AppreciationView(appreciation: $classe.viewAppreciation)
                 }
                 // annotation sur la classe
-                if pref.viewClasseAnnotationEnabled {
+                if userContext.prefs.viewClasseAnnotationEnabled {
                     AnnotationEditView(annotation: $classe.viewAnnotation)
                 }
                 // statistiques des bonus / malus de la classe
@@ -124,7 +124,7 @@ struct ClasseInfosView: View {
         .task {
             let alert = await viewModel.getAllEvents(
                 forClasse: classe,
-                during: pref.viewSchoolYearPref.interval
+                during: userContext.prefs.viewSchoolYearPref.interval
             )
             self.alert = alert
         }

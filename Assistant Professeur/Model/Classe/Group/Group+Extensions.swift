@@ -164,16 +164,19 @@ extension GroupEntity {
         }
     }
 
+    // MARK: - Methods
+
     /// Liste des élèves du groupe triés par nom.
     ///
     /// Ordre de tri selon la préférence `.nameSortOrder`:
     ///   1. Nom / Prénom
     ///   2. Prénon / Nom
-    var elevesSortedByName: [EleveEntity] {
-        filteredElevesSortedByName(searchString: "")
+    func elevesSortedByName(nameSortOrderEnum: NameOrdering) -> [EleveEntity] {
+        filteredElevesSortedByName(
+            searchString: "",
+            nameSortOrderEnum: nameSortOrderEnum
+        )
     }
-
-    // MARK: - Methods
 
     /// Retourne la liste des élèves du groupe satisfaisant *au moins à l'un des critères* définis en paramètre.
     /// Les élèves trouvés sont triés par nom.
@@ -185,8 +188,11 @@ extension GroupEntity {
     /// - Parameters:
     ///   - searchString: caractères à rechercher dnas les noms/prénom ou nombre à rechercher dans le n° de groupe
     /// - Returns: Liste des élèves du groupe satisfaisant *au moins à l'un des critères* définis en paramètre
-    func filteredElevesSortedByName(searchString: String) -> [EleveEntity] {
-        let sortComparators = UserPrefEntity.shared.nameSortOrderEnum == .nomPrenom ?
+    func filteredElevesSortedByName(
+        searchString: String,
+        nameSortOrderEnum: NameOrdering
+    ) -> [EleveEntity] {
+        let sortComparators = nameSortOrderEnum == .nomPrenom ?
             [
                 SortDescriptor(\EleveEntity.familyName, order: .forward),
                 SortDescriptor(\EleveEntity.givenName, order: .forward)

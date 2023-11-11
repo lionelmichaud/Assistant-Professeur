@@ -37,7 +37,6 @@ struct SchoolYearPref: Codable {
 
     /// Nom du calendrier de l'année scolaire dans l'App Calendar
     var calName: String = "Année Scolaire"
-    // TODO: - A mettre en préférence
 
     var zone: ZoneScolaire = .ZoneC
 

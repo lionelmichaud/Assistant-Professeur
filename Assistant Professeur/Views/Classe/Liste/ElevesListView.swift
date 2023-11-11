@@ -14,6 +14,9 @@ struct ElevesListView: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     @State
     private var isAddingNewEleve = false
 
@@ -35,7 +38,12 @@ struct ElevesListView: View {
             .buttonStyle(.borderless)
 
             // liste des élèves
-            ForEach(classe.filteredElevesSortedByName(searchString: searchString)) { eleve in
+            ForEach(
+                classe.filteredElevesSortedByName(
+                    searchString: searchString,
+                    nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
+                )
+            ) { eleve in
                 ClasseEleveRow(eleve: eleve)
 
                     .onTapGesture {

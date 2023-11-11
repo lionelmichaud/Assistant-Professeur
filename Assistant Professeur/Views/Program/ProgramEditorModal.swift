@@ -19,8 +19,8 @@ struct ProgramEditorModal: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     @State
     private var isImportingPdfFile = false
@@ -59,7 +59,7 @@ struct ProgramEditorModal: View {
                 }
             }
 
-            if pref.viewProgramAnnotationEnabled {
+            if userContext.prefs.viewProgramAnnotationEnabled {
                 TextField(
                     "Annotation",
                     text: $program.annotation.bound,

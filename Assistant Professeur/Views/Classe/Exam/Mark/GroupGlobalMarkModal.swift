@@ -18,6 +18,9 @@ struct GroupGlobalMarkModal: View {
     @Environment(\.dismiss)
     private var dismiss
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     private let fontWeight: Font.Weight = .semibold
     private let smallColumns = [
         GridItem(
@@ -232,7 +235,7 @@ extension GroupGlobalMarkModal {
             ForEach(
                 exam.classe?
                     .groupe(number: selectedGroupeNb)
-                    .elevesSortedByName ?? []) { eleve in
+                    .elevesSortedByName(nameSortOrderEnum: userContext.prefs.nameSortOrderEnum) ?? []) { eleve in
                 VStack {
                     TrombineView(eleve: eleve)
 

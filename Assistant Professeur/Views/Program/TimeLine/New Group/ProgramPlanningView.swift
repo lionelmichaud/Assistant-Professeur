@@ -14,8 +14,8 @@ struct ProgramPlanningView: View {
     @ObservedObject
     var program: ProgramEntity
 
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     @State
     private var data = ProgramPlanningGraphData()
@@ -174,7 +174,7 @@ struct ProgramPlanningView: View {
                 await ProgramEntity.context.perform {
                     data = ProgramPlanningGraphData(
                         forProgram: program,
-                        schoolYear: pref.viewSchoolYearPref
+                        schoolYear: userContext.prefs.viewSchoolYearPref
                     )
                 }
 
@@ -203,7 +203,7 @@ struct ProgramPlanningView: View {
 
                     var plannedDate: Date?
                     await ClasseEntity.context.perform {
-                        let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+                        let schoolYear = userContext.prefs.viewSchoolYearPref
                         var classeSeances: SeancesInDateInterval = .init()
 
                         let horizon = DateInterval(
@@ -352,9 +352,6 @@ struct ProgramPlanningPDF: View {
     var program: ProgramEntity
 
     let data: ProgramPlanningGraphData?
-
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
 
     private let lineWidth = CGFloat(4)
     private let lineOffset = CGFloat(-10)

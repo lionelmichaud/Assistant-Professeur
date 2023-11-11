@@ -24,6 +24,9 @@ struct GroupNamesView: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     @State
     private var permutationEleve: EleveEntity?
 
@@ -43,7 +46,13 @@ struct GroupNamesView: View {
             }
 
             // pour chaque Elève du groupe
-            ForEach(groupe.filteredElevesSortedByName(searchString: searchString), id: \.objectID) { eleve in
+            ForEach(
+                groupe.filteredElevesSortedByName(
+                    searchString: searchString,
+                    nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
+                ),
+                id: \.objectID
+            ) { eleve in
                 ClasseEleveRow(eleve: eleve)
                     .customizedListItemStyle(isSelected: false)
                     //                    .onDrag {
@@ -117,9 +126,12 @@ struct AddEleveToGroupMenu: View {
     @ObservedObject
     var classe: ClasseEntity
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     var body: some View {
         Menu {
-            ForEach(classe.elevesSortedByName) { eleve in
+            ForEach(classe.elevesSortedByName(userContext.prefs.nameSortOrderEnum)) { eleve in
                 if eleve.group != groupe {
                     Button {
                         withAnimation {
@@ -130,7 +142,7 @@ struct AddEleveToGroupMenu: View {
                         }
                     } label: {
                         Label(
-                            (eleve.isGrouped ? "✓ " : "    ") + eleve.displayName,
+                            (eleve.isGrouped ? "✓ " : "    ") + eleve.displayName(),
                             systemImage: EleveEntity.defaultImageName
                         )
                     }
@@ -152,14 +164,22 @@ struct SelectElevePermuterDialog: View {
     @Environment(\.dismiss)
     private var dismiss
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     @State
     private var selectedEleve: EleveEntity? // EleveEntity.ID?
 
     var body: some View {
         List {
             Picker(selection: $selectedEleve) {
-                ForEach(eleve.classe!.elevesSortedByName) { eleve2 in
-                    Text("\(eleve2.displayName) (groupe \(eleve2.group?.number ?? 0))").tag(Optional(eleve2))
+                ForEach(
+                    eleve.classe!.elevesSortedByName(
+                        userContext.prefs.nameSortOrderEnum
+                    )
+                ) { eleve2 in
+                    Text("\(eleve2.displayName(userContext.prefs.nameDisplayOrderEnum)) (groupe \(eleve2.group?.number ?? 0))")
+                        .tag(Optional(eleve2))
                         .disabled(eleve2.group == eleve.group)
                 }
             } label: {
@@ -187,7 +207,7 @@ struct SelectElevePermuterDialog: View {
             }
         }
         #if os(iOS)
-        .navigationTitle("Permuter \(eleve.displayName) avec...")
+        .navigationTitle("Permuter \(eleve.displayName(userContext.prefs.nameDisplayOrderEnum)) avec...")
         .navigationBarTitleDisplayMode(.inline)
         #endif
     }
@@ -240,7 +260,7 @@ struct MoveEleveDialog: View {
                 Button("Déplacer") {
                     withAnimation {
                         #if DEBUG
-                            print("\(eleve.displayName) déplacé de \(String(describing: eleve.group?.displayString)) vers \(groupeNb)")
+                        print("\(String(describing: eleve.displayName)) déplacé de \(String(describing: eleve.group?.displayString)) vers \(groupeNb)")
                         #endif
                         GroupManager.assign(
                             eleve: eleve,

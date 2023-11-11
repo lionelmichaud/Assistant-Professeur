@@ -17,6 +17,9 @@ struct ClassProgressesView: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     private let horizon = 3 // mois
 
     @State
@@ -140,7 +143,7 @@ struct ClassProgressesView: View {
             }
 
             await ClasseEntity.context.perform {
-                let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
+                let schoolYear = userContext.prefs.viewSchoolYearPref
 
                 let horizon = DateInterval(
                     start: Date.now,
@@ -181,7 +184,7 @@ struct ClassProgressesView: View {
                 nbOfSeanceSuposidelyCompleted,
                 nbOfSeanceInProgram,
                 theoricalProgressInProgram
-            ) = classe.theoricalProgressInProgram()
+            ) = classe.theoricalProgressInProgram(schoolYear: userContext.prefs.viewSchoolYearPref)
 
             delta = Int(nbOfSeanceActualyCompleted - nbOfSeanceSuposidelyCompleted)
         }

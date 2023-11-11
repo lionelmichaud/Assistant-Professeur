@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct SettingsClasse: View {
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     var body: some View {
         List {
             Section {
-                Toggle("Appréciation", isOn: $pref.viewClasseAppreciationEnabled)
-                Toggle("Annotation", isOn: $pref.viewClasseAnnotationEnabled)
+                Toggle("Appréciation", isOn: $userContext.prefs.viewClasseAppreciationEnabled)
+                Toggle("Annotation", isOn: $userContext.prefs.viewClasseAnnotationEnabled)
             } header: {
                 Text("Champs")
                     .style(.sectionHeader)

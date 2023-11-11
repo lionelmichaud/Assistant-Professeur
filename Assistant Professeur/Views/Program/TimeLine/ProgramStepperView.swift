@@ -14,8 +14,8 @@ struct ProgramStepperView: View {
     @ObservedObject
     var program: ProgramEntity
 
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     let forPdfExport: Bool
 
@@ -78,7 +78,7 @@ extension ProgramStepperView {
                     .padding(.trailing)
                 DurationView(duration: program.durationWithMargin, withMargin: true)
                     .padding(.trailing)
-                if let margin = program.marginToEndOfYear(schoolYear: pref.viewSchoolYearPref)?.nbSeances {
+                if let margin = program.marginToEndOfYear(schoolYear: userContext.prefs.viewSchoolYearPref)?.nbSeances {
                     let remainder = margin.remainder(dividingBy: 1.0)
                     Label(
                         "\(margin.formatted(.number.precision(.fractionLength(remainder == 0.0 ? 0 : 1)))) séances",

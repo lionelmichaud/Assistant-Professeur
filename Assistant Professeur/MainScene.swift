@@ -12,6 +12,7 @@ import SwiftUI
 struct MainScene: Scene {
     let coreDataManager: CoreDataManager
     let authentication: Authentication
+    let userContext: UserContext
 
     // object that you want to use throughout your views and that will be specific to each scene
     // @StateObject private var uiState = UIState()
@@ -29,6 +30,7 @@ struct MainScene: Scene {
             HomeScreen()
                 .environment(\.managedObjectContext, coreDataManager.context)
                 .environmentObject(authentication)
+                .environmentObject(userContext)
         }
         .onChange(of: scenePhase, manageScenePhaseChanges)
         #if os(macOS)

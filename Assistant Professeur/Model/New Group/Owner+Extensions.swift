@@ -112,6 +112,10 @@ extension OwnerEntity {
             try? Self.saveIfContextHasChanged()
         }
     }
+
+    var isIdentified: Bool {
+        !viewUserIdentifier.isEmpty
+    }
 }
 
 // MARK: - Extension Core Data
@@ -132,20 +136,6 @@ extension OwnerEntity {
     }
 
     // MARK: - Type Methods
-
-    /// Retourne les données personnelles de l'unique utilisateur de l'appli.
-    /// S'il n'existe pas encore, créer le record unique de l'utilisateur de l'appli.
-//    static func singleOwner() -> OwnerEntity {
-//        if OwnerEntity.cardinal() == 0 {
-//            // créer le singleton de l'unique Owner
-//            OwnerEntity.create(
-//                familyName: "",
-//                givenName: "",
-//                numen: ""
-//            )
-//        }
-//        return OwnerEntity.all().first!
-//    }
 
     /// Créer un utilisateur de l'appli **s'il n'en existe aucun**.
     /// - Important: Sauvegarder le Context.
@@ -184,6 +174,10 @@ extension OwnerEntity {
         owner.numen = numen
         owner.userIdentifier = userIdentifier
 
+        // Créer les préférences utilisateurs
+        let userPrefs = UserPrefEntity.created()
+        owner.prefs = userPrefs
+
         owner.mailAdressAcademy = mailAdressAcademy
         owner.urlMailAcademy = urlMailAcademy
         owner.idMailAcademy = idMailAcademy
@@ -201,39 +195,77 @@ extension OwnerEntity {
         errorList: inout DataBaseErrorList,
         tryToRepair: Bool
     ) {
-        if cardinal() == 0 {
-            if tryToRepair {
-                create(
-                    familyName: "Nom",
-                    givenName: "Prénom",
-                    numen: "numen",
-                    userIdentifier: KeychainItem.currentUserIdentifier
-                )
+        func checkAndRepair(owner: OwnerEntity) {
+            if !owner.isIdentified {
+                // Objet Owner non identifié
+                if tryToRepair && KeychainItem.currentUserIdentifier.isNotEmpty {
+                    // Utilisateur identifié
+                    owner.userIdentifier = KeychainItem.currentUserIdentifier
+                }
+                // Utilisateur non identifié
+                errorList.append(
+                    DataBaseError.outOfBound(
+                        entity: Self.entity().name!,
+                        name: "Utilisateur non identifié",
+                        attribute: "userIdentifier",
+                        id: nil
+                    ))
             }
-            if cardinal() == 0 {
-                errorList.append(DataBaseError.some(
-                    entity: Self.entity().name!,
-                    name: "fichier inexistant et devrait exister",
-                    id: nil
-                ))
-            }
-        } else if cardinal() > 1 {
-            if tryToRepair {
-                let nbItemsToRemove = cardinal() - 1
-                var allItems = all()
-                for _ in 1 ... nbItemsToRemove {
-                    if let lastItem = allItems.popLast() {
-                        try? lastItem.delete()
+
+            if owner.prefs == nil {
+                // Objet Owner sans préférences
+                if tryToRepair {
+                    if OwnerEntity.cardinal() == 1 && UserPrefEntity.cardinal() == 1 {
+                        // Il existe des préférences utilisateurs orphelines
+                        owner.prefs = UserPrefEntity.all().first
+
+                    } else {
+                        // Créer les préférences utilisateurs
+                        let userPrefs = UserPrefEntity.created()
+                        owner.prefs = userPrefs
                     }
                 }
+                if owner.prefs == nil {
+                    errorList.append(
+                        DataBaseError.some(
+                            entity: Self.entity().name!,
+                            name: "Préférences absentes (UserPrefEntity)",
+                            id: owner.id
+                        ))
+                }
             }
-            if cardinal() > 1 {
-                errorList.append(DataBaseError.some(
-                    entity: Self.entity().name!,
-                    name: "plusieurs fichiers propriétaire ont été trouvés",
-                    id: nil
-                ))
-            }
+        }
+
+        switch cardinal() {
+            case 0:
+                if tryToRepair && KeychainItem.currentUserIdentifier.isNotEmpty {
+                    create(
+                        familyName: "Nom",
+                        givenName: "Prénom",
+                        numen: "numen",
+                        userIdentifier: KeychainItem.currentUserIdentifier
+                    )
+                }
+                if cardinal() == 0 {
+                    errorList.append(
+                        DataBaseError.some(
+                            entity: Self.entity().name!,
+                            name: "fichier inexistant et devrait exister",
+                            id: nil
+                        ))
+                }
+
+            case 1:
+                let uniqueOwner = all().first!
+                checkAndRepair(owner: uniqueOwner)
+
+            case 2...:
+                all().forEach { owner in
+                    checkAndRepair(owner: owner)
+                }
+
+            default:
+                break
         }
     }
 }

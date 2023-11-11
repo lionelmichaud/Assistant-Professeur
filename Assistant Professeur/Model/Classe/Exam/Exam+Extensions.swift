@@ -362,16 +362,19 @@ extension ExamEntity {
         }
     }
 
+    // MARK: - Methods
+
     /// Liste des notes des élèves de la classe triése par nom des élèves.
     ///
     /// Ordre de tri selon la préférence `.nameSortOrder`:
     ///   1. Nom / Prénom
     ///   2. Prénon / Nom
-    var marksSortedByEleveName: [MarkEntity] {
-        sortedMarksByEleveName(searchString: "")
+    func marksSortedByEleveName(nameSortOrderEnum: NameOrdering) -> [MarkEntity] {
+        sortedMarksByEleveName(
+            searchString: "",
+            nameSortOrderEnum: nameSortOrderEnum
+        )
     }
-
-    // MARK: - Methods
 
     override public func awakeFromInsert() {
         super.awakeFromInsert()
@@ -389,8 +392,11 @@ extension ExamEntity {
     /// - Parameters:
     ///   - searchString: caractères à rechercher dans les noms/prénom ou nombre à rechercher dans le n° de groupe
     /// - Returns: Liste des notes des élèves de la classe satisfaisant *au moins à l'un des critères* définis en paramètre
-    func sortedMarksByEleveName(searchString: String = "") -> [MarkEntity] {
-        let sortComparators = UserPrefEntity.shared.nameSortOrderEnum == .nomPrenom ?
+    func sortedMarksByEleveName(
+        searchString: String = "",
+        nameSortOrderEnum: NameOrdering
+    ) -> [MarkEntity] {
+        let sortComparators = nameSortOrderEnum == .nomPrenom ?
             [
                 SortDescriptor(\MarkEntity.eleve?.familyName, order: .forward),
                 SortDescriptor(\MarkEntity.eleve?.givenName, order: .forward)
@@ -424,7 +430,7 @@ public extension ExamEntity {
            Noté sur    : \(maxMark)
            Coefficient : \(coef.formatted(.number.precision(.fractionLength(2))))
            Nombre de notes : \(nbOfMarks)
-           Notes: \(String(describing: sortedMarksByEleveName()).withPrefixedSplittedLines("     "))
+           Notes: \(String(describing: sortedMarksByEleveName(nameSortOrderEnum: .nomPrenom)).withPrefixedSplittedLines("     "))
         """
     }
 }

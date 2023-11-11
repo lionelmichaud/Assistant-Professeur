@@ -17,8 +17,8 @@ struct SequenceDetailGroupBox: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     @State
     private var documentToBeViewed: DocumentEntity?
@@ -37,7 +37,7 @@ struct SequenceDetailGroupBox: View {
                 }
                 if withDetails {
                     // note sur la séquence
-                    if pref.viewSequenceAnnotationEnabled && sequence.viewAnnotation.isNotEmpty {
+                    if userContext.prefs.viewSequenceAnnotationEnabled && sequence.viewAnnotation.isNotEmpty {
                         AnnotationView(
                             annotation: sequence.viewAnnotation,
                             scrollable: true,

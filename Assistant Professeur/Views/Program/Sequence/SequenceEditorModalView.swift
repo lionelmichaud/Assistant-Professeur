@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 25/01/2023.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct SequenceEditorModal: View {
     @ObservedObject
@@ -18,8 +18,8 @@ struct SequenceEditorModal: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     /// Focused filed manager
     enum FocusableField: Hashable {
@@ -49,19 +49,19 @@ struct SequenceEditorModal: View {
         Form {
             TextField(
                 "Titre",
-                text : $sequence.name.bound,
-                axis : .vertical
+                text: $sequence.name.bound,
+                axis: .vertical
             )
             .lineLimit(5)
             .font(hClass == .compact ? .callout : .body)
             .textFieldStyle(.roundedBorder)
             .focused($focus, equals: .title)
 
-            if pref.viewSequenceAnnotationEnabled {
+            if userContext.prefs.viewSequenceAnnotationEnabled {
                 TextField(
                     "Annotation",
-                    text : $sequence.annotation.bound,
-                    axis : .vertical
+                    text: $sequence.annotation.bound,
+                    axis: .vertical
                 )
                 .lineLimit(5)
                 .font(hClass == .compact ? .callout : .body)
@@ -72,7 +72,7 @@ struct SequenceEditorModal: View {
             // marge post-séquence
             Stepper(
                 value: $sequence.margePostSequence,
-                in: -2 ... 2,
+                in: 0 ... 3,
                 step: 1
             ) {
                 HStack {
@@ -113,7 +113,7 @@ extension SequenceEditorModal {
                 dismiss()
             }
         }
-        
+
         ToolbarItem(placement: .confirmationAction) {
             Button("Ok") {
                 withAnimation {

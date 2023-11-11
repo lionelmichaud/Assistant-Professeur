@@ -15,6 +15,9 @@ struct SequenceSidebar: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     @State
     private var isEditing = false
 
@@ -116,6 +119,7 @@ extension SequenceSidebar {
                             withAnimation {
                                 _ = SequenceEntity.create(
                                     name: "Nouvelle séquence",
+                                    margePostSequence: userContext.prefs.viewMargeInterSequence,
                                     dans: program
                                 )
                             }

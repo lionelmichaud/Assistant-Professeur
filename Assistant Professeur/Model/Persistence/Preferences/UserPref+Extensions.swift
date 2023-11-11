@@ -242,17 +242,6 @@ extension UserPrefEntity {
 extension UserPrefEntity {
     // MARK: - Type Computed Properties
 
-    static var shared: UserPrefEntity {
-        // Créer le record unique des préférences de l'utilisateur de l'appli s'il n'en existe pas encore.
-        if let newlyCreated = createSharedIfDoesNotExist() {
-            return newlyCreated
-        }
-
-        // S'il y a plusieurs records: garder seulement le plus ancien
-        removeAllButTheOldest()
-        return UserPrefEntity.allSortedbyCreationDate().first!
-    }
-
     private static var byCreationDateNSSortDescriptor: [NSSortDescriptor] =
         [
             NSSortDescriptor(
@@ -273,19 +262,7 @@ extension UserPrefEntity {
 
     // MARK: - Type Methods
 
-    /// Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
-    static func initializeEntity() {
-        // créer le record unique des préférences de l'utilisateur de l'appli
-        createSharedIfDoesNotExist()
-    }
-
-    /// Créer le record unique de l'utilisateur de l'appli s'il n'existe pas encore.
-    /// Retourne l'objet créé ou nil si l'objet existait déjà.
-    @discardableResult
-    private static func createSharedIfDoesNotExist() -> UserPrefEntity? {
-        guard UserPrefEntity.cardinal() == 0 else {
-            return nil
-        }
+    static func created() -> UserPrefEntity {
         let userPref = UserPrefEntity.create()
 
         let elevePref = ElevePref()
@@ -313,18 +290,6 @@ extension UserPrefEntity {
         }
     }
 
-    private static func removeAllButTheOldest() {
-        let nbItemsToRemove = cardinal() - 1
-
-        if nbItemsToRemove > 0 {
-            let allItems = allSortedbyCreationDate()
-            allItems[1 ..< allItems.endIndex].forEach { userPref in
-                try? userPref.delete()
-            }
-            try? UserPrefEntity.saveIfContextHasChanged()
-        }
-    }
-
     /// Check the correctness and consistency of all database entities of this type.
     /// - Parameters:
     ///   - errorList: Liste des erreurs trouvées.
@@ -332,29 +297,45 @@ extension UserPrefEntity {
         errorList: inout DataBaseErrorList,
         tryToRepair: Bool
     ) {
-        if cardinal() == 0 {
-            if tryToRepair {
-                createSharedIfDoesNotExist()
+        func checkAndRepair(prefs: UserPrefEntity) {
+            if tryToRepair && cardinal() == 1 && OwnerEntity.cardinal() == 1 {
+                // prefs.owner = OwnerEntity.all().first // unsafe
+                // L'erreur sera réparée dans la classe OwnerEntity
             }
-            if cardinal() == 0 {
-                errorList.append(DataBaseError.some(
-                    entity: Self.entity().name!,
-                    name: "fichier inexistant et devrait exister",
-                    id: nil
-                ))
+            if prefs.owner == nil {
+                errorList.append(
+                    DataBaseError.noOwner(
+                        entity: Self.entity().name!,
+                        name: "plusieurs fichiers préférence ont été trouvés",
+                        id: prefs.id
+                    ))
             }
+        }
 
-        } else if cardinal() > 1 {
-            if tryToRepair {
-                removeAllButTheOldest()
-            }
-            if cardinal() > 1 {
-                errorList.append(DataBaseError.some(
-                    entity: Self.entity().name!,
-                    name: "plusieurs fichiers préférence ont été trouvés",
-                    id: nil
-                ))
-            }
+        switch cardinal() {
+            case 0:
+                if tryToRepair {
+                    // L'erreur sera réparée dans la classe OwnerEntity
+                }
+                if cardinal() == 0 {
+                    errorList.append(DataBaseError.some(
+                        entity: Self.entity().name!,
+                        name: "fichier inexistant et devrait exister",
+                        id: nil
+                    ))
+                }
+
+            case 1:
+                let uniquePrefs = all().first!
+                checkAndRepair(prefs: uniquePrefs)
+
+            case 2...:
+                all().forEach { prefs in
+                    checkAndRepair(prefs: prefs)
+                }
+
+            default:
+                break
         }
     }
 

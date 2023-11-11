@@ -18,8 +18,8 @@ struct ActivityEditorModal: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     /// Focused filed manager
     enum FocusableField: Hashable {
@@ -63,7 +63,7 @@ struct ActivityEditorModal: View {
             .focused($focus, equals: .title)
 
             // Annotation
-            if pref.viewActivityAnnotationEnabled {
+            if userContext.prefs.viewActivityAnnotationEnabled {
                 TextField(
                     "Annotation",
                     text: $activity.annotation.bound,

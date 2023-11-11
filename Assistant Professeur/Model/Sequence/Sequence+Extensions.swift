@@ -357,7 +357,7 @@ extension SequenceEntity {
     static func createWithoutSaving(
         name: String = "",
         annotation: String = "",
-        margePostSequence: Int? = nil,
+        margePostSequence: Int,
         url: URL? = nil,
         dans program: ProgramEntity
     ) -> SequenceEntity {
@@ -369,11 +369,7 @@ extension SequenceEntity {
 
         sequence.name = name
         sequence.number = Int16(nbSeqInProgram + 1)
-        if let margePostSequence {
-            sequence.margePostSequence = Int16(margePostSequence)
-        } else {
-            sequence.margePostSequence = Int16(UserPrefEntity.shared.viewMargeInterSequence)
-        }
+        sequence.margePostSequence = Int16(margePostSequence)
         sequence.annotation = annotation
         sequence.url = url
         return sequence
@@ -384,12 +380,14 @@ extension SequenceEntity {
     static func create(
         name: String = "",
         annotation: String = "",
+        margePostSequence: Int,
         url: URL? = nil,
         dans program: ProgramEntity
     ) -> SequenceEntity {
         let newSequence = createWithoutSaving(
             name: name,
-            annotation: annotation,
+            annotation: annotation, 
+            margePostSequence: margePostSequence,
             url: url,
             dans: program
         )

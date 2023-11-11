@@ -172,23 +172,8 @@ extension EleveEntity {
     }
 
     @objc
-    var displayName: String {
-        switch UserPrefEntity.shared.nameDisplayOrderEnum {
-            case .prenomNom:
-                return "\(givenName ?? "") \(familyName ?? "")"
-            case .nomPrenom:
-                return "\(familyName ?? "") \(givenName ?? "")"
-        }
-    }
-
-    @objc
     var sortName: String {
-        switch UserPrefEntity.shared.nameSortOrderEnum {
-            case .prenomNom:
-                return "\(givenName ?? "") \(familyName ?? "")"
-            case .nomPrenom:
-                return "\(familyName ?? "") \(givenName ?? "")"
-        }
+        "\(familyName ?? "") \(givenName ?? "")"
     }
 
     var imageFileName: String? {
@@ -470,6 +455,8 @@ extension EleveEntity {
             )
         ]
 
+    // MARK: - Type Methods
+
     /// Requête pour tous les élèves triées.
     ///
     /// Ordre de tri:
@@ -480,9 +467,11 @@ extension EleveEntity {
     ///   5. Classe SGPA ou non
     ///   6. Numéro de groupe
     ///   7. Nom de l'élève
-    static var requestAllSortedBySchoolNameClasseGroupeEleveName: NSFetchRequest<EleveEntity> {
+    static func requestAllSortedBySchoolNameClasseGroupeEleveName(
+        nameSortOrderEnum: NameOrdering
+    ) -> NSFetchRequest<EleveEntity> {
         let request = EleveEntity.fetchRequest()
-        if UserPrefEntity.shared.nameSortOrderEnum == .nomPrenom {
+        if nameSortOrderEnum == .nomPrenom {
             request.sortDescriptors =
                 EleveEntity.bySchoolNameClasseGroupeEleveFamilyNameNSSortDescriptor
         } else {
@@ -491,8 +480,6 @@ extension EleveEntity {
         }
         return request
     }
-
-    // MARK: - Type Methods
 
     /// Créer un nouvel élève et l'ajouter à la `classe`.
     /// - Important: Sauvegarder le Context.
@@ -562,14 +549,14 @@ extension EleveEntity {
                     } catch {
                         errorList.append(DataBaseError.noOwner(
                             entity: Self.entity().name!,
-                            name: eleve.displayName,
+                            name: eleve.displayName(.nomPrenom),
                             id: eleve.id
                         ))
                     }
                 } else {
                     errorList.append(DataBaseError.noOwner(
                         entity: Self.entity().name!,
-                        name: eleve.displayName,
+                        name: eleve.displayName(.nomPrenom),
                         id: eleve.id
                     ))
                 }
@@ -579,7 +566,7 @@ extension EleveEntity {
             if eleve.hasAddTime && !eleve.hasTrouble {
                 errorList.append(DataBaseError.internalInconsistency(
                     entity: Self.entity().name!,
-                    name: eleve.displayName,
+                    name: eleve.displayName(.nomPrenom),
                     attribute1: "hasAddTime",
                     attribute2: "trouble",
                     id: eleve.id
@@ -590,7 +577,7 @@ extension EleveEntity {
             if eleve.group == nil {
                 errorList.append(DataBaseError.outOfBound(
                     entity: Self.entity().name!,
-                    name: eleve.displayName,
+                    name: eleve.displayName(.nomPrenom),
                     attribute: "group",
                     id: eleve.id
                 ))
@@ -632,11 +619,10 @@ extension EleveEntity {
     ///   4. Nom / Prénom
     ///   5. Prénom / Nom
     static func requestAllFilteredSortedByName(
-        dansSchoolId _: NSManagedObjectID,
-        searchString _: String
+        nameSortOrderEnum: NameOrdering
     ) -> NSFetchRequest<EleveEntity> {
         let request = EleveEntity.fetchRequest()
-        if UserPrefEntity.shared.nameSortOrderEnum == .nomPrenom {
+        if nameSortOrderEnum == .nomPrenom {
             request.sortDescriptors =
                 EleveEntity.bySchoolNameClasseEleveFamilyNameNSSortDescriptor
         } else {
@@ -822,12 +808,11 @@ public extension EleveEntity {
     override var description: String {
         """
 
-        ELEVE: \(displayName)
+        ELEVE: \(displayName(.nomPrenom))
            ID          : \(objectID)
            Classe      : \(String(describing: classe?.displayString))
            Groupe      : \(String(describing: group?.displayString))
            Sexe        : \(sexEnum.pickerString)
-           Nom         : \(displayName)
            Flagged     : \(isFlagged.frenchString)
            Appréciation: \(viewAppreciation)
            Annotation  : \(viewAnnotation)

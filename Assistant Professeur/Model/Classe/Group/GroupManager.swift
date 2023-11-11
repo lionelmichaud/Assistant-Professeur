@@ -73,7 +73,8 @@ enum GroupManager {
     /// - Important: The context has changes and **is commited**
     static func formOrderedGroups(
         nbEleveParGroupe: Int,
-        dans classe: ClasseEntity
+        dans classe: ClasseEntity,
+        nameSortOrderEnum: NameOrdering
     ) {
         func formRegularGroups(nbOfGroups: Int) {
             for idx in eleves.indices {
@@ -86,7 +87,7 @@ enum GroupManager {
             }
         }
 
-        let eleves = classe.elevesSortedByName
+        let eleves = classe.elevesSortedByName(nameSortOrderEnum)
         let nbEleves = eleves.count
         guard nbEleves > 0 else {
             return
@@ -130,7 +131,8 @@ enum GroupManager {
     ///   - classe: dans cette classe
     static func formRandomGroups(
         nbEleveParGroupe: Int,
-        dans classe: ClasseEntity
+        dans classe: ClasseEntity,
+        nameSortOrderEnum: NameOrdering
     ) {
         func nextGroupe(
             num: inout Int,
@@ -160,7 +162,7 @@ enum GroupManager {
             }
         }
 
-        var eleves = classe.elevesSortedByName
+        var eleves = classe.elevesSortedByName(nameSortOrderEnum)
         let nbEleves = eleves.count
         guard nbEleves > 0 else {
             return

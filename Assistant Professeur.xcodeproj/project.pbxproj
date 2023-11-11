@@ -53,7 +53,7 @@
 		7923BC7D2AED39F500F824C2 /* ContactsLoadingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7923BC7C2AED39F500F824C2 /* ContactsLoadingStatus.swift */; };
 		7923BC7F2AED608100F824C2 /* ErrorAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7923BC7E2AED608100F824C2 /* ErrorAlertModifier.swift */; };
 		792621EF2A45F0F800ADA8FB /* SequenceTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792621EE2A45F0F800ADA8FB /* SequenceTagList.swift */; };
-		7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7927E6C72980A12F007002CE /* SequenceEditorModal.swift */; };
+		7927E6C82980A12F007002CE /* SequenceEditorModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7927E6C72980A12F007002CE /* SequenceEditorModalView.swift */; };
 		792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */; };
 		792E82BA2A570C6400FE95E8 /* SequenceSeanceCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792E82B92A570C6400FE95E8 /* SequenceSeanceCoordinator.swift */; };
 		7931F3312AF4032400EC6E10 /* DocToBePrintedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7931F3302AF4032400EC6E10 /* DocToBePrintedScrollView.swift */; };
@@ -106,6 +106,7 @@
 		7941BC662A030C5100EF9F30 /* Owner+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */; };
 		7942F23829A5612E007E3C3B /* StepperView in Frameworks */ = {isa = PBXBuildFile; productRef = 7942F23729A5612E007E3C3B /* StepperView */; };
 		794615892AEEBE69002D725E /* ToDoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794615882AEEBE69002D725E /* ToDoView.swift */; };
+		794827402AFEA197001640CD /* SequenceModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7948273F2AFEA197001640CD /* SequenceModalView.swift */; };
 		794AE9C22A59706E009C819A /* AppTextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794AE9C12A59706E009C819A /* AppTextStyle.swift */; };
 		794B83CA2AB5B7A600F5B14E /* BonusMalusStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */; };
 		794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */; };
@@ -241,6 +242,7 @@
 		79A56A5C2A4B4DCA00D1D4CC /* Stateful in Frameworks */ = {isa = PBXBuildFile; productRef = 79A56A5B2A4B4DCA00D1D4CC /* Stateful */; };
 		79A5737329BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A5737229BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift */; };
 		79A5737529BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A5737429BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift */; };
+		79A5F19D2AFE51C000120C02 /* UserContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A5F19C2AFE51C000120C02 /* UserContext.swift */; };
 		79A6AC9529F57DD0003705D0 /* ProgressClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6AC9429F57DCF003705D0 /* ProgressClockView.swift */; };
 		79A6AC9829F59DEA003705D0 /* ClasseTimerModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A6AC9729F59DEA003705D0 /* ClasseTimerModal.swift */; };
 		79A8002A2AC81E31001F2E25 /* DocumentControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A800292AC81E31001F2E25 /* DocumentControls.swift */; };
@@ -524,7 +526,7 @@
 		7923BC7C2AED39F500F824C2 /* ContactsLoadingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsLoadingStatus.swift; sourceTree = "<group>"; };
 		7923BC7E2AED608100F824C2 /* ErrorAlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlertModifier.swift; sourceTree = "<group>"; };
 		792621EE2A45F0F800ADA8FB /* SequenceTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceTagList.swift; sourceTree = "<group>"; };
-		7927E6C72980A12F007002CE /* SequenceEditorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceEditorModal.swift; sourceTree = "<group>"; };
+		7927E6C72980A12F007002CE /* SequenceEditorModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceEditorModalView.swift; sourceTree = "<group>"; };
 		792D4EB529843C5100A6E69F /* ActivityDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityDetailGroupBox.swift; sourceTree = "<group>"; };
 		792E82B92A570C6400FE95E8 /* SequenceSeanceCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceSeanceCoordinator.swift; sourceTree = "<group>"; };
 		7931F3302AF4032400EC6E10 /* DocToBePrintedScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocToBePrintedScrollView.swift; sourceTree = "<group>"; };
@@ -569,6 +571,7 @@
 		7940135529565B48007AD790 /* EleveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveViewModel.swift; sourceTree = "<group>"; };
 		7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Owner+Extensions.swift"; path = "../New Group/Owner+Extensions.swift"; sourceTree = "<group>"; };
 		794615882AEEBE69002D725E /* ToDoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoView.swift; sourceTree = "<group>"; };
+		7948273F2AFEA197001640CD /* SequenceModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceModalView.swift; sourceTree = "<group>"; };
 		794AE9C12A59706E009C819A /* AppTextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextStyle.swift; sourceTree = "<group>"; };
 		794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusStats.swift; sourceTree = "<group>"; };
 		794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DuplicateActivityModal.swift; path = "Assistant Professeur/Model/Eleve/BonusMalus/DuplicateActivityModal.swift"; sourceTree = SOURCE_ROOT; };
@@ -703,6 +706,7 @@
 		79A56A582A48E8B300D1D4CC /* WCompMasteryEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompMasteryEdit.swift; sourceTree = "<group>"; };
 		79A5737229BE37E4002B37B2 /* DocumentEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DocumentEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79A5737429BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ActivityProgressEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		79A5F19C2AFE51C000120C02 /* UserContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContext.swift; sourceTree = "<group>"; };
 		79A6AC9429F57DCF003705D0 /* ProgressClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressClockView.swift; sourceTree = "<group>"; };
 		79A6AC9729F59DEA003705D0 /* ClasseTimerModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseTimerModal.swift; sourceTree = "<group>"; };
 		79A800292AC81E31001F2E25 /* DocumentControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentControls.swift; sourceTree = "<group>"; };
@@ -1290,8 +1294,8 @@
 		7941BC672A030C5A00EF9F30 /* Owner */ = {
 			isa = PBXGroup;
 			children = (
-				7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */,
 				7915DC832A031C6A001C1249 /* Owner+CoreDataClass.swift */,
+				7941BC652A030C5100EF9F30 /* Owner+Extensions.swift */,
 			);
 			path = Owner;
 			sourceTree = "<group>";
@@ -1434,13 +1438,14 @@
 				79637200297D707400ECDBC3 /* SequenceList.swift */,
 				79637204297D85EF00ECDBC3 /* SequenceBrowserRow.swift */,
 				790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */,
-				7927E6C72980A12F007002CE /* SequenceEditorModal.swift */,
+				7927E6C72980A12F007002CE /* SequenceEditorModalView.swift */,
 				79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */,
 				7989B4D829A288E900383F84 /* LabeledSequenceView.swift */,
 				799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */,
 				79F7A2882A40ADB900CEC3D5 /* SequencePicker.swift */,
 				79F7A28A2A40AECE00CEC3D5 /* SequencePickerRow.swift */,
 				792621EE2A45F0F800ADA8FB /* SequenceTagList.swift */,
+				7948273F2AFEA197001640CD /* SequenceModalView.swift */,
 			);
 			path = Sequence;
 			sourceTree = "<group>";
@@ -1468,9 +1473,9 @@
 		796521D02A14DB3B000C27D1 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
-				79DEDB252925996E00F508EF /* UIPreferences.swift */,
 				79531D042A60A50900252A29 /* UserPref+Extensions.swift */,
 				79531D062A60A53200252A29 /* UserPref+CoreDataClass.swift */,
+				79DEDB252925996E00F508EF /* UIPreferences.swift */,
 				796521D12A14DC0C000C27D1 /* SchoolYearPref.swift */,
 				796521D32A14E0F3000C27D1 /* ElevePref.swift */,
 				796521D52A14EF1E000C27D1 /* DailySchedulePref.swift */,
@@ -2053,6 +2058,7 @@
 				79DEDB212925991100F508EF /* Persistence.swift */,
 				79DEDB242925996E00F508EF /* Interoperability.swift */,
 				799EFBA32A2CFC66008E9775 /* FileOperationTypes.swift */,
+				79A5F19C2AFE51C000120C02 /* UserContext.swift */,
 			);
 			path = Persistence;
 			sourceTree = "<group>";
@@ -2445,6 +2451,7 @@
 				7963720C297DA37E00ECDBC3 /* ActivityBrowserRow.swift in Sources */,
 				79F7708D2A2B7F89004E9089 /* NavigationModel+Extensions.swift in Sources */,
 				79F38D0829D747D9006C9B35 /* ColorPalettes.swift in Sources */,
+				79A5F19D2AFE51C000120C02 /* UserContext.swift in Sources */,
 				79ED5AAA2998030A00D536BF /* Exam+CoreDataClass.swift in Sources */,
 				795C2C20296E24E900EDFF09 /* Seat+Extensions.swift in Sources */,
 				79E00C502A5B7B0900362743 /* SchoolNavigationRoute.swift in Sources */,
@@ -2542,6 +2549,7 @@
 				79A56A572A4888CC00D1D4CC /* WCompMasteryLevels.swift in Sources */,
 				798383522A0FF38C00C4A4E2 /* PersonsContactsView.swift in Sources */,
 				794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */,
+				794827402AFEA197001640CD /* SequenceModalView.swift in Sources */,
 				799421892A02C714002999C4 /* UrgencyTelView.swift in Sources */,
 				7931F3332AF4036400EC6E10 /* DocToBeLoadedScrollView.swift in Sources */,
 				7989B4D129A257DD00383F84 /* Activity+CoreDataClass.swift in Sources */,
@@ -2633,7 +2641,7 @@
 				79012C6C2A39EA8700BF0772 /* CsvImport.swift in Sources */,
 				7921355A2978726E0036A5EA /* Sequence+Extensions.swift in Sources */,
 				79B060832AFAA05C00B381FE /* KeychainItem.swift in Sources */,
-				7927E6C82980A12F007002CE /* SequenceEditorModal.swift in Sources */,
+				7927E6C82980A12F007002CE /* SequenceEditorModalView.swift in Sources */,
 				7921355D2978728A0036A5EA /* Activity+Extensions.swift in Sources */,
 				79637203297D826400ECDBC3 /* ProgramManager.swift in Sources */,
 				79F7A2942A42389100CEC3D5 /* TagCapsuleStyle+Extension.swift in Sources */,

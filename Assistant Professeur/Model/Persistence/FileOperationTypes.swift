@@ -36,6 +36,7 @@ enum FileExportOperation {
                 return ImportExportManager.cachesURLsToShare(
                     fileNames: [
                         JsonImportExportMng.ownerFileName,
+                        JsonImportExportMng.userPrefFileName,
                         JsonImportExportMng.schoolsFileName,
                         JsonImportExportMng.programsFileName,
                         JsonImportExportMng.wCompetenciesFileName,

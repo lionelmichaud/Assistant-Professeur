@@ -199,13 +199,12 @@ struct SeancesInDateInterval {
         classe: ClasseEntity,
         inCalendar calendar: EKCalendar,
         inEventStore eventStore: EKEventStore,
-        inDateInterval dateInterval: DateInterval
+        inDateInterval dateInterval: DateInterval,
+        schoolYear: SchoolYearPref
     ) async -> SeancesInDateInterval {
         var classeSeances = SeancesInDateInterval()
 
         await ClasseEntity.context.perform {
-            let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
-
             // Charger les prochaines séances de cours sur un horizon de temps à venir
             classeSeances.loadClasseSeancesFromCalendar(
                 forDiscipline: classe.disciplineEnum,
@@ -265,7 +264,8 @@ struct SeancesInDateInterval {
         school: SchoolEntity,
         inCalendar calendar: EKCalendar,
         inEventStore eventStore: EKEventStore,
-        inDateInterval dateInterval: DateInterval
+        inDateInterval dateInterval: DateInterval,
+        schoolYear: SchoolYearPref
     ) async -> SeancesInDateInterval {
         var foundSeances = [Seance]()
 
@@ -284,7 +284,6 @@ struct SeancesInDateInterval {
                         let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
                         let forDiscipline = classe.disciplineEnum
                         let forClasseName = classe.displayString
-                        let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
                         let schoolName = school.viewName
 
                         // Liste des Séances à venir pour cette classe
@@ -331,7 +330,6 @@ struct SeancesInDateInterval {
         // de vacances inclue dans la période
         await Task.yield()
         await ClasseEntity.context.perform {
-            let schoolYear = UserPrefEntity.shared.viewSchoolYearPref
             let vacancesIncludedInPeriod = schoolYear.vacancesContained(in: dateInterval)
 
             if foundSeances.count >= 2 {

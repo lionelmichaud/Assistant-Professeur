@@ -17,8 +17,8 @@ struct ClasseDetail: View {
     @Environment(\.managedObjectContext)
     private var managedObjectContext
 
-    @ObservedObject
-    private var pref = UserPrefEntity.shared
+    @EnvironmentObject
+    private var userContext: UserContext
 
     @State
     private var isShowingImportListeDialog = false
@@ -90,7 +90,7 @@ struct ClasseDetail: View {
             ) = CsvImportExportMng
                 .importElevesListe(
                     for: classe,
-                    interoperability: pref.interoperabilityEnum,
+                    interoperability: userContext.prefs.interoperabilityEnum,
                     result: result
                 )
         }
@@ -127,12 +127,12 @@ extension ClasseDetail {
 
                 // Tirer au sort un élève
                 Button {
-                    randomEleve = classe.elevesSortedByName.randomElement()
+                    randomEleve = classe.elevesSortedByName(userContext.prefs.nameSortOrderEnum).randomElement()
                 } label: {
                     Image(systemName: "dice.fill")
                         .imageScale(.large)
                 }
-                .disabled(!pref.viewElevePref.trombineEnabled)
+                .disabled(!userContext.prefs.viewElevePref.trombineEnabled)
                 .popover(item: $randomEleve) { eleve in
                     ZStack(alignment: .bottom) {
                         TrombineView(eleve: eleve)
@@ -179,7 +179,7 @@ extension ClasseDetail {
                         importCsvFile = true
                     }
                 } message: {
-                    Text("La liste des élèves importée doit être au format CSV de \(pref.interoperabilityEnum == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
+                    Text("La liste des élèves importée doit être au format CSV de \(userContext.prefs.interoperabilityEnum == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
                         Text("Cette action ne peut pas être annulée.")
                 }
             } label: {

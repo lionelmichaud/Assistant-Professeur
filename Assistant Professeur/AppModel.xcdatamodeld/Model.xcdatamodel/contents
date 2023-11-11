@@ -189,6 +189,7 @@
         <attribute name="urlMailAcademy" optional="YES" attributeType="URI"/>
         <attribute name="userIdentifier" attributeType="String" defaultValueString=""/>
         <attribute name="username" attributeType="String" defaultValueString=""/>
+        <relationship name="prefs" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="UserPrefEntity" inverseName="owner" inverseEntity="UserPrefEntity"/>
     </entity>
     <entity name="ProgramEntity" representedClassName="ProgramEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" optional="YES" attributeType="String" defaultValueString=""/>
@@ -280,6 +281,7 @@
         <attribute name="schoolAnnotationEnabled" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
         <attribute name="schoolYear" attributeType="String" defaultValueString=""/>
         <attribute name="sequenceAnnotationEnabled" optional="YES" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="OwnerEntity" inverseName="prefs" inverseEntity="OwnerEntity"/>
     </entity>
     <entity name="WCompChapterEntity" representedClassName="WCompChapterEntity" syncable="YES" codeGenerationType="category">
         <attribute name="acronym" attributeType="String" defaultValueString=""/>

@@ -406,7 +406,7 @@ public extension ProgramEntity {
            URL          : \(String(describing: url))
            Durée sans marge : \(durationWithoutMargin)
            Durée avec marge : \(durationWithMargin)
-           Marge à fin année: \(String(describing: marginToEndOfYear(schoolYear: UserPrefEntity.shared.viewSchoolYearPref)))
+           Marge à fin année: \(String(describing: marginToEndOfYear(schoolYear: UserPrefEntity.all().first!.viewSchoolYearPref)))
            Nb séquences : \(sequencesCount)
            Séquences : \(String(describing: sequencesSortedByNumber).withPrefixedSplittedLines("     "))
         """

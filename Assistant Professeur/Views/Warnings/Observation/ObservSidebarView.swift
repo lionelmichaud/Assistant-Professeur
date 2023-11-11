@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 26/04/2022.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct ObservSidebarView: View {
     @EnvironmentObject
@@ -76,6 +76,9 @@ struct ObservSidebarSchoolSubview: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     var body: some View {
         // pour chaque Classe
         ForEach(school.classesSortedByLevelNumber) { classe in
@@ -133,7 +136,8 @@ struct ObservSidebarSchoolSubview: View {
     private func filteredSortedObservs(dans classe: ClasseEntity) -> [ObservEntity] {
         classe.filteredSortedObservations(
             isConsignee: filterObservation ? false : nil,
-            isVerified: filterObservation ? false : nil
+            isVerified: filterObservation ? false : nil,
+            nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
         )
     }
 }

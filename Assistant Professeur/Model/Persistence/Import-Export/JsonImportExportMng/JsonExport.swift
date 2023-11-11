@@ -27,7 +27,7 @@ extension JsonImportExportMng {
         // Exporter l'entité unique **OwnerEntity** vers un fichier au format JSON.
         exportOwnerToJson()
         // Exporter l'entité unique **UserPrefEntity** vers un fichier au format JSON.
-        exportUserPrefToJson()
+        //exportUserPrefToJson()
         // Exporter toutes les entités **SchoolEntity** et leurs descendants vers un fichier au format JSON.
         exportSchoolsToJson()
         // Exporter toutes les entités **ProgramEntity** et leurs descendants vers un fichier au format JSON.
@@ -55,13 +55,13 @@ extension JsonImportExportMng {
     /// Exporter l'entité unique **UserPrefEntity** vers un fichier au format JSON.
     ///
     /// Le fichier JSON est enregistré dans le dossier `cache`.
-    private static func exportUserPrefToJson() {
-        let cachesUrl = URL.cachesDirectory
-        cachesUrl.encode(
-            UserPrefEntity.all(),
-            to: userPrefFileName
-        )
-    }
+//    private static func exportUserPrefToJson() {
+//        let cachesUrl = URL.cachesDirectory
+//        cachesUrl.encode(
+//            UserPrefEntity.all(),
+//            to: userPrefFileName
+//        )
+//    }
 
     /// Exporter toutes les entités **SchoolEntity** et leurs descendants vers un fichier au format JSON.
     ///
