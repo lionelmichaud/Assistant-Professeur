@@ -97,6 +97,29 @@ extension CsvImportExportMng {
             }
         }
 
+        // colonne relative aux compétences disciplinaires
+        func appendCompetencyToDCompColumns(competency: WCompEntity?) {
+            if let competency {
+                var str = ""
+                let dicoPerDiscipline = competency.disciplineCompSortedByDisciplineAcronym()
+
+                for (discipline, dComps) in dicoPerDiscipline {
+                    // Pour chaque discipline
+                    str += "\(discipline.acronym)\n"
+
+                    str += dComps
+                        .map { dComp in
+                            "\(dComp.viewAcronym)"
+                        }
+                        .joined(separator: " / ")
+                    str += "\n"
+                }
+                dCompColumn.append(str)
+            } else {
+                dCompColumn.append("aucune")
+            }
+        }
+
         // colonne relative aux séquences pédagogiques associées
         func appendCompetencyToSequenceColumns(competency: WCompEntity?) {
             if let competency {
@@ -151,6 +174,12 @@ extension CsvImportExportMng {
             capacity: 4
         )
 
+        // colonne relative aux compétences disciplinaires
+        var dCompColumn = Column(
+            ColumnID("Compétences disciplinaires associées", String.self),
+            capacity: 4
+        )
+
         // colonne relative aux séquences pédagogiques associées
         var sequencesColumn = Column(
             ColumnID("Séquences pédagogiques", String.self),
@@ -171,6 +200,9 @@ extension CsvImportExportMng {
                 // Ajout d'une ligne aux colonnes relatives à la compétence
                 appendCompetencyToCompetencyColumns(competency: competency)
 
+                // Ajout d'une ligne à la colonne relative aux compétences disciplinaires
+                appendCompetencyToDCompColumns(competency: competency)
+
                 // Ajout d'une ligne à la colonne relative aux séquences pédagogiques associées
                 appendCompetencyToSequenceColumns(competency: competency)
             }
@@ -180,6 +212,9 @@ extension CsvImportExportMng {
 
             // Ajout d'une ligne aux colonnes VIDES relatives à la compétence
             appendCompetencyToCompetencyColumns(competency: nil)
+
+            // Ajout d'une ligne à la colonne relative aux compétences disciplinaires
+            appendCompetencyToDCompColumns(competency: nil)
 
             // Ajout d'une ligne à la colonne relative aux séquences pédagogiques associées
             appendCompetencyToSequenceColumns(competency: nil)
@@ -193,6 +228,9 @@ extension CsvImportExportMng {
         // colonnes relatives à la compétence
         dataFrame.append(column: compAcronymColumn)
         dataFrame.append(column: compDescripColumn)
+
+        // colonne relative aux compétences disciplinaires
+        dataFrame.append(column: dCompColumn)
 
         // colonne relative aux séquences pédagogiques associées
         dataFrame.append(column: sequencesColumn)

@@ -9,7 +9,17 @@ import Collections
 import CoreData
 import Foundation
 
-/// Dictionnaire ordonné par niveau de classe. [ Niveau de classe : Sequences ].
+/// Dictionnaire de compétences disciplinaires ordonné par discipline. [ Discipline : [Compétences disciplinaires] ].
+typealias DicoDCompsPerLevel = OrderedDictionary<Discipline, [DCompEntity]>
+extension DicoDCompsPerLevel {
+    var cardinal: Int {
+        self.values.reduce(into: 0) { partialResult, sequences in
+            partialResult += sequences.count
+        }
+    }
+}
+
+/// Dictionnaire de séquence ordonné par niveau de classe. [ Niveau de classe : [Sequences] ].
 typealias DicoSequencesPerLevel = OrderedDictionary<LevelClasse, [SequenceEntity]>
 extension DicoSequencesPerLevel {
     var cardinal: Int {
@@ -19,7 +29,7 @@ extension DicoSequencesPerLevel {
     }
 }
 
-/// Dictionnaire ordonné par discipline et niveau. [Discipline : [ Niveau de classe : Sequences ] ].
+/// Dictionnaire de séquence ordonné par discipline et niveau. [Discipline : [ Niveau de classe : [Sequences] ] ].
 typealias DicoSequencesPerDisciplineLevel = OrderedDictionary<Discipline, DicoSequencesPerLevel>
 extension DicoSequencesPerDisciplineLevel {
     var cardinal: Int {
@@ -28,7 +38,6 @@ extension DicoSequencesPerDisciplineLevel {
         }
     }
 }
-
 
 /// Compétence travaillée du Socle de compétence
 extension WCompEntity {
@@ -123,16 +132,46 @@ extension WCompEntity {
         }
     }
 
-    /// Liste des Compétences Disciplinaires triées par Acronym
-    var disciplineCompSortedByAcronym: [DCompEntity] {
+    /// Liste des Compétences Disciplinaires triées.
+    ///
+    /// Ordre de tri:
+    ///   1. Discipline
+    ///   2. Acronym
+    var allDisciplineCompSortedByDisciplineAcronym: [DCompEntity] {
         let sortComparators =
             [
+                SortDescriptor(
+                    \DCompEntity.section?.theme?.disciplineString,
+                     order: .forward
+                ),
                 SortDescriptor(
                     \DCompEntity.viewAcronym,
                     order: .forward
                 )
             ]
         return allDisciplineCompetencies.sorted(using: sortComparators)
+    }
+
+    /// Retourne les Compétences Disciplinaires associées à cette compétence sous forme d'un
+    /// dictionnaire ordonné par discipline : [ Discipline : [Compétences disciplinaires] ].
+    ///
+    /// - Note: Les Compétences Disciplinaires retournées sont toutes disciplines confondues.
+    ///
+    /// Ordre de classement dans les dictionnaires:
+    ///   1. Discipline
+    ///   2. Acronym
+    func disciplineCompSortedByDisciplineAcronym() -> DicoDCompsPerLevel {
+        // toutes les séquences
+        let allDComps = allDisciplineCompSortedByDisciplineAcronym
+
+        // Creates a new dictionary whose keys are the groupings returned by the given closure
+        // and whose values are arrays of the elements that returned each key
+        let dicoOfDcompsArraysByDiscipline = OrderedDictionary(
+            grouping: allDComps,
+            by: { $0.section!.theme!.disciplineEnum }
+        )
+
+        return dicoOfDcompsArraysByDiscipline
     }
 
     // MARK: - Séquences pédagogiques associées

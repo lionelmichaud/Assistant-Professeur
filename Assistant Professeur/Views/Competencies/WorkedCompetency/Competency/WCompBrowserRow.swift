@@ -71,7 +71,7 @@ struct WCompBrowserRow: View {
             // Tags des compétences disciplinaires associées
             if showDisciplineCompetencies {
                 DCompTagList(
-                    disciplineComps: workedComp.disciplineCompSortedByAcronym,
+                    disciplineComps: workedComp.allDisciplineCompSortedByDisciplineAcronym,
                     font: .footnote
                 )
             }
