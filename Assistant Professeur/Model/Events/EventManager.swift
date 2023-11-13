@@ -141,7 +141,8 @@ struct EventManager { // swiftlint:disable:this type_body_length
         forClasseLevel classeLevel: LevelClasse,
         inCalendar calendar: EKCalendar,
         inEventStore eventStore: EKEventStore,
-        during schoolYear: DateInterval
+        during schoolYear: DateInterval,
+        after thisEarliestdate: Date? = nil
     ) -> [EKEvent] {
         let eventName = "Arrêt notes - \(classeLevel.displayString)"
 
@@ -149,7 +150,7 @@ struct EventManager { // swiftlint:disable:this type_body_length
             withTitleIncluding: eventName,
             inCalendar: calendar,
             inEventStore: eventStore,
-            startDate: schoolYear.start,
+            startDate: thisEarliestdate ?? schoolYear.start,
             endDate: schoolYear.end
         )
     }
@@ -168,7 +169,8 @@ struct EventManager { // swiftlint:disable:this type_body_length
         forClasseName classe: String,
         inCalendar calendar: EKCalendar,
         inEventStore eventStore: EKEventStore,
-        during schoolYear: DateInterval
+        during schoolYear: DateInterval,
+        after thisEarliestdate: Date? = nil
     ) -> [EKEvent] {
         let eventName = "Conseil - \(classe)"
 
@@ -176,7 +178,7 @@ struct EventManager { // swiftlint:disable:this type_body_length
             withTitleIncluding: eventName,
             inCalendar: calendar,
             inEventStore: eventStore,
-            startDate: schoolYear.start,
+            startDate: thisEarliestdate ?? schoolYear.start,
             endDate: schoolYear.end
         )
     }

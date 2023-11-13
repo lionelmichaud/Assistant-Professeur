@@ -124,7 +124,8 @@ struct ClasseInfosView: View {
         .task {
             let alert = await viewModel.getAllEvents(
                 forClasse: classe,
-                during: userContext.prefs.viewSchoolYearPref.interval
+                during: userContext.prefs.viewSchoolYearPref.interval,
+                after: .now
             )
             self.alert = alert
         }
@@ -142,7 +143,7 @@ extension ClasseInfosView {
             }
         }
         .emptyListPlaceHolder(viewModel.arretsNotes) {
-            Text("Aucune date d'arrêt des notes prévue pour cette classe")
+            Text("Aucune date future d'arrêt des notes plannifiée pour cette classe.")
         }
     }
 
@@ -158,7 +159,7 @@ extension ClasseInfosView {
             }
         }
         .emptyListPlaceHolder(viewModel.conseils) {
-            Text("Aucun conseil prévu pour cette classe")
+            Text("Aucun conseil de classe futur plannifié pour cette classe.")
         }
     }
 

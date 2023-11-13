@@ -23,7 +23,8 @@ class ClasseEventsViewModel: ObservableObject {
     /// Récupérer les événements de la classe dans l'appli "Calendrier"
     func getAllEvents(
         forClasse classe: ClasseEntity,
-        during schoolYear: DateInterval
+        during schoolYear: DateInterval,
+        after thisEarliestdate: Date? = nil
     ) async -> AlertInfo {
         self.state = .pending
 
@@ -57,14 +58,16 @@ class ClasseEventsViewModel: ObservableObject {
             forClasseLevel: classe.levelEnum,
             inCalendar: calendar,
             inEventStore: eventStore,
-            during: schoolYear
+            during: schoolYear,
+            after: thisEarliestdate
         )
         // Récupérer les dates de conseils de classe
         conseils = EventManager.getAllConseils(
             forClasseName: classe.displayString,
             inCalendar: calendar,
             inEventStore: eventStore,
-            during: schoolYear
+            during: schoolYear,
+            after: thisEarliestdate
         )
         self.state = .finished
         return alert
