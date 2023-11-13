@@ -35,7 +35,7 @@ struct DuplicateSequenceModal: View {
         .listStyle(.sidebar)
         .interactiveDismissDisabled()
         #if os(iOS)
-            .navigationTitle("Dupliquer vers les programmes")
+            .navigationTitle("Dupliquer vers les progressions")
         #endif
             .navigationBarTitleDisplayModeInline()
             .toolbar {

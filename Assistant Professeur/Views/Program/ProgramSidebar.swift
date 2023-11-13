@@ -115,7 +115,7 @@ extension ProgramSidebar {
                         isExportingModel.toggle()
                     } label: {
                         Label(
-                            "Exporter les programmes en CSV",
+                            "Exporter les progressions en CSV",
                             systemImage: "square.and.arrow.up"
                         )
                     }

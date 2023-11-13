@@ -18,8 +18,8 @@ private let customLog = Logger(
 /// EXPORT
 extension CsvImportExportMng {
     static let csvEleveListFileName = "élèves.csv"
-    static let csvProgramListFileName = "programmes.csv"
-    static let csvProgramCompetencyListFileName = "programmes-compétances.csv"
+    static let csvProgramListFileName = "progressions.csv"
+    static let csvProgramCompetencyListFileName = "progressions-compétances.csv"
     static let csvWCompetencyListFileName = "compétances du socle.csv"
     static let csvDCompetencyListFileName = "compétances disciplinaires.csv"
 
