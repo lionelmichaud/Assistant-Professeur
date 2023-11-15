@@ -28,6 +28,9 @@ struct PlanningStyle {
     var classeDateLineColor: Color = .red
     var classeDateLineWidth: Double = 0.75
 
+    var examLineColor: Color = .yellow
+    var examLineWidth: Double = 1.0
+
     var vacanceColor: Color = .gray
 
     var plotAreaColor: Color = .blue

@@ -45,7 +45,7 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>            initializeCloudKitSchema()
+						<string>            // initializeCloudKitSchema()
 </string>
 						<key>leading</key>
 						<string>        #if DEBUG
@@ -312,11 +312,11 @@
 						<key>location-parameters</key>
 						<dict>
 							<key>EndingLineNumber</key>
-							<string>500</string>
+							<string>588</string>
 							<key>StartingLineNumber</key>
-							<string>500</string>
+							<string>588</string>
 							<key>Timestamp</key>
-							<string>721318457.857224</string>
+							<string>721765874.847713</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>

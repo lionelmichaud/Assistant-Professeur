@@ -31,12 +31,15 @@ struct ProgramPlanningView: View {
 
     @State
     private var alertTitle = ""
-
     @State
     private var alertMessage = ""
-
     @State
     private var alertIsPresented = false
+
+    @State
+    private var dateBrevet: Date?
+    @State
+    private var dateBac: Date?
 
     @State
     private var classesOffsets = [String: CGFloat]()
@@ -85,8 +88,8 @@ struct ProgramPlanningView: View {
                     sequenceMark(sequence: sequence)
                 }
 
+                // Dates d'avancement réel de chacune des classes
                 if showClasses {
-                    // Dates d'avancement réel de chacune des classes
                     ForEach(Array(data.datesClasses.keys), id: \.self) { classeName in
                         RuleMark(x: .value(classeName, data.datesClasses[classeName]!))
                             .foregroundStyle(programPlanningStyle.classeDateLineColor)
@@ -109,6 +112,50 @@ struct ProgramPlanningView: View {
                                     .offset(y: classesOffsets[classeName] ?? CGFloat(0))
                             }
                     }
+                }
+
+                // date de début des épreuvent du brevet
+                if program.levelEnum == .n3ieme, let dateBrevet {
+                    RuleMark(x: .value("Brevet", dateBrevet))
+                        .foregroundStyle(programPlanningStyle.examLineColor)
+                        .lineStyle(
+                            StrokeStyle(
+                                lineWidth: programPlanningStyle.examLineWidth,
+                                lineCap: .round
+                            )
+                        )
+                        .annotation(
+                            position: .top,
+                            alignment: .trailing,
+                            spacing: nil,
+                            overflowResolution: .init(x: .fit, y: .fit)
+                        ) {
+                            Text("Brevet ")
+                                .font(.footnote)
+                                .bold()
+                                .foregroundStyle(programPlanningStyle.examLineColor)
+                        }
+
+                } else if program.levelEnum == .n0terminale, let dateBac {
+                    RuleMark(x: .value("Baccalauréat", dateBac))
+                        .foregroundStyle(programPlanningStyle.examLineColor)
+                        .lineStyle(
+                            StrokeStyle(
+                                lineWidth: programPlanningStyle.examLineWidth,
+                                lineCap: .round
+                            )
+                        )
+                        .annotation(
+                            position: .top,
+                            alignment: .trailing,
+                            spacing: nil,
+                            overflowResolution: .init(x: .fit, y: .fit)
+                        ) {
+                            Text("Baccalauréat ")
+                                .font(.footnote)
+                                .bold()
+                                .foregroundStyle(programPlanningStyle.examLineColor)
+                        }
                 }
 
                 // date courante
@@ -267,6 +314,47 @@ struct ProgramPlanningView: View {
                         .toggleStyle(.button)
                     }
                 }
+            }
+        }
+        .task {
+            await getDatesBrevetBac(during: userContext.prefs.viewSchoolYearPref)
+        }
+    }
+
+    private func getDatesBrevetBac(during schoolYear: SchoolYearPref) async {
+        if program.levelEnum == .n3ieme || program.levelEnum == .n0terminale {
+            // Demander les droits d'accès aux calendriers de l'utilisateur
+            var alert = AlertInfo()
+            var schoolYearcalendar: EKCalendar?
+            (
+                schoolYearcalendar,
+                alert.isPresented,
+                alert.title,
+                alert.message
+            ) = await EventManager.shared
+                .requestCalendarAccess(
+                    eventStore: eventStore,
+                    calendarName: schoolYear.calName
+                )
+            guard let schoolYearcalendar else {
+                return
+            }
+
+            if program.levelEnum == .n3ieme {
+                // Récupérer les dates du brevet des collèges
+                dateBrevet = EventManager.getBrevet(
+                    inCalendar: schoolYearcalendar,
+                    inEventStore: eventStore,
+                    during: schoolYear.interval
+                )?.startDate
+
+            } else if program.levelEnum == .n0terminale {
+                // Récupérer les dates du baccalauréat
+                dateBac = EventManager.getBac(
+                    inCalendar: schoolYearcalendar,
+                    inEventStore: eventStore,
+                    during: schoolYear.interval
+                )?.startDate
             }
         }
     }

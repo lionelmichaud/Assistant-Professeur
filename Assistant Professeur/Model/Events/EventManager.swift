@@ -155,6 +155,38 @@ struct EventManager { // swiftlint:disable:this type_body_length
         )
     }
 
+    static func getBrevet(
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore,
+        during schoolYear: DateInterval
+    ) -> EKEvent? {
+        let eventName = "Brevet"
+
+        return getEvents(
+            withTitleIncluding: eventName,
+            inCalendar: calendar,
+            inEventStore: eventStore,
+            startDate: schoolYear.start,
+            endDate: schoolYear.end
+        ).first
+    }
+
+    static func getBac(
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore,
+        during schoolYear: DateInterval
+    ) -> EKEvent? {
+        let eventName = "Bac"
+
+        return getEvents(
+            withTitleIncluding: eventName,
+            inCalendar: calendar,
+            inEventStore: eventStore,
+            startDate: schoolYear.start,
+            endDate: schoolYear.end
+        ).first
+    }
+
     /// Retourne la liste de tous les événements du clalendrier `calendar`
     /// survenant dans la `period` et dont le titre contient **"Conseil - `classe`"**.
     /// - Parameters:

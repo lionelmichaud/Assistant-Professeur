@@ -20,10 +20,16 @@ class ClasseEventsViewModel: ObservableObject {
     @Published
     private(set) var arretsNotes = [EKEvent]()
 
+    @Published
+    private(set) var brevet: EKEvent?
+
+    @Published
+    private(set) var bac: EKEvent?
+
     /// Récupérer les événements de la classe dans l'appli "Calendrier"
     func getAllEvents(
         forClasse classe: ClasseEntity,
-        during schoolYear: DateInterval,
+        during schoolYear: SchoolYearPref,
         after thisEarliestdate: Date? = nil
     ) async -> AlertInfo {
         self.state = .pending
@@ -58,7 +64,7 @@ class ClasseEventsViewModel: ObservableObject {
             forClasseLevel: classe.levelEnum,
             inCalendar: calendar,
             inEventStore: eventStore,
-            during: schoolYear,
+            during: schoolYear.interval,
             after: thisEarliestdate
         )
         // Récupérer les dates de conseils de classe
@@ -66,9 +72,45 @@ class ClasseEventsViewModel: ObservableObject {
             forClasseName: classe.displayString,
             inCalendar: calendar,
             inEventStore: eventStore,
-            during: schoolYear,
+            during: schoolYear.interval,
             after: thisEarliestdate
         )
+
+        if classe.levelEnum == .n3ieme || classe.levelEnum == .n0terminale {
+            // Demander les droits d'accès aux calendriers de l'utilisateur
+            var schoolYearcalendar: EKCalendar?
+            (
+                schoolYearcalendar,
+                alert.isPresented,
+                alert.title,
+                alert.message
+            ) = await EventManager.shared
+                .requestCalendarAccess(
+                    eventStore: eventStore,
+                    calendarName: schoolYear.calName
+                )
+            guard let schoolYearcalendar else {
+                self.state = .failed
+                return alert
+            }
+
+            if classe.levelEnum == .n3ieme {
+                // Récupérer les dates du brevet des collèges
+                brevet = EventManager.getBrevet(
+                    inCalendar: schoolYearcalendar,
+                    inEventStore: eventStore,
+                    during: schoolYear.interval
+                )
+            } else if classe.levelEnum == .n0terminale {
+                // Récupérer les dates du baccalauréat
+                bac = EventManager.getBac(
+                    inCalendar: schoolYearcalendar,
+                    inEventStore: eventStore,
+                    during: schoolYear.interval
+                )
+            }
+        }
+
         self.state = .finished
         return alert
     }

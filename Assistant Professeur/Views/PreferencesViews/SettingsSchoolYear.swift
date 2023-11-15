@@ -67,8 +67,8 @@ struct SettingsSchoolYear: View {
                 }
                 .popover(isPresented: $popOverSynchroIsPresented) {
                     Text("""
-                            Il est possible de mettre à jour le calendrier **'Année Scolaire'** dans l'application Calendrier depuis ici.
-                            Mais une mise à jour dans l'application Calndrier ne sera pas répercutée ici.
+                            Il est possible de mettre à jour le calendrier **'\(userContext.prefs.viewSchoolYearPref.calName)'** dans l'application Calendrier depuis ici.
+                            Mais une mise à jour dans l'application Calendrier ne sera pas répercutée ici.
                             """)
                     .foregroundColor(.primary)
                     .padding()
@@ -168,7 +168,7 @@ struct SettingsSchoolYear: View {
                 inEventStore: eventStore
             )
             if success {
-                alertTitle = "L'événement a été enregistré."
+                alertTitle = "L'événement a été enregistré dans le calendrier **\(userContext.prefs.viewSchoolYearPref.calName)**."
                 alertMessage = ""
                 alertIsPresented.toggle()
             } else {
