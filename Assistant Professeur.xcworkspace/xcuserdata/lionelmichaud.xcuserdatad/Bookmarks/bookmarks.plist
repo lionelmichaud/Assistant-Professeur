@@ -311,12 +311,16 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
 							<key>EndingLineNumber</key>
 							<string>588</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
 							<key>StartingLineNumber</key>
 							<string>588</string>
 							<key>Timestamp</key>
-							<string>721765874.847713</string>
+							<string>721769394.7210979</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>

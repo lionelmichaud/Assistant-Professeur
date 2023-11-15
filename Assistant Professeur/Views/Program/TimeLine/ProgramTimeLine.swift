@@ -126,7 +126,7 @@ extension ProgramTimeLine {
                             content: ProgramStepperView(
                                 program: program,
                                 forPdfExport: true
-                            ),
+                            ).environmentObject(userContext),
                             to: fileUrl,
                             withProposedSize: .init(width: 1024, height: nil)
                         ) {
@@ -142,7 +142,7 @@ extension ProgramTimeLine {
                             content: ProgramPlanningPDF(
                                 program: program,
                                 data: chartDatum()
-                            ),
+                            ).environmentObject(userContext),
                             to: fileUrl,
                             withProposedSize: .init(width: 1024, height: 1024)
                         ) {
