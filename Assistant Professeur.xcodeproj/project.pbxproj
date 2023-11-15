@@ -35,6 +35,9 @@
 		791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791A0CDC29746A31004CA543 /* DataBaseManager.swift */; };
 		791A190E2AE8220E00DD41DD /* SchoolCurrentSeancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791A190D2AE8220E00DD41DD /* SchoolCurrentSeancesView.swift */; };
 		791A19102AE8222400DD41DD /* SchoolPreviousSeancesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791A190F2AE8222400DD41DD /* SchoolPreviousSeancesView.swift */; };
+		791AA5D02B0378D700504B4E /* PeriodEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */; };
+		791AA5D12B0378E600504B4E /* AlertInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7957A5AB2AF7A1B1002C8721 /* AlertInfo.swift */; };
+		791AA5D42B03791C00504B4E /* ReminderTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791AA5D32B03791C00504B4E /* ReminderTaskManager.swift */; };
 		791DEE182A2FFB7C00D0E248 /* WCompBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791DEE172A2FFB7C00D0E248 /* WCompBrowserRow.swift */; };
 		7920A5242957345A0092A7DD /* EleveLabelWithTrombineFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7920A5232957345A0092A7DD /* EleveLabelWithTrombineFlag.swift */; };
 		792135572978724C0036A5EA /* Program+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792135562978724C0036A5EA /* Program+Extensions.swift */; };
@@ -513,6 +516,7 @@
 		791A0CDC29746A31004CA543 /* DataBaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseManager.swift; sourceTree = "<group>"; };
 		791A190D2AE8220E00DD41DD /* SchoolCurrentSeancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolCurrentSeancesView.swift; sourceTree = "<group>"; };
 		791A190F2AE8222400DD41DD /* SchoolPreviousSeancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolPreviousSeancesView.swift; sourceTree = "<group>"; };
+		791AA5D32B03791C00504B4E /* ReminderTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTaskManager.swift; sourceTree = "<group>"; };
 		791DEE172A2FFB7C00D0E248 /* WCompBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompBrowserRow.swift; sourceTree = "<group>"; };
 		7920A5232957345A0092A7DD /* EleveLabelWithTrombineFlag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveLabelWithTrombineFlag.swift; sourceTree = "<group>"; };
 		792135562978724C0036A5EA /* Program+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Program+Extensions.swift"; sourceTree = "<group>"; };
@@ -1256,7 +1260,10 @@
 		793A67BB2AE58A4100673A24 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				7957A5AB2AF7A1B1002C8721 /* AlertInfo.swift */,
+				79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */,
 				793A67BC2AE58A5C00673A24 /* TimerZone.swift */,
+				791AA5D32B03791C00504B4E /* ReminderTaskManager.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1313,6 +1320,7 @@
 		794615872AEE9A87002D725E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				79F655652AEBD7C000AB3AEB /* SharedTypes */,
 				798EE56E2ADA8D9400F9AE24 /* SharedViewModifiers */,
 				79A800272AC81DE6001F2E25 /* SharedViews */,
 			);
@@ -1712,8 +1720,9 @@
 		79A800272AC81DE6001F2E25 /* SharedViews */ = {
 			isa = PBXGroup;
 			children = (
-				79F655682AEBD89A00AB3AEB /* Views */,
-				79F655652AEBD7C000AB3AEB /* Types */,
+				79E7B87A2A58A050008E8B83 /* SeanceRow.swift */,
+				7976272C2AF5635300DC5EA6 /* CompactProgressView.swift */,
+				7976272E2AF5657C00DC5EA6 /* RegularProgressView.swift */,
 				79A800282AC81DFC001F2E25 /* Controls */,
 			);
 			name = SharedViews;
@@ -1947,13 +1956,13 @@
 				79E524BA295376E900DA99A7 /* Event */,
 				795C2C21296E2DCA00EDFF09 /* Room */,
 				79D573462927EEDE00B0B7B8 /* SchoolViewModel.swift */,
+				79E00C4F2A5B7B0900362743 /* SchoolNavigationRoute.swift */,
 				79DEDAE8292585E300F508EF /* SchoolSplitView.swift */,
 				79DEDB032925902800F508EF /* SchoolSidebarView.swift */,
 				79595C6E2934298300C81021 /* SchoolBrowserRow.swift */,
 				79BF1DA32928E37B005D6CF3 /* SchoolCreatorModal.swift */,
 				79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */,
 				79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */,
-				79E00C4F2A5B7B0900362743 /* SchoolNavigationRoute.swift */,
 			);
 			path = School;
 			sourceTree = "<group>";
@@ -2159,27 +2168,15 @@
 			path = Liste;
 			sourceTree = "<group>";
 		};
-		79F655652AEBD7C000AB3AEB /* Types */ = {
+		79F655652AEBD7C000AB3AEB /* SharedTypes */ = {
 			isa = PBXGroup;
 			children = (
 				79F655662AEBD7CE00AB3AEB /* SeancesLoadingStatus.swift */,
 				79F6556D2AEC0DB700AB3AEB /* LoadingFromCalendarStatus.swift */,
 				7923BC7C2AED39F500F824C2 /* ContactsLoadingStatus.swift */,
-				79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */,
 				7918D56B2AF6AC360085C639 /* ComputingStatus.swift */,
-				7957A5AB2AF7A1B1002C8721 /* AlertInfo.swift */,
 			);
-			path = Types;
-			sourceTree = "<group>";
-		};
-		79F655682AEBD89A00AB3AEB /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				79E7B87A2A58A050008E8B83 /* SeanceRow.swift */,
-				7976272C2AF5635300DC5EA6 /* CompactProgressView.swift */,
-				7976272E2AF5657C00DC5EA6 /* RegularProgressView.swift */,
-			);
-			path = Views;
+			path = SharedTypes;
 			sourceTree = "<group>";
 		};
 		79F7708E2A2B9B68004E9089 /* Competencies */ = {
@@ -2770,6 +2767,7 @@
 				795804BA29A69CB800AEB7DA /* SequenceStepperView.swift in Sources */,
 				7951B6A229B14012006DC88D /* WarningSidebarView.swift in Sources */,
 				79E40E752996BEED006BBE49 /* Seat+CoreDataClass.swift in Sources */,
+				791AA5D42B03791C00504B4E /* ReminderTaskManager.swift in Sources */,
 				79B6633129244FC9007B1FBD /* AppModel.xcdatamodeld in Sources */,
 				79B060852AFAA47F00B381FE /* Authentication.swift in Sources */,
 				79F655672AEBD7CE00AB3AEB /* SeancesLoadingStatus.swift in Sources */,
@@ -2871,6 +2869,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				791AA5D12B0378E600504B4E /* AlertInfo.swift in Sources */,
 				79960F2E2AE51644006CF819 /* CompactContentView.swift in Sources */,
 				79BA0CDF2AE52E77005E4C07 /* Colors.swift in Sources */,
 				79DD5A282AD308C60072290E /* LiveCoursProgressLiveActivity.swift in Sources */,
@@ -2880,6 +2879,7 @@
 				793A67B72AE5881700673A24 /* ColorOptions.swift in Sources */,
 				79960F2A2AE5131B006CF819 /* ProgressViews.swift in Sources */,
 				79DD5A262AD308C60072290E /* LiveCoursProgressBundle.swift in Sources */,
+				791AA5D02B0378D700504B4E /* PeriodEnum.swift in Sources */,
 				7905D5302AE52243004B04E5 /* LockScreenContent.swift in Sources */,
 				79960F2C2AE5140C006CF819 /* MinimalContentView.swift in Sources */,
 				793A67BE2AE58A8200673A24 /* TimerZone.swift in Sources */,

@@ -26,10 +26,35 @@ struct SchoolSeancesList: View {
     var body: some View {
         // Afficher la ToDo liste
         VStack(alignment: .leading) {
-            viewModel.toDoListButton
+            if showToDoListButton {
+                // Bouton de navigation vers la liste des ToDo
+                switch viewModel.seancesLoadingState {
+                    case .pending, .loading, .failed:
+                        EmptyView()
+
+                    case let .finished(seancesInInterval):
+                        if seancesInInterval.seances.isNotEmpty {
+                            // Afficher le bouton de navigation
+                            NavigationLink(
+                                value: SchoolNavigationRoute.toDoList(seancesInInterval.seances)
+                            ) {
+                                Label(
+                                    "A faire avant ces cours...",
+                                    systemImage: "checklist"
+                                )
+                                .imageScale(.large)
+                                .font(.headline)
+                                .fontWeight(.bold)
+                            }
+                            .padding(.bottom)
+                        } else {
+                            EmptyView()
+                        }
+                }
+            }
 
             // Afficher toutes les séances trouvées
-            viewModel.seancesListView
+            viewModel.seancesLoadingState.view
         }
         .alert(
             alert.title,
@@ -43,7 +68,6 @@ struct SchoolSeancesList: View {
                 forSchool: school,
                 inDateInterval: dateInterval,
                 showOnlyOngoingSeance: showOnlyOngoingSeance,
-                showToDoListButton: showToDoListButton,
                 schoolYear: userContext.prefs.viewSchoolYearPref
             )
             self.alert = alert

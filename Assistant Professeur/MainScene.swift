@@ -33,10 +33,25 @@ struct MainScene: Scene {
                 .environmentObject(userContext)
         }
         .onChange(of: scenePhase, manageScenePhaseChanges)
-        #if os(macOS)
-            .commands {
-                SidebarCommands()
+        // Afficher le daily ToDo reminder
+        .backgroundTask(.appRefresh(ReminderTaskManager.shared.backgroundTaskIdentifier)) {
+            // This is where you respond the scheduled background task
+            // you can also reschedule the background task HERE if you want to keep calling from time to time,
+            // just send BGTaskScheduler.shared.submit(request) here again and again.
+            if await userContext.prefs.notificationsEnabled {
+                // Notifier le reminder
+                await ReminderTaskManager.shared.notifyReminder(
+                    schoolYear: userContext.prefs.viewSchoolYearPref
+                )
+                // use an async function here
+                // renouveler le réveil le lendemain
+                await ReminderTaskManager.shared.schedulNextReminderNotification()
             }
+        }
+        #if os(macOS)
+        .commands {
+            SidebarCommands()
+        }
         #endif
         #if os(macOS)
             Settings {

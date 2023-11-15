@@ -188,7 +188,6 @@ extension CsvImportExportMng {
         )
 
         let cycle = chapter.cycleEnum
-        let levels = cycle.associatedLevels
 
         // Compétences inclues dans ce chapitre
         let competencies = chapter.allWorkedCompetenciesSortedByNumber

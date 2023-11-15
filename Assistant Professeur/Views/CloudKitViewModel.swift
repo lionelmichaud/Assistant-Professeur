@@ -20,7 +20,7 @@ class CloudKitViewModel: ObservableObject {
     var iCloudError: Error?
 
     init() {
-        Task(priority: .medium) {
+        Task(priority: .high) {
             #if DEBUG
                 print(">> CloudKitViewModel() initialization has started")
             #endif

@@ -80,17 +80,17 @@ struct SeancesInDateInterval {
     // MARK: - Properties
 
     /// Séances de la période
-    private(set) var seances: [Seance]
+    private(set) var seances: Seances
 
     // MARK: - Initializers
 
     /// Initiialize une suite de séances vide (ne contenant aucune séance)
     init() {
-        self.seances = [Seance]()
+        self.seances = Seances()
     }
 
     /// Initiialize une suite de séances avec pour contenu initial les `seances`.
-    init(from seances: [Seance]) {
+    init(from seances: Seances) {
         self.seances = seances
     }
 
@@ -194,7 +194,7 @@ struct SeancesInDateInterval {
     ///   - calendar: Calendrier à utiliser dans l'application Calendrier.
     ///   - eventStore: Le store des événements du calendrier.
     ///   - dateInterval: Intervalle de temps de recherche.
-    static func loadedNextSeancesForClasse(
+    static func nextSeancesForClasse(
         schoolName: String,
         classe: ClasseEntity,
         inCalendar calendar: EKCalendar,
@@ -260,7 +260,7 @@ struct SeancesInDateInterval {
     ///   - calendar: Calendrier à utiliser dans l'application Calendrier.
     ///   - eventStore: Le store des événements du calendrier.
     ///   - dateInterval: Intervalle de temps de recherche.
-    static func loadedNextSeancesForSchool(
+    static func nextSeancesForSchool(
         school: SchoolEntity,
         inCalendar calendar: EKCalendar,
         inEventStore eventStore: EKEventStore,
@@ -311,7 +311,6 @@ struct SeancesInDateInterval {
                 if Task.isCancelled {
                     break
                 }
-                await Task.yield()
                 foundSeances.append(contentsOf: seances)
             }
         }
@@ -328,7 +327,6 @@ struct SeancesInDateInterval {
 
         // Insérer des pseudo-séances pour chaque période
         // de vacances inclue dans la période
-        await Task.yield()
         await ClasseEntity.context.perform {
             let vacancesIncludedInPeriod = schoolYear.vacancesContained(in: dateInterval)
 

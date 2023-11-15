@@ -11,53 +11,15 @@ import SwiftUI
 @MainActor
 class SchoolSeancesViewModel: ObservableObject {
     @Published
-    private(set) var state: SeancesLoadingStatus = .pending
-
-    private var showToDoListButton: Bool = false
-
-    var seancesListView: some View {
-        state.view
-    }
-
-    var toDoListButton: some View {
-        Group {
-            if showToDoListButton {
-                // Bouton de navigation vers la liste des ToDo
-                switch state {
-                    case .pending, .loading, .failed:
-                        EmptyView()
-
-                    case let .finished(seancesInInterval):
-                        if seancesInInterval.seances.isNotEmpty {
-                            NavigationLink(
-                                value: SchoolNavigationRoute.toDoList(seancesInInterval.seances)
-                            ) {
-                                Label(
-                                    "A faire avant ces cours...",
-                                    systemImage: "checklist"
-                                )
-                                .imageScale(.large)
-                                .font(.headline)
-                                .fontWeight(.bold)
-                            }
-                            .padding(.bottom)
-                        } else {
-                            EmptyView()
-                        }
-                }
-            }
-        }
-    }
+    private(set) var seancesLoadingState: SeancesLoadingStatus = .pending
 
     func updateItems(
         forSchool school: SchoolEntity,
         inDateInterval dateInterval: DateInterval,
         showOnlyOngoingSeance: Bool,
-        showToDoListButton: Bool,
         schoolYear: SchoolYearPref
     ) async -> AlertInfo {
-        self.showToDoListButton = showToDoListButton
-        self.state = .pending
+        self.seancesLoadingState = .pending
 
         var alert = AlertInfo()
         let schoolName = school.viewName
@@ -76,16 +38,16 @@ class SchoolSeancesViewModel: ObservableObject {
                 calendarName: schoolName
             )
         guard let calendar else {
-            state = .failed
+            seancesLoadingState = .failed
             return alert
         }
 
-        state = .loading
+        seancesLoadingState = .loading
 
         // Recherche: `SeancesInDateInterval` contenant la liste des Séances à venir
         // pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
         let schoolSeances = await SeancesInDateInterval
-            .loadedNextSeancesForSchool(
+            .nextSeancesForSchool(
                 school: school,
                 inCalendar: calendar,
                 inEventStore: eventStore,
@@ -102,10 +64,10 @@ class SchoolSeancesViewModel: ObservableObject {
                         .filter { seance in
                             seance.interval.contains(Date.now)
                         })
-            state = .finished(seancesInInterval: filteredSeances)
+            seancesLoadingState = .finished(seancesInInterval: filteredSeances)
 
         } else {
-            state = .finished(seancesInInterval: schoolSeances)
+            seancesLoadingState = .finished(seancesInInterval: schoolSeances)
         }
 
         return alert

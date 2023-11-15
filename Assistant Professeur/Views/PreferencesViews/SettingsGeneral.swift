@@ -6,7 +6,14 @@
 //
 
 import HelpersView
+import os
 import SwiftUI
+import UserNotifications
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "SettingsGeneral"
+)
 
 struct SettingsGeneral: View {
     @EnvironmentObject
@@ -65,6 +72,57 @@ struct SettingsGeneral: View {
             } header: {
                 Text("Affichage")
                     .style(.sectionHeader)
+            }
+
+            Section {
+                // Ordre d'affichage des noms des élèves
+                Toggle("Activer", isOn: $userContext.prefs.notificationsEnabled)
+            } header: {
+                Text("Notifications")
+                    .style(.sectionHeader)
+            } footer: {
+                Text("""
+                Vous pouvez activer une notification quotidienne pour vous informer des éventuelles tâches à réaliser pour la journée en cours: impression de document ou chargement de documents partagés sur l'ENT.")
+                """)
+            }
+            .onChange(of: userContext.prefs.notificationsEnabled) { oldValue, newValue in
+                let UNCenter = UNUserNotificationCenter.current()
+                switch (oldValue, newValue) {
+                    case (false, true):
+                        // Try to register first notification request for daily ToDo reminders
+                        Task {
+                            // Requests authorization to allow local and remote notifications for your app.
+                            do {
+                                let authorized = try await UNCenter.requestAuthorization(
+                                    options: [.alert, .badge, .sound]
+                                )
+                                // The value of authorized is true when the person grants authorization for one or more options.
+                                if authorized {
+                                    #if DEBUG
+                                        customLog.log(
+                                            level: .info,
+                                            "Authorization for notifications has been GRANTED by user"
+                                        )
+                                    #endif
+                                    // register first notification request for daily ToDo reminders
+                                    await ReminderTaskManager.shared.schedulNextReminderNotification()
+                                }
+                            } catch {
+                                customLog.log(
+                                    level: .error,
+                                    "Failed to request authorization for notifications with Error: \(error.localizedDescription)"
+                                )
+                            }
+                        }
+
+                    case (true, false):
+                        // Retirer toute notification pouvant déjà exister.
+                        Task {
+                            await ReminderTaskManager.shared.removeNextReminderNotification()
+                        }
+
+                    default: break
+                }
             }
             // .listRowSeparator(.hidden)
         }

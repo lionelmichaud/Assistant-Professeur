@@ -9,7 +9,10 @@ import SwiftUI
 
 @MainActor
 class UserContext: ObservableObject {
+    @Published
     private(set) var owner: OwnerEntity?
+
+    @Published
     var prefs: UserPrefEntity!
 
     // MARK: - Initializers
