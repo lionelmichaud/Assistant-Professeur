@@ -14,10 +14,10 @@ struct ProgramStepperView: View {
     @ObservedObject
     var program: ProgramEntity
 
+    let forPdfExport: Bool
+
     @EnvironmentObject
     private var userContext: UserContext
-
-    let forPdfExport: Bool
 
     var body: some View {
         if forPdfExport {
@@ -48,7 +48,7 @@ extension ProgramStepperView {
     var headerView: some View {
         VStack(alignment: .leading) {
             ProgramDisciplineLevel(program: program)
-                .foregroundColor(.teal)
+                .foregroundColor(Color.blue4)
                 .padding(.bottom, 6)
             if program.viewAnnotation.isNotEmpty {
                 Text(program.viewAnnotation)
@@ -58,19 +58,42 @@ extension ProgramStepperView {
             if program.workedCompSortedByAcronym.isNotEmpty {
                 Text("Compétences socle associées:")
                     .bold()
-                WCompTagList(
-                    workedComps: program.workedCompSortedByAcronym,
-                    font: .footnote
-                )
+                if !forPdfExport {
+                    WCompTagList(
+                        workedComps: program.workedCompSortedByAcronym,
+                        font: .footnote
+                    )
+                } else {
+                    HStack {
+                        ForEach(program.workedCompSortedByAcronym) { comp in
+                            Text("(\(comp.viewAcronym))")
+                                .foregroundStyle(Color.blue4)
+                                .bold()
+                        }
+                    }
+                }
             }
             // Compétences disciplinaires associées
             if program.disciplineCompSortedByAcronym.isNotEmpty {
                 Text("Compétences disciplinaires associées:")
                     .bold()
-                DCompTagList(
-                    disciplineComps: program.disciplineCompSortedByAcronym,
-                    font: .footnote
-                )
+                    .padding(.top)
+                if !forPdfExport {
+                    DCompTagList(
+                        disciplineComps: program.disciplineCompSortedByAcronym,
+                        font: .footnote
+                    )
+                } else {
+                    HStack {
+                        ForEach(program.disciplineCompSortedByAcronym) { comp in
+                            Text("(\(comp.viewAcronym))")
+                                .foregroundStyle(Color.blue4)
+                                .bold()
+                        }
+                    }
+                    .padding(.bottom)
+
+                }
             }
             // Durée du programme annuel
             HStack {
@@ -92,7 +115,7 @@ extension ProgramStepperView {
         }
         .padding(8)
         .background {
-            RoundedRectangle(cornerRadius: 8).stroke(.teal, lineWidth: 1)
+            RoundedRectangle(cornerRadius: 8).stroke(Color.blue4, lineWidth: 1)
         }
         .padding(.horizontal)
     }
@@ -126,10 +149,12 @@ extension ProgramStepperView {
                         .bold()
                         .foregroundColor(Color.blue4)
                         .textSelection(.enabled)
-                    ClasseTagList(
-                        classes: classesInProgress,
-                        font: .body
-                    )
+                    if !forPdfExport {
+                        ClasseTagList(
+                            classes: classesInProgress,
+                            font: .body
+                        )
+                    }
                 }
                 .eraseToAnyView()
             }
@@ -174,7 +199,7 @@ extension ProgramStepperView {
         program
             .sequencesSortedByNumber
             .map { _ in
-                StepperLineOptions.custom(1, Color.teal)
+                StepperLineOptions.custom(1, Color.blue4)
             }
     }
 }

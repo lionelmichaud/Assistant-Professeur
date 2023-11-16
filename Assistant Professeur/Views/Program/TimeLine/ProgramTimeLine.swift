@@ -5,6 +5,8 @@
 //  Created by Lionel MICHAUD on 23/02/2023.
 //
 
+import AppFoundation
+import HelpersView
 import SwiftUI
 
 struct ProgramTimeLine: View {
@@ -13,11 +15,6 @@ struct ProgramTimeLine: View {
 
     @EnvironmentObject
     private var userContext: UserContext
-
-    enum ViewMode: Int {
-        case steps
-        case planning
-    }
 
     @State
     private var presentation: ViewMode = .steps
@@ -28,14 +25,32 @@ struct ProgramTimeLine: View {
     @State
     private var urlPDF: URL?
 
-    private var title: String {
-        switch presentation {
-            case .steps:
-                "Déroulement de la progression"
-            case .planning:
-                "Planning"
+    // MARK: - Internal Type
+
+    enum ViewMode {
+        case steps
+        case planning
+
+        var title: String {
+            switch self {
+                case .steps:
+                    "Déroulement de la progression"
+                case .planning:
+                    "Planning"
+            }
+        }
+
+        var image: Image {
+            switch self {
+                case .steps:
+                    Image(systemName: "list.bullet")
+                case .planning:
+                    Image(systemName: "chart.bar.fill")
+            }
         }
     }
+
+    // MARK: - Computed Properties
 
     var body: some View {
         VStack {
@@ -65,7 +80,7 @@ struct ProgramTimeLine: View {
             }
         }
         #if os(iOS)
-        .navigationTitle(title)
+        .navigationTitle(presentation.title)
         #endif
         .navigationBarTitleDisplayModeInline()
         .toolbar(content: myToolBarContent)
@@ -74,8 +89,7 @@ struct ProgramTimeLine: View {
         .fileMover(
             isPresented: $isExportingPDF,
             file: urlPDF
-        ) { _ in
-        }
+        ) { _ in }
     }
 }
 
@@ -87,8 +101,8 @@ extension ProgramTimeLine {
         // Choix du style de présentation
         ToolbarItemGroup(placement: .primaryAction) {
             Picker("Présentation", selection: $presentation) {
-                Image(systemName: "list.bullet").tag(ViewMode.steps)
-                Image(systemName: "chart.bar.fill").tag(ViewMode.planning)
+                ViewMode.steps.image.tag(ViewMode.steps)
+                ViewMode.planning.image.tag(ViewMode.planning)
             }
             .pickerStyle(.segmented)
         }
@@ -107,50 +121,46 @@ extension ProgramTimeLine {
             } label: {
                 Image(systemName: "square.and.arrow.up")
             }
-//            if let url = renderedPDF() {
-//                ShareLink(item: url)
-//            }
         }
     }
 
     private func renderedPDF() async -> URL? {
-        if let programId = navig.selectedProgramMngObjId {
-            if let program = ProgramEntity.byObjectId(MngObjID: programId) {
-                let cachesUrl = URL.cachesDirectory
+        if let programId = navig.selectedProgramMngObjId,
+           let program = ProgramEntity.byObjectId(MngObjID: programId) {
+            let cachesUrl = URL.cachesDirectory
 
-                switch presentation {
-                    case .steps:
-                        let fileName = "Séquences de la Progression de \(program.disciplineString) classe de \(program.levelString).pdf"
-                        let fileUrl = cachesUrl.appending(component: fileName)
-                        if PdfViewConverter.renderAsPDF(
-                            content: ProgramStepperView(
-                                program: program,
-                                forPdfExport: true
-                            ).environmentObject(userContext),
-                            to: fileUrl,
-                            withProposedSize: .init(width: 1024, height: nil)
-                        ) {
-                            return fileUrl
-                        } else {
-                            return nil
-                        }
+            switch presentation {
+                case .steps:
+                    let fileName = "Séquences de la Progression de \(program.disciplineString) classe de \(program.levelString).pdf"
+                    let fileUrl = cachesUrl.appending(component: fileName)
+                    if PdfViewConverter.renderAsPDF(
+                        content: ProgramStepperView(
+                            program: program,
+                            forPdfExport: true
+                        ).environmentObject(userContext),
+                        to: fileUrl,
+                        withProposedSize: .init(width: 1024, height: nil)
+                    ) {
+                        return fileUrl
+                    } else {
+                        return nil
+                    }
 
-                    case .planning:
-                        let fileName = "Planning de la Progression de \(program.disciplineString) classe de \(program.levelString).pdf"
-                        let fileUrl = cachesUrl.appending(component: fileName)
-                        if PdfViewConverter.renderAsPDF(
-                            content: ProgramPlanningPDF(
-                                program: program,
-                                data: chartDatum()
-                            ).environmentObject(userContext),
-                            to: fileUrl,
-                            withProposedSize: .init(width: 1024, height: 1024)
-                        ) {
-                            return fileUrl
-                        } else {
-                            return nil
-                        }
-                }
+                case .planning:
+                    let fileName = "Planning de la Progression de \(program.disciplineString) classe de \(program.levelString).pdf"
+                    let fileUrl = cachesUrl.appending(component: fileName)
+                    if PdfViewConverter.renderAsPDF(
+                        content: ProgramPlanningPDF(
+                            program: program,
+                            data: chartDatum()
+                        ).environmentObject(userContext),
+                        to: fileUrl,
+                        withProposedSize: .init(width: 1024, height: 1024)
+                    ) {
+                        return fileUrl
+                    } else {
+                        return nil
+                    }
             }
         }
         return nil
