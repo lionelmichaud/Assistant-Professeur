@@ -21,7 +21,7 @@ struct ProgramStepperView: View {
 
     var body: some View {
         if forPdfExport {
-            VStack(alignment: .center) {
+            VStack(alignment: .leading) {
                 headerView
 
                 if program.nbOfSequences > 0 {
@@ -47,9 +47,17 @@ struct ProgramStepperView: View {
 extension ProgramStepperView {
     var headerView: some View {
         VStack(alignment: .leading) {
-            ProgramDisciplineLevel(program: program)
-                .foregroundColor(Color.blue4)
-                .padding(.bottom, 6)
+            HStack(alignment: .center) {
+                if forPdfExport {
+                    Text("Progression pédagogique")
+                        .bold()
+                        .foregroundColor(Color.blue4)
+                }
+                ProgramDisciplineLevel(program: program)
+                    .foregroundColor(Color.blue4)
+                    .bold()
+                    .padding(.bottom, 6)
+            }
             if program.viewAnnotation.isNotEmpty {
                 Text(program.viewAnnotation)
                     .padding(.bottom, 6)
@@ -71,13 +79,13 @@ extension ProgramStepperView {
                                 .bold()
                         }
                     }
+                    .padding(.bottom, 6)
                 }
             }
             // Compétences disciplinaires associées
             if program.disciplineCompSortedByAcronym.isNotEmpty {
                 Text("Compétences disciplinaires associées:")
                     .bold()
-                    .padding(.top)
                 if !forPdfExport {
                     DCompTagList(
                         disciplineComps: program.disciplineCompSortedByAcronym,
@@ -91,8 +99,7 @@ extension ProgramStepperView {
                                 .bold()
                         }
                     }
-                    .padding(.bottom)
-
+                    .padding(.bottom, 6)
                 }
             }
             // Durée du programme annuel
@@ -113,6 +120,7 @@ extension ProgramStepperView {
                 WebsiteView(url: program.url, showURL: false)
             }
         }
+        .textSelection(.enabled)
         .padding(8)
         .background {
             RoundedRectangle(cornerRadius: 8).stroke(Color.blue4, lineWidth: 1)
@@ -139,21 +147,24 @@ extension ProgramStepperView {
         program
             .sequencesSortedByNumber
             .map { sequence in
-                let classesInProgress =
-                    ProgramManager
-                        .classesAssociatedTo(thisSequence: sequence)
-                        .filter { sequence.statusFor(classe: $0) == .inProgress }
-
-                return VStack(alignment: .leading, spacing: 0) {
+                VStack(alignment: .leading, spacing: 0) {
                     Text(sequence.viewName)
                         .bold()
                         .foregroundColor(Color.blue4)
                         .textSelection(.enabled)
                     if !forPdfExport {
+                        let classesInProgress =
+                            ProgramManager
+                                .classesAssociatedTo(thisSequence: sequence)
+                                .filter { sequence.statusFor(classe: $0) == .inProgress }
                         ClasseTagList(
                             classes: classesInProgress,
                             font: .body
                         )
+                    } else if let annotation = sequence.annotation {
+                            Text(annotation)
+                                .foregroundColor(Color.blue4)
+                                .textSelection(.enabled)
                     }
                 }
                 .eraseToAnyView()
@@ -178,19 +189,19 @@ extension ProgramStepperView {
         program
             .sequencesSortedByNumber
             .map { sequence in
-                VStack(alignment: .leading) {
-                    HStack {
-                        DurationSquareView(
-                            duration: sequence.durationWithoutMargin,
-                            withMargin: true,
-                            margin: Int(sequence.margePostSequence)
-                        )
-                        Spacer()
+                HStack {
+                    DurationSquareView(
+                        duration: sequence.durationWithoutMargin,
+                        withMargin: true,
+                        margin: Int(sequence.margePostSequence)
+                    )
+                    Spacer()
+                    if !forPdfExport {
                         WebsiteView(url: sequence.url, showURL: false)
                     }
-                    .font(.callout)
-                    .bold()
                 }
+                .font(.callout)
+                .bold()
                 .eraseToAnyView()
             }
     }

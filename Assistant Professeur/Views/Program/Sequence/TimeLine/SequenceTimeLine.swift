@@ -12,6 +12,9 @@ struct SequenceTimeLine: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     @State
     private var presentation: ViewMode = .steps
 
@@ -54,7 +57,10 @@ struct SequenceTimeLine: View {
                 if let sequence = SequenceEntity.byObjectId(MngObjID: sequenceId) {
                     switch presentation {
                         case .steps:
-                            SequenceStepperView(sequence: sequence)
+                            SequenceStepperView(
+                                sequence: sequence,
+                                forPdfExport: false
+                            )
 
                         case .presentationSheet:
                             SequencePresentationView(sequence: sequence)
@@ -88,13 +94,40 @@ struct SequenceTimeLine: View {
 
     private func renderedPDF() async -> URL? {
         if let sequenceId = navig.selectedSequenceMngObjId,
-           let sequence = SequenceEntity.byObjectId(MngObjID: sequenceId) {
+           let sequence = SequenceEntity.byObjectId(MngObjID: sequenceId),
+           let program = sequence.program {
+            let cachesUrl = URL.cachesDirectory
             switch presentation {
                 case .steps:
-                    break
+                    let fileName = "Activités de la Séquence de \(sequence.viewNumber) classe de \(program.levelString).pdf"
+                    let fileUrl = cachesUrl.appending(component: fileName)
+                    if PdfViewConverter.renderAsPDF(
+                        content: SequenceStepperView(
+                            sequence: sequence,
+                            forPdfExport: true
+                        ).environmentObject(userContext),
+                        to: fileUrl,
+                        withProposedSize: .init(width: 1024, height: nil)
+                    ) {
+                        return fileUrl
+                    } else {
+                        return nil
+                    }
 
                 case .presentationSheet:
-                    break
+                    let fileName = "Présentation de la Séquence de \(sequence.viewNumber) classe de \(program.levelString).pdf"
+                    let fileUrl = cachesUrl.appending(component: fileName)
+                    if PdfViewConverter.renderAsPDF(
+                        content: SequencePresentationView(
+                            sequence: sequence
+                        ).environmentObject(userContext),
+                        to: fileUrl,
+                        withProposedSize: .init(width: 1024, height: nil)
+                    ) {
+                        return fileUrl
+                    } else {
+                        return nil
+                    }
             }
         }
         return nil
@@ -129,9 +162,6 @@ extension SequenceTimeLine {
             } label: {
                 Image(systemName: "square.and.arrow.up")
             }
-            //            if let url = renderedPDF() {
-            //                ShareLink(item: url)
-            //            }
         }
     }
 }

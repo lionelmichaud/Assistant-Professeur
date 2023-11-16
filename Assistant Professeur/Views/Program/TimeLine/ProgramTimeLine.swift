@@ -128,7 +128,6 @@ extension ProgramTimeLine {
         if let programId = navig.selectedProgramMngObjId,
            let program = ProgramEntity.byObjectId(MngObjID: programId) {
             let cachesUrl = URL.cachesDirectory
-
             switch presentation {
                 case .steps:
                     let fileName = "Séquences de la Progression de \(program.disciplineString) classe de \(program.levelString).pdf"

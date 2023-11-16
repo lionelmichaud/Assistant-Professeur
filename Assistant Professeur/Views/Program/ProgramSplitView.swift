@@ -23,6 +23,9 @@ struct ProgramSplitView: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     @State
     private var preferredColumn = NavigationSplitViewColumn.sidebar
 
@@ -48,6 +51,8 @@ struct ProgramSplitView: View {
                             sequence: sequence,
                             preferredColumn: $preferredColumn
                         )
+                        .environmentObject(navig) // Bug Apple
+                        .environmentObject(userContext) // Bug Apple
                     }
                     .navigationSplitViewColumnWidth(
                         min: 400,

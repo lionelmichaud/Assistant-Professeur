@@ -13,24 +13,31 @@ struct SequenceStepperView: View {
     @ObservedObject
     var sequence: SequenceEntity
 
-    var body: some View {
-        ScrollView(Axis.Set.vertical, showsIndicators: false) {
-            headerView
+    let forPdfExport: Bool
 
-            if sequence.nbOfActivities > 0 {
-                StepperView()
-                    .addSteps(steps)
-                    .indicators(indicators)
-                    .addPitStops(pitStops)
-                    .pitStopLineOptions(pitStopLineOptions)
-                    .spacing(100)
-                    .loadingAnimationTime(0.01)
-                    // .autoSpacing(true)
-                    // .lineOptions(StepperLineOptions.custom(2, Color.teal))
-                    // .spacing(80) // auto calculates spacing between steps based on the content.
-                    .padding([.horizontal, .top])
-                    .padding(.bottom, 50)
+    @EnvironmentObject
+    private var userContext: UserContext
+
+    var body: some View {
+        if forPdfExport {
+            VStack(alignment: .leading) {
+                headerView
+
+                if sequence.nbOfActivities > 0 {
+                    stepperView
+                }
             }
+            .padding()
+
+        } else {
+            ScrollView(Axis.Set.vertical, showsIndicators: false) {
+                headerView
+
+                if sequence.nbOfActivities > 0 {
+                    stepperView
+                }
+            }
+            .padding(.bottom)
         }
     }
 }
@@ -46,10 +53,11 @@ extension SequenceStepperView {
                 Text("S\(sequence.viewNumber)")
                     .padding(6)
                     .background(
-                        Circle().stroke(Color.sequenceTag, lineWidth: 1)
+                        Circle().stroke(Color.blue4, lineWidth: 1)
                     )
             }
-            .foregroundColor(Color.sequenceTag)
+            .bold()
+            .foregroundColor(Color.blue4)
             .padding(.bottom, 6)
 
             if sequence.viewAnnotation.isNotEmpty {
@@ -63,19 +71,41 @@ extension SequenceStepperView {
             if sequence.workedCompSortedByAcronym.isNotEmpty {
                 Text("Compétences socle associées:")
                     .bold()
-                WCompTagList(
-                    workedComps: sequence.workedCompSortedByAcronym,
-                    font: .footnote
-                )
+                if !forPdfExport {
+                    WCompTagList(
+                        workedComps: sequence.workedCompSortedByAcronym,
+                        font: .footnote
+                    )
+                } else {
+                    HStack {
+                        ForEach(sequence.workedCompSortedByAcronym) { comp in
+                            Text("(\(comp.viewAcronym))")
+                                .foregroundStyle(Color.blue4)
+                                .bold()
+                        }
+                    }
+                    .padding(.bottom, 6)
+                }
             }
             // Compétences disciplinaires associées
             if sequence.disciplineCompSortedByAcronym.isNotEmpty {
                 Text("Compétences disciplinaires associées:")
                     .bold()
-                DCompTagList(
-                    disciplineComps: sequence.disciplineCompSortedByAcronym,
-                    font: .footnote
-                )
+                if !forPdfExport {
+                    DCompTagList(
+                        disciplineComps: sequence.disciplineCompSortedByAcronym,
+                        font: .footnote
+                    )
+                } else {
+                    HStack {
+                        ForEach(sequence.disciplineCompSortedByAcronym) { comp in
+                            Text("(\(comp.viewAcronym))")
+                                .foregroundStyle(Color.blue4)
+                                .bold()
+                        }
+                    }
+                    .padding(.bottom, 6)
+                }
             }
             // Durée de la séquence
             DurationView(
@@ -86,32 +116,53 @@ extension SequenceStepperView {
         .textSelection(.enabled)
         .padding(8)
         .background {
-            RoundedRectangle(cornerRadius: 8).stroke(.teal, lineWidth: 1)
+            RoundedRectangle(cornerRadius: 8).stroke(Color.blue4, lineWidth: 1)
         }
         .padding(.horizontal)
+    }
+
+    var stepperView: some View {
+        StepperView()
+            .addSteps(steps)
+            .indicators(indicators)
+            .addPitStops(pitStops)
+            .pitStopLineOptions(pitStopLineOptions)
+            .spacing(100)
+            .loadingAnimationTime(0.01)
+            // .autoSpacing(true)
+            // .lineOptions(StepperLineOptions.custom(2, Color.teal))
+            // .spacing(80) // auto calculates spacing between steps based on the content.
+            .padding([.horizontal, .top])
+            .padding(.bottom, 50)
     }
 
     private var steps: [AnyView] {
         sequence
             .activitiesSortedByNumber
             .compactMap { activity in
-                let classesInProgress =
+                if activity.viewDuration == 0 {
+                    return nil
+
+                } else {
+                    let classesInProgress =
                     ProgramManager
                         .classesAssociatedTo(thisActivity: activity)
                         .filter { $0.currentActivity == activity }
 
-                if activity.viewDuration == 0 {
-                    return nil
-                } else {
                     return VStack(alignment: .leading, spacing: 0) {
                         Text(activity.viewName)
-                            .bold()
-                            .foregroundColor(Color.activityTag)
+                            .foregroundColor(Color.blue4)
                             .textSelection(.enabled)
-                        ClasseTagList(
-                            classes: classesInProgress,
-                            font: .body
-                        )
+                        if !forPdfExport {
+                            ClasseTagList(
+                                classes: classesInProgress,
+                                font: .body
+                            )
+                        } else if let annotation = activity.annotation {
+                            Text(annotation)
+                                .foregroundColor(Color.blue4)
+                                .textSelection(.enabled)
+                        }
                     }
                     .eraseToAnyView()
                 }
@@ -128,10 +179,10 @@ extension SequenceStepperView {
                     return StepperIndicationType
                         .custom(NumberedCircleView(
                             text: "A\(activity.viewNumber)",
-                            color: Color.activityTag,
+                            color: Color.blue4,
                             triggerAnimation: true
                         )
-                            .eraseToAnyView())
+                        .eraseToAnyView())
                 }
             }
     }
@@ -144,20 +195,24 @@ extension SequenceStepperView {
                     return nil
                 } else {
                     return VStack(alignment: .leading) {
-                        DurationSquareView(
-                            duration: activity.duration,
-                            withMargin: false,
-                            margin: 0
-                        )
-                        .font(.callout)
-                        .bold()
-                        .padding(.bottom, 1)
+                        HStack {
+                            DurationSquareView(
+                                duration: activity.duration,
+                                withMargin: false,
+                                margin: 0
+                            )
+                            .font(.callout)
+                            .bold()
+                            .padding(.bottom, 1)
 
-                        ActivityAllSymbols(
-                            activity: activity,
-                            showTitle: true,
-                            axis: .horizontal
-                        )
+                            Spacer()
+
+                            ActivityAllSymbols(
+                                activity: activity,
+                                showTitle: true,
+                                axis: .horizontal
+                            )
+                        }
 
                         // Compétences disciplinaires associées
                         if activity.allDisciplineCompetencies.isNotEmpty {
@@ -180,7 +235,7 @@ extension SequenceStepperView {
                 if activity.viewDuration == 0 {
                     return nil
                 } else {
-                    return StepperLineOptions.custom(1, Color.activityTag)
+                    return StepperLineOptions.custom(1, Color.blue4)
                 }
             }
     }
