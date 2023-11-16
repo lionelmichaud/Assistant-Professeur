@@ -118,7 +118,7 @@ struct SequenceTimeLine: View {
                     }
 
                 case .presentationSheet:
-                    let fileName = "Présentation de la Séquence de \(sequence.viewNumber) classe de \(program.levelString).pdf"
+                    let fileName = "Présentation de la Séquence \(sequence.viewNumber) classe de \(program.levelString).pdf"
                     let fileUrl = cachesUrl.appending(component: fileName)
                     if PdfViewConverter.renderAsPDF(
                         content: SequencePresentationView(
