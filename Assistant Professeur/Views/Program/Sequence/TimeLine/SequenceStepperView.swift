@@ -15,9 +15,6 @@ struct SequenceStepperView: View {
 
     let forPdfExport: Bool
 
-    @EnvironmentObject
-    private var userContext: UserContext
-
     var body: some View {
         if forPdfExport {
             VStack(alignment: .leading) {

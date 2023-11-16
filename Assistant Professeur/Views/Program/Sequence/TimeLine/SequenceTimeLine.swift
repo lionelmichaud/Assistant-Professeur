@@ -63,7 +63,10 @@ struct SequenceTimeLine: View {
                             )
 
                         case .presentationSheet:
-                            SequencePresentationView(sequence: sequence)
+                            SequencePresentationView(
+                                sequence: sequence,
+                                forPdfExport: false
+                            )
                     }
                 } else {
                     Text("Séquence introuvable")
@@ -119,10 +122,11 @@ struct SequenceTimeLine: View {
                     let fileUrl = cachesUrl.appending(component: fileName)
                     if PdfViewConverter.renderAsPDF(
                         content: SequencePresentationView(
-                            sequence: sequence
+                            sequence: sequence,
+                            forPdfExport: true
                         ).environmentObject(userContext),
                         to: fileUrl,
-                        withProposedSize: .init(width: 1024, height: nil)
+                        withProposedSize: .init(width: 800, height: nil)
                     ) {
                         return fileUrl
                     } else {
