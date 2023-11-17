@@ -20,12 +20,11 @@ struct TodaySeances {
 
     // MARK: - Properties
 
-    /// Charge toutes les séance de la journée pour les`discipline`, `classe` et `schoolName`
+    /// Charge toutes les séance de la journée pour les`discipline`, `classe`
     /// ou pour l'ensemble des disciplines et classe de`schoolName`.
     /// - Parameters:
     ///   - discipline: La discipline recherchée ou `nil`.
     ///   - classe: La classe recherchée ou `nil`.
-    ///   - schoolName: L'école recherchée.
     ///  - Note: Si `discipline` ou `classe` = `nil` alors toutes les séances sont chargées
     ///           quelque soient la classe ou la discipline.
     mutating func loadTodaySeances(
