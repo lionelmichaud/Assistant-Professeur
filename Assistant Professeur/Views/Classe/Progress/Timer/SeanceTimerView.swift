@@ -133,7 +133,7 @@ struct SeanceTimerView: View {
                     return
                 }
 
-                let seanceDuration = Int(seance.duration) // seconds
+                let seanceDuration = Int(seance.interval.duration) // seconds
 
                 /// Démarrer la Live Activity
                 let initialState =
@@ -150,7 +150,7 @@ struct SeanceTimerView: View {
                     )
                 let attribute =
                     LiveCoursProgressFixedAttributes(
-                        seance: seance,
+                        seance: seance.interval,
                         schoolName: school.viewName,
                         classeName: classeName,
                         warningRemainingMinutes: warningRemainingMinutes,
@@ -350,11 +350,11 @@ extension SeanceTimerView {
 
 extension SeanceTimerView {
     @ViewBuilder
-    private func compactView(date: Date, seance: DateInterval) -> some View {
+    private func compactView(date: Date, seance: Seance) -> some View {
         VStack {
             VStack {
                 // heure de fin de la séance de travail
-                Text("Fin de la séance à **\(seance.end.formatted(date: .omitted, time: .shortened))**")
+                Text("Fin de la séance à **\(seance.interval.end.formatted(date: .omitted, time: .shortened))**")
                     .font(.title)
 
                 ProgressClockView(
@@ -384,11 +384,11 @@ extension SeanceTimerView {
     }
 
     @ViewBuilder
-    private func regularView(date: Date, seance: DateInterval) -> some View {
+    private func regularView(date: Date, seance: Seance) -> some View {
         HStack {
             VStack {
                 // heure de fin de la séance de travail
-                Text("Fin de la séance à **\(seance.end.formatted(date: .omitted, time: .shortened))**")
+                Text("Fin de la séance à **\(seance.interval.end.formatted(date: .omitted, time: .shortened))**")
                     .font(.title)
 
                 ProgressClockView(

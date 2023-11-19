@@ -75,8 +75,9 @@ struct SeanceRow: View {
                 // Chronomètre de classe
                 if showWatchButton,
                    let classe,
-                   let schoolName = seance.schoolName,
-                   let school = SchoolEntity.school(withName: schoolName) {
+                   let school = classe.school,
+                   let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
+                   seance.name == classe.displayString {
                     // TODO: - Ne pas afficher si aucune séance en cours
                     Button {
                         isShowingClasseTimer.toggle()

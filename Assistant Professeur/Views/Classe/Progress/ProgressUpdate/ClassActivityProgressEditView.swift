@@ -48,13 +48,11 @@ struct ClassActivityProgressEditView: View {
         }
         #if os(macOS)
         .sheet(isPresented: $isShowingActivityTimer) {
-            if let discipline = progress.classe?.disciplineEnum,
-               let classe = progress.classe,
+            if let classe = progress.classe,
                let school = progress.classe?.school {
                 NavigationStack {
                     ClasseTimerModal(
-                        discipline: discipline,
-                        classe: classe,
+                        classeName: classe.displayString,
                         school: school
                     )
                 }
@@ -64,12 +62,11 @@ struct ClassActivityProgressEditView: View {
         }
         #else
                 .fullScreenCover(isPresented: $isShowingActivityTimer) {
-                    if let discipline = progress.classe?.disciplineEnum,
-                       let classeName = progress.classe?.displayString,
+                    if let classe = progress.classe,
                        let school = progress.classe?.school {
                         NavigationStack {
                             ClasseTimerModal(
-                                classeName: classeName,
+                                classeName: classe.displayString,
                                 school: school
                             )
                         }
@@ -198,7 +195,11 @@ extension ClassActivityProgressEditView {
         HStack {
             Spacer()
             if let activity = progress.activity,
-               activity.isTP || activity.isProject {
+               activity.isTP || activity.isProject,
+               let classe = progress.classe,
+               let school = progress.classe?.school,
+               let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
+               seance.name == classe.displayString {
                 // TODO: - Ne pas afficher si aucune séance en cours
                 stopWatchButton(for: activity)
                 Spacer()

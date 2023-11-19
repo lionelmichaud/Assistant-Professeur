@@ -17,7 +17,7 @@ struct TodaySeances {
     // MARK: - Properties
 
     /// Calendriers des établissements
-    private(set) var seances = [SchoolEntity: [EKEvent]]()
+    private(set) var seances = [SchoolEntity: Seances]()
 
     /// Séances du jour par établissement
     private(set) var calendars = [SchoolEntity: EKCalendar]()
@@ -61,13 +61,31 @@ struct TodaySeances {
             guard let calendar else {
                 continue
             }
-
             calendars[school] = calendar
+
+            var classeNames = [String]()
+            // Récupérer la liste des noms des classe de cet établissement
+            await SchoolEntity.context.perform {
+                classeNames = school.allClasses.map(\.displayString)
+            }
             seances[school] = EventManager.getTodayEvents(
                 inCalendar: calendar,
                 inEventStore: eventStore
-            )
-            await filterSeances(forSchool: school)
+            ).compactMap { event in
+                // Le nom de l'événement contient-il le nom d'une des classes
+                // de l'établissement ?
+                for classeName in classeNames where event.title.contains(classeName) {
+                    return Seance(
+                        name: classeName,
+                        schoolName: calendarName,
+                        interval: DateInterval(
+                            start: event.startDate,
+                            end: event.endDate
+                        )
+                    )
+                }
+                return nil
+            }
         }
 
         if !calendars.isEmpty {
@@ -85,8 +103,10 @@ struct TodaySeances {
         var calendar: EKCalendar?
         var alert = AlertInfo()
         var calendarName = ""
+        var classeNames = [String]()
         await SchoolEntity.context.perform {
             calendarName = school.viewName
+            classeNames = school.allClasses.map(\.displayString)
         }
         (
             calendar,
@@ -101,36 +121,29 @@ struct TodaySeances {
         guard let calendar else {
             return
         }
-
         calendars[school] = calendar
+
         seances[school] = EventManager.getTodayEvents(
             inCalendar: calendar,
             inEventStore: eventStore
-        )
-        await filterSeances(forSchool: school)
+        ).compactMap { event in
+            // Le nom de l'événement contient-il le nom d'une des classes
+            // de l'établissement ?
+            for classeName in classeNames where event.title.contains(classeName) {
+                return Seance(
+                    name: classeName,
+                    schoolName: calendarName,
+                    interval: DateInterval(
+                        start: event.startDate,
+                        end: event.endDate
+                    )
+                )
+            }
+            return nil
+        }
 
         if !calendars.isEmpty {
             lastUpdateDate = .now
-        }
-    }
-
-    /// Ne concerver que les événements qui contiennent
-    /// le nom d'une des classes de l'établissemeent.
-    private mutating func filterSeances(forSchool school: SchoolEntity) async {
-        if seances.isNotEmpty {
-            var classeNames = [String]()
-            // Récupérer la liste des noms des classe de cet établissement
-            await SchoolEntity.context.perform {
-                classeNames = school.allClasses.map(\.displayString)
-            }
-            seances[school] = seances[school]?.filter { event in
-                // Le nom de l'événement contient-il le nom d'une des classes
-                // de l'établissement ?
-                for classeName in classeNames where event.title.contains(classeName) {
-                    return true
-                }
-                return false
-            }
         }
     }
 
@@ -141,18 +154,12 @@ struct TodaySeances {
     func seanceOngoing(
         inSchool school: SchoolEntity,
         at date: Date = .now
-    ) -> DateInterval? {
+    ) -> Seance? {
         if let seances = seances[school],
-           let seance =
-           seances.first(
-               where: { seance in
-                   (seance.startDate ... seance.endDate).contains(date)
-               }
-           ) {
-            return DateInterval(
-                start: seance.startDate,
-                end: seance.endDate
-            )
+           let seance = seances.first(where: { seance in 
+               seance.interval.contains(date)
+           }) {
+            return seance
         } else {
             return nil
         }
@@ -171,7 +178,7 @@ struct TodaySeances {
             inSchool: school,
             at: date
         ) {
-            let seconds = ongoingSeance.duration
+            let seconds = ongoingSeance.interval.duration
             if seconds > 0 {
                 return Int(seconds)
             } else {
@@ -197,7 +204,7 @@ struct TodaySeances {
         ) {
             return Calendar.current.dateComponents(
                 [.hour, .minute, .second],
-                from: ongoingSeance.start,
+                from: ongoingSeance.interval.start,
                 to: date
             )
         } else {
@@ -249,7 +256,7 @@ struct TodaySeances {
             return Calendar.current.dateComponents(
                 [.hour, .minute, .second],
                 from: date,
-                to: ongoingSeance.end
+                to: ongoingSeance.interval.end
             )
         } else {
             return nil

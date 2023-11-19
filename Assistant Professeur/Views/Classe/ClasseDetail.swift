@@ -109,18 +109,20 @@ extension ClasseDetail {
             ControlGroup {
                 // Chronomètre de classe
                 if let school = classe.school {
-                    // TODO: - Ne pas afficher si aucune séance en cours
-                    Button {
-                        isShowingClasseTimer.toggle()
-                    } label: {
-                        Label("Chrono.", systemImage: "stopwatch")
-                    }
-                    .fullScreenCover(isPresented: $isShowingClasseTimer) {
-                        NavigationStack {
-                            ClasseTimerModal(
-                                classeName: classe.displayString,
-                                school: school
-                            )
+                    if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
+                       seance.name == classe.displayString {
+                        Button {
+                            isShowingClasseTimer.toggle()
+                        } label: {
+                            Label("Chrono.", systemImage: "stopwatch")
+                        }
+                        .fullScreenCover(isPresented: $isShowingClasseTimer) {
+                            NavigationStack {
+                                ClasseTimerModal(
+                                    classeName: classe.displayString,
+                                    school: school
+                                )
+                            }
                         }
                     }
                 }

@@ -15,13 +15,13 @@
 							<key>EndingColumnNumber</key>
 							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>116</string>
+							<string>118</string>
 							<key>StartingColumnNumber</key>
 							<string>0</string>
 							<key>StartingLineNumber</key>
-							<string>115</string>
+							<string>117</string>
 							<key>Timestamp</key>
-							<string>722042750.45105</string>
+							<string>722117312.637857</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -37,17 +37,13 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>                // TODO: - Proposer d'aller à la vue "mise à jour de l'avancement de la classe"
-</string>
+						<string></string>
 						<key>leading</key>
-						<string>
-            } else {
+						<string>    }
+}
 </string>
 						<key>trailing</key>
-						<string>                Text("Pas de séance en cours")
-                    .font(.title)
-            }
-</string>
+						<string></string>
 					</dict>
 					<key>title</key>
 					<string>ToDo: Mise à jour avancement</string>
@@ -62,13 +58,13 @@
 							<key>EndingColumnNumber</key>
 							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>112</string>
+							<string>111</string>
 							<key>StartingColumnNumber</key>
 							<string>0</string>
 							<key>StartingLineNumber</key>
 							<string>111</string>
 							<key>Timestamp</key>
-							<string>722043173.281113</string>
+							<string>722113738.5674109</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -84,16 +80,15 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>                    // TODO: - Ne pas afficher si aucune séance en cours
-</string>
+						<string></string>
 						<key>leading</key>
 						<string>                // Chronomètre de classe
                 if let school = classe.school {
 </string>
 						<key>trailing</key>
-						<string>                    Button {
-                        isShowingClasseTimer.toggle()
-                    } label: {
+						<string>                    if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
+                       seance.name == classe.displayString {
+                        Button {
 </string>
 					</dict>
 					<key>title</key>
@@ -107,15 +102,15 @@
 						<key>location-parameters</key>
 						<dict>
 							<key>EndingColumnNumber</key>
-							<string>67</string>
+							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>201</string>
+							<string>281</string>
 							<key>StartingColumnNumber</key>
-							<string>19</string>
+							<string>0</string>
 							<key>StartingLineNumber</key>
-							<string>201</string>
+							<string>281</string>
 							<key>Timestamp</key>
-							<string>722043134.2391599</string>
+							<string>722113831.095422</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -131,16 +126,13 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>TODO: - Ne pas afficher si aucune séance en cour</string>
+						<string></string>
 						<key>leading</key>
-						<string>            if let activity = progress.activity,
-               activity.isTP || activity.isProject {
-                // </string>
-						<key>trailing</key>
-						<string>s
-                stopWatchButton(for: activity)
-                Spacer()
+						<string>    }
+}
 </string>
+						<key>trailing</key>
+						<string></string>
 					</dict>
 					<key>title</key>
 					<string>TODO: - Ne pas afficher si aucune séance en cours</string>
@@ -152,16 +144,12 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
-							<key>EndingColumnNumber</key>
-							<string>71</string>
 							<key>EndingLineNumber</key>
-							<string>79</string>
-							<key>StartingColumnNumber</key>
-							<string>23</string>
+							<string>344</string>
 							<key>StartingLineNumber</key>
-							<string>79</string>
+							<string>344</string>
 							<key>Timestamp</key>
-							<string>722043252.775424</string>
+							<string>722113840.309882</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -177,16 +165,13 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>TODO: - Ne pas afficher si aucune séance en cour</string>
+						<string></string>
 						<key>leading</key>
-						<string>                   let schoolName = seance.schoolName,
-                   let school = SchoolEntity.school(withName: schoolName) {
-                    // </string>
-						<key>trailing</key>
-						<string>s
-                    Button {
-                        isShowingClasseTimer.toggle()
+						<string>//    }
+// }
 </string>
+						<key>trailing</key>
+						<string></string>
 					</dict>
 					<key>title</key>
 					<string>TODO: - Ne pas afficher si aucune séance en cours</string>
@@ -408,11 +393,11 @@
 						<key>location-parameters</key>
 						<dict>
 							<key>EndingLineNumber</key>
-							<string>477</string>
+							<string>479</string>
 							<key>StartingLineNumber</key>
-							<string>477</string>
+							<string>479</string>
 							<key>Timestamp</key>
-							<string>722042566.2774349</string>
+							<string>722117312.61329</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
