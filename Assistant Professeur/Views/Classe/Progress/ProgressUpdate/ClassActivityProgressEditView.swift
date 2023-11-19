@@ -49,13 +49,13 @@ struct ClassActivityProgressEditView: View {
         #if os(macOS)
         .sheet(isPresented: $isShowingActivityTimer) {
             if let discipline = progress.classe?.disciplineEnum,
-               let classeName = progress.classe?.displayString,
-               let schoolName = progress.classe!.school?.viewName {
+               let classe = progress.classe,
+               let school = progress.classe?.school {
                 NavigationStack {
                     ClasseTimerModal(
                         discipline: discipline,
-                        classeName: classeName,
-                        schoolName: schoolName
+                        classe: classe,
+                        school: school
                     )
                 }
             } else {
@@ -66,12 +66,11 @@ struct ClassActivityProgressEditView: View {
                 .fullScreenCover(isPresented: $isShowingActivityTimer) {
                     if let discipline = progress.classe?.disciplineEnum,
                        let classeName = progress.classe?.displayString,
-                       let schoolName = progress.classe!.school?.viewName {
+                       let school = progress.classe?.school {
                         NavigationStack {
                             ClasseTimerModal(
-                                discipline: discipline,
                                 classeName: classeName,
-                                schoolName: schoolName
+                                school: school
                             )
                         }
                     } else {
@@ -200,6 +199,7 @@ extension ClassActivityProgressEditView {
             Spacer()
             if let activity = progress.activity,
                activity.isTP || activity.isProject {
+                // TODO: - Ne pas afficher si aucune séance en cours
                 stopWatchButton(for: activity)
                 Spacer()
             }
@@ -242,7 +242,6 @@ extension ClassActivityProgressEditView {
             .buttonStyle(.bordered)
         }
     }
-
 }
 
 struct ClassActivityProgressView_Previews: PreviewProvider {

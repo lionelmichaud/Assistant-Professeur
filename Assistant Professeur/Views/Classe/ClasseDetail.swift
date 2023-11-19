@@ -108,7 +108,8 @@ extension ClasseDetail {
         ToolbarItem(placement: .primaryAction) {
             ControlGroup {
                 // Chronomètre de classe
-                if let schoolName = classe.school?.viewName {
+                if let school = classe.school {
+                    // TODO: - Ne pas afficher si aucune séance en cours
                     Button {
                         isShowingClasseTimer.toggle()
                     } label: {
@@ -117,9 +118,8 @@ extension ClasseDetail {
                     .fullScreenCover(isPresented: $isShowingClasseTimer) {
                         NavigationStack {
                             ClasseTimerModal(
-                                discipline: classe.disciplineEnum,
                                 classeName: classe.displayString,
-                                schoolName: schoolName
+                                school: school
                             )
                         }
                     }

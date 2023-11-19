@@ -1699,33 +1699,49 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B8184A23-ED07-4F3A-92F3-394A8089CCB5"
-            shouldBeEnabled = "No"
+            uuid = "26A308C8-F22C-43B3-91CE-5D3D9315E652"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Events/EventManager.swift"
+            filePath = "Assistant Professeur/Model/LiveActivityManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
-            landmarkName = "getBrevet(inCalendar:inEventStore:during:)"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
+            landmarkName = "startNewLiveActivity(withInitialState:fixedAttributes:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9B761F6D-FA49-4272-B912-FA03B407DBAE"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Events/EventManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "55"
-            endingLineNumber = "55"
-            landmarkName = "requestCalendarAccess(eventStore:calendarName:)"
-            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "26A308C8-F22C-43B3-91CE-5D3D9315E652 - 960ab1d5769059e8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Assistant_Professeur.LiveActivityManager.startNewLiveActivity(withInitialState: Assistant_Professeur.LiveCoursProgressState, fixedAttributes: Assistant_Professeur.LiveCoursProgressFixedAttributes) async -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/LiveActivityManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "174"
+                  endingLineNumber = "174"
+                  offsetFromSymbolStart = "1012">
+               </Location>
+               <Location
+                  uuid = "26A308C8-F22C-43B3-91CE-5D3D9315E652 - 8c1c3633066d6a58"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for Assistant_Professeur.LiveActivityManager.startNewLiveActivity(withInitialState: Assistant_Professeur.LiveCoursProgressState, fixedAttributes: Assistant_Professeur.LiveCoursProgressFixedAttributes) async -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/LiveActivityManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "174"
+                  endingLineNumber = "174"
+                  offsetFromSymbolStart = "180">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

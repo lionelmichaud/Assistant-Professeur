@@ -75,7 +75,9 @@ struct SeanceRow: View {
                 // Chronomètre de classe
                 if showWatchButton,
                    let classe,
-                   let schoolName = seance.schoolName {
+                   let schoolName = seance.schoolName,
+                   let school = SchoolEntity.school(withName: schoolName) {
+                    // TODO: - Ne pas afficher si aucune séance en cours
                     Button {
                         isShowingClasseTimer.toggle()
                     } label: {
@@ -86,9 +88,8 @@ struct SeanceRow: View {
                     .fullScreenCover(isPresented: $isShowingClasseTimer) {
                         NavigationStack {
                             ClasseTimerModal(
-                                discipline: classe.disciplineEnum,
                                 classeName: classe.displayString,
-                                schoolName: schoolName
+                                school: school
                             )
                         }
                     }

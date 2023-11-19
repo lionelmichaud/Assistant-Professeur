@@ -16,9 +16,8 @@ import SwiftUI
 
 /// Présentation d'un chronomètre de séance
 struct SeanceTimerView: View {
-    var discipline: Discipline
-    var classeName: String
-    var schoolName: String
+    let classeName: String
+    let school: SchoolEntity
     var lineWidth: Double = 40.0
     var preview: Bool = false
 
@@ -65,9 +64,9 @@ struct SeanceTimerView: View {
     #endif
 
     @State
-    private var timerVM: TodaySeances = .init()
+    private var timerVM = TodaySeances.shared
 
-    private let updatePeriod = TimeInterval(15) // seconds
+    private let updatePeriod = TimeInterval(10) // seconds
 
     private let notificationFeedback = UINotificationFeedbackGenerator()
 
@@ -106,13 +105,15 @@ struct SeanceTimerView: View {
 
     var body: some View {
         TimelineView(.periodic(from: .now, by: updatePeriod)) { timeLine in
-            if let seance = timerVM.seanceOngoing(at: timeLine.date) {
+            // Vue rafraichie périodiquement
+            if let seance = timerVM.seanceOngoing(inSchool: school, at: timeLine.date) {
                 ViewThatFits(in: .horizontal) {
                     regularView(date: timeLine.date, seance: seance)
                     compactView(date: timeLine.date, seance: seance)
                 }
 
             } else {
+                // TODO: - Proposer d'aller à la vue "mise à jour de l'avancement de la classe"
                 Text("Pas de séance en cours")
                     .font(.title)
             }
@@ -123,34 +124,12 @@ struct SeanceTimerView: View {
             actions: {},
             message: { Text(alertMessage) }
         )
-        .task(id: classeName + schoolName) {
-            // Demander les droits d'accès aux calendriers de l'utilisateur
-            (
-                calendar,
-                alertIsPresented,
-                alertTitle,
-                alertMessage
-            ) = await EventManager.shared
-                .requestCalendarAccess(
-                    eventStore: eventStore,
-                    calendarName: schoolName
-                )
-            guard let calendar else {
-                return
-            }
-
-            // Charge les heures de cours du jour
-            timerVM.loadTodaySeances(
-                forDiscipline: discipline,
-                forClasse: classeName,
-                inCalendar: calendar,
-                inEventStore: eventStore
-            )
+        .task(id: classeName + school.id!.uuidString) {
             #if canImport(ActivityKit)
 
                 // MARK: - Live Activty
 
-                guard let seance = timerVM.seanceOngoing(at: .now) else {
+                guard let seance = timerVM.seanceOngoing(inSchool: school, at: .now) else {
                     return
                 }
 
@@ -159,10 +138,11 @@ struct SeanceTimerView: View {
                 /// Démarrer la Live Activity
                 let initialState =
                     LiveCoursProgressState(
-                        elapsedMinutes: timerVM.elapsedMinutes(to: .now),
-                        remainingMinutes: timerVM.remainingMinutes(from: .now),
-                        cursorValue: timerVM.cursorValue(for: .now),
+                        elapsedMinutes: timerVM.elapsedMinutes(inSchool: school, to: .now),
+                        remainingMinutes: timerVM.remainingMinutes(inSchool: school, from: .now),
+                        cursorValue: timerVM.cursorValue(inSchool: school, for: .now),
                         timerZone: timerVM.timerZone(
+                            inSchool: school,
                             for: .now,
                             seuilAlert: alertRemainingMinutes,
                             seuilWarning: warningRemainingMinutes
@@ -171,7 +151,7 @@ struct SeanceTimerView: View {
                 let attribute =
                     LiveCoursProgressFixedAttributes(
                         seance: seance,
-                        schoolName: schoolName,
+                        schoolName: school.viewName,
                         classeName: classeName,
                         warningRemainingMinutes: warningRemainingMinutes,
                         alertRemainingMinutes: alertRemainingMinutes
@@ -189,7 +169,7 @@ struct SeanceTimerView: View {
                     var alertConfig: AlertConfiguration?
                     // code you want to repeat
                     // Update périodique de la Live Activity
-                    // TODO: - Gérer le déclenchement des message d'alerte daans Live Activity
+                    // TODO: - Gérer le déclenchement des message d'alerte dans Live Activity
                     if false {
                         alertConfig = AlertConfiguration(
                             title: "Title",
@@ -199,10 +179,11 @@ struct SeanceTimerView: View {
                     }
                     let newState =
                         LiveCoursProgressState(
-                            elapsedMinutes: timerVM.elapsedMinutes(to: .now),
-                            remainingMinutes: timerVM.remainingMinutes(from: .now),
-                            cursorValue: timerVM.cursorValue(for: .now),
+                            elapsedMinutes: timerVM.elapsedMinutes(inSchool: school, to: .now),
+                            remainingMinutes: timerVM.remainingMinutes(inSchool: school, from: .now),
+                            cursorValue: timerVM.cursorValue(inSchool: school, for: .now),
                             timerZone: timerVM.timerZone(
+                                inSchool: school,
                                 for: .now,
                                 seuilAlert: alertRemainingMinutes,
                                 seuilWarning: warningRemainingMinutes
@@ -219,7 +200,7 @@ struct SeanceTimerView: View {
 
                     try? await Task.sleep(for: .seconds(updatePeriod)) // exception thrown when cancelled by SwiftUI when this view disappears.
 
-                    if let elapsedSeconds = timerVM.elapsedSeconds() {
+                    if let elapsedSeconds = timerVM.elapsedSeconds(inSchool: school) {
                         keepOnLooping = elapsedSeconds < seanceDuration - Int(updatePeriod)
                     } else {
                         keepOnLooping = false
@@ -231,11 +212,11 @@ struct SeanceTimerView: View {
                 if Task.isCancelled {
                     // Tâche annulée par la disparition de la View avant la fin du cours
                     finalState = LiveCoursProgressState(
-                        elapsedMinutes: timerVM.elapsedMinutes(to: .now),
-                        remainingMinutes: timerVM.remainingMinutes(from: .now),
-                        cursorValue: timerVM.cursorValue(for: .now),
+                        elapsedMinutes: timerVM.elapsedMinutes(inSchool: school, to: .now),
+                        remainingMinutes: timerVM.remainingMinutes(inSchool: school, from: .now),
+                        cursorValue: timerVM.cursorValue(inSchool: school, for: .now),
                         timerZone: timerVM.timerZone(
-                            for: .now,
+                            inSchool: school, for: .now,
                             seuilAlert: alertRemainingMinutes,
                             seuilWarning: warningRemainingMinutes
                         )
@@ -264,39 +245,48 @@ struct SeanceTimerView: View {
 
 extension SeanceTimerView {
     /// Temps écoulé depuis le début de la séance
-    private func elapsedTime(for date: Date) -> DateComponents? {
+    private func elapsedTime(
+        inSchool school: SchoolEntity,
+        for date: Date
+    ) -> DateComponents? {
         #if DEBUG
             if preview {
                 return DateComponents(minute: date.minutes, second: date.seconds)
             }
         #endif
 
-        return timerVM.elapsedTime(to: date)
+        return timerVM.elapsedTime(inSchool: school, to: date)
     }
 
     /// Temps restant avant le début de la séance
-    private func remainingTime(for date: Date) -> DateComponents? {
+    private func remainingTime(
+        inSchool school: SchoolEntity,
+        for date: Date
+    ) -> DateComponents? {
         #if DEBUG
             if preview {
                 return DateComponents(minute: 60 - date.minutes, second: 60 - date.seconds)
             }
         #endif
 
-        return timerVM.remainingTime(from: date)
+        return timerVM.remainingTime(inSchool: school, from: date)
     }
 
     /// Position du curseur en % [0; 1]
-    private func cursorValue(for date: Date) -> Double? {
+    private func cursorValue(
+        for date: Date
+    ) -> Double? {
         #if DEBUG
             if preview {
                 return date.minutes.double() / 60.0
             }
         #endif
 
-        return timerVM.cursorValue(for: date)
+        return timerVM.cursorValue(inSchool: school, for: date)
     }
 
     private func timerZone(
+        inSchool school: SchoolEntity,
         for date: Date
     ) -> TimerZone {
         #if DEBUG
@@ -306,6 +296,7 @@ extension SeanceTimerView {
         #endif
 
         return timerVM.timerZone(
+            inSchool: school,
             for: date,
             seuilAlert: alertRemainingMinutes,
             seuilWarning: warningRemainingMinutes
@@ -368,15 +359,18 @@ extension SeanceTimerView {
 
                 ProgressClockView(
                     trimValue: cursorValue(for: date)!,
-                    color: timerZone(for: date).color,
-                    elapsedTime: elapsedTime(for: date),
-                    remainingTime: remainingTime(for: date),
+                    color: timerZone(inSchool: school, for: date).color,
+                    elapsedTime: elapsedTime(inSchool: school, for: date),
+                    remainingTime: remainingTime(inSchool: school, for: date),
                     warningNotif: $warningAlarmIsActivited,
                     alertNotif: $alertAlarmIsActivated
                 )
                 .padding(lineWidth)
                 .task(id: date) {
-                    guard let remainingMinutes = timerVM.remainingMinutes(from: date) else {
+                    guard let remainingMinutes = timerVM.remainingMinutes(
+                        inSchool: school,
+                        from: date
+                    ) else {
                         return
                     }
                     vibrate(remainingMinutes: remainingMinutes)
@@ -399,15 +393,18 @@ extension SeanceTimerView {
 
                 ProgressClockView(
                     trimValue: cursorValue(for: date)!,
-                    color: timerZone(for: date).color,
-                    elapsedTime: elapsedTime(for: date),
-                    remainingTime: remainingTime(for: date),
+                    color: timerZone(inSchool: school, for: date).color,
+                    elapsedTime: elapsedTime(inSchool: school, for: date),
+                    remainingTime: remainingTime(inSchool: school, for: date),
                     warningNotif: $warningAlarmIsActivited,
                     alertNotif: $alertAlarmIsActivated
                 )
                 .padding(lineWidth / 2)
                 .task(id: date) {
-                    guard let remainingMinutes = timerVM.remainingMinutes(from: date) else {
+                    guard let remainingMinutes = timerVM.remainingMinutes(
+                        inSchool: school,
+                        from: date
+                    ) else {
                         return
                     }
                     vibrate(remainingMinutes: remainingMinutes)
@@ -468,22 +465,11 @@ struct SeanceTimerView_Previews: PreviewProvider {
         let classe = ClasseEntity.all().first!
         return Group {
             SeanceTimerView(
-                discipline: classe.disciplineEnum,
                 classeName: classe.displayString,
-                schoolName: classe.school!.viewName,
+                school: classe.school!,
                 lineWidth: 40,
                 preview: true
             )
-            .previewDevice("iPad mini (6th generation)")
-
-            SeanceTimerView(
-                discipline: classe.disciplineEnum,
-                classeName: classe.displayString,
-                schoolName: classe.school!.viewName,
-                lineWidth: 40,
-                preview: true
-            )
-            .previewDevice("iPhone 13")
         }
         .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
         .environment(\.managedObjectContext, CoreDataManager.shared.context)

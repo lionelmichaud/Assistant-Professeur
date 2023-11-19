@@ -22,6 +22,9 @@ struct SchoolDetail: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
 
+    @State
+    private var isShowingClasseTimer = false
+
     // MARK: - Computed Properties
 
     /// Vue du nom de l'établissement
@@ -51,7 +54,7 @@ struct SchoolDetail: View {
                 NavigationLink(value: SchoolNavigationRoute.infos(school.id)) {
                     Label("Informations", systemImage: "info.circle")
                         .fontWeight(.bold)
-                    }
+                }
                 // Liste des cours précédents terminés
                 NavigationLink(value: SchoolNavigationRoute.previousSeances(school.id)) {
                     Label("Cours précédents", systemImage: "clock.arrow.circlepath")
@@ -88,8 +91,29 @@ struct SchoolDetail: View {
         .navigationTitle("Etablissement")
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        // .onChange(of: schoolVM, perform: save)
-        // .onDisappear(perform: save)
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                // Chronomètre de classe
+                // TODO: - Ne pas afficher si aucune séance en cours
+                if TodaySeances.shared.seanceOngoing(inSchool: school) != nil {
+                    Button {
+                        isShowingClasseTimer.toggle()
+                    } label: {
+                        Label("Chrono.", systemImage: "stopwatch")
+                    }
+                    .fullScreenCover(isPresented: $isShowingClasseTimer) {
+                        NavigationStack {
+                            ClasseTimerModal(
+                                classeName: "Truc",
+                                school: school
+                            )
+                        }
+                    }
+                }
+            }
+            // .onChange(of: schoolVM, perform: save)
+            // .onDisappear(perform: save)
+        }
     }
 
     private func save() {
