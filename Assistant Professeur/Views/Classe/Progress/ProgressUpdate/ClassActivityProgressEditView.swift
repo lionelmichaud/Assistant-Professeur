@@ -52,7 +52,6 @@ struct ClassActivityProgressEditView: View {
                let school = progress.classe?.school {
                 NavigationStack {
                     ClasseTimerModal(
-                        classeName: classe.displayString,
                         school: school
                     )
                 }
@@ -66,7 +65,6 @@ struct ClassActivityProgressEditView: View {
                        let school = progress.classe?.school {
                         NavigationStack {
                             ClasseTimerModal(
-                                classeName: classe.displayString,
                                 school: school
                             )
                         }
@@ -194,16 +192,13 @@ extension ClassActivityProgressEditView {
     private var buttons: some View {
         HStack {
             Spacer()
-            if let activity = progress.activity,
-               activity.isTP || activity.isProject,
-               let classe = progress.classe,
-               let school = progress.classe?.school,
-               let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
-               seance.name == classe.displayString {
-                // TODO: - Ne pas afficher si aucune séance en cours
-                stopWatchButton(for: activity)
-                Spacer()
+            Button {
+                isShowingActivityTimer.toggle()
+            } label: {
+                Label("Chrono.", systemImage: "stopwatch")
             }
+            .buttonStyle(.bordered)
+            Spacer()
             jumpToActivityButton
             Spacer()
         }
@@ -228,20 +223,6 @@ extension ClassActivityProgressEditView {
             Label("Voir l'activité", systemImage: ActivityEntity.defaultImageName)
         }
         .buttonStyle(.bordered)
-    }
-
-    @ViewBuilder
-    private func stopWatchButton(for _: ActivityEntity) -> some View {
-        if progress.classe?.disciplineEnum != nil &&
-            progress.classe?.displayString != nil &&
-            progress.classe!.school?.viewName != nil {
-            Button {
-                isShowingActivityTimer.toggle()
-            } label: {
-                Label("Chrono.", systemImage: "stopwatch")
-            }
-            .buttonStyle(.bordered)
-        }
     }
 }
 

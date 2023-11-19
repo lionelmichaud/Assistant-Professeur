@@ -94,20 +94,16 @@ struct SchoolDetail: View {
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 // Chronomètre de classe
-                // TODO: - Ne pas afficher si aucune séance en cours
-                if let seance = TodaySeances.shared.seanceOngoing(inSchool: school) {
-                    Button {
-                        isShowingClasseTimer.toggle()
-                    } label: {
-                        Label("Chrono.", systemImage: "stopwatch")
-                    }
-                    .fullScreenCover(isPresented: $isShowingClasseTimer) {
-                        NavigationStack {
-                            ClasseTimerModal(
-                                classeName: seance.name ?? "",
-                                school: school
-                            )
-                        }
+                Button {
+                    isShowingClasseTimer.toggle()
+                } label: {
+                    Label("Chrono.", systemImage: "stopwatch")
+                }
+                .fullScreenCover(isPresented: $isShowingClasseTimer) {
+                    NavigationStack {
+                        ClasseTimerModal(
+                            school: school
+                        )
                     }
                 }
             }

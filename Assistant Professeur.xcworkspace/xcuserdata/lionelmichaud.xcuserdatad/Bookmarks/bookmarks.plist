@@ -12,16 +12,12 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
-							<key>EndingColumnNumber</key>
-							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>118</string>
-							<key>StartingColumnNumber</key>
-							<string>0</string>
+							<string>463</string>
 							<key>StartingLineNumber</key>
-							<string>117</string>
+							<string>463</string>
 							<key>Timestamp</key>
-							<string>722117312.637857</string>
+							<string>722124464.263841</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -58,13 +54,13 @@
 							<key>EndingColumnNumber</key>
 							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>111</string>
+							<string>210</string>
 							<key>StartingColumnNumber</key>
 							<string>0</string>
 							<key>StartingLineNumber</key>
-							<string>111</string>
+							<string>210</string>
 							<key>Timestamp</key>
-							<string>722113738.5674109</string>
+							<string>722124653.900489</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -82,14 +78,11 @@
 						<key>focused</key>
 						<string></string>
 						<key>leading</key>
-						<string>                // Chronomètre de classe
-                if let school = classe.school {
+						<string>    }
+}
 </string>
 						<key>trailing</key>
-						<string>                    if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
-                       seance.name == classe.displayString {
-                        Button {
-</string>
+						<string></string>
 					</dict>
 					<key>title</key>
 					<string>TODO: - Ne pas afficher si aucune séance en cours</string>
@@ -104,13 +97,13 @@
 							<key>EndingColumnNumber</key>
 							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>281</string>
+							<string>262</string>
 							<key>StartingColumnNumber</key>
 							<string>0</string>
 							<key>StartingLineNumber</key>
-							<string>281</string>
+							<string>262</string>
 							<key>Timestamp</key>
-							<string>722113831.095422</string>
+							<string>722125763.060158</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -145,11 +138,11 @@
 						<key>location-parameters</key>
 						<dict>
 							<key>EndingLineNumber</key>
-							<string>344</string>
+							<string>340</string>
 							<key>StartingLineNumber</key>
-							<string>344</string>
+							<string>340</string>
 							<key>Timestamp</key>
-							<string>722113840.309882</string>
+							<string>722125022.7356091</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -393,11 +386,11 @@
 						<key>location-parameters</key>
 						<dict>
 							<key>EndingLineNumber</key>
-							<string>479</string>
+							<string>463</string>
 							<key>StartingLineNumber</key>
-							<string>479</string>
+							<string>463</string>
 							<key>Timestamp</key>
-							<string>722117312.61329</string>
+							<string>722124464.2651449</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>

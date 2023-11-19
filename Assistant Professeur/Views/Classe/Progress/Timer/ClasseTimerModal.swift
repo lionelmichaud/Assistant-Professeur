@@ -9,7 +9,6 @@ import SwiftUI
 
 /// Fenêtre modale de présentation d'un chronomètre de séance
 struct ClasseTimerModal: View {
-    let classeName: String
     let school: SchoolEntity
     var test: Bool = false
 
@@ -18,7 +17,6 @@ struct ClasseTimerModal: View {
 
     var body: some View {
         SeanceTimerView(
-            classeName: classeName,
             school: school
         )
         #if os(iOS)
@@ -46,7 +44,6 @@ struct ClasseTimerModal_Previews: PreviewProvider {
         return Group {
             NavigationStack {
                 ClasseTimerModal(
-                    classeName: classe.displayString,
                     school: classe.school!,
                     test: true
                 )

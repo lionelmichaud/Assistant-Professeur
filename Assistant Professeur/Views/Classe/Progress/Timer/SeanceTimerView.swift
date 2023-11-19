@@ -16,7 +16,6 @@ import SwiftUI
 
 /// Présentation d'un chronomètre de séance
 struct SeanceTimerView: View {
-    let classeName: String
     let school: SchoolEntity
     var lineWidth: Double = 40.0
     var preview: Bool = false
@@ -71,19 +70,7 @@ struct SeanceTimerView: View {
     private let notificationFeedback = UINotificationFeedbackGenerator()
 
     @State
-    private var eventStore = EKEventStore()
-
-    @State
-    private var calendar: EKCalendar?
-
-    @State
-    private var alertTitle = ""
-
-    @State
-    private var alertMessage = ""
-
-    @State
-    private var alertIsPresented = false
+    private var alert = AlertInfo()
 
     // MARK: - Computed Properties
 
@@ -119,12 +106,12 @@ struct SeanceTimerView: View {
             }
         }
         .alert(
-            alertTitle,
-            isPresented: $alertIsPresented,
+            alert.title,
+            isPresented: $alert.isPresented,
             actions: {},
-            message: { Text(alertMessage) }
+            message: { Text(alert.message) }
         )
-        .task(id: classeName + school.id!.uuidString) {
+        .task(id: school.id) {
             #if canImport(ActivityKit)
 
                 // MARK: - Live Activty
@@ -152,7 +139,7 @@ struct SeanceTimerView: View {
                     LiveCoursProgressFixedAttributes(
                         seance: seance.interval,
                         schoolName: school.viewName,
-                        classeName: classeName,
+                        classeName: seance.name ?? "",
                         warningRemainingMinutes: warningRemainingMinutes,
                         alertRemainingMinutes: alertRemainingMinutes
                     )
@@ -465,7 +452,6 @@ struct SeanceTimerView_Previews: PreviewProvider {
         let classe = ClasseEntity.all().first!
         return Group {
             SeanceTimerView(
-                classeName: classe.displayString,
                 school: classe.school!,
                 lineWidth: 40,
                 preview: true
