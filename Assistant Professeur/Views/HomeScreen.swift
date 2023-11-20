@@ -31,7 +31,7 @@ struct HomeScreen: View {
             }
         }
         .task {
-            // Vérifier si l'utilisateur est déjà autroisé.
+            // Vérifier si l'utilisateur est déjà autorisé.
             // Si oui, mettre à jour les context utilisateur.
             await authentication.checkUserCredentials(
                 userContext: userContext

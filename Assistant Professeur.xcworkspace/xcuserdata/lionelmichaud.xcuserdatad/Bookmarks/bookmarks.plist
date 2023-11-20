@@ -210,7 +210,7 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>            // initializeCloudKitSchema()
+						<string>            initializeCloudKitSchema()
 </string>
 						<key>leading</key>
 						<string>        #if DEBUG
@@ -542,6 +542,52 @@
 			</dict>
 			<key>type</key>
 			<string>batch-find-query</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>56</string>
+					<key>EndingLineNumber</key>
+					<string>161</string>
+					<key>StartingColumnNumber</key>
+					<string>17</string>
+					<key>StartingLineNumber</key>
+					<string>161</string>
+					<key>Timestamp</key>
+					<string>722193377.948228</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Assistant Professeur/Assistant Professeur/Model/Persistence/Authentication/Authentication.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>setUserCredentialsFromAppleIDCredential</string>
+				<key>leading</key>
+				<string>    /// Créer les Credential à partir des Credential Apple.
+    /// Mettre à jour les context utilisateur avec le Owner.
+    private func </string>
+				<key>trailing</key>
+				<string>(
+        userIdentifier: String,
+        fullName: PersonNameComponents,
+</string>
+			</dict>
+			<key>title</key>
+			<string>Login</string>
+			<key>type</key>
+			<string>bookmark</string>
 		</dict>
 	</array>
 </dict>

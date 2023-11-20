@@ -186,13 +186,13 @@ class Authentication: ObservableObject {
     }
 
     /// Créer les Credential à partir des données iCloud du Owner.
-    /// Mettre à jour les context utilisateur avec le Owner.
+    /// Mettre à jour le context utilisateur avec le Owner.
     private func setUserCredentialsFromiCloud(
         userIdentifier: String,
         userContext: UserContext
     ) {
         var fullName: PersonNameComponents?
-        // Fetch the user name / email address from private CloudKit
+        // Fetch the user data from private CloudKit
         if let owner = OwnerEntity.byUserIdentifier(userIdentifier: userIdentifier) {
             userContext.setOwner(to: owner)
 

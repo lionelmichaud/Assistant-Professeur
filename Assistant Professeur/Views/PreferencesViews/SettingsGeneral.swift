@@ -75,8 +75,12 @@ struct SettingsGeneral: View {
             }
 
             Section {
-                // Ordre d'affichage des noms des élèves
-                Toggle("Activer", isOn: $userContext.prefs.notificationsEnabled)
+                // Notification quotidienne des ToDo du jour éventuels
+                Toggle("Quotidienne", isOn: $userContext.prefs.notificationsEnabled)
+
+                // Alerte au lancement de l'app sur les ToDo du jour
+                Toggle("Au lancement de l'App", isOn: $userContext.prefs.launchAlertEnabled)
+
                 #if DEBUG
                     Button {
                         addTestNotification()
@@ -87,7 +91,7 @@ struct SettingsGeneral: View {
                 #endif
 
             } header: {
-                Text("Notifications")
+                Text("Notification des rappels")
                     .style(.sectionHeader)
             } footer: {
                 Text("""

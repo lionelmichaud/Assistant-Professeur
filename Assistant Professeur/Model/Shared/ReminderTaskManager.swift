@@ -18,22 +18,24 @@ private let customLog = Logger(
 )
 
 actor ReminderTaskManager {
+    static let shared = ReminderTaskManager()
+
+    // MARK: - Properties
+
+    /// Identifiant de la BackgroundTask
     let backgroundTaskIdentifier = "REMINDER"
+
+    /// Heure d'exécution de la BackgroundTask
     let reminderWakeupTime = DateComponents(hour: 8, minute: 0)
 
-    static let shared = ReminderTaskManager()
+    /// Titre des Notification / Alerte
+    let alertTitle = "Vous avez des actions à réaliser..."
 
     // MARK: - Initializer
 
     private init() {}
 
     // MARK: - Methods
-
-    func nextWakeupDate() -> Date {
-        let today = Calendar.current.startOfDay(for: .now)
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
-        return Calendar.current.date(byAdding: reminderWakeupTime, to: tomorrow)!
-    }
 
     /// Register the next notification request for daily ToDo reminders
     func schedulNextReminderNotification() async {
@@ -88,24 +90,10 @@ actor ReminderTaskManager {
         }
     }
 
-    /// Envoyer une notification immédiate à l'utilisateur s'il faut lui rappeler qu'il a des actions
-    /// à réaliser en prévision de la journée à venir.
-    func notifyReminder(
-        schoolYear: SchoolYearPref
-    ) async {
-        let (nbOfDocsToBePrinted, nbOfDocsToBeLoaded) = await actionsToDo(schoolYear: schoolYear)
-        if nbOfDocsToBePrinted > 0 || nbOfDocsToBeLoaded > 0 {
-            sendNotification(
-                nbOfDocsToBePrinted: nbOfDocsToBePrinted,
-                nbOfDocsToBeLoaded: nbOfDocsToBeLoaded
-            )
-        }
-    }
-
     /// Vérifier si l''utilisateur a des actions à réaliser poru la journée en cours.
     /// - Parameter schoolYear: Calendrier scolaire
     /// - Returns: nombre de documents à imprimer et nombre de documents à charger sur l'ENT
-    private func actionsToDo(
+    func actionsToDo(
         schoolYear: SchoolYearPref
     ) async -> (nbOfDocsToBePrinted: Int, nbOfDocsToBeLoaded: Int) {
         var schools = [SchoolEntity]()
@@ -144,6 +132,19 @@ actor ReminderTaskManager {
             nbOfDocsToBePrinted: toDoModel.batchesOfDocsToBePrinted.count,
             nbOfDocsToBeLoaded: toDoModel.batchesOfDocsToBeLoaded.count
         )
+    }
+
+    private func nextWakeupDate() -> Date {
+        let today = Calendar.current.startOfDay(for: .now)
+        let tomorrow = Calendar.current.date(
+            byAdding: .day,
+            value: 1,
+            to: today
+        )!
+        return Calendar.current.date(
+            byAdding: reminderWakeupTime,
+            to: tomorrow
+        )!
     }
 
     private func todaySeances(
@@ -185,6 +186,20 @@ actor ReminderTaskManager {
         return schoolSeances.seances
     }
 
+    /// Envoyer une notification immédiate à l'utilisateur s'il faut lui rappeler qu'il a des actions
+    /// à réaliser en prévision de la journée à venir.
+    func notifyReminder(
+        schoolYear: SchoolYearPref
+    ) async {
+        let (nbOfDocsToBePrinted, nbOfDocsToBeLoaded) = await actionsToDo(schoolYear: schoolYear)
+        if nbOfDocsToBePrinted > 0 || nbOfDocsToBeLoaded > 0 {
+            sendNotification(
+                nbOfDocsToBePrinted: nbOfDocsToBePrinted,
+                nbOfDocsToBeLoaded: nbOfDocsToBeLoaded
+            )
+        }
+    }
+
     /// Envoyer une notification immédiate à l'utilisateur
     private func sendNotification(
         nbOfDocsToBePrinted: Int,
@@ -192,7 +207,7 @@ actor ReminderTaskManager {
     ) {
         // Définir le contenu affichable de la notification
         let content = UNMutableNotificationContent()
-        content.title = "Vous avez des actions à réaliser..."
+        content.title = self.alertTitle
 
         let printStr = if nbOfDocsToBePrinted == 0 {
             ""
@@ -212,7 +227,7 @@ actor ReminderTaskManager {
 
         // Définir le déclecncheur
         let trigger = UNTimeIntervalNotificationTrigger(
-            timeInterval: 10,
+            timeInterval: 5,
             repeats: false
         )
 

@@ -16,7 +16,7 @@ public final class UserPrefEntity: NSManagedObject, Codable, ModelEntityP {
         case interoperability, nameDisplayOrder, nameSortOrder
         case schoolAnnotationEnabled
         case classeAppreciationEnabled, classeAnnotationEnabled
-        case notificationsEnabled, eleve
+        case launchAlertEnabled, notificationsEnabled, eleve
         case programAnnotationEnabled
         case sequenceAnnotationEnabled, margeInterSequence
         case activityAnnotationEnabled
@@ -31,6 +31,7 @@ public final class UserPrefEntity: NSManagedObject, Codable, ModelEntityP {
         self.interoperability = try container.decode(Int16.self, forKey: .interoperability)
         self.nameDisplayOrder = try container.decode(Int16.self, forKey: .nameDisplayOrder)
         self.nameSortOrder = try container.decode(Int16.self, forKey: .nameSortOrder)
+        self.launchAlertEnabled = try container.decode(Bool.self, forKey: .launchAlertEnabled)
         self.notificationsEnabled = try container.decode(Bool.self, forKey: .notificationsEnabled)
 
         self.schoolAnnotationEnabled = try container.decode(Bool.self, forKey: .schoolAnnotationEnabled)
@@ -55,6 +56,7 @@ public final class UserPrefEntity: NSManagedObject, Codable, ModelEntityP {
         try container.encode(self.interoperability, forKey: .interoperability)
         try container.encode(self.nameDisplayOrder, forKey: .nameDisplayOrder)
         try container.encode(self.nameSortOrder, forKey: .nameSortOrder)
+        try container.encode(self.launchAlertEnabled, forKey: .launchAlertEnabled)
         try container.encode(self.notificationsEnabled, forKey: .notificationsEnabled)
 
         try container.encode(self.schoolAnnotationEnabled, forKey: .schoolAnnotationEnabled)

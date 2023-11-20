@@ -53,7 +53,7 @@ struct MainScene: Scene {
                     // Renouveler le réveil le lendemain
                     await ReminderTaskManager.shared.schedulNextReminderNotification()
 
-                    // Utiliser un caldendrier par défaut car accès impossible à UserPref (non initialisé)
+                    // Utiliser un calendrier par défaut car accès impossible à UserPref (non initialisé)
                     let schoolYear = SchoolYearPref()
 
                     // Notifier le reminder
