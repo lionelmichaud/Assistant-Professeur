@@ -99,7 +99,17 @@ struct SchoolDetail: View {
                 } label: {
                     Label("Chrono.", systemImage: "stopwatch")
                 }
-                .fullScreenCover(isPresented: $isShowingClasseTimer) {
+                .fullScreenCover(
+                    isPresented: $isShowingClasseTimer,
+                    onDismiss: {
+                        Task {
+                            if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
+                               let classe = SchoolEntity.school(withName: seance.schoolName!)?.classe(withAcronym: seance.name!) {
+                                await navigationModel.navigateToProgressOf(thisClasse: classe)
+                            }
+                        }
+                    }
+                ) {
                     NavigationStack {
                         ClasseTimerModal(
                             school: school
@@ -107,8 +117,6 @@ struct SchoolDetail: View {
                     }
                 }
             }
-            // .onChange(of: schoolVM, perform: save)
-            // .onDisappear(perform: save)
         }
     }
 

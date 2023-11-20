@@ -47,7 +47,16 @@ struct ClassActivityProgressEditView: View {
             isExpanded = progress.status == .inProgress
         }
         #if os(macOS)
-        .sheet(isPresented: $isShowingActivityTimer) {
+        .sheet(
+            isPresented: $isShowingActivityTimer,
+            onDismiss: {
+                if let classe = progress.classe {
+                    Task {
+                        await navig.navigateToProgressOf(thisClasse: classe)
+                    }
+                }
+            }
+        ) {
             if let classe = progress.classe,
                let school = progress.classe?.school {
                 NavigationStack {
@@ -60,7 +69,16 @@ struct ClassActivityProgressEditView: View {
             }
         }
         #else
-                .fullScreenCover(isPresented: $isShowingActivityTimer) {
+                .fullScreenCover(
+                    isPresented: $isShowingActivityTimer,
+                    onDismiss: {
+                        if let classe = progress.classe {
+                            Task {
+                                await navig.navigateToProgressOf(thisClasse: classe)
+                            }
+                        }
+                    }
+                ) {
                     if let classe = progress.classe,
                        let school = progress.classe?.school {
                         NavigationStack {

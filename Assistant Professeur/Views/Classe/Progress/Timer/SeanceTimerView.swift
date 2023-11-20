@@ -20,8 +20,6 @@ struct SeanceTimerView: View {
     var lineWidth: Double = 40.0
     var preview: Bool = false
 
-    // MARK: - Internal Types
-
     // MARK: - Type Properties
 
     static let dingPlayer: AVPlayer = AVPlayer.soundPlayer(sound: "ding")

@@ -83,7 +83,17 @@ struct SeanceRow: View {
                             .labelStyle(.iconOnly)
                     }
                     .padding(.leading)
-                    .fullScreenCover(isPresented: $isShowingClasseTimer) {
+                    .fullScreenCover(
+                        isPresented: $isShowingClasseTimer,
+                        onDismiss: {
+                            if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
+                               let classe = SchoolEntity.school(withName: seance.schoolName!)?.classe(withAcronym: seance.name!) {
+                                Task {
+                                    await navig.navigateToProgressOf(thisClasse: classe)
+                                }
+                            }
+                        }
+                    ) {
                         NavigationStack {
                             ClasseTimerModal(
                                 school: school
