@@ -6,7 +6,13 @@
 //
 
 import AppFoundation
+import os
 import SwiftUI
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "MainScene"
+)
 
 /// Defines the main scene of the App
 struct MainScene: Scene {
@@ -38,15 +44,30 @@ struct MainScene: Scene {
             // This is where you respond the scheduled background task
             // you can also reschedule the background task HERE if you want to keep calling from time to time,
             // just send BGTaskScheduler.shared.submit(request) here again and again.
-            if await userContext.prefs.notificationsEnabled {
-                // Notifier le reminder
-                await ReminderTaskManager.shared.notifyReminder(
-                    schoolYear: userContext.prefs.viewSchoolYearPref
-                )
-                // use an async function here
-                // renouveler le réveil le lendemain
-                await ReminderTaskManager.shared.schedulNextReminderNotification()
-            }
+            customLog.log(
+                level: .info,
+                "Background refresh task started for identifer: \(ReminderTaskManager.shared.backgroundTaskIdentifier)"
+            )
+            await withTaskCancellationHandler(
+                operation: {
+                    // Renouveler le réveil le lendemain
+                    await ReminderTaskManager.shared.schedulNextReminderNotification()
+
+                    // Utiliser un caldendrier par défaut car accès impossible à UserPref (non initialisé)
+                    let schoolYear = SchoolYearPref()
+
+                    // Notifier le reminder
+                    await ReminderTaskManager.shared.notifyReminder(
+                        schoolYear: schoolYear
+                    )
+                },
+                onCancel: {
+                    customLog.log(
+                        level: .debug,
+                        "Background refresh canceled by System for identifer: \(ReminderTaskManager.shared.backgroundTaskIdentifier)"
+                    )
+                }
+            )
         }
         #if os(macOS)
         .commands {

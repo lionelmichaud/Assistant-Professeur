@@ -54,6 +54,7 @@ struct Assistant_ProfesseurApp: App {
         #endif
 
         Task {
+            // Charger les séances du jour
             await TodaySeances.shared.loadTodaySeances()
         }
 

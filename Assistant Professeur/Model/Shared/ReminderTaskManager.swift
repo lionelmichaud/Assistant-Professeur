@@ -45,17 +45,17 @@ actor ReminderTaskManager {
             return
         }
 
-        if settings.alertSetting == .enabled {
-            // Schedule an alert-only notification.
-            #if DEBUG
-                print("settings.alertSetting == .enabled")
-            #endif
-        } else {
-            // Schedule a notification with a badge and sound.
-            #if DEBUG
-                print("settings.alertSetting == .disabled")
-            #endif
-        }
+//        if settings.alertSetting == .enabled {
+//            // Schedule an alert-only notification.
+//            #if DEBUG
+//                print("settings.alertSetting == .enabled")
+//            #endif
+//        } else {
+//            // Schedule a notification with a badge and sound.
+//            #if DEBUG
+//                print("settings.alertSetting == .disabled")
+//            #endif
+//        }
 
         // creating the background task request,
         // this is where you will specify the identifier that
@@ -88,14 +88,14 @@ actor ReminderTaskManager {
         }
     }
 
-    /// Envoyer une notification à l'utilisateur s'il faut lui rappeler qu'il a des actions
+    /// Envoyer une notification immédiate à l'utilisateur s'il faut lui rappeler qu'il a des actions
     /// à réaliser en prévision de la journée à venir.
     func notifyReminder(
         schoolYear: SchoolYearPref
     ) async {
         let (nbOfDocsToBePrinted, nbOfDocsToBeLoaded) = await actionsToDo(schoolYear: schoolYear)
         if nbOfDocsToBePrinted > 0 || nbOfDocsToBeLoaded > 0 {
-            await sendNotification(
+            sendNotification(
                 nbOfDocsToBePrinted: nbOfDocsToBePrinted,
                 nbOfDocsToBeLoaded: nbOfDocsToBeLoaded
             )
@@ -108,12 +108,19 @@ actor ReminderTaskManager {
     private func actionsToDo(
         schoolYear: SchoolYearPref
     ) async -> (nbOfDocsToBePrinted: Int, nbOfDocsToBeLoaded: Int) {
-        let schools = SchoolEntity.allSortedByLevelName()
+        var schools = [SchoolEntity]()
+        await SchoolEntity.context.perform {
+            schools = SchoolEntity.allSortedByLevelName()
+        }
         var seances = Seances()
         for school in schools {
+            var schoolName = ""
+            await SchoolEntity.context.perform {
+                schoolName = school.viewName
+            }
             let schoolSeances = await todaySeances(
                 forSchool: school,
-                schoolName: school.viewName,
+                schoolName: schoolName,
                 schoolYear: schoolYear
             )
             seances += schoolSeances
@@ -178,14 +185,14 @@ actor ReminderTaskManager {
         return schoolSeances.seances
     }
 
-    /// Envoyer une notification à l'utilisateur
+    /// Envoyer une notification immédiate à l'utilisateur
     private func sendNotification(
         nbOfDocsToBePrinted: Int,
         nbOfDocsToBeLoaded: Int
-    ) async {
-        // Définir le contenu de la notification
+    ) {
+        // Définir le contenu affichable de la notification
         let content = UNMutableNotificationContent()
-        content.title = "Vous avez des actions à réaliser en préparation de cette journée."
+        content.title = "Vous avez des actions à réaliser..."
 
         let printStr = if nbOfDocsToBePrinted == 0 {
             ""
@@ -196,26 +203,33 @@ actor ReminderTaskManager {
         let loadStr = if nbOfDocsToBeLoaded == 0 {
             ""
         } else {
-            " - \(nbOfDocsToBeLoaded) documents à partager sur l'ENT.n"
+            " - \(nbOfDocsToBeLoaded) documents à partager sur l'ENT.\n"
         }
 
         content.subtitle = printStr + loadStr + "Consultez-en la liste!"
         content.sound = .default
+        content.badge = (nbOfDocsToBePrinted + nbOfDocsToBeLoaded) as NSNumber
+
+        // Définir le déclecncheur
+        let trigger = UNTimeIntervalNotificationTrigger(
+            timeInterval: 10,
+            repeats: false
+        )
+
+        // Définir la requête
+        let request = UNNotificationRequest(
+            identifier: backgroundTaskIdentifier + "_NOTIFICATION",
+            content: content,
+            trigger: trigger
+        )
 
         // Enregistrer la notification
         do {
-            try await UNUserNotificationCenter.current()
-                .add(
-                    UNNotificationRequest(
-                        identifier: backgroundTaskIdentifier,
-                        content: content,
-                        trigger: nil
-                    )
-                )
-        } catch {
+            UNUserNotificationCenter.current()
+                .add(request )
             customLog.log(
-                level: .error,
-                "ToDo daily notification failed with Error \(error.localizedDescription)"
+                level: .info,
+                "ToDo daily notification added to Notifcation Center."
             )
         }
     }
