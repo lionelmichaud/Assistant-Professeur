@@ -38,36 +38,16 @@ struct MainScene: Scene {
                 .environmentObject(authentication)
                 .environmentObject(userContext)
         }
+
+        // Gérer les changements de phases
         .onChange(of: scenePhase, manageScenePhaseChanges)
-        // Afficher le daily ToDo reminder
+
+        // Afficher les éventuels daily ToDo reminder
         .backgroundTask(.appRefresh(ReminderTaskManager.shared.backgroundTaskIdentifier)) {
             // This is where you respond the scheduled background task
             // you can also reschedule the background task HERE if you want to keep calling from time to time,
             // just send BGTaskScheduler.shared.submit(request) here again and again.
-            customLog.log(
-                level: .info,
-                "Background refresh task started for identifer: \(ReminderTaskManager.shared.backgroundTaskIdentifier)"
-            )
-            await withTaskCancellationHandler(
-                operation: {
-                    // Renouveler le réveil le lendemain
-                    await ReminderTaskManager.shared.schedulNextReminderNotification()
-
-                    // Utiliser un calendrier par défaut car accès impossible à UserPref (non initialisé)
-                    let schoolYear = SchoolYearPref()
-
-                    // Notifier le reminder
-                    await ReminderTaskManager.shared.notifyReminder(
-                        schoolYear: schoolYear
-                    )
-                },
-                onCancel: {
-                    customLog.log(
-                        level: .debug,
-                        "Background refresh canceled by System for identifer: \(ReminderTaskManager.shared.backgroundTaskIdentifier)"
-                    )
-                }
-            )
+            await dailyToDoAppRefresh()
         }
         #if os(macOS)
         .commands {
@@ -83,6 +63,37 @@ struct MainScene: Scene {
 
     // MARK: - Methods
 
+    /// This is where you respond the scheduled background task
+    /// you can also reschedule the background task HERE if you want to keep calling from time to time,
+    /// just send BGTaskScheduler.shared.submit(request) here again and again.
+    func dailyToDoAppRefresh() async {
+        customLog.log(
+            level: .info,
+            "Background refresh task started for identifer: \(ReminderTaskManager.shared.backgroundTaskIdentifier)"
+        )
+        await withTaskCancellationHandler(
+            operation: {
+                // Renouveler le réveil le lendemain
+                await ReminderTaskManager.shared.schedulNextReminderNotification()
+
+                // Utiliser un calendrier par défaut car accès impossible à UserPref (non initialisé)
+                let schoolYear = SchoolYearPref()
+
+                // Notifier le reminder
+                await ReminderTaskManager.shared.notifyReminder(
+                    schoolYear: schoolYear
+                )
+            },
+            onCancel: {
+                customLog.log(
+                    level: .debug,
+                    "Background refresh canceled by System for identifer: \(ReminderTaskManager.shared.backgroundTaskIdentifier)"
+                )
+            }
+        )
+    }
+
+    /// Gérer les changements de phases
     private func manageScenePhaseChanges() {
         // The final step is optional, but recommended:
         // when your app moves to the background,

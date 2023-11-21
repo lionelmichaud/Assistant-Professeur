@@ -109,118 +109,13 @@ struct SeanceTimerView: View {
             actions: {},
             message: { Text(alert.message) }
         )
-        .task(id: school.id) {
+
+        // MARK: - Live Activty
+
+        .task {
             #if canImport(ActivityKit)
-
-                // MARK: - Live Activty
-
-                guard let seance = timerVM.seanceOngoing(inSchool: school, at: .now) else {
-                    return
-                }
-
-                let seanceDuration = Int(seance.interval.duration) // seconds
-
-                /// Démarrer la Live Activity
-                let initialState =
-                    LiveCoursProgressState(
-                        elapsedMinutes: timerVM.elapsedMinutes(inSchool: school, to: .now),
-                        remainingMinutes: timerVM.remainingMinutes(inSchool: school, from: .now),
-                        cursorValue: timerVM.cursorValue(inSchool: school, for: .now),
-                        timerZone: timerVM.timerZone(
-                            inSchool: school,
-                            for: .now,
-                            seuilAlert: alertRemainingMinutes,
-                            seuilWarning: warningRemainingMinutes
-                        )
-                    )
-                let attribute =
-                    LiveCoursProgressFixedAttributes(
-                        seance: seance.interval,
-                        schoolName: school.viewName,
-                        classeName: seance.name ?? "",
-                        warningRemainingMinutes: warningRemainingMinutes,
-                        alertRemainingMinutes: alertRemainingMinutes
-                    )
-                await activityManager.start(
-                    withInitialState: initialState,
-                    fixedAttributes: attribute
-                )
-                #if DEBUG
-                    print(">> Activité lancée")
-                #endif
-
-                var keepOnLooping = true
-                repeat {
-                    var alertConfig: AlertConfiguration?
-                    // code you want to repeat
-                    // Update périodique de la Live Activity
-                    // TODO: - Gérer le déclenchement des message d'alerte dans Live Activity
-                    if false {
-                        alertConfig = AlertConfiguration(
-                            title: "Title",
-                            body: "Body",
-                            sound: .default
-                        )
-                    }
-                    let newState =
-                        LiveCoursProgressState(
-                            elapsedMinutes: timerVM.elapsedMinutes(inSchool: school, to: .now),
-                            remainingMinutes: timerVM.remainingMinutes(inSchool: school, from: .now),
-                            cursorValue: timerVM.cursorValue(inSchool: school, for: .now),
-                            timerZone: timerVM.timerZone(
-                                inSchool: school,
-                                for: .now,
-                                seuilAlert: alertRemainingMinutes,
-                                seuilWarning: warningRemainingMinutes
-                            )
-                        )
-                    await activityManager.updateActivity(
-                        withNewState: newState,
-                        alertConfiguration: alertConfig
-                    )
-
-                    #if DEBUG
-                        print(">> Activité updated")
-                    #endif
-
-                    try? await Task.sleep(for: .seconds(updatePeriod)) // exception thrown when cancelled by SwiftUI when this view disappears.
-
-                    if let elapsedSeconds = timerVM.elapsedSeconds(inSchool: school) {
-                        keepOnLooping = elapsedSeconds < seanceDuration - Int(updatePeriod)
-                    } else {
-                        keepOnLooping = false
-                    }
-                } while !Task.isCancelled && keepOnLooping
-
-                /// Arrêter la Live Activity
-                var finalState: LiveCoursProgressState
-                if Task.isCancelled {
-                    // Tâche annulée par la disparition de la View avant la fin du cours
-                    finalState = LiveCoursProgressState(
-                        elapsedMinutes: timerVM.elapsedMinutes(inSchool: school, to: .now),
-                        remainingMinutes: timerVM.remainingMinutes(inSchool: school, from: .now),
-                        cursorValue: timerVM.cursorValue(inSchool: school, for: .now),
-                        timerZone: timerVM.timerZone(
-                            inSchool: school, for: .now,
-                            seuilAlert: alertRemainingMinutes,
-                            seuilWarning: warningRemainingMinutes
-                        )
-                    )
-                } else {
-                    // Fin du cours avant la disparition de la View
-                    finalState = LiveCoursProgressState(
-                        elapsedMinutes: 1,
-                        remainingMinutes: 0,
-                        cursorValue: 1.0,
-                        timerZone: .alert
-                    )
-                }
-                await activityManager.endActivity(
-                    withFinalState: finalState
-                )
-                #if DEBUG
-                    print(">> Activité canceled")
-                #endif
+                // Gérer la Live Activity
+                await manageLiveActivity()
             #endif
         }
     }
@@ -229,6 +124,139 @@ struct SeanceTimerView: View {
 // MARK: - Methods
 
 extension SeanceTimerView {
+    /// Gérer la Live Activity
+    private func manageLiveActivity() async {
+        guard let seance = timerVM.seanceOngoing(inSchool: school, at: .now) else {
+            return
+        }
+
+        // Démarrer la Live Activity
+        await startLiveActivity(for: seance)
+
+        // Mettre à jour la Live Activity
+        await updateLiveActivity(seanceDuration: seance.interval.duration)
+
+        // Arrêter la Live Activity
+        await endLiveActivity()
+    }
+
+    /// Démarrer la Live Activity
+    private func startLiveActivity(for seance: Seance) async {
+        let initialState =
+            LiveCoursProgressState(
+                elapsedMinutes: timerVM.elapsedMinutes(inSchool: school, to: .now),
+                remainingMinutes: timerVM.remainingMinutes(inSchool: school, from: .now),
+                cursorValue: timerVM.cursorValue(inSchool: school, for: .now),
+                timerZone: timerVM.timerZone(
+                    inSchool: school,
+                    for: .now,
+                    seuilAlert: alertRemainingMinutes,
+                    seuilWarning: warningRemainingMinutes
+                )
+            )
+        let attribute =
+            LiveCoursProgressFixedAttributes(
+                seance: seance.interval,
+                schoolName: school.viewName,
+                classeName: seance.name ?? "",
+                warningRemainingMinutes: warningRemainingMinutes,
+                alertRemainingMinutes: alertRemainingMinutes
+            )
+        await activityManager.start(
+            withInitialState: initialState,
+            fixedAttributes: attribute
+        )
+        #if DEBUG
+            print(">> Activité lancée")
+        #endif
+    }
+
+    /// Mettre à jour la Live Activity
+    func updateLiveActivity(seanceDuration: TimeInterval) async {
+        var keepOnLooping = true
+        repeat {
+            var alertConfig: AlertConfiguration?
+            // code you want to repeat
+            // Update périodique de la Live Activity
+            // TODO: - Gérer le déclenchement des message d'alerte dans Live Activity
+            if false {
+                alertConfig = AlertConfiguration(
+                    title: "Title",
+                    body: "Body",
+                    sound: .default
+                )
+            }
+            let newState =
+                LiveCoursProgressState(
+                    elapsedMinutes: timerVM.elapsedMinutes(inSchool: school, to: .now),
+                    remainingMinutes: timerVM.remainingMinutes(inSchool: school, from: .now),
+                    cursorValue: timerVM.cursorValue(inSchool: school, for: .now),
+                    timerZone: timerVM.timerZone(
+                        inSchool: school,
+                        for: .now,
+                        seuilAlert: alertRemainingMinutes,
+                        seuilWarning: warningRemainingMinutes
+                    )
+                )
+            await activityManager.updateActivity(
+                withNewState: newState,
+                alertConfiguration: alertConfig
+            )
+
+            #if DEBUG
+                print(">> Activité updated")
+            #endif
+
+            do {
+                try await Task.sleep(for: .seconds(updatePeriod)) // exception thrown when cancelled by SwiftUI when this view disappears.
+            } catch is CancellationError {
+                // If the task is cancelled before the time ends, this function throws CancellationError
+                break
+            } catch {
+                // If the task is cancelled before the time ends, this function throws CancellationError
+                break
+            }
+
+            if let elapsedSeconds = timerVM.elapsedSeconds(inSchool: school) {
+                keepOnLooping = (TimeInterval(elapsedSeconds) + updatePeriod) < seanceDuration
+            } else {
+                keepOnLooping = false
+            }
+        } while !Task.isCancelled && keepOnLooping
+    }
+
+    /// Arrêter la Live Activity
+    private func endLiveActivity() async {
+        var finalState: LiveCoursProgressState
+        if Task.isCancelled {
+            // Tâche annulée par la disparition de la View avant la fin du cours
+            finalState = LiveCoursProgressState(
+                elapsedMinutes: timerVM.elapsedMinutes(inSchool: school, to: .now),
+                remainingMinutes: timerVM.remainingMinutes(inSchool: school, from: .now),
+                cursorValue: timerVM.cursorValue(inSchool: school, for: .now),
+                timerZone: timerVM.timerZone(
+                    inSchool: school, for: .now,
+                    seuilAlert: alertRemainingMinutes,
+                    seuilWarning: warningRemainingMinutes
+                )
+            )
+        } else {
+            // Fin du cours avant la disparition de la View
+            finalState = LiveCoursProgressState(
+                elapsedMinutes: 1,
+                remainingMinutes: 0,
+                cursorValue: 1.0,
+                timerZone: .alert
+            )
+        }
+        await activityManager.endActivity(
+            withFinalState: finalState
+        )
+        #if DEBUG
+            print(">> Activité canceled")
+        #endif
+    }
+
     /// Temps écoulé depuis le début de la séance
     private func elapsedTime(
         inSchool school: SchoolEntity,
