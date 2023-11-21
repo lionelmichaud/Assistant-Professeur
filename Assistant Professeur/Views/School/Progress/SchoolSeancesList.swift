@@ -91,48 +91,8 @@ struct SchoolSeancesList: View {
             actions: {},
             message: { Text(alert.message) }
         )
-        .toolbar {
-            if ongoingSeance {
-                ToolbarItem(placement: .primaryAction) {
-                    // Chronomètre de classe
-                    Button {
-                        isShowingClasseTimer.toggle()
-                    } label: {
-                        Label("Chrono.", systemImage: "stopwatch")
-                    }
-                    .fullScreenCover(
-                        isPresented: $isShowingClasseTimer,
-                        onDismiss: {
-                            Task {
-                                // Aller à la vue de mise à jour de l'vanacement de la progression de la classe
-                                if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
-                                   let classe = SchoolEntity.school(withName: seance.schoolName!)?.classe(withAcronym: seance.name!) {
-                                    await navig.navigateToProgressOf(thisClasse: classe)
-                                }
-                            }
-                        },
-                        content: {
-                            NavigationStack {
-                                ClasseTimerModal(
-                                    school: school
-                                )
-                            }
-                        }
-                    )
-                }
-            }
-            ToolbarItem(placement: .automatic) {
-                // Afficher le PopOver d'information sur le format à utiliser
-                Button {
-                    popOverIsPresented = true
-                } label: {
-                    Image(systemName: "info.bubble")
-                }
-                .popover(isPresented: $popOverIsPresented) {
-                    infoView
-                }
-            }
-        }
+        .toolbar(content: myToolBarContent)
+
         // Chargement des données recherchées depuis l'application Calendrier
         .task(id: school.id!.uuidString + dateInterval.description) {
             let alert = await viewModel.updateItems(
@@ -151,6 +111,55 @@ struct SchoolSeancesList: View {
             }
 
             self.alert = alert
+        }
+    }
+}
+
+// MARK: SchoolSidebarView Toolbar Content
+
+extension SchoolSeancesList {
+    @ToolbarContentBuilder
+    func myToolBarContent() -> some ToolbarContent {
+        // Afficher le PopOver d'information sur le format à utiliser
+        ToolbarItem(placement: .automatic) {
+            Button {
+                popOverIsPresented = true
+            } label: {
+                Image(systemName: "info.bubble")
+            }
+            .popover(isPresented: $popOverIsPresented) {
+                infoView
+            }
+        }
+
+        if ongoingSeance {
+            // Chronomètre de classe
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    isShowingClasseTimer.toggle()
+                } label: {
+                    Label("Chrono.", systemImage: "stopwatch")
+                }
+                .fullScreenCover(
+                    isPresented: $isShowingClasseTimer,
+                    onDismiss: {
+                        Task {
+                            // Aller à la vue de mise à jour de l'vanacement de la progression de la classe
+                            if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
+                               let classe = SchoolEntity.school(withName: seance.schoolName!)?.classe(withAcronym: seance.name!) {
+                                await navig.navigateToProgressOf(thisClasse: classe)
+                            }
+                        }
+                    },
+                    content: {
+                        NavigationStack {
+                            ClasseTimerModal(
+                                school: school
+                            )
+                        }
+                    }
+                )
+            }
         }
     }
 }

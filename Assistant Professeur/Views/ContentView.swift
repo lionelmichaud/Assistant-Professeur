@@ -350,16 +350,18 @@ extension ContentView {
         let printStr = if nbOfDocsToBePrinted == 0 {
             ""
         } else {
-            " - \(nbOfDocsToBePrinted) documents à imprimer.\n"
+            " • \(nbOfDocsToBePrinted) documents à imprimer.\n"
         }
         let loadStr = if nbOfDocsToBeLoaded == 0 {
             ""
         } else {
-            " - \(nbOfDocsToBeLoaded) documents à partager sur l'ENT.\n"
+            " • \(nbOfDocsToBeLoaded) documents à partager sur l'ENT.\n"
         }
 
         alertInfo.title = ReminderTaskManager.shared.alertTitle
-        alertInfo.message = printStr + loadStr + "Consultez-en la liste dans chaque établissement."
+        alertInfo.message = "\n" + printStr + loadStr +
+            "\nConsultez-en la liste dans chaque établissement." +
+            "\n'Prochains cours / A faire avant ces cours...'"
         alertInfo.isPresented = true
     }
 

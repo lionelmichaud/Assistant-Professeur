@@ -198,7 +198,7 @@ extension SeanceTimerView {
                         seuilWarning: warningRemainingMinutes
                     )
                 )
-            await activityManager.updateActivity(
+            await activityManager.update(
                 withNewState: newState,
                 alertConfiguration: alertConfig
             )
@@ -248,7 +248,7 @@ extension SeanceTimerView {
                 timerZone: .alert
             )
         }
-        await activityManager.endActivity(
+        await activityManager.end(
             withFinalState: finalState
         )
         #if DEBUG

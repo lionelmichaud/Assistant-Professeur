@@ -25,8 +25,6 @@
         // MARK: - Type Properties
 
         static let shared = LiveActivityManager()
-        static let staleTimeInterval: TimeInterval? = 2.0 * 60.0 // seconds
-        static let dismissTimeInterval: TimeInterval? = 10.0 * 60.0 // seconds: nil = .default
 
         // MARK: - Initializer
 
@@ -34,24 +32,24 @@
 
         // MARK: - Properties
 
+        let staleTimeInterval: TimeInterval? = 2.0 * 60.0 // seconds
+        let dismissTimeInterval: TimeInterval? = 5.0 * 60.0 // seconds: nil = .default
+
         /// The identifier of the activity that its generated once the activity is created
         /// (note that actually you can have multiple running activities in your app,
         /// but for this example we are going to basically always have just one)
-        @MainActor @Published
-        private(set) var runningActivityID: String?
+        private var runningActivityID: String?
 
         /// The token generated for the current activity,
         /// used in the backend for creating the activity-update push notification
-        @MainActor @Published
-        private(set) var runningActivityToken: String?
+        private var runningActivityToken: String?
 
-        @MainActor
-        private(set) var runningActivity: Activity<LiveCoursProgressAttributes>?
+        private var runningActivity: Activity<LiveCoursProgressAttributes>?
 
         // MARK: - Computed Properties
 
-        private static var dismissalPolicy: ActivityUIDismissalPolicy {
-            if let dismissTimeInterval = LiveActivityManager.dismissTimeInterval {
+        private var dismissalPolicy: ActivityUIDismissalPolicy {
+            if let dismissTimeInterval {
                 if dismissTimeInterval <= 0 {
                     .immediate
                 } else {
@@ -62,7 +60,7 @@
             }
         }
 
-        private static var staleDate: Date? {
+        private var staleDate: Date? {
             if let staleTimeInterval {
                 .now + max(0.0, staleTimeInterval)
             } else {
@@ -138,22 +136,20 @@
             let initialContent =
                 ActivityContent(
                     state: initialState,
-                    staleDate: LiveActivityManager.staleDate,
+                    staleDate: staleDate,
                     relevanceScore: 0
                 )
 
             // Démarrer l'activité
             do {
-                let activity = try Activity.request(
+                let activity = try Activity<LiveCoursProgressAttributes>.request(
                     attributes: attributes,
                     content: initialContent,
                     pushType: .token
                 )
 
-                await MainActor.run {
-                    self.runningActivityID = activity.id
-                    self.runningActivity = activity
-                }
+                self.runningActivityID = activity.id
+                self.runningActivity = activity
             } catch {
                 customLog.log(
                     level: .error,
@@ -164,11 +160,12 @@
 
         /// Where the current running activity (if any) is updated.
         /// - Note: No activity is updated if Live Activity is not authorized.
-        func updateActivity(
+        func update(
             withNewState newState: LiveCoursProgressState,
             alertConfiguration: AlertConfiguration? = nil
         ) async {
-            guard let activity = await runningActivity, areActivitiesEnabled() else {
+            guard let activity = runningActivity,
+                  areActivitiesEnabled() else {
                 return
             }
 
@@ -179,7 +176,7 @@
                 )
             let newActivityContent = ActivityContent(
                 state: newContentState,
-                staleDate: LiveActivityManager.staleDate,
+                staleDate: staleDate,
                 relevanceScore: alertConfiguration == nil ? 0 : 50
             )
 
@@ -194,7 +191,7 @@
         /// the one with the activityID that we stored in the manager and end it,
         /// so that means it will not be shown anymore in the dynamic island and in the lock screen
         /// - Note: Any runing activity is ended, even if Live Activity is not authorized.
-        func endActivity(
+        func end(
             withFinalState finalState: LiveCoursProgressState
         ) async {
             guard isPhone() else {
@@ -202,7 +199,7 @@
                 return
             }
 
-            guard let activity = await runningActivity else {
+            guard let activity = runningActivity else {
                 return
             }
 
@@ -213,16 +210,14 @@
             await activity.end(
                 ActivityContent(
                     state: endContentState,
-                    staleDate: LiveActivityManager.staleDate
+                    staleDate: staleDate
                 ),
-                dismissalPolicy: LiveActivityManager.dismissalPolicy
+                dismissalPolicy: dismissalPolicy
             )
 
-            await MainActor.run {
-                self.runningActivity = nil
-                self.runningActivityID = nil
-                self.runningActivityToken = nil
-            }
+            self.runningActivity = nil
+            self.runningActivityID = nil
+            self.runningActivityToken = nil
         }
 
         /// Run through all the current running activities (of the specified type MatchLiveScoreAttributes) and end it all
@@ -243,15 +238,13 @@
                         state: endContentState,
                         staleDate: .now
                     ),
-                    dismissalPolicy: LiveActivityManager.dismissalPolicy
+                    dismissalPolicy: dismissalPolicy
                 )
             }
 
-            await MainActor.run {
-                self.runningActivity = nil
-                self.runningActivityID = nil
-                self.runningActivityToken = nil
-            }
+            self.runningActivity = nil
+            self.runningActivityID = nil
+            self.runningActivityToken = nil
         }
     }
 #endif
