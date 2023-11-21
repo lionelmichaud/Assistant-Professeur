@@ -44,7 +44,7 @@ struct LockScreenContent: View {
                     // Cours en cours
                     HStack(alignment: .center) {
                         ProgressBar(
-                            value: Double(elapsedMinutes) / Double(elapsedMinutes + remainingMinutes),
+                            value: Double(remainingMinutes) / Double(elapsedMinutes + remainingMinutes),
                             foreGroundColor: isStale ? .gray : dynamicAttributes.timerZone.color
                         )
                         Text("\(remainingMinutes) min")

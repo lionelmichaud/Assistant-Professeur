@@ -26,12 +26,14 @@ struct ProgressBar: View {
             let frame = geometry.frame(in: .local)
             let boxWidth = frame.width * value
 
-            RoundedRectangle(cornerRadius: 5)
-                .foregroundStyle(Color.gray)
-
-            RoundedRectangle(cornerRadius: 5)
-                .frame(width: boxWidth)
-                .foregroundStyle(foreGroundColor)
+            ZStack(alignment: .trailing) {
+                RoundedRectangle(cornerRadius: 5)
+                    .foregroundStyle(Color.gray)
+                
+                RoundedRectangle(cornerRadius: 5)
+                    .frame(width: boxWidth)
+                    .foregroundStyle(foreGroundColor)
+            }
         }
     }
 }
