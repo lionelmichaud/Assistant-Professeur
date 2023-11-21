@@ -19,12 +19,6 @@ struct SchoolDetail: View {
     @ObservedObject
     var school: SchoolEntity
 
-    @EnvironmentObject
-    private var navigationModel: NavigationModel
-
-    @State
-    private var isShowingClasseTimer = false
-
     // MARK: - Computed Properties
 
     /// Vue du nom de l'établissement
@@ -91,38 +85,6 @@ struct SchoolDetail: View {
         .navigationTitle("Etablissement")
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                // Chronomètre de classe
-                Button {
-                    isShowingClasseTimer.toggle()
-                } label: {
-                    Label("Chrono.", systemImage: "stopwatch")
-                }
-                .fullScreenCover(
-                    isPresented: $isShowingClasseTimer,
-                    onDismiss: {
-                        Task {
-                            if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
-                               let classe = SchoolEntity.school(withName: seance.schoolName!)?.classe(withAcronym: seance.name!) {
-                                await navigationModel.navigateToProgressOf(thisClasse: classe)
-                            }
-                        }
-                    }
-                ) {
-                    NavigationStack {
-                        ClasseTimerModal(
-                            school: school
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-    private func save() {
-        try? SchoolEntity.saveIfContextHasChanged()
-        // school.refresh()
     }
 }
 

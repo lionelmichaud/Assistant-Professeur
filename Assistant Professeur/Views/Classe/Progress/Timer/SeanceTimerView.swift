@@ -213,7 +213,6 @@ extension SeanceTimerView {
                 // If the task is cancelled before the time ends, this function throws CancellationError
                 break
             } catch {
-                // If the task is cancelled before the time ends, this function throws CancellationError
                 break
             }
 

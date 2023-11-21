@@ -154,22 +154,6 @@
                     self.runningActivityID = activity.id
                     self.runningActivity = activity
                 }
-
-//                for await data in activity.pushTokenUpdates {
-//                    let token = data.map {
-//                        String(
-//                            format: "%02x",
-//                            $0
-//                        )
-//                    }.joined()
-//                    #if DEBUG
-//                        print("Activity token: \(token)")
-//                    #endif
-//                    await MainActor.run {
-//                        activityToken = token
-//                    }
-//                    // HERE SEND THE TOKEN TO THE SERVER
-//                }
             } catch {
                 customLog.log(
                     level: .error,
@@ -249,7 +233,8 @@
                 return
             }
 
-            for activity in Activity<LiveCoursProgressAttributes>.activities {
+            let activities = Activity<LiveCoursProgressAttributes>.activities
+            for activity in activities {
                 let endContentState = LiveCoursProgressAttributes.ContentState(
                     dynamicAttributes: .defaultEndState
                 )

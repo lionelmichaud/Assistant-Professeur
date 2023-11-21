@@ -9,23 +9,24 @@ import AppFoundation
 import Foundation
 
 enum PeriodEnum: String, PickableEnumP {
-    case today
+    case restOfTheDay
     case nextWeek
     case all
 
     var pickerString: String {
         switch self {
-            case .today: "Aujourd'hui"
-            case .nextWeek: "Semaine à venir"
+            case .restOfTheDay: "Reste de la journée"
+            case .nextWeek: "7 prochains jours"
             case .all: "3 prochains mois"
         }
     }
 
     /// Période de recherche
     var dateInterval: DateInterval {
+        var startDate: Date = .now
         var endDate: Date
         switch self {
-            case .today:
+            case .restOfTheDay:
                 endDate = 1.days.from(Calendar.current.startOfDay(for: .now))!
 
             case .nextWeek:
@@ -38,7 +39,7 @@ enum PeriodEnum: String, PickableEnumP {
                 endDate = 3.months.fromNow!
         }
         return DateInterval(
-            start: Date.now,
+            start: startDate,
             end: endDate
         )
     }

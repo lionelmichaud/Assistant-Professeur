@@ -1226,13 +1226,13 @@
             filePath = "Assistant Professeur/Model/LiveActivityManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
             landmarkName = "startNewLiveActivity(withInitialState:fixedAttributes:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "26A308C8-F22C-43B3-91CE-5D3D9315E652 - 960ab1d5769059e8"
+                  uuid = "26A308C8-F22C-43B3-91CE-5D3D9315E652 - 960ab1d57690588d"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1242,12 +1242,42 @@
                   urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/LiveActivityManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "174"
-                  endingLineNumber = "174"
+                  startingLineNumber = "179"
+                  endingLineNumber = "179"
+                  offsetFromSymbolStart = "908">
+               </Location>
+               <Location
+                  uuid = "26A308C8-F22C-43B3-91CE-5D3D9315E652 - 5a6656341aef1c83"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.LiveActivityManager.startNewLiveActivity(withInitialState: Assistant_Professeur.LiveCoursProgressState, fixedAttributes: Assistant_Professeur.LiveCoursProgressFixedAttributes) async -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/LiveActivityManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "179"
+                  endingLineNumber = "179"
+                  offsetFromSymbolStart = "172">
+               </Location>
+               <Location
+                  uuid = "26A308C8-F22C-43B3-91CE-5D3D9315E652 - 960ab1d576905bf8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for Assistant_Professeur.LiveActivityManager.startNewLiveActivity(withInitialState: Assistant_Professeur.LiveCoursProgressState, fixedAttributes: Assistant_Professeur.LiveCoursProgressFixedAttributes) async -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/LiveActivityManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "158"
+                  endingLineNumber = "158"
                   offsetFromSymbolStart = "1012">
                </Location>
                <Location
-                  uuid = "26A308C8-F22C-43B3-91CE-5D3D9315E652 - 8c1c3633066d6a58"
+                  uuid = "26A308C8-F22C-43B3-91CE-5D3D9315E652 - 8c1c3633066d6848"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -1257,8 +1287,8 @@
                   urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/LiveActivityManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "174"
-                  endingLineNumber = "174"
+                  startingLineNumber = "158"
+                  endingLineNumber = "158"
                   offsetFromSymbolStart = "180">
                </Location>
             </Locations>
@@ -1358,70 +1388,6 @@
                   offsetFromSymbolStart = "448">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0BEFE2DE-6E17-4EB8-848F-AC201CCC17AF"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
-            landmarkName = "updateLiveActivity(seanceDuration:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "0BEFE2DE-6E17-4EB8-848F-AC201CCC17AF - 82bb81e16d98562d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(5) suspend resume partial function for Assistant_Professeur.SeanceTimerView.updateLiveActivity(seanceDuration: Swift.Double) async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "217"
-                  endingLineNumber = "217"
-                  offsetFromSymbolStart = "260">
-               </Location>
-               <Location
-                  uuid = "0BEFE2DE-6E17-4EB8-848F-AC201CCC17AF - e0587e0e9849f612"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(6) suspend resume partial function for Assistant_Professeur.SeanceTimerView.updateLiveActivity(seanceDuration: Swift.Double) async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "217"
-                  endingLineNumber = "217"
-                  offsetFromSymbolStart = "596">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B166B666-3A7D-4210-AAC4-ECD29E127C93"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
-            landmarkName = "updateLiveActivity(seanceDuration:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

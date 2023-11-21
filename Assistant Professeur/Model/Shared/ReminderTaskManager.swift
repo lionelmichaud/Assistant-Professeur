@@ -170,7 +170,7 @@ actor ReminderTaskManager {
             return []
         }
 
-        let period: PeriodEnum = .today
+        let period: PeriodEnum = .restOfTheDay
 
         // Recherche: `SeancesInDateInterval` contenant la liste des Séances à venir
         // pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
