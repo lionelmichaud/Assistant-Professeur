@@ -1,10 +1,11 @@
 //
-//  TimerVM.swift
+//  self.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 21/05/2023.
 //
 
+import ActivityKit
 import AppFoundation
 import EventKit
 import Foundation
@@ -12,18 +13,21 @@ import Foundation
 /// Mémorise les séances de la journée pour un ou plusieurs établissements.
 ///
 ///     @State
-///     private var timerVM = TodaySeances.shared
+///     private var viewModel = TodaySeances.shared
 ///
 ///     // (1) Charge les séances de la journée pour tous les établissements
-///     await timerVM.loadTodaySeances()
+///     await viewModel.loadTodaySeances()
 ///
 ///     // (2) Recherche et mémoriser la séance en cours à la `date` dans  `school`
-///     timerVM.findOngoingSeance(inSchool: school, at: .now)
+///     viewModel.findOngoingSeance(inSchool: school, at: .now)
 ///
 ///     // (3) Utiliser la séance en cours (s'il en existe une)
-///     if let timerVM.seanceOngoing {
+///     if let viewModel.seanceOngoing {
 ///         print("Une séance est en cours")
 ///     }
+///
+///     // (4) Remettre à zéro la séance en cours
+///     viewModel.resetOngoingSeance()
 ///
 struct TodaySeances {
     // MARK: - Singleton
@@ -53,11 +57,11 @@ struct TodaySeances {
     /// toutes les disciplines et toutes les classes.
     ///
     ///     @State
-    ///     private var timerVM = TodaySeances.shared
+    ///     private var self = TodaySeances.shared
     ///
-    ///     await timerVM.loadTodaySeances()
+    ///     await self.loadTodaySeances()
     ///
-    ///     timerVM.findOngoingSeance(inSchool: school, at: .now)
+    ///     self.findOngoingSeance(inSchool: school, at: .now)
     ///
     /// - Important: Cette méthode doit être appelée en premier pour que les autres méthode donnent un résulat non `nil`.
     ///
@@ -125,11 +129,11 @@ struct TodaySeances {
     /// toutes les disciplines et toutes les classes.
     ///
     ///     @State
-    ///     private var timerVM = TodaySeances.shared
+    ///     private var self = TodaySeances.shared
     ///
-    ///     await timerVM.loadTodaySeances()
+    ///     await self.loadTodaySeances()
     ///
-    ///     timerVM.findOngoingSeance(inSchool: school, at: .now)
+    ///     self.findOngoingSeance(inSchool: school, at: .now)
     ///
     /// - Important: Cette méthode doit être appelée en premier pour que les autres méthode donnent un résulat non `nil`.
     ///
@@ -190,13 +194,13 @@ struct TodaySeances {
     /// Recherche et mémoriser la séance en cours à la `date` dans  `school`.
     ///
     ///     @State
-    ///     private var timerVM = TodaySeances.shared
+    ///     private var self = TodaySeances.shared
     ///
-    ///     await timerVM.loadTodaySeances()
+    ///     await self.loadTodaySeances()
     ///
-    ///     timerVM.findOngoingSeance(inSchool: school, at: .now)
+    ///     self.findOngoingSeance(inSchool: school, at: .now)
     ///
-    ///     if let timerVM.seanceOngoing {
+    ///     if let self.seanceOngoing {
     ///         print("Une séance est en cours")
     ///     }
     ///
@@ -221,11 +225,11 @@ struct TodaySeances {
     /// - Returns: `nil` si aucune séance n'est en cours.
     ///
     ///     @State
-    ///     private var timerVM = TodaySeances.shared
+    ///     private var self = TodaySeances.shared
     ///
-    ///     await timerVM.loadTodaySeances()
+    ///     await self.loadTodaySeances()
     ///
-    ///     if let seance = timerVM.seanceOngoing(inSchool: school, at: .now)
+    ///     if let seance = self.seanceOngoing(inSchool: school, at: .now)
     ///         print("Une séance est en cours")
     ///     }
     ///
@@ -387,5 +391,144 @@ struct TodaySeances {
         } else {
             return nil
         }
+    }
+
+    // MARK: - gestion d'une Live Activity associée à la séance en cours
+
+    /// Démarrer la Live Activity
+    func startLiveActivity(
+        alertRemainingMinutes: Int,
+        warningRemainingMinutes: Int
+    ) async {
+        guard let seanceOngoing = seanceOngoing else {
+            return
+        }
+
+        let initialState =
+            LiveCoursProgressState(
+                elapsedMinutes: self.elapsedMinutes(to: .now),
+                remainingMinutes: self.remainingMinutes(from: .now),
+                cursorValue: self.cursorValue(for: .now),
+                timerZone: self.timerZone(
+                    for: .now,
+                    seuilAlert: alertRemainingMinutes,
+                    seuilWarning: warningRemainingMinutes
+                )
+            )
+        let attribute =
+            LiveCoursProgressFixedAttributes(
+                seance: seanceOngoing.interval,
+                schoolName: seanceOngoing.schoolName ?? "",
+                classeName: seanceOngoing.name ?? "",
+                warningRemainingMinutes: warningRemainingMinutes,
+                alertRemainingMinutes: alertRemainingMinutes
+            )
+        await LiveActivityManager.shared.start(
+            withInitialState: initialState,
+            fixedAttributes: attribute
+        )
+        #if DEBUG
+            print(">> Activité lancée")
+        #endif
+    }
+
+    /// Mettre à jour périodiquement de la Live Activity
+    func updateLiveActivity(
+        alertRemainingMinutes: Int,
+        warningRemainingMinutes: Int,
+        updatePeriod: TimeInterval
+    ) async {
+        guard let seanceOngoing = seanceOngoing else {
+            return
+        }
+
+        var keepOnLooping = true
+        repeat {
+            var alertConfig: AlertConfiguration?
+            // code you want to repeat
+            // Update périodique de la Live Activity
+            // TODO: - Gérer le déclenchement des message d'alerte dans Live Activity
+            if false {
+                alertConfig = AlertConfiguration(
+                    title: "Title",
+                    body: "Body",
+                    sound: .default
+                )
+            }
+            let newState =
+                LiveCoursProgressState(
+                    elapsedMinutes: self.elapsedMinutes(to: .now),
+                    remainingMinutes: self.remainingMinutes(from: .now),
+                    cursorValue: self.cursorValue(for: .now),
+                    timerZone: self.timerZone(
+                        for: .now,
+                        seuilAlert: alertRemainingMinutes,
+                        seuilWarning: warningRemainingMinutes
+                    )
+                )
+            await LiveActivityManager.shared.update(
+                withNewState: newState,
+                alertConfiguration: alertConfig
+            )
+
+            #if DEBUG
+                print(">> Activité updated")
+            #endif
+
+            do {
+                try await Task.sleep(for: .seconds(updatePeriod)) // exception thrown when cancelled by SwiftUI when this view disappears.
+            } catch is CancellationError {
+                // If the task is cancelled before the time ends, this function throws CancellationError
+                break
+            } catch {
+                break
+            }
+
+            if let elapsedSeconds = self.elapsedSeconds() {
+                keepOnLooping = (TimeInterval(elapsedSeconds) + updatePeriod) < seanceOngoing.interval.duration
+            } else {
+                keepOnLooping = false
+            }
+        } while !Task.isCancelled && keepOnLooping
+    }
+
+    /// Arrêter la Live Activity
+    mutating func endLiveActivity(
+        alertRemainingMinutes: Int,
+        warningRemainingMinutes: Int
+    ) async {
+        guard let seanceOngoing = seanceOngoing else {
+            return
+        }
+
+        var finalState: LiveCoursProgressState
+        if Task.isCancelled {
+            // Tâche annulée par la disparition de la View avant la fin du cours
+            finalState = LiveCoursProgressState(
+                elapsedMinutes: self.elapsedMinutes(to: .now),
+                remainingMinutes: self.remainingMinutes(from: .now),
+                cursorValue: self.cursorValue(for: .now),
+                timerZone: self.timerZone(
+                    for: .now,
+                    seuilAlert: alertRemainingMinutes,
+                    seuilWarning: warningRemainingMinutes
+                )
+            )
+        } else {
+            // Fin du cours avant la disparition de la View
+            finalState = LiveCoursProgressState(
+                elapsedMinutes: 1,
+                remainingMinutes: 0,
+                cursorValue: 1.0,
+                timerZone: .alert
+            )
+        }
+        await LiveActivityManager.shared.end(
+            withFinalState: finalState
+        )
+        self.resetOngoingSeance()
+        #if DEBUG
+            print(">> Activité canceled")
+        #endif
     }
 }

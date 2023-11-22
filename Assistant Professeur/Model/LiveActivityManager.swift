@@ -21,7 +21,6 @@
     /// Only one Live Activity may be active at a time.
     /// When a new activity is started, any running actity is stopped.
     ///  - Reference: [medium](https://medium.com/kinandcartacreated/how-to-build-ios-live-activity-d1b2f238819e)
-    //@MainActor
     actor LiveActivityManager {
         // MARK: - Type Properties
 

@@ -126,133 +126,24 @@ extension SeanceTimerView {
 
     /// Gérer la Live Activity
     private func manageLiveActivity() async {
-        guard timerVM.seanceOngoing != nil else {
-            return
-        }
-
         // Démarrer la Live Activity
-        await startLiveActivity()
+        await timerVM.startLiveActivity(
+            alertRemainingMinutes: alertRemainingMinutes,
+            warningRemainingMinutes: warningRemainingMinutes
+        )
 
         // Mettre à jour la Live Activity
-        await updateLiveActivity()
+        await timerVM.updateLiveActivity(
+            alertRemainingMinutes: alertRemainingMinutes,
+            warningRemainingMinutes: warningRemainingMinutes, 
+            updatePeriod: updatePeriod
+        )
 
         // Arrêter la Live Activity
-        await endLiveActivity()
-    }
-
-    /// Démarrer la Live Activity
-    private func startLiveActivity() async {
-        let initialState =
-            LiveCoursProgressState(
-                elapsedMinutes: timerVM.elapsedMinutes(to: .now),
-                remainingMinutes: timerVM.remainingMinutes(from: .now),
-                cursorValue: timerVM.cursorValue(for: .now),
-                timerZone: timerVM.timerZone(
-                    for: .now,
-                    seuilAlert: alertRemainingMinutes,
-                    seuilWarning: warningRemainingMinutes
-                )
-            )
-        let attribute =
-            LiveCoursProgressFixedAttributes(
-                seance: timerVM.seanceOngoing!.interval,
-                schoolName: timerVM.seanceOngoing?.schoolName ?? "",
-                classeName: timerVM.seanceOngoing?.name ?? "",
-                warningRemainingMinutes: warningRemainingMinutes,
-                alertRemainingMinutes: alertRemainingMinutes
-            )
-        await LiveActivityManager.shared.start(
-            withInitialState: initialState,
-            fixedAttributes: attribute
+        await timerVM.endLiveActivity(
+            alertRemainingMinutes: alertRemainingMinutes,
+            warningRemainingMinutes: warningRemainingMinutes
         )
-        #if DEBUG
-            print(">> Activité lancée")
-        #endif
-    }
-
-    /// Mettre à jour la Live Activity
-    func updateLiveActivity() async {
-        var keepOnLooping = true
-        repeat {
-            var alertConfig: AlertConfiguration?
-            // code you want to repeat
-            // Update périodique de la Live Activity
-            // TODO: - Gérer le déclenchement des message d'alerte dans Live Activity
-            if false {
-                alertConfig = AlertConfiguration(
-                    title: "Title",
-                    body: "Body",
-                    sound: .default
-                )
-            }
-            let newState =
-                LiveCoursProgressState(
-                    elapsedMinutes: timerVM.elapsedMinutes(to: .now),
-                    remainingMinutes: timerVM.remainingMinutes(from: .now),
-                    cursorValue: timerVM.cursorValue(for: .now),
-                    timerZone: timerVM.timerZone(
-                        for: .now,
-                        seuilAlert: alertRemainingMinutes,
-                        seuilWarning: warningRemainingMinutes
-                    )
-                )
-            await LiveActivityManager.shared.update(
-                withNewState: newState,
-                alertConfiguration: alertConfig
-            )
-
-            #if DEBUG
-                print(">> Activité updated")
-            #endif
-
-            do {
-                try await Task.sleep(for: .seconds(updatePeriod)) // exception thrown when cancelled by SwiftUI when this view disappears.
-            } catch is CancellationError {
-                // If the task is cancelled before the time ends, this function throws CancellationError
-                break
-            } catch {
-                break
-            }
-
-            if let elapsedSeconds = timerVM.elapsedSeconds() {
-                keepOnLooping = (TimeInterval(elapsedSeconds) + updatePeriod) < timerVM.seanceOngoing!.interval.duration
-            } else {
-                keepOnLooping = false
-            }
-        } while !Task.isCancelled && keepOnLooping
-    }
-
-    /// Arrêter la Live Activity
-    private func endLiveActivity() async {
-        var finalState: LiveCoursProgressState
-        if Task.isCancelled {
-            // Tâche annulée par la disparition de la View avant la fin du cours
-            finalState = LiveCoursProgressState(
-                elapsedMinutes: timerVM.elapsedMinutes(to: .now),
-                remainingMinutes: timerVM.remainingMinutes(from: .now),
-                cursorValue: timerVM.cursorValue(for: .now),
-                timerZone: timerVM.timerZone(
-                    for: .now,
-                    seuilAlert: alertRemainingMinutes,
-                    seuilWarning: warningRemainingMinutes
-                )
-            )
-        } else {
-            // Fin du cours avant la disparition de la View
-            finalState = LiveCoursProgressState(
-                elapsedMinutes: 1,
-                remainingMinutes: 0,
-                cursorValue: 1.0,
-                timerZone: .alert
-            )
-        }
-        await LiveActivityManager.shared.end(
-            withFinalState: finalState
-        )
-        timerVM.resetOngoingSeance()
-        #if DEBUG
-            print(">> Activité canceled")
-        #endif
     }
 
     /// Vibre à chaque appel durant la période de une minute suivant le franchissement d'un seuil d'alerte.
