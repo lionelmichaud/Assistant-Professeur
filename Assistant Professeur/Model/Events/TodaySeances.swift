@@ -9,6 +9,22 @@ import AppFoundation
 import EventKit
 import Foundation
 
+/// Mémorise les séances de la journée pour un ou plusieurs établissements.
+///
+///     @State
+///     private var timerVM = TodaySeances.shared
+///
+///     // (1) Charge les séances de la journée pour tous les établissements
+///     await timerVM.loadTodaySeances()
+///
+///     // (2) Recherche et mémoriser la séance en cours à la `date` dans  `school`
+///     timerVM.findOngoingSeance(inSchool: school, at: .now)
+///
+///     // (3) Utiliser la séance en cours (s'il en existe une)
+///     if let timerVM.seanceOngoing {
+///         print("Une séance est en cours")
+///     }
+///
 struct TodaySeances {
     // MARK: - Singleton
 
@@ -16,10 +32,12 @@ struct TodaySeances {
 
     // MARK: - Properties
 
-    /// Calendriers des établissements
-    private(set) var seances = [SchoolEntity: Seances]()
+    private(set) var seanceOngoing: Seance?
 
     /// Séances du jour par établissement
+    private(set) var seances = [SchoolEntity: Seances]()
+
+    /// Calendriers des établissements
     private(set) var calendars = [SchoolEntity: EKCalendar]()
 
     /// Date de dernière mise à jour
@@ -33,6 +51,16 @@ struct TodaySeances {
 
     /// Charge toutes les séances de la journée pour tous les étabissements,
     /// toutes les disciplines et toutes les classes.
+    ///
+    ///     @State
+    ///     private var timerVM = TodaySeances.shared
+    ///
+    ///     await timerVM.loadTodaySeances()
+    ///
+    ///     timerVM.findOngoingSeance(inSchool: school, at: .now)
+    ///
+    /// - Important: Cette méthode doit être appelée en premier pour que les autres méthode donnent un résulat non `nil`.
+    ///
     mutating func loadTodaySeances() async {
         // Demander les droits d'accès aux calendriers de l'utilisateur
         let eventStore = EKEventStore()
@@ -95,6 +123,16 @@ struct TodaySeances {
 
     /// Charge toutes les séances de la journée pour tous les étabissements,
     /// toutes les disciplines et toutes les classes.
+    ///
+    ///     @State
+    ///     private var timerVM = TodaySeances.shared
+    ///
+    ///     await timerVM.loadTodaySeances()
+    ///
+    ///     timerVM.findOngoingSeance(inSchool: school, at: .now)
+    ///
+    /// - Important: Cette méthode doit être appelée en premier pour que les autres méthode donnent un résulat non `nil`.
+    ///
     mutating func loadTodaySeances(
         forSchool school: SchoolEntity
     ) async {
@@ -147,38 +185,65 @@ struct TodaySeances {
         }
     }
 
-    // MARK: - Vérification de séance en cours
+    // MARK: - Mémorisation de la séance en cours
+
+    /// Recherche et mémoriser la séance en cours à la `date` dans  `school`.
+    ///
+    ///     @State
+    ///     private var timerVM = TodaySeances.shared
+    ///
+    ///     await timerVM.loadTodaySeances()
+    ///
+    ///     timerVM.findOngoingSeance(inSchool: school, at: .now)
+    ///
+    ///     if let timerVM.seanceOngoing {
+    ///         print("Une séance est en cours")
+    ///     }
+    ///
+    /// - Important: Cette méthode doit être appelée en second pour que les autres méthode donnent un résulat non `nil`.
+    mutating func findOngoingSeance(
+        inSchool school: SchoolEntity,
+        at date: Date = .now
+    ) {
+        seanceOngoing = seanceOngoing(
+            inSchool: school,
+            at: date
+        )
+    }
+
+    mutating func resetOngoingSeance() {
+        seanceOngoing = nil
+    }
+
+    // MARK: - Recherche de la séance en cours
 
     /// Retourne la séance en cours à la `date` dans  `school`.
     /// - Returns: `nil` si aucune séance n'est en cours.
+    ///
+    ///     @State
+    ///     private var timerVM = TodaySeances.shared
+    ///
+    ///     await timerVM.loadTodaySeances()
+    ///
+    ///     if let seance = timerVM.seanceOngoing(inSchool: school, at: .now)
+    ///         print("Une séance est en cours")
+    ///     }
+    ///
+    /// - Warning: Cette méthode ne modifie pas l'état interne de l'objet. Les autres méthode donneront un résulat `nil`
+    ///
     func seanceOngoing(
         inSchool school: SchoolEntity,
         at date: Date = .now
     ) -> Seance? {
-        if let seances = seances[school],
-           let seance = seances.first(where: { seance in 
-               seance.interval.contains(date)
-           }) {
-            return seance
-        } else {
-            return nil
-        }
+        seances[school]?.first { $0.interval.contains(date) }
     }
 
     // MARK: - Info sur la séance en cours
 
     /// Durée de la séance en cours à la `date` exprimée en **secondes**.
     /// - Returns: `nil` si aucune séance n'est en cours
-    func seanceDuration(
-        inSchool school: SchoolEntity,
-        at thisDate: Date? = nil
-    ) -> Int? {
-        let date = thisDate ?? .now
-        if let ongoingSeance = seanceOngoing(
-            inSchool: school,
-            at: date
-        ) {
-            let seconds = ongoingSeance.interval.duration
+    func seanceDuration() -> Int? {
+        if let seconds = seanceOngoing?.interval.duration {
             if seconds > 0 {
                 return Int(seconds)
             } else {
@@ -194,18 +259,13 @@ struct TodaySeances {
     /// - Parameter thisDate: date/heure à laquelle faire le calcul.
     ///                         Si nil alors calcul fait à la date courante
     func elapsedTime(
-        inSchool school: SchoolEntity,
-        to thisDate: Date? = nil
+        to thisDate: Date = .now
     ) -> DateComponents? {
-        let date = thisDate ?? .now
-        if let ongoingSeance = seanceOngoing(
-            inSchool: school,
-            at: date
-        ) {
+        if let seanceOngoing {
             return Calendar.current.dateComponents(
                 [.hour, .minute, .second],
-                from: ongoingSeance.interval.start,
-                to: date
+                from: seanceOngoing.interval.start,
+                to: thisDate
             )
         } else {
             return nil
@@ -216,10 +276,9 @@ struct TodaySeances {
     /// - Returns: Temps écoulé en secondes
     /// - Parameter thisDate: date/heure à laquelle faire le calcul
     func elapsedSeconds(
-        inSchool school: SchoolEntity,
-        to thisDate: Date? = nil
+        to thisDate: Date = .now
     ) -> Int? {
-        guard let elapsedTime = elapsedTime(inSchool: school, to: thisDate),
+        guard let elapsedTime = elapsedTime(to: thisDate),
               let hours = elapsedTime.hour,
               let minutes = elapsedTime.minute,
               let seconds = elapsedTime.second else {
@@ -232,10 +291,9 @@ struct TodaySeances {
     /// - Returns: Temps écoulé en minutes entières
     /// - Parameter thisDate: date/heure à laquelle faire le calcul
     func elapsedMinutes(
-        inSchool school: SchoolEntity,
-        to thisDate: Date? = nil
+        to thisDate: Date = .now
     ) -> Int? {
-        guard let elapsedTime = elapsedTime(inSchool: school, to: thisDate),
+        guard let elapsedTime = elapsedTime(to: thisDate),
               let hours = elapsedTime.hour,
               let minutes = elapsedTime.minute else {
             return nil
@@ -248,15 +306,13 @@ struct TodaySeances {
     /// - Parameter thisDate: date/heure à laquelle faire le calcul.
     ///                         Si nil alors calcul fait à la date courante
     func remainingTime(
-        inSchool school: SchoolEntity,
-        from thisDate: Date? = nil
+        from thisDate: Date = .now
     ) -> DateComponents? {
-        let date = thisDate ?? .now
-        if let ongoingSeance = seanceOngoing(inSchool: school, at: date) {
+        if let seanceOngoing {
             return Calendar.current.dateComponents(
                 [.hour, .minute, .second],
-                from: date,
-                to: ongoingSeance.interval.end
+                from: thisDate,
+                to: seanceOngoing.interval.end
             )
         } else {
             return nil
@@ -267,10 +323,9 @@ struct TodaySeances {
     /// - Returns: Temps restant en secondes
     /// - Parameter thisDate: Date/heure à laquelle faire le calcul
     func remainingSeconds(
-        inSchool school: SchoolEntity,
-        from thisDate: Date? = nil
+        from thisDate: Date = .now
     ) -> Int? {
-        guard let remainingTime = remainingTime(inSchool: school, from: thisDate),
+        guard let remainingTime = remainingTime(from: thisDate),
               let hours = remainingTime.hour,
               let minutes = remainingTime.minute,
               let seconds = remainingTime.second else {
@@ -283,10 +338,9 @@ struct TodaySeances {
     /// - Returns: Temps restant en minutes
     /// - Parameter thisDate: Date/heure à laquelle faire le calcul
     func remainingMinutes(
-        inSchool school: SchoolEntity,
-        from thisDate: Date? = nil
+        from thisDate: Date = .now
     ) -> Int? {
-        guard let remainingTime = remainingTime(inSchool: school, from: thisDate),
+        guard let remainingTime = remainingTime(from: thisDate),
               let hours = remainingTime.hour,
               let minutes = remainingTime.minute else {
             return nil
@@ -303,12 +357,11 @@ struct TodaySeances {
     ///   - seuilAlert: Seuil d'alerte en minutes.
     ///   - seuilWarning: Seuil de warning en minutes > `seuilAlert`.
     func timerZone(
-        inSchool school: SchoolEntity,
-        for date: Date?,
+        for date: Date,
         seuilAlert: Int,
         seuilWarning: Int
     ) -> TimerZone {
-        guard let remainingMinutes = remainingMinutes(inSchool: school, from: date) else {
+        guard let remainingMinutes = remainingMinutes(from: date) else {
             return .undefined
         }
 
@@ -326,11 +379,10 @@ struct TodaySeances {
 
     /// Position du curseur en % [0; 1]
     func cursorValue(
-        inSchool school: SchoolEntity,
-        for date: Date?
+        for date: Date = .now
     ) -> Double? {
-        if let elapsedMinutes = elapsedMinutes(inSchool: school, to: date)?.double(),
-           let seanceDuration = seanceDuration(inSchool: school, at: date)?.double() {
+        if let elapsedMinutes = elapsedMinutes(to: date)?.double(),
+           let seanceDuration = seanceDuration()?.double() {
             return (elapsedMinutes / (seanceDuration / 60.0))
         } else {
             return nil
