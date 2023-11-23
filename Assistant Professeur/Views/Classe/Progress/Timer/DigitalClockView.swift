@@ -52,7 +52,7 @@ struct DigitalClockView: View {
     }
 
     private var remainingSecondes: String {
-        let seconds = remainingTime.second ?? 0
+        let seconds = max(0, (remainingTime.second ?? 0))
         return "\(seconds < 10 ? "0" : "")\(seconds)"
     }
 

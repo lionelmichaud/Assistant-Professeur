@@ -120,18 +120,6 @@ struct SchoolSeancesList: View {
 extension SchoolSeancesList {
     @ToolbarContentBuilder
     func myToolBarContent() -> some ToolbarContent {
-        // Afficher le PopOver d'information sur le format à utiliser
-        ToolbarItem(placement: .automatic) {
-            Button {
-                popOverIsPresented = true
-            } label: {
-                Image(systemName: "info.bubble")
-            }
-            .popover(isPresented: $popOverIsPresented) {
-                infoView
-            }
-        }
-
         if ongoingSeance {
             // Chronomètre de classe
             ToolbarItem(placement: .primaryAction) {
@@ -159,6 +147,18 @@ extension SchoolSeancesList {
                         }
                     }
                 )
+            }
+        }
+
+        // Afficher le PopOver d'information sur le format à utiliser
+        ToolbarItem(placement: .automatic) {
+            Button {
+                popOverIsPresented = true
+            } label: {
+                Image(systemName: "info.bubble")
+            }
+            .popover(isPresented: $popOverIsPresented) {
+                infoView
             }
         }
     }

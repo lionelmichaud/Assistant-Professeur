@@ -47,6 +47,7 @@ class TodaySeances: ObservableObject {
     let liveActivityTaskIdentifier = "LIVE_COUNTDOWN"
     let backgroundUpdatePeriod: Int = 30 // seconds
 
+    @Published
     private(set) var seanceOngoing: Seance?
 
     /// Séances du jour par établissement
@@ -216,6 +217,7 @@ class TodaySeances: ObservableObject {
     ///     }
     ///
     /// - Important: Cette méthode doit être appelée en second pour que les autres méthode donnent un résulat non `nil`.
+    @MainActor
     func findOngoingSeance(
         inSchool school: SchoolEntity,
         at date: Date = .now
@@ -226,7 +228,8 @@ class TodaySeances: ObservableObject {
         )
     }
 
-    func resetOngoingSeance() {
+    @MainActor
+    func resetOngoingSeance() async {
         seanceOngoing = nil
     }
 
@@ -588,7 +591,7 @@ extension TodaySeances {
         await LiveActivityManager.shared.end(
             withFinalState: finalState
         )
-        self.resetOngoingSeance()
+        await self.resetOngoingSeance()
         #if DEBUG
             print(">> Activité canceled")
         #endif
