@@ -26,8 +26,14 @@ struct ContentView: View {
     @StateObject
     private var cloudKitVM = CloudKitViewModel()
 
+    @EnvironmentObject
+    private var userContext: UserContext
+
     @State
     private var isiCloudAlertPresented = false
+
+    @State
+    private var alertInfo = AlertInfo()
 
     var body: some View {
         TabView(selection: navig.tabSelection()) {
@@ -124,6 +130,35 @@ struct ContentView: View {
                 customLog.log(level: .error, "\(error.errorDescription ?? "Raison inconue.")")
             }
         )
+
+        // Alerte des ToDo du jour
+        .alert(
+            alertInfo.title,
+            isPresented: $alertInfo.isPresented,
+            actions: {},
+            message: { Text(alertInfo.message) }
+        )
+
+        // Synchronous initializing of the View
+        .onAppear {
+            // Set the Style of the TabBar
+            setTabBarStyle()
+        }
+
+        // Asynchronous initializing of the View
+        // Persistence dans SceneStorage de l'état de navigation
+        .task {
+            await persistNavigationData()
+        }
+
+        // vérifier la liste des ToDo du jour et alerter l'utilisateur si besoin
+        .task {
+            await checkTodayToDoList()
+        }
+
+        .task {
+            await checkNotificationAuthorisation()
+        }
 //        .alert(
 //            isPresented: .constant(cloudKitVM.iCloudError != nil),
 //            error: cloudKitVM.iCloudError
@@ -151,27 +186,6 @@ struct ContentView: View {
 //            let message = failureReason + (recoverySuggestion == "" ? "" : "\n\(recoverySuggestion)")
 //            Text(message)
 //        }
-
-        // Synchronous initializing of the View
-        .onAppear {
-            // Set the Style of the TabBar
-            setTabBarStyle()
-        }
-
-        // Asynchronous initializing of the View
-        // Persistence dans SceneStorage de l'état de navigation
-        .task {
-            if let navigationData {
-                // Remplacer l'état de navigation initial par celui récupéré à partir
-                // du décodage de l'état antérieur de navigation stocké dans SceneStorage
-                navig.jsonData = navigationData
-            }
-            // Encoder le nouvel état de navigation (qui vient de changer)
-            // dans navigationData et les faire persister dans SceneStorage
-            for await _ in navig.objectWillChangeSequence {
-                navigationData = navig.jsonData
-            }
-        }
     }
 }
 
@@ -278,6 +292,78 @@ extension ContentView {
 // MARK: - Methods
 
 extension ContentView {
+    /// Persistence dans SceneStorage de l'état de navigation
+    private func persistNavigationData() async {
+        if let navigationData {
+            // Remplacer l'état de navigation initial par celui récupéré à partir
+            // du décodage de l'état antérieur de navigation stocké dans SceneStorage
+            navig.jsonData = navigationData
+        }
+        // Encoder le nouvel état de navigation (qui vient de changer)
+        // dans navigationData et les faire persister dans SceneStorage
+        for await _ in navig.objectWillChangeSequence {
+            navigationData = navig.jsonData
+        }
+    }
+
+    /// Vérifier la cohérence entre les autorisations et les préférences
+    private func checkNotificationAuthorisation() async {
+        guard let prefs = userContext.prefs,
+              prefs.notificationsEnabled else {
+            return
+        }
+        // Les notifications quotidiennes sont autorisée
+
+        // Requests authorization to allow local and remote notifications for your app.
+        let UNCenter = UNUserNotificationCenter.current()
+        let settings = await UNCenter.notificationSettings()
+
+        // Vérifier que l'utilisateur a autorisé les notifications
+        if (settings.authorizationStatus != .authorized) &&
+            (settings.authorizationStatus != .provisional) {
+            // Les notifications ne sont pas autorisées
+            // => les demander
+            let authorized = try? await UNCenter.requestAuthorization(
+                options: [.alert, .badge, .sound]
+            )
+        }
+    }
+
+    /// Vérifier la liste des ToDo du jour et alerter l'utilisateur si besoin
+    private func checkTodayToDoList() async {
+        guard let prefs = userContext.prefs,
+              prefs.launchAlertEnabled else {
+            return
+        }
+
+        // Utiliser un calendrier par défaut car accès impossible à UserPref (non initialisé)
+        let schoolYear = SchoolYearPref()
+
+        let (nbOfDocsToBePrinted, nbOfDocsToBeLoaded) =
+            await ReminderTaskManager.shared.actionsToDo(schoolYear: schoolYear)
+
+        guard nbOfDocsToBePrinted > 0 || nbOfDocsToBeLoaded > 0 else {
+            return
+        }
+
+        // Alerter sur les ToDo
+        let printStr = if nbOfDocsToBePrinted == 0 {
+            ""
+        } else {
+            " • \(nbOfDocsToBePrinted) documents à imprimer.\n"
+        }
+        let loadStr = if nbOfDocsToBeLoaded == 0 {
+            ""
+        } else {
+            " • \(nbOfDocsToBeLoaded) documents à partager sur l'ENT.\n"
+        }
+
+        alertInfo.title = ReminderTaskManager.shared.alertTitle
+        alertInfo.message = "\n" + printStr + loadStr +
+            "\nConsultez-en la liste dans chaque établissement."
+        alertInfo.isPresented = true
+    }
+
     /// Set the Style of the TabBar
     private func setTabBarStyle() {
         let appearance = UITabBarAppearance()

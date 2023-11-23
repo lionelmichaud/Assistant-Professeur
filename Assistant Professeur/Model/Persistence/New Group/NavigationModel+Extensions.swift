@@ -20,7 +20,7 @@ extension NavigationModel {
         case eleve = "Mes Elèves"
         case warning = "Avertissements"
         case program = "Mes Progressions"
-        case competence = "Les Compétences"
+        case competence = "Compétences"
 
         var imageName: String {
             switch self {

@@ -6,7 +6,13 @@
 //
 
 import AppFoundation
+import os
 import SwiftUI
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "MainScene"
+)
 
 /// Defines the main scene of the App
 struct MainScene: Scene {
@@ -22,6 +28,12 @@ struct MainScene: Scene {
     @Environment(\.scenePhase)
     private var scenePhase
 
+    @AppStorage("warningRemainingMinutes")
+    private var warningRemainingMinutes: Int = 10
+
+    @AppStorage("alertRemainingMinutes")
+    private var alertRemainingMinutes: Int = 5
+
     // MARK: - Properties
 
     var body: some Scene {
@@ -32,22 +44,23 @@ struct MainScene: Scene {
                 .environmentObject(authentication)
                 .environmentObject(userContext)
         }
+
+        // Gérer les changements de phases
         .onChange(of: scenePhase, manageScenePhaseChanges)
-        // Afficher le daily ToDo reminder
+
+        // Afficher les éventuels daily ToDo reminder
         .backgroundTask(.appRefresh(ReminderTaskManager.shared.backgroundTaskIdentifier)) {
             // This is where you respond the scheduled background task
             // you can also reschedule the background task HERE if you want to keep calling from time to time,
             // just send BGTaskScheduler.shared.submit(request) here again and again.
-            if await userContext.prefs.notificationsEnabled {
-                // Notifier le reminder
-                await ReminderTaskManager.shared.notifyReminder(
-                    schoolYear: userContext.prefs.viewSchoolYearPref
-                )
-                // use an async function here
-                // renouveler le réveil le lendemain
-                await ReminderTaskManager.shared.schedulNextReminderNotification()
-            }
+            await dailyToDoAppRefresh()
         }
+
+        // Mettre à jour la Live Activity
+        .backgroundTask(.appRefresh(TodaySeances.shared.liveActivityTaskIdentifier)) {
+            await liveActivityAppRefresh()
+        }
+
         #if os(macOS)
         .commands {
             SidebarCommands()
@@ -62,6 +75,62 @@ struct MainScene: Scene {
 
     // MARK: - Methods
 
+    /// This is where you respond the scheduled background task
+    /// you can also reschedule the background task HERE if you want to keep calling from time to time,
+    /// just send BGTaskScheduler.shared.submit(request) here again and again.
+    func dailyToDoAppRefresh() async {
+        await withTaskCancellationHandler(
+            operation: {
+                customLog.log(
+                    level: .info,
+                    "Background refresh task started for identifer: \(ReminderTaskManager.shared.backgroundTaskIdentifier)"
+                )
+
+                // Renouveler le réveil le lendemain
+                await ReminderTaskManager.shared.schedulNextReminderNotification()
+
+                // Notifier le reminder
+                // Utiliser un calendrier par défaut car accès impossible à UserPref (non initialisé)
+                await ReminderTaskManager.shared.notifyReminder(
+                    schoolYear: SchoolYearPref()
+                )
+            },
+            onCancel: {
+                customLog.log(
+                    level: .debug,
+                    "Background refresh canceled by System for identifer: \(ReminderTaskManager.shared.backgroundTaskIdentifier)"
+                )
+            }
+        )
+    }
+
+    func liveActivityAppRefresh() async {
+        await withTaskCancellationHandler(
+            operation: {
+                customLog.log(
+                    level: .info,
+                    "Background refresh task started for identifer: \(TodaySeances.shared.liveActivityTaskIdentifier)"
+                )
+
+                // Mettre à jour la Live Activity
+                await TodaySeances.shared.updateLiveActivity(
+                    alertRemainingMinutes: alertRemainingMinutes,
+                    warningRemainingMinutes: warningRemainingMinutes
+                )
+
+                // Renouveler le réveil
+                TodaySeances.shared.schedulNextUpdate()
+            },
+            onCancel: {
+                customLog.log(
+                    level: .debug,
+                    "Background refresh canceled by System for identifer: \(TodaySeances.shared.liveActivityTaskIdentifier)"
+                )
+            }
+        )
+    }
+
+    /// Gérer les changements de phases
     private func manageScenePhaseChanges() {
         // The final step is optional, but recommended:
         // when your app moves to the background,
@@ -74,14 +143,14 @@ struct MainScene: Scene {
 
             case .inactive:
                 // An app or custom scene in this phase contains no scene instances in the ScenePhase.active phase.
+                print(">> Scene Phase = .inactive")
                 break
-                //                    print("Scene Phase = .inactive")
 
             case .background:
                 // Expect an app that enters the background phase to terminate.
-
+                print(">> Scene Phase = .background")
                 try? coreDataManager.saveIfContextHasChanged()
-                //                    print("Scene Phase = .background")
+                TodaySeances.shared.schedulNextUpdate()
 
             @unknown default:
                 fatalError()

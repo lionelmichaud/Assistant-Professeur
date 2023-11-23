@@ -63,7 +63,7 @@ struct ProgressClockView: View {
 
             // le curseur
             Circle()
-                .trim(from: 0, to: trimValue)
+                .trim(from: trimValue, to: 1.0)
                 .stroke(style: StrokeStyle(
                     lineWidth: lineWidth,
                     lineCap: .round,

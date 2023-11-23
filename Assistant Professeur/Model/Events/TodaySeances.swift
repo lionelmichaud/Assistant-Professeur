@@ -1,74 +1,266 @@
 //
-//  TimerVM.swift
+//  self.swift
 //  Assistant Professeur
 //
 //  Created by Lionel MICHAUD on 21/05/2023.
 //
 
+import ActivityKit
+import AppFoundation
+import BackgroundTasks
 import EventKit
 import Foundation
+import os
 
-struct TodaySeances {
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Fundation-Package",
+    category: "TodaySeances"
+)
+
+/// Mémorise les séances de la journée pour un ou plusieurs établissements.
+///
+///     @State
+///     private var viewModel = TodaySeances.shared
+///
+///     // (1) Charge les séances de la journée pour tous les établissements
+///     await viewModel.loadTodaySeances()
+///
+///     // (2) Recherche et mémoriser la séance en cours à la `date` dans  `school`
+///     viewModel.findOngoingSeance(inSchool: school, at: .now)
+///
+///     // (3) Utiliser la séance en cours (s'il en existe une)
+///     if let viewModel.seanceOngoing {
+///         print("Une séance est en cours")
+///     }
+///
+///     // (4) Remettre à zéro la séance en cours
+///     viewModel.resetOngoingSeance()
+///
+class TodaySeances: ObservableObject {
+    // MARK: - Singleton
+
+    static var shared = TodaySeances()
+
     // MARK: - Properties
 
-    /// Séances du jour
-    private var seances = [EKEvent]()
+    /// Identifiant de la BackgroundTask
+    let liveActivityTaskIdentifier = "LIVE_COUNTDOWN"
+    let backgroundUpdatePeriod: Int = 30 // seconds
+
+    private(set) var seanceOngoing: Seance?
+
+    /// Séances du jour par établissement
+    private(set) var seances = [SchoolEntity: Seances]()
+
+    /// Calendriers des établissements
+    private(set) var calendars = [SchoolEntity: EKCalendar]()
+
+    /// Date de dernière mise à jour
+    private(set) var lastUpdateDate: Date?
 
     // MARK: - Initializers
 
-    init() {}
+    private init() {}
 
-    // MARK: - Properties
+    // MARK: - Chargement des sénaces
 
-    /// Charge toutes les séance de la journée pour les`discipline`, `classe`
-    /// ou pour l'ensemble des disciplines et classe de`schoolName`.
-    /// - Parameters:
-    ///   - discipline: La discipline recherchée ou `nil`.
-    ///   - classe: La classe recherchée ou `nil`.
-    ///  - Note: Si `discipline` ou `classe` = `nil` alors toutes les séances sont chargées
-    ///           quelque soient la classe ou la discipline.
-    mutating func loadTodaySeances(
-        forDiscipline discipline: Discipline? = nil,
-        forClasse classe: String? = nil,
-        inCalendar calendar: EKCalendar,
-        inEventStore eventStore: EKEventStore
-    ) {
-        if let classe, let discipline {
-            self.seances = EventManager.getTodaySeances(
-                forDiscipline: discipline,
-                forClasse: classe,
+    /// Charge toutes les séances de la journée pour tous les étabissements,
+    /// toutes les disciplines et toutes les classes.
+    ///
+    ///     @State
+    ///     private var self = TodaySeances.shared
+    ///
+    ///     await self.loadTodaySeances()
+    ///
+    ///     self.findOngoingSeance(inSchool: school, at: .now)
+    ///
+    /// - Important: Cette méthode doit être appelée en premier pour que les autres méthode donnent un résulat non `nil`.
+    ///
+    func loadTodaySeances() async {
+        // Demander les droits d'accès aux calendriers de l'utilisateur
+        let eventStore = EKEventStore()
+        var schools = [SchoolEntity]()
+        await SchoolEntity.context.perform {
+            schools = SchoolEntity.all()
+        }
+
+        for school in schools {
+            var calendar: EKCalendar?
+            var alert = AlertInfo()
+            var calendarName = ""
+            await SchoolEntity.context.perform {
+                calendarName = school.viewName
+            }
+            (
+                calendar,
+                alert.isPresented,
+                alert.title,
+                alert.message
+            ) = await EventManager.shared
+                .requestCalendarAccess(
+                    eventStore: eventStore,
+                    calendarName: calendarName
+                )
+            guard let calendar else {
+                continue
+            }
+            calendars[school] = calendar
+
+            var classeNames = [String]()
+            // Récupérer la liste des noms des classe de cet établissement
+            await SchoolEntity.context.perform {
+                classeNames = school.allClasses.map(\.displayString)
+            }
+            seances[school] = EventManager.getTodayEvents(
                 inCalendar: calendar,
                 inEventStore: eventStore
-            )
-        } else {
-            self.seances = EventManager.getTodaySeances(
-                inCalendar: calendar,
-                inEventStore: eventStore
-            )
+            ).compactMap { event in
+                // Le nom de l'événement contient-il le nom d'une des classes
+                // de l'établissement ?
+                for classeName in classeNames where event.title.contains(classeName) {
+                    return Seance(
+                        name: classeName,
+                        schoolName: calendarName,
+                        interval: DateInterval(
+                            start: event.startDate,
+                            end: event.endDate
+                        )
+                    )
+                }
+                return nil
+            }
+        }
+
+        if !calendars.isEmpty {
+            lastUpdateDate = .now
         }
     }
 
-    /// Retourne la séance en cours à la `date`.
-    /// - Returns: `nil` si aucune séance n'est en cours
-    func seanceOngoing(at date: Date) -> DateInterval? {
-        if let seance = seances.first(where: { seance in
-            (seance.startDate ... seance.endDate).contains(date)
-        }) {
-            return DateInterval(
-                start: seance.startDate,
-                end: seance.endDate
+    /// Charge toutes les séances de la journée pour tous les étabissements,
+    /// toutes les disciplines et toutes les classes.
+    ///
+    ///     @State
+    ///     private var self = TodaySeances.shared
+    ///
+    ///     await self.loadTodaySeances()
+    ///
+    ///     self.findOngoingSeance(inSchool: school, at: .now)
+    ///
+    /// - Important: Cette méthode doit être appelée en premier pour que les autres méthode donnent un résulat non `nil`.
+    ///
+    func loadTodaySeances(
+        forSchool school: SchoolEntity
+    ) async {
+        // Demander les droits d'accès aux calendriers de l'utilisateur
+        let eventStore = EKEventStore()
+        var calendar: EKCalendar?
+        var alert = AlertInfo()
+        var calendarName = ""
+        var classeNames = [String]()
+        await SchoolEntity.context.perform {
+            calendarName = school.viewName
+            classeNames = school.allClasses.map(\.displayString)
+        }
+        (
+            calendar,
+            alert.isPresented,
+            alert.title,
+            alert.message
+        ) = await EventManager.shared
+            .requestCalendarAccess(
+                eventStore: eventStore,
+                calendarName: calendarName
             )
-        } else {
+        guard let calendar else {
+            return
+        }
+        calendars[school] = calendar
+
+        seances[school] = EventManager.getTodayEvents(
+            inCalendar: calendar,
+            inEventStore: eventStore
+        ).compactMap { event in
+            // Le nom de l'événement contient-il le nom d'une des classes
+            // de l'établissement ?
+            for classeName in classeNames where event.title.contains(classeName) {
+                return Seance(
+                    name: classeName,
+                    schoolName: calendarName,
+                    interval: DateInterval(
+                        start: event.startDate,
+                        end: event.endDate
+                    )
+                )
+            }
             return nil
         }
+
+        if !calendars.isEmpty {
+            lastUpdateDate = .now
+        }
     }
 
+    // MARK: - Mémorisation de la séance en cours
+
+    /// Recherche et mémoriser la séance en cours à la `date` dans  `school`.
+    ///
+    ///     @State
+    ///     private var self = TodaySeances.shared
+    ///
+    ///     await self.loadTodaySeances()
+    ///
+    ///     self.findOngoingSeance(inSchool: school, at: .now)
+    ///
+    ///     if let self.seanceOngoing {
+    ///         print("Une séance est en cours")
+    ///     }
+    ///
+    /// - Important: Cette méthode doit être appelée en second pour que les autres méthode donnent un résulat non `nil`.
+    func findOngoingSeance(
+        inSchool school: SchoolEntity,
+        at date: Date = .now
+    ) {
+        seanceOngoing = seanceOngoing(
+            inSchool: school,
+            at: date
+        )
+    }
+
+    func resetOngoingSeance() {
+        seanceOngoing = nil
+    }
+
+    // MARK: - Recherche de la séance en cours
+
+    /// Retourne la séance en cours à la `date` dans  `school`.
+    /// - Returns: `nil` si aucune séance n'est en cours.
+    ///
+    ///     @State
+    ///     private var self = TodaySeances.shared
+    ///
+    ///     await self.loadTodaySeances()
+    ///
+    ///     if let seance = self.seanceOngoing(inSchool: school, at: .now)
+    ///         print("Une séance est en cours")
+    ///     }
+    ///
+    /// - Warning: Cette méthode ne modifie pas l'état interne de l'objet. Les autres méthode donneront un résulat `nil`
+    ///
+    func seanceOngoing(
+        inSchool school: SchoolEntity,
+        at date: Date = .now
+    ) -> Seance? {
+        seances[school]?.first { $0.interval.contains(date) }
+    }
+}
+
+// MARK: - Info sur la séance en cours
+
+extension TodaySeances {
     /// Durée de la séance en cours à la `date` exprimée en **secondes**.
     /// - Returns: `nil` si aucune séance n'est en cours
-    func seanceDuration(at thisDate: Date? = nil) -> Int? {
-        let date = thisDate ?? .now
-        if let ongoingSeance = seanceOngoing(at: date) {
-            let seconds = ongoingSeance.duration
+    func seanceDuration() -> Int? {
+        if let seconds = seanceOngoing?.interval.duration {
             if seconds > 0 {
                 return Int(seconds)
             } else {
@@ -83,13 +275,14 @@ struct TodaySeances {
     /// - Returns: Temps écoulé en secondes
     /// - Parameter thisDate: date/heure à laquelle faire le calcul.
     ///                         Si nil alors calcul fait à la date courante
-    func elapsedTime(to thisDate: Date? = nil) -> DateComponents? {
-        let date = thisDate ?? .now
-        if let ongoingSeance = seanceOngoing(at: date) {
+    func elapsedTime(
+        to thisDate: Date = .now
+    ) -> DateComponents? {
+        if let seanceOngoing {
             return Calendar.current.dateComponents(
                 [.hour, .minute, .second],
-                from: ongoingSeance.start,
-                to: date
+                from: seanceOngoing.interval.start,
+                to: thisDate
             )
         } else {
             return nil
@@ -99,7 +292,9 @@ struct TodaySeances {
     /// Temps écoulé en **secondes** depuis le début de la séance.
     /// - Returns: Temps écoulé en secondes
     /// - Parameter thisDate: date/heure à laquelle faire le calcul
-    func elapsedSeconds(to thisDate: Date? = nil) -> Int? {
+    func elapsedSeconds(
+        to thisDate: Date = .now
+    ) -> Int? {
         guard let elapsedTime = elapsedTime(to: thisDate),
               let hours = elapsedTime.hour,
               let minutes = elapsedTime.minute,
@@ -112,7 +307,9 @@ struct TodaySeances {
     /// Temps écoulé en **minutes** depuis le début de la séance.
     /// - Returns: Temps écoulé en minutes entières
     /// - Parameter thisDate: date/heure à laquelle faire le calcul
-    func elapsedMinutes(to thisDate: Date? = nil) -> Int? {
+    func elapsedMinutes(
+        to thisDate: Date = .now
+    ) -> Int? {
         guard let elapsedTime = elapsedTime(to: thisDate),
               let hours = elapsedTime.hour,
               let minutes = elapsedTime.minute else {
@@ -125,13 +322,14 @@ struct TodaySeances {
     /// - Returns: Temps écoulé en secondes
     /// - Parameter thisDate: date/heure à laquelle faire le calcul.
     ///                         Si nil alors calcul fait à la date courante
-    func remainingTime(from thisDate: Date? = nil) -> DateComponents? {
-        let date = thisDate ?? .now
-        if let ongoingSeance = seanceOngoing(at: date) {
+    func remainingTime(
+        from thisDate: Date = .now
+    ) -> DateComponents? {
+        if let seanceOngoing {
             return Calendar.current.dateComponents(
                 [.hour, .minute, .second],
-                from: date,
-                to: ongoingSeance.end
+                from: thisDate,
+                to: seanceOngoing.interval.end
             )
         } else {
             return nil
@@ -141,7 +339,9 @@ struct TodaySeances {
     /// Temps restant en **secondes** avant la fin de la séance.
     /// - Returns: Temps restant en secondes
     /// - Parameter thisDate: Date/heure à laquelle faire le calcul
-    func remainingSeconds(from thisDate: Date? = nil) -> Int? {
+    func remainingSeconds(
+        from thisDate: Date = .now
+    ) -> Int? {
         guard let remainingTime = remainingTime(from: thisDate),
               let hours = remainingTime.hour,
               let minutes = remainingTime.minute,
@@ -154,7 +354,9 @@ struct TodaySeances {
     /// Temps restant en **minutes** avant la fin de la séance.
     /// - Returns: Temps restant en minutes
     /// - Parameter thisDate: Date/heure à laquelle faire le calcul
-    func remainingMinutes(from thisDate: Date? = nil) -> Int? {
+    func remainingMinutes(
+        from thisDate: Date = .now
+    ) -> Int? {
         guard let remainingTime = remainingTime(from: thisDate),
               let hours = remainingTime.hour,
               let minutes = remainingTime.minute else {
@@ -172,7 +374,7 @@ struct TodaySeances {
     ///   - seuilAlert: Seuil d'alerte en minutes.
     ///   - seuilWarning: Seuil de warning en minutes > `seuilAlert`.
     func timerZone(
-        for date: Date?,
+        for date: Date,
         seuilAlert: Int,
         seuilWarning: Int
     ) -> TimerZone {
@@ -193,12 +395,202 @@ struct TodaySeances {
     }
 
     /// Position du curseur en % [0; 1]
-    func cursorValue(for date: Date?) -> Double? {
+    func cursorValue(
+        for date: Date = .now
+    ) -> Double? {
         if let elapsedMinutes = elapsedMinutes(to: date)?.double(),
-           let seanceDuration = seanceDuration(at: date)?.double() {
+           let seanceDuration = seanceDuration()?.double() {
             return (elapsedMinutes / (seanceDuration / 60.0))
         } else {
             return nil
         }
+    }
+}
+
+// MARK: - Gestion d'une Live Activity associée à la séance en cours
+
+extension TodaySeances {
+    func schedulNextUpdate() {
+        guard let seanceOngoing = seanceOngoing else {
+            return
+        }
+
+        guard let elapsedSeconds = TodaySeances.shared.elapsedSeconds(),
+              TimeInterval(elapsedSeconds) <= seanceOngoing.interval.duration else {
+//            (TimeInterval(elapsedSeconds) + TimeInterval(backgroundUpdatePeriod)) <= seanceOngoing.interval.duration else {
+            return
+        }
+
+        let request = BGAppRefreshTaskRequest(identifier: liveActivityTaskIdentifier)
+        request.earliestBeginDate = nextWakeupDate()
+        do {
+            /* sending the request to the Scheduler so it can be kept by the system.
+             This is the last step of the process and now we are good when
+             the background task scheduler calls our app on the scheduled date
+             */
+            try BGTaskScheduler.shared.submit(request)
+            customLog.log(
+                level: .info,
+                "LiveActivity background Task Scheduled"
+            )
+
+        } catch {
+            customLog.log(
+                level: .error,
+                "LiveActivity scheduling Error: \(error.localizedDescription)"
+            )
+        }
+    }
+
+    private func nextWakeupDate() -> Date {
+        backgroundUpdatePeriod.seconds.fromNow!
+    }
+
+    /// Démarrer la Live Activity
+    func startLiveActivity(
+        alertRemainingMinutes: Int,
+        warningRemainingMinutes: Int
+    ) async {
+        guard let seanceOngoing = seanceOngoing else {
+            return
+        }
+
+        let initialState =
+            LiveCoursProgressState(
+                elapsedMinutes: self.elapsedMinutes(to: .now),
+                remainingMinutes: self.remainingMinutes(from: .now),
+                cursorValue: self.cursorValue(for: .now),
+                timerZone: self.timerZone(
+                    for: .now,
+                    seuilAlert: alertRemainingMinutes,
+                    seuilWarning: warningRemainingMinutes
+                )
+            )
+        let attribute =
+            LiveCoursProgressFixedAttributes(
+                seance: seanceOngoing.interval,
+                schoolName: seanceOngoing.schoolName ?? "",
+                classeName: seanceOngoing.name ?? "",
+                warningRemainingMinutes: warningRemainingMinutes,
+                alertRemainingMinutes: alertRemainingMinutes
+            )
+        await LiveActivityManager.shared.start(
+            withInitialState: initialState,
+            fixedAttributes: attribute
+        )
+        #if DEBUG
+            print(">> Activité lancée")
+        #endif
+    }
+
+    /// Mettre à jour périodiquement la Live Activity
+    func periodicUpdateOfLiveActivity(
+        alertRemainingMinutes: Int,
+        warningRemainingMinutes: Int
+    ) async {
+        guard let seanceOngoing = seanceOngoing else {
+            return
+        }
+
+        var keepOnLooping = true
+        repeat {
+            await updateLiveActivity(
+                alertRemainingMinutes: alertRemainingMinutes,
+                warningRemainingMinutes: warningRemainingMinutes
+            )
+
+            do {
+                try await Task.sleep(for: .seconds(backgroundUpdatePeriod)) // exception thrown when cancelled by SwiftUI when this view disappears.
+            } catch is CancellationError {
+                // If the task is cancelled before the time ends, this function throws CancellationError
+                break
+            } catch {
+                customLog.log(
+                    level: .error,
+                    "LiveActivity Task.sleep Error: \(error.localizedDescription)"
+                )
+                break
+            }
+
+            if let elapsedSeconds = self.elapsedSeconds() {
+//                keepOnLooping = (TimeInterval(elapsedSeconds) + updatePeriod) < seanceOngoing.interval.duration
+                keepOnLooping = TimeInterval(elapsedSeconds) < seanceOngoing.interval.duration
+            } else {
+                keepOnLooping = false
+            }
+        } while !Task.isCancelled && keepOnLooping
+    }
+
+    /// Mise à jour unitaire de la Live Activity
+    func updateLiveActivity(
+        alertRemainingMinutes: Int,
+        warningRemainingMinutes: Int
+    ) async {
+        var alertConfig: AlertConfiguration?
+        // code you want to repeat
+        // Update périodique de la Live Activity
+        // TODO: - Gérer le déclenchement des message d'alerte dans Live Activity
+        if false {
+            alertConfig = AlertConfiguration(
+                title: "Title",
+                body: "Body",
+                sound: .default
+            )
+        }
+        let newState =
+            LiveCoursProgressState(
+                elapsedMinutes: self.elapsedMinutes(to: .now),
+                remainingMinutes: self.remainingMinutes(from: .now),
+                cursorValue: self.cursorValue(for: .now),
+                timerZone: self.timerZone(
+                    for: .now,
+                    seuilAlert: alertRemainingMinutes,
+                    seuilWarning: warningRemainingMinutes
+                )
+            )
+        await LiveActivityManager.shared.update(
+            withNewState: newState,
+            alertConfiguration: alertConfig
+        )
+    }
+
+    /// Arrêter la Live Activity
+    func endLiveActivity(
+        alertRemainingMinutes: Int,
+        warningRemainingMinutes: Int
+    ) async {
+        guard let seanceOngoing = seanceOngoing else {
+            return
+        }
+
+        var finalState: LiveCoursProgressState
+        if Task.isCancelled {
+            // Tâche annulée par la disparition de la View avant la fin du cours
+            finalState = LiveCoursProgressState(
+                elapsedMinutes: self.elapsedMinutes(to: .now),
+                remainingMinutes: self.remainingMinutes(from: .now),
+                cursorValue: self.cursorValue(for: .now),
+                timerZone: self.timerZone(
+                    for: .now,
+                    seuilAlert: alertRemainingMinutes,
+                    seuilWarning: warningRemainingMinutes
+                )
+            )
+        } else {
+            // Fin du cours avant la disparition de la View
+            finalState = LiveCoursProgressState(
+                elapsedMinutes: 1,
+                remainingMinutes: 0,
+                cursorValue: 1.0,
+                timerZone: .alert
+            )
+        }
+        await LiveActivityManager.shared.end(
+            withFinalState: finalState
+        )
+        self.resetOngoingSeance()
+        #if DEBUG
+            print(">> Activité canceled")
+        #endif
     }
 }

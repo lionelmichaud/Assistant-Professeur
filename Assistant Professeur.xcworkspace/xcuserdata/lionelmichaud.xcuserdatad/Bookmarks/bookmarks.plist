@@ -6,7 +6,172 @@
 	<array>
 		<dict>
 			<key>children</key>
-			<array/>
+			<array>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingLineNumber</key>
+							<string>320</string>
+							<key>StartingLineNumber</key>
+							<string>320</string>
+							<key>Timestamp</key>
+							<string>722467314.1762511</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>Assistant Professeur/Assistant Professeur/Views/Classe/Progress/Timer/SeanceTimerView.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string></string>
+						<key>leading</key>
+						<string>    }
+}
+</string>
+						<key>trailing</key>
+						<string></string>
+					</dict>
+					<key>title</key>
+					<string>ToDo: Mise à jour avancement</string>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
+							<key>EndingLineNumber</key>
+							<string>223</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
+							<key>StartingLineNumber</key>
+							<string>223</string>
+							<key>Timestamp</key>
+							<string>722134927.817082</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>Assistant Professeur/Assistant Professeur/Views/Classe/ClasseDetail.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string></string>
+						<key>leading</key>
+						<string>    }
+}
+</string>
+						<key>trailing</key>
+						<string></string>
+					</dict>
+					<key>title</key>
+					<string>TODO: - Ne pas afficher si aucune séance en cours</string>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
+							<key>EndingLineNumber</key>
+							<string>280</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
+							<key>StartingLineNumber</key>
+							<string>280</string>
+							<key>Timestamp</key>
+							<string>722130090.25446</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>Assistant Professeur/Assistant Professeur/Views/Classe/Progress/ProgressUpdate/ClassActivityProgressEditView.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string></string>
+						<key>leading</key>
+						<string>    }
+}
+</string>
+						<key>trailing</key>
+						<string></string>
+					</dict>
+					<key>title</key>
+					<string>TODO: - Ne pas afficher si aucune séance en cours</string>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+				<dict>
+					<key>destination</key>
+					<dict>
+						<key>location-parameters</key>
+						<dict>
+							<key>EndingLineNumber</key>
+							<string>350</string>
+							<key>StartingLineNumber</key>
+							<string>350</string>
+							<key>Timestamp</key>
+							<string>722134824.435035</string>
+						</dict>
+						<key>rebasable-url</key>
+						<dict>
+							<key>base</key>
+							<string>workspace</string>
+							<key>payload</key>
+							<dict>
+								<key>relative-path</key>
+								<string>Assistant Professeur/Assistant Professeur/Views/New Group1/SharedViews/SeanceRow.swift</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>text-context</key>
+					<dict>
+						<key>focused</key>
+						<string></string>
+						<key>leading</key>
+						<string>//    }
+// }
+</string>
+						<key>trailing</key>
+						<string></string>
+					</dict>
+					<key>title</key>
+					<string>TODO: - Ne pas afficher si aucune séance en cours</string>
+					<key>type</key>
+					<string>bookmark</string>
+				</dict>
+			</array>
 			<key>title</key>
 			<string>Widget</string>
 			<key>type</key>
@@ -220,16 +385,12 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
-							<key>EndingColumnNumber</key>
-							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>491</string>
-							<key>StartingColumnNumber</key>
-							<string>0</string>
+							<string>320</string>
 							<key>StartingLineNumber</key>
-							<string>491</string>
+							<string>320</string>
 							<key>Timestamp</key>
-							<string>721936680.129952</string>
+							<string>722467314.175927</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -381,6 +542,52 @@
 			</dict>
 			<key>type</key>
 			<string>batch-find-query</string>
+		</dict>
+		<dict>
+			<key>destination</key>
+			<dict>
+				<key>location-parameters</key>
+				<dict>
+					<key>EndingColumnNumber</key>
+					<string>56</string>
+					<key>EndingLineNumber</key>
+					<string>161</string>
+					<key>StartingColumnNumber</key>
+					<string>17</string>
+					<key>StartingLineNumber</key>
+					<string>161</string>
+					<key>Timestamp</key>
+					<string>722193377.948228</string>
+				</dict>
+				<key>rebasable-url</key>
+				<dict>
+					<key>base</key>
+					<string>workspace</string>
+					<key>payload</key>
+					<dict>
+						<key>relative-path</key>
+						<string>Assistant Professeur/Assistant Professeur/Model/Persistence/Authentication/Authentication.swift</string>
+					</dict>
+				</dict>
+			</dict>
+			<key>text-context</key>
+			<dict>
+				<key>focused</key>
+				<string>setUserCredentialsFromAppleIDCredential</string>
+				<key>leading</key>
+				<string>    /// Créer les Credential à partir des Credential Apple.
+    /// Mettre à jour les context utilisateur avec le Owner.
+    private func </string>
+				<key>trailing</key>
+				<string>(
+        userIdentifier: String,
+        fullName: PersonNameComponents,
+</string>
+			</dict>
+			<key>title</key>
+			<string>Login</string>
+			<key>type</key>
+			<string>bookmark</string>
 		</dict>
 	</array>
 </dict>

@@ -16,13 +16,9 @@ import SwiftUI
 
 /// Présentation d'un chronomètre de séance
 struct SeanceTimerView: View {
-    var discipline: Discipline
-    var classeName: String
-    var schoolName: String
+    let school: SchoolEntity
     var lineWidth: Double = 40.0
     var preview: Bool = false
-
-    // MARK: - Internal Types
 
     // MARK: - Type Properties
 
@@ -43,48 +39,30 @@ struct SeanceTimerView: View {
 
     // MARK: - Private Properties
 
-    @SceneStorage("warningRemainingMinutes")
+    @AppStorage("warningRemainingMinutes")
     private var warningRemainingMinutes: Int = 10
 
-    @SceneStorage("alertRemainingMinutes")
+    @AppStorage("alertRemainingMinutes")
     private var alertRemainingMinutes: Int = 5
 
-    @SceneStorage("warningAlarmIsActivited")
+    @AppStorage("warningAlarmIsActivited")
     private var warningAlarmIsActivited = true
 
-    @SceneStorage("alertAlarmIsActivated")
+    @AppStorage("alertAlarmIsActivated")
     private var alertAlarmIsActivated = true
 
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    #if canImport(ActivityKit)
-        /// The App live activity manager
-        @StateObject
-        private var activityManager = LiveActivityManager.shared
-    #endif
+    @StateObject
+    private var timerVM = TodaySeances.shared
 
-    @State
-    private var timerVM: TodaySeances = .init()
-
-    private let updatePeriod = TimeInterval(15) // seconds
+    private let viewUpdatePeriod = TimeInterval(10) // seconds
 
     private let notificationFeedback = UINotificationFeedbackGenerator()
 
     @State
-    private var eventStore = EKEventStore()
-
-    @State
-    private var calendar: EKCalendar?
-
-    @State
-    private var alertTitle = ""
-
-    @State
-    private var alertMessage = ""
-
-    @State
-    private var alertIsPresented = false
+    private var alert = AlertInfo()
 
     // MARK: - Computed Properties
 
@@ -105,156 +83,34 @@ struct SeanceTimerView: View {
     }
 
     var body: some View {
-        TimelineView(.periodic(from: .now, by: updatePeriod)) { timeLine in
-            if let seance = timerVM.seanceOngoing(at: timeLine.date) {
+        TimelineView(.periodic(from: .now, by: viewUpdatePeriod)) { timeLine in
+            // Vue rafraichie périodiquement
+            if timerVM.seanceOngoing != nil {
                 ViewThatFits(in: .horizontal) {
-                    regularView(date: timeLine.date, seance: seance)
-                    compactView(date: timeLine.date, seance: seance)
+                    regularView(date: timeLine.date)
+                    compactView(date: timeLine.date)
                 }
 
             } else {
+                // TODO: - Proposer d'aller à la vue "mise à jour de l'avancement de la classe"
                 Text("Pas de séance en cours")
                     .font(.title)
             }
         }
         .alert(
-            alertTitle,
-            isPresented: $alertIsPresented,
+            alert.title,
+            isPresented: $alert.isPresented,
             actions: {},
-            message: { Text(alertMessage) }
+            message: { Text(alert.message) }
         )
-        .task(id: classeName + schoolName) {
-            // Demander les droits d'accès aux calendriers de l'utilisateur
-            (
-                calendar,
-                alertIsPresented,
-                alertTitle,
-                alertMessage
-            ) = await EventManager.shared
-                .requestCalendarAccess(
-                    eventStore: eventStore,
-                    calendarName: schoolName
-                )
-            guard let calendar else {
-                return
-            }
 
-            // Charge les heures de cours du jour
-            timerVM.loadTodaySeances(
-                forDiscipline: discipline,
-                forClasse: classeName,
-                inCalendar: calendar,
-                inEventStore: eventStore
-            )
+        // MARK: - Live Activty
+
+        .onAppear(perform: initializeVM)
+        .task {
             #if canImport(ActivityKit)
-
-                // MARK: - Live Activty
-
-                guard let seance = timerVM.seanceOngoing(at: .now) else {
-                    return
-                }
-
-                let seanceDuration = Int(seance.duration) // seconds
-
-                /// Démarrer la Live Activity
-                let initialState =
-                    LiveCoursProgressState(
-                        elapsedMinutes: timerVM.elapsedMinutes(to: .now),
-                        remainingMinutes: timerVM.remainingMinutes(from: .now),
-                        cursorValue: timerVM.cursorValue(for: .now),
-                        timerZone: timerVM.timerZone(
-                            for: .now,
-                            seuilAlert: alertRemainingMinutes,
-                            seuilWarning: warningRemainingMinutes
-                        )
-                    )
-                let attribute =
-                    LiveCoursProgressFixedAttributes(
-                        seance: seance,
-                        schoolName: schoolName,
-                        classeName: classeName,
-                        warningRemainingMinutes: warningRemainingMinutes,
-                        alertRemainingMinutes: alertRemainingMinutes
-                    )
-                await activityManager.start(
-                    withInitialState: initialState,
-                    fixedAttributes: attribute
-                )
-                #if DEBUG
-                    print(">> Activité lancée")
-                #endif
-
-                var keepOnLooping = true
-                repeat {
-                    var alertConfig: AlertConfiguration?
-                    // code you want to repeat
-                    // Update périodique de la Live Activity
-                    // TODO: - Gérer le déclenchement des message d'alerte daans Live Activity
-                    if false {
-                        alertConfig = AlertConfiguration(
-                            title: "Title",
-                            body: "Body",
-                            sound: .default
-                        )
-                    }
-                    let newState =
-                        LiveCoursProgressState(
-                            elapsedMinutes: timerVM.elapsedMinutes(to: .now),
-                            remainingMinutes: timerVM.remainingMinutes(from: .now),
-                            cursorValue: timerVM.cursorValue(for: .now),
-                            timerZone: timerVM.timerZone(
-                                for: .now,
-                                seuilAlert: alertRemainingMinutes,
-                                seuilWarning: warningRemainingMinutes
-                            )
-                        )
-                    await activityManager.updateActivity(
-                        withNewState: newState,
-                        alertConfiguration: alertConfig
-                    )
-
-                    #if DEBUG
-                        print(">> Activité updated")
-                    #endif
-
-                    try? await Task.sleep(for: .seconds(updatePeriod)) // exception thrown when cancelled by SwiftUI when this view disappears.
-
-                    if let elapsedSeconds = timerVM.elapsedSeconds() {
-                        keepOnLooping = elapsedSeconds < seanceDuration - Int(updatePeriod)
-                    } else {
-                        keepOnLooping = false
-                    }
-                } while !Task.isCancelled && keepOnLooping
-
-                /// Arrêter la Live Activity
-                var finalState: LiveCoursProgressState
-                if Task.isCancelled {
-                    // Tâche annulée par la disparition de la View avant la fin du cours
-                    finalState = LiveCoursProgressState(
-                        elapsedMinutes: timerVM.elapsedMinutes(to: .now),
-                        remainingMinutes: timerVM.remainingMinutes(from: .now),
-                        cursorValue: timerVM.cursorValue(for: .now),
-                        timerZone: timerVM.timerZone(
-                            for: .now,
-                            seuilAlert: alertRemainingMinutes,
-                            seuilWarning: warningRemainingMinutes
-                        )
-                    )
-                } else {
-                    // Fin du cours avant la disparition de la View
-                    finalState = LiveCoursProgressState(
-                        elapsedMinutes: 1,
-                        remainingMinutes: 0,
-                        cursorValue: 1.0,
-                        timerZone: .alert
-                    )
-                }
-                await activityManager.endActivity(
-                    withFinalState: finalState
-                )
-                #if DEBUG
-                    print(">> Activité canceled")
-                #endif
+                // Gérer la Live Activity
+                await manageLiveActivity()
             #endif
         }
     }
@@ -263,52 +119,29 @@ struct SeanceTimerView: View {
 // MARK: - Methods
 
 extension SeanceTimerView {
-    /// Temps écoulé depuis le début de la séance
-    private func elapsedTime(for date: Date) -> DateComponents? {
-        #if DEBUG
-            if preview {
-                return DateComponents(minute: date.minutes, second: date.seconds)
-            }
-        #endif
-
-        return timerVM.elapsedTime(to: date)
+    private func initializeVM() {
+        // Recherche et mémoriser la séance en cours à la `date` dans  `school`
+        timerVM.findOngoingSeance(inSchool: school, at: .now)
     }
 
-    /// Temps restant avant le début de la séance
-    private func remainingTime(for date: Date) -> DateComponents? {
-        #if DEBUG
-            if preview {
-                return DateComponents(minute: 60 - date.minutes, second: 60 - date.seconds)
-            }
-        #endif
+    /// Gérer la Live Activity
+    private func manageLiveActivity() async {
+        // Démarrer la Live Activity
+        await timerVM.startLiveActivity(
+            alertRemainingMinutes: alertRemainingMinutes,
+            warningRemainingMinutes: warningRemainingMinutes
+        )
 
-        return timerVM.remainingTime(from: date)
-    }
+        // Mettre à jour la Live Activity
+        await timerVM.periodicUpdateOfLiveActivity(
+            alertRemainingMinutes: alertRemainingMinutes,
+            warningRemainingMinutes: warningRemainingMinutes
+        )
 
-    /// Position du curseur en % [0; 1]
-    private func cursorValue(for date: Date) -> Double? {
-        #if DEBUG
-            if preview {
-                return date.minutes.double() / 60.0
-            }
-        #endif
-
-        return timerVM.cursorValue(for: date)
-    }
-
-    private func timerZone(
-        for date: Date
-    ) -> TimerZone {
-        #if DEBUG
-            if preview {
-                return TimerZone.allCases.randomElement()!
-            }
-        #endif
-
-        return timerVM.timerZone(
-            for: date,
-            seuilAlert: alertRemainingMinutes,
-            seuilWarning: warningRemainingMinutes
+        // Arrêter la Live Activity
+        await timerVM.endLiveActivity(
+            alertRemainingMinutes: alertRemainingMinutes,
+            warningRemainingMinutes: warningRemainingMinutes
         )
     }
 
@@ -359,18 +192,22 @@ extension SeanceTimerView {
 
 extension SeanceTimerView {
     @ViewBuilder
-    private func compactView(date: Date, seance: DateInterval) -> some View {
+    private func compactView(date: Date) -> some View {
         VStack {
             VStack {
                 // heure de fin de la séance de travail
-                Text("Fin de la séance à **\(seance.end.formatted(date: .omitted, time: .shortened))**")
+                Text("Fin de la séance à **\(timerVM.seanceOngoing!.interval.end.formatted(date: .omitted, time: .shortened))**")
                     .font(.title)
 
                 ProgressClockView(
-                    trimValue: cursorValue(for: date)!,
-                    color: timerZone(for: date).color,
-                    elapsedTime: elapsedTime(for: date),
-                    remainingTime: remainingTime(for: date),
+                    trimValue: timerVM.cursorValue( for: date)!,
+                    color: timerVM.timerZone(
+                        for: date,
+                        seuilAlert: alertRemainingMinutes,
+                        seuilWarning: warningRemainingMinutes
+                    ).color,
+                    elapsedTime: timerVM.elapsedTime(to: date),
+                    remainingTime: timerVM.remainingTime(from: date),
                     warningNotif: $warningAlarmIsActivited,
                     alertNotif: $alertAlarmIsActivated
                 )
@@ -390,18 +227,22 @@ extension SeanceTimerView {
     }
 
     @ViewBuilder
-    private func regularView(date: Date, seance: DateInterval) -> some View {
+    private func regularView(date: Date) -> some View {
         HStack {
             VStack {
                 // heure de fin de la séance de travail
-                Text("Fin de la séance à **\(seance.end.formatted(date: .omitted, time: .shortened))**")
+                Text("Fin de la séance à **\(timerVM.seanceOngoing!.interval.end.formatted(date: .omitted, time: .shortened))**")
                     .font(.title)
 
                 ProgressClockView(
-                    trimValue: cursorValue(for: date)!,
-                    color: timerZone(for: date).color,
-                    elapsedTime: elapsedTime(for: date),
-                    remainingTime: remainingTime(for: date),
+                    trimValue: timerVM.cursorValue( for: date)!,
+                    color: timerVM.timerZone(
+                        for: date,
+                        seuilAlert: alertRemainingMinutes,
+                        seuilWarning: warningRemainingMinutes
+                    ).color,
+                    elapsedTime: timerVM.elapsedTime(to: date),
+                    remainingTime: timerVM.remainingTime(from: date),
                     warningNotif: $warningAlarmIsActivited,
                     alertNotif: $alertAlarmIsActivated
                 )
@@ -468,22 +309,10 @@ struct SeanceTimerView_Previews: PreviewProvider {
         let classe = ClasseEntity.all().first!
         return Group {
             SeanceTimerView(
-                discipline: classe.disciplineEnum,
-                classeName: classe.displayString,
-                schoolName: classe.school!.viewName,
+                school: classe.school!,
                 lineWidth: 40,
                 preview: true
             )
-            .previewDevice("iPad mini (6th generation)")
-
-            SeanceTimerView(
-                discipline: classe.disciplineEnum,
-                classeName: classe.displayString,
-                schoolName: classe.school!.viewName,
-                lineWidth: 40,
-                preview: true
-            )
-            .previewDevice("iPhone 13")
         }
         .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
         .environment(\.managedObjectContext, CoreDataManager.shared.context)

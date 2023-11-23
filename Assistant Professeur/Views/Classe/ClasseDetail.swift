@@ -18,6 +18,9 @@ struct ClasseDetail: View {
     private var managedObjectContext
 
     @EnvironmentObject
+    private var navigationModel: NavigationModel
+
+    @EnvironmentObject
     private var userContext: UserContext
 
     @State
@@ -108,18 +111,26 @@ extension ClasseDetail {
         ToolbarItem(placement: .primaryAction) {
             ControlGroup {
                 // Chronomètre de classe
-                if let schoolName = classe.school?.viewName {
+                if let school = classe.school {
                     Button {
                         isShowingClasseTimer.toggle()
                     } label: {
                         Label("Chrono.", systemImage: "stopwatch")
                     }
-                    .fullScreenCover(isPresented: $isShowingClasseTimer) {
+                    .fullScreenCover(
+                        isPresented: $isShowingClasseTimer,
+                        onDismiss: {
+                            if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
+                               let classe = SchoolEntity.school(withName: seance.schoolName!)?.classe(withAcronym: seance.name!) {
+                                Task {
+                                    await navigationModel.navigateToProgressOf(thisClasse: classe)
+                                }
+                            }
+                        }
+                    ) {
                         NavigationStack {
                             ClasseTimerModal(
-                                discipline: classe.disciplineEnum,
-                                classeName: classe.displayString,
-                                schoolName: schoolName
+                                school: school
                             )
                         }
                     }

@@ -155,6 +155,8 @@ struct EventManager { // swiftlint:disable:this type_body_length
         )
     }
 
+    // MARK: - Dates d'examens
+
     static func getBrevet(
         inCalendar calendar: EKCalendar,
         inEventStore eventStore: EKEventStore,
@@ -187,6 +189,8 @@ struct EventManager { // swiftlint:disable:this type_body_length
         ).first
     }
 
+    // MARK: - Dates de conseils de classe
+
     /// Retourne la liste de tous les événements du clalendrier `calendar`
     /// survenant dans la `period` et dont le titre contient **"Conseil - `classe`"**.
     /// - Parameters:
@@ -215,35 +219,7 @@ struct EventManager { // swiftlint:disable:this type_body_length
         )
     }
 
-    /// Retourne la liste de tous les événements du clalendrier `calName`
-    /// survenant dans la `period` et dont le titre contient "`discipline` - `classe`".
-    /// - Parameters:
-    ///   - discipline: La discipline recherchée.
-    ///   - classe: Acronym de la classe recherchée.
-    ///   - calendar: Calendrier où rechercher l'événement.
-    ///   - period: Intervalle de temps de recherche.
-    /// - Important: Convention de nommage:
-    ///  * Nom du calendrier = **Nom de l'établissement**
-    ///  * Titre de l'événement = **"discipline - \(classe)"**
-    ///  * où **discipline** = "TECHNO"
-    ///  * et **classe** =" 5E2S"
-    static func getAllSeances(
-        forDiscipline discipline: Discipline,
-        forClasseName classe: String,
-        inCalendar calendar: EKCalendar,
-        inEventStore eventStore: EKEventStore,
-        during period: DateInterval
-    ) -> [EKEvent] {
-        let eventName = "\(discipline.acronym) - \(classe)"
-
-        return getEvents(
-            withTitleIncluding: eventName,
-            inCalendar: calendar,
-            inEventStore: eventStore,
-            startDate: period.start,
-            endDate: period.end
-        )
-    }
+    // MARK: - Séances du jour
 
     /// Retourne la liste de tous les événements du clalendrier `calName`
     /// de la journée en cours et dont  le titre contient "`discipline` - `classe`".
@@ -276,11 +252,11 @@ struct EventManager { // swiftlint:disable:this type_body_length
         )
     }
 
-    /// Retourne la liste de tous les événements du clalendrier `calName`
+    /// Retourne la liste de tous les événements du clalendrier `calendar`
     /// de la journée en cours.
     /// - Parameters:
     ///   - calendar: Calendrier où rechercher l'événement.
-    static func getTodaySeances(
+    static func getTodayEvents(
         inCalendar calendar: EKCalendar,
         inEventStore eventStore: EKEventStore
     ) -> [EKEvent] {
@@ -295,6 +271,40 @@ struct EventManager { // swiftlint:disable:this type_body_length
             endDate: endOfDay
         )
     }
+
+    // MARK: - Séances sur une période de temps
+
+    /// Retourne la liste de tous les événements du clalendrier `calName`
+    /// survenant dans la `period` et dont le titre contient "`discipline` - `classe`".
+    /// - Parameters:
+    ///   - discipline: La discipline recherchée.
+    ///   - classe: Acronym de la classe recherchée.
+    ///   - calendar: Calendrier où rechercher l'événement.
+    ///   - period: Intervalle de temps de recherche.
+    /// - Important: Convention de nommage:
+    ///  * Nom du calendrier = **Nom de l'établissement**
+    ///  * Titre de l'événement = **"discipline - \(classe)"**
+    ///  * où **discipline** = "TECHNO"
+    ///  * et **classe** =" 5E2S"
+    static func getAllSeances(
+        forDiscipline discipline: Discipline,
+        forClasseName classe: String,
+        inCalendar calendar: EKCalendar,
+        inEventStore eventStore: EKEventStore,
+        during period: DateInterval
+    ) -> [EKEvent] {
+        let eventName = "\(discipline.acronym) - \(classe)"
+
+        return getEvents(
+            withTitleIncluding: eventName,
+            inCalendar: calendar,
+            inEventStore: eventStore,
+            startDate: period.start,
+            endDate: period.end
+        )
+    }
+
+    // MARK: - Tous les événements sur une période de temps
 
     /// Retourne la liste de tous les événements entre `startDate` et `endDate`
     /// du clalendrier `calName` dont le titre contient `title`.
@@ -323,6 +333,8 @@ struct EventManager { // swiftlint:disable:this type_body_length
             return existingEvents
         }
     }
+
+    // MARK: - Sauvegarde événements dans Calendrier
 
     /// Updates or saves an event to the Calendar app in the calendar named `calName`
     ///

@@ -19,9 +19,6 @@ struct SchoolDetail: View {
     @ObservedObject
     var school: SchoolEntity
 
-    @EnvironmentObject
-    private var navigationModel: NavigationModel
-
     // MARK: - Computed Properties
 
     /// Vue du nom de l'établissement
@@ -51,7 +48,7 @@ struct SchoolDetail: View {
                 NavigationLink(value: SchoolNavigationRoute.infos(school.id)) {
                     Label("Informations", systemImage: "info.circle")
                         .fontWeight(.bold)
-                    }
+                }
                 // Liste des cours précédents terminés
                 NavigationLink(value: SchoolNavigationRoute.previousSeances(school.id)) {
                     Label("Cours précédents", systemImage: "clock.arrow.circlepath")
@@ -88,13 +85,6 @@ struct SchoolDetail: View {
         .navigationTitle("Etablissement")
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        // .onChange(of: schoolVM, perform: save)
-        // .onDisappear(perform: save)
-    }
-
-    private func save() {
-        try? SchoolEntity.saveIfContextHasChanged()
-        // school.refresh()
     }
 }
 

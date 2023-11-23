@@ -14,6 +14,12 @@ struct SchoolSeancesList: View {
     let showOnlyOngoingSeance: Bool
     let showToDoListButton: Bool
 
+//    @State
+//    private var seanceIsOngoing: Bool
+
+    @EnvironmentObject
+    private var navig: NavigationModel
+
     @EnvironmentObject
     private var userContext: UserContext
 
@@ -22,6 +28,29 @@ struct SchoolSeancesList: View {
 
     @State
     private var alert = AlertInfo()
+
+    @State
+    private var ongoingSeance = false
+
+    @State
+    private var popOverIsPresented = false
+
+    @State
+    private var isShowingClasseTimer = false
+
+    // MARK: - Subviews
+
+    private var infoView: some View {
+        VStack {
+            Text("Pour apparaître ici les noms des événements")
+            Text("du calendrier de cet établissement doivent contenir:")
+            Text("\"**Acronyme Discipline - Classe**\"\n")
+            Text("Exemple: pour la discipline de \(Discipline.technologie.pickerString),")
+            Text("et la classe de 4ième 2: \"**\(Discipline.technologie.pickerString) - 4E2)**\"")
+        }
+        .foregroundColor(.primary)
+        .padding()
+    }
 
     var body: some View {
         // Afficher la ToDo liste
@@ -62,6 +91,8 @@ struct SchoolSeancesList: View {
             actions: {},
             message: { Text(alert.message) }
         )
+        .toolbar(content: myToolBarContent)
+
         // Chargement des données recherchées depuis l'application Calendrier
         .task(id: school.id!.uuidString + dateInterval.description) {
             let alert = await viewModel.updateItems(
@@ -70,7 +101,65 @@ struct SchoolSeancesList: View {
                 showOnlyOngoingSeance: showOnlyOngoingSeance,
                 schoolYear: userContext.prefs.viewSchoolYearPref
             )
+
+            if showOnlyOngoingSeance,
+               case let SeancesLoadingStatus.finished(seancesInInterval) = viewModel.seancesLoadingState,
+               seancesInInterval.seances.isNotEmpty {
+                self.ongoingSeance = true
+            } else {
+                self.ongoingSeance = false
+            }
+
             self.alert = alert
+        }
+    }
+}
+
+// MARK: SchoolSidebarView Toolbar Content
+
+extension SchoolSeancesList {
+    @ToolbarContentBuilder
+    func myToolBarContent() -> some ToolbarContent {
+        // Afficher le PopOver d'information sur le format à utiliser
+        ToolbarItem(placement: .automatic) {
+            Button {
+                popOverIsPresented = true
+            } label: {
+                Image(systemName: "info.bubble")
+            }
+            .popover(isPresented: $popOverIsPresented) {
+                infoView
+            }
+        }
+
+        if ongoingSeance {
+            // Chronomètre de classe
+            ToolbarItem(placement: .primaryAction) {
+                Button {
+                    isShowingClasseTimer.toggle()
+                } label: {
+                    Label("Chrono.", systemImage: "stopwatch")
+                }
+                .fullScreenCover(
+                    isPresented: $isShowingClasseTimer,
+                    onDismiss: {
+                        Task {
+                            // Aller à la vue de mise à jour de l'vanacement de la progression de la classe
+                            if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
+                               let classe = SchoolEntity.school(withName: seance.schoolName!)?.classe(withAcronym: seance.name!) {
+                                await navig.navigateToProgressOf(thisClasse: classe)
+                            }
+                        }
+                    },
+                    content: {
+                        NavigationStack {
+                            ClasseTimerModal(
+                                school: school
+                            )
+                        }
+                    }
+                )
+            }
         }
     }
 }

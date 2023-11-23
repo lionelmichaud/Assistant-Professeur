@@ -47,15 +47,21 @@ struct ClassActivityProgressEditView: View {
             isExpanded = progress.status == .inProgress
         }
         #if os(macOS)
-        .sheet(isPresented: $isShowingActivityTimer) {
-            if let discipline = progress.classe?.disciplineEnum,
-               let classeName = progress.classe?.displayString,
-               let schoolName = progress.classe!.school?.viewName {
+        .sheet(
+            isPresented: $isShowingActivityTimer,
+            onDismiss: {
+                if let classe = progress.classe {
+                    Task {
+                        await navig.navigateToProgressOf(thisClasse: classe)
+                    }
+                }
+            }
+        ) {
+            if let classe = progress.classe,
+               let school = progress.classe?.school {
                 NavigationStack {
                     ClasseTimerModal(
-                        discipline: discipline,
-                        classeName: classeName,
-                        schoolName: schoolName
+                        school: school
                     )
                 }
             } else {
@@ -63,15 +69,21 @@ struct ClassActivityProgressEditView: View {
             }
         }
         #else
-                .fullScreenCover(isPresented: $isShowingActivityTimer) {
-                    if let discipline = progress.classe?.disciplineEnum,
-                       let classeName = progress.classe?.displayString,
-                       let schoolName = progress.classe!.school?.viewName {
+                .fullScreenCover(
+                    isPresented: $isShowingActivityTimer,
+                    onDismiss: {
+                        if let classe = progress.classe {
+                            Task {
+                                await navig.navigateToProgressOf(thisClasse: classe)
+                            }
+                        }
+                    }
+                ) {
+                    if let classe = progress.classe,
+                       let school = progress.classe?.school {
                         NavigationStack {
                             ClasseTimerModal(
-                                discipline: discipline,
-                                classeName: classeName,
-                                schoolName: schoolName
+                                school: school
                             )
                         }
                     } else {
@@ -198,11 +210,13 @@ extension ClassActivityProgressEditView {
     private var buttons: some View {
         HStack {
             Spacer()
-            if let activity = progress.activity,
-               activity.isTP || activity.isProject {
-                stopWatchButton(for: activity)
-                Spacer()
+            Button {
+                isShowingActivityTimer.toggle()
+            } label: {
+                Label("Chrono.", systemImage: "stopwatch")
             }
+            .buttonStyle(.bordered)
+            Spacer()
             jumpToActivityButton
             Spacer()
         }
@@ -228,21 +242,6 @@ extension ClassActivityProgressEditView {
         }
         .buttonStyle(.bordered)
     }
-
-    @ViewBuilder
-    private func stopWatchButton(for _: ActivityEntity) -> some View {
-        if progress.classe?.disciplineEnum != nil &&
-            progress.classe?.displayString != nil &&
-            progress.classe!.school?.viewName != nil {
-            Button {
-                isShowingActivityTimer.toggle()
-            } label: {
-                Label("Chrono.", systemImage: "stopwatch")
-            }
-            .buttonStyle(.bordered)
-        }
-    }
-
 }
 
 struct ClassActivityProgressView_Previews: PreviewProvider {

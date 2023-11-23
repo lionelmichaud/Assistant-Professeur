@@ -99,39 +99,12 @@ struct LiveCoursProgressLiveActivity: Widget {
         }
         DynamicIslandExpandedRegion(.bottom) {
             // Minuterie
-            if let remainingMinutes = dynamicAttributes.remainingMinutes,
-               let elapsedMinutes = dynamicAttributes.elapsedMinutes {
-                if remainingMinutes <= 0 {
-                    // Cours terminé
-                    Text("Terminé \(Image(systemName: "clock.badge.exclamationmark.fill")) ")
-                        .padding(4)
-                        .background(ContainerRelativeShape().fill(Color.red))
-                        .padding(.vertical)
-
-                } else {
-                    // Cours en cours
-                    HStack(alignment: .center) {
-                        ProgressBar(
-                            value: Double(elapsedMinutes) / Double(elapsedMinutes + remainingMinutes),
-                            foreGroundColor: isStale ? .gray : dynamicAttributes.timerZone.color
-                        )
-                        Text("\(remainingMinutes) min")
-                            .foregroundStyle(
-                                isStale ? .gray : dynamicAttributes.timerZone.color
-                            )
-                            .bold()
-                            .contentTransition(.numericText(value: Double(remainingMinutes)))
-                    }
-                    .frame(height: 10)
-                    .padding(.horizontal)
-                }
-            } else {
-                // Cours terminé
-                Text("Terminé \(Image(systemName: "clock.badge.exclamationmark.fill")) ")
-                    .padding(4)
-                    .background(ContainerRelativeShape().fill(Color.red))
-                    .padding(.bottom)
-            }
+            LiveActivityProgressBar(
+                remainingMinutes: dynamicAttributes.remainingMinutes,
+                elapsedMinutes: dynamicAttributes.elapsedMinutes,
+                isStale: isStale,
+                progressColor: dynamicAttributes.timerZone.color
+            )
         }
     }
 

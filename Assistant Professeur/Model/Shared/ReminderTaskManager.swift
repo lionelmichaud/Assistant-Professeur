@@ -18,22 +18,24 @@ private let customLog = Logger(
 )
 
 actor ReminderTaskManager {
+    static let shared = ReminderTaskManager()
+
+    // MARK: - Properties
+
+    /// Identifiant de la BackgroundTask
     let backgroundTaskIdentifier = "REMINDER"
+
+    /// Heure d'exécution de la BackgroundTask
     let reminderWakeupTime = DateComponents(hour: 8, minute: 0)
 
-    static let shared = ReminderTaskManager()
+    /// Titre des Notification / Alerte
+    let alertTitle = "Vous avez des actions à réaliser..."
 
     // MARK: - Initializer
 
     private init() {}
 
     // MARK: - Methods
-
-    func nextWakeupDate() -> Date {
-        let today = Calendar.current.startOfDay(for: .now)
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
-        return Calendar.current.date(byAdding: reminderWakeupTime, to: tomorrow)!
-    }
 
     /// Register the next notification request for daily ToDo reminders
     func schedulNextReminderNotification() async {
@@ -45,17 +47,17 @@ actor ReminderTaskManager {
             return
         }
 
-        if settings.alertSetting == .enabled {
-            // Schedule an alert-only notification.
-            #if DEBUG
-                print("settings.alertSetting == .enabled")
-            #endif
-        } else {
-            // Schedule a notification with a badge and sound.
-            #if DEBUG
-                print("settings.alertSetting == .disabled")
-            #endif
-        }
+//        if settings.alertSetting == .enabled {
+//            // Schedule an alert-only notification.
+//            #if DEBUG
+//                print("settings.alertSetting == .enabled")
+//            #endif
+//        } else {
+//            // Schedule a notification with a badge and sound.
+//            #if DEBUG
+//                print("settings.alertSetting == .disabled")
+//            #endif
+//        }
 
         // creating the background task request,
         // this is where you will specify the identifier that
@@ -88,32 +90,25 @@ actor ReminderTaskManager {
         }
     }
 
-    /// Envoyer une notification à l'utilisateur s'il faut lui rappeler qu'il a des actions
-    /// à réaliser en prévision de la journée à venir.
-    func notifyReminder(
-        schoolYear: SchoolYearPref
-    ) async {
-        let (nbOfDocsToBePrinted, nbOfDocsToBeLoaded) = await actionsToDo(schoolYear: schoolYear)
-        if nbOfDocsToBePrinted > 0 || nbOfDocsToBeLoaded > 0 {
-            await sendNotification(
-                nbOfDocsToBePrinted: nbOfDocsToBePrinted,
-                nbOfDocsToBeLoaded: nbOfDocsToBeLoaded
-            )
-        }
-    }
-
     /// Vérifier si l''utilisateur a des actions à réaliser poru la journée en cours.
     /// - Parameter schoolYear: Calendrier scolaire
     /// - Returns: nombre de documents à imprimer et nombre de documents à charger sur l'ENT
-    private func actionsToDo(
+    func actionsToDo(
         schoolYear: SchoolYearPref
     ) async -> (nbOfDocsToBePrinted: Int, nbOfDocsToBeLoaded: Int) {
-        let schools = SchoolEntity.allSortedByLevelName()
+        var schools = [SchoolEntity]()
+        await SchoolEntity.context.perform {
+            schools = SchoolEntity.allSortedByLevelName()
+        }
         var seances = Seances()
         for school in schools {
+            var schoolName = ""
+            await SchoolEntity.context.perform {
+                schoolName = school.viewName
+            }
             let schoolSeances = await todaySeances(
                 forSchool: school,
-                schoolName: school.viewName,
+                schoolName: schoolName,
                 schoolYear: schoolYear
             )
             seances += schoolSeances
@@ -139,6 +134,19 @@ actor ReminderTaskManager {
         )
     }
 
+    private func nextWakeupDate() -> Date {
+        let today = Calendar.current.startOfDay(for: .now)
+        let tomorrow = Calendar.current.date(
+            byAdding: .day,
+            value: 1,
+            to: today
+        )!
+        return Calendar.current.date(
+            byAdding: reminderWakeupTime,
+            to: tomorrow
+        )!
+    }
+
     private func todaySeances(
         forSchool school: SchoolEntity,
         schoolName: String,
@@ -162,7 +170,7 @@ actor ReminderTaskManager {
             return []
         }
 
-        let period: PeriodEnum = .today
+        let period: PeriodEnum = .restOfTheDay
 
         // Recherche: `SeancesInDateInterval` contenant la liste des Séances à venir
         // pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
@@ -178,14 +186,28 @@ actor ReminderTaskManager {
         return schoolSeances.seances
     }
 
-    /// Envoyer une notification à l'utilisateur
+    /// Envoyer une notification immédiate à l'utilisateur s'il faut lui rappeler qu'il a des actions
+    /// à réaliser en prévision de la journée à venir.
+    func notifyReminder(
+        schoolYear: SchoolYearPref
+    ) async {
+        let (nbOfDocsToBePrinted, nbOfDocsToBeLoaded) = await actionsToDo(schoolYear: schoolYear)
+        if nbOfDocsToBePrinted > 0 || nbOfDocsToBeLoaded > 0 {
+            sendNotification(
+                nbOfDocsToBePrinted: nbOfDocsToBePrinted,
+                nbOfDocsToBeLoaded: nbOfDocsToBeLoaded
+            )
+        }
+    }
+
+    /// Envoyer une notification immédiate à l'utilisateur
     private func sendNotification(
         nbOfDocsToBePrinted: Int,
         nbOfDocsToBeLoaded: Int
-    ) async {
-        // Définir le contenu de la notification
+    ) {
+        // Définir le contenu affichable de la notification
         let content = UNMutableNotificationContent()
-        content.title = "Vous avez des actions à réaliser en préparation de cette journée."
+        content.title = self.alertTitle
 
         let printStr = if nbOfDocsToBePrinted == 0 {
             ""
@@ -196,26 +218,33 @@ actor ReminderTaskManager {
         let loadStr = if nbOfDocsToBeLoaded == 0 {
             ""
         } else {
-            " - \(nbOfDocsToBeLoaded) documents à partager sur l'ENT.n"
+            " - \(nbOfDocsToBeLoaded) documents à partager sur l'ENT.\n"
         }
 
         content.subtitle = printStr + loadStr + "Consultez-en la liste!"
         content.sound = .default
+        content.badge = (nbOfDocsToBePrinted + nbOfDocsToBeLoaded) as NSNumber
+
+        // Définir le déclecncheur
+        let trigger = UNTimeIntervalNotificationTrigger(
+            timeInterval: 5,
+            repeats: false
+        )
+
+        // Définir la requête
+        let request = UNNotificationRequest(
+            identifier: backgroundTaskIdentifier + "_NOTIFICATION",
+            content: content,
+            trigger: trigger
+        )
 
         // Enregistrer la notification
         do {
-            try await UNUserNotificationCenter.current()
-                .add(
-                    UNNotificationRequest(
-                        identifier: backgroundTaskIdentifier,
-                        content: content,
-                        trigger: nil
-                    )
-                )
-        } catch {
+            UNUserNotificationCenter.current()
+                .add(request )
             customLog.log(
-                level: .error,
-                "ToDo daily notification failed with Error \(error.localizedDescription)"
+                level: .info,
+                "ToDo daily notification added to Notifcation Center."
             )
         }
     }

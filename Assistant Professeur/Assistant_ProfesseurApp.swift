@@ -53,7 +53,10 @@ struct Assistant_ProfesseurApp: App {
 //            }
         #endif
 
-        // URLCache.shared.memoryCapacity = 100_000_000 // ~100 MB memory space
+        Task {
+            // Charger les séances du jour
+            await TodaySeances.shared.loadTodaySeances()
+        }
 
         // vérifier l'existance du dossier `Documents`
         guard let documentsFolder = Folder.documents else {

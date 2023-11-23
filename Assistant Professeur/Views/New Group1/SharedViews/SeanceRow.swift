@@ -75,7 +75,7 @@ struct SeanceRow: View {
                 // Chronomètre de classe
                 if showWatchButton,
                    let classe,
-                   let schoolName = seance.schoolName {
+                   let school = classe.school {
                     Button {
                         isShowingClasseTimer.toggle()
                     } label: {
@@ -83,12 +83,20 @@ struct SeanceRow: View {
                             .labelStyle(.iconOnly)
                     }
                     .padding(.leading)
-                    .fullScreenCover(isPresented: $isShowingClasseTimer) {
+                    .fullScreenCover(
+                        isPresented: $isShowingClasseTimer,
+                        onDismiss: {
+                            if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
+                               let classe = SchoolEntity.school(withName: seance.schoolName!)?.classe(withAcronym: seance.name!) {
+                                Task {
+                                    await navig.navigateToProgressOf(thisClasse: classe)
+                                }
+                            }
+                        }
+                    ) {
                         NavigationStack {
                             ClasseTimerModal(
-                                discipline: classe.disciplineEnum,
-                                classeName: classe.displayString,
-                                schoolName: schoolName
+                                school: school
                             )
                         }
                     }

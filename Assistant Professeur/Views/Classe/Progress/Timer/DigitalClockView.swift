@@ -12,36 +12,60 @@ struct DigitalClockView: View {
     var remainingTime: DateComponents
     var color: Color = .primary
 
-    private var elapsedMinutes: Int {
-        elapsedTime.minute ?? 0
+    private var elapsedHour: String {
+        let hours = elapsedTime.hour ?? 0
+        if hours == 0 {
+            return ""
+        } else {
+            return "\(hours):"
+        }
     }
 
-    private var elapsedSecondes: Int {
-        elapsedTime.second ?? 0
+    // Temps échu
+    private var elapsedMinutes: String {
+        let minutes = elapsedTime.minute ?? 0
+        return "\(minutes < 10 ? "0" : "")\(minutes):"
     }
 
-    private var counter: String {
-        "\(elapsedMinutes):\(elapsedSecondes < 10 ? "0" : "")\(elapsedSecondes)"
+    private var elapsedSecondes: String {
+        let seconds = elapsedTime.second ?? 0
+        return "\(seconds < 10 ? "0" : "")\(seconds)"
     }
 
-    private var remainingMinutes: Int {
-        remainingTime.minute ?? 0
+    private var elapsedCounter: String {
+        elapsedHour + elapsedMinutes + elapsedSecondes
     }
 
-    private var remainingSecondes: Int {
-        remainingTime.second ?? 0
+    // Temps restant
+    private var remainingHours: String {
+        let hours = remainingTime.hour ?? 0
+        if hours == 0 {
+            return ""
+        } else {
+            return "\(hours):"
+        }
     }
 
-    private var countDown: String {
-        "\(remainingMinutes):\(remainingSecondes < 10 ? "0" : "")\(remainingSecondes)"
+    private var remainingMinutes: String {
+        let minutes = remainingTime.minute ?? 0
+        return "\(minutes < 10 ? "0" : "")\(minutes):"
+    }
+
+    private var remainingSecondes: String {
+        let seconds = remainingTime.second ?? 0
+        return "\(seconds < 10 ? "0" : "")\(seconds)"
+    }
+
+    private var remainingCounter: String {
+        remainingHours + remainingMinutes + remainingSecondes
     }
 
     var body: some View {
         VStack(alignment: .trailing) {
-            Text(counter)
+            Text(elapsedCounter)
                 .font(.system(size: 60, design: .monospaced))
                 .fontWeight(.black)
-            Text(countDown)
+            Text(remainingCounter)
                 .font(.system(size: 60, design: .monospaced))
                 .fontWeight(.black)
                 .foregroundColor(color)
