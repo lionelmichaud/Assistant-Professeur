@@ -28,10 +28,10 @@ struct MainScene: Scene {
     @Environment(\.scenePhase)
     private var scenePhase
 
-    @SceneStorage("warningRemainingMinutes")
+    @AppStorage("warningRemainingMinutes")
     private var warningRemainingMinutes: Int = 10
 
-    @SceneStorage("alertRemainingMinutes")
+    @AppStorage("alertRemainingMinutes")
     private var alertRemainingMinutes: Int = 5
 
     // MARK: - Properties
@@ -143,12 +143,12 @@ struct MainScene: Scene {
 
             case .inactive:
                 // An app or custom scene in this phase contains no scene instances in the ScenePhase.active phase.
+                print(">> Scene Phase = .inactive")
                 break
-                //                    print("Scene Phase = .inactive")
 
             case .background:
                 // Expect an app that enters the background phase to terminate.
-                print("Scene Phase = .background")
+                print(">> Scene Phase = .background")
                 try? coreDataManager.saveIfContextHasChanged()
                 TodaySeances.shared.schedulNextUpdate()
 

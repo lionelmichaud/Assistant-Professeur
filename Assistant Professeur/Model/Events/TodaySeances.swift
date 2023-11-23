@@ -7,9 +7,9 @@
 
 import ActivityKit
 import AppFoundation
+import BackgroundTasks
 import EventKit
 import Foundation
-import BackgroundTasks
 import os
 
 private let customLog = Logger(
@@ -45,7 +45,7 @@ struct TodaySeances {
 
     /// Identifiant de la BackgroundTask
     let liveActivityTaskIdentifier = "LIVE_COUNTDOWN"
-    let backgroundUpdatePeriod: Int = 60 // seconds
+    let backgroundUpdatePeriod: Int = 30 // seconds
 
     private(set) var seanceOngoing: Seance?
 
@@ -252,9 +252,11 @@ struct TodaySeances {
     ) -> Seance? {
         seances[school]?.first { $0.interval.contains(date) }
     }
+}
 
-    // MARK: - Info sur la séance en cours
+// MARK: - Info sur la séance en cours
 
+extension TodaySeances {
     /// Durée de la séance en cours à la `date` exprimée en **secondes**.
     /// - Returns: `nil` si aucune séance n'est en cours
     func seanceDuration() -> Int? {
@@ -403,16 +405,19 @@ struct TodaySeances {
             return nil
         }
     }
+}
 
-    // MARK: - gestion d'une Live Activity associée à la séance en cours
+// MARK: - Gestion d'une Live Activity associée à la séance en cours
 
+extension TodaySeances {
     func schedulNextUpdate() {
         guard let seanceOngoing = seanceOngoing else {
             return
         }
 
         guard let elapsedSeconds = TodaySeances.shared.elapsedSeconds(),
-              (TimeInterval(elapsedSeconds) + TimeInterval(backgroundUpdatePeriod)) < seanceOngoing.interval.duration else {
+              TimeInterval(elapsedSeconds) <= seanceOngoing.interval.duration else {
+//            (TimeInterval(elapsedSeconds) + TimeInterval(backgroundUpdatePeriod)) <= seanceOngoing.interval.duration else {
             return
         }
 
@@ -481,8 +486,7 @@ struct TodaySeances {
     /// Mettre à jour périodiquement de la Live Activity
     func periodicUpdateOfLiveActivity(
         alertRemainingMinutes: Int,
-        warningRemainingMinutes: Int,
-        updatePeriod: TimeInterval
+        warningRemainingMinutes: Int
     ) async {
         guard let seanceOngoing = seanceOngoing else {
             return
@@ -496,16 +500,21 @@ struct TodaySeances {
             )
 
             do {
-                try await Task.sleep(for: .seconds(updatePeriod)) // exception thrown when cancelled by SwiftUI when this view disappears.
+                try await Task.sleep(for: .seconds(backgroundUpdatePeriod)) // exception thrown when cancelled by SwiftUI when this view disappears.
             } catch is CancellationError {
                 // If the task is cancelled before the time ends, this function throws CancellationError
                 break
             } catch {
+                customLog.log(
+                    level: .error,
+                    "LiveActivity Task.sleep Error: \(error.localizedDescription)"
+                )
                 break
             }
 
             if let elapsedSeconds = self.elapsedSeconds() {
-                keepOnLooping = (TimeInterval(elapsedSeconds) + updatePeriod) < seanceOngoing.interval.duration
+//                keepOnLooping = (TimeInterval(elapsedSeconds) + updatePeriod) < seanceOngoing.interval.duration
+                keepOnLooping = TimeInterval(elapsedSeconds) < seanceOngoing.interval.duration
             } else {
                 keepOnLooping = false
             }

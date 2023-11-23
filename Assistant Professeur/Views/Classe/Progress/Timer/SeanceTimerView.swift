@@ -39,16 +39,16 @@ struct SeanceTimerView: View {
 
     // MARK: - Private Properties
 
-    @SceneStorage("warningRemainingMinutes")
+    @AppStorage("warningRemainingMinutes")
     private var warningRemainingMinutes: Int = 10
 
-    @SceneStorage("alertRemainingMinutes")
+    @AppStorage("alertRemainingMinutes")
     private var alertRemainingMinutes: Int = 5
 
-    @SceneStorage("warningAlarmIsActivited")
+    @AppStorage("warningAlarmIsActivited")
     private var warningAlarmIsActivited = true
 
-    @SceneStorage("alertAlarmIsActivated")
+    @AppStorage("alertAlarmIsActivated")
     private var alertAlarmIsActivated = true
 
     @Environment(\.horizontalSizeClass)
@@ -57,7 +57,7 @@ struct SeanceTimerView: View {
     @State
     private var timerVM = TodaySeances.shared
 
-    private let updatePeriod = TimeInterval(10) // seconds
+    private let viewUpdatePeriod = TimeInterval(10) // seconds
 
     private let notificationFeedback = UINotificationFeedbackGenerator()
 
@@ -83,7 +83,7 @@ struct SeanceTimerView: View {
     }
 
     var body: some View {
-        TimelineView(.periodic(from: .now, by: updatePeriod)) { timeLine in
+        TimelineView(.periodic(from: .now, by: viewUpdatePeriod)) { timeLine in
             // Vue rafraichie périodiquement
             if timerVM.seanceOngoing != nil {
                 ViewThatFits(in: .horizontal) {
@@ -135,8 +135,7 @@ extension SeanceTimerView {
         // Mettre à jour la Live Activity
         await timerVM.periodicUpdateOfLiveActivity(
             alertRemainingMinutes: alertRemainingMinutes,
-            warningRemainingMinutes: warningRemainingMinutes, 
-            updatePeriod: updatePeriod
+            warningRemainingMinutes: warningRemainingMinutes
         )
 
         // Arrêter la Live Activity

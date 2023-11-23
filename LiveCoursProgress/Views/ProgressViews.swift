@@ -17,6 +17,49 @@ struct TimeOverSymbol : View {
     }
 }
 
+struct LiveActivityProgressBar : View {
+    let remainingMinutes: Int?
+    let elapsedMinutes: Int?
+    let isStale: Bool
+    let progressColor: Color
+
+    var body: some View {
+        if let remainingMinutes,
+           let elapsedMinutes {
+            if remainingMinutes <= 0 {
+                // Cours terminé
+                Text("Terminé \(Image(systemName: "clock.badge.exclamationmark.fill")) ")
+                    .padding(4)
+                    .background(ContainerRelativeShape().fill(Color.red))
+                    .padding(.bottom)
+
+            } else {
+                // Cours en cours
+                HStack(alignment: .center) {
+                    ProgressBar(
+                        value: Double(remainingMinutes) / Double(elapsedMinutes + remainingMinutes),
+                        foreGroundColor: isStale ? .gray : progressColor
+                    )
+                    Text("\(remainingMinutes) min")
+                        .foregroundStyle(
+                            isStale ? .gray : progressColor
+                        )
+                        .bold()
+                        .contentTransition(.numericText(value: Double(remainingMinutes)))
+                }
+                .frame(height: 10)
+                .padding(.bottom)
+            }
+        } else {
+            // Cours terminé
+            Text("Terminé \(Image(systemName: "clock.badge.exclamationmark.fill")) ")
+                .padding(4)
+                .background(ContainerRelativeShape().fill(Color.red))
+                .padding(.bottom)
+        }
+    }
+}
+
 struct ProgressBar: View {
     let value: Double
     let foreGroundColor: Color
