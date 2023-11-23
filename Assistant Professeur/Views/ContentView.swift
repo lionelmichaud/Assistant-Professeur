@@ -360,8 +360,7 @@ extension ContentView {
 
         alertInfo.title = ReminderTaskManager.shared.alertTitle
         alertInfo.message = "\n" + printStr + loadStr +
-            "\nConsultez-en la liste dans chaque établissement." +
-            "\n'Prochains cours / A faire avant ces cours...'"
+            "\nConsultez-en la liste dans chaque établissement."
         alertInfo.isPresented = true
     }
 

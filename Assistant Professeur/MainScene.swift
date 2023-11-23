@@ -28,6 +28,12 @@ struct MainScene: Scene {
     @Environment(\.scenePhase)
     private var scenePhase
 
+    @SceneStorage("warningRemainingMinutes")
+    private var warningRemainingMinutes: Int = 10
+
+    @SceneStorage("alertRemainingMinutes")
+    private var alertRemainingMinutes: Int = 5
+
     // MARK: - Properties
 
     var body: some Scene {
@@ -49,6 +55,12 @@ struct MainScene: Scene {
             // just send BGTaskScheduler.shared.submit(request) here again and again.
             await dailyToDoAppRefresh()
         }
+
+        // Mettre à jour la Live Activity
+        .backgroundTask(.appRefresh(TodaySeances.shared.liveActivityTaskIdentifier)) {
+            await liveActivityAppRefresh()
+        }
+
         #if os(macOS)
         .commands {
             SidebarCommands()
@@ -67,27 +79,52 @@ struct MainScene: Scene {
     /// you can also reschedule the background task HERE if you want to keep calling from time to time,
     /// just send BGTaskScheduler.shared.submit(request) here again and again.
     func dailyToDoAppRefresh() async {
-        customLog.log(
-            level: .info,
-            "Background refresh task started for identifer: \(ReminderTaskManager.shared.backgroundTaskIdentifier)"
-        )
         await withTaskCancellationHandler(
             operation: {
+                customLog.log(
+                    level: .info,
+                    "Background refresh task started for identifer: \(ReminderTaskManager.shared.backgroundTaskIdentifier)"
+                )
+
                 // Renouveler le réveil le lendemain
                 await ReminderTaskManager.shared.schedulNextReminderNotification()
 
-                // Utiliser un calendrier par défaut car accès impossible à UserPref (non initialisé)
-                let schoolYear = SchoolYearPref()
-
                 // Notifier le reminder
+                // Utiliser un calendrier par défaut car accès impossible à UserPref (non initialisé)
                 await ReminderTaskManager.shared.notifyReminder(
-                    schoolYear: schoolYear
+                    schoolYear: SchoolYearPref()
                 )
             },
             onCancel: {
                 customLog.log(
                     level: .debug,
                     "Background refresh canceled by System for identifer: \(ReminderTaskManager.shared.backgroundTaskIdentifier)"
+                )
+            }
+        )
+    }
+
+    func liveActivityAppRefresh() async {
+        await withTaskCancellationHandler(
+            operation: {
+                customLog.log(
+                    level: .info,
+                    "Background refresh task started for identifer: \(TodaySeances.shared.liveActivityTaskIdentifier)"
+                )
+
+                // Mettre à jour la Live Activity
+                await TodaySeances.shared.updateLiveActivity(
+                    alertRemainingMinutes: alertRemainingMinutes,
+                    warningRemainingMinutes: warningRemainingMinutes
+                )
+
+                // Renouveler le réveil
+                TodaySeances.shared.schedulNextUpdate()
+            },
+            onCancel: {
+                customLog.log(
+                    level: .debug,
+                    "Background refresh canceled by System for identifer: \(TodaySeances.shared.liveActivityTaskIdentifier)"
                 )
             }
         )
@@ -111,9 +148,9 @@ struct MainScene: Scene {
 
             case .background:
                 // Expect an app that enters the background phase to terminate.
-
+                print("Scene Phase = .background")
                 try? coreDataManager.saveIfContextHasChanged()
-                //                    print("Scene Phase = .background")
+                TodaySeances.shared.schedulNextUpdate()
 
             @unknown default:
                 fatalError()

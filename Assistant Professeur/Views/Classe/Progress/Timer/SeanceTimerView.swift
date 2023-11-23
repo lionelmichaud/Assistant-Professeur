@@ -133,7 +133,7 @@ extension SeanceTimerView {
         )
 
         // Mettre à jour la Live Activity
-        await timerVM.updateLiveActivity(
+        await timerVM.periodicUpdateOfLiveActivity(
             alertRemainingMinutes: alertRemainingMinutes,
             warningRemainingMinutes: warningRemainingMinutes, 
             updatePeriod: updatePeriod

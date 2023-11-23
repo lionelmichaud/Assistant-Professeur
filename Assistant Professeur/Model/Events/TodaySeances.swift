@@ -9,6 +9,13 @@ import ActivityKit
 import AppFoundation
 import EventKit
 import Foundation
+import BackgroundTasks
+import os
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Fundation-Package",
+    category: "TodaySeances"
+)
 
 /// Mémorise les séances de la journée pour un ou plusieurs établissements.
 ///
@@ -35,6 +42,10 @@ struct TodaySeances {
     static var shared = TodaySeances()
 
     // MARK: - Properties
+
+    /// Identifiant de la BackgroundTask
+    let liveActivityTaskIdentifier = "LIVE_COUNTDOWN"
+    let backgroundUpdatePeriod: Int = 60 // seconds
 
     private(set) var seanceOngoing: Seance?
 
@@ -395,6 +406,41 @@ struct TodaySeances {
 
     // MARK: - gestion d'une Live Activity associée à la séance en cours
 
+    func schedulNextUpdate() {
+        guard let seanceOngoing = seanceOngoing else {
+            return
+        }
+
+        guard let elapsedSeconds = TodaySeances.shared.elapsedSeconds(),
+              (TimeInterval(elapsedSeconds) + TimeInterval(backgroundUpdatePeriod)) < seanceOngoing.interval.duration else {
+            return
+        }
+
+        let request = BGAppRefreshTaskRequest(identifier: liveActivityTaskIdentifier)
+        request.earliestBeginDate = nextWakeupDate()
+        do {
+            /* sending the request to the Scheduler so it can be kept by the system.
+             This is the last step of the process and now we are good when
+             the background task scheduler calls our app on the scheduled date
+             */
+            try BGTaskScheduler.shared.submit(request)
+            customLog.log(
+                level: .info,
+                "LiveActivity background Task Scheduled"
+            )
+
+        } catch {
+            customLog.log(
+                level: .error,
+                "LiveActivity scheduling Error: \(error.localizedDescription)"
+            )
+        }
+    }
+
+    private func nextWakeupDate() -> Date {
+        backgroundUpdatePeriod.seconds.fromNow!
+    }
+
     /// Démarrer la Live Activity
     func startLiveActivity(
         alertRemainingMinutes: Int,
@@ -433,7 +479,7 @@ struct TodaySeances {
     }
 
     /// Mettre à jour périodiquement de la Live Activity
-    func updateLiveActivity(
+    func periodicUpdateOfLiveActivity(
         alertRemainingMinutes: Int,
         warningRemainingMinutes: Int,
         updatePeriod: TimeInterval
@@ -444,36 +490,10 @@ struct TodaySeances {
 
         var keepOnLooping = true
         repeat {
-            var alertConfig: AlertConfiguration?
-            // code you want to repeat
-            // Update périodique de la Live Activity
-            // TODO: - Gérer le déclenchement des message d'alerte dans Live Activity
-            if false {
-                alertConfig = AlertConfiguration(
-                    title: "Title",
-                    body: "Body",
-                    sound: .default
-                )
-            }
-            let newState =
-                LiveCoursProgressState(
-                    elapsedMinutes: self.elapsedMinutes(to: .now),
-                    remainingMinutes: self.remainingMinutes(from: .now),
-                    cursorValue: self.cursorValue(for: .now),
-                    timerZone: self.timerZone(
-                        for: .now,
-                        seuilAlert: alertRemainingMinutes,
-                        seuilWarning: warningRemainingMinutes
-                    )
-                )
-            await LiveActivityManager.shared.update(
-                withNewState: newState,
-                alertConfiguration: alertConfig
+            await updateLiveActivity(
+                alertRemainingMinutes: alertRemainingMinutes,
+                warningRemainingMinutes: warningRemainingMinutes
             )
-
-            #if DEBUG
-                print(">> Activité updated")
-            #endif
 
             do {
                 try await Task.sleep(for: .seconds(updatePeriod)) // exception thrown when cancelled by SwiftUI when this view disappears.
@@ -490,6 +510,39 @@ struct TodaySeances {
                 keepOnLooping = false
             }
         } while !Task.isCancelled && keepOnLooping
+    }
+
+    /// Mise à jour unitaire de la Live Activity
+    func updateLiveActivity(
+        alertRemainingMinutes: Int,
+        warningRemainingMinutes: Int
+    ) async {
+        var alertConfig: AlertConfiguration?
+        // code you want to repeat
+        // Update périodique de la Live Activity
+        // TODO: - Gérer le déclenchement des message d'alerte dans Live Activity
+        if false {
+            alertConfig = AlertConfiguration(
+                title: "Title",
+                body: "Body",
+                sound: .default
+            )
+        }
+        let newState =
+            LiveCoursProgressState(
+                elapsedMinutes: self.elapsedMinutes(to: .now),
+                remainingMinutes: self.remainingMinutes(from: .now),
+                cursorValue: self.cursorValue(for: .now),
+                timerZone: self.timerZone(
+                    for: .now,
+                    seuilAlert: alertRemainingMinutes,
+                    seuilWarning: warningRemainingMinutes
+                )
+            )
+        await LiveActivityManager.shared.update(
+            withNewState: newState,
+            alertConfiguration: alertConfig
+        )
     }
 
     /// Arrêter la Live Activity
