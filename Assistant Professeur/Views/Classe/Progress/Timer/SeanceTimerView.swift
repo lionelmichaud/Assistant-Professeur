@@ -54,7 +54,7 @@ struct SeanceTimerView: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @State
+    @StateObject
     private var timerVM = TodaySeances.shared
 
     private let viewUpdatePeriod = TimeInterval(10) // seconds

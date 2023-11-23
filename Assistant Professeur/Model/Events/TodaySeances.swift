@@ -36,7 +36,7 @@ private let customLog = Logger(
 ///     // (4) Remettre à zéro la séance en cours
 ///     viewModel.resetOngoingSeance()
 ///
-struct TodaySeances {
+class TodaySeances: ObservableObject {
     // MARK: - Singleton
 
     static var shared = TodaySeances()
@@ -76,7 +76,7 @@ struct TodaySeances {
     ///
     /// - Important: Cette méthode doit être appelée en premier pour que les autres méthode donnent un résulat non `nil`.
     ///
-    mutating func loadTodaySeances() async {
+    func loadTodaySeances() async {
         // Demander les droits d'accès aux calendriers de l'utilisateur
         let eventStore = EKEventStore()
         var schools = [SchoolEntity]()
@@ -148,7 +148,7 @@ struct TodaySeances {
     ///
     /// - Important: Cette méthode doit être appelée en premier pour que les autres méthode donnent un résulat non `nil`.
     ///
-    mutating func loadTodaySeances(
+    func loadTodaySeances(
         forSchool school: SchoolEntity
     ) async {
         // Demander les droits d'accès aux calendriers de l'utilisateur
@@ -216,7 +216,7 @@ struct TodaySeances {
     ///     }
     ///
     /// - Important: Cette méthode doit être appelée en second pour que les autres méthode donnent un résulat non `nil`.
-    mutating func findOngoingSeance(
+    func findOngoingSeance(
         inSchool school: SchoolEntity,
         at date: Date = .now
     ) {
@@ -226,7 +226,7 @@ struct TodaySeances {
         )
     }
 
-    mutating func resetOngoingSeance() {
+    func resetOngoingSeance() {
         seanceOngoing = nil
     }
 
@@ -483,7 +483,7 @@ extension TodaySeances {
         #endif
     }
 
-    /// Mettre à jour périodiquement de la Live Activity
+    /// Mettre à jour périodiquement la Live Activity
     func periodicUpdateOfLiveActivity(
         alertRemainingMinutes: Int,
         warningRemainingMinutes: Int
@@ -555,7 +555,7 @@ extension TodaySeances {
     }
 
     /// Arrêter la Live Activity
-    mutating func endLiveActivity(
+    func endLiveActivity(
         alertRemainingMinutes: Int,
         warningRemainingMinutes: Int
     ) async {
