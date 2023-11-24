@@ -119,7 +119,7 @@ struct ClassProgressesView: View {
         .task(id: progressChanged) {
             progressChanged = false
 
-            // Liste des Séquences suivies par une classe triée par numéro de Séquence
+            // Liste des Séquences suivies par la classe triée par numéro de Séquence
             classeSequences = classe.allFollowedSequencesSortedBySequenceNumber
 
             // Liste des Séances à venir pour cette classe
@@ -164,7 +164,7 @@ struct ClassProgressesView: View {
                 // Liste des Progressions de la classe triée par numéro de Séquence / Activité
                 let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
 
-                // Synchroniser les dates des Progressions d'activités
+                // Synchroniser les dates des Progressions d'activités futures
                 // avec les dates des Séances à venir
                 SequenceSeanceCoordinator.synchronize(
                     classeProgresses: sortedClasseProgresses,

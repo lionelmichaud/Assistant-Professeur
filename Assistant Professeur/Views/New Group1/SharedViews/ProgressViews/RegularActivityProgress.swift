@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct RegularProgressView: View {
+struct RegularActivityProgress: View {
     @ObservedObject
     var progress: ActivityProgressEntity
 

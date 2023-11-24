@@ -187,7 +187,7 @@ extension ClassActivityProgressEditView {
 
     private var regularView: some View {
         VStack(alignment: .leading) {
-            RegularProgressView(
+            RegularActivityProgress(
                 progress: progress,
                 progressChanged: $progressChanged
             )
@@ -198,7 +198,7 @@ extension ClassActivityProgressEditView {
 
     private var compactView: some View {
         VStack(alignment: .leading) {
-            CompactProgressView(
+            CompactActivityProgress(
                 progress: progress,
                 progressChanged: $progressChanged
             )

@@ -461,7 +461,7 @@ extension ProgramManager {
     ///   - program: Programme annuel
     ///   - schoolYear: Caractéristiques de l'année scolaire
     /// - Returns: Périodes d'activité des séquences d'un programme
-    /// - Precondition: Les vacances doivent être ordonnées par date croissante.
+    /// - Precondition: Les vacances doivent être ordonnées par dates croissantes.
     static func getProgramSequencesPeriods(
         program: ProgramEntity,
         schoolYear: SchoolYearPref
@@ -504,6 +504,7 @@ extension ProgramManager {
         schoolYear: SchoolYearPref,
         atThisDate date: Date
     ) -> Double {
+        // périodes d'activité des séquences du programme en fonction du calendrier scolaire
         let programSequencesPeriods = getProgramSequencesPeriods(
             program: program,
             schoolYear: schoolYear
@@ -515,15 +516,15 @@ extension ProgramManager {
         }
 
         // Recherche du numéro de la séquence théoriquement en cours à la `date`
-        var lastCompletedSequenceNumber: Int
+        var lastCompletedSequenceNumber: Int = 0
         var idx = 0
         var iteratedPeriod = programSequencesPeriods[idx]
         // itérer sur les périodes jusqu'à ce que la date soit antérieure à la date de fin de la période
-        repeat {
-            lastCompletedSequenceNumber = iteratedPeriod.number
+        while iteratedPeriod.dateInterval.end < date {
+            lastCompletedSequenceNumber = iteratedPeriod.number - 1
             idx += 1
             iteratedPeriod = programSequencesPeriods[idx]
-        } while iteratedPeriod.dateInterval.end < date
+        }
         let currentSequenceNumber = lastCompletedSequenceNumber + 1
 
         // Cumuler le nb de séances de toutes les séquences entièrement complétées
@@ -550,8 +551,18 @@ extension ProgramManager {
             programSequencesPeriods
                 .reduce(0.0) { (nb: Double, period: SequenceData) in
                     if period.number == currentSequenceNumber {
-                        let nbWeek = Double(period.dateInterval.duration) / Double(7 * 24 * 60 * 60)
-                        return nb + nbWeek / nbSeancePerWeek
+                        if period.dateInterval.end < date {
+                            // La période est entièrement complétée
+                            let nbWeek = Double(period.dateInterval.duration) / Double(7 * 24 * 60 * 60)
+                            return nb + nbWeek * nbSeancePerWeek
+                        } else {
+                            let completedPart = DateInterval(
+                                start: period.dateInterval.start,
+                                end: date
+                            )
+                            let nbWeek = Double(completedPart.duration) / Double(7 * 24 * 60 * 60)
+                            return nb + nbWeek * nbSeancePerWeek
+                        }
                     } else {
                         return nb
                     }

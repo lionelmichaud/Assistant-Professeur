@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CompactProgressView: View {
+struct CompactActivityProgress: View {
     @ObservedObject
     var progress: ActivityProgressEntity
 

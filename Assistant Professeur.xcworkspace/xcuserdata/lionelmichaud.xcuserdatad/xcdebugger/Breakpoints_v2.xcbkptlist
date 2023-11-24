@@ -1510,6 +1510,21 @@
                   endingLineNumber = "153"
                   offsetFromSymbolStart = "1040">
                </Location>
+               <Location
+                  uuid = "FCDEFE08-8C6A-4164-A602-5C07300103F6 - d370d63dd3966f93"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.MainScene.manageScenePhaseChanges() -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/MainScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "153"
+                  endingLineNumber = "153"
+                  offsetFromSymbolStart = "928">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -1543,6 +1558,38 @@
             endingLineNumber = "125"
             landmarkName = "liveActivityAppRefresh()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A4226478-CF7F-4A04-8C31-5CB823188F27 - e3cccbc69e01ab47"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 @Sendable () -&gt; () in Assistant_Professeur.MainScene.liveActivityAppRefresh() async -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/MainScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "125"
+                  endingLineNumber = "125"
+                  offsetFromSymbolStart = "192">
+               </Location>
+               <Location
+                  uuid = "A4226478-CF7F-4A04-8C31-5CB823188F27 - e3cccbc69e01ab47"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 @Sendable () -&gt; () in Assistant_Professeur.MainScene.liveActivityAppRefresh() async -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/MainScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "125"
+                  endingLineNumber = "125"
+                  offsetFromSymbolStart = "136">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1612,7 +1659,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "0A7F5EBE-615F-40F6-B872-C3E075EE7CC7"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Assistant Professeur/Model/Events/TodaySeances.swift"

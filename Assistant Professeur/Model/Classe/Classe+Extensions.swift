@@ -710,16 +710,20 @@ extension ClasseEntity {
                         nb.1 + actualProgressInSequence(sequence) * sequence.durationWithoutMargin
                     )
                 }
-        var actualProgress = 0.0
         if nbOfSeanceInProgram != 0 {
-            actualProgress = nbOfSeanceCompleted / nbOfSeanceInProgram
+            let actualProgress = nbOfSeanceCompleted / nbOfSeanceInProgram
+            return (
+                nbOfSeanceActualyCompleted: nbOfSeanceCompleted,
+                nbOfSeanceInProgram: nbOfSeanceInProgram,
+                actualProgress: actualProgress
+            )
+        } else {
+            return (
+                nbOfSeanceActualyCompleted: nbOfSeanceCompleted,
+                nbOfSeanceInProgram: nbOfSeanceInProgram,
+                actualProgress: 0
+            )
         }
-
-        return (
-            nbOfSeanceActualyCompleted: nbOfSeanceCompleted,
-            nbOfSeanceInProgram: nbOfSeanceInProgram,
-            actualProgress: actualProgress
-        )
     }
 
     /// Retourne la progression théorique (en % de séances) de la classe dans le programme annuel à la date courante.
@@ -763,16 +767,20 @@ extension ClasseEntity {
 
         // print(nbOfSeanceInProgram, nbOfSeanceSuposidlyCompleted)
 
-        var theoricalProgress = 0.0
         if nbOfSeanceInProgram != 0 {
-            theoricalProgress = nbOfSeanceSuposidlyCompleted / nbOfSeanceInProgram
+            let theoricalProgress = nbOfSeanceSuposidlyCompleted / nbOfSeanceInProgram
+            return (
+                nbOfSeanceSuposidelyCompleted: nbOfSeanceSuposidlyCompleted,
+                nbOfSeanceInProgram: nbOfSeanceInProgram,
+                theoricalProgress: theoricalProgress
+            )
+        } else {
+            return (
+                nbOfSeanceSuposidelyCompleted: nbOfSeanceSuposidlyCompleted,
+                nbOfSeanceInProgram: nbOfSeanceInProgram,
+                theoricalProgress: 0
+            )
         }
-
-        return (
-            nbOfSeanceSuposidelyCompleted: nbOfSeanceSuposidlyCompleted,
-            nbOfSeanceInProgram: nbOfSeanceInProgram,
-            theoricalProgress: theoricalProgress
-        )
     }
 
     // MARK: - Méthodes Groupes

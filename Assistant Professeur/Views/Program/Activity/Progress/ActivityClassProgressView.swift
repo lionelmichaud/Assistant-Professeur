@@ -22,13 +22,13 @@ struct ActivityClassProgressView: View {
         LabeledContent {
             ViewThatFits(in: .horizontal) {
                 // priorité 1
-                RegularProgressView(
+                RegularActivityProgress(
                     progress: progress,
                     progressChanged: $progressChanged
                 )
                 // .padding(.leading)
                 // priorité 2
-                CompactProgressView(
+                CompactActivityProgress(
                     progress: progress,
                     progressChanged: $progressChanged
                 )
