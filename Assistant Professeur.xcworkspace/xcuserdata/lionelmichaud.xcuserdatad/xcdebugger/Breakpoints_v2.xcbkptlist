@@ -1412,10 +1412,42 @@
             filePath = "Assistant Professeur/Model/Events/TodaySeances.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "511"
-            endingLineNumber = "511"
+            startingLineNumber = "512"
+            endingLineNumber = "512"
             landmarkName = "periodicUpdateOfLiveActivity(alertRemainingMinutes:warningRemainingMinutes:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A6E9B157-DF9F-4467-9D22-029514D42091 - 590c4372395380f2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for Assistant_Professeur.TodaySeances.periodicUpdateOfLiveActivity(alertRemainingMinutes: Swift.Int, warningRemainingMinutes: Swift.Int) async -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/TodaySeances.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "512"
+                  endingLineNumber = "512"
+                  offsetFromSymbolStart = "668">
+               </Location>
+               <Location
+                  uuid = "A6E9B157-DF9F-4467-9D22-029514D42091 - 590c4372395380f2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for Assistant_Professeur.TodaySeances.periodicUpdateOfLiveActivity(alertRemainingMinutes: Swift.Int, warningRemainingMinutes: Swift.Int) async -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/TodaySeances.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "512"
+                  endingLineNumber = "512"
+                  offsetFromSymbolStart = "636">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1485,14 +1517,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "DE2CCC49-3E42-4D09-817C-A265301EB27C"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Assistant Professeur/Model/Events/TodaySeances.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "456"
-            endingLineNumber = "456"
+            startingLineNumber = "458"
+            endingLineNumber = "458"
             landmarkName = "startLiveActivity(alertRemainingMinutes:warningRemainingMinutes:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1586,10 +1618,42 @@
             filePath = "Assistant Professeur/Model/Events/TodaySeances.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "434"
-            endingLineNumber = "434"
+            startingLineNumber = "435"
+            endingLineNumber = "435"
             landmarkName = "schedulNextUpdate()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "0A7F5EBE-615F-40F6-B872-C3E075EE7CC7 - ab208a3f7df8a862"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.TodaySeances.schedulNextUpdate() -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/TodaySeances.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "435"
+                  endingLineNumber = "435"
+                  offsetFromSymbolStart = "1732">
+               </Location>
+               <Location
+                  uuid = "0A7F5EBE-615F-40F6-B872-C3E075EE7CC7 - ab208a3f7df8a862"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.TodaySeances.schedulNextUpdate() -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/TodaySeances.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "435"
+                  endingLineNumber = "435"
+                  offsetFromSymbolStart = "1576">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

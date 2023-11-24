@@ -11,6 +11,7 @@ import BackgroundTasks
 import EventKit
 import Foundation
 import os
+import UserNotifications
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Fundation-Package",
@@ -595,5 +596,101 @@ extension TodaySeances {
         #if DEBUG
             print(">> Activité canceled")
         #endif
+    }
+}
+
+// MARK: - Notifications
+
+extension TodaySeances {
+    /// Envoyer une notification  à l'utilisateur
+    func sendWarningNotification(
+        warningRemainingMinutes: Int
+    ) {
+        guard let seanceOngoing = seanceOngoing else {
+            return
+        }
+
+        // Définir le contenu affichable de la notification
+        let content = UNMutableNotificationContent()
+        content.title = "Fin du cours dans \(warningRemainingMinutes) minutes"
+
+        // content.subtitle = printStr + loadStr + "Consultez-en la liste!"
+        content.sound = .default
+
+        // Définir le déclecncheur
+        guard let date = warningRemainingMinutes.minutes.before(seanceOngoing.interval.end),
+              date > 10.seconds.fromNow! else {
+            return
+        }
+        var dateComp = DateComponents()
+        dateComp.hour = date.hours
+        dateComp.minute = date.minutes
+        let trigger = UNCalendarNotificationTrigger(
+            dateMatching: dateComp,
+            repeats: true
+        )
+
+        // Définir la requête
+        let request = UNNotificationRequest(
+            identifier: "WARNING_NOTIFICATION",
+            content: content,
+            trigger: trigger
+        )
+
+        // Enregistrer la notification
+        do {
+            UNUserNotificationCenter.current()
+                .add(request )
+            customLog.log(
+                level: .info,
+                "Warning notification added to Notifcation Center."
+            )
+        }
+    }
+
+    /// Envoyer une notification  à l'utilisateur
+    func sendAlertNotification(
+        alertRemainingMinutes: Int
+    ) {
+        guard let seanceOngoing = seanceOngoing else {
+            return
+        }
+
+        // Définir le contenu affichable de la notification
+        let content = UNMutableNotificationContent()
+        content.title = "Fin du cours dans \(alertRemainingMinutes) minutes"
+
+        // content.subtitle = printStr + loadStr + "Consultez-en la liste!"
+        content.sound = .default
+
+        // Définir le déclecncheur
+        guard let date = alertRemainingMinutes.minutes.before(seanceOngoing.interval.end),
+              date > 10.seconds.fromNow! else {
+            return
+        }
+        var dateComp = DateComponents()
+        dateComp.hour = date.hours
+        dateComp.minute = date.minutes
+        let trigger = UNCalendarNotificationTrigger(
+            dateMatching: dateComp,
+            repeats: true
+        )
+
+        // Définir la requête
+        let request = UNNotificationRequest(
+            identifier: "ALERT_NOTIFICATION",
+            content: content,
+            trigger: trigger
+        )
+
+        // Enregistrer la notification
+        do {
+            UNUserNotificationCenter.current()
+                .add(request )
+            customLog.log(
+                level: .info,
+                "Warning notification added to Notifcation Center."
+            )
+        }
     }
 }
