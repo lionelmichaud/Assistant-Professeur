@@ -119,6 +119,7 @@
 		794AE9C22A59706E009C819A /* AppTextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794AE9C12A59706E009C819A /* AppTextStyle.swift */; };
 		794B83CA2AB5B7A600F5B14E /* BonusMalusStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */; };
 		794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */; };
+		794F4C3D2B111BD0001DB7F6 /* ChangeOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F4C3C2B111BD0001DB7F6 /* ChangeOrientation.swift */; };
 		794F6E0C295CDC3700042B95 /* ObservCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */; };
 		794F6E0E295CDC9100042B95 /* ColleCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */; };
 		794F6E11295CE1B700042B95 /* ObservDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0F295CE1B700042B95 /* ObservDetail.swift */; };
@@ -588,6 +589,7 @@
 		794AE9C12A59706E009C819A /* AppTextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextStyle.swift; sourceTree = "<group>"; };
 		794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusStats.swift; sourceTree = "<group>"; };
 		794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DuplicateActivityModal.swift; path = "Assistant Professeur/Model/Eleve/BonusMalus/DuplicateActivityModal.swift"; sourceTree = SOURCE_ROOT; };
+		794F4C3C2B111BD0001DB7F6 /* ChangeOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChangeOrientation.swift; path = "../../../../../../../../Library/Developer/Xcode/DeviceLogs/iPhone 15 de Lionel-00008120-001434983CD2201E/ChangeOrientation.swift"; sourceTree = "<group>"; };
 		794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservCreatorModal.swift; sourceTree = "<group>"; };
 		794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColleCreatorModal.swift; sourceTree = "<group>"; };
 		794F6E0F295CE1B700042B95 /* ObservDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservDetail.swift; sourceTree = "<group>"; };
@@ -1322,6 +1324,7 @@
 		794615872AEE9A87002D725E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				794F4C3B2B111BBA001DB7F6 /* Shared Methods */,
 				79F655652AEBD7C000AB3AEB /* SharedTypes */,
 				798EE56E2ADA8D9400F9AE24 /* SharedViewModifiers */,
 				79A800272AC81DE6001F2E25 /* SharedViews */,
@@ -1373,6 +1376,14 @@
 				79F8773129F425A300AB38C3 /* DigitalClockView.swift */,
 			);
 			path = TimerViews;
+			sourceTree = "<group>";
+		};
+		794F4C3B2B111BBA001DB7F6 /* Shared Methods */ = {
+			isa = PBXGroup;
+			children = (
+				794F4C3C2B111BD0001DB7F6 /* ChangeOrientation.swift */,
+			);
+			path = "Shared Methods";
 			sourceTree = "<group>";
 		};
 		7951B69E29B13E45006DC88D /* Warnings */ = {
@@ -2683,6 +2694,7 @@
 				792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */,
 				791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */,
 				79F7A27F2A40888300CEC3D5 /* DCompTagList.swift in Sources */,
+				794F4C3D2B111BD0001DB7F6 /* ChangeOrientation.swift in Sources */,
 				79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */,
 				790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */,
 				79B3083A29EE115300C69C79 /* Documentation.docc in Sources */,
