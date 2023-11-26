@@ -20,6 +20,7 @@ struct CompactActivityProgress: View {
 
     var body: some View {
         VStack(alignment: .leading) {
+            // Curseur de l'avancement
             ActivityProgressSlider(
                 progress: progress,
                 progressChanged: $progressChanged
@@ -56,10 +57,11 @@ struct CompactActivityProgress: View {
                 }
                 // avancement de la correction de l'éval
                 if activity.isEval {
-                    CasePicker(
-                        pickedCase: $progress.evalStatusEnum,
-                        label: "Correction"
-                    )
+                    Picker("Correction", selection: $progress.evalStatusEnum ) {
+                        ForEach(EvalStateEnum.allCases, id: \.self) { enu in
+                            Text(enu.pickerString)
+                        }
+                    }
                     .pickerStyle(.segmented)
                 }
             }

@@ -27,6 +27,7 @@
 		79134554296B65AB0092E7CD /* TrombinoscopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79134553296B65AB0092E7CD /* TrombinoscopeView.swift */; };
 		79134557296B6C620092E7CD /* TrombineInteractivView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79134556296B6C620092E7CD /* TrombineInteractivView.swift */; };
 		79135E0D2969E15B00F95694 /* AppVersion.json in Resources */ = {isa = PBXBuildFile; fileRef = 79135E0C2969E15B00F95694 /* AppVersion.json */; };
+		79144F7D2B13C8030026254B /* EvalStateEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79144F7C2B13C8030026254B /* EvalStateEnum.swift */; };
 		7915DC842A031C6A001C1249 /* Owner+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7915DC832A031C6A001C1249 /* Owner+CoreDataClass.swift */; };
 		791802A42A365A5E001588B2 /* DKnowledgeEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791802A32A365A5E001588B2 /* DKnowledgeEntity+CoreDataClass.swift */; };
 		791802A62A365E29001588B2 /* DKnowledgeEntity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791802A52A365E29001588B2 /* DKnowledgeEntity+Extensions.swift */; };
@@ -211,7 +212,7 @@
 		7989B4D529A2752800383F84 /* LabeledActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989B4D429A2752800383F84 /* LabeledActivityView.swift */; };
 		7989B4D729A276F400383F84 /* ActivityProgressSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989B4D629A276F400383F84 /* ActivityProgressSlider.swift */; };
 		7989B4D929A288E900383F84 /* LabeledSequenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989B4D829A288E900383F84 /* LabeledSequenceView.swift */; };
-		7989B4DB29A28D0300383F84 /* ProgressState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989B4DA29A28D0300383F84 /* ProgressState.swift */; };
+		7989B4DB29A28D0300383F84 /* ProgressStateEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989B4DA29A28D0300383F84 /* ProgressStateEnum.swift */; };
 		7989B4DD29A28F8E00383F84 /* CompletionSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989B4DC29A28F8E00383F84 /* CompletionSymbol.swift */; };
 		7989B4DF29A2A63000383F84 /* ClassSequenceProgressEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989B4DE29A2A63000383F84 /* ClassSequenceProgressEditView.swift */; };
 		798B825E296C8DD5004A24A8 /* EleveNameStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */; };
@@ -259,6 +260,11 @@
 		79A8E7BC29AECE1B006D0EAA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79A8E7BB29AECE1B006D0EAA /* Images.xcassets */; };
 		79A8E7BE29AF6109006D0EAA /* IndicatorImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A8E7BD29AF6109006D0EAA /* IndicatorImageView.swift */; };
 		79ABF56329AD52FC00B8299B /* ClassRailwayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ABF56229AD52FC00B8299B /* ClassRailwayProgressView.swift */; };
+		79AD56CC2B1390010019FF52 /* ToDoAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AD56CB2B1390000019FF52 /* ToDoAction.swift */; };
+		79AD56CE2B1391880019FF52 /* DocsToBePrinted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AD56CD2B1391880019FF52 /* DocsToBePrinted.swift */; };
+		79AD56D02B1391A90019FF52 /* DocsToBeLoaded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AD56CF2B1391A90019FF52 /* DocsToBeLoaded.swift */; };
+		79AD56D22B1399B50019FF52 /* EvalsToBeCorrectedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AD56D12B1399B50019FF52 /* EvalsToBeCorrectedScrollView.swift */; };
+		79AD56D42B139A7E0019FF52 /* EvalsToBeCorrected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AD56D32B139A7E0019FF52 /* EvalsToBeCorrected.swift */; };
 		79AEA0A929356DBA0053DDDD /* SchoolEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */; };
 		79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */; };
 		79AFBFB42981A4B0001576DD /* SequenceDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */; };
@@ -510,6 +516,7 @@
 		79134556296B6C620092E7CD /* TrombineInteractivView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrombineInteractivView.swift; sourceTree = "<group>"; };
 		79135E0C2969E15B00F95694 /* AppVersion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AppVersion.json; sourceTree = "<group>"; };
 		79135E1C296B0D7800F95694 /* Assistant-Professeur-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Assistant-Professeur-Info.plist"; sourceTree = SOURCE_ROOT; };
+		79144F7C2B13C8030026254B /* EvalStateEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvalStateEnum.swift; sourceTree = "<group>"; };
 		7915DC832A031C6A001C1249 /* Owner+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Owner+CoreDataClass.swift"; sourceTree = "<group>"; };
 		791802A32A365A5E001588B2 /* DKnowledgeEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DKnowledgeEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		791802A52A365E29001588B2 /* DKnowledgeEntity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DKnowledgeEntity+Extensions.swift"; sourceTree = "<group>"; };
@@ -681,7 +688,7 @@
 		7989B4D429A2752800383F84 /* LabeledActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledActivityView.swift; sourceTree = "<group>"; };
 		7989B4D629A276F400383F84 /* ActivityProgressSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityProgressSlider.swift; sourceTree = "<group>"; };
 		7989B4D829A288E900383F84 /* LabeledSequenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabeledSequenceView.swift; sourceTree = "<group>"; };
-		7989B4DA29A28D0300383F84 /* ProgressState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressState.swift; sourceTree = "<group>"; };
+		7989B4DA29A28D0300383F84 /* ProgressStateEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressStateEnum.swift; sourceTree = "<group>"; };
 		7989B4DC29A28F8E00383F84 /* CompletionSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionSymbol.swift; sourceTree = "<group>"; };
 		7989B4DE29A2A63000383F84 /* ClassSequenceProgressEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassSequenceProgressEditView.swift; sourceTree = "<group>"; };
 		798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveNameStyling.swift; sourceTree = "<group>"; };
@@ -728,6 +735,11 @@
 		79A8E7BB29AECE1B006D0EAA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		79A8E7BD29AF6109006D0EAA /* IndicatorImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorImageView.swift; sourceTree = "<group>"; };
 		79ABF56229AD52FC00B8299B /* ClassRailwayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassRailwayProgressView.swift; sourceTree = "<group>"; };
+		79AD56CB2B1390000019FF52 /* ToDoAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoAction.swift; sourceTree = "<group>"; };
+		79AD56CD2B1391880019FF52 /* DocsToBePrinted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsToBePrinted.swift; sourceTree = "<group>"; };
+		79AD56CF2B1391A90019FF52 /* DocsToBeLoaded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsToBeLoaded.swift; sourceTree = "<group>"; };
+		79AD56D12B1399B50019FF52 /* EvalsToBeCorrectedScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvalsToBeCorrectedScrollView.swift; sourceTree = "<group>"; };
+		79AD56D32B139A7E0019FF52 /* EvalsToBeCorrected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvalsToBeCorrected.swift; sourceTree = "<group>"; };
 		79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolEditor.swift; sourceTree = "<group>"; };
 		79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolDetail.swift; sourceTree = "<group>"; };
 		79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceDetailGroupBox.swift; sourceTree = "<group>"; };
@@ -1268,6 +1280,7 @@
 				79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */,
 				793A67BC2AE58A5C00673A24 /* TimerZone.swift */,
 				791AA5D32B03791C00504B4E /* ReminderTaskManager.swift */,
+				79AD56CA2B138FD20019FF52 /* ToDo */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1306,7 +1319,8 @@
 			children = (
 				79A5737429BE3818002B37B2 /* ActivityProgressEntity+CoreDataClass.swift */,
 				793EF8DC299D82A6002DDC64 /* ActivityProgress+Extensions.swift */,
-				7989B4DA29A28D0300383F84 /* ProgressState.swift */,
+				7989B4DA29A28D0300383F84 /* ProgressStateEnum.swift */,
+				79144F7C2B13C8030026254B /* EvalStateEnum.swift */,
 				7988D1002AC6E60C0038EEDC /* ProgressClasseCoordinator.swift */,
 			);
 			path = Progress;
@@ -1450,6 +1464,7 @@
 				794615882AEEBE69002D725E /* ToDoView.swift */,
 				7931F3302AF4032400EC6E10 /* DocToBePrintedScrollView.swift */,
 				7931F3322AF4036400EC6E10 /* DocToBeLoadedScrollView.swift */,
+				79AD56D12B1399B50019FF52 /* EvalsToBeCorrectedScrollView.swift */,
 			);
 			path = ToDo;
 			sourceTree = "<group>";
@@ -1765,6 +1780,17 @@
 				79A800292AC81E31001F2E25 /* DocumentControls.swift */,
 			);
 			path = Controls;
+			sourceTree = "<group>";
+		};
+		79AD56CA2B138FD20019FF52 /* ToDo */ = {
+			isa = PBXGroup;
+			children = (
+				79AD56CB2B1390000019FF52 /* ToDoAction.swift */,
+				79AD56CD2B1391880019FF52 /* DocsToBePrinted.swift */,
+				79AD56CF2B1391A90019FF52 /* DocsToBeLoaded.swift */,
+				79AD56D32B139A7E0019FF52 /* EvalsToBeCorrected.swift */,
+			);
+			path = ToDo;
 			sourceTree = "<group>";
 		};
 		79B060812AFAA02B00B381FE /* Authentication */ = {
@@ -2542,12 +2568,14 @@
 				79BA2D48299C0084006325CC /* JsonImportExportMng.swift in Sources */,
 				79B060802AFA533B00B381FE /* SignInView.swift in Sources */,
 				7918D56C2AF6AC360085C639 /* ComputingStatus.swift in Sources */,
+				79144F7D2B13C8030026254B /* EvalStateEnum.swift in Sources */,
 				79CD363929D989C900BF5ADC /* EmptyListMessage.swift in Sources */,
 				796B6A802A0C42BD00F00929 /* SchoolInfosView.swift in Sources */,
 				79975322297C4AEF00D1C66E /* ProgramBrowserRow.swift in Sources */,
 				7989B4D329A2733D00383F84 /* ClassActivityProgressEditView.swift in Sources */,
 				7989B4D729A276F400383F84 /* ActivityProgressSlider.swift in Sources */,
 				7957A5B02AF7CE82002C8721 /* ClasseEventsViewModel.swift in Sources */,
+				79AD56D02B1391A90019FF52 /* DocsToBeLoaded.swift in Sources */,
 				79B6630729244C3F007B1FBD /* ContentView.swift in Sources */,
 				79398D2D2965FABE0013564D /* Exam+Extensions.swift in Sources */,
 				794827422AFF8297001640CD /* CompetencyMiddleColumn.swift in Sources */,
@@ -2561,6 +2589,7 @@
 				79ECF1FC2959F915008F0282 /* ClasseObservLabel.swift in Sources */,
 				79A8E7BE29AF6109006D0EAA /* IndicatorImageView.swift in Sources */,
 				796A17802A3F416D00413DDD /* EleveListSection.swift in Sources */,
+				79AD56CE2B1391880019FF52 /* DocsToBePrinted.swift in Sources */,
 				793D6277295DD9E600477932 /* ObservSignIcon.swift in Sources */,
 				793C29D52953C08100E7F65B /* RessourceEditor.swift in Sources */,
 				79F57E38298EB2D30014B73D /* ActivitySymbolViews.swift in Sources */,
@@ -2689,6 +2718,7 @@
 				7927E6C82980A12F007002CE /* SequenceEditorModalView.swift in Sources */,
 				7921355D2978728A0036A5EA /* Activity+Extensions.swift in Sources */,
 				79637203297D826400ECDBC3 /* ProgramManager.swift in Sources */,
+				79AD56CC2B1390010019FF52 /* ToDoAction.swift in Sources */,
 				79F7A2942A42389100CEC3D5 /* TagCapsuleStyle+Extension.swift in Sources */,
 				79ECF202295A15F0008F0282 /* EleveObservRow.swift in Sources */,
 				792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */,
@@ -2777,7 +2807,7 @@
 				790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */,
 				79F7A28F2A40CE7100CEC3D5 /* WCompPicker.swift in Sources */,
 				79AFBFB62981C9DA001576DD /* ActivityCreatorModal.swift in Sources */,
-				7989B4DB29A28D0300383F84 /* ProgressState.swift in Sources */,
+				7989B4DB29A28D0300383F84 /* ProgressStateEnum.swift in Sources */,
 				7994E3242972F4E500952D08 /* SchoolDocumentListSection.swift in Sources */,
 				795C2C31296E2DCA00EDFF09 /* RoomElevePlacement.swift in Sources */,
 				7981C22129A8054A0085986D /* ProgramTimeLine.swift in Sources */,
@@ -2794,6 +2824,7 @@
 				79637205297D85EF00ECDBC3 /* SequenceBrowserRow.swift in Sources */,
 				799EFBA42A2CFC66008E9775 /* FileOperationTypes.swift in Sources */,
 				79A56A592A48E8B300D1D4CC /* WCompMasteryEdit.swift in Sources */,
+				79AD56D22B1399B50019FF52 /* EvalsToBeCorrectedScrollView.swift in Sources */,
 				79E40E7C2997D83D006BBE49 /* Colle+CoreDataClass.swift in Sources */,
 				79134557296B6C620092E7CD /* TrombineInteractivView.swift in Sources */,
 				795804BA29A69CB800AEB7DA /* SequenceStepperView.swift in Sources */,
@@ -2841,6 +2872,7 @@
 				79388A5329257045002AABB8 /* NavigationModel.swift in Sources */,
 				797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */,
 				79E40E812997D8BB006BBE49 /* Observ+CoreDataClass.swift in Sources */,
+				79AD56D42B139A7E0019FF52 /* EvalsToBeCorrected.swift in Sources */,
 				798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */,
 				79B1C8142A5F1EB5006E6B37 /* ProgramPlanningGraphData.swift in Sources */,
 				79FD21932A338A9200A8D925 /* DSectionEntity+CoreDataClass.swift in Sources */,

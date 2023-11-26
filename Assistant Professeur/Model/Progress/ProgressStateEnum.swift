@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ProgressState: String {
+enum ProgressStateEnum: String {
     case notStarted = "A venir"
     case inProgress = "En cours"
     case completed = "Terminé"

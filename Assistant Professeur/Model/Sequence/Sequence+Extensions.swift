@@ -250,7 +250,7 @@ extension SequenceEntity {
     }
 
     /// Retourne l'état d'avancement  d'une `classe` dans cette Séquence
-    func statusFor(classe: ClasseEntity) -> ProgressState {
+    func statusFor(classe: ClasseEntity) -> ProgressStateEnum {
         let seqActivitiesProgresses = classe.allProgresses.filter { progress in
             guard let activity = progress.activity else {
                 return false

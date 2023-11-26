@@ -15,30 +15,6 @@ private let customLog = Logger(
     category: "ActivityProgressEntity"
 )
 
-enum EvalStatusEnum: String, PickableIdentifiableEnumP, Codable {
-    case toBeCorrected
-    case beingCorrected
-    case corrected
-    case givenBack
-
-    var id: String {
-        rawValue
-    }
-
-    var pickerString: String {
-        switch self {
-            case .toBeCorrected:
-                "A corriger"
-            case .beingCorrected:
-                "En cours"
-            case .corrected:
-                "Corrigée"
-            case .givenBack:
-                "Rendue"
-        }
-    }
-}
-
 /// La progression d'une classe dans une activité scolaire
 extension ActivityProgressEntity {
     // MARK: - Computed properties
@@ -71,7 +47,7 @@ extension ActivityProgressEntity {
         }
     }
 
-    var status: ProgressState {
+    var status: ProgressStateEnum {
         switch progress {
             case 0.0:
                 return .notStarted
@@ -114,10 +90,10 @@ extension ActivityProgressEntity {
 
     /// Wrapper of `evalStatus`
     /// - Important: *Does NOT save the context to the store after modification is done*
-    var evalStatusEnum: EvalStatusEnum {
+    var evalStatusEnum: EvalStateEnum {
         get {
             if let evalStatus {
-                EvalStatusEnum(rawValue: evalStatus) ?? .toBeCorrected
+                EvalStateEnum(rawValue: evalStatus) ?? .toBeCorrected
             } else {
                 .toBeCorrected
             }
@@ -282,6 +258,7 @@ public extension ActivityProgressEntity {
            Annotation: \(viewAnnotation)
            Status    : \(status)
            Progrès   : \(progress * 100.0) %
+           Evaluation: \(evalStatusEnum.rawValue)
            Début     : \(startDate?.formatted(date: .abbreviated, time: .shortened) ?? "-")
            Fin       : \(endDate?.formatted(date: .abbreviated, time: .shortened) ?? "-")
         """

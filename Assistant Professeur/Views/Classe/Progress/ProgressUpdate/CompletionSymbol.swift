@@ -10,7 +10,7 @@ import StepperView
 
 /// Symbol associé à un état d'avancement
 struct CompletionSymbol: View {
-    var status: ProgressState
+    var status: ProgressStateEnum
 
     var body: some View {
         IndicatorImageView(

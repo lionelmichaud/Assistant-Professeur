@@ -1,16 +1,14 @@
 //
-//  DocsToBePrintedScrollView.swift
+//  EvalsToBeCorrectedScrollView.swift
 //  Assistant Professeur
 //
-//  Created by Lionel MICHAUD on 02/11/2023.
+//  Created by Lionel MICHAUD on 26/11/2023.
 //
 
-import HelpersView
 import SwiftUI
+import HelpersView
 
-/// ScrollView présentant une liste de documents à imprimer
-/// dans un certain nombre d'exemplaires avant une certaine date
-struct DocsToBePrintedScrollView: View {
+struct EvalsToBeCorrectedScrollView: View {
     let seances: [Seance]
 
     @StateObject
@@ -23,14 +21,14 @@ struct DocsToBePrintedScrollView: View {
                     toDoViewModel.status.view
                         .horizontallyAligned(.center)
                 case .finished:
-                    ForEach(toDoViewModel.batchesOfDocsToBePrinted) { batch in
-                        DocsToBePrintedGroupBox(batchOfDocToPrint: batch)
+                    ForEach(toDoViewModel.batchesOfEvalsToBeCorrected) { batch in
+                        EvalsToBeCorrectedGroupBox(batchOfEvalsToBeCorrected: batch)
                     }
-                    .emptyListPlaceHolder(toDoViewModel.batchesOfDocsToBePrinted) {
+                    .emptyListPlaceHolder(toDoViewModel.batchesOfEvalsToBeCorrected) {
                         ContentUnavailableView(
-                            "Aucune impression à réaliser pour le mois à venir...",
+                            "Aucune évaluation à corriger pour le mois à venir...",
                             systemImage: "checklist",
-                            description: Text("Les impressions nécessaires au cours du prochain mois apparaîtront ici.")
+                            description: Text("Les évaluations à corriger au cours du prochain mois apparaîtront ici.")
                         )
                     }
             }
@@ -38,16 +36,16 @@ struct DocsToBePrintedScrollView: View {
         .task {
             await toDoViewModel.getAllDocsToBeActioned(
                 fromSeances: seances,
-                forThisAction: ToDoAction.print
+                forThisAction: ToDoAction.correct
             )
         }
     }
 }
 
-/// GroupBox présentant un document à imprimer
-/// dans un certain nombre d'exemplaires avant une certaine date
-struct DocsToBePrintedGroupBox: View {
-    let batchOfDocToPrint: BatchOfDocsToBePrinted
+/// GroupBox présentant une évaluation à corriger et
+/// son état d'avancement dans la correction
+struct EvalsToBeCorrectedGroupBox: View {
+    let batchOfEvalsToBeCorrected: BatchOfEvalsToBeCorrected
 
     @State
     private var documentToBeViewed: DocumentEntity?
@@ -56,7 +54,7 @@ struct DocsToBePrintedGroupBox: View {
     private var navig: NavigationModel
 
     @State
-    private var isPrinted: Bool = false
+    private var evalStatusEnum: EvalStateEnum = .toBeCorrected
 
     var body: some View {
         GroupBox {
@@ -70,72 +68,64 @@ struct DocsToBePrintedGroupBox: View {
                 // Document
                 documentsView
                     .padding(.top, 2)
-                // Bouton
-                printedButton
-                    .horizontallyAligned(.leading)
+                // Picker
+                CasePicker(
+                    pickedCase: $evalStatusEnum,
+                    label: "Correction"
+                )
+                .pickerStyle(.segmented)
                     .padding(.top, 2)
             }
-
-            // Nb exemplaires - date limite
-            HStack {
-                if batchOfDocToPrint.quantity > 0 {
-                    nbExemplaires
-                }
-                Spacer()
-                dateBeforeView
-            }
-            .padding(.top, 2)
         }
         .font(.callout)
         .frame(maxWidth: .infinity)
         .padding(.horizontal)
         .onAppear {
-            isPrinted = batchOfDocToPrint.progress.isPrinted
+            evalStatusEnum = batchOfEvalsToBeCorrected.progress.evalStatusEnum
         }
-        .onChange(of: isPrinted) {
-            batchOfDocToPrint.progress.isPrinted = isPrinted
-            try? ActivityProgressEntity.saveIfContextHasChanged()
-        }
+        .onChange(of: evalStatusEnum) {
+            batchOfEvalsToBeCorrected.progress.evalStatusEnum = evalStatusEnum
+            try? ActivityProgressEntity.saveIfContextHasChanged()        }
     }
 }
 
 // MARK: - Subviews
 
-extension DocsToBePrintedGroupBox {
+extension EvalsToBeCorrectedGroupBox {
     /// Classe - Discipline - Sequence - Activité
     private var classeSequenceActivityView: some View {
         HStack {
             // Classe
             Button {
                 DeepLinkManager.handle(
-                    navigateTo: .classeProgressUpdate(classe: batchOfDocToPrint.classe),
+                    navigateTo: .classeProgressUpdate(classe: batchOfEvalsToBeCorrected.classe),
                     using: navig
                 )
             } label: {
-                Text(batchOfDocToPrint.classe.displayString)
+                Text(batchOfEvalsToBeCorrected.classe.displayString)
             }
             .buttonStyle(.bordered)
 
             // Tags Séquence/Activité
-            if let sequence = batchOfDocToPrint.activity.sequence,
+            if let sequence = batchOfEvalsToBeCorrected.activity.sequence,
                let discipline = sequence.program?.disciplineEnum {
                 Text(discipline.acronym)
                     .foregroundColor(.secondary)
                 SequenceTagWithPopOver(sequence: sequence)
-                ActivityTagWithPopOver(activity: batchOfDocToPrint.activity)
+                ActivityTagWithPopOver(activity: batchOfEvalsToBeCorrected.activity)
             }
         }
     }
 
     private var navigateToActivityButton: some View {
         Group {
-            if let sequence = batchOfDocToPrint.activity.sequence {
+            if let sequence = batchOfEvalsToBeCorrected.activity.sequence {
                 Button {
                     DeepLinkManager.handle(
                         navigateTo: .activity(
                             program: sequence.program!,
                             sequence: sequence,
-                            activity: batchOfDocToPrint.activity
+                            activity: batchOfEvalsToBeCorrected.activity
                         ),
                         using: navig
                     )
@@ -150,26 +140,9 @@ extension DocsToBePrintedGroupBox {
         }
     }
 
-    private var printedButton: some View {
-        DocPrintedToggle(
-            isPrinted: $isPrinted,
-            nbExemplaires: nil,
-            save: { try? ActivityProgressEntity.saveIfContextHasChanged() }
-        )
-    }
-
-    private var dateBeforeView: some View {
-        HStack {
-            Spacer()
-            Text("Avant:")
-                .foregroundStyle(.secondary)
-            Text(formattedDate(batchOfDocToPrint.beforeDate))
-        }
-    }
-
     private var documentsView: some View {
         Group {
-            ForEach(batchOfDocToPrint.documents) { document in
+            ForEach(batchOfEvalsToBeCorrected.documents) { document in
                 Button {
                     documentToBeViewed = document
                 } label: {
@@ -192,44 +165,8 @@ extension DocsToBePrintedGroupBox {
             }
         }
     }
-
-    private var nbExemplaires: some View {
-        HStack {
-            Text("Nombre d'ex.:")
-                .foregroundStyle(.secondary)
-            Text("\(batchOfDocToPrint.quantity, format: .number)")
-        }
-    }
-}
-
-// MARK: - Methods
-
-extension DocsToBePrintedGroupBox {
-    private func formattedDate(_ date: Date) -> String {
-        let delta = date.days(between: Date.now)
-        switch delta {
-            case 0:
-                return "Aujourd'hui"
-
-            case 1:
-                return "Demain"
-
-            case 2:
-                return "Après-demain"
-
-            case 3 ... 6:
-                return "\(date.formatted(Date.FormatStyle().weekday(.wide))) prochain"
-
-            default:
-                return date
-                    .formatted(Date.FormatStyle()
-                        .weekday(.wide)
-                        .day(.twoDigits)
-                        .month(.twoDigits))
-        }
-    }
 }
 
 // #Preview {
-//    DocToBePrintedGroupBox()
+//    EvalsToBeCorrectedScrollView()
 // }

@@ -35,6 +35,10 @@ class ToDoViewModel: ObservableObject {
     @Published
     var batchesOfDocsToBeLoaded: [BatchOfDocsToBeLoaded] = []
 
+    /// Tableau des évaluations à corriger dans les séances à venir
+    @Published
+    var batchesOfEvalsToBeCorrected: [BatchOfEvalsToBeCorrected] = []
+
     /// Avancement de la recherche des ToDo dans les futurs séances
     @Published
     var status: ComputingStatus = .pending
@@ -56,7 +60,7 @@ class ToDoViewModel: ObservableObject {
             fromSeances: seances,
             forThisAction: action
         )
-        
+
         status = .finished(message: "Recherche terminée.")
     }
 
@@ -66,12 +70,11 @@ class ToDoViewModel: ObservableObject {
     ) async {
         // try? await Task.sleep(for: .seconds(5))
         // Colecter tous les documents restant à imprimer
-        let nbSeancesToProcess = 4 * 18 // 3 semaines de cours en temps complet
-        let maxIndex = (seances.startIndex + nbSeancesToProcess)
-            .clamp(
-                low: seances.startIndex,
-                high: seances.endIndex - 1
-            )
+        let nbSeancesToProcess = 4 * 18 // 4 semaines de cours en temps complet
+        let maxIndex = (seances.startIndex + nbSeancesToProcess).clamp(
+            low: seances.startIndex,
+            high: seances.endIndex - 1
+        )
         let seancesToProcess = seances[seances.startIndex ... maxIndex]
         var batchesOfDocsToBeActionned = [BatchOfDocToBeActionned]()
 
@@ -86,30 +89,34 @@ class ToDoViewModel: ObservableObject {
             }
             let dateSeance = seance.interval.start
 
+            // Pour chaque activité inclue dans la séance
             seance.activities.forEach { activity in
-                // Pour chaque activité inclue dans la séance
+                // L'activité nécessite-elle une action ?
                 let activityHasSomeDocToBeActionned =
                     switch action {
                     case .print:
                         activity.hasSomeDocumentForEleves
                     case .load:
                         activity.hasSomeDocumentForENT
+                    case .correct:
+                        activity.isEval && activity.hasSomeDocumentForEleves
                 }
-
                 guard activityHasSomeDocToBeActionned,
                       let progress = ProgressClasseCoordinator
                       .progressFor(thisActivity: activity, thisClasse: classe) else {
                     return
                 }
 
+                // L'action a-t-elle déjà été réalisée ?
                 let activityIsAlreadyActionned =
                     switch action {
                     case .print:
                         progress.isPrinted
                     case .load:
                         progress.isLoaded
+                    case .correct:
+                        progress.evalStatusEnum == .givenBack
                 }
-
                 guard !activityIsAlreadyActionned else {
                     return
                 }
@@ -118,7 +125,7 @@ class ToDoViewModel: ObservableObject {
                 let actionableDocuments = activity.allDocuments.filter {
                     switch action {
                         // Liste de documents imprimable de l'activité
-                        case .print: $0.isForEleve
+                        case .print, .correct: $0.isForEleve
                         // Liste de documents partageables de l'activité
                         case .load: $0.isForENT
                     }
@@ -189,6 +196,27 @@ class ToDoViewModel: ObservableObject {
                             activity: batch.activity,
                             documents: batch.documents,
                             beforeDate: batch.beforeDate
+                        )
+                    )
+                }
+
+            case .correct:
+                /// Supprimer les doublons (Activité, Classe)
+                var batches = [BatchOfDocToBeActionned]()
+                for element in batchesOfDocsToBeActionned where !batches.contains(where: {
+                    $0.activity == element.activity && $0.classe == element.classe
+                }) {
+                    batches.append(element)
+                }
+
+                batchesOfEvalsToBeCorrected = []
+                batches.forEach { batch in
+                    batchesOfEvalsToBeCorrected.append(
+                        BatchOfEvalsToBeCorrected(
+                            classe: batch.classe,
+                            activity: batch.activity,
+                            progress: batch.progress,
+                            documents: batch.documents
                         )
                     )
                 }
