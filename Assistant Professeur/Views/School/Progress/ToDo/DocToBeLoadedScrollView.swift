@@ -8,14 +8,6 @@
 import HelpersView
 import SwiftUI
 
-struct BatchOfDocsToBeLoaded: Identifiable {
-    var id = UUID()
-    var classeLevel: LevelClasse
-    var activity: ActivityEntity
-    var documents: [DocumentEntity]
-    var beforeDate: Date
-}
-
 /// ScrollView présentant une liste de documents à partager
 /// sur l'ENT avant une certaine date
 struct DocsToBeLoadedScrollView: View {
@@ -128,22 +120,15 @@ extension DocsToBeLoadedGroupBox {
     }
 
     private var uploadedButton: some View {
-        Button {
-            isLoaded.toggle()
-            batchOfDocToLoad.activity.allProgresses.forEach { prog in
-                prog.isLoaded = isLoaded
-            }
-            try? ActivityProgressEntity.saveIfContextHasChanged()
-        } label: {
-            Label(
-                title: {
-                    Text(label)
-                }, icon: {
-                    Image(systemName: isLoaded ? "checkmark.circle.fill" : "circle")
-                        .foregroundColor(isLoaded ? .green : .gray)
+        DocLoadedToggle(
+            isLoaded: $isLoaded,
+            save: { newValue in
+                batchOfDocToLoad.activity.allProgresses.forEach { prog in
+                    prog.isLoaded = newValue
                 }
-            )
-        }
+                try? ActivityProgressEntity.saveIfContextHasChanged()
+            }
+        )
         .buttonStyle(.plain)
     }
 

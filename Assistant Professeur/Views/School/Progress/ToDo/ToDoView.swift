@@ -9,23 +9,6 @@ import AppFoundation
 import HelpersView
 import SwiftUI
 
-/// Picker selectors
-enum ToDoAction: String, PickableEnumP {
-    case print = "A IMPRIMER POUR ÉLÈVES"
-    case load = "A PARTAGER SUR ENT"
-
-    var pickerString: String { self.rawValue }
-    var imageName: String {
-        switch self {
-            case .print:
-                DocumentEntity.forEleveImageName
-
-            case .load:
-                DocumentEntity.forEntImageName
-        }
-    }
-}
-
 /// Liste des documents à imprimer
 /// dans un certain nombre d'exemplaires avant une certaine date
 struct ToDoView: View {
@@ -51,6 +34,9 @@ struct ToDoView: View {
 
                 case .load:
                     DocsToBeLoadedScrollView(seances: seances)
+
+                case .correct:
+                    EvalsToBeCorrectedScrollView(seances: seances)
             }
         }
         #if os(iOS)

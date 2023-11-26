@@ -21,6 +21,7 @@
     <entity name="ActivityProgressEntity" representedClassName="ActivityProgressEntity" syncable="YES" codeGenerationType="category">
         <attribute name="annotation" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="endDate" optional="YES" transient="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="evalStatus" optional="YES" attributeType="String" defaultValueString=""/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isDistributed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="isLoaded" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>

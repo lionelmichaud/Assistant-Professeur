@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 15/02/2023.
 //
 
+import AppFoundation
 import CoreData
 import Foundation
 import os
@@ -46,7 +47,7 @@ extension ActivityProgressEntity {
         }
     }
 
-    var status: ProgressState {
+    var status: ProgressStateEnum {
         switch progress {
             case 0.0:
                 return .notStarted
@@ -85,6 +86,21 @@ extension ActivityProgressEntity {
     func toggleIsLoaded() {
         isLoaded.toggle()
         try? ActivityProgressEntity.saveIfContextHasChanged()
+    }
+
+    /// Wrapper of `evalStatus`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    var evalStatusEnum: EvalStateEnum {
+        get {
+            if let evalStatus {
+                EvalStateEnum(rawValue: evalStatus) ?? .toBeCorrected
+            } else {
+                .toBeCorrected
+            }
+        }
+        set {
+            self.evalStatus = newValue.rawValue
+        }
     }
 }
 
@@ -242,6 +258,7 @@ public extension ActivityProgressEntity {
            Annotation: \(viewAnnotation)
            Status    : \(status)
            Progrès   : \(progress * 100.0) %
+           Evaluation: \(evalStatusEnum.rawValue)
            Début     : \(startDate?.formatted(date: .abbreviated, time: .shortened) ?? "-")
            Fin       : \(endDate?.formatted(date: .abbreviated, time: .shortened) ?? "-")
         """
