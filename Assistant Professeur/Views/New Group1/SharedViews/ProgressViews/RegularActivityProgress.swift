@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HelpersView
 
 struct RegularActivityProgress: View {
     @ObservedObject
@@ -30,6 +31,7 @@ struct RegularActivityProgress: View {
             annotation
 
             if let activity = progress.activity {
+                // documents à imprimer
                 if activity.hasSomeDocumentForEleves {
                     HStack {
                         DocPrintedToggle(
@@ -48,6 +50,7 @@ struct RegularActivityProgress: View {
                         )
                     }
                 }
+                // documnts à partager
                 if activity.hasSomeDocumentForENT {
                     DocLoadedToggle(
                         isLoaded: $progress.isLoaded,
@@ -59,6 +62,14 @@ struct RegularActivityProgress: View {
                         }
                     )
                     .padding(.top, 2)
+                }
+                // avancement de la correction de l'éval
+                if activity.isEval {
+                    CasePicker(
+                        pickedCase: $progress.evalStatusEnum,
+                        label: "Correction"
+                    )
+                    .pickerStyle(.segmented)
                 }
             }
         }

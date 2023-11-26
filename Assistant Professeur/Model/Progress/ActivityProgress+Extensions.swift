@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 15/02/2023.
 //
 
+import AppFoundation
 import CoreData
 import Foundation
 import os
@@ -13,6 +14,30 @@ private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
     category: "ActivityProgressEntity"
 )
+
+enum EvalStatusEnum: String, PickableIdentifiableEnumP, Codable {
+    case toBeCorrected
+    case beingCorrected
+    case corrected
+    case givenBack
+
+    var id: String {
+        rawValue
+    }
+
+    var pickerString: String {
+        switch self {
+            case .toBeCorrected:
+                "A corriger"
+            case .beingCorrected:
+                "En cours"
+            case .corrected:
+                "Corrigée"
+            case .givenBack:
+                "Rendue"
+        }
+    }
+}
 
 /// La progression d'une classe dans une activité scolaire
 extension ActivityProgressEntity {
@@ -85,6 +110,21 @@ extension ActivityProgressEntity {
     func toggleIsLoaded() {
         isLoaded.toggle()
         try? ActivityProgressEntity.saveIfContextHasChanged()
+    }
+
+    /// Wrapper of `evalStatus`
+    /// - Important: *Does NOT save the context to the store after modification is done*
+    var evalStatusEnum: EvalStatusEnum {
+        get {
+            if let evalStatus {
+                EvalStatusEnum(rawValue: evalStatus) ?? .toBeCorrected
+            } else {
+                .toBeCorrected
+            }
+        }
+        set {
+            self.evalStatus = newValue.rawValue
+        }
     }
 }
 

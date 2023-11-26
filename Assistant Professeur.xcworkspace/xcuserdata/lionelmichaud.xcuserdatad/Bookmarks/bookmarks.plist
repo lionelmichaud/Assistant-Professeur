@@ -210,7 +210,7 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>            // initializeCloudKitSchema()
+						<string>            initializeCloudKitSchema()
 </string>
 						<key>leading</key>
 						<string>        #if DEBUG
