@@ -15,13 +15,11 @@ private let customLog = Logger(
 )
 
 @MainActor
-class ContactsViewModel: ObservableObject {
+@Observable final class ContactsViewModel {
     /// Tableau des contacts trouvés dans l'application Contacts
-    @Published
     private(set) var contacts: [CNContact] = []
 
     /// Avancement de la recherche des contacts
-    @Published
     private(set) var status: ContactsLoadingStatus = .pending
 
     /// Récupérer les contacts dans l'appli "Contacts"

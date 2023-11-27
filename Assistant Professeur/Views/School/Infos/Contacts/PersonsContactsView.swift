@@ -13,7 +13,7 @@ struct PersonsContactsView: View {
     @ObservedObject
     var school: SchoolEntity
 
-    @StateObject
+    @State
     private var viewModel = ContactsViewModel()
 
     @State
