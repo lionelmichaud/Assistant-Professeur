@@ -7,17 +7,17 @@
 
 import Foundation
 
-class EleveViewModel: ObservableObject {
+@Observable class EleveViewModel {
 
     // MARK: - Properties
 
-    @Published var sexEnum      : Sexe   = .male
-    @Published var familyName   : String = ""
-    @Published var givenName    : String = ""
-    @Published var isFlagged    : Bool   = false
-    @Published var annotation   : String = ""
-    @Published var appreciation : String = ""
-    @Published var bonus        : Int    = 0
+    var sexEnum      : Sexe
+    var familyName   : String
+    var givenName    : String
+    var isFlagged    : Bool
+    var annotation   : String
+    var appreciation : String
+    var bonus        : Int
 
     // MARK: - Initializers
 

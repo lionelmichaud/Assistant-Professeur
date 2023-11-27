@@ -35,7 +35,7 @@ struct EleveCreatorModal: View {
     @FocusState
     private var focus: FocusableField?
 
-    @StateObject
+    @State
     private var eleveVM = EleveViewModel()
 
     @State

@@ -12,14 +12,14 @@ import Observation
 
     // MARK: - Properties
 
-    var levelEnum      : LevelClasse = .n6ieme
-    var numero         : Int         = 1
-    var segpa          : Bool        = false
-    var disciplineEnum : Discipline  = .technologie
-    var heures         : Double      = 0.0
-    var isFlagged      : Bool        = false
-    var annotation     : String      = ""
-    var appreciation   : String      = ""
+    var levelEnum      : LevelClasse
+    var numero         : Int
+    var segpa          : Bool
+    var disciplineEnum : Discipline
+    var heures         : Double     
+    var isFlagged      : Bool
+    var annotation     : String
+    var appreciation   : String
 
     // MARK: - Initializers
 
