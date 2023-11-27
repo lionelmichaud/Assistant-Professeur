@@ -13,7 +13,7 @@ import SwiftUI
 struct DocsToBePrintedScrollView: View {
     let seances: [Seance]
 
-    @StateObject
+    @State
     private var toDoViewModel = ToDoViewModel()
 
     var body: some View {

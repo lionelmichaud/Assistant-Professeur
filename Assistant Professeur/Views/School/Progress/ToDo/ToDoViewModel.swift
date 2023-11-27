@@ -25,22 +25,19 @@ struct BatchOfDocToBeActionned: Identifiable, CustomStringConvertible {
     }
 }
 
-@MainActor
-class ToDoViewModel: ObservableObject {
+@Observable final class ToDoViewModel {
     /// Tableau des documents à imprimer dans les séances à venir
-    @Published
     var batchesOfDocsToBePrinted: [BatchOfDocsToBePrinted] = []
 
     /// Tableau des documents à charger dans l'ENT dans les séances à venir
-    @Published
     var batchesOfDocsToBeLoaded: [BatchOfDocsToBeLoaded] = []
 
     /// Avancement de la recherche des ToDo dans les futurs séances
-    @Published
     var status: ComputingStatus = .pending
 
     /// Recherche tous les documents à imprimer/partager dans les séances à venir
     /// et calcule le nombre d'exemplaires à imprimer et la date au plus tard.
+    @MainActor 
     func getAllDocsToBeActioned(
         fromSeances seances: [Seance],
         forThisAction action: ToDoAction
@@ -60,6 +57,7 @@ class ToDoViewModel: ObservableObject {
         status = .finished(message: "Recherche terminée.")
     }
 
+    @MainActor 
     private func collect(
         fromSeances seances: [Seance],
         forThisAction action: ToDoAction
@@ -142,6 +140,7 @@ class ToDoViewModel: ObservableObject {
         )
     }
 
+    @MainActor 
     private func filterDocsToBeActioned(
         batchesOfDocsToBeActionned: [BatchOfDocToBeActionned],
         forThisAction action: ToDoAction
