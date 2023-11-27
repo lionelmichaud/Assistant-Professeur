@@ -6,6 +6,7 @@
 //
 
 import AppFoundation
+import HelpersView
 import SwiftUI
 
 /// Liste des groupes d'une classe présentant, pour chaque groupe, la liste des élèves du groupe
@@ -53,9 +54,11 @@ struct GroupsListView: View {
     var body: some View {
         Group {
             if classe.nbOfEleves == 0 {
-                VStack(alignment: .center, spacing: 10) {
-                    Text("Aucun élèves dans cette classe.")
-                }
+                ContentUnavailableView(
+                    "Aucun groupe actuellement...",
+                    systemImage: EleveEntity.defaultImageName,
+                    description: Text("Les groupes créés apparaîtront ici.")
+                )
 
             } else {
                 List {
@@ -195,7 +198,7 @@ extension GroupsListView {
                             withAnimation {
                                 GroupManager.formOrderedGroups(
                                     nbEleveParGroupe: 2,
-                                    dans: classe, 
+                                    dans: classe,
                                     nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
                                 )
                             }

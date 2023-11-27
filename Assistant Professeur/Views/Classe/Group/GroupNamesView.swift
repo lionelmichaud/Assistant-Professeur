@@ -7,6 +7,7 @@
 
 import CoreData
 import SwiftUI
+import HelpersView
 
 /// Liste des nom des élèves d'un groupe donné
 struct GroupNamesView: View {

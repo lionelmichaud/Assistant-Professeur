@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import HelpersView
 
 /// Vue de tous les élèves de la classe en trombinoscope
 struct TrombinoscopeView: View {
@@ -44,17 +45,16 @@ struct TrombinoscopeView: View {
     private var pictureSize = "Small picture"
 
     var body: some View {
+        let foundEleves = classe.filteredElevesSortedByName(
+            searchString: searchString,
+            nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
+        )
         ScrollView(.vertical, showsIndicators: true) {
             LazyVGrid(
                 columns: pictureSize == "Small picture" ? smallColumns : largeColumns,
                 spacing: 4
             ) {
-                ForEach(
-                    classe.filteredElevesSortedByName(
-                        searchString: searchString,
-                        nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
-                    )
-                ) { eleve in
+                ForEach(foundEleves) { eleve in
                     VStack(alignment: .center) {
                         TrombineInteractivView(eleve: eleve)
 
@@ -65,6 +65,17 @@ struct TrombinoscopeView: View {
                         )
                         .multilineTextAlignment(.center)
                     }
+                }
+            }
+            .emptyListPlaceHolder(foundEleves) {
+                if searchString.isNotEmpty {
+                    ContentUnavailableView.search
+                } else {
+                    ContentUnavailableView(
+                        "Aucun élève actuellement...",
+                        systemImage: EleveEntity.defaultImageName,
+                        description: Text("Les élèves ajoutés apparaîtront ici.")
+                    )
                 }
             }
         }

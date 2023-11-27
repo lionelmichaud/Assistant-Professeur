@@ -5,6 +5,7 @@
 //  Created by Lionel MICHAUD on 17/10/2022.
 //
 
+import HelpersView
 import SwiftUI
 
 struct ElevesListView: View {
@@ -28,6 +29,10 @@ struct ElevesListView: View {
     }
 
     var body: some View {
+        let foundEleves = classe.filteredElevesSortedByName(
+            searchString: searchString,
+            nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
+        )
         List {
             // ajouter un élève
             Button {
@@ -38,12 +43,7 @@ struct ElevesListView: View {
             .buttonStyle(.borderless)
 
             // liste des élèves
-            ForEach(
-                classe.filteredElevesSortedByName(
-                    searchString: searchString,
-                    nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
-                )
-            ) { eleve in
+            ForEach(foundEleves) { eleve in
                 ClasseEleveRow(eleve: eleve)
 
                     .onTapGesture {
@@ -83,6 +83,17 @@ struct ElevesListView: View {
                             }
                         }.tint(.orange)
                     }
+            }
+            .emptyListPlaceHolder(foundEleves) {
+                if searchString.isNotEmpty {
+                    ContentUnavailableView.search
+                } else {
+                    ContentUnavailableView(
+                        "Aucun élève actuellement...",
+                        systemImage: EleveEntity.defaultImageName,
+                        description: Text("Les élèves ajoutés apparaîtront ici.")
+                    )
+                }
             }
         }
         .searchable(
