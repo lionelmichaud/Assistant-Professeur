@@ -7,15 +7,15 @@
 
 import Foundation
 
-class ObservViewModel: ObservableObject {
+@Observable class ObservViewModel {
 
     // MARK: - Properties
 
-    @Published var date             : Date      = Date.now
-    @Published var motifEnum        : MotifEnum = .bavardage
-    @Published var descriptionMotif : String    = ""
-    @Published var isConsignee      : Bool      = false
-    @Published var isVerified       : Bool      = false
+    var date             : Date
+    var motifEnum        : MotifEnum
+    var descriptionMotif : String
+    var isConsignee      : Bool
+    var isVerified       : Bool
 
     // MARK: - Initializers
 

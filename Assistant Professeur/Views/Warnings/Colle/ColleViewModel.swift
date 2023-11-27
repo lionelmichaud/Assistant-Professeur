@@ -7,11 +7,11 @@
 
 import Foundation
 
-class ColleViewModel: ObservViewModel {
+@Observable final class ColleViewModel: ObservViewModel {
 
     // MARK: - Properties
 
-    @Published var duree: Int = 0
+    var duree: Int = 0
 
     // MARK: - Initializers
 

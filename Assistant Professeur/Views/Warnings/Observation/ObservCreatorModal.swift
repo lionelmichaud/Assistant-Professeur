@@ -12,7 +12,7 @@ struct ObservCreatorModal: View {
     @ObservedObject
     var eleve: EleveEntity
 
-    @StateObject
+    @State
     private var observVM = ObservViewModel()
 
     @Environment(\.dismiss)

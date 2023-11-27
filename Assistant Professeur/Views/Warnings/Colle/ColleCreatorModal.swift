@@ -12,7 +12,7 @@ struct ColleCreatorModal: View {
     @ObservedObject
     var eleve: EleveEntity
 
-    @StateObject
+    @State
     private var colleVM = ColleViewModel()
 
     @Environment(\.dismiss)
