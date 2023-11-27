@@ -1754,69 +1754,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "64C42ABB-27F4-43BE-B919-DE43DB8A48CE"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Views/School/Progress/ToDo/ToDoViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
-            landmarkName = "collect(fromSeances:forThisAction:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "64C42ABB-27F4-43BE-B919-DE43DB8A48CE - fbefba4793484123"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Assistant_Professeur.ActivityEntity) -&gt; () in closure #1 (Assistant_Professeur.Seance) -&gt; () in Assistant_Professeur.ToDoViewModel.collect(fromSeances: Swift.Array&lt;Assistant_Professeur.Seance&gt;, forThisAction: Assistant_Professeur.ToDoAction) async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/School/Progress/ToDo/ToDoViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117"
-                  offsetFromSymbolStart = "788">
-               </Location>
-               <Location
-                  uuid = "64C42ABB-27F4-43BE-B919-DE43DB8A48CE - fbefba4793484102"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Assistant_Professeur.ActivityEntity) -&gt; () in closure #1 (Assistant_Professeur.Seance) -&gt; () in Assistant_Professeur.ToDoViewModel.collect(fromSeances: Swift.Array&lt;Assistant_Professeur.Seance&gt;, forThisAction: Assistant_Professeur.ToDoAction) async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/School/Progress/ToDo/ToDoViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "116"
-                  endingLineNumber = "116"
-                  offsetFromSymbolStart = "644">
-               </Location>
-               <Location
-                  uuid = "64C42ABB-27F4-43BE-B919-DE43DB8A48CE - fbefba47934841cc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Assistant_Professeur.ActivityEntity) -&gt; () in closure #1 (Assistant_Professeur.Seance) -&gt; () in Assistant_Professeur.ToDoViewModel.collect(fromSeances: Swift.Array&lt;Assistant_Professeur.Seance&gt;, forThisAction: Assistant_Professeur.ToDoAction) async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/School/Progress/ToDo/ToDoViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "118"
-                  endingLineNumber = "118"
-                  offsetFromSymbolStart = "644">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "B054D945-921B-4C5D-9BF3-994F22A71233"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -1824,8 +1761,8 @@
             filePath = "Assistant Professeur/Views/School/Progress/ToDo/ToDoViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "collect(fromSeances:forThisAction:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1840,73 +1777,10 @@
             filePath = "Assistant Professeur/Views/School/Progress/ToDo/ToDoViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "collect(fromSeances:forThisAction:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "53AEC629-C7C7-4727-A141-60FDB8152F59"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Views/School/Progress/ToDo/EvalsToBeCorrectedScrollView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
-            landmarkName = "body"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "53AEC629-C7C7-4727-A141-60FDB8152F59 - 839fcbaec9862ae1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) suspend resume partial function for closure #2 @Sendable () async -&gt; () in Assistant_Professeur.EvalsToBeCorrectedScrollView.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/School/Progress/ToDo/EvalsToBeCorrectedScrollView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "84">
-               </Location>
-               <Location
-                  uuid = "53AEC629-C7C7-4727-A141-60FDB8152F59 - 607319edb6f6008a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(2) await resume partial function for closure #2 @Sendable () async -&gt; () in Assistant_Professeur.EvalsToBeCorrectedScrollView.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/School/Progress/ToDo/EvalsToBeCorrectedScrollView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "40">
-               </Location>
-               <Location
-                  uuid = "53AEC629-C7C7-4727-A141-60FDB8152F59 - 783806518fb0eee3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for closure #2 @Sendable () async -&gt; () in Assistant_Professeur.EvalsToBeCorrectedScrollView.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/School/Progress/ToDo/EvalsToBeCorrectedScrollView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
-                  offsetFromSymbolStart = "28">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1919,8 +1793,8 @@
             filePath = "Assistant Professeur/Views/School/Progress/ToDo/ToDoViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "collect(fromSeances:forThisAction:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1928,33 +1802,64 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BFDFF318-C467-47CA-93C3-062DC6D6B8A0"
-            shouldBeEnabled = "No"
+            uuid = "154619B8-ACCC-45D3-A535-3784B1DFBB59"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Views/School/Progress/ToDo/ToDoViewModel.swift"
+            filePath = "Assistant Professeur/Views/School/Progress/ToDo/EvalsToBeCorrectedScrollView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
-            landmarkName = "filterDocsToBeActioned(batchesOfDocsToBeActionned:forThisAction:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "DC9871C6-D476-4B88-A69D-76A99EC9A65F"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Views/School/Progress/ToDo/ToDoViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
-            landmarkName = "filterDocsToBeActioned(batchesOfDocsToBeActionned:forThisAction:)"
-            landmarkType = "7">
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "documentToBeViewed"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "154619B8-ACCC-45D3-A535-3784B1DFBB59 - 839fcbaec986280c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #2 @Sendable () async -&gt; () in Assistant_Professeur.EvalsToBeCorrectedScrollView.body.getter : some"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/School/Progress/ToDo/EvalsToBeCorrectedScrollView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "440">
+               </Location>
+               <Location
+                  uuid = "154619B8-ACCC-45D3-A535-3784B1DFBB59 - 607319edb6f60267"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for closure #2 @Sendable () async -&gt; () in Assistant_Professeur.EvalsToBeCorrectedScrollView.body.getter : some"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/School/Progress/ToDo/EvalsToBeCorrectedScrollView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "154619B8-ACCC-45D3-A535-3784B1DFBB59 - 783806518fb0ec0e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for closure #2 @Sendable () async -&gt; () in Assistant_Professeur.EvalsToBeCorrectedScrollView.body.getter : some"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Views/School/Progress/ToDo/EvalsToBeCorrectedScrollView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "60">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

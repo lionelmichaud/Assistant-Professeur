@@ -12,12 +12,11 @@ import Foundation
 enum ToDoAction: String, PickableEnumP {
     case print = "A IMPRIMER"
     case load = "A PARTAGER"
-    case correct = "A CORRIGER"
 
     var pickerString: String { self.rawValue }
     var imageName: String {
         switch self {
-            case .print, .correct:
+            case .print:
                 DocumentEntity.forEleveImageName
 
             case .load:

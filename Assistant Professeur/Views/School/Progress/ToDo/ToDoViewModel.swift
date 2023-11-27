@@ -35,10 +35,6 @@ class ToDoViewModel: ObservableObject {
     @Published
     var batchesOfDocsToBeLoaded: [BatchOfDocsToBeLoaded] = []
 
-    /// Tableau des évaluations à corriger dans les séances à venir
-    @Published
-    var batchesOfEvalsToBeCorrected: [BatchOfEvalsToBeCorrected] = []
-
     /// Avancement de la recherche des ToDo dans les futurs séances
     @Published
     var status: ComputingStatus = .pending
@@ -98,8 +94,6 @@ class ToDoViewModel: ObservableObject {
                         activity.hasSomeDocumentForEleves
                     case .load:
                         activity.hasSomeDocumentForENT
-                    case .correct:
-                        activity.isEval && activity.hasSomeDocumentForEleves
                 }
                 guard activityHasSomeDocToBeActionned,
                       let progress = ProgressClasseCoordinator
@@ -114,8 +108,6 @@ class ToDoViewModel: ObservableObject {
                         progress.isPrinted
                     case .load:
                         progress.isLoaded
-                    case .correct:
-                        progress.evalStatusEnum == .givenBack
                 }
                 guard !activityIsAlreadyActionned else {
                     return
@@ -125,7 +117,7 @@ class ToDoViewModel: ObservableObject {
                 let actionableDocuments = activity.allDocuments.filter {
                     switch action {
                         // Liste de documents imprimable de l'activité
-                        case .print, .correct: $0.isForEleve
+                        case .print: $0.isForEleve
                         // Liste de documents partageables de l'activité
                         case .load: $0.isForENT
                     }
@@ -196,27 +188,6 @@ class ToDoViewModel: ObservableObject {
                             activity: batch.activity,
                             documents: batch.documents,
                             beforeDate: batch.beforeDate
-                        )
-                    )
-                }
-
-            case .correct:
-                /// Supprimer les doublons (Activité, Classe)
-                var batches = [BatchOfDocToBeActionned]()
-                for element in batchesOfDocsToBeActionned where !batches.contains(where: {
-                    $0.activity == element.activity && $0.classe == element.classe
-                }) {
-                    batches.append(element)
-                }
-
-                batchesOfEvalsToBeCorrected = []
-                batches.forEach { batch in
-                    batchesOfEvalsToBeCorrected.append(
-                        BatchOfEvalsToBeCorrected(
-                            classe: batch.classe,
-                            activity: batch.activity,
-                            progress: batch.progress,
-                            documents: batch.documents
                         )
                     )
                 }

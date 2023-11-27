@@ -263,8 +263,6 @@
 		79AD56CC2B1390010019FF52 /* ToDoAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AD56CB2B1390000019FF52 /* ToDoAction.swift */; };
 		79AD56CE2B1391880019FF52 /* DocsToBePrinted.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AD56CD2B1391880019FF52 /* DocsToBePrinted.swift */; };
 		79AD56D02B1391A90019FF52 /* DocsToBeLoaded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AD56CF2B1391A90019FF52 /* DocsToBeLoaded.swift */; };
-		79AD56D22B1399B50019FF52 /* EvalsToBeCorrectedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AD56D12B1399B50019FF52 /* EvalsToBeCorrectedScrollView.swift */; };
-		79AD56D42B139A7E0019FF52 /* EvalsToBeCorrected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AD56D32B139A7E0019FF52 /* EvalsToBeCorrected.swift */; };
 		79AEA0A929356DBA0053DDDD /* SchoolEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */; };
 		79AEA0AB29358A8F0053DDDD /* SchoolDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */; };
 		79AFBFB42981A4B0001576DD /* SequenceDetailGroupBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */; };
@@ -738,8 +736,6 @@
 		79AD56CB2B1390000019FF52 /* ToDoAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoAction.swift; sourceTree = "<group>"; };
 		79AD56CD2B1391880019FF52 /* DocsToBePrinted.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsToBePrinted.swift; sourceTree = "<group>"; };
 		79AD56CF2B1391A90019FF52 /* DocsToBeLoaded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocsToBeLoaded.swift; sourceTree = "<group>"; };
-		79AD56D12B1399B50019FF52 /* EvalsToBeCorrectedScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvalsToBeCorrectedScrollView.swift; sourceTree = "<group>"; };
-		79AD56D32B139A7E0019FF52 /* EvalsToBeCorrected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvalsToBeCorrected.swift; sourceTree = "<group>"; };
 		79AEA0A829356DBA0053DDDD /* SchoolEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolEditor.swift; sourceTree = "<group>"; };
 		79AEA0AA29358A8F0053DDDD /* SchoolDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolDetail.swift; sourceTree = "<group>"; };
 		79AFBFB32981A4B0001576DD /* SequenceDetailGroupBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceDetailGroupBox.swift; sourceTree = "<group>"; };
@@ -1464,7 +1460,6 @@
 				794615882AEEBE69002D725E /* ToDoView.swift */,
 				7931F3302AF4032400EC6E10 /* DocToBePrintedScrollView.swift */,
 				7931F3322AF4036400EC6E10 /* DocToBeLoadedScrollView.swift */,
-				79AD56D12B1399B50019FF52 /* EvalsToBeCorrectedScrollView.swift */,
 			);
 			path = ToDo;
 			sourceTree = "<group>";
@@ -1788,7 +1783,6 @@
 				79AD56CB2B1390000019FF52 /* ToDoAction.swift */,
 				79AD56CD2B1391880019FF52 /* DocsToBePrinted.swift */,
 				79AD56CF2B1391A90019FF52 /* DocsToBeLoaded.swift */,
-				79AD56D32B139A7E0019FF52 /* EvalsToBeCorrected.swift */,
 			);
 			path = ToDo;
 			sourceTree = "<group>";
@@ -2824,7 +2818,6 @@
 				79637205297D85EF00ECDBC3 /* SequenceBrowserRow.swift in Sources */,
 				799EFBA42A2CFC66008E9775 /* FileOperationTypes.swift in Sources */,
 				79A56A592A48E8B300D1D4CC /* WCompMasteryEdit.swift in Sources */,
-				79AD56D22B1399B50019FF52 /* EvalsToBeCorrectedScrollView.swift in Sources */,
 				79E40E7C2997D83D006BBE49 /* Colle+CoreDataClass.swift in Sources */,
 				79134557296B6C620092E7CD /* TrombineInteractivView.swift in Sources */,
 				795804BA29A69CB800AEB7DA /* SequenceStepperView.swift in Sources */,
@@ -2872,7 +2865,6 @@
 				79388A5329257045002AABB8 /* NavigationModel.swift in Sources */,
 				797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */,
 				79E40E812997D8BB006BBE49 /* Observ+CoreDataClass.swift in Sources */,
-				79AD56D42B139A7E0019FF52 /* EvalsToBeCorrected.swift in Sources */,
 				798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */,
 				79B1C8142A5F1EB5006E6B37 /* ProgramPlanningGraphData.swift in Sources */,
 				79FD21932A338A9200A8D925 /* DSectionEntity+CoreDataClass.swift in Sources */,

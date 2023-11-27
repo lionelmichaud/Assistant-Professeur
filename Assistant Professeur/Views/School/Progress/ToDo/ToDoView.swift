@@ -34,9 +34,6 @@ struct ToDoView: View {
 
                 case .load:
                     DocsToBeLoadedScrollView(seances: seances)
-
-                case .correct:
-                    EvalsToBeCorrectedScrollView(seances: seances)
             }
         }
         #if os(iOS)
