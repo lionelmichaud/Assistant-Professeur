@@ -14,7 +14,7 @@ struct ClasseCreatorModal: View {
     @Environment(\.dismiss)
     private var dismiss
 
-    @StateObject
+    @State
     private var classeVM = ClasseViewModel()
 
     @FocusState

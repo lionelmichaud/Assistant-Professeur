@@ -6,19 +6,20 @@
 //
 
 import Foundation
+import Observation
 
-class ClasseViewModel: ObservableObject {
+@Observable class ClasseViewModel {
 
     // MARK: - Properties
 
-    @Published var levelEnum      : LevelClasse = .n6ieme
-    @Published var numero         : Int         = 1
-    @Published var segpa          : Bool        = false
-    @Published var disciplineEnum : Discipline  = .technologie
-    @Published var heures         : Double      = 0.0
-    @Published var isFlagged      : Bool        = false
-    @Published var annotation     : String      = ""
-    @Published var appreciation   : String      = ""
+    var levelEnum      : LevelClasse = .n6ieme
+    var numero         : Int         = 1
+    var segpa          : Bool        = false
+    var disciplineEnum : Discipline  = .technologie
+    var heures         : Double      = 0.0
+    var isFlagged      : Bool        = false
+    var annotation     : String      = ""
+    var appreciation   : String      = ""
 
     // MARK: - Initializers
 
