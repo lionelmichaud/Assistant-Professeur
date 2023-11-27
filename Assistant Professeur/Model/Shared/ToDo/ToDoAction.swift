@@ -10,8 +10,8 @@ import Foundation
 
 /// Picker selectors
 enum ToDoAction: String, PickableEnumP {
-    case print = "A IMPRIMER POUR ÉLÈVES"
-    case load = "A PARTAGER SUR ENT"
+    case print = "A IMPRIMER"
+    case load = "A PARTAGER"
     case correct = "A CORRIGER"
 
     var pickerString: String { self.rawValue }

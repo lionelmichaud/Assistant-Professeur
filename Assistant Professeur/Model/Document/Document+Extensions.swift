@@ -15,8 +15,8 @@ extension DocumentEntity {
     /// Nom du symbol par défaut utilisée pour représenter un établissement
     static let defaultImageName: String = "doc.richtext"
 
-    static let forEleveImageName: String = "printer"
-    static let forEntImageName: String = "externaldrive"
+    static let forEleveImageName: String = "printer.filled.and.paper"
+    static let forEntImageName: String = "externaldrive.connected.to.line.below"
     static let forTeacherImageName: String = "person.and.background.striped.horizontal"
 
     /// Nom du symbol à utiliser en tête du document en fonction des destinations du document.

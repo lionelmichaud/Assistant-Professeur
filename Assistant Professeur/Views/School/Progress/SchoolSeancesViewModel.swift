@@ -12,7 +12,15 @@ import SwiftUI
 class SchoolSeancesViewModel: ObservableObject {
     @Published
     private(set) var seancesLoadingState: SeancesLoadingStatus = .pending
-
+    
+    /// Recherche des séances dans la tranche de temps `dateInterval`
+    /// pour l'établissement `school`.
+    /// - Parameters:
+    ///   - school: Uniquement pour cet établissement.
+    ///   - dateInterval: Tranche de temps où rechercher.
+    ///   - showOnlyOngoingSeance: Si vrai alors ne concernver que la séance en cours.
+    ///   - schoolYear: Périodes scolaires.
+    /// - Returns: Alerte si nécessaire.
     func updateItems(
         forSchool school: SchoolEntity,
         inDateInterval dateInterval: DateInterval,

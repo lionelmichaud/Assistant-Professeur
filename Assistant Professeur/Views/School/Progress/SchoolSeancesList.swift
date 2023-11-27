@@ -55,8 +55,8 @@ struct SchoolSeancesList: View {
     var body: some View {
         // Afficher la ToDo liste
         VStack(alignment: .leading) {
+            // Bouton de navigation vers la liste des ToDo
             if showToDoListButton {
-                // Bouton de navigation vers la liste des ToDo
                 switch viewModel.seancesLoadingState {
                     case .pending, .loading, .failed:
                         EmptyView()
@@ -95,6 +95,7 @@ struct SchoolSeancesList: View {
 
         // Chargement des données recherchées depuis l'application Calendrier
         .task(id: school.id!.uuidString + dateInterval.description) {
+            // Recherche des séances dans la tranche de temps `dateInterval`
             let alert = await viewModel.updateItems(
                 forSchool: school,
                 inDateInterval: dateInterval,

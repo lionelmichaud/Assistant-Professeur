@@ -326,7 +326,7 @@ extension SeanceRow {
                let progress = ProgressClasseCoordinator.progressFor(thisActivity: activity, thisClasse: classe) {
                 if activity.hasSomeDocumentForEleves && !progress.isPrinted {
                     // Documents pas déclarés comme tous imprimés par l'utilisateur
-                    Image(systemName: "printer.filled.and.paper").tint(.red)
+                    Image(systemName: DocumentEntity.forEleveImageName).tint(.red)
                 }
                 if activity.hasSomeDocumentForEleves && progress.isPrinted && !progress.isDistributed {
                     // Documents imprimés mais pas déclarés comme tous distribués par l'utilisateur
@@ -334,7 +334,7 @@ extension SeanceRow {
                 }
                 if activity.hasSomeDocumentForENT && !progress.isLoaded {
                     // Documents pas déclarés comme tous stockés sur l'ENT
-                    Image(systemName: "externaldrive").tint(.red)
+                    Image(systemName: DocumentEntity.forEntImageName).tint(.red)
                 }
             } else {
                 EmptyView()
