@@ -16,7 +16,7 @@ struct ClasseSeancesList: View {
     @EnvironmentObject
     private var userContext: UserContext
 
-    @StateObject
+    @State
     private var viewModel = ClasseSeancesViewModel()
 
     @State

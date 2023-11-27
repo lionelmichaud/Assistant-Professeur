@@ -9,10 +9,10 @@ import EventKit
 import SwiftUI
 
 @MainActor
-class ClasseSeancesViewModel: ObservableObject {
-    @Published
+@Observable final class ClasseSeancesViewModel {
     private(set) var state: SeancesLoadingStatus = .pending
     
+    @ObservationIgnored
     private var showToDoListButton: Bool = false
 
     var seancesListView: some View {
