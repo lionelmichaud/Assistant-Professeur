@@ -123,7 +123,7 @@ extension SeanceTimerView {
         // Recherche et mémoriser la séance en cours à la `date` dans  `school`
         timerVM.findOngoingSeance(inSchool: school, at: .now)
         timerVM.sendWarningNotification(warningRemainingMinutes: warningRemainingMinutes)
-        timerVM.sendAlertNotification(alertRemainingMinutes: warningRemainingMinutes)
+        timerVM.sendAlertNotification(alertRemainingMinutes: alertRemainingMinutes)
     }
 
     /// Gérer la Live Activity
