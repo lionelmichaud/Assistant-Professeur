@@ -7,14 +7,15 @@
 
 import Foundation
 import CoreData
+import Observation
 
-class SchoolViewModel: ObservableObject {
+@Observable class SchoolViewModel {
 
     // MARK: - Properties
 
-    @Published var name       : String      = ""
-    @Published var niveau     : LevelSchool = .college
-    @Published var annotation : String      = ""
+    var name       : String
+    var niveau     : LevelSchool
+    var annotation : String
 
     // MARK: - Initializers
 

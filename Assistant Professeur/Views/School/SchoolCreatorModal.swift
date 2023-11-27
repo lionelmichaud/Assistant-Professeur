@@ -10,7 +10,7 @@ import HelpersView
 
 struct SchoolCreatorModal: View {
 
-    @StateObject
+    @State
     private var schoolVM = SchoolViewModel()
 
     @FocusState
