@@ -18,8 +18,8 @@ struct SignInView: View {
     @Environment(\.colorScheme)
     private var colorScheme
 
-    @EnvironmentObject
-    private var authentication: Authentication
+    @Environment(Authentication.self)
+    private var authentication
 
     @EnvironmentObject
     private var userContext: UserContext
@@ -60,5 +60,5 @@ struct SignInView: View {
 #Preview {
     SignInView()
         .environment(\.managedObjectContext, CoreDataManager.shared.context)
-        .environmentObject(Authentication())
+        .environment(Authentication())
 }

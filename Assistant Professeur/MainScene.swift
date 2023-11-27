@@ -17,7 +17,7 @@ private let customLog = Logger(
 /// Defines the main scene of the App
 struct MainScene: Scene {
     let coreDataManager: CoreDataManager
-    let authentication: Authentication
+    @Bindable var authentication: Authentication
     let userContext: UserContext
 
     // object that you want to use throughout your views and that will be specific to each scene
@@ -41,7 +41,7 @@ struct MainScene: Scene {
             // defines the views hierachy of the scene
             HomeScreen()
                 .environment(\.managedObjectContext, coreDataManager.context)
-                .environmentObject(authentication)
+                .environment(authentication)
                 .environmentObject(userContext)
         }
 

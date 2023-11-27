@@ -22,7 +22,7 @@ struct Assistant_ProfesseurApp: App {
 
     // object that you want to use throughout your scenes and that will be global to the App
     // @StateObject private var uiState = UIState()
-    @StateObject
+    @State
     private var authentication = Authentication()
 
     @StateObject

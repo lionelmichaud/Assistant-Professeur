@@ -32,8 +32,8 @@ struct SchoolSidebarView: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
 
-    @EnvironmentObject
-    var authentication: Authentication
+    @Environment(Authentication.self)
+    var authentication
 
     @SectionedFetchRequest<String, SchoolEntity>(
         fetchRequest: SchoolEntity.requestAllSortedByLevelName,

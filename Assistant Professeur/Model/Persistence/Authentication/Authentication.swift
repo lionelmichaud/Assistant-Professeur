@@ -16,14 +16,9 @@ private let customLog = Logger(
 )
 
 @MainActor
-class Authentication: ObservableObject {
-    @Published
+@Observable final class Authentication {
     private(set) var isValidated = false
-
-    @Published
     private(set) var isAuthorizedUser = false
-
-    @Published
     private(set) var userCredentials: Credentials?
 
     enum BiometricType {
