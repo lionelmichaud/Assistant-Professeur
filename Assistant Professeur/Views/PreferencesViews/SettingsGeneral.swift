@@ -95,7 +95,7 @@ struct SettingsGeneral: View {
                     .style(.sectionHeader)
             } footer: {
                 Text("""
-                Vous pouvez activer une notification quotidienne pour vous informer des éventuelles tâches à réaliser pour la journée en cours: impression de document ou chargement de documents partagés sur l'ENT.")
+                Vous pouvez activer une notification quotidienne ou au lanement de l'App, pour vous informer des éventuelles tâches à réaliser pour la journée en cours telles que des impressions de document ou chargements de documents partagés sur l'ENT.
                 """)
             }
             .onChange(of: userContext.prefs.notificationsEnabled) { oldValue, newValue in
