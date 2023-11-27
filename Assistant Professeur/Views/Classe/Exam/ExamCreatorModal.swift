@@ -12,7 +12,7 @@ struct ExamCreatorModal: View {
     @ObservedObject
     var classe: ClasseEntity
 
-    @StateObject
+    @State
     private var examVM = ExamViewModel()
 
     @FocusState

@@ -7,15 +7,15 @@
 
 import Foundation
 
-class ExamViewModel: ObservableObject {
+@Observable class ExamViewModel {
 
     // MARK: - Properties
 
-    @Published var coef         : Double = 1.0
-    @Published var dateExecuted : Date   = Date.now
-    @Published var maxMark      : Int    = 20
-    @Published var sujet        : String = ""
-    @Published var examTypeEnum : ExamTypeEnum = .global
+    var coef         : Double = 1.0
+    var dateExecuted : Date   = Date.now
+    var maxMark      : Int    = 20
+    var sujet        : String = ""
+    var examTypeEnum : ExamTypeEnum = .global
 
     // MARK: - Initializers
 
