@@ -11,11 +11,11 @@ import Foundation
 
     // MARK: - Properties
 
-    var coef         : Double = 1.0
-    var dateExecuted : Date   = Date.now
-    var maxMark      : Int    = 20
-    var sujet        : String = ""
-    var examTypeEnum : ExamTypeEnum = .global
+    var coef         : Double
+    var dateExecuted : Date
+    var maxMark      : Int
+    var sujet        : String
+    var examTypeEnum : ExamTypeEnum
 
     // MARK: - Initializers
 

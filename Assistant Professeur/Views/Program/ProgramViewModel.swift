@@ -7,15 +7,15 @@
 
 import Foundation
 
-class ProgramViewModel: ObservableObject {
+@Observable final class ProgramViewModel {
 
     // MARK: - Properties
 
-    @Published var disciplineEnum : Discipline  = .technologie
-    @Published var levelEnum      : LevelClasse = .n6ieme
-    @Published var segpa          : Bool        = false
-    @Published var annotation     : String      = ""
-    @Published var url            : URL?
+    var disciplineEnum : Discipline 
+    var levelEnum      : LevelClasse
+    var segpa          : Bool       
+    var annotation     : String     
+    var url            : URL?
 
     // MARK: - Initializers
     internal init(

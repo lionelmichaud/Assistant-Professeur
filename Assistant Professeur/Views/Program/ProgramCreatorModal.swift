@@ -9,7 +9,7 @@ import HelpersView
 import SwiftUI
 
 struct ProgramCreatorModal: View {
-    @StateObject
+    @State
     private var programVM = ProgramViewModel()
 
     @Environment(\.dismiss)
