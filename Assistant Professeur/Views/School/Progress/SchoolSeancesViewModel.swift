@@ -9,8 +9,7 @@ import EventKit
 import SwiftUI
 
 @MainActor
-class SchoolSeancesViewModel: ObservableObject {
-    @Published
+@Observable final class SchoolSeancesViewModel {
     private(set) var seancesLoadingState: SeancesLoadingStatus = .pending
     
     /// Recherche des séances dans la tranche de temps `dateInterval`
