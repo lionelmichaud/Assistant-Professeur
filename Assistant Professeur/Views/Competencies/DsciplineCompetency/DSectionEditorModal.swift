@@ -19,7 +19,7 @@ struct DSectionEditorModal: View {
 
     var isEditing: Bool
 
-    @StateObject
+    @State
     private var disciplineSectionVM = DSectionViewModel()
 
     @Environment(\.dismiss)

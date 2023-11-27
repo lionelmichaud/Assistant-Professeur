@@ -7,22 +7,13 @@
 
 import Foundation
 
-class DThemeViewModel: ObservableObject {
+@Observable final class DThemeViewModel {
     // MARK: - Properties
 
-    @Published
     var cycle: Cycle
-
-    @Published
     var discipline: Discipline
-
-    @Published
     var acronym: String
-
-    @Published
     var description: String = ""
-
-    @Published
     var progressivity: String = ""
 
     // MARK: - Initializers

@@ -12,7 +12,7 @@ struct WCompChapterEditorModal: View {
     @ObservedObject
     var chapter: WCompChapterEntity
 
-    @StateObject
+    @State
     private var workedCompChapterVM = WCompChapterViewModel()
 
     var isEditing: Bool

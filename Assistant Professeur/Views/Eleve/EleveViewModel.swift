@@ -7,7 +7,7 @@
 
 import Foundation
 
-@Observable class EleveViewModel {
+@Observable final class EleveViewModel {
 
     // MARK: - Properties
 

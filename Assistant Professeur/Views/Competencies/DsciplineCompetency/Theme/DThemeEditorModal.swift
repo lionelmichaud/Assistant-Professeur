@@ -16,7 +16,7 @@ struct DThemeEditorModal: View {
 
     var isEditing: Bool
 
-    @StateObject
+    @State
     private var disciplineThemeVM = DThemeViewModel()
 
     @Environment(\.dismiss)

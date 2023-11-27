@@ -7,14 +7,11 @@
 
 import Foundation
 
-class WCompViewModel: ObservableObject {
+@Observable final class WCompViewModel {
     // MARK: - Properties
 
-    @Published
     var number: Int
-
-    @Published
-    var description: String = ""
+    var description: String
 
     // MARK: - Initializers
 

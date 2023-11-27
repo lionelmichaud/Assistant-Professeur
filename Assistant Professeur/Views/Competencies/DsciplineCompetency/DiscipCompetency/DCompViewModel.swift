@@ -7,14 +7,10 @@
 
 import Foundation
 
-class DCompViewModel: ObservableObject {
+@Observable final class DCompViewModel {
     // MARK: - Properties
-
-    @Published
     var number: Int
-
-    @Published
-    var description: String = ""
+    var description: String
 
     // MARK: - Initializers
 

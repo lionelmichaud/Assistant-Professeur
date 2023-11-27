@@ -20,7 +20,7 @@ struct DCompEditorModal: View {
 
     var isEditing: Bool
 
-    @StateObject
+    @State
     private var disciplineCompVM = DCompViewModel()
 
     @Environment(\.dismiss)

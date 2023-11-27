@@ -7,14 +7,11 @@
 
 import Foundation
 
-class DKnowViewModel: ObservableObject {
+@Observable final class DKnowViewModel {
     // MARK: - Properties
 
-    @Published
     var number: Int
-
-    @Published
-    var description: String = ""
+    var description: String
 
     // MARK: - Initializers
 

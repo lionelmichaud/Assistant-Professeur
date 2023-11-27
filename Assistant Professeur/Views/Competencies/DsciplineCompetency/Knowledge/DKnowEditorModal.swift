@@ -20,7 +20,7 @@ struct DKnowEditorModal: View {
 
     var isEditing: Bool
 
-    @StateObject
+    @State
     private var knowledgeVM = DKnowViewModel()
 
     @Environment(\.dismiss)

@@ -7,17 +7,12 @@
 
 import Foundation
 
-class DSectionViewModel: ObservableObject {
+@Observable final class DSectionViewModel {
     // MARK: - Properties
 
-    @Published
     var number: Int
-
-    @Published
-    var description: String = ""
-
-    @Published
-    var progressivity: String = ""
+    var description: String
+    var progressivity: String
 
     // MARK: - Initializers
 

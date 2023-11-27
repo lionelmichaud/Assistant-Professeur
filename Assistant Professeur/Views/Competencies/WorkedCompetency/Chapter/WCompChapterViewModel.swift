@@ -7,17 +7,12 @@
 
 import Foundation
 
-class WCompChapterViewModel: ObservableObject {
+@Observable final class WCompChapterViewModel {
     // MARK: - Properties
 
-    @Published
     var cycle: Cycle
-
-    @Published
     var acronym: String
-
-    @Published
-    var description: String = ""
+    var description: String
 
     // MARK: - Initializers
 

@@ -19,7 +19,7 @@ struct WCompEditorModal: View {
 
     var isEditing: Bool
 
-    @StateObject
+    @State
     private var workedCompVM = WCompViewModel()
 
     @Environment(\.dismiss)
