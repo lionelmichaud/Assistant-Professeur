@@ -10,8 +10,8 @@ import HelpersView
 import SwiftUI
 
 struct SettingsSchoolYear: View {
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     @State
     private var eventStore = EKEventStore()
@@ -32,6 +32,7 @@ struct SettingsSchoolYear: View {
     private var alertIsPresented = false
 
     var body: some View {
+        @Bindable var userContext = userContext
         Form {
             // Zone scolaire
             Section {

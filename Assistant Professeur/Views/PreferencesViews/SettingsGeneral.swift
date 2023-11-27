@@ -16,10 +16,11 @@ private let customLog = Logger(
 )
 
 struct SettingsGeneral: View {
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     var body: some View {
+        @Bindable var userContext = userContext
         List {
             // Type d'interopérabilité avec les ENT
             Text("Importation de listes d'élèves au format")

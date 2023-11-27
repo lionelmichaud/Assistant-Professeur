@@ -25,8 +25,8 @@ struct GroupSteppedlMarkModal: View {
     @ObservedObject
     private var exam: ExamEntity
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     @Environment(\.dismiss)
     private var dismiss

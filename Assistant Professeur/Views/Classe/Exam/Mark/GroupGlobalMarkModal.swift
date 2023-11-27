@@ -18,8 +18,8 @@ struct GroupGlobalMarkModal: View {
     @Environment(\.dismiss)
     private var dismiss
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     private let fontWeight: Font.Weight = .semibold
     private let smallColumns = [

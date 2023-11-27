@@ -14,8 +14,8 @@ struct MarkListView: View {
     var exam: ExamEntity
     var searchString: String
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     @State
     private var isAddingGroupMark = false

@@ -14,8 +14,8 @@ struct ProgramPlanningView: View {
     @ObservedObject
     var program: ProgramEntity
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     @State
     private var data = ProgramPlanningGraphData()

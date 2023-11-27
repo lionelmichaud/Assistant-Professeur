@@ -35,6 +35,9 @@ struct SchoolSidebarView: View {
     @Environment(Authentication.self)
     var authentication
 
+    @Environment(UserContext.self)
+    private var userContext
+
     @SectionedFetchRequest<String, SchoolEntity>(
         fetchRequest: SchoolEntity.requestAllSortedByLevelName,
         sectionIdentifier: \.levelString,
@@ -157,7 +160,6 @@ struct SchoolSidebarView: View {
             },
             message: { Text(alertMessage) }
         )
-
         .sheet(item: $presentedSheet) { sheet in
             switch sheet {
                 case .showAbout:
@@ -185,6 +187,7 @@ struct SchoolSidebarView: View {
                     NavigationStack {
                         SettingsView()
                             .environmentObject(navigationModel)
+                            .environment(userContext)
                     }
                     .presentationDetents([.large])
 

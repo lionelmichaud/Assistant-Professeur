@@ -107,8 +107,8 @@ struct SeatMenu: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     @State
     private var isAddingNewObserv = false

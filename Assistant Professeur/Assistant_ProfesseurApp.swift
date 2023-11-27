@@ -25,7 +25,7 @@ struct Assistant_ProfesseurApp: App {
     @State
     private var authentication = Authentication()
 
-    @StateObject
+    @State
     private var userContext = UserContext()
 
     var body: some Scene {

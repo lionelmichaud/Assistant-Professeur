@@ -14,8 +14,8 @@ struct EleveNameGroupBox: View {
 
     var isEditing: Bool
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     /// Focused filed manager
     enum FocusableField: Hashable {

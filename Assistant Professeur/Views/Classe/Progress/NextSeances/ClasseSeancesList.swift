@@ -13,8 +13,8 @@ struct ClasseSeancesList: View {
     let dateInterval: DateInterval
     let showToDoListButton: Bool
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     @State
     private var viewModel = ClasseSeancesViewModel()

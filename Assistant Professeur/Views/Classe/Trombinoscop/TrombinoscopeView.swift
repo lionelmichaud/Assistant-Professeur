@@ -13,8 +13,8 @@ struct TrombinoscopeView: View {
     @ObservedObject
     var classe: ClasseEntity
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     private let smallColumns = [
         GridItem(

@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct SettingsClasse: View {
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     var body: some View {
+        @Bindable var userContext = userContext
         List {
             Section {
                 Toggle("Appréciation", isOn: $userContext.prefs.viewClasseAppreciationEnabled)

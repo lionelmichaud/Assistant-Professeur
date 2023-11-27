@@ -118,8 +118,8 @@ struct EleveSidebarClasseSubview: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     @Environment(\.isSearching)
     private var isSearching

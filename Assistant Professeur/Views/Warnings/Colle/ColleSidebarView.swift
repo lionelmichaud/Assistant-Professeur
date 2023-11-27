@@ -76,8 +76,8 @@ struct ColleSidebarSchoolSubview: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     var body: some View {
         // pour chaque Classe

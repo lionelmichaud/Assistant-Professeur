@@ -33,8 +33,8 @@ struct EleveDetail: View {
     @State
     private var bonusIsExpanded = false
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     // MARK: - Computed properties
 

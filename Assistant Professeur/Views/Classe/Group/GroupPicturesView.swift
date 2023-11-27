@@ -16,8 +16,8 @@ struct GroupPicturesView: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     let smallColumns = [
         GridItem(

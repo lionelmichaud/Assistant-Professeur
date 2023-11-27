@@ -12,8 +12,8 @@ struct SequenceCreatorModal: View {
     @ObservedObject
     var program: ProgramEntity
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     /// This will not show changes to the variables in this View
     @State

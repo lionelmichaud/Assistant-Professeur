@@ -112,8 +112,8 @@ struct TrombinoscopeFooterView: View {
     @ObservedObject
     var eleve: EleveEntity
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     var body: some View {
         HStack(spacing: 0) {

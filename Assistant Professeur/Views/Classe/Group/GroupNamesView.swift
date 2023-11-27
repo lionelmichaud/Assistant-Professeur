@@ -25,8 +25,8 @@ struct GroupNamesView: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     @State
     private var permutationEleve: EleveEntity?
@@ -127,8 +127,8 @@ struct AddEleveToGroupMenu: View {
     @ObservedObject
     var classe: ClasseEntity
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     var body: some View {
         Menu {
@@ -165,8 +165,8 @@ struct SelectElevePermuterDialog: View {
     @Environment(\.dismiss)
     private var dismiss
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     @State
     private var selectedEleve: EleveEntity? // EleveEntity.ID?

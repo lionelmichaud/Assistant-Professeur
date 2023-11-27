@@ -7,12 +7,8 @@
 
 import SwiftUI
 
-@MainActor
-class UserContext: ObservableObject {
-    @Published
+@Observable final class UserContext {
     private(set) var owner: OwnerEntity?
-
-    @Published
     var prefs: UserPrefEntity!
 
     // MARK: - Initializers
@@ -20,6 +16,7 @@ class UserContext: ObservableObject {
     init() {}
 
     // MARK: - Computed Properties
+    @MainActor
     var isValid: Bool {
         owner != nil && prefs != nil && owner?.prefs == prefs
     }
@@ -30,6 +27,7 @@ class UserContext: ObservableObject {
     /// - Parameter owner: owner du context
     /// - Note: Si les préférences du `owner` ne sont pas définies, tente
     ///         de les retrouver dans la base de donnée ou les crée.
+    @MainActor
     func setOwner(to owner: OwnerEntity?) {
         guard let owner else {
             return

@@ -13,8 +13,8 @@ struct SchoolInfosView: View {
     @ObservedObject
     var school: SchoolEntity
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     var body: some View {
         List {

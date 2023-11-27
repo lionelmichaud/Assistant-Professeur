@@ -26,8 +26,8 @@ struct ContentView: View {
     @State
     private var cloudKitVM = CloudKitViewModel()
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     @State
     private var isiCloudAlertPresented = false
@@ -47,7 +47,6 @@ struct ContentView: View {
                 }
                 .tag(NavigationModel.TabSelection.school)
                 .badge(SchoolEntity.cardinal())
-                // passer les infos CloudKit pour les Infos
 
             // Les classes
             ClasseSplitView()

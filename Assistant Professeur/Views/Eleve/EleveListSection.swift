@@ -11,8 +11,8 @@ struct EleveListSection: View {
     @ObservedObject
     var classe: ClasseEntity
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     var body: some View {
         Section {

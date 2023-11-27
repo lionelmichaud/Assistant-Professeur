@@ -12,8 +12,8 @@ struct EleveMarkRow: View {
     @ObservedObject
     var mark: MarkEntity
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     @Environment(\.horizontalSizeClass)
     private var hClass

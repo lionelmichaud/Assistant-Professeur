@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct SettingsEleve: View {
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
-    @State private var isShowingBonusResetConfirmDialog = false
+    @State 
+    private var isShowingBonusResetConfirmDialog = false
 
     var body: some View {
+        @Bindable var userContext = userContext
         List {
             Section {
                 Toggle("Trombine", isOn: $userContext.prefs.viewElevePref.trombineEnabled)

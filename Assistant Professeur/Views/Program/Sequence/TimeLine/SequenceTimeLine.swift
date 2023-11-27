@@ -12,8 +12,8 @@ struct SequenceTimeLine: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     @State
     private var presentation: ViewMode = .steps
@@ -108,7 +108,7 @@ struct SequenceTimeLine: View {
                         content: SequenceStepperView(
                             sequence: sequence,
                             forPdfExport: true
-                        ).environmentObject(userContext),
+                        ).environment(userContext),
                         to: fileUrl,
                         withProposedSize: .init(width: 1024, height: nil)
                     ) {
@@ -124,7 +124,7 @@ struct SequenceTimeLine: View {
                         content: SequencePresentationView(
                             sequence: sequence,
                             forPdfExport: true
-                        ).environmentObject(userContext),
+                        ).environment(userContext),
                         to: fileUrl,
                         withProposedSize: .init(width: 800, height: nil)
                     ) {

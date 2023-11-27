@@ -13,8 +13,8 @@ struct ProgramTimeLine: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     @State
     private var presentation: ViewMode = .steps
@@ -136,7 +136,7 @@ extension ProgramTimeLine {
                         content: ProgramStepperView(
                             program: program,
                             forPdfExport: true
-                        ).environmentObject(userContext),
+                        ).environment(userContext),
                         to: fileUrl,
                         withProposedSize: .init(width: 1024, height: nil)
                     ) {
@@ -152,7 +152,7 @@ extension ProgramTimeLine {
                         content: ProgramPlanningPDF(
                             program: program,
                             data: chartDatum()
-                        ).environmentObject(userContext),
+                        ).environment(userContext),
                         to: fileUrl,
                         withProposedSize: .init(width: 1024, height: 1024)
                     ) {

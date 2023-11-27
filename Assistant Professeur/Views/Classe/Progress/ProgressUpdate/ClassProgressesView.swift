@@ -17,8 +17,8 @@ struct ClassProgressesView: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     private let horizon = 3 // mois
 

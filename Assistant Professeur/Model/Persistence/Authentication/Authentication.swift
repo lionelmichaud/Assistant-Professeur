@@ -15,7 +15,6 @@ private let customLog = Logger(
     category: "Authentication"
 )
 
-@MainActor
 @Observable final class Authentication {
     private(set) var isValidated = false
     private(set) var isAuthorizedUser = false
@@ -59,6 +58,7 @@ private let customLog = Logger(
 
     /// Check the User Apple ID credential for the App, at start-up, to determine if the User is already authorized.
     /// Si oui, mettre à jour les context utilisateur.
+    @MainActor
     func checkUserCredentials(userContext: UserContext) async {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let userIdentifier = KeychainItem.currentUserIdentifier
@@ -91,6 +91,7 @@ private let customLog = Logger(
 
     /// Check if the User is authoriezd after sign-in.
     /// Si oui, mettre à jour les context utilisateur avec le Owner.
+    @MainActor
     func checkAuthorization(
         authorization: ASAuthorization,
         userContext: UserContext
@@ -154,6 +155,7 @@ private let customLog = Logger(
 
     /// Créer les Credential à partir des Credential Apple.
     /// Mettre à jour les context utilisateur avec le Owner.
+    @MainActor
     private func setUserCredentialsFromAppleIDCredential(
         userIdentifier: String,
         fullName: PersonNameComponents,
@@ -182,6 +184,7 @@ private let customLog = Logger(
 
     /// Créer les Credential à partir des données iCloud du Owner.
     /// Mettre à jour le context utilisateur avec le Owner.
+    @MainActor 
     private func setUserCredentialsFromiCloud(
         userIdentifier: String,
         userContext: UserContext
@@ -208,6 +211,7 @@ private let customLog = Logger(
         )
     }
 
+    @MainActor
     func updateValidation(success: Bool) {
         withAnimation {
             isValidated = success
@@ -215,18 +219,21 @@ private let customLog = Logger(
     }
 
     /// Invalider les autorization et supprimer les credentials dans la KeyChain
+    @MainActor
     func logOut() {
         updateValidation(success: false)
         updateAuthentication(isAuthorized: false)
         KeychainItem.deleteUserIdentifierFromKeychain()
     }
 
+    @MainActor
     func updateAuthentication(isAuthorized: Bool) {
         withAnimation {
             isAuthorizedUser = isAuthorized
         }
     }
 
+    @MainActor
     func biometricType() -> BiometricType {
         let authContext = LAContext()
         _ = authContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)

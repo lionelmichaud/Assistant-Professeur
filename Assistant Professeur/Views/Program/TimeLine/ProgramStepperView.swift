@@ -16,8 +16,8 @@ struct ProgramStepperView: View {
 
     let forPdfExport: Bool
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     var body: some View {
         if forPdfExport {

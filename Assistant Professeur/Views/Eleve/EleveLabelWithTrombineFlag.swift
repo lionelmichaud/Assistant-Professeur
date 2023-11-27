@@ -19,8 +19,8 @@ struct EleveLabelWithTrombineFlag: View {
     var imageSize: Image.Scale = .large
     var flagSize: Image.Scale = .medium
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     @Environment(\.horizontalSizeClass)
     var hClass

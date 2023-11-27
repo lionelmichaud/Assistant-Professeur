@@ -15,8 +15,8 @@ struct HomeScreen: View {
     @Environment(Authentication.self)
     private var authentication
 
-    @EnvironmentObject
-    private var userContext: UserContext
+    @Environment(UserContext.self)
+    private var userContext
 
     var body: some View {
         VStack {
