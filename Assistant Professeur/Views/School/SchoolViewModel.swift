@@ -7,9 +7,8 @@
 
 import Foundation
 import CoreData
-import Observation
 
-@Observable class SchoolViewModel {
+@Observable final class SchoolViewModel {
 
     // MARK: - Properties
 

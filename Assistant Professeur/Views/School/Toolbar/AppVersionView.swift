@@ -10,9 +10,6 @@ import Files
 import SwiftUI
 
 struct AppVersionView: View {
-    @EnvironmentObject
-    private var cloudKitVM: CloudKitViewModel
-
     var body: some View {
         VStack(alignment: .center, spacing: 4) {
             // Infos Appli

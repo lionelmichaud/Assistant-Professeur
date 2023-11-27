@@ -54,7 +54,7 @@ struct SeanceTimerView: View {
     @Environment(\.horizontalSizeClass)
     private var hClass
 
-    @StateObject
+    @State
     private var timerVM = TodaySeances.shared
 
     private let viewUpdatePeriod = TimeInterval(10) // seconds
@@ -119,6 +119,7 @@ struct SeanceTimerView: View {
 // MARK: - Methods
 
 extension SeanceTimerView {
+    @MainActor
     private func initializeVM() {
         // Recherche et mémoriser la séance en cours à la `date` dans  `school`
         timerVM.findOngoingSeance(inSchool: school, at: .now)

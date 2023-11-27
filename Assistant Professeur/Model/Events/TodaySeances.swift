@@ -37,7 +37,7 @@ private let customLog = Logger(
 ///     // (4) Remettre à zéro la séance en cours
 ///     viewModel.resetOngoingSeance()
 ///
-class TodaySeances: ObservableObject {
+@Observable final class TodaySeances {
     // MARK: - Singleton
 
     static var shared = TodaySeances()
@@ -48,7 +48,6 @@ class TodaySeances: ObservableObject {
     let liveActivityTaskIdentifier = "LIVE_COUNTDOWN"
     let backgroundUpdatePeriod: Int = 30 // seconds
 
-    @Published
     private(set) var seanceOngoing: Seance?
 
     /// Séances du jour par établissement

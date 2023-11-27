@@ -549,15 +549,15 @@
 				<key>location-parameters</key>
 				<dict>
 					<key>EndingColumnNumber</key>
-					<string>56</string>
+					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>161</string>
+					<string>157</string>
 					<key>StartingColumnNumber</key>
-					<string>17</string>
+					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>161</string>
+					<string>156</string>
 					<key>Timestamp</key>
-					<string>722193377.948228</string>
+					<string>722792350.2459821</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -573,15 +573,16 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>setUserCredentialsFromAppleIDCredential</string>
+				<string>        }
+</string>
 				<key>leading</key>
-				<string>    /// Créer les Credential à partir des Credential Apple.
-    /// Mettre à jour les context utilisateur avec le Owner.
-    private func </string>
+				<string>            default:
+                break
+</string>
 				<key>trailing</key>
-				<string>(
-        userIdentifier: String,
-        fullName: PersonNameComponents,
+				<string>    }
+
+    /// Créer les Credential à partir des Credential Apple.
 </string>
 			</dict>
 			<key>title</key>

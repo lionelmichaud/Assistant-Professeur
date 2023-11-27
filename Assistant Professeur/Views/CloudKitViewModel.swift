@@ -9,14 +9,11 @@ import AppFoundation
 import CloudKit
 import Foundation
 
-class CloudKitViewModel: ObservableObject {
+@Observable final class CloudKitViewModel {
     /// True si l'utilisateur est connecté à iCloud
-    @Published
     var isSignedInToicloud: Bool = false
 
     /// `nil` si aucune erreur; sinon retourne l'erreur
-    @Published
-    //var iCloudError: ICloudError?
     var iCloudError: Error?
 
     init() {

@@ -23,7 +23,7 @@ struct ContentView: View {
     @StateObject
     private var navig = NavigationModel()
 
-    @StateObject
+    @State
     private var cloudKitVM = CloudKitViewModel()
 
     @EnvironmentObject
@@ -48,7 +48,6 @@ struct ContentView: View {
                 .tag(NavigationModel.TabSelection.school)
                 .badge(SchoolEntity.cardinal())
                 // passer les infos CloudKit pour les Infos
-                .environmentObject(cloudKitVM)
 
             // Les classes
             ClasseSplitView()

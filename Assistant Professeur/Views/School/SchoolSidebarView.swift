@@ -33,9 +33,6 @@ struct SchoolSidebarView: View {
     private var navigationModel: NavigationModel
 
     @EnvironmentObject
-    private var cloudKitVM: CloudKitViewModel
-
-    @EnvironmentObject
     var authentication: Authentication
 
     @SectionedFetchRequest<String, SchoolEntity>(
