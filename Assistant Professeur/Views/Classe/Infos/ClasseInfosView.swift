@@ -17,7 +17,7 @@ struct ClasseInfosView: View {
     @EnvironmentObject
     private var userContext: UserContext
 
-    @StateObject
+    @State
     private var viewModel = ClasseEventsViewModel()
 
     @State

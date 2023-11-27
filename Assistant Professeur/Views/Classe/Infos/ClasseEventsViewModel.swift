@@ -9,21 +9,12 @@ import EventKit
 import Foundation
 
 @MainActor
-class ClasseEventsViewModel: ObservableObject {
-    /// Avancement de la recherche des contacts
-    @Published
+@Observable final class ClasseEventsViewModel {
+    /// Avancement de la recherche des événements
     private(set) var state: LoadingFromCalendarStatus = .pending
-
-    @Published
     private(set) var conseils = [EKEvent]()
-
-    @Published
     private(set) var arretsNotes = [EKEvent]()
-
-    @Published
     private(set) var brevet: EKEvent?
-
-    @Published
     private(set) var bac: EKEvent?
 
     /// Récupérer les événements de la classe dans l'appli "Calendrier"
