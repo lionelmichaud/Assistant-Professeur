@@ -118,7 +118,7 @@ actor ReminderTaskManager {
             return (0, 0)
         }
 
-        let toDoModel = await ToDoViewModel()
+        let toDoModel = ToDoViewModel()
         await toDoModel.getAllDocsToBeActioned(
             fromSeances: seances,
             forThisAction: .print

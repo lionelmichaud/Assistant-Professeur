@@ -37,7 +37,8 @@ private let customLog = Logger(
 ///     // (4) Remettre à zéro la séance en cours
 ///     viewModel.resetOngoingSeance()
 ///
-@Observable final class TodaySeances {
+@Observable
+final class TodaySeances {
     // MARK: - Singleton
 
     static var shared = TodaySeances()
@@ -562,7 +563,7 @@ extension TodaySeances {
         alertRemainingMinutes: Int,
         warningRemainingMinutes: Int
     ) async {
-        guard let seanceOngoing = seanceOngoing else {
+        guard seanceOngoing != nil else {
             return
         }
 

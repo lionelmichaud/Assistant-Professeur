@@ -27,12 +27,15 @@ struct BatchOfDocToBeActionned: Identifiable, CustomStringConvertible {
 
 @Observable final class ToDoViewModel {
     /// Tableau des documents à imprimer dans les séances à venir
+    @MainActor
     var batchesOfDocsToBePrinted: [BatchOfDocsToBePrinted] = []
 
     /// Tableau des documents à charger dans l'ENT dans les séances à venir
+    @MainActor
     var batchesOfDocsToBeLoaded: [BatchOfDocsToBeLoaded] = []
 
     /// Avancement de la recherche des ToDo dans les futurs séances
+    @MainActor
     var status: ComputingStatus = .pending
 
     /// Recherche tous les documents à imprimer/partager dans les séances à venir
@@ -69,19 +72,19 @@ struct BatchOfDocToBeActionned: Identifiable, CustomStringConvertible {
             low: seances.startIndex,
             high: seances.endIndex - 1
         )
-        let seancesToProcess = seances[seances.startIndex ... maxIndex]
+        let seancesToProcess = seances[seances.startIndex ... maxIndex] //.sorted(by: \.interval.start)
         var batchesOfDocsToBeActionned = [BatchOfDocToBeActionned]()
 
         seancesToProcess.forEach { seance in
             // Pour la séance
-            guard let schoolName = seance.schoolName,
-                  let classeName = seance.name,
+            guard let schoolName = eachSeance.schoolName,
+                  let classeName = eachSeance.name,
                   let classe = SchoolEntity
                   .school(withName: schoolName)?
                   .classe(withAcronym: classeName) else {
                 return
             }
-            let dateSeance = seance.interval.start
+            let dateSeance = eachSeance.interval.start
 
             // Pour chaque activité inclue dans la séance
             seance.activities.forEach { activity in
@@ -111,7 +114,7 @@ struct BatchOfDocToBeActionned: Identifiable, CustomStringConvertible {
                     return
                 }
 
-                // Liste de documents actionnables pour cette activité
+                // Liste de documents actionnables pour cette activité de cette séance
                 let actionableDocuments = activity.allDocuments.filter {
                     switch action {
                         // Liste de documents imprimable de l'activité
@@ -121,6 +124,7 @@ struct BatchOfDocToBeActionned: Identifiable, CustomStringConvertible {
                     }
                 }
 
+                // un batch de documents / activité / séance
                 batchesOfDocsToBeActionned.append(
                     BatchOfDocToBeActionned(
                         classe: classe,
@@ -130,12 +134,16 @@ struct BatchOfDocToBeActionned: Identifiable, CustomStringConvertible {
                         beforeDate: dateSeance
                     )
                 )
+                
+                await Task.yield()
             }
+
+            await Task.yield()
         }
 
         // Compilation des actions à réaliser
         await filterDocsToBeActioned(
-            batchesOfDocsToBeActionned: batchesOfDocsToBeActionned,
+            batchesOfDocsToBeActionned: batchesOfDocsToBeActionned.sorted(by: \.beforeDate),
             forThisAction: action
         )
     }

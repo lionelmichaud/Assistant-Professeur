@@ -126,14 +126,15 @@ extension ClasseDetail {
                                     await navigationModel.navigateToProgressOf(thisClasse: classe)
                                 }
                             }
+                        },
+                        content: {
+                            NavigationStack {
+                                ClasseTimerModal(
+                                    school: school
+                                )
+                            }
                         }
-                    ) {
-                        NavigationStack {
-                            ClasseTimerModal(
-                                school: school
-                            )
-                        }
-                    }
+                    )
                 }
 
                 // Tirer au sort un élève

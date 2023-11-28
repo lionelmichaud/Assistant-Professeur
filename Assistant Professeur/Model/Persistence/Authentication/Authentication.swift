@@ -15,10 +15,20 @@ private let customLog = Logger(
     category: "Authentication"
 )
 
-@Observable final class Authentication {
+@Observable
+final class Authentication {
+    // MARK: - Properties
+
+    @MainActor
     private(set) var isValidated = false
+
+    @MainActor
     private(set) var isAuthorizedUser = false
+
+    @MainActor
     private(set) var userCredentials: Credentials?
+
+    // MARK: - Nested Types
 
     enum BiometricType {
         case none
@@ -55,6 +65,8 @@ private let customLog = Logger(
             }
         }
     }
+
+    // MARK: - Methods
 
     /// Check the User Apple ID credential for the App, at start-up, to determine if the User is already authorized.
     /// Si oui, mettre à jour les context utilisateur.
@@ -184,7 +196,7 @@ private let customLog = Logger(
 
     /// Créer les Credential à partir des données iCloud du Owner.
     /// Mettre à jour le context utilisateur avec le Owner.
-    @MainActor 
+    @MainActor
     private func setUserCredentialsFromiCloud(
         userIdentifier: String,
         userContext: UserContext

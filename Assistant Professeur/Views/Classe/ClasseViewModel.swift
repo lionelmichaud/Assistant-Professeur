@@ -8,7 +8,7 @@
 import Foundation
 import Observation
 
-@Observable class ClasseViewModel {
+@Observable final class ClasseViewModel {
 
     // MARK: - Properties
 

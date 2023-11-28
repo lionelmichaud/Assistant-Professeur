@@ -135,12 +135,10 @@ struct SeancesInDateInterval {
             inEventStore: eventStore,
             during: period
         ).compactMap { event in
-            if !schoolYear.vacancesContain(
-                period: .init(
-                    start: event.startDate,
-                    end: event.endDate
-                )
-            ) {
+            if !schoolYear.vacancesContain(period: .init(
+                start: event.startDate,
+                end: event.endDate
+            )) {
                 return Seance(
                     name: classe,
                     schoolName: school,
@@ -167,7 +165,7 @@ struct SeancesInDateInterval {
         let schoolName = school.viewName
         self.seances = []
 
-        schoolClasses.forEach {classe in
+        schoolClasses.forEach { classe in
             var classeSeances = SeancesInDateInterval()
             classeSeances.loadClasseSeancesFromCalendar(
                 forDiscipline: classe.disciplineEnum,

@@ -23,7 +23,7 @@ enum PeriodEnum: String, PickableEnumP {
 
     /// Période de recherche
     var dateInterval: DateInterval {
-        var startDate: Date = .now
+        let startDate: Date = .now
         var endDate: Date
         switch self {
             case .restOfTheDay:

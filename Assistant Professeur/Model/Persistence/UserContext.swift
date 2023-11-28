@@ -8,7 +8,10 @@
 import SwiftUI
 
 @Observable final class UserContext {
+    @MainActor
     private(set) var owner: OwnerEntity?
+    
+    @MainActor
     var prefs: UserPrefEntity!
 
     // MARK: - Initializers

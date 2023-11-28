@@ -321,7 +321,7 @@ extension ContentView {
             (settings.authorizationStatus != .provisional) {
             // Les notifications ne sont pas autorisées
             // => les demander
-            let authorized = try? await UNCenter.requestAuthorization(
+            _ = try? await UNCenter.requestAuthorization(
                 options: [.alert, .badge, .sound]
             )
         }

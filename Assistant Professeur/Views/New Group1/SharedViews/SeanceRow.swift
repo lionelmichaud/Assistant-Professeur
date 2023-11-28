@@ -92,14 +92,15 @@ struct SeanceRow: View {
                                     await navig.navigateToProgressOf(thisClasse: classe)
                                 }
                             }
+                        },
+                        content: {
+                            NavigationStack {
+                                ClasseTimerModal(
+                                    school: school
+                                )
+                            }
                         }
-                    ) {
-                        NavigationStack {
-                            ClasseTimerModal(
-                                school: school
-                            )
-                        }
-                    }
+                    )
                 }
             }
             .buttonStyle(.bordered)

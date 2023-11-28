@@ -66,7 +66,7 @@ enum SchoolNavigationRoute: Hashable, Codable {
         }
     }
 
-    func destination() -> some View {
+    func destination() -> some View {// swiftlint:disable:this cyclomatic_complexity
         var errorView: Text {
             Text("Erreur de routage")
                 .font(.largeTitle)

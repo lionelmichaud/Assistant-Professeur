@@ -187,7 +187,7 @@ extension CsvImportExportMng {
             capacity: 4
         )
 
-        let cycle = chapter.cycleEnum
+        //let cycle = chapter.cycleEnum
 
         // Compétences inclues dans ce chapitre
         let competencies = chapter.allWorkedCompetenciesSortedByNumber

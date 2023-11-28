@@ -7,7 +7,7 @@
 
 import Foundation
 
-@Observable class ExamViewModel {
+@Observable final class ExamViewModel {
 
     // MARK: - Properties
 

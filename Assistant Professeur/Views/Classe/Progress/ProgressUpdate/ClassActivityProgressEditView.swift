@@ -55,19 +55,20 @@ struct ClassActivityProgressEditView: View {
                         await navig.navigateToProgressOf(thisClasse: classe)
                     }
                 }
-            }
-        ) {
-            if let classe = progress.classe,
-               let school = progress.classe?.school {
-                NavigationStack {
-                    ClasseTimerModal(
-                        school: school
-                    )
+            },
+            content: {
+                if let classe = progress.classe,
+                   let school = progress.classe?.school {
+                    NavigationStack {
+                        ClasseTimerModal(
+                            school: school
+                        )
+                    }
+                } else {
+                    Text("Impossible d'afficher le chronomètre")
                 }
-            } else {
-                Text("Impossible d'afficher le chronomètre")
             }
-        }
+        )
         #else
                 .fullScreenCover(
                     isPresented: $isShowingActivityTimer,
@@ -77,19 +78,19 @@ struct ClassActivityProgressEditView: View {
                                 await navig.navigateToProgressOf(thisClasse: classe)
                             }
                         }
-                    }
-                ) {
-                    if let classe = progress.classe,
-                       let school = progress.classe?.school {
-                        NavigationStack {
-                            ClasseTimerModal(
-                                school: school
-                            )
+                    },
+                    content: {
+                        if let school = progress.classe?.school {
+                            NavigationStack {
+                                ClasseTimerModal(
+                                    school: school
+                                )
+                            }
+                        } else {
+                            Text("Impossible d'afficher le chronomètre")
                         }
-                    } else {
-                        Text("Impossible d'afficher le chronomètre")
                     }
-                }
+                )
         #endif
     }
 }

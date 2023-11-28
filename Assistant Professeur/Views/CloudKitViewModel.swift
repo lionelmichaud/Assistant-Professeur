@@ -9,6 +9,7 @@ import AppFoundation
 import CloudKit
 import Foundation
 
+@MainActor
 @Observable final class CloudKitViewModel {
     /// True si l'utilisateur est connecté à iCloud
     var isSignedInToicloud: Bool = false
@@ -29,7 +30,6 @@ import Foundation
     }
 
     /// Détermine le status iCloud et consigne le status et l'erreur éventuelle
-    @MainActor
     private func getiCloudStatus() async {
         do {
             let accountStatus = try await CKContainer.default().accountStatus()

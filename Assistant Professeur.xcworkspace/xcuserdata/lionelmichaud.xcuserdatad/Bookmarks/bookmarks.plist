@@ -56,7 +56,7 @@
 							<key>StartingLineNumber</key>
 							<string>223</string>
 							<key>Timestamp</key>
-							<string>722799080.654544</string>
+							<string>722884038.070155</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -90,16 +90,12 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
-							<key>EndingColumnNumber</key>
-							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>280</string>
-							<key>StartingColumnNumber</key>
-							<string>0</string>
+							<string>281</string>
 							<key>StartingLineNumber</key>
-							<string>280</string>
+							<string>281</string>
 							<key>Timestamp</key>
-							<string>722130090.25446</string>
+							<string>722884961.607021</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -133,12 +129,16 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>350</string>
+							<string>351</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
 							<key>StartingLineNumber</key>
-							<string>350</string>
+							<string>351</string>
 							<key>Timestamp</key>
-							<string>722134824.435035</string>
+							<string>722884294.396634</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -206,7 +206,7 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>            initializeCloudKitSchema()
+						<string>            // initializeCloudKitSchema()
 </string>
 						<key>leading</key>
 						<string>        #if DEBUG
@@ -543,13 +543,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>153</string>
+					<string>265</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>152</string>
+					<string>265</string>
 					<key>Timestamp</key>
-					<string>722798930.360062</string>
+					<string>722883042.303962</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -565,17 +565,13 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>        }
-</string>
+				<string></string>
 				<key>leading</key>
-				<string>            default:
-                break
+				<string>    }
+}
 </string>
 				<key>trailing</key>
-				<string>    }
-
-    /// Créer les Credential à partir des Credential Apple.
-</string>
+				<string></string>
 			</dict>
 			<key>title</key>
 			<string>Login</string>

@@ -164,12 +164,12 @@ struct SettingsSchoolYear: View {
             let success = EventManager.saveOrUpdate(
                 eventTitle: eventTitle,
                 eventDateInterval: eventDateInterval,
-                during: userContext.prefs.viewSchoolYearPref.interval,
+                during: await userContext.prefs.viewSchoolYearPref.interval,
                 inCalendar: calendar,
                 inEventStore: eventStore
             )
             if success {
-                alertTitle = "L'événement a été enregistré dans le calendrier **\(userContext.prefs.viewSchoolYearPref.calName)**."
+                alertTitle = "L'événement a été enregistré dans le calendrier **\(await userContext.prefs.viewSchoolYearPref.calName)**."
                 alertMessage = ""
                 alertIsPresented.toggle()
             } else {
