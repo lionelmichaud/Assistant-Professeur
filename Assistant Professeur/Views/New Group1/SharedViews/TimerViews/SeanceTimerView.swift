@@ -151,6 +151,7 @@ extension SeanceTimerView {
     /// Vibre à chaque appel durant la période de une minute suivant le franchissement d'un seuil d'alerte.
     /// - Parameters:
     ///   - remainingMinutes: Nombre de minutes restantes avant la fin du cours.
+    @MainActor
     private func vibrate(remainingMinutes: Int) {
         let duration = 1
         switch remainingMinutes + 1 {
@@ -219,7 +220,7 @@ extension SeanceTimerView {
                     guard let remainingMinutes = timerVM.remainingMinutes(from: date) else {
                         return
                     }
-                    vibrate(remainingMinutes: remainingMinutes)
+                    await vibrate(remainingMinutes: remainingMinutes)
                     playSound(remainingMinutes: remainingMinutes)
                 }
             }
@@ -254,7 +255,7 @@ extension SeanceTimerView {
                     guard let remainingMinutes = timerVM.remainingMinutes(from: date) else {
                         return
                     }
-                    vibrate(remainingMinutes: remainingMinutes)
+                    await vibrate(remainingMinutes: remainingMinutes)
                     playSound(remainingMinutes: remainingMinutes)
                 }
             }

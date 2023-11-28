@@ -1024,6 +1024,21 @@
                   endingLineNumber = "218"
                   offsetFromSymbolStart = "64">
                </Location>
+               <Location
+                  uuid = "EB0EC814-8C72-4620-9F0C-3BFFACF514AE - e1890262398f820a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.Authentication.setUserCredentialsFromiCloud(userIdentifier: Swift.String, userContext: Assistant_Professeur.UserContext) -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Persistence/Authentication/Authentication.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "218"
+                  endingLineNumber = "218"
+                  offsetFromSymbolStart = "1624">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
