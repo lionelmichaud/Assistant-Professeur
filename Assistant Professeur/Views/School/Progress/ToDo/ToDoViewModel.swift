@@ -75,19 +75,21 @@ struct BatchOfDocToBeActionned: Identifiable, CustomStringConvertible {
         let seancesToProcess = seances[seances.startIndex ... maxIndex] //.sorted(by: \.interval.start)
         var batchesOfDocsToBeActionned = [BatchOfDocToBeActionned]()
 
-        seancesToProcess.forEach { seance in
+        for seance in seancesToProcess {
+        // seancesToProcess.forEach { eachSeance in
             // Pour la séance
-            guard let schoolName = eachSeance.schoolName,
-                  let classeName = eachSeance.name,
+            guard let schoolName = seance.schoolName,
+                  let classeName = seance.name,
                   let classe = SchoolEntity
                   .school(withName: schoolName)?
                   .classe(withAcronym: classeName) else {
-                return
+                continue
             }
-            let dateSeance = eachSeance.interval.start
+            let dateSeance = seance.interval.start
 
             // Pour chaque activité inclue dans la séance
-            seance.activities.forEach { activity in
+            for activity in seance.activities {
+            //eachSeance.activities.forEach { activity in
                 // L'activité nécessite-elle une action ?
                 let activityHasSomeDocToBeActionned =
                     switch action {
@@ -99,7 +101,7 @@ struct BatchOfDocToBeActionned: Identifiable, CustomStringConvertible {
                 guard activityHasSomeDocToBeActionned,
                       let progress = ProgressClasseCoordinator
                       .progressFor(thisActivity: activity, thisClasse: classe) else {
-                    return
+                    continue
                 }
 
                 // L'action a-t-elle déjà été réalisée ?
@@ -111,7 +113,7 @@ struct BatchOfDocToBeActionned: Identifiable, CustomStringConvertible {
                         progress.isLoaded
                 }
                 guard !activityIsAlreadyActionned else {
-                    return
+                    continue
                 }
 
                 // Liste de documents actionnables pour cette activité de cette séance
