@@ -48,6 +48,9 @@ struct WCompListView: View {
                             showDisciplineCompetencies: true,
                             showSequences: true
                         )
+                        .customizedListItemStyle(
+                            isSelected: competency.objectID == nav.selectedWorkedCompMngObjId
+                        )
                         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                             // supprimer la compétence
                             Button(role: .destructive) {
@@ -152,10 +155,12 @@ extension WCompListView {
         ToolbarItemGroup(placement: .navigationBarTrailing) {
             // Modifier une compétence du chapitre
             if let selectedCompMngObjId = nav.selectedWorkedCompMngObjId {
-                Button("Modifier") {
+                Button {
                     editedWorkedCompetency =
                         WCompEntity
                             .byObjectId(MngObjID: selectedCompMngObjId)
+                } label: {
+                    Label("Modifier", systemImage: "square.and.pencil")
                 }
             }
         }

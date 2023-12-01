@@ -27,11 +27,17 @@ struct WCompListSection: View {
                 )
             }
             .buttonStyle(.borderless)
+            .customizedListItemStyle(
+                isSelected: false
+            )
 
             ForEach(
                 dCompetency.workedCompSortedByAcronym
             ) { workedComp in
                 WCompBrowserRow(workedComp: workedComp)
+                    .customizedListItemStyle(
+                        isSelected: false
+                    )
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         // supprimer le lien vers la compétence travaillée
                         Button(role: .destructive) {

@@ -20,7 +20,7 @@ struct SequenceList: View {
     var body: some View {
         let filteredSequences = program.filteredSequencesSortedByNumber(searchString: searchString)
 
-        return Section {
+        Section {
             ForEach(filteredSequences,id: \.objectID) { sequence in
                 NavigationLink(value: sequence) {
                     SequenceBrowserRow(sequence: sequence)

@@ -26,10 +26,16 @@ struct RessourceListSection: View {
                 Label("Ajouter une ressource", systemImage: "plus.circle.fill")
             }
             .buttonStyle(.borderless)
+            .customizedListItemStyle(
+                isSelected: false
+            )
 
             // édition de la liste des examen
             ForEach(school.ressourcesSortedByName, id: \.objectID) { ressource in
                 RessourceEditor(ressource: ressource)
+                    .customizedListItemStyle(
+                        isSelected: false
+                    )
             }
             .onDelete(perform: deleteItems)
 

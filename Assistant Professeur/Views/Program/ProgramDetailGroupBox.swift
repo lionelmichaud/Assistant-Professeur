@@ -60,7 +60,6 @@ struct ProgramDetailGroupBox: View {
             .padding(.top, 4)
         }
         .font(hClass == .compact ? .subheadline : .callout)
-        .padding(.horizontal)
         #if os(macOS)
             .sheet(isPresented: $isViewing) {
                 NavigationStack {

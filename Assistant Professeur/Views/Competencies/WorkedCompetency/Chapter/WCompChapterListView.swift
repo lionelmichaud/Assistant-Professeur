@@ -36,6 +36,9 @@ struct WCompChapterListView: View {
                             // NavigationLink(value: program.objectID) {
                             WCompChapterBrowserRow(chapter: workedChapter)
                                 .badge(workedChapter.nbOfWorkedCompetencies)
+                                .customizedListItemStyle(
+                                    isSelected: workedChapter.objectID == nav.selectedWorkedCompChapterMngObjId
+                                )
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                     /// supprimer le chapitre
                                     Button(role: .destructive) {
@@ -136,10 +139,12 @@ extension WCompChapterListView {
         ToolbarItemGroup(placement: .navigationBarTrailing) {
             /// Modifier un chapitre de compétences du socle commun
             if let selectedObject = nav.selectedWorkedCompChapterMngObjId {
-                Button("Modifier") {
+                Button {
                     editedWorkedChapter =
                         WCompChapterEntity
                             .byObjectId(MngObjID: selectedObject)
+                } label: {
+                    Label("Modifier", systemImage: "square.and.pencil")
                 }
             }
         }

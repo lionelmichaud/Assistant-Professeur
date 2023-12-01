@@ -66,6 +66,9 @@ struct DThemeListView: View {
                                     }
                                 }
                             }
+                            .customizedListItemStyle(
+                                isSelected: theme.objectID == nav.selectedDiscThemeMngObjId
+                            )
                         }
                         .emptyListPlaceHolder(filteredThemes) {
                             ContentUnavailableView(

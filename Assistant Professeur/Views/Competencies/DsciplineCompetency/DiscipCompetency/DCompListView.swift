@@ -33,6 +33,9 @@ struct DCompListView: View {
                 showIcon: false,
                 showProgressivity: true
             )
+            .customizedListItemStyle(
+                isSelected: false
+            )
 
             // Compétences disciplinaires
             ForEach(
@@ -44,6 +47,9 @@ struct DCompListView: View {
                     showIcon: true
                 )
                 .badge(competency.nbOfKnowledges)
+                .customizedListItemStyle(
+                    isSelected: competency.objectID == nav.selectedDiscCompMngObjId
+                )
                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                     // supprimer la compétence
                     Button(role: .destructive) {
@@ -142,10 +148,12 @@ extension DCompListView {
         ToolbarItemGroup(placement: .navigationBarTrailing) {
             // Modifier une compétence de la section
             if let selectedDiscCompMngObjId = nav.selectedDiscCompMngObjId {
-                Button("Modifier") {
+                Button {
                     editedCompetency =
                         DCompEntity
                             .byObjectId(MngObjID: selectedDiscCompMngObjId)
+                } label: {
+                    Label("Modifier", systemImage: "square.and.pencil")
                 }
             }
         }

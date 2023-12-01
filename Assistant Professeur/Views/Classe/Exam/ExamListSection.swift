@@ -26,6 +26,9 @@ struct ExamListSection: View {
                 Label("Ajouter une évaluation", systemImage: "plus.circle.fill")
             }
             .buttonStyle(.borderless)
+            .customizedListItemStyle(
+                isSelected: false
+            )
             .sheet(isPresented: $isAddingNewExam) {
                 NavigationStack {
                     ExamCreatorModal(classe: classe)
@@ -38,6 +41,9 @@ struct ExamListSection: View {
                 NavigationLink(value: ClasseNavigationRoute.exam(classe.id, exam.id)) {
                     ClasseExamRow(exam: exam)
                 }
+                .customizedListItemStyle(
+                    isSelected: false
+                )
             }
             .onDelete(perform: deleteItems)
         } header: {

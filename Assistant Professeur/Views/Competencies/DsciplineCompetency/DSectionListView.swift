@@ -33,6 +33,9 @@ struct DSectionListView: View {
                 showIcon: false,
                 showProgressivity: true
             )
+            .customizedListItemStyle(
+                isSelected: false
+            )
 
             // Sections de compétences disciplinaires
             ForEach(
@@ -69,6 +72,9 @@ struct DSectionListView: View {
                         }
                     }
                 }
+                .customizedListItemStyle(
+                    isSelected: section.objectID == nav.selectedDiscSectionMngObjId
+                )
             }
             .emptyListPlaceHolder(theme.allSectionsSortedByNumber) {
                 ContentUnavailableView(
@@ -147,10 +153,12 @@ extension DSectionListView {
         ToolbarItemGroup(placement: .navigationBarTrailing) {
             // Modifier une séction du thème
             if let selectedSectionMngObjId = nav.selectedDiscSectionMngObjId {
-                Button("Modifier") {
+                Button {
                     editedSection =
                         DSectionEntity
                             .byObjectId(MngObjID: selectedSectionMngObjId)
+                } label: {
+                    Label("Modifier", systemImage: "square.and.pencil")
                 }
             }
         }

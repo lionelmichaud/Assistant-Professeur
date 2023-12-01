@@ -29,10 +29,16 @@ struct EventListSection: View {
                 Label("Ajouter un événement", systemImage: "plus.circle.fill")
             }
             .buttonStyle(.borderless)
+            .customizedListItemStyle(
+                isSelected: false
+            )
 
             // édition de la liste des événements
             ForEach(school.eventsSortedByDate) { event in
                 EventEditor(event: event)
+                    .customizedListItemStyle(
+                        isSelected: false
+                    )
             }
             .onDelete(perform: deleteItems)
 

@@ -33,6 +33,9 @@ struct KnowledgeListSection: View {
                 )
             }
             .buttonStyle(.borderless)
+            .customizedListItemStyle(
+                isSelected: false
+            )
 
             ForEach(
                 dCompetency.allKnowledgesSortedByNumber
@@ -40,6 +43,9 @@ struct KnowledgeListSection: View {
                 DKnowBrowserRow(
                     knowledge: knowledge,
                     showIcon: true
+                )
+                .customizedListItemStyle(
+                    isSelected: false
                 )
                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                     // supprimer la connaissance

@@ -25,7 +25,7 @@ struct WCompMasteryLevels: View {
                 .keys
                 .sorted { $0.rawValue < $1.rawValue }
 
-        return List(selection: $selectedLevel) {
+        List(selection: $selectedLevel) {
             Group {
                 Text(workedComp.viewAcronym)
                     .fontWeight(.bold) +
@@ -35,6 +35,9 @@ struct WCompMasteryLevels: View {
             }
             .lineLimit(5)
             .textSelection(.enabled)
+            .customizedListItemStyle(
+                isSelected: false
+            )
 
             ForEach(masteryDefinitions) { masteryLevel in
                 HStack {
@@ -51,6 +54,9 @@ struct WCompMasteryLevels: View {
                     }
                     .buttonStyle(.borderedProminent)
                 }
+                .customizedListItemStyle(
+                    isSelected: masteryLevel == selectedLevel
+                )
                 .swipeActions(edge: .leading, allowsFullSwipe: false) {
                     // modifier le critère de maîtrise de compétence
                     Button {

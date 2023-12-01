@@ -131,8 +131,10 @@ extension EleveMarkRow {
                     Text(" points")
                         .foregroundColor(.secondary)
                         .padding(.trailing)
-                    Button("Modifier") {
+                    Button {
                         isEditing.toggle()
+                    } label: {
+                        Label("Modifier", systemImage: "square.and.pencil")
                     }
                     .buttonStyle(.bordered)
             }

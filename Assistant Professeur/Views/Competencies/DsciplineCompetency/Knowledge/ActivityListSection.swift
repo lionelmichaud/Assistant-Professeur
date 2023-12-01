@@ -27,11 +27,17 @@ struct ActivityListSection: View {
                 )
             }
             .buttonStyle(.borderless)
+            .customizedListItemStyle(
+                isSelected: false
+            )
 
             ForEach(dCompetency.activitiesSortedByLevelSeqActNumber) { activity in
                 AssociatedActivityBrowerRow(
                     activity: activity,
                     verticallyStacked: true
+                )
+                .customizedListItemStyle(
+                    isSelected: false
                 )
                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                     // supprimer le lien vers l'activité

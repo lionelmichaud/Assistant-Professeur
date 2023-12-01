@@ -73,7 +73,6 @@ struct SequenceDetailGroupBox: View {
             }
             .font(hClass == .compact ? .callout : .body)
         }
-        .padding(.horizontal)
         #if os(macOS)
             .sheet(item: $documentToBeViewed) { doc in
                 NavigationStack {

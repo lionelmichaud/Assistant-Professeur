@@ -51,6 +51,9 @@ struct SchoolDocumentListSection: View {
                 }
             }
             .buttonStyle(.borderless)
+            .customizedListItemStyle(
+                isSelected: false
+            )
             .dropDestination(for: Data.self) { items, _ in
                 guard let item = items.first else {
                     return false
@@ -102,6 +105,9 @@ struct SchoolDocumentListSection: View {
                 DocumentRow(
                     document: document,
                     saveChanges: true
+                )
+                .customizedListItemStyle(
+                    isSelected: false
                 )
             }
             .onDelete { indexSet in

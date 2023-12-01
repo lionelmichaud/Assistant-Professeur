@@ -189,6 +189,9 @@ extension EleveDetail {
                 Label("Ajouter une observation", systemImage: "plus.circle.fill")
             }
             .buttonStyle(.borderless)
+            .customizedListItemStyle(
+                isSelected: false
+            )
 
             // édition de la liste des observations
             ForEach(eleve.sortedObservations(
@@ -196,6 +199,9 @@ extension EleveDetail {
                 isVerified: filterObservation ? false : nil
             )) { observ in
                 EleveObservRow(observ: observ)
+                    .customizedListItemStyle(
+                        isSelected: false
+                    )
 
                     .onTapGesture {
                         // Programatic Navigation
@@ -233,10 +239,16 @@ extension EleveDetail {
                 Label("Ajouter une colle", systemImage: "plus.circle.fill")
             }
             .buttonStyle(.borderless)
+            .customizedListItemStyle(
+                isSelected: false
+            )
 
             // édition de la liste des colles
             ForEach(eleve.sortedColles(isConsignee: filterColle ? false : nil)) { colle in
                 EleveColleRow(colle: colle)
+                    .customizedListItemStyle(
+                        isSelected: false
+                    )
 
                     .onTapGesture {
                         // Programatic Navigation

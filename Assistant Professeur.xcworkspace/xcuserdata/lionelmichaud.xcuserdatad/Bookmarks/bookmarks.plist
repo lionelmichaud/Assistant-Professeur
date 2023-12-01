@@ -51,12 +51,16 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>223</string>
+							<string>224</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
 							<key>StartingLineNumber</key>
 							<string>223</string>
 							<key>Timestamp</key>
-							<string>722884038.070155</string>
+							<string>723074842.320058</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -72,10 +76,11 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string></string>
+						<string>}
+</string>
 						<key>leading</key>
-						<string>    }
-}
+						<string>        }
+    }
 </string>
 						<key>trailing</key>
 						<string></string>
@@ -349,7 +354,7 @@
 							<key>StartingLineNumber</key>
 							<string>286</string>
 							<key>Timestamp</key>
-							<string>722799107.293608</string>
+							<string>723081703.532457</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>

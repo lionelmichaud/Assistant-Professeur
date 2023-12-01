@@ -42,10 +42,16 @@ struct RoomListSection: View {
                 }
             }
             .buttonStyle(.borderless)
+            .customizedListItemStyle(
+                isSelected: false
+            )
 
             /// Editer la liste des salles de classe
             ForEach(school.roomsSortedByName, id: \.objectID) { room in
                 RoomRowEditor(room: room)
+                    .customizedListItemStyle(
+                        isSelected: false
+                    )
             }
             .onDelete { indexSet in
                 alertTitle = "Supprimer cette salle de classe?"

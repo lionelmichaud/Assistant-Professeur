@@ -29,10 +29,16 @@ struct ClasseListSection: View {
                 Label("Ajouter une classe", systemImage: "plus.circle.fill")
             }
             .buttonStyle(.borderless)
+            .customizedListItemStyle(
+                isSelected: false
+            )
 
             // édition de la liste des classes
             ForEach(school.classesSortedByLevelNumber) { classe in
                 ClasseBrowserRow(classe: classe)
+                    .customizedListItemStyle(
+                        isSelected: false
+                    )
 
                     .onTapGesture {
                         // Programatic Navigation
