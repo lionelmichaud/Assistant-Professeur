@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 09/10/2022.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct EleveNameGroupBox: View {
     @ObservedObject
@@ -36,36 +36,6 @@ struct EleveNameGroupBox: View {
     private var focus: FocusableField?
 
     // MARK: - Computed Properties
-
-    private var sexEditView: some View {
-        HStack {
-            // Sexe de cet eleve
-            CasePicker(pickedCase: $eleve.sexEnum, label: "Sexe")
-                .pickerStyle(.menu)
-        }
-    }
-    private var prenomEditView: some View {
-        TextField("Prénom", text: $eleve.viewGivenName)
-            .onSubmit {
-                //eleve.viewGivenName.trim()
-                focus?.moveToNext()
-            }
-            .textFieldStyle(.roundedBorder)
-            .autocorrectionDisabled()
-            .submitLabel(.next)
-            .focused($focus, equals: .givenName)
-    }
-    private var nomEditView: some View {
-        TextField("Nom", text: $eleve.viewFamilyName)
-            .onSubmit {
-                //eleve.viewFamilyName = eleve.viewFamilyName.trimmed.uppercased()
-                focus?.moveToNext()
-            }
-            .textFieldStyle(.roundedBorder)
-            .autocorrectionDisabled()
-            .submitLabel(.next)
-            .focused($focus, equals: .familyName)
-    }
 
     var body: some View {
         GroupBox {
@@ -103,6 +73,38 @@ struct EleveNameGroupBox: View {
         .onAppear {
             focus = userContext.prefs.nameDisplayOrderEnum == .nomPrenom ? .familyName : .givenName
         }
+    }
+
+    private var sexEditView: some View {
+        HStack {
+            // Sexe de cet eleve
+            CasePicker(pickedCase: $eleve.sexEnum, label: "Sexe")
+                .pickerStyle(.menu)
+        }
+    }
+
+    private var prenomEditView: some View {
+        TextField("Prénom", text: $eleve.viewGivenName)
+            .onSubmit {
+                // eleve.viewGivenName.trim()
+                focus?.moveToNext()
+            }
+            .textFieldStyle(.roundedBorder)
+            .autocorrectionDisabled()
+            .submitLabel(.next)
+            .focused($focus, equals: .givenName)
+    }
+
+    private var nomEditView: some View {
+        TextField("Nom", text: $eleve.viewFamilyName)
+            .onSubmit {
+                // eleve.viewFamilyName = eleve.viewFamilyName.trimmed.uppercased()
+                focus?.moveToNext()
+            }
+            .textFieldStyle(.roundedBorder)
+            .autocorrectionDisabled()
+            .submitLabel(.next)
+            .focused($focus, equals: .familyName)
     }
 }
 

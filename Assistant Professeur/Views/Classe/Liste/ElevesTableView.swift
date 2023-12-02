@@ -61,71 +61,11 @@ struct ElevesTableView: View {
     @State
     private var transfertDetails = TransfertDetails()
 
+    /// Create an instance of your tip content.
+    var addEleveTip = AddEleveTip()
+    var actionsEleveTip = ActionsEleveTip()
+
     // MARK: - Computed Properties
-
-    private var selectedEleve: EleveEntity? {
-        if let first = selection.first {
-            return EleveEntity.byObjectIdentifier(objectID: first)
-        } else {
-            return nil
-        }
-    }
-
-    private var selectedEleves: [EleveEntity] {
-        selection.compactMap { selection in
-            EleveEntity.byObjectIdentifier(objectID: selection)
-        }
-    }
-
-    private var selectedElevesSchool: SchoolEntity? {
-        if let first = selection.first {
-            return EleveEntity.byObjectIdentifier(objectID: first)?.classe?.school
-        } else {
-            return nil
-        }
-    }
-
-    private var selectedElevesClasse: ClasseEntity? {
-        if let first = selection.first {
-            return EleveEntity.byObjectIdentifier(objectID: first)?.classe
-        } else {
-            return nil
-        }
-    }
-
-    @ViewBuilder
-    private func nameView(_ eleve: EleveEntity) -> some View {
-        EleveLabel(eleve: eleve)
-    }
-
-    @ViewBuilder
-    private func bonusView(_ eleve: EleveEntity) -> some View {
-        if eleve.viewBonus.isNotZero {
-            Text("\(eleve.viewBonus.isPositive ? "+" : "")\(eleve.viewBonus.formatted(.number.precision(.fractionLength(0))))")
-                .foregroundColor(eleve.viewBonus.isPositive ? .green : .red)
-                .fontWeight(.semibold)
-        } else {
-            EmptyView()
-        }
-    }
-
-    @ViewBuilder
-    private func tpsSupView(_ eleve: EleveEntity) -> some View {
-        if eleve.hasAddTime {
-            Text("1/3 tps en +")
-        } else {
-            EmptyView()
-        }
-    }
-
-    @ViewBuilder
-    private func groupeView(_ eleve: EleveEntity) -> some View {
-        if let group = eleve.group {
-            Text(group.number == 0 ? "" : "\(group.displayString)")
-        } else {
-            EmptyView()
-        }
-    }
 
     var body: some View {
         VStack {
@@ -214,12 +154,80 @@ struct ElevesTableView: View {
     }
 }
 
+// MARK: Sub-Views
+
+extension ElevesTableView {
+    private var selectedEleve: EleveEntity? {
+        if let first = selection.first {
+            return EleveEntity.byObjectIdentifier(objectID: first)
+        } else {
+            return nil
+        }
+    }
+
+    private var selectedEleves: [EleveEntity] {
+        selection.compactMap { selection in
+            EleveEntity.byObjectIdentifier(objectID: selection)
+        }
+    }
+
+    private var selectedElevesSchool: SchoolEntity? {
+        if let first = selection.first {
+            return EleveEntity.byObjectIdentifier(objectID: first)?.classe?.school
+        } else {
+            return nil
+        }
+    }
+
+    private var selectedElevesClasse: ClasseEntity? {
+        if let first = selection.first {
+            return EleveEntity.byObjectIdentifier(objectID: first)?.classe
+        } else {
+            return nil
+        }
+    }
+
+    @ViewBuilder
+    private func nameView(_ eleve: EleveEntity) -> some View {
+        EleveLabel(eleve: eleve)
+    }
+
+    @ViewBuilder
+    private func bonusView(_ eleve: EleveEntity) -> some View {
+        if eleve.viewBonus.isNotZero {
+            Text("\(eleve.viewBonus.isPositive ? "+" : "")\(eleve.viewBonus.formatted(.number.precision(.fractionLength(0))))")
+                .foregroundColor(eleve.viewBonus.isPositive ? .green : .red)
+                .fontWeight(.semibold)
+        } else {
+            EmptyView()
+        }
+    }
+
+    @ViewBuilder
+    private func tpsSupView(_ eleve: EleveEntity) -> some View {
+        if eleve.hasAddTime {
+            Text("1/3 tps en +")
+        } else {
+            EmptyView()
+        }
+    }
+
+    @ViewBuilder
+    private func groupeView(_ eleve: EleveEntity) -> some View {
+        if let group = eleve.group {
+            Text(group.number == 0 ? "" : "\(group.displayString)")
+        } else {
+            EmptyView()
+        }
+    }
+}
+
 // MARK: Toolbar Content
 
 extension ElevesTableView {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
-        ToolbarItemGroup(placement: .primaryAction) {
+        ToolbarItem(placement: .primaryAction) {
             // aller à la fiche élève
             Button {
                 // Programatic Navigation
@@ -287,6 +295,7 @@ extension ElevesTableView {
 
                 // ajouter un élève
                 Button {
+                    addEleveTip.invalidate(reason: .actionPerformed)
                     presentedSheet = .addingNewEleve
                 } label: {
                     Label(
@@ -294,6 +303,7 @@ extension ElevesTableView {
                         systemImage: "plus.circle.fill"
                     )
                 }
+                .popoverTip(addEleveTip)
             }.controlGroupStyle(.navigation)
         }
 

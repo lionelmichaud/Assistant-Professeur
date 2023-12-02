@@ -15,8 +15,13 @@ struct TrombineView: View {
         if eleve.hasImageTrombine {
             Trombine(eleve: eleve)
         } else {
-            Trombine(eleve: eleve)
-                .foregroundColor(.secondary)
+            ZStack(alignment: .center) {
+                Text("Glisser une photo ici.")
+                    .multilineTextAlignment(.center)
+                    .bold()
+                Trombine(eleve: eleve)
+                    .foregroundColor(.secondary)
+            }
         }
     }
 }

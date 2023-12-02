@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 /// Liste des classes d'un établissement
 struct ClasseListSection: View {
@@ -17,6 +18,9 @@ struct ClasseListSection: View {
 
     @State
     private var isAddingNewClasse = false
+
+    // Create an instance of your tip content.
+    var flagListItem = FlagClasseItemTip()
 
     // MARK: - Computed Properties
 
@@ -34,6 +38,9 @@ struct ClasseListSection: View {
             )
 
             // édition de la liste des classes
+            TipView(flagListItem, arrowEdge: .bottom)
+                .tint(.orange)
+                .tipBackground(HierarchicalShapeStyle.tipBackgroundColor)
             ForEach(school.classesSortedByLevelNumber) { classe in
                 ClasseBrowserRow(classe: classe)
                     .customizedListItemStyle(

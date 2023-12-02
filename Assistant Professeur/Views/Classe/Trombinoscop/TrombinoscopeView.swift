@@ -7,6 +7,7 @@
 
 import SwiftUI
 import HelpersView
+import TipKit
 
 /// Vue de tous les élèves de la classe en trombinoscope
 struct TrombinoscopeView: View {
@@ -44,12 +45,17 @@ struct TrombinoscopeView: View {
     @State
     private var pictureSize = "Small picture"
 
+    // Create an instance of your tip content.
+    var addElevePhotoTip = AddElevePhotoTip()
+
     var body: some View {
         let foundEleves = classe.filteredElevesSortedByName(
             searchString: searchString,
             nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
         )
         ScrollView(.vertical, showsIndicators: true) {
+            TipView(addElevePhotoTip, arrowEdge: .bottom)
+                .customizedTipKitStyle()
             LazyVGrid(
                 columns: pictureSize == "Small picture" ? smallColumns : largeColumns,
                 spacing: 4
@@ -88,7 +94,7 @@ struct TrombinoscopeView: View {
                         isShowingResetBonuConfirmDialog.toggle()
                     } label: {
                         Label(
-                            "Remise à zéro des Bonus / Malus",
+                            "Remettre à zéro  les Bonus / Malus",
                             systemImage: "eraser.fill"
                         ).tint(.red)
                     }
@@ -98,7 +104,7 @@ struct TrombinoscopeView: View {
                     } label: {
                         Label(
                             "Supprimer les photos",
-                            systemImage: "eraser.fill"
+                            systemImage: "trash"
                         ).tint(.red)
                     }
                 } label: {

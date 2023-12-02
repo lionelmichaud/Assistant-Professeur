@@ -8,8 +8,8 @@
 import SwiftUI
 
 extension Color {
-    /// Palette de couleurs
-    /// RENDU INUTILE PAR XCODE 15
+    // Palette de couleurs
+    // RENDU INUTILE PAR XCODE 15
 //    static let blue0 = Color("Blue0")
 //    static let blue1 = Color("Blue1")
 //    static let blue2 = Color("Blue2")
@@ -43,7 +43,15 @@ extension Color {
     /// Couleurs de la TabBar
     static let tabBarColor = Color.blue6.opacity(0.2)
 
+    /// Couleur dans les Tips
+    static let tipIconColor = Color.purple
+}
+
+public extension HierarchicalShapeStyle {
     /// Couleur de fond des list items
     static let listRowBackgroundUnselected = HierarchicalShapeStyle.quaternary
     static let listRowBackgroundSelected = HierarchicalShapeStyle.tertiary
+
+    /// Couleur dans les Tips
+    static let tipBackgroundColor: HierarchicalShapeStyle = .quaternary
 }

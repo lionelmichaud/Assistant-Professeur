@@ -73,70 +73,7 @@ struct EleveDetail: View {
                 collesView
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .confirmationAction) {
-                Button {
-                    // Appliquer les modifications faites à l'élève
-                    if isEditing {
-                        // supprimer les caractères blancs au début et à la fin
-                        eleve.viewFamilyName = eleve.viewFamilyName.trimmed.uppercased()
-                        eleve.viewGivenName.trim()
-                    }
-                    withAnimation {
-                        isEditing.toggle()
-                    }
-                } label: {
-                    Text(isEditing ? "Ok" : "Modifier")
-                }
-            }
-
-            ToolbarItemGroup(placement: .destructiveAction) {
-                Menu {
-                    Menu("changer de classe") {
-                        if let school = eleve.classe?.school {
-                            // Pour chaque classe de l'établissemeent
-                            ForEach(school.classesSortedByLevelNumber) { classe in
-                                if classe.objectID != eleve.classe?.objectID {
-                                    Button {
-                                        newClasse = classe
-                                        isShowingChangeClasseConfirmDialog.toggle()
-                                    } label: {
-                                        Label {
-                                            Text(classe.displayString)
-
-                                        } icon: {
-                                            Image(systemName: ClasseEntity.defaultImageName)
-                                                .foregroundColor(classe.levelEnum.imageColor)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } label: {
-                    Label("Autres actions", systemImage: "ellipsis.circle")
-                        .imageScale(.large)
-                        .padding(4)
-                }
-                // Confirmation du changement de classe d'un élève
-                .confirmationDialog(
-                    "Changement de classe",
-                    isPresented: $isShowingChangeClasseConfirmDialog,
-                    titleVisibility: .visible,
-                    presenting: newClasse
-                ) { newClasse in
-                    Button("Transférer", role: .destructive) {
-                        eleve.changerDeClasse(newClasse: newClasse)
-                    }
-                } message: { newClasse in
-                    VStack {
-                        Text("Transférer l'élève de la classe de \(eleve.classe!.displayString) vers la la classe de \(newClasse.displayString).")
-                        Text("Cette action ne peut pas être annulée.")
-                            .padding(.top)
-                    }
-                }
-            }
-        }
+        .toolbar(content: myToolBarContent)
         #if os(iOS)
         .navigationTitle("Élève")
         .navigationBarTitleDisplayMode(.inline)
@@ -154,6 +91,76 @@ struct EleveDetail: View {
             NavigationStack {
                 ColleCreatorModal(eleve: eleve)
                     .presentationDetents([.medium])
+            }
+        }
+    }
+}
+
+// MARK: - Toolbar
+
+extension EleveDetail {
+    @ToolbarContentBuilder
+    private func myToolBarContent() -> some ToolbarContent {
+        ToolbarItem(placement: .confirmationAction) {
+            Button {
+                // Appliquer les modifications faites à l'élève
+                if isEditing {
+                    // supprimer les caractères blancs au début et à la fin
+                    eleve.viewFamilyName = eleve.viewFamilyName.trimmed.uppercased()
+                    eleve.viewGivenName.trim()
+                }
+                withAnimation {
+                    isEditing.toggle()
+                }
+            } label: {
+                Text(isEditing ? "Ok" : "Modifier")
+            }
+        }
+
+        ToolbarItemGroup(placement: .destructiveAction) {
+            Menu {
+                Menu("changer de classe") {
+                    if let school = eleve.classe?.school {
+                        // Pour chaque classe de l'établissemeent
+                        ForEach(school.classesSortedByLevelNumber) { classe in
+                            if classe.objectID != eleve.classe?.objectID {
+                                Button {
+                                    newClasse = classe
+                                    isShowingChangeClasseConfirmDialog.toggle()
+                                } label: {
+                                    Label {
+                                        Text(classe.displayString)
+
+                                    } icon: {
+                                        Image(systemName: ClasseEntity.defaultImageName)
+                                            .foregroundColor(classe.levelEnum.imageColor)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } label: {
+                Label("Autres actions", systemImage: "ellipsis.circle")
+                    .imageScale(.large)
+                    .padding(4)
+            }
+            // Confirmation du changement de classe d'un élève
+            .confirmationDialog(
+                "Changement de classe",
+                isPresented: $isShowingChangeClasseConfirmDialog,
+                titleVisibility: .visible,
+                presenting: newClasse
+            ) { newClasse in
+                Button("Transférer", role: .destructive) {
+                    eleve.changerDeClasse(newClasse: newClasse)
+                }
+            } message: { newClasse in
+                VStack {
+                    Text("Transférer l'élève de la classe de \(eleve.classe!.displayString) vers la la classe de \(newClasse.displayString).")
+                    Text("Cette action ne peut pas être annulée.")
+                        .padding(.top)
+                }
             }
         }
     }

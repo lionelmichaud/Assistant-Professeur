@@ -5,10 +5,10 @@
 //  Created by Lionel MICHAUD on 15/11/2022.
 //
 
+import AppFoundation
 import Files
 import os
 import SwiftUI
-import AppFoundation
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -20,8 +20,8 @@ struct Assistant_ProfesseurApp: App {
     /// The managed object context for your Core Data container
     let coreDataManager = CoreDataManager.shared
 
-    // object that you want to use throughout your scenes and that will be global to the App
-    // @StateObject private var uiState = UIState()
+    /// object that you want to use throughout your scenes and that will be global to the App
+    /// @StateObject private var uiState = UIState()
     @State
     private var authentication = Authentication()
 
@@ -48,9 +48,9 @@ struct Assistant_ProfesseurApp: App {
 
         // Stopper les éventuelles Live Activity en cours
         #if canImport(ActivityKit)
-//            Task {
-//                await LiveActivityManager.shared.endAllRunningActivities()
-//            }
+            //            Task {
+            //                await LiveActivityManager.shared.endAllRunningActivities()
+            //            }
         #endif
 
         Task {

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import HelpersView
+import TipKit
 
 struct ClasseSidebarView: View {
     @EnvironmentObject
@@ -19,8 +20,14 @@ struct ClasseSidebarView: View {
     )
     private var classesSections: SectionedFetchResults<String, ClasseEntity>
 
+    // Create an instance of your tip content.
+    var flagListItem = FlagClasseItemTip()
+
     var body: some View {
         // Liste des classes par établissement
+        TipView(flagListItem, arrowEdge: .bottom)
+            .tint(.orange)
+            .tipBackground(HierarchicalShapeStyle.tipBackgroundColor)
         List(selection: $navigationModel.selectedClasseMngObjId) {
             // pour chaque Etablissement
             ForEach(classesSections) { section in

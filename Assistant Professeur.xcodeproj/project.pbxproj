@@ -21,6 +21,7 @@
 		7905D5302AE52243004B04E5 /* LockScreenContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7905D52F2AE52243004B04E5 /* LockScreenContent.swift */; };
 		790A10712A472C5500BA3F5C /* ActivityTagList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790A10702A472C5500BA3F5C /* ActivityTagList.swift */; };
 		790A2AF32A6ACB55002A2900 /* PdfViewConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790A2AF22A6ACB55002A2900 /* PdfViewConverter.swift */; };
+		790BCEF12B19FB23005AAED2 /* DocumentTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790BCEF02B19FB23005AAED2 /* DocumentTips.swift */; };
 		790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */; };
 		790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */; };
 		790F76A229818858000A5C7D /* DurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F76A129818858000A5C7D /* DurationView.swift */; };
@@ -374,6 +375,10 @@
 		79E7B87B2A58A050008E8B83 /* SeanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E7B87A2A58A050008E8B83 /* SeanceRow.swift */; };
 		79E923C52961E94D00EDB7CA /* GroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E923C42961E94D00EDB7CA /* GroupManager.swift */; };
 		79E9DC5A2ADAFEC600D9C2BC /* PlanningStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79E9DC592ADAFEC600D9C2BC /* PlanningStyles.swift */; };
+		79EC34D02B1A3F7D00747313 /* TrombineTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC34CF2B1A3F7D00747313 /* TrombineTips.swift */; };
+		79EC34D22B1A558E00747313 /* EleveTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC34D12B1A558E00747313 /* EleveTips.swift */; };
+		79EC34D42B1B4E9700747313 /* SharedTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC34D32B1B4E9700747313 /* SharedTips.swift */; };
+		79EC34D62B1B512D00747313 /* ClasseTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC34D52B1B512D00747313 /* ClasseTips.swift */; };
 		79ECF1F42959F09F008F0282 /* colle+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F32959F09F008F0282 /* colle+extensions.swift */; };
 		79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */; };
 		79ECF1F82959F6CA008F0282 /* EleveColleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F62959F6CA008F0282 /* EleveColleLabel.swift */; };
@@ -507,6 +512,7 @@
 		7905D52F2AE52243004B04E5 /* LockScreenContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenContent.swift; sourceTree = "<group>"; };
 		790A10702A472C5500BA3F5C /* ActivityTagList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTagList.swift; sourceTree = "<group>"; };
 		790A2AF22A6ACB55002A2900 /* PdfViewConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PdfViewConverter.swift; sourceTree = "<group>"; };
+		790BCEF02B19FB23005AAED2 /* DocumentTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTips.swift; sourceTree = "<group>"; };
 		790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAgenda.swift; sourceTree = "<group>"; };
 		790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceCreatorModal.swift; sourceTree = "<group>"; };
 		790F76A129818858000A5C7D /* DurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationView.swift; sourceTree = "<group>"; };
@@ -828,6 +834,10 @@
 		79E7B87A2A58A050008E8B83 /* SeanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeanceRow.swift; sourceTree = "<group>"; };
 		79E923C42961E94D00EDB7CA /* GroupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupManager.swift; sourceTree = "<group>"; };
 		79E9DC592ADAFEC600D9C2BC /* PlanningStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningStyles.swift; sourceTree = "<group>"; };
+		79EC34CF2B1A3F7D00747313 /* TrombineTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrombineTips.swift; sourceTree = "<group>"; };
+		79EC34D12B1A558E00747313 /* EleveTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveTips.swift; sourceTree = "<group>"; };
+		79EC34D32B1B4E9700747313 /* SharedTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTips.swift; sourceTree = "<group>"; };
+		79EC34D52B1B512D00747313 /* ClasseTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseTips.swift; sourceTree = "<group>"; };
 		79ECF1F32959F09F008F0282 /* colle+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "colle+extensions.swift"; sourceTree = "<group>"; };
 		79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveObservLabel.swift; sourceTree = "<group>"; };
 		79ECF1F62959F6CA008F0282 /* EleveColleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveColleLabel.swift; sourceTree = "<group>"; };
@@ -1009,6 +1019,13 @@
 			path = BonusMalus;
 			sourceTree = "<group>";
 		};
+		790BCEEF2B19FAC8005AAED2 /* Tips */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Tips;
+			sourceTree = "<group>";
+		};
 		79134555296B6AD80092E7CD /* Trombinoscop */ = {
 			isa = PBXGroup;
 			children = (
@@ -1016,6 +1033,7 @@
 				79134556296B6C620092E7CD /* TrombineInteractivView.swift */,
 				79EE3EA3296F6CF20075E9BD /* EleveTrombineStyling.swift */,
 				798DD4D5298C366300C47B2C /* TrombineView.swift */,
+				79EC34CF2B1A3F7D00747313 /* TrombineTips.swift */,
 			);
 			path = Trombinoscop;
 			sourceTree = "<group>";
@@ -1338,6 +1356,7 @@
 				79F655652AEBD7C000AB3AEB /* SharedTypes */,
 				798EE56E2ADA8D9400F9AE24 /* SharedViewModifiers */,
 				79A800272AC81DE6001F2E25 /* SharedViews */,
+				79EC34D32B1B4E9700747313 /* SharedTips.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1696,6 +1715,7 @@
 				7994E3222972F4E500952D08 /* DocumentRow.swift */,
 				7994E3232972F4E500952D08 /* PdfDocumentViewer.swift */,
 				790A2AF22A6ACB55002A2900 /* PdfViewConverter.swift */,
+				790BCEF02B19FB23005AAED2 /* DocumentTips.swift */,
 			);
 			path = Document;
 			sourceTree = "<group>";
@@ -1997,6 +2017,7 @@
 		79DEDAE32925855B00F508EF /* School */ = {
 			isa = PBXGroup;
 			children = (
+				790BCEEF2B19FAC8005AAED2 /* Tips */,
 				796B6A7E2A0C42AE00F00929 /* Infos */,
 				790510BC2AB4B51D006CCC5B /* BonusMalus */,
 				79E00C512A5B7F6400362743 /* Progress */,
@@ -2042,6 +2063,7 @@
 				79F38D0B29D74B17006C9B35 /* ClasseCapsule.swift */,
 				7951063D294FD9520015AC5C /* ClasseListSection.swift */,
 				79FE06DB2A44E14900DDA543 /* ClasseTagList.swift */,
+				79EC34D52B1B512D00747313 /* ClasseTips.swift */,
 			);
 			path = Classe;
 			sourceTree = "<group>";
@@ -2064,6 +2086,7 @@
 				79C2E46F29DC22C2008DF730 /* EleveTextName.swift */,
 				798B825D296C8DD5004A24A8 /* EleveNameStyling.swift */,
 				796A177F2A3F416D00413DDD /* EleveListSection.swift */,
+				79EC34D12B1A558E00747313 /* EleveTips.swift */,
 			);
 			path = Eleve;
 			sourceTree = "<group>";
@@ -2525,6 +2548,7 @@
 				793D627B295F2A1400477932 /* ColleDetail.swift in Sources */,
 				79ECF200295A02EE008F0282 /* EleveEditor.swift in Sources */,
 				79F41E6E2954C83A00EAAC52 /* ElevesListView.swift in Sources */,
+				79EC34D02B1A3F7D00747313 /* TrombineTips.swift in Sources */,
 				796A242729A17C16009B2A6C /* ClassProgressesView.swift in Sources */,
 				7951063E294FD9520015AC5C /* ClasseListSection.swift in Sources */,
 				7997531A297C17E300D1C66E /* ProgramSidebar.swift in Sources */,
@@ -2591,6 +2615,7 @@
 				7994E3262972F4E500952D08 /* PdfDocumentViewer.swift in Sources */,
 				79D573472927EEDE00B0B7B8 /* SchoolViewModel.swift in Sources */,
 				7974CD0E2A2BF358004B3716 /* Cycle.swift in Sources */,
+				79EC34D42B1B4E9700747313 /* SharedTips.swift in Sources */,
 				799817752A562A9F00CD8F43 /* SeancesInDateInterval.swift in Sources */,
 				790510C02AB4C462006CCC5B /* SchoolBonusMalusList.swift in Sources */,
 				7981280629F1CB3500A3817E /* AgendaManager.swift in Sources */,
@@ -2672,6 +2697,7 @@
 				79F41E6F2954C83A00EAAC52 /* ElevesTableView.swift in Sources */,
 				7934E13C2AF6A42800104733 /* ToDoViewModel.swift in Sources */,
 				795804B729A696CC00AEB7DA /* SequenceTimeLine.swift in Sources */,
+				79EC34D22B1A558E00747313 /* EleveTips.swift in Sources */,
 				79AFBFB42981A4B0001576DD /* SequenceDetailGroupBox.swift in Sources */,
 				79388A4529256819002AABB8 /* CoreDataManager.swift in Sources */,
 				79531D052A60A50900252A29 /* UserPref+Extensions.swift in Sources */,
@@ -2761,6 +2787,7 @@
 				79FD21952A338CAC00A8D925 /* DCompEntity+CoreDataClass.swift in Sources */,
 				7997531C297C17F400D1C66E /* ProgramEditorModal.swift in Sources */,
 				79BF1DA42928E37B005D6CF3 /* SchoolCreatorModal.swift in Sources */,
+				790BCEF12B19FB23005AAED2 /* DocumentTips.swift in Sources */,
 				79E00C532A5B7F7800362743 /* SchoolNextSeancesView.swift in Sources */,
 				79F5BEC72A3674AA003F112E /* DKnowListView.swift in Sources */,
 				795C2C2D296E2DCA00EDFF09 /* RoomLayoutEditor.swift in Sources */,
@@ -2828,6 +2855,7 @@
 				79B060852AFAA47F00B381FE /* Authentication.swift in Sources */,
 				79F655672AEBD7CE00AB3AEB /* SeancesLoadingStatus.swift in Sources */,
 				79E40E8A2997FD45006BBE49 /* Group+CoreDataClass.swift in Sources */,
+				79EC34D62B1B512D00747313 /* ClasseTips.swift in Sources */,
 				791A19102AE8222400DD41DD /* SchoolPreviousSeancesView.swift in Sources */,
 				7937A24229859A5500D0ED59 /* ExamStep.swift in Sources */,
 				795C2C2B296E2DCA00EDFF09 /* EditableSeatLabel.swift in Sources */,

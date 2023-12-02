@@ -8,6 +8,7 @@
 import HelpersView
 import SwiftUI
 import TagKit
+import TipKit
 
 struct EleveLabelWithTrombineFlag: View {
     @ObservedObject
@@ -49,56 +50,12 @@ struct EleveLabelWithTrombineFlag: View {
         )
     }
 
-    private var troubleEditView: some View {
-        let layout = hClass == .compact ?
-            AnyLayout(VStackLayout()) : AnyLayout(HStackLayout())
-        return layout {
-            HStack {
-                Image(systemName: "figure.and.child.holdinghands")
-                    .imageScale(imageSize)
-                    .foregroundStyle(.tint)
-                CasePicker(
-                    pickedCase: $eleve.troubleEnum,
-                    label: "Trouble"
-                )
-                .pickerStyle(.menu)
-            }
-            .padding(.trailing)
-
-            HStack {
-                Image(systemName: "hourglass.badge.plus")
-                    .imageScale(imageSize)
-                    .foregroundStyle(.green, .tint)
-                Toggle(isOn: $eleve.viewHasAddTime.animation()) {
-                    Text("1/3 de temps aditionnel")
-                }
-                .toggleStyle(.button)
-                .controlSize(.small)
-            }
-        }
-    }
-
-    private var troubleDisplayView: some View {
-        VStack {
-            HStack {
-                Image(systemName: "figure.and.child.holdinghands")
-                    .imageScale(imageSize)
-                    .foregroundStyle(.tint)
-                Text(eleve.troubleEnum.displayString)
-            }
-            if eleve.viewHasAddTime {
-                HStack {
-                    Image(systemName: "hourglass.badge.plus")
-                        .imageScale(imageSize)
-                        .foregroundStyle(.green, .tint)
-                    Text("1/3 de temps aditionnel")
-                }
-            }
-        }
-    }
+    var showElevePhotoTip = ShowElevePhotoTip()
 
     var body: some View {
-        return VStack {
+        VStack {
+            TipView(showElevePhotoTip, arrowEdge: .bottom)
+                .customizedTipKitStyle()
             HStack {
                 // Classe
                 if let classe {
@@ -108,6 +65,8 @@ struct EleveLabelWithTrombineFlag: View {
                 }
                 // Trombine
                 Button {
+                    // Invalidate the tip when someone uses the feature.
+                    showElevePhotoTip.invalidate(reason: .actionPerformed)
                     withAnimation {
                         showTrombine.toggle()
                     }
@@ -176,10 +135,14 @@ struct EleveLabelWithTrombineFlag: View {
             }
 
             // Trombine
-            if showTrombine && eleve.hasImageTrombine {
-                // TODO: - Gérer ici la mise à jour de la photo par drag and drop
-                Trombine(eleve: eleve)
-                    .frame(height: 320)
+            if showTrombine {
+                ZStack(alignment: .topTrailing) {
+                    TrombineView(eleve: eleve)
+                    if eleve.hasImageTrombine {
+                        menu
+                    }
+                }
+                .frame(height: 320)
             }
         }
         .onAppear {
@@ -188,23 +151,99 @@ struct EleveLabelWithTrombineFlag: View {
     }
 }
 
- struct EleveLabelWithTrombineFlag_Previews: PreviewProvider {
-     static func initialize() {
-         DataBaseManager.populateWithMockData(storeType: .inMemory)
-     }
+// MARK: - Sub-Views
+
+extension EleveLabelWithTrombineFlag {
+    private var troubleEditView: some View {
+        let layout = hClass == .compact ?
+            AnyLayout(VStackLayout()) : AnyLayout(HStackLayout())
+        return layout {
+            HStack {
+                Image(systemName: "figure.and.child.holdinghands")
+                    .imageScale(imageSize)
+                    .foregroundStyle(.tint)
+                CasePicker(
+                    pickedCase: $eleve.troubleEnum,
+                    label: "Trouble"
+                )
+                .pickerStyle(.menu)
+            }
+            .padding(.trailing)
+
+            HStack {
+                Image(systemName: "hourglass.badge.plus")
+                    .imageScale(imageSize)
+                    .foregroundStyle(.green, .tint)
+                Toggle(isOn: $eleve.viewHasAddTime.animation()) {
+                    Text("1/3 de temps aditionnel")
+                }
+                .toggleStyle(.button)
+                .controlSize(.small)
+            }
+        }
+    }
+
+    private var troubleDisplayView: some View {
+        VStack {
+            HStack {
+                Image(systemName: "figure.and.child.holdinghands")
+                    .imageScale(imageSize)
+                    .foregroundStyle(.tint)
+                Text(eleve.troubleEnum.displayString)
+            }
+            if eleve.viewHasAddTime {
+                HStack {
+                    Image(systemName: "hourglass.badge.plus")
+                        .imageScale(imageSize)
+                        .foregroundStyle(.green, .tint)
+                    Text("1/3 de temps aditionnel")
+                }
+            }
+        }
+    }
+
+    private var menu: some View {
+        Menu {
+            // supprimer la photo
+            Button(role: .destructive) {
+                eleve.trombine = nil
+                try? EleveEntity.saveIfContextHasChanged()
+            } label: {
+                Label(
+                    "Supprimer la photo",
+                    systemImage: "trash"
+                )
+            }
+
+        } label: {
+            Image(systemName: "ellipsis.circle")
+                .imageScale(.large)
+                .padding(4)
+        }
+    }
+}
+
+struct EleveLabelWithTrombineFlag_Previews: PreviewProvider {
+    static func initialize() {
+        DataBaseManager.populateWithMockData(storeType: .inMemory)
+    }
 
     static var previews: some View {
         initialize()
         return Group {
-            EleveLabelWithTrombineFlag(eleve      : EleveEntity.all().first!,
-                                       isEditable : false)
+            EleveLabelWithTrombineFlag(
+                eleve: EleveEntity.all().first!,
+                isEditable: false
+            )
             .previewDevice("iPhone 13")
 
-            EleveLabelWithTrombineFlag(eleve      : EleveEntity.all().first!,
-                                       isEditable : true)
+            EleveLabelWithTrombineFlag(
+                eleve: EleveEntity.all().first!,
+                isEditable: true
+            )
             .previewDevice("iPad mini (6th generation)")
         }
         .environmentObject(NavigationModel())
         .environment(\.managedObjectContext, CoreDataManager.shared.context)
     }
- }
+}

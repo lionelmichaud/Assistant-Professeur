@@ -8,6 +8,7 @@
 import HelpersView
 import PDFKit
 import SwiftUI
+import TipKit
 
 struct ProgramEditorModal: View {
     @ObservedObject
@@ -26,13 +27,10 @@ struct ProgramEditorModal: View {
     private var isImportingPdfFile = false
 
     @State
-    private var alertTitle = ""
+    private var alertInfo = AlertInfo()
 
-    @State
-    private var alertMessage = ""
-
-    @State
-    private var alertIsPresented = false
+    // Create an instance of your tip content.
+    var addDocumentTip = AddDocumentTip()
 
     var body: some View {
         Form {
@@ -88,7 +86,10 @@ struct ProgramEditorModal: View {
                 }
             } else {
                 // ajouter un document
+                TipView(addDocumentTip, arrowEdge: .bottom)
+                    .customizedTipKitStyle()
                 Button {
+                    addDocumentTip.invalidate(reason: .actionPerformed)
                     isImportingPdfFile.toggle()
                 } label: {
                     HStack {
@@ -102,6 +103,7 @@ struct ProgramEditorModal: View {
                         return false
                     }
                     if PDFDocument(data: item) != nil {
+                        addDocumentTip.invalidate(reason: .actionPerformed)
                         DocumentEntity.createWithoutSaving(
                             forProgram: program,
                             withData: item,
@@ -123,9 +125,9 @@ struct ProgramEditorModal: View {
             allowsMultipleSelection: false
         ) { result in
             (
-                alertTitle,
-                alertMessage,
-                alertIsPresented
+                alertInfo.title,
+                alertInfo.message,
+                alertInfo.isPresented
             ) = ImportExportManager.importUserSelectedFiles(
                 result: result
             ) { data, fileName in
@@ -137,10 +139,10 @@ struct ProgramEditorModal: View {
             }
         }
         .alert(
-            alertTitle,
-            isPresented: $alertIsPresented,
+            alertInfo.title,
+            isPresented: $alertInfo.isPresented,
             actions: {},
-            message: { Text(alertMessage) }
+            message: { Text(alertInfo.message) }
         )
         #if os(iOS)
         .navigationTitle("Progression")
@@ -206,9 +208,9 @@ extension ProgramEditorModal {
                     objectID: program.objectID
                 ) {
                     // doublon
-                    alertTitle = "Ajout impossible"
-                    alertMessage = "Un programme pour ce niveau existe déjà dans cette discipline."
-                    alertIsPresented.toggle()
+                    alertInfo.title = "Ajout impossible"
+                    alertInfo.message = "Un programme pour ce niveau existe déjà dans cette discipline."
+                    alertInfo.isPresented.toggle()
 
                 } else {
                     withAnimation {

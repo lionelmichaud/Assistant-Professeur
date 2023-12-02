@@ -8,6 +8,7 @@
 import AppFoundation
 import os
 import SwiftUI
+import TipKit
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -17,8 +18,10 @@ private let customLog = Logger(
 /// Defines the main scene of the App
 struct MainScene: Scene {
     let coreDataManager: CoreDataManager
-    @Bindable var authentication: Authentication
-    @Bindable var userContext: UserContext
+    @Bindable
+    var authentication: Authentication
+    @Bindable
+    var userContext: UserContext
 
     // object that you want to use throughout your views and that will be specific to each scene
     // @StateObject private var uiState = UIState()
@@ -43,6 +46,16 @@ struct MainScene: Scene {
                 .environment(\.managedObjectContext, coreDataManager.context)
                 .environment(authentication)
                 .environment(userContext)
+                .task {
+                    // Tips
+                    #if DEBUG
+                        // Optional configure tips for testing.
+                        setupTipsForTesting()
+
+                    #endif
+                    // Configure and load all tips in the app.
+                    try? Tips.configure()
+                }
         }
 
         // Gérer les changements de phases
@@ -75,10 +88,30 @@ struct MainScene: Scene {
 
     // MARK: - Methods
 
+    /// Various way to override tip eligibility for testing.
+    /// Note: These must be called before `Tips.configure()`.
+    private func setupTipsForTesting() {
+        do {
+            // Show all defined tips in the app.
+            // try? Tips.showAllTipsForTesting()
+
+            // Show some tips, but not all.
+            // try? Tips.showTipsForTesting([tip1, tip2, tip3])
+
+            // Hide all tips defined in the app.
+            // try? Tips.hideAllTipsForTesting()
+
+            // Purge all TipKit-related data.
+            try Tips.resetDatastore()
+        } catch {
+            print(error)
+        }
+    }
+
     /// This is where you respond the scheduled background task
     /// you can also reschedule the background task HERE if you want to keep calling from time to time,
     /// just send BGTaskScheduler.shared.submit(request) here again and again.
-    func dailyToDoAppRefresh() async {
+    private func dailyToDoAppRefresh() async {
         await withTaskCancellationHandler(
             operation: {
                 customLog.log(
@@ -104,7 +137,7 @@ struct MainScene: Scene {
         )
     }
 
-    func liveActivityAppRefresh() async {
+    private func liveActivityAppRefresh() async {
         await withTaskCancellationHandler(
             operation: {
                 customLog.log(
@@ -144,7 +177,6 @@ struct MainScene: Scene {
             case .inactive:
                 // An app or custom scene in this phase contains no scene instances in the ScenePhase.active phase.
                 print(">> Scene Phase = .inactive")
-                break
 
             case .background:
                 // Expect an app that enters the background phase to terminate.

@@ -7,6 +7,7 @@
 
 import HelpersView
 import SwiftUI
+import TipKit
 
 struct EleveSidebarView: View {
     @EnvironmentObject
@@ -17,6 +18,9 @@ struct EleveSidebarView: View {
     // @Environment(\.isSearching) var isSearching
     // @Environment(\.dismissSearch) var dismissSearch
 
+    // Create an instance of your tip content.
+    var flagListItem = FlagEleveItemTip()
+
     @FetchRequest<SchoolEntity>(
         fetchRequest: SchoolEntity.requestAllSortedByLevelName,
         animation: .default
@@ -24,6 +28,9 @@ struct EleveSidebarView: View {
     private var schools: FetchedResults<SchoolEntity>
 
     var body: some View {
+        TipView(flagListItem, arrowEdge: .bottom)
+            .tint(.orange)
+            .tipBackground(HierarchicalShapeStyle.tipBackgroundColor)
         List(selection: $navigationModel.selectedEleveMngObjId) {
             // pour chaque Etablissement
             ForEach(schools) { school in

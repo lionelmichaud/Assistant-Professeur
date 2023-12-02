@@ -21,6 +21,48 @@ struct TrombineInteractivView: View {
     @State
     private var isAddingNewColle = false
 
+    var body: some View {
+        // si le dossier Document existe
+        ZStack(alignment: .topLeading) {
+            ZStack(alignment: .topTrailing) {
+                ZStack(alignment: .bottom) {
+                    TrombineView(eleve: eleve)
+
+                    // Légende basse: Points +/-
+                    TrombinoscopeFooterView(eleve: eleve)
+                }
+                // Coin supérieur droit: Menu
+                menu
+                    .sheet(isPresented: $isAddingNewObserv) {
+                        NavigationStack {
+                            ObservCreatorModal(eleve: eleve)
+                                .presentationDetents([.medium])
+                        }
+                    }
+                    .sheet(isPresented: $isAddingNewColle) {
+                        NavigationStack {
+                            ColleCreatorModal(eleve: eleve)
+                                .presentationDetents([.medium])
+                        }
+                    }
+            }
+
+            // Coin supérieur gauche: Flag
+            Button {
+                eleve.isFlagged.toggle()
+            } label: {
+                if eleve.isFlagged {
+                    Image(systemName: "flag.fill")
+                        .foregroundColor(.orange)
+                } else {
+                    Image(systemName: "flag")
+                        .foregroundColor(.orange)
+                }
+            }
+            .buttonStyle(.bordered)
+        }
+    }
+
     private var menu: some View {
         Menu {
             // aller à la fiche élève
@@ -57,53 +99,23 @@ struct TrombineInteractivView: View {
                 )
             }
 
+            // supprimer la photo
+            if eleve.hasImageTrombine {
+                Button(role: .destructive) {
+                    eleve.trombine = nil
+                    try? EleveEntity.saveIfContextHasChanged()
+                } label: {
+                    Label(
+                        "Supprimer la photo",
+                        systemImage: "trash"
+                    )
+                }
+            }
+
         } label: {
             Image(systemName: "ellipsis.circle")
                 .imageScale(.large)
                 .padding(4)
-        }
-    }
-
-    var body: some View {
-        // si le dossier Document existe
-        ZStack(alignment: .topLeading) {
-            ZStack(alignment: .topTrailing) {
-                ZStack(alignment: .bottom) {
-                    // TODO: - Gérer ici la mise à jour de la photo pastruct drag and drop : View {
-                    TrombineView(eleve: eleve)
-
-                    // Légende basse: Points +/-
-                    TrombinoscopeFooterView(eleve: eleve)
-                }
-                // Coin supérieur droit: Menu
-                menu
-                    .sheet(isPresented: $isAddingNewObserv) {
-                        NavigationStack {
-                            ObservCreatorModal(eleve: eleve)
-                                .presentationDetents([.medium])
-                        }
-                    }
-                    .sheet(isPresented: $isAddingNewColle) {
-                        NavigationStack {
-                            ColleCreatorModal(eleve: eleve)
-                                .presentationDetents([.medium])
-                        }
-                    }
-            }
-
-            // Coin supérieur gauche: Flag
-            Button {
-                eleve.isFlagged.toggle()
-            } label: {
-                if eleve.isFlagged {
-                    Image(systemName: "flag.fill")
-                        .foregroundColor(.orange)
-                } else {
-                    Image(systemName: "flag")
-                        .foregroundColor(.orange)
-                }
-            }
-            .buttonStyle(.bordered)
         }
     }
 }

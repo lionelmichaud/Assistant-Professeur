@@ -10,6 +10,7 @@ import HelpersView
 import os
 import PDFKit
 import SwiftUI
+import TipKit
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -28,21 +29,22 @@ struct SchoolDocumentListSection: View {
     private var isImportingPdfFile = false
 
     @State
-    private var alertTitle = ""
-
-    @State
-    private var alertMessage = ""
-
-    @State
-    private var alertIsPresented = false
+    private var alertInfo = AlertInfo()
 
     @State
     private var indexSet: IndexSet = []
 
+    // Create an instance of your tip content.
+    var addDocumentsTip = AddDocumentsTip()
+
     var body: some View {
         Section {
             // ajouter un ou plusieurs documents utiles
+            TipView(addDocumentsTip, arrowEdge: .bottom)
+                .customizedTipKitStyle()
             Button {
+                // Invalidate the tip when someone uses the feature.
+                addDocumentsTip.invalidate(reason: .actionPerformed)
                 isImportingPdfFile.toggle()
             } label: {
                 HStack {
@@ -59,6 +61,8 @@ struct SchoolDocumentListSection: View {
                     return false
                 }
                 if PDFDocument(data: item) != nil {
+                    // Invalidate the tip when someone uses the feature.
+                    addDocumentsTip.invalidate(reason: .actionPerformed)
                     DocumentEntity.create(
                         dans: school,
                         withData: item,
@@ -76,9 +80,9 @@ struct SchoolDocumentListSection: View {
                 allowsMultipleSelection: true
             ) { result in
                 (
-                    alertTitle,
-                    alertMessage,
-                    alertIsPresented
+                    alertInfo.title,
+                    alertInfo.message,
+                    alertInfo.isPresented
                 ) = ImportExportManager.importUserSelectedFiles(
                     result: result
                 ) { data, fileName in
@@ -90,14 +94,12 @@ struct SchoolDocumentListSection: View {
                 }
             }
             .alert(
-                alertTitle,
-                isPresented: $alertIsPresented,
+                alertInfo.title,
+                isPresented: $alertInfo.isPresented,
                 actions: {
                     Button("Supprimer", role: .destructive, action: deleteItems)
                 },
-                message: {
-                    Text(alertMessage)
-                }
+                message: { Text(alertInfo.message) }
             )
 
             // Visualisation de la liste des documents
@@ -113,12 +115,12 @@ struct SchoolDocumentListSection: View {
             .onDelete { indexSet in
                 DispatchQueue.main.async {
                     self.indexSet = indexSet
-                    alertTitle = "Supprimer ce document?"
-                    alertMessage =
+                    alertInfo.title = "Supprimer ce document?"
+                    alertInfo.message =
                         """
                         Cette action ne peut pas être annulée.
                         """
-                    alertIsPresented.toggle()
+                    alertInfo.isPresented.toggle()
                 }
             }
 

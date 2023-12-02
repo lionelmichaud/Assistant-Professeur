@@ -10,6 +10,7 @@ import HelpersView
 import os
 import SwiftUI
 import PDFKit
+import TipKit
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -28,21 +29,22 @@ struct SequenceDocumentList: View {
     private var isImportingPdfFile = false
 
     @State
-    private var alertTitle = ""
-
-    @State
-    private var alertMessage = ""
-
-    @State
-    private var alertIsPresented = false
+    private var alertInfo = AlertInfo()
 
     @State
     private var indexSet: IndexSet = []
 
+    // Create an instance of your tip content.
+    var addDocumentsTip = AddDocumentsTip()
+
     var body: some View {
         Section {
             // ajouter un ou plusieurs documents utiles
+            TipView(addDocumentsTip, arrowEdge: .bottom)
+                .customizedTipKitStyle()
             Button {
+                // Invalidate the tip when someone uses the feature.
+                addDocumentsTip.invalidate(reason: .actionPerformed)
                 isImportingPdfFile.toggle()
             } label: {
                 HStack {
@@ -56,6 +58,8 @@ struct SequenceDocumentList: View {
                     return false
                 }
                 if PDFDocument(data: item) != nil {
+                    // Invalidate the tip when someone uses the feature.
+                    addDocumentsTip.invalidate(reason: .actionPerformed)
                     DocumentEntity.createWithoutSaving(
                         forSequence: sequence,
                         withData: item,
@@ -73,9 +77,9 @@ struct SequenceDocumentList: View {
                 allowsMultipleSelection: true
             ) { result in
                 (
-                    alertTitle,
-                    alertMessage,
-                    alertIsPresented
+                    alertInfo.title,
+                    alertInfo.message,
+                    alertInfo.isPresented
                 ) = ImportExportManager.importUserSelectedFiles(
                     result: result
                 ) { data, fileName in
@@ -87,10 +91,10 @@ struct SequenceDocumentList: View {
                 }
             }
             .alert(
-                alertTitle,
-                isPresented: $alertIsPresented,
+                alertInfo.title,
+                isPresented: $alertInfo.isPresented,
                 actions: {},
-                message: { Text(alertMessage) }
+                message: { Text(alertInfo.message) }
             )
             // Visualisation de la liste des documents
             ForEach(sequence.documentsSortedByName, id: \.objectID) { document in

@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-extension View {
-    /// Modifer le fond d'un item d'une liste en fonction de Séelctionné ou Pas sélectionné.
+public extension View {
+    /// Modifer le fond d'un item d'une liste en fonction de Sélectionné ou Pas sélectionné.
     ///
     /// Usage:
     ///
@@ -17,7 +17,7 @@ extension View {
     ///            .customizedListItemStyle(isSelected: data.isSelected)
     ///      }
     ///
-    public func customizedListItemStyle(isSelected: Bool) -> some View {
+    func customizedListItemStyle(isSelected: Bool) -> some View {
         return self.modifier(CustomizedListItemModifier(isSelected: isSelected))
     }
 }
@@ -32,8 +32,8 @@ struct CustomizedListItemModifier: ViewModifier {
             .listRowBackground(
                 RoundedRectangle(cornerRadius: CGFloat(10))
                     .fill(isSelected ?
-                        Color.listRowBackgroundSelected :
-                        Color.listRowBackgroundUnselected
+                          HierarchicalShapeStyle.listRowBackgroundSelected :
+                            HierarchicalShapeStyle.listRowBackgroundUnselected
                     )
                     .padding(2)
             )
@@ -65,6 +65,28 @@ struct CustomizedListItemModifier: ViewModifier {
             Label("Label Unselected", systemImage: "pencil.tip.crop.circle.fill")
         }
         Spacer()
+    }
+}
+
+public extension View {
+    /// Modifer le fond d'un item d'une liste en fonction de Sélectionné ou Pas sélectionné.
+    ///
+    /// Usage:
+    ///
+    ///     TipView(addDocumentTip, arrowEdge: .bottom)
+    ///         .customizedTipKitStyle()
+    ///
+    func customizedTipKitStyle() -> some View {
+        return self.modifier(CustomizedTipKitModifier())
+    }
+}
+
+struct CustomizedTipKitModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            // .listRowSeparatorTint(.secondary)
+            .tint(Color.tipIconColor)
+            .tipBackground(HierarchicalShapeStyle.tipBackgroundColor)
     }
 }
 

@@ -62,7 +62,7 @@ struct SettingsEleve: View {
                     }
                     // Confirmation de la remise à zéro des bonus/malus de tous les élèves
                     .confirmationDialog(
-                        "Remise à zéro des bonus/malus de tous les élèves",
+                        "Remettre à zéro les bonus/malus de tous les élèves",
                         isPresented: $isShowingBonusResetConfirmDialog,
                         titleVisibility: .visible
                     ) {
