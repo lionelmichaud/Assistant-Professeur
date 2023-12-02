@@ -8,6 +8,7 @@
 import CoreData
 import HelpersView
 import SwiftUI
+import TipKit
 
 struct WCompListView: View {
     @EnvironmentObject
@@ -17,6 +18,9 @@ struct WCompListView: View {
     private var isAddingObject = false
     @State
     private var editedWorkedCompetency: WCompEntity?
+
+    /// Create an instance of your tip content.
+    var editItemTip = WCompEditItemTip()
 
     // MARK: - Computed properties
 
@@ -37,12 +41,15 @@ struct WCompListView: View {
 
     var body: some View {
         Group {
-            if selectedChapterExists {
+            if selectedChapterExists,
+               let competencies = selectedChapter?.allWorkedCompetenciesSortedByNumber {
+                if competencies.isNotEmpty {
+                    TipView(editItemTip, arrowEdge: .bottom)
+                        .customizedTipKitStyle()
+                }
                 List(selection: $nav.selectedWorkedCompMngObjId) {
                     // pour chaque compétence travaillée
-                    ForEach(
-                        selectedChapter!.allWorkedCompetenciesSortedByNumber
-                    ) { competency in
+                    ForEach(competencies) { competency in
                         WCompBrowserRow(
                             workedComp: competency,
                             showDisciplineCompetencies: true,
@@ -67,13 +74,14 @@ struct WCompListView: View {
                         .swipeActions(edge: .leading, allowsFullSwipe: false) {
                             // modifier la compétence
                             Button {
+                                editItemTip.invalidate(reason: .actionPerformed)
                                 editedWorkedCompetency = competency
                             } label: {
                                 Label("Modifier", systemImage: "square.and.pencil")
                             }
                         }
                     }
-                    .emptyListPlaceHolder(selectedChapter!.allWorkedCompetenciesSortedByNumber) {
+                    .emptyListPlaceHolder(competencies) {
                         ContentUnavailableView(
                             "Aucune compétence actuellement...",
                             systemImage: WCompEntity.defaultImageName,

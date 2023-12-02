@@ -27,6 +27,10 @@ struct ActivitySideBar: View {
     @State
     private var searchString: String = ""
 
+    /// Create an instance of your tip content.
+    var sequenceInfoTip = SequenceInfoTip()
+    var sequenceInfoTip2 = SequencePresentationTip()
+
     // MARK: - Computed Properties
 
     private var selectedSequenceNumber: String {
@@ -34,7 +38,6 @@ struct ActivitySideBar: View {
     }
 
     var body: some View {
-
         List(selection: $navig.selectedActivityMngObjId) {
             if sequence.program != nil {
                 SequenceDetailGroupBox(
@@ -96,14 +99,16 @@ extension ActivitySideBar {
         ToolbarItemGroup(placement: .automatic) {
             // Afficher la vue Stepper de la séquence
             Button {
+                sequenceInfoTip.invalidate(reason: .actionPerformed)
                 navig.showSequenceTimeLine()
-                // FIXME: Fait planter l'app
+                // FIXME: Fait planter l'app sur iPhone
                 //preferredColumn = .detail
             } label: {
                 Label(
                     "Infos", systemImage: "info.circle"
                 )
             }
+            .popoverTip(sequenceInfoTip)
 
             // Modifier la séquence
             Button {
@@ -123,6 +128,7 @@ extension ActivitySideBar {
                     systemImage: "doc.on.doc.fill"
                 )
             }
+            .popoverTip(sequenceInfoTip2)
         }
 
         // Ajouter une Activité

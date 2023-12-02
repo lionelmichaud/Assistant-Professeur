@@ -24,6 +24,9 @@ struct SequenceSidebar: View {
     @State
     var searchString: String = ""
 
+    /// Create an instance of your tip content.
+    var programInfoTip = ProgramInfoTip()
+
     var body: some View {
         Group {
             if let programId = navig.selectedProgramMngObjId {
@@ -90,6 +93,7 @@ extension SequenceSidebar {
             ToolbarItemGroup(placement: .automatic) {
                 // Afficher la vue Stepper du Programme
                 Button {
+                    programInfoTip.invalidate(reason: .actionPerformed)
                     // afficher la time-line du programme dans la colonne de droite (détail)
                     navig.showProgramTimeLine()
                     preferredColumn = .detail
@@ -99,6 +103,7 @@ extension SequenceSidebar {
                         systemImage: "info.circle"
                     )
                 }
+                .popoverTip(programInfoTip)
 
                 // Modifier le Programme
                 Button {

@@ -7,6 +7,7 @@
 
 import HelpersView
 import SwiftUI
+import TipKit
 
 struct ActivityListSection: View {
     @ObservedObject
@@ -15,15 +16,19 @@ struct ActivityListSection: View {
     @State
     private var isAddingObject = false
 
+    /// Create an instance of your tip content.
+    var dissociateItemTip = WCompDisociationItemTip()
+
     var body: some View {
         Section {
+            let activities = dCompetency.activitiesSortedByLevelSeqActNumber
             // ajouter une activité
             Button {
                 isAddingObject.toggle()
             } label: {
                 Label(
                     "Associer des activités pédagogiques",
-                    systemImage: "plus.circle.fill"
+                    systemImage: "link.badge.plus"
                 )
             }
             .buttonStyle(.borderless)
@@ -31,7 +36,11 @@ struct ActivityListSection: View {
                 isSelected: false
             )
 
-            ForEach(dCompetency.activitiesSortedByLevelSeqActNumber) { activity in
+            if activities.isNotEmpty {
+                TipView(dissociateItemTip, arrowEdge: .bottom)
+                    .customizedTipKitStyle()
+            }
+            ForEach(activities) { activity in
                 AssociatedActivityBrowerRow(
                     activity: activity,
                     verticallyStacked: true
@@ -42,6 +51,7 @@ struct ActivityListSection: View {
                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                     // supprimer le lien vers l'activité
                     Button(role: .destructive) {
+                        dissociateItemTip.invalidate(reason: .actionPerformed)
                         activity.removeFromCompetencies(dCompetency)
                         try? DCompEntity.saveIfContextHasChanged()
                     } label: {
@@ -49,7 +59,7 @@ struct ActivityListSection: View {
                     }
                 }
             }
-            .emptyListPlaceHolder(dCompetency.activitiesSortedByLevelSeqActNumber) {
+            .emptyListPlaceHolder(activities) {
                 Text("Aucune activité pédagogique associée.")
             }
 

@@ -46,16 +46,6 @@ struct MainScene: Scene {
                 .environment(\.managedObjectContext, coreDataManager.context)
                 .environment(authentication)
                 .environment(userContext)
-                .task {
-                    // Tips
-                    #if DEBUG
-                        // Optional configure tips for testing.
-                        setupTipsForTesting()
-
-                    #endif
-                    // Configure and load all tips in the app.
-                    try? Tips.configure()
-                }
         }
 
         // Gérer les changements de phases
@@ -87,26 +77,6 @@ struct MainScene: Scene {
     }
 
     // MARK: - Methods
-
-    /// Various way to override tip eligibility for testing.
-    /// Note: These must be called before `Tips.configure()`.
-    private func setupTipsForTesting() {
-        do {
-            // Show all defined tips in the app.
-            // try? Tips.showAllTipsForTesting()
-
-            // Show some tips, but not all.
-            // try? Tips.showTipsForTesting([tip1, tip2, tip3])
-
-            // Hide all tips defined in the app.
-            // try? Tips.hideAllTipsForTesting()
-
-            // Purge all TipKit-related data.
-            try Tips.resetDatastore()
-        } catch {
-            print(error)
-        }
-    }
 
     /// This is where you respond the scheduled background task
     /// you can also reschedule the background task HERE if you want to keep calling from time to time,

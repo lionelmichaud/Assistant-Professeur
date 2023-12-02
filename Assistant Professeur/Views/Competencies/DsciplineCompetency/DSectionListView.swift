@@ -8,6 +8,7 @@
 import CoreData
 import HelpersView
 import SwiftUI
+import TipKit
 
 struct DSectionListView: View {
     @ObservedObject
@@ -23,10 +24,14 @@ struct DSectionListView: View {
     @State
     private var editedSection: DSectionEntity?
 
+    /// Create an instance of your tip content.
+    var editItemTip = DSectionEditItemTip()
+
     // MARK: - Computed properties
 
     var body: some View {
         List(selection: $nav.selectedDiscSectionMngObjId) {
+            let sections = theme.allSectionsSortedByNumber
             // Thème de compétences disciplinaires
             DThemeBrowserView(
                 theme: theme,
@@ -38,10 +43,11 @@ struct DSectionListView: View {
             )
 
             // Sections de compétences disciplinaires
-            ForEach(
-                theme.allSectionsSortedByNumber,
-                id: \.objectID
-            ) { section in
+            if sections.isNotEmpty {
+                TipView(editItemTip, arrowEdge: .bottom)
+                    .customizedTipKitStyle()
+            }
+            ForEach(sections, id: \.objectID) { section in
                 // pour chaque section de compétences disciplinaires
                 NavigationLink(value: section) {
                     DSectionBrowserView(
@@ -66,6 +72,7 @@ struct DSectionListView: View {
                     .swipeActions(edge: .leading, allowsFullSwipe: false) {
                         // modifier la compétence
                         Button {
+                            editItemTip.invalidate(reason: .actionPerformed)
                             editedSection = section
                         } label: {
                             Label("Modifier", systemImage: "square.and.pencil")
@@ -76,7 +83,7 @@ struct DSectionListView: View {
                     isSelected: section.objectID == nav.selectedDiscSectionMngObjId
                 )
             }
-            .emptyListPlaceHolder(theme.allSectionsSortedByNumber) {
+            .emptyListPlaceHolder(sections) {
                 ContentUnavailableView(
                     "Aucune section de compétences disciplinaires actuellement...",
                     systemImage: DSectionEntity.defaultImageName,

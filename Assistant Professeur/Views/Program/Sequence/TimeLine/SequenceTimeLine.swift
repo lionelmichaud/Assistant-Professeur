@@ -24,6 +24,9 @@ struct SequenceTimeLine: View {
     @State
     private var urlPDF: URL?
 
+    /// Create an instance of your tip content.
+    var sequencePresentationTip = SequencePresentationTip()
+
     // MARK: - Internal Type
 
     enum ViewMode {
@@ -150,6 +153,7 @@ extension SequenceTimeLine {
                 ViewMode.presentationSheet.image.tag(ViewMode.presentationSheet)
             }
             .pickerStyle(.segmented)
+            .popoverTip(sequencePresentationTip)
         }
 
         // Exporter la View en PDF

@@ -379,6 +379,12 @@
 		79EC34D22B1A558E00747313 /* EleveTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC34D12B1A558E00747313 /* EleveTips.swift */; };
 		79EC34D42B1B4E9700747313 /* SharedTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC34D32B1B4E9700747313 /* SharedTips.swift */; };
 		79EC34D62B1B512D00747313 /* ClasseTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC34D52B1B512D00747313 /* ClasseTips.swift */; };
+		79EC34D82B1B652500747313 /* ProgramTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC34D72B1B652500747313 /* ProgramTips.swift */; };
+		79EC34DA2B1B694600747313 /* SequenceTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC34D92B1B694600747313 /* SequenceTips.swift */; };
+		79EC34DC2B1B7DA800747313 /* WCompetencyTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC34DB2B1B7DA800747313 /* WCompetencyTips.swift */; };
+		79EC34DE2B1B80CF00747313 /* DThemeTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC34DD2B1B80CF00747313 /* DThemeTips.swift */; };
+		79EC34E02B1B81C800747313 /* DSectionTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC34DF2B1B81C800747313 /* DSectionTips.swift */; };
+		79EC34E22B1B8DAD00747313 /* DKnowTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EC34E12B1B8DAD00747313 /* DKnowTips.swift */; };
 		79ECF1F42959F09F008F0282 /* colle+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F32959F09F008F0282 /* colle+extensions.swift */; };
 		79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */; };
 		79ECF1F82959F6CA008F0282 /* EleveColleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ECF1F62959F6CA008F0282 /* EleveColleLabel.swift */; };
@@ -838,6 +844,12 @@
 		79EC34D12B1A558E00747313 /* EleveTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveTips.swift; sourceTree = "<group>"; };
 		79EC34D32B1B4E9700747313 /* SharedTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTips.swift; sourceTree = "<group>"; };
 		79EC34D52B1B512D00747313 /* ClasseTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseTips.swift; sourceTree = "<group>"; };
+		79EC34D72B1B652500747313 /* ProgramTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramTips.swift; sourceTree = "<group>"; };
+		79EC34D92B1B694600747313 /* SequenceTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceTips.swift; sourceTree = "<group>"; };
+		79EC34DB2B1B7DA800747313 /* WCompetencyTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompetencyTips.swift; sourceTree = "<group>"; };
+		79EC34DD2B1B80CF00747313 /* DThemeTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DThemeTips.swift; sourceTree = "<group>"; };
+		79EC34DF2B1B81C800747313 /* DSectionTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSectionTips.swift; sourceTree = "<group>"; };
+		79EC34E12B1B8DAD00747313 /* DKnowTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKnowTips.swift; sourceTree = "<group>"; };
 		79ECF1F32959F09F008F0282 /* colle+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "colle+extensions.swift"; sourceTree = "<group>"; };
 		79ECF1F52959F6CA008F0282 /* EleveObservLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveObservLabel.swift; sourceTree = "<group>"; };
 		79ECF1F62959F6CA008F0282 /* EleveColleLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveColleLabel.swift; sourceTree = "<group>"; };
@@ -1084,6 +1096,7 @@
 				79F7A2782A4053BE00CEC3D5 /* ActivityListSection.swift */,
 				79F7A27C2A405D8F00CEC3D5 /* ConnectToActivityModal.swift */,
 				79F7A27A2A40553F00CEC3D5 /* AssociatedActivityBrowerRow.swift */,
+				79EC34E12B1B8DAD00747313 /* DKnowTips.swift */,
 			);
 			path = Knowledge;
 			sourceTree = "<group>";
@@ -1111,6 +1124,7 @@
 				79F7A2822A408B2C00CEC3D5 /* WCompTagList.swift */,
 				79A56A562A4888CC00D1D4CC /* WCompMasteryLevels.swift */,
 				79A56A582A48E8B300D1D4CC /* WCompMasteryEdit.swift */,
+				79EC34DB2B1B7DA800747313 /* WCompetencyTips.swift */,
 			);
 			path = Competency;
 			sourceTree = "<group>";
@@ -1526,6 +1540,7 @@
 				79F7A28A2A40AECE00CEC3D5 /* SequencePickerRow.swift */,
 				792621EE2A45F0F800ADA8FB /* SequenceTagList.swift */,
 				7948273F2AFEA197001640CD /* SequenceModalView.swift */,
+				79EC34D92B1B694600747313 /* SequenceTips.swift */,
 			);
 			path = Sequence;
 			sourceTree = "<group>";
@@ -1748,6 +1763,7 @@
 				79975323297C4ED900D1C66E /* ProgramDetailGroupBox.swift */,
 				797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */,
 				790F76A129818858000A5C7D /* DurationView.swift */,
+				79EC34D72B1B652500747313 /* ProgramTips.swift */,
 			);
 			path = Program;
 			sourceTree = "<group>";
@@ -2281,6 +2297,7 @@
 				79C20A7F2A326D0C00E43A07 /* DThemeListView.swift */,
 				79FD218D2A337DCC00A8D925 /* DThemeBrowserView.swift */,
 				79C20A812A32855F00E43A07 /* DThemeEditorModal.swift */,
+				79EC34DD2B1B80CF00747313 /* DThemeTips.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -2292,6 +2309,7 @@
 				79FD21902A3386F600A8D925 /* DSectionListView.swift */,
 				79FD21962A33980800A8D925 /* DSectionBrowserView.swift */,
 				79FD21982A339A7700A8D925 /* DSectionEditorModal.swift */,
+				79EC34DF2B1B81C800747313 /* DSectionTips.swift */,
 			);
 			name = Section;
 			sourceTree = "<group>";
@@ -2518,6 +2536,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				79975316297B148800D1C66E /* ProgramSplitView.swift in Sources */,
+				79EC34E22B1B8DAD00747313 /* DKnowTips.swift in Sources */,
 				793221672B063C53000E910F /* SequencePresentationView.swift in Sources */,
 				799D2C7729CBADE2009C6336 /* ActivityDocListSection.swift in Sources */,
 				7986A8572989B1A2007471BE /* GroupGlobalMarkModal.swift in Sources */,
@@ -2551,6 +2570,7 @@
 				79EC34D02B1A3F7D00747313 /* TrombineTips.swift in Sources */,
 				796A242729A17C16009B2A6C /* ClassProgressesView.swift in Sources */,
 				7951063E294FD9520015AC5C /* ClasseListSection.swift in Sources */,
+				79EC34E02B1B81C800747313 /* DSectionTips.swift in Sources */,
 				7997531A297C17E300D1C66E /* ProgramSidebar.swift in Sources */,
 				79F6556A2AEBD94D00AB3AEB /* PeriodEnum.swift in Sources */,
 				793D627F295F33D300477932 /* ColleViewModel.swift in Sources */,
@@ -2639,6 +2659,7 @@
 				795EED0529673B88009AA6F4 /* Mark+Extensions.swift in Sources */,
 				794AE9C22A59706E009C819A /* AppTextStyle.swift in Sources */,
 				79401350295624EF007AD790 /* Dsicipline.swift in Sources */,
+				79EC34DC2B1B7DA800747313 /* WCompetencyTips.swift in Sources */,
 				79A56A572A4888CC00D1D4CC /* WCompMasteryLevels.swift in Sources */,
 				798383522A0FF38C00C4A4E2 /* PersonsContactsView.swift in Sources */,
 				794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */,
@@ -2747,6 +2768,7 @@
 				794F4C3D2B111BD0001DB7F6 /* ChangeOrientation.swift in Sources */,
 				79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */,
 				790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */,
+				79EC34DA2B1B694600747313 /* SequenceTips.swift in Sources */,
 				79B3083A29EE115300C69C79 /* Documentation.docc in Sources */,
 				79DEDAEC2925864A00F508EF /* ClasseSplitView.swift in Sources */,
 				79BF1DAD29290FBC005D6CF3 /* Observ+Extensions.swift in Sources */,
@@ -2813,6 +2835,7 @@
 				79FE06DA2A44B74D00DDA543 /* WCompChapterViewModel.swift in Sources */,
 				792381192960B04F009E51B7 /* GroupPicturesView.swift in Sources */,
 				79F7A27D2A405D8F00CEC3D5 /* ConnectToActivityModal.swift in Sources */,
+				79EC34D82B1B652500747313 /* ProgramTips.swift in Sources */,
 				792621EF2A45F0F800ADA8FB /* SequenceTagList.swift in Sources */,
 				7940135629565B48007AD790 /* EleveViewModel.swift in Sources */,
 				79FFF42D295122F60037A327 /* ColorOptions.swift in Sources */,
@@ -2892,6 +2915,7 @@
 				79B060892AFAA6F800B381FE /* HomeScreen.swift in Sources */,
 				79388A5329257045002AABB8 /* NavigationModel.swift in Sources */,
 				797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */,
+				79EC34DE2B1B80CF00747313 /* DThemeTips.swift in Sources */,
 				79E40E812997D8BB006BBE49 /* Observ+CoreDataClass.swift in Sources */,
 				798458EA2939529D00B74538 /* AnnotationEditView.swift in Sources */,
 				79B1C8142A5F1EB5006E6B37 /* ProgramPlanningGraphData.swift in Sources */,

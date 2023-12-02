@@ -25,6 +25,9 @@ struct ProgramTimeLine: View {
     @State
     private var urlPDF: URL?
 
+    /// Create an instance of your tip content.
+    var programPlanningTip = ProgramPlanningTip()
+
     // MARK: - Internal Type
 
     enum ViewMode {
@@ -34,7 +37,7 @@ struct ProgramTimeLine: View {
         var title: String {
             switch self {
                 case .steps:
-                    "Déroulement de la progression"
+                    "Déroulement"
                 case .planning:
                     "Planning"
             }
@@ -45,7 +48,7 @@ struct ProgramTimeLine: View {
                 case .steps:
                     Image(systemName: "list.bullet")
                 case .planning:
-                    Image(systemName: "chart.bar.fill")
+                    Image(systemName: "chart.bar.doc.horizontal")
             }
         }
     }
@@ -105,6 +108,7 @@ extension ProgramTimeLine {
                 ViewMode.planning.image.tag(ViewMode.planning)
             }
             .pickerStyle(.segmented)
+            .popoverTip(programPlanningTip)
         }
 
         // Exporter la View en PDF

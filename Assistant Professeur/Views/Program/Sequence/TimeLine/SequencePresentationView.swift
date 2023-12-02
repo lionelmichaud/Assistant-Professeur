@@ -42,6 +42,7 @@ struct SequencePresentationView: View {
                 competencies
             }
             .padding(.bottom)
+            .padding(.trailing, 4)
         }
     }
 }

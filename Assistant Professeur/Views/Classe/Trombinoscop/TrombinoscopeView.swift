@@ -54,8 +54,10 @@ struct TrombinoscopeView: View {
             nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
         )
         ScrollView(.vertical, showsIndicators: true) {
-            TipView(addElevePhotoTip, arrowEdge: .bottom)
-                .customizedTipKitStyle()
+            if foundEleves.isNotEmpty {
+                TipView(addElevePhotoTip, arrowEdge: .bottom)
+                    .customizedTipKitStyle()
+            }
             LazyVGrid(
                 columns: pictureSize == "Small picture" ? smallColumns : largeColumns,
                 spacing: 4

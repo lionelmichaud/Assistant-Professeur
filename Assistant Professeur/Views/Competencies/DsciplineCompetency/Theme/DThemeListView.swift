@@ -7,6 +7,7 @@
 
 import HelpersView
 import SwiftUI
+import TipKit
 
 struct DThemeListView: View {
     var discipline: Discipline
@@ -26,7 +27,12 @@ struct DThemeListView: View {
     @State
     private var editedTheme: DThemeEntity?
 
+    /// Create an instance of your tip content.
+    var editItemTip = DThemeEditItemTip()
+
     var body: some View {
+        TipView(editItemTip, arrowEdge: .bottom)
+            .customizedTipKitStyle()
         List(selection: $nav.selectedDiscThemeMngObjId) {
             // pour chaque Cycle
             ForEach(compThemeSections) { cycleThemes in
@@ -60,6 +66,7 @@ struct DThemeListView: View {
                                 .swipeActions(edge: .leading, allowsFullSwipe: false) {
                                     // modifier le thème
                                     Button {
+                                        editItemTip.invalidate(reason: .actionPerformed)
                                         editedTheme = theme
                                     } label: {
                                         Label("Modifier", systemImage: "square.and.pencil")
@@ -162,10 +169,12 @@ extension DThemeListView {
         ToolbarItemGroup(placement: .navigationBarTrailing) {
             // Modifier un chapitre de compétences du socle commun
             if let selectedObject = nav.selectedDiscThemeMngObjId {
-                Button("Modifier") {
+                Button {
                     editedTheme =
                         DThemeEntity
                             .byObjectId(MngObjID: selectedObject)
+                } label: {
+                    Label("Modifier", systemImage: "square.and.pencil")
                 }
             }
         }

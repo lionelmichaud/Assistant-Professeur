@@ -10,7 +10,7 @@ import TipKit
 
 struct AddEleveTip: Tip {
     var title: Text {
-        Text("Ajouter un élève à cette classe")
+        Text("Ajouter un Élève à cette Classe")
     }
 
     var message: Text? {
@@ -22,11 +22,15 @@ struct AddEleveTip: Tip {
     var image: Image? {
         Image(systemName: EleveEntity.defaultImageName)
     }
+
+    var options: [Option] {
+        [Tips.MaxDisplayCount(5)]
+    }
 }
 
 struct ActionsEleveTip: Tip {
     var title: Text {
-        Text("Plus d'options ici")
+        Text("Accéder à plus d'Options")
     }
 
     var message: Text? {
@@ -36,11 +40,15 @@ struct ActionsEleveTip: Tip {
     var image: Image? {
         Image(systemName: EleveEntity.defaultImageName)
     }
+
+    var options: [Option] {
+        [Tips.MaxDisplayCount(5)]
+    }
 }
 
 struct FlagEleveItemTip: Tip {
     var title: Text {
-        Text("Marquer un élève")
+        Text("Marquer un Élève")
     }
 
     var message: Text? {
@@ -51,5 +59,9 @@ struct FlagEleveItemTip: Tip {
 
     var image: Image? {
         Image(systemName: "flag.fill")
+    }
+
+    var options: [Option] {
+        [Tips.MaxDisplayCount(5)]
     }
 }

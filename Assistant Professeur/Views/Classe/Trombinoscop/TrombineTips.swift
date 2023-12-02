@@ -10,24 +10,32 @@ import TipKit
 
 struct AddElevePhotoTip: Tip {
     var title: Text {
-        Text("Ajouter aisément une photo")
+        Text("Ajouter ou modifier la Photo d'un Élève")
     }
     var message: Text? {
-        Text("En glissant une photo au format PNG ou JPEG sur la vignette d'un élève.")
+        Text("Glisser une photo au format PNG ou JPEG sur la vignette d'un élève.")
     }
     var image: Image? {
         Image(systemName: "person.crop.square")
+    }
+
+    var options: [Option] {
+        [Tips.MaxDisplayCount(5)]
     }
 }
 
 struct ShowElevePhotoTip: Tip {
     var title: Text {
-        Text("Afficher la photo de l'élève")
+        Text("Afficher la Photo de l'Élève")
     }
     var message: Text? {
-        Text("En tapant sur \(Image(systemName: EleveEntity.defaultImageName)).")
+        Text("Taper sur \(Image(systemName: EleveEntity.defaultImageName)).")
     }
     var image: Image? {
         Image(systemName: "person.crop.square")
+    }
+
+    var options: [Option] {
+        [Tips.MaxDisplayCount(5)]
     }
 }

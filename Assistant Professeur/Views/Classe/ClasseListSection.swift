@@ -26,6 +26,7 @@ struct ClasseListSection: View {
 
     var body: some View {
         Section {
+            let classes = school.classesSortedByLevelNumber
             // ajouter une classe
             Button {
                 isAddingNewClasse = true
@@ -38,10 +39,12 @@ struct ClasseListSection: View {
             )
 
             // édition de la liste des classes
-            TipView(flagListItem, arrowEdge: .bottom)
-                .tint(.orange)
-                .tipBackground(HierarchicalShapeStyle.tipBackgroundColor)
-            ForEach(school.classesSortedByLevelNumber) { classe in
+            if classes.isNotEmpty {
+                TipView(flagListItem, arrowEdge: .bottom)
+                    .tint(.orange)
+                    .tipBackground(HierarchicalShapeStyle.tipBackgroundColor)
+            }
+            ForEach(classes) { classe in
                 ClasseBrowserRow(classe: classe)
                     .customizedListItemStyle(
                         isSelected: false

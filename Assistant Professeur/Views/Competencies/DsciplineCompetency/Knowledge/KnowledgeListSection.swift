@@ -7,6 +7,7 @@
 
 import HelpersView
 import SwiftUI
+import TipKit
 
 struct KnowledgeListSection: View {
     @ObservedObject
@@ -21,8 +22,12 @@ struct KnowledgeListSection: View {
     @State
     private var editedKnowledge: DKnowledgeEntity?
 
+    /// Create an instance of your tip content.
+    var editItemTip = DKnowEditItemTip()
+
     var body: some View {
         Section {
+            let knowledges = dCompetency.allKnowledgesSortedByNumber
             // Ajouter une compétence à la section
             Button {
                 isAddingObject = true
@@ -37,9 +42,11 @@ struct KnowledgeListSection: View {
                 isSelected: false
             )
 
-            ForEach(
-                dCompetency.allKnowledgesSortedByNumber
-            ) { knowledge in
+            if knowledges.isNotEmpty {
+                TipView(editItemTip, arrowEdge: .bottom)
+                    .customizedTipKitStyle()
+            }
+            ForEach(knowledges) { knowledge in
                 DKnowBrowserRow(
                     knowledge: knowledge,
                     showIcon: true
@@ -63,13 +70,14 @@ struct KnowledgeListSection: View {
                 .swipeActions(edge: .leading, allowsFullSwipe: false) {
                     // modifier la connaissance
                     Button {
+                        editItemTip.invalidate(reason: .actionPerformed)
                         editedKnowledge = knowledge
                     } label: {
                         Label("Modifier", systemImage: "square.and.pencil")
                     }
                 }
             }
-            .emptyListPlaceHolder(dCompetency.allKnowledgesSortedByNumber) {
+            .emptyListPlaceHolder(knowledges) {
                 ContentUnavailableView(
                     "Aucune connaissance disciplinaire actuellement pour cette compétence...",
                     systemImage: DKnowledgeEntity.defaultImageName,

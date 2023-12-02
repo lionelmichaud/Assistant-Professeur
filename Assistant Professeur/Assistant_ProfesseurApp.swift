@@ -9,6 +9,7 @@ import AppFoundation
 import Files
 import os
 import SwiftUI
+import TipKit
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -53,6 +54,14 @@ struct Assistant_ProfesseurApp: App {
             //            }
         #endif
 
+        #if DEBUG
+            // Optional configure tips for testing.
+            self.setupTipsForTesting()
+
+        #endif
+        // Configure and load all tips in the app.
+        try? Tips.configure()
+
         Task {
             // Charger les séances du jour
             await TodaySeances.shared.loadTodaySeances()
@@ -94,5 +103,25 @@ struct Assistant_ProfesseurApp: App {
         #if DEBUG
             print(">> Assistant_ProfesseurApp.init() initialization has completed")
         #endif
+    }
+
+    /// Various way to override tip eligibility for testing.
+    /// Note: These must be called before `Tips.configure()`.
+    private func setupTipsForTesting() {
+        do {
+            // Show all defined tips in the app.
+            // try? Tips.showAllTipsForTesting()
+
+            // Show some tips, but not all.
+            // try? Tips.showTipsForTesting([tip1, tip2, tip3])
+
+            // Hide all tips defined in the app.
+            // try? Tips.hideAllTipsForTesting()
+
+            // Purge all TipKit-related data.
+            try Tips.resetDatastore()
+        } catch {
+            print(error)
+        }
     }
 }
