@@ -1166,8 +1166,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "136"
             endingLineNumber = "136"
-            landmarkName = "liveActivityAppRefresh()"
-            landmarkType = "7">
+            landmarkName = "MainScene"
+            landmarkType = "14">
             <Locations>
                <Location
                   uuid = "FCDEFE08-8C6A-4164-A602-5C07300103F6 - d370d63dd3966f93"

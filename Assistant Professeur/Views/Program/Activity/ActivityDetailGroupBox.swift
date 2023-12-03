@@ -37,8 +37,7 @@ struct ActivityDetailGroupBox: View {
                 if userContext.prefs.viewActivityAnnotationEnabled && activity.viewAnnotation.isNotEmpty {
                     AnnotationView(
                         annotation: activity.viewAnnotation,
-                        scrollable: true,
-                        scrollHeight: 40
+                        scrollable: false
                     )
                 }
 

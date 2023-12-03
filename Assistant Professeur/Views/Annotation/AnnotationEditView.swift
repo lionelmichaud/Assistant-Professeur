@@ -10,12 +10,12 @@ import SwiftUI
 struct AnnotationView: View {
     private var annotation: String
     private var scrollable: Bool
-    private var scrollHeight: Int
+    private var scrollHeight: Int?
 
     var body: some View {
         HStack {
             Image(systemName: "note.text")
-            if scrollable {
+            if scrollable, let scrollHeight {
                 ScrollView(.vertical, showsIndicators: true) {
                     Text(annotation)
                         .multilineTextAlignment(.leading)

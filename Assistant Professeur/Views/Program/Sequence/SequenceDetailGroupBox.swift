@@ -40,8 +40,7 @@ struct SequenceDetailGroupBox: View {
                     if userContext.prefs.viewSequenceAnnotationEnabled && sequence.viewAnnotation.isNotEmpty {
                         AnnotationView(
                             annotation: sequence.viewAnnotation,
-                            scrollable: true,
-                            scrollHeight: 40
+                            scrollable: false
                         )
                     }
                     

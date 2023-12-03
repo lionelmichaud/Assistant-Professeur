@@ -32,8 +32,7 @@ struct ProgramDetailGroupBox: View {
             if userContext.prefs.viewProgramAnnotationEnabled && program.viewAnnotation.isNotEmpty {
                 AnnotationView(
                     annotation: program.viewAnnotation,
-                    scrollable: true,
-                    scrollHeight: 40
+                    scrollable: false
                 )
                 .horizontallyAligned(.leading)
             }

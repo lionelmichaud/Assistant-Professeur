@@ -116,10 +116,10 @@ struct Assistant_ProfesseurApp: App {
             // try? Tips.showTipsForTesting([tip1, tip2, tip3])
 
             // Hide all tips defined in the app.
-            // try? Tips.hideAllTipsForTesting()
+            try Tips.hideAllTipsForTesting()
 
             // Purge all TipKit-related data.
-            try Tips.resetDatastore()
+            //try Tips.resetDatastore()
         } catch {
             print(error)
         }
