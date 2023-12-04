@@ -70,6 +70,7 @@ struct SignInView: View {
                         .foregroundStyle(.red)
                         .padding(.top)
                 }
+                .font(.title2)
                 .padding()
 
             }

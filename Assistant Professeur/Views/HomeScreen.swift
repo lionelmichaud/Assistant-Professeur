@@ -28,22 +28,27 @@ struct HomeScreen: View {
     private var userContext
 
     var body: some View {
+        let userIsAuthenticatedOrAuthorized =
+            authentication.userIsAuthenticatedByApple ||
+            authentication.isAuthorizedUser
+
         VStack {
-            if (authentication.userIsAuthenticatedByApple ||
-                authentication.isAuthorizedUser) &&
-                userContext.isValid {
+            if !userIsAuthenticatedOrAuthorized {
+                // User pas encore authentifié ou autorisé
+                SignInView(showAlert: false)
+
+            } else if userContext.isValid {
+                // User authentifié ou autorisé ET
+                // User context valide
                 ContentView()
                 #if os(macOS)
                     .frame(minWidth: 800, minHeight: 600)
                 #endif
 
             } else {
-                SignInView(
-                    showAlert:
-                    (authentication.userIsAuthenticatedByApple ||
-                        authentication.isAuthorizedUser) &&
-                        !userContext.isValid
-                )
+                // User authentifié ou autorisé ET
+                // User context NON valide
+                SignInView(showAlert: true)
                 #if os(macOS)
                 .frame(minWidth: 800, minHeight: 600)
                 #endif
