@@ -19,17 +19,20 @@ private let customLog = Logger(
 final class Authentication {
     // MARK: - Properties
 
-    ///L'utilisateur est authentifié par SignInWithApple ou pas
+    /// L'utilisateur est authentifié par SignInWithApple ou pas
     @MainActor
     private(set) var userIsAuthenticatedByApple = false
 
-    ///The User Apple ID credential is authorized or not.
-    ///Si l'utilisateur est `Autorisé`il est forcément `Authentifié`.
+    /// The User Apple ID credential is authorized or not.
+    /// Si l'utilisateur est `Autorisé`il est forcément `Authentifié`.
     @MainActor
     private(set) var isAuthorizedUser = false
 
     @MainActor
     private(set) var userCredentials: Credentials?
+
+    @MainActor
+    private(set) var ownerAndPrefsExist = false
 
     // MARK: - Nested Types
 
@@ -88,22 +91,22 @@ final class Authentication {
                 // The Apple ID credential is authorized; so do NOT show the sign-in UI.
                 //   Créer les Credential à partir des données iCloud du Owner.
                 //   Mettre à jour les context utilisateur avec le Owner.
-                setUserCredentialsFromiCloud(
+                setUserCredentialsFromiCloud_Signing_In(
                     userIdentifier: userIdentifier,
                     userContext: userContext
                 )
-                customLog.log(level: .info, "Apple ID credential: 'authorized' with Apple User ID = \(userIdentifier)")
+                customLog.log(level: .info, ">> Apple ID credential: 'authorized' with Apple User ID = \(userIdentifier)")
                 self.isAuthorizedUser = true
 
             case .revoked, .notFound, .transferred:
                 // The Apple ID credential is either revoked (e.g. signed-out) or was not found, so show the sign-in UI.
                 //  .notFound: The user hasn’t established a relationship with Sign in with Apple.
                 //  .revoked: The given user’s authorization has been revoked and they should be signed out
-                customLog.log(level: .info, "Apple ID credential = revoked ou notFound")
+                customLog.log(level: .info, ">> Apple ID credential = revoked ou notFound")
                 self.isAuthorizedUser = false
 
             default:
-                customLog.log(level: .info, "Apple ID credential = undefined")
+                customLog.log(level: .info, ">> Apple ID credential = undefined")
                 self.isAuthorizedUser = false
         }
     }
@@ -134,7 +137,7 @@ final class Authentication {
                     // First loging (Signing up).
                     //   Créer les Credential à partir des Credential Apple.
                     //   Mettre à jour les context utilisateur avec le Owner.
-                    setUserCredentialsFromAppleIDCredential(
+                    setUserCredentialsFromAppleIDCredential_Signing_Up(
                         userIdentifier: userIdentifier,
                         fullName: fullName,
                         email: email,
@@ -146,7 +149,7 @@ final class Authentication {
                     // Returning user (signing in)
                     //   Créer les Credential à partir des données iCloud du Owner.
                     //   Mettre à jour les context utilisateur avec le Owner.
-                    setUserCredentialsFromiCloud(
+                    setUserCredentialsFromiCloud_Signing_In(
                         userIdentifier: userIdentifier,
                         userContext: userContext
                     )
@@ -176,7 +179,7 @@ final class Authentication {
     /// Créer les Credential à partir des Credential Apple.
     /// Mettre à jour les context utilisateur avec le Owner.
     @MainActor
-    private func setUserCredentialsFromAppleIDCredential(
+    private func setUserCredentialsFromAppleIDCredential_Signing_Up(
         userIdentifier: String,
         fullName: PersonNameComponents,
         email: String?,
@@ -202,13 +205,14 @@ final class Authentication {
             fullName: fullName,
             email: email
         )
+        ownerAndPrefsExist = userContext.isValid
     }
 
     /// Returning user (signing in)
     /// Créer les Credential à partir des données iCloud du Owner.
     /// Mettre à jour le context utilisateur avec le Owner.
     @MainActor
-    private func setUserCredentialsFromiCloud(
+    private func setUserCredentialsFromiCloud_Signing_In(
         userIdentifier: String,
         userContext: UserContext
     ) {
@@ -224,14 +228,17 @@ final class Authentication {
                     familyName: familyName
                 )
             }
+
         } else {
             // TODO: - Gérer ce cas qui conduit à un crash dès que l'on utilise les données utilisateur ou ses préférences
-            customLog.log(level: .error, "Utilisateur (Owner) supposé exister mais pas trouvé dans CoreData pour Apple User ID = \(userIdentifier)")
+            // La synchro iCloud n'a sans doute pas encore synchronisé les objets OwnerEntity et PrefEntity
+            customLog.log(level: .error, ">> Utilisateur (Owner) supposé exister mais pas trouvé dans CoreData pour Apple User ID = \(userIdentifier)")
         }
         userCredentials = Credentials(
             userIdentifier: userIdentifier,
             fullName: fullName
         )
+        ownerAndPrefsExist = userContext.isValid
     }
 
     @MainActor

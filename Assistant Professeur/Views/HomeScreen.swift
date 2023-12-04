@@ -9,6 +9,15 @@ import AuthenticationServices
 import SwiftUI
 
 struct HomeScreen: View {
+    // MARK: - Netsed Types
+
+    enum OwnerLoadingStateEnum {
+        case idle
+        case loading
+        case available
+        case failed
+    }
+
     @Environment(\.colorScheme)
     private var colorScheme
 
@@ -20,15 +29,19 @@ struct HomeScreen: View {
 
     var body: some View {
         VStack {
-            if authentication.userIsAuthenticatedByApple || 
-                authentication.isAuthorizedUser {
+            if (authentication.userIsAuthenticatedByApple ||
+                authentication.isAuthorizedUser) &&
+                userContext.isValid {
                 ContentView()
                 #if os(macOS)
                     .frame(minWidth: 800, minHeight: 600)
                 #endif
 
             } else {
-                SignInView()
+                SignInView(showAlert: !userContext.isValid)
+                #if os(macOS)
+                    .frame(minWidth: 800, minHeight: 600)
+                #endif
             }
         }
         .task {

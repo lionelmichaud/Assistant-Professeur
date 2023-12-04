@@ -15,6 +15,8 @@ private let customLog = Logger(
 )
 
 struct SignInView: View {
+    let showAlert: Bool
+
     @Environment(\.colorScheme)
     private var colorScheme
 
@@ -53,12 +55,23 @@ struct SignInView: View {
             }
             .frame(width: 280, height: 40, alignment: .center)
             .signInWithAppleButtonStyle(colorScheme == .light ? .whiteOutline : .white)
+
+            if showAlert {
+                Image(systemName: "hourglass")
+                    .padding()
+                    .font(.title)
+                Text("Attendre que les données iCloud soient synchronisées")
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.red)
+                    .padding()
+            }
         }
+        .font(.title2)
     }
 }
 
 #Preview {
-    SignInView()
+    SignInView(showAlert: true)
         .environment(\.managedObjectContext, CoreDataManager.shared.context)
         .environment(Authentication())
 }
