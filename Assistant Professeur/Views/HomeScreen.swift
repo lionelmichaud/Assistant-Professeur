@@ -20,7 +20,8 @@ struct HomeScreen: View {
 
     var body: some View {
         VStack {
-            if authentication.isValidated || authentication.isAuthorizedUser {
+            if authentication.userIsAuthenticatedByApple || 
+                authentication.isAuthorizedUser {
                 ContentView()
                 #if os(macOS)
                     .frame(minWidth: 800, minHeight: 600)
@@ -33,7 +34,7 @@ struct HomeScreen: View {
         .task {
             // Vérifier si l'utilisateur est déjà autorisé.
             // Si oui, mettre à jour les context utilisateur.
-            await authentication.checkUserCredentials(
+            await authentication.checkUserAppleIdCredentials(
                 userContext: userContext
             )
         }

@@ -141,8 +141,7 @@ struct MainScene: Scene {
         switch scenePhase {
             case .active:
                 // An app or custom scene in this phase contains at least one active scene instance.
-                break
-                //                    print("Scene Phase = .active")
+                print(">> Scene Phase = .active")
 
             case .inactive:
                 // An app or custom scene in this phase contains no scene instances in the ScenePhase.active phase.

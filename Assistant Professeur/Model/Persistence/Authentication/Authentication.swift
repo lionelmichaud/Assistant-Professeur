@@ -19,9 +19,12 @@ private let customLog = Logger(
 final class Authentication {
     // MARK: - Properties
 
+    ///L'utilisateur est authentifié par SignInWithApple ou pas
     @MainActor
-    private(set) var isValidated = false
+    private(set) var userIsAuthenticatedByApple = false
 
+    ///The User Apple ID credential is authorized or not.
+    ///Si l'utilisateur est `Autorisé`il est forcément `Authentifié`.
     @MainActor
     private(set) var isAuthorizedUser = false
 
@@ -71,16 +74,18 @@ final class Authentication {
     /// Check the User Apple ID credential for the App, at start-up, to determine if the User is already authorized.
     /// Si oui, mettre à jour les context utilisateur.
     @MainActor
-    func checkUserCredentials(userContext: UserContext) async {
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
+    func checkUserAppleIdCredentials(userContext: UserContext) async {
+        // L'identifiant AppleID qui a été mémorisé au moment de la première authentification
         let userIdentifier = KeychainItem.currentUserIdentifier
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        // User Apple ID credential
         let credentialState = try? await appleIDProvider.credentialState(
             forUserID: userIdentifier
         )
 
         switch credentialState {
             case .authorized:
-                // The Apple ID credential is valid; so do NOT show the sign-in UI.
+                // The Apple ID credential is authorized; so do NOT show the sign-in UI.
                 //   Créer les Credential à partir des données iCloud du Owner.
                 //   Mettre à jour les context utilisateur avec le Owner.
                 setUserCredentialsFromiCloud(
@@ -92,6 +97,8 @@ final class Authentication {
 
             case .revoked, .notFound, .transferred:
                 // The Apple ID credential is either revoked (e.g. signed-out) or was not found, so show the sign-in UI.
+                //  .notFound: The user hasn’t established a relationship with Sign in with Apple.
+                //  .revoked: The given user’s authorization has been revoked and they should be signed out
                 customLog.log(level: .info, "Apple ID credential = revoked ou notFound")
                 self.isAuthorizedUser = false
 
@@ -108,7 +115,7 @@ final class Authentication {
         authorization: ASAuthorization,
         userContext: UserContext
     ) {
-        isValidated = true
+        userIsAuthenticatedByApple = true
         switch authorization.credential {
             case let appleIDCredential as ASAuthorizationAppleIDCredential:
                 // Connection par "Sign-In with Apple"
@@ -165,6 +172,7 @@ final class Authentication {
         }
     }
 
+    /// First loging (Signing up).
     /// Créer les Credential à partir des Credential Apple.
     /// Mettre à jour les context utilisateur avec le Owner.
     @MainActor
@@ -177,8 +185,10 @@ final class Authentication {
         // Save this information to CloudKit.
         // Créer un Owner s'il n'existe pas encore avec cet AppleID
         if let owner = OwnerEntity.byUserIdentifier(userIdentifier: userIdentifier) {
+            // Connecter le Owner existant au UserContext
             userContext.setOwner(to: owner)
         } else {
+            // Créer un Owner avec cet AppleID
             let newOwner = OwnerEntity.create(
                 familyName: fullName.familyName!,
                 givenName: fullName.givenName!,
@@ -194,6 +204,7 @@ final class Authentication {
         )
     }
 
+    /// Returning user (signing in)
     /// Créer les Credential à partir des données iCloud du Owner.
     /// Mettre à jour le context utilisateur avec le Owner.
     @MainActor
@@ -226,7 +237,7 @@ final class Authentication {
     @MainActor
     func updateValidation(success: Bool) {
         withAnimation {
-            isValidated = success
+            userIsAuthenticatedByApple = success
         }
     }
 

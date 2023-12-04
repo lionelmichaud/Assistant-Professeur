@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+/// Cette classe mémorise un lien vers l'utilisateur `owner` et
+/// un lien ves les préférences de cet utilisatur `prefs`.
+///
+/// Si le `owner` possède déjà des préférences, elles sont utilisées.
+/// Sinon de nouvelles préférences par défaut sont créées.
 @Observable final class UserContext {
     @MainActor
     private(set) var owner: OwnerEntity?
@@ -26,7 +31,7 @@ import SwiftUI
 
     // MARK: - Properties
     
-    /// Définir le Owner du contexte et ses préférences.
+    /// Définir le `owner` du contexte et ses préférences.
     /// - Parameter owner: owner du context
     /// - Note: Si les préférences du `owner` ne sont pas définies, tente
     ///         de les retrouver dans la base de donnée ou les crée.
