@@ -30,6 +30,7 @@ struct SignInView: View {
         VStack {
             Text("Veuillez vous authentifier")
                 .padding()
+                .font(.title2)
 
             SignInWithAppleButton(.signIn) { request in
                 request.requestedScopes = [.fullName, .email]
@@ -57,16 +58,22 @@ struct SignInView: View {
             .signInWithAppleButtonStyle(colorScheme == .light ? .whiteOutline : .white)
 
             if showAlert {
-                Image(systemName: "hourglass")
-                    .padding()
-                    .font(.title)
-                Text("Attendre que les données iCloud soient synchronisées")
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(.red)
-                    .padding()
+                VStack {
+                    Image(systemName: "hourglass")
+                        .font(.largeTitle)
+                        .padding(.top)
+                    Text("Attendre que les données iCloud soient synchronisées.")
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.red)
+                        .padding(.top)
+                    Text("Essayer dans une minute.")
+                        .foregroundStyle(.red)
+                        .padding(.top)
+                }
+                .padding()
+
             }
         }
-        .font(.title2)
     }
 }
 

@@ -38,9 +38,14 @@ struct HomeScreen: View {
                 #endif
 
             } else {
-                SignInView(showAlert: !userContext.isValid)
+                SignInView(
+                    showAlert:
+                    (authentication.userIsAuthenticatedByApple ||
+                        authentication.isAuthorizedUser) &&
+                        !userContext.isValid
+                )
                 #if os(macOS)
-                    .frame(minWidth: 800, minHeight: 600)
+                .frame(minWidth: 800, minHeight: 600)
                 #endif
             }
         }
