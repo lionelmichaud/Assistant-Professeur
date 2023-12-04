@@ -29,11 +29,6 @@ struct ActivityList: View {
                     .customizedListItemStyle(
                         isSelected: activity.objectID == navig.selectedActivityMngObjId
                     )
-//                    .onTapGesture {
-//                        navig.showActivityDetails()
-//                        // FIXME: Fait planter l'app
-//                        preferredColumn = .detail
-//                    }
             }
             .onMove(perform: moveItems)
             .onDelete(perform: deleteItems)

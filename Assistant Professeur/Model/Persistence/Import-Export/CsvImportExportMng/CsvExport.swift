@@ -147,8 +147,6 @@ extension CsvImportExportMng {
             }
         }
 
-        // TODO: - Ajouter les colonnes relatives aux compétences disciplinaires associées
-
         var dataFrame = DataFrame()
 
         // colonnes relatives au Chapitre

@@ -982,22 +982,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A92DE1B4-BF0B-42D1-AFFB-62FA95A71CC8"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Persistence/UserContext.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "setOwner(to:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "FF9F905F-ED44-48D0-8D99-A61A64945E3E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -1810,8 +1794,8 @@
             filePath = "Assistant Professeur/Model/Persistence/Authentication/Authentication.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "235"
-            endingLineNumber = "235"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
             landmarkName = "setUserCredentialsFromiCloud_Signing_In(userIdentifier:userContext:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -56,9 +56,10 @@ import SwiftUI
 
             } else {
                 // Créer les préférences utilisateurs
-                let userPrefs = UserPrefEntity.created()
-                owner.prefs = userPrefs
-                self.prefs = userPrefs
+                // FIXME: Traiter le cas où la synchro iCloud est fautive pour éviter d'écraser des prefs existantes
+//                let userPrefs = UserPrefEntity.created()
+//                owner.prefs = userPrefs
+//                self.prefs = userPrefs
             }
         }
     }

@@ -230,7 +230,6 @@ final class Authentication {
             }
 
         } else {
-            // TODO: - Gérer ce cas qui conduit à un crash dès que l'on utilise les données utilisateur ou ses préférences
             // La synchro iCloud n'a sans doute pas encore synchronisé les objets OwnerEntity et PrefEntity
             customLog.log(level: .error, ">> Utilisateur (Owner) supposé exister mais pas trouvé dans CoreData pour Apple User ID = \(userIdentifier)")
         }

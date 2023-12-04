@@ -11,13 +11,6 @@ import SwiftUI
 struct HomeScreen: View {
     // MARK: - Netsed Types
 
-    enum OwnerLoadingStateEnum {
-        case idle
-        case loading
-        case available
-        case failed
-    }
-
     @Environment(\.colorScheme)
     private var colorScheme
 
@@ -59,7 +52,7 @@ struct HomeScreen: View {
                 // User authentifié ou autorisé ET
                 // User context NON valide
                 // Timeout de synchronisation échu
-                Text("Erreur de synchronisation.\nEssayer plus tard.")
+                Text("Echec de la synchronisation.\nEssayer plus tard.")
                     .font(.title2)
                     .foregroundStyle(.red)
             }
@@ -77,6 +70,7 @@ struct HomeScreen: View {
             userContextIsValid = userContext.isValid
 
             // Attendre que iCloud ait synchronisé les données utilisateur
+            // Pas plus de 5 minutes
             let period = 15 // seconds
             var counter = 0
             while !userContext.isValid {
