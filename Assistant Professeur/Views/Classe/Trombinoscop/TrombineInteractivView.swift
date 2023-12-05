@@ -50,14 +50,10 @@ struct TrombineInteractivView: View {
             // Coin supérieur gauche: Flag
             Button {
                 eleve.isFlagged.toggle()
+                try? EleveEntity.saveIfContextHasChanged()
             } label: {
-                if eleve.isFlagged {
-                    Image(systemName: "flag.fill")
+                Image(systemName: eleve.isFlagged ? "flag.fill" : "flag")
                         .foregroundColor(.orange)
-                } else {
-                    Image(systemName: "flag")
-                        .foregroundColor(.orange)
-                }
             }
             .buttonStyle(.bordered)
         }

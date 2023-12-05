@@ -309,47 +309,35 @@ extension ElevesTableView {
 
         ToolbarItemGroup(placement: .secondaryAction) {
             // flager les élèves
-            if selection.count > 1 || (
-                selection.count == 1 &&
-                    !(EleveEntity.byObjectIdentifier(objectID: selection.first!)?.isFlagged ?? false)
-
-            ) {
-                Button {
-                    withAnimation {
-                        EleveEntity.byObjectIdentifier(objectIDs: selection)
-                            .forEach { eleve in
-                                eleve.isFlagged = true
-                                try? EleveEntity.saveIfContextHasChanged()
-                            }
-                    }
-                } label: {
-                    Label(
-                        "Marquer",
-                        systemImage: "flag.fill"
-                    )
+            Button {
+                withAnimation {
+                    EleveEntity.byObjectIdentifier(objectIDs: selection)
+                        .forEach { eleve in
+                            eleve.isFlagged = true
+                            try? EleveEntity.saveIfContextHasChanged()
+                        }
                 }
+            } label: {
+                Label(
+                    "Marquer",
+                    systemImage: "flag.fill"
+                )
             }
 
             // supprimer le flage des élèves
-            if selection.count > 1 || (
-                selection.count == 1 && (
-                    EleveEntity.byObjectIdentifier(objectID: selection.first!)?.isFlagged ?? false
-                )
-            ) {
-                Button {
-                    withAnimation {
-                        EleveEntity.byObjectIdentifier(objectIDs: selection)
-                            .forEach { eleve in
-                                eleve.isFlagged = false
-                                try? EleveEntity.saveIfContextHasChanged()
-                            }
-                    }
-                } label: {
-                    Label(
-                        "Supprimer marque",
-                        systemImage: "flag.slash"
-                    )
+            Button {
+                withAnimation {
+                    EleveEntity.byObjectIdentifier(objectIDs: selection)
+                        .forEach { eleve in
+                            eleve.isFlagged = false
+                            try? EleveEntity.saveIfContextHasChanged()
+                        }
                 }
+            } label: {
+                Label(
+                    "Supprimer marque",
+                    systemImage: "flag.slash"
+                )
             }
 
             // ajouter une observation

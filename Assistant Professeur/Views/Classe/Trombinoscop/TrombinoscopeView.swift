@@ -45,14 +45,13 @@ struct TrombinoscopeView: View {
     @State
     private var pictureSize = "Small picture"
 
+    @State
+    private var foundEleves = [EleveEntity]()
+
     // Create an instance of your tip content.
     var addElevePhotoTip = AddElevePhotoTip()
 
     var body: some View {
-        let foundEleves = classe.filteredElevesSortedByName(
-            searchString: searchString,
-            nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
-        )
         ScrollView(.vertical, showsIndicators: true) {
             if foundEleves.isNotEmpty {
                 TipView(addElevePhotoTip, arrowEdge: .bottom)
@@ -88,76 +87,12 @@ struct TrombinoscopeView: View {
             }
         }
         .padding(2)
-        .toolbar {
-            // Effacements
-            ToolbarItemGroup(placement: .destructiveAction) {
-                Menu {
-                    Button(role: .destructive) {
-                        isShowingResetBonuConfirmDialog.toggle()
-                    } label: {
-                        Label(
-                            "Remettre à zéro  les Bonus / Malus",
-                            systemImage: "eraser.fill"
-                        ).tint(.red)
-                    }
-
-                    Button(role: .destructive) {
-                        isShowingDeleteTrombinesConfirmDialog.toggle()
-                    } label: {
-                        Label(
-                            "Supprimer les photos",
-                            systemImage: "trash"
-                        ).tint(.red)
-                    }
-                } label: {
-                    Image(systemName: "ellipsis.circle")
-                        // Confirmation de suppression des photos de tous les élèves
-                        .confirmationDialog(
-                            "Suppression des photos",
-                            isPresented: $isShowingDeleteTrombinesConfirmDialog,
-                            titleVisibility: .visible
-                        ) {
-                            Button("Effacer", role: .destructive) {
-                                withAnimation {
-                                    deleteAllTrombines()
-                                }
-                            }
-                        } message: {
-                            Text("Cette action supprimera les photos de tous les élèves de la classe.")
-                        }
-                        // Confirmation de Reset des Bonus / Malus de tous les élèves
-                        .confirmationDialog(
-                            "Effacement des Bonus/Malus",
-                            isPresented: $isShowingResetBonuConfirmDialog,
-                            titleVisibility: .visible
-                        ) {
-                            Button("Effacer", role: .destructive) {
-                                withAnimation {
-                                    resetAllBonusMalus()
-                                }
-                            }
-                        } message: {
-                            Text("Cette action remettra à zéro le bonus / malus de tous les élèves de la classe.")
-                        }
-                }
-                .disabled(classe.nbOfEleves == 0)
-            }
-
-            // Choix du mode d'affichage
-            ToolbarItemGroup(placement: .automatic) {
-                Picker("Présentation", selection: $pictureSize.animation()) {
-                    Image(systemName: "minus.magnifyingglass")
-                        .tag("Small picture")
-                    Image(systemName: "plus.magnifyingglass")
-                        .tag("Large picture")
-                }
-                .pickerStyle(.segmented)
-            }
-        }
+        .toolbar(content: myToolBarContent)
         #if os(iOS)
         .navigationTitle("Trombines \(classe.displayString) (\(classe.nbOfEleves))")
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        
         .searchable(
             text: $searchString,
 //                    placement : .navigationBarDrawer(displayMode : .automatic),
@@ -165,6 +100,13 @@ struct TrombinoscopeView: View {
             prompt: "Nom,Prénom,groupe,commentaire"
         )
         .autocorrectionDisabled()
+
+        .onChange(of: searchString, initial: true) {
+            foundEleves = classe.filteredElevesSortedByName(
+                searchString: searchString,
+                nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
+            )
+        }
     }
 
     // MARK: - Methods
@@ -179,6 +121,77 @@ struct TrombinoscopeView: View {
     private func deleteAllTrombines() {
         classe.allEleves.forEach { eleve in
             eleve.deleteTrombine()
+        }
+    }
+}
+// MARK: - Toolbar
+
+extension TrombinoscopeView {
+    @ToolbarContentBuilder
+    private func myToolBarContent() -> some ToolbarContent {
+        // Effacements
+        ToolbarItemGroup(placement: .destructiveAction) {
+            Menu {
+                Button(role: .destructive) {
+                    isShowingResetBonuConfirmDialog.toggle()
+                } label: {
+                    Label(
+                        "Remettre à zéro  les Bonus / Malus",
+                        systemImage: "eraser.fill"
+                    ).tint(.red)
+                }
+
+                Button(role: .destructive) {
+                    isShowingDeleteTrombinesConfirmDialog.toggle()
+                } label: {
+                    Label(
+                        "Supprimer les photos",
+                        systemImage: "trash"
+                    ).tint(.red)
+                }
+            } label: {
+                Image(systemName: "ellipsis.circle")
+                // Confirmation de suppression des photos de tous les élèves
+                    .confirmationDialog(
+                        "Suppression des photos",
+                        isPresented: $isShowingDeleteTrombinesConfirmDialog,
+                        titleVisibility: .visible
+                    ) {
+                        Button("Effacer", role: .destructive) {
+                            withAnimation {
+                                deleteAllTrombines()
+                            }
+                        }
+                    } message: {
+                        Text("Cette action supprimera les photos de tous les élèves de la classe.")
+                    }
+                // Confirmation de Reset des Bonus / Malus de tous les élèves
+                    .confirmationDialog(
+                        "Effacement des Bonus/Malus",
+                        isPresented: $isShowingResetBonuConfirmDialog,
+                        titleVisibility: .visible
+                    ) {
+                        Button("Effacer", role: .destructive) {
+                            withAnimation {
+                                resetAllBonusMalus()
+                            }
+                        }
+                    } message: {
+                        Text("Cette action remettra à zéro le bonus / malus de tous les élèves de la classe.")
+                    }
+            }
+            .disabled(classe.nbOfEleves == 0)
+        }
+
+        // Choix du mode d'affichage
+        ToolbarItemGroup(placement: .automatic) {
+            Picker("Présentation", selection: $pictureSize.animation()) {
+                Image(systemName: "minus.magnifyingglass")
+                    .tag("Small picture")
+                Image(systemName: "plus.magnifyingglass")
+                    .tag("Large picture")
+            }
+            .pickerStyle(.segmented)
         }
     }
 }
