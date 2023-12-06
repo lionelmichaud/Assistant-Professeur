@@ -5,14 +5,9 @@
 //  Created by Lionel MICHAUD on 14/04/2022.
 //
 
-import os
 import SwiftUI
 
-private let customLog = Logger(
-    subsystem: "com.michaud.lionel.Assistant-Professeur",
-    category: "ClasseSplitView"
-)
-
+/// Vues des Classes
 struct ClasseSplitView: View {
     @Environment(\.horizontalSizeClass)
     var horizontalSizeClass

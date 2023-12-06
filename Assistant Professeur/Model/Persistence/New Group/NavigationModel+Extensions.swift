@@ -72,35 +72,26 @@ extension NavigationModel {
     // MARK: - Methods
 
     /// Afficher la time-line du programme dans la colonne de droite (détail)
-    func showProgramTimeLine() {
+    func showProgramTimeLine(for program: ProgramEntity) {
         selectedActivityMngObjId = nil
-        programDetailColumnState = .showProgramSteps
+        programPath = [.programSteps(program.id)]
     }
 
     /// Afficher la time-line de la séquence dans la colonne de droite (détail)
-    func showSequenceTimeLine() {
+    func showSequenceTimeLine(for sequence: SequenceEntity) {
         selectedActivityMngObjId = nil
-        programDetailColumnState = .showSequenceSteps
+        programPath = [.sequenceSteps(sequence.id)]
     }
 
     /// Désélectionner la séquence et l'activité quand on change de programme
     func changeSelectedProgram() {
         selectedSequenceMngObjId = nil
         selectedActivityMngObjId = nil
-        programDetailColumnState = nil
     }
 
     /// Désélectionner l'activité quand on change de séquence
     func changeSelectedSequence() {
         selectedActivityMngObjId = nil
-        programDetailColumnState = nil
-    }
-
-    /// Afficher l'activité quand on en sélectionne une
-    func showActivityDetails() {
-        if selectedActivityMngObjId != nil {
-            programDetailColumnState = .showActivityDetail
-        }
     }
 
     /// Pop to School root view by clearing the stack
@@ -117,7 +108,6 @@ extension NavigationModel {
     func popToProgramRootView() {
         selectedSequenceMngObjId = nil
         selectedActivityMngObjId = nil
-        programDetailColumnState = nil
 
         programPath = []
     }
@@ -207,13 +197,11 @@ extension NavigationModel {
         selectedSequenceMngObjId = inSequence.objectID
         try? await Task.sleep(for: .seconds(0.1))
 
-        programPath = [inSequence]
+        programPath = [.activityDetail(activity.id)]
         try? await Task.sleep(for: .seconds(0.1))
 
         selectedActivityMngObjId = activity.objectID
         try? await Task.sleep(for: .seconds(0.1))
-
-        programDetailColumnState = .showActivityDetail
     }
 
     /// Pop to Tab's root view when the current tab is tapped again

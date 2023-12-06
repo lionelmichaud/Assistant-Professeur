@@ -196,6 +196,9 @@
 		797AD2B229902BCE00BE5D37 /* ActivityProgressesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797AD2B129902BCE00BE5D37 /* ActivityProgressesView.swift */; };
 		797AD2B429913B4C00BE5D37 /* School+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */; };
 		797B7F852AE979A4009042A4 /* DeepLinkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797B7F842AE979A4009042A4 /* DeepLinkManager.swift */; };
+		797E30C02B1F66B600DE029D /* WarningMiddleColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797E30BF2B1F66B600DE029D /* WarningMiddleColumn.swift */; };
+		797E30C22B1F66ED00DE029D /* WarningDetailColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797E30C12B1F66ED00DE029D /* WarningDetailColumn.swift */; };
+		797E30C42B1F769800DE029D /* ProgramNavigationRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797E30C32B1F769800DE029D /* ProgramNavigationRoute.swift */; };
 		797F3038297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */; };
 		7981280629F1CB3500A3817E /* AgendaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981280529F1CB3500A3817E /* AgendaManager.swift */; };
 		7981C22129A8054A0085986D /* ProgramTimeLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7981C22029A8054A0085986D /* ProgramTimeLine.swift */; };
@@ -681,6 +684,9 @@
 		797AD2B129902BCE00BE5D37 /* ActivityProgressesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityProgressesView.swift; sourceTree = "<group>"; };
 		797AD2B329913B4C00BE5D37 /* School+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "School+CoreDataClass.swift"; sourceTree = "<group>"; };
 		797B7F842AE979A4009042A4 /* DeepLinkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkManager.swift; sourceTree = "<group>"; };
+		797E30BF2B1F66B600DE029D /* WarningMiddleColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningMiddleColumn.swift; sourceTree = "<group>"; };
+		797E30C12B1F66ED00DE029D /* WarningDetailColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WarningDetailColumn.swift; sourceTree = "<group>"; };
+		797E30C32B1F769800DE029D /* ProgramNavigationRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramNavigationRoute.swift; sourceTree = "<group>"; };
 		797F3037297F0CCC005AAAF7 /* ProgramDisciplineLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDisciplineLevel.swift; sourceTree = "<group>"; };
 		7981280529F1CB3500A3817E /* AgendaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AgendaManager.swift; path = "Assistant Professeur/Views/Classe/Progress/ActivityTimer/AgendaManager.swift"; sourceTree = SOURCE_ROOT; };
 		7981C22029A8054A0085986D /* ProgramTimeLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramTimeLine.swift; sourceTree = "<group>"; };
@@ -1434,6 +1440,8 @@
 			children = (
 				7951B69F29B13E6F006DC88D /* WarningSplitView.swift */,
 				7951B6A129B14012006DC88D /* WarningSidebarView.swift */,
+				797E30BF2B1F66B600DE029D /* WarningMiddleColumn.swift */,
+				797E30C12B1F66ED00DE029D /* WarningDetailColumn.swift */,
 				793D626B295DCBBC00477932 /* MotifView */,
 				79DEDAE7292585BD00F508EF /* Colle */,
 				79DEDAE6292585AE00F508EF /* Observation */,
@@ -1755,6 +1763,7 @@
 				796371FD297D574B00ECDBC3 /* Sequence */,
 				79637206297D879100ECDBC3 /* Activity */,
 				7997531F297C3F9200D1C66E /* ProgramViewModel.swift */,
+				797E30C32B1F769800DE029D /* ProgramNavigationRoute.swift */,
 				79975315297B148800D1C66E /* ProgramSplitView.swift */,
 				79975319297C17E300D1C66E /* ProgramSidebar.swift */,
 				79975321297C4AEF00D1C66E /* ProgramBrowserRow.swift */,
@@ -2597,6 +2606,7 @@
 				7957A5AE2AF7A87A002C8721 /* ClasseSeancesList.swift in Sources */,
 				7923BC7B2AED396F00F824C2 /* ContactView.swift in Sources */,
 				795EED0C29677C76009AA6F4 /* MarkListView.swift in Sources */,
+				797E30C22B1F66ED00DE029D /* WarningDetailColumn.swift in Sources */,
 				79F41E5C2954983100EAAC52 /* ClasseNameGroupBox.swift in Sources */,
 				79F41E5E2954987F00EAAC52 /* ClasseAcronym.swift in Sources */,
 				7957A8322A375D7C00D64786 /* DKnowEditorModal.swift in Sources */,
@@ -2702,6 +2712,7 @@
 				79975318297B173800D1C66E /* SettingsProgram.swift in Sources */,
 				793C5D242A1A837C00FB2691 /* TodaySeances.swift in Sources */,
 				79B060872AFAA50A00B381FE /* Credentials.swift in Sources */,
+				797E30C02B1F66B600DE029D /* WarningMiddleColumn.swift in Sources */,
 				793C29CF2953BE4E00E7F65B /* Ressource+Extensions.swift in Sources */,
 				796B6A7D2A0BD24600F00929 /* ContactsManager.swift in Sources */,
 				79FFF42929511E040037A327 /* ClasseCreatorModal.swift in Sources */,
@@ -2899,6 +2910,7 @@
 				798D24FC2A2E9767008500D2 /* WCompEditorModal.swift in Sources */,
 				7941BC662A030C5100EF9F30 /* Owner+Extensions.swift in Sources */,
 				79F7A2792A4053BE00CEC3D5 /* ActivityListSection.swift in Sources */,
+				797E30C42B1F769800DE029D /* ProgramNavigationRoute.swift in Sources */,
 				79DEDB042925902800F508EF /* SchoolSidebarView.swift in Sources */,
 				7921F54C2925825800173F39 /* ModelEntityP.swift in Sources */,
 				79DEDB15292593C200F508EF /* SettingsGeneral.swift in Sources */,

@@ -66,12 +66,9 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
     @Published
     var classPath = [ClasseNavigationRoute]()
     @Published
-    var programPath = [SequenceEntity]()
+    var programPath = [ProgramNavigationRoute]()
     @Published
     var competencePath = NavigationPath()
-
-    @Published
-    var programDetailColumnState: ProgramDetailColumnState?
 
     /// TODO: - Trouver une autre solution
     @Published

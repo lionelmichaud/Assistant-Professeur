@@ -5,16 +5,11 @@
 //  Created by Lionel MICHAUD on 22/01/2023.
 //
 
+import CoreData
 import HelpersView
 import SwiftUI
 
 struct ActivitySideBar: View {
-    @ObservedObject
-    var sequence: SequenceEntity
-
-    @Binding
-    var preferredColumn: NavigationSplitViewColumn
-
     @EnvironmentObject
     private var navig: NavigationModel
 
@@ -33,34 +28,58 @@ struct ActivitySideBar: View {
 
     // MARK: - Computed Properties
 
+    private var selectedSequenceId: NSManagedObjectID? {
+        navig.selectedSequenceMngObjId
+    }
+
+    private var selectedSequence: SequenceEntity? {
+        guard let selectedSequenceId else {
+            return nil
+        }
+        return SequenceEntity.byObjectId(MngObjID: selectedSequenceId)
+    }
+
+    private var selectedSequenceExists: Bool {
+        selectedSequence != nil
+    }
+
     private var selectedSequenceNumber: String {
-        sequence.viewNumber.formatted()
+        selectedSequence?.viewNumber.formatted() ?? ""
     }
 
     var body: some View {
-        List(selection: $navig.selectedActivityMngObjId) {
-            if sequence.program != nil {
-                SequenceDetailGroupBox(
-                    sequence: sequence,
-                    withDetails: true
+        ZStack {
+            if selectedSequenceExists {
+                List(selection: $navig.selectedActivityMngObjId) {
+                    if selectedSequence!.program != nil {
+                        SequenceDetailGroupBox(
+                            sequence: selectedSequence!,
+                            withDetails: true
+                        )
+                    } else {
+                        Text("Progression associée introuvable")
+                            .foregroundStyle(.secondary)
+                            .font(.title2)
+                    }
+
+                    ActivityList(
+                        sequence: selectedSequence!,
+                        searchString: searchString
+                    )
+                }
+                .searchable(
+                    text: $searchString,
+                    placement: .toolbar,
+                    prompt: "Nom de l'activité"
                 )
             } else {
-                Text("Progression associée introuvable")
-                    .foregroundStyle(.secondary)
-                    .font(.title2)
+                ContentUnavailableView(
+                    "Aucune séquence sélectionnée...",
+                    systemImage: ClasseEntity.defaultImageName,
+                    description: Text("Sélectionner une séquence pour en visualiser les activités ici.")
+                )
             }
-
-            ActivityList(
-                sequence: sequence, 
-                preferredColumn: $preferredColumn,
-                searchString: searchString
-            )
         }
-        .searchable(
-            text: $searchString,
-            placement: .toolbar,
-            prompt: "Nom de l'activité"
-        )
         #if os(iOS)
         .navigationTitle("Séquence " + selectedSequenceNumber)
         #endif
@@ -73,9 +92,9 @@ struct ActivitySideBar: View {
             onDismiss: SequenceEntity.rollback
         ) {
             NavigationStack {
-                SequenceEditorModal(sequence: sequence)
+                SequenceEditorModal(sequence: selectedSequence!)
             }
-            .presentationDetents([.medium])
+            .presentationDetents([.large])
         }
 
         // Modal Sheet de sélection de la séquence associée
@@ -83,9 +102,9 @@ struct ActivitySideBar: View {
             isPresented: $isDuplicating
         ) {
             NavigationStack {
-                DuplicateSequenceModal(sequence: sequence)
+                DuplicateSequenceModal(sequence: selectedSequence!)
             }
-            .presentationDetents([.large])
+            .presentationDetents([.medium])
         }
     }
 }
@@ -100,7 +119,10 @@ extension ActivitySideBar {
             // Afficher la vue Stepper de la séquence
             Button {
                 sequenceInfoTip.invalidate(reason: .actionPerformed)
-                navig.showSequenceTimeLine()
+                if let selectedSequence {
+                    navig.showSequenceTimeLine(for: selectedSequence)
+                }
+
                 // FIXME: Fait planter l'app sur iPhone
                 //preferredColumn = .detail
             } label: {
@@ -131,22 +153,23 @@ extension ActivitySideBar {
             .popoverTip(sequenceInfoTip2)
         }
 
-        // Ajouter une Activité
-        ToolbarItemGroup(placement: .status) {
-            Button {
-                withAnimation {
-                    _ = ActivityEntity.create(
-                        name: "Nouvelle activité",
-                        duration: 1.0,
-                        dans: sequence
-                    )
-                }
-//                    isAddingNewActivity = true
-            } label: {
-                HStack {
-                    Image(systemName: "plus.circle.fill")
-                    Text("Ajouter une activité")
-                    Spacer()
+        if selectedSequenceExists {
+            // Ajouter une Activité
+            ToolbarItemGroup(placement: .status) {
+                Button {
+                    withAnimation {
+                        _ = ActivityEntity.create(
+                            name: "Nouvelle activité",
+                            duration: 1.0,
+                            dans: selectedSequence!
+                        )
+                    }
+                } label: {
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                        Text("Ajouter une activité")
+                        Spacer()
+                    }
                 }
             }
         }
