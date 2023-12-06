@@ -22,21 +22,21 @@ enum ProgramNavigationRoute: Hashable, Codable {
             switch self {
                 case let .activityDetail(activityId):
                     if let activity = ActivityEntity.byId(id: activityId!) {
-                        ActivityDetail()
+                        ActivityDetail(activity: activity)
                     } else {
                         errorView
                     }
 
                 case let .sequenceSteps(sequenceId):
                     if let sequence = SequenceEntity.byId(id: sequenceId!) {
-                        SequenceTimeLine()
+                        SequenceTimeLine(sequence: sequence)
                     } else {
                         errorView
                     }
 
                 case let .programSteps(programId):
                     if let program = ProgramEntity.byId(id: programId!) {
-                        ProgramTimeLine()
+                        ProgramTimeLine(program: program)
                     } else {
                         errorView
                     }

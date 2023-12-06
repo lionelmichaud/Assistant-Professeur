@@ -26,7 +26,7 @@ struct WarningSplitView: View {
     private var navig: NavigationModel
 
     @State
-    private var preferredColumn = NavigationSplitViewColumn.detail
+    private var preferredColumn = NavigationSplitViewColumn.sidebar
 
     var body: some View {
         NavigationSplitView(

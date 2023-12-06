@@ -558,8 +558,11 @@ extension ClasseEntity {
 
     // MARK: - Type Methods
 
-    /// Créer une nouvelle classe et l'ajouter à l'établissement `school`
-    /// - Important: Sauvegarder le Context.
+    /// Créer une nouvelle classe et l'ajouter à l'établissement `school`.
+    ///
+    /// Crée en même temps les progressions d'activités pédagogiques susceptibles
+    /// d'être suivies par la classe dans la `discipline` et pour le niveau `level` et `segpa`.
+    /// - Important: Sauvegarde le Context.
     @discardableResult
     static func create( // swiftlint:disable:this function_parameter_count
         level: LevelClasse,

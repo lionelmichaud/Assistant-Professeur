@@ -73,7 +73,8 @@ struct ClasseSidebarSchoolSubview: View {
             ClasseBrowserRow(classe: classe)
 
                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                    // supprimer la classe et tous ses descendants
+                    // Supprimer la classe et tous ses descendants
+                    // dont les progressions d'activités pédagogiques associées
                     Button(role: .destructive) {
                         withAnimation {
                             if navigationModel.selectedClasseMngObjId == classe.objectID {

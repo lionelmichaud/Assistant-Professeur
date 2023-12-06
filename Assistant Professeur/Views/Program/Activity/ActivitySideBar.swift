@@ -117,45 +117,45 @@ extension ActivitySideBar {
         // Editer la Séquence
         ToolbarItemGroup(placement: .automatic) {
             // Afficher la vue Stepper de la séquence
-            Button {
-                sequenceInfoTip.invalidate(reason: .actionPerformed)
-                if let selectedSequence {
+            if let selectedSequence {
+                Button {
+                    sequenceInfoTip.invalidate(reason: .actionPerformed)
                     navig.showSequenceTimeLine(for: selectedSequence)
+
+                    // FIXME: Fait planter l'app sur iPhone
+                    // preferredColumn = .detail
+                } label: {
+                    Label(
+                        "Infos", systemImage: "info.circle"
+                    )
+                }
+                .popoverTip(sequenceInfoTip)
+
+                // Modifier la séquence
+                Button {
+                    isEditing.toggle()
+                } label: {
+                    Label(
+                        "Modifier", systemImage: "square.and.pencil"
+                    )
                 }
 
-                // FIXME: Fait planter l'app sur iPhone
-                //preferredColumn = .detail
-            } label: {
-                Label(
-                    "Infos", systemImage: "info.circle"
-                )
+                // Dupliquer la séquence
+                Button {
+                    isDuplicating.toggle()
+                } label: {
+                    Label(
+                        "Dupliquer la séquence dans un autre programme",
+                        systemImage: "doc.on.doc.fill"
+                    )
+                }
+                .popoverTip(sequenceInfoTip2)
             }
-            .popoverTip(sequenceInfoTip)
-
-            // Modifier la séquence
-            Button {
-                isEditing.toggle()
-            } label: {
-                Label(
-                    "Modifier", systemImage: "square.and.pencil"
-                )
-            }
-
-            // Dupliquer la séquence
-            Button {
-                isDuplicating.toggle()
-            } label: {
-                Label(
-                    "Dupliquer la séquence dans un autre programme",
-                    systemImage: "doc.on.doc.fill"
-                )
-            }
-            .popoverTip(sequenceInfoTip2)
         }
 
-        if selectedSequenceExists {
-            // Ajouter une Activité
-            ToolbarItemGroup(placement: .status) {
+        // Ajouter une Activité
+        ToolbarItemGroup(placement: .status) {
+            if selectedSequenceExists {
                 Button {
                     withAnimation {
                         _ = ActivityEntity.create(
