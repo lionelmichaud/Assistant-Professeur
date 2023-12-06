@@ -519,10 +519,15 @@ extension ProgramManager {
         var lastCompletedSequenceNumber: Int = 0
         var idx = 0
         var iteratedPeriod = programSequencesPeriods[idx]
+        var dateIsPastTheEndOfLastSequence = false
         // itérer sur les périodes jusqu'à ce que la date soit antérieure à la date de fin de la période
         while iteratedPeriod.dateInterval.end < date {
             lastCompletedSequenceNumber = iteratedPeriod.number - 1
             idx += 1
+            if idx == programSequencesPeriods.endIndex {
+                dateIsPastTheEndOfLastSequence = true
+                break
+            }
             iteratedPeriod = programSequencesPeriods[idx]
         }
         let currentSequenceNumber = lastCompletedSequenceNumber + 1
@@ -532,12 +537,16 @@ extension ProgramManager {
         let nbSeancesInFullyCompletedSequences: Double =
             sequencesInProgram
                 .reduce(0.0) { nb, sequence in
-                    if sequence.viewNumber < currentSequenceNumber {
+                    if sequence.viewNumber <= lastCompletedSequenceNumber {
                         return nb + sequence.durationWithoutMargin
                     } else {
                         return nb
                     }
                 }
+
+        guard !dateIsPastTheEndOfLastSequence else {
+            return nbSeancesInFullyCompletedSequences
+        }
 
         // Ajouter le nb de séances complétées dans la séquence en cours
         //   Nombre de séances de cours par semaine

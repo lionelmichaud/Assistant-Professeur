@@ -21,13 +21,11 @@ struct SequenceList: View {
         let filteredSequences = program.filteredSequencesSortedByNumber(searchString: searchString)
 
         Section {
-            ForEach(filteredSequences,id: \.objectID) { sequence in
-                NavigationLink(value: sequence) {
-                    SequenceBrowserRow(sequence: sequence)
-                }
-                .customizedListItemStyle(
-                    isSelected: sequence.objectID == navig.selectedSequenceMngObjId
-                )
+            ForEach(filteredSequences, id: \.objectID) { sequence in
+                SequenceBrowserRow(sequence: sequence)
+                    .customizedListItemStyle(
+                        isSelected: sequence.objectID == navig.selectedSequenceMngObjId
+                    )
             }
             .onMove(perform: moveItems)
             .onDelete(perform: deleteItems)

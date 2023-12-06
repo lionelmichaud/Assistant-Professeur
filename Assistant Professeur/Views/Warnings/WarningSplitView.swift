@@ -25,9 +25,13 @@ struct WarningSplitView: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
+    @State
+    private var preferredColumn = NavigationSplitViewColumn.sidebar
+
     var body: some View {
         NavigationSplitView(
-            columnVisibility: $navig.columnVisibility
+            columnVisibility: $navig.columnVisibility,
+            preferredCompactColumn: $preferredColumn
         ) {
             // 1ère colonne
             WarningSidebarView()
@@ -48,76 +52,6 @@ struct WarningSplitView: View {
         .navigationSplitViewStyle(.balanced)
     }
 }
-
-/// Contenu de la 2ième colonne de la Tab des Avertissements
-struct WarningMiddleColumn: View {
-    @EnvironmentObject
-    private var navig: NavigationModel
-
-    var body: some View {
-        switch navig.selectedWarningType {
-            case .none:
-                ContentUnavailableView(
-                    "Aucun type d'avertissement sélectionné...",
-                    systemImage: "exclamationmark.triangle",
-                    description: Text("Sélectionner un type d'avertissement.")
-                )
-
-            case .colle:
-                ColleSidebarView()
-
-            case .observation:
-                ObservSidebarView()
-        }
-    }
-}
-
-/// Détail dans la 3ième colonne de la Tab des Avertissements
-struct WarningDetailColumn: View {
-    @EnvironmentObject
-    private var navig: NavigationModel
-
-    var body: some View {
-        switch navig.selectedWarningType {
-            case .none:
-                ContentUnavailableView(
-                    "Aucun type d'avertissement sélectionné...",
-                    systemImage: "exclamationmark.triangle",
-                    description: Text("Sélectionner un type d'avertissement.")
-                )
-
-            case .colle:
-                ColleEditor()
-
-            case .observation:
-                ObservEditor()
-        }
-    }
-}
-
-//struct WarningSpliView_Previews: PreviewProvider {
-//    static func initialize() {
-//        DataBaseManager.populateWithMockData(storeType: .inMemory)
-//    }
-//
-//    static var previews: some View {
-//        initialize()
-//
-//        return Group {
-//            WarningSplitView()
-//                .padding()
-//                .environmentObject(NavigationModel(selectedWarningType: .colle))
-//                .environment(\.managedObjectContext, CoreDataManager.shared.context)
-//                .previewDevice("iPad mini (6th generation)")
-//
-//            WarningSplitView()
-//                .padding()
-//                .environmentObject(NavigationModel(selectedWarningType: .colle))
-//                .environment(\.managedObjectContext, CoreDataManager.shared.context)
-//                .previewDevice("iPhone 13")
-//        }
-//    }
-//}
 
 #Preview {
     func initialize() {

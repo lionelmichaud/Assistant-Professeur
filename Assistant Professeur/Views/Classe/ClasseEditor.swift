@@ -11,12 +11,12 @@ import SwiftUI
 
 struct ClasseEditor: View {
     @EnvironmentObject
-    private var navigationModel: NavigationModel
+    private var navig: NavigationModel
 
     // MARK: - Computed Properties
 
     private var selectedClasseId: NSManagedObjectID? {
-        navigationModel.selectedClasseMngObjId
+        navig.selectedClasseMngObjId
     }
 
     private var selectedClasse: ClasseEntity? {

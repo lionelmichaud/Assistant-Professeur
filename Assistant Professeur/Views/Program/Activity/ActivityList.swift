@@ -12,9 +12,6 @@ struct ActivityList: View {
     @ObservedObject
     var sequence: SequenceEntity
 
-    @Binding
-    var preferredColumn: NavigationSplitViewColumn
-
     var searchString: String = ""
 
     @EnvironmentObject
@@ -25,7 +22,9 @@ struct ActivityList: View {
 
         return Section {
             ForEach(filteredActivities, id: \.objectID) { activity in
-                ActivityBrowserRow(activity: activity)
+                NavigationLink(value: ProgramNavigationRoute.activityDetail(activity.id)) {
+                    ActivityBrowserRow(activity: activity)
+                }
                     .customizedListItemStyle(
                         isSelected: activity.objectID == navig.selectedActivityMngObjId
                     )

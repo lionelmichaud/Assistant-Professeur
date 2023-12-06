@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 20/01/2023.
 //
 
-import SwiftUI
 import AppFoundation
+import SwiftUI
 
 // MARK: - State Machine de l'état de la colonne "détail"
 
@@ -44,73 +44,52 @@ struct ProgramSplitView: View {
 
         } content: {
             // 2nde colonne
-            NavigationStack(path: $navig.programPath) {
-                SequenceSidebar(preferredColumn: $preferredColumn)
-                    .navigationDestination(for: SequenceEntity.self) { sequence in
-                        ActivitySideBar(
-                            sequence: sequence,
-                            preferredColumn: $preferredColumn
-                        )
-                        .environmentObject(navig) // Bug Apple
-                        .environment(userContext) // Bug Apple
-                    }
-                    .navigationSplitViewColumnWidth(
-                        min: 400,
-                        ideal: 500,
-                        max: 800
-                    )
-            }
+            SequenceSidebar()
+                .navigationSplitViewColumnWidth(
+                    min: 400,
+                    ideal: 500,
+                    max: 800
+                )
 
         } detail: {
             // 3ième colonne
-            ProgramDetailedColumn(
-                content: navig.programDetailColumnState
-            )
+            NavigationStack(path: $navig.programPath) {
+                ActivitySideBar()
+                    .navigationDestination(for: ProgramNavigationRoute.self) { route in
+                        route.destination()
+                    }
+            }
         }
         .navigationSplitViewStyle(.balanced)
 
-        // désélectionner la séquence et l'activité quand on change de programme
+        // Désélectionner la séquence et l'activité quand on change de programme
+        // Afficher la colonne du milieu sur iPhone
         .onChange(of: navig.selectedProgramMngObjId) {
             navig.changeSelectedProgram()
+            if navig.selectedProgramMngObjId != nil {
+                preferredColumn = .content
+            }
         }
 
-        // désélectionner l'activité quand on change de séquence
+        // Désélectionner l'activité quand on change de séquence
+        // Afficher la colonne détail sur iPhone
         .onChange(of: navig.selectedSequenceMngObjId) {
             navig.changeSelectedSequence()
+            if navig.selectedSequenceMngObjId != nil {
+                preferredColumn = .detail
+            }
         }
 
-        // afficher l'activité quand on en sélectionne une
-        .onChange(of: navig.selectedActivityMngObjId) {
-            navig.showActivityDetails()
+        // Afficher l'activité quand on en sélectionne une
+        // Afficher la colonne détail sur iPhone
+        .onChange(of: navig.selectedActivityMngObjId, initial: true) {
+            if navig.selectedActivityMngObjId != nil {
+                preferredColumn = .detail
+            }
         }
-    }
-}
-
-/// Détail dans la 3ième colonne de la Tab des Program
-struct ProgramDetailedColumn: View {
-    let content: ProgramDetailColumnState?
-
-    @Environment(\.horizontalSizeClass)
-    private var horizontalSizeClass
-
-    var body: some View {
-        switch content {
-            case .none:
-                ContentUnavailableView(
-                    "Aucune activité sélectionnée...",
-                    systemImage: ActivityEntity.defaultImageName,
-                    description: Text("Sélectionner une activité pour en visualiser le contenu.")
-                )
-
-            case .showProgramSteps:
-                ProgramTimeLine()
-
-            case .showSequenceSteps:
-                SequenceTimeLine()
-
-            case .showActivityDetail:
-                ActivityDetail()
-        }
+//        .onChange(of: preferredColumn) { old, new in
+//            print(">> preferredColumn changed from \(old) to \(new)")
+//        }
     }
 }
 

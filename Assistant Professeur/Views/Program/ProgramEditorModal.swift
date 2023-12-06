@@ -34,28 +34,28 @@ struct ProgramEditorModal: View {
 
     var body: some View {
         Form {
-            ViewThatFits(in: .horizontal) {
-                // priorité 1
-                HStack {
-                    disciplineView
-                    Spacer()
-                    niveauView
-                        .frame(maxWidth: 150)
-                    segpaView
-                        .layoutPriority(1)
-                }
-
-                // priorité 2
-                VStack {
-                    disciplineView
-                    HStack {
-                        niveauView
-                            .frame(maxWidth: 180)
-                        Spacer()
-                        segpaView
-                    }
-                }
-            }
+//            ViewThatFits(in: .horizontal) {
+//                // priorité 1
+//                HStack {
+//                    disciplineView
+//                    Spacer()
+//                    niveauView
+//                        .frame(maxWidth: 150)
+//                    segpaView
+//                        .layoutPriority(1)
+//                }
+//
+//                // priorité 2
+//                VStack {
+//                    disciplineView
+//                    HStack {
+//                        niveauView
+//                            .frame(maxWidth: 180)
+//                        Spacer()
+//                        segpaView
+//                    }
+//                }
+//            }
 
             if userContext.prefs.viewProgramAnnotationEnabled {
                 TextField(

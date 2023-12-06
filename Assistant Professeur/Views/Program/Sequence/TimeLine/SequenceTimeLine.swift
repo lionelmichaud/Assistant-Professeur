@@ -9,6 +9,9 @@ import HelpersView
 import SwiftUI
 
 struct SequenceTimeLine: View {
+    @ObservedObject
+    var sequence: SequenceEntity
+
     @EnvironmentObject
     private var navig: NavigationModel
 
@@ -56,33 +59,18 @@ struct SequenceTimeLine: View {
 
     var body: some View {
         VStack {
-            if let sequenceId = navig.selectedSequenceMngObjId {
-                if let sequence = SequenceEntity.byObjectId(MngObjID: sequenceId) {
-                    switch presentation {
-                        case .steps:
-                            SequenceStepperView(
-                                sequence: sequence,
-                                forPdfExport: false
-                            )
+            switch presentation {
+                case .steps:
+                    SequenceStepperView(
+                        sequence: sequence,
+                        forPdfExport: false
+                    )
 
-                        case .presentationSheet:
-                            SequencePresentationView(
-                                sequence: sequence,
-                                forPdfExport: false
-                            )
-                    }
-                } else {
-                    Text("Séquence introuvable")
-                        .foregroundStyle(.secondary)
-                        .font(.title2)
-                }
-
-            } else {
-                ContentUnavailableView(
-                    "Aucune séquence sélectionnée...",
-                    systemImage: ProgramEntity.defaultImageName,
-                    description: Text("Sélectionner une séquence pour en visualiser les séquences.")
-                )
+                case .presentationSheet:
+                    SequencePresentationView(
+                        sequence: sequence,
+                        forPdfExport: false
+                    )
             }
         }
         #if os(iOS)
@@ -99,9 +87,7 @@ struct SequenceTimeLine: View {
     }
 
     private func renderedPDF() async -> URL? {
-        if let sequenceId = navig.selectedSequenceMngObjId,
-           let sequence = SequenceEntity.byObjectId(MngObjID: sequenceId),
-           let program = sequence.program {
+        if let program = sequence.program {
             let cachesUrl = URL.cachesDirectory
             switch presentation {
                 case .steps:
@@ -174,8 +160,8 @@ extension SequenceTimeLine {
     }
 }
 
-struct SequenceTimeLine_Previews: PreviewProvider {
-    static var previews: some View {
-        SequenceTimeLine()
-    }
-}
+// struct SequenceTimeLine_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SequenceTimeLine()
+//    }
+// }

@@ -9,9 +9,6 @@ import HelpersView
 import SwiftUI
 
 struct SequenceSidebar: View {
-    @Binding
-    var preferredColumn: NavigationSplitViewColumn
-
     @EnvironmentObject
     private var navig: NavigationModel
 
@@ -89,14 +86,13 @@ extension SequenceSidebar {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         if let programId = navig.selectedProgramMngObjId,
-           ProgramEntity.byObjectId(MngObjID: programId) != nil {
+           let program = ProgramEntity.byObjectId(MngObjID: programId) {
             ToolbarItemGroup(placement: .automatic) {
                 // Afficher la vue Stepper du Programme
                 Button {
                     programInfoTip.invalidate(reason: .actionPerformed)
                     // afficher la time-line du programme dans la colonne de droite (détail)
-                    navig.showProgramTimeLine()
-                    preferredColumn = .detail
+                    navig.showProgramTimeLine(for: program)
                 } label: {
                     Label(
                         "Infos",
@@ -130,7 +126,6 @@ extension SequenceSidebar {
                             }
                         }
                     }
-//                    isAddingNewSequence.toggle()
                 } label: {
                     HStack {
                         Image(systemName: "plus.circle.fill")
