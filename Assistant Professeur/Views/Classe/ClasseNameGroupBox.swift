@@ -5,8 +5,8 @@
 //  Created by Lionel MICHAUD on 09/10/2022.
 //
 
-import SwiftUI
 import HelpersView
+import SwiftUI
 
 struct ClasseNameGroupBox: View {
     @ObservedObject
@@ -16,22 +16,17 @@ struct ClasseNameGroupBox: View {
         HStack {
             ClasseAcronym(classe: classe)
 
-            /// Flag de la classe
+            // Flag de la classe
             Button {
                 withAnimation {
                     classe.toggleFlag()
                 }
             } label: {
-                if classe.isFlagged {
-                    Image(systemName: "flag.fill")
-                        .foregroundColor(.orange)
-                } else {
-                    Image(systemName: "flag")
-                        .foregroundColor(.orange)
-                }
+                Image(systemName: classe.isFlagged ? "flag.fill" : "flag")
+                    .foregroundColor(.orange)
             }
 
-            /// SEGPA ou pas
+            // SEGPA ou pas
             if let school = classe.school, school.levelEnum == .college {
                 Toggle(isOn: $classe.viewSegpa.animation()) {
                     Text("SEGPA")
@@ -45,15 +40,20 @@ struct ClasseNameGroupBox: View {
     private var regularDisciplineView: some View {
         HStack {
             // Discipline enseignée
-            CasePicker(pickedCase: $classe.disciplineEnum,
-                       label: "Discipline")
-            .pickerStyle(.menu)
+//            CasePicker(pickedCase: $classe.disciplineEnum,
+//                       label: "Discipline")
+//            .pickerStyle(.menu)
+            Text(classe.disciplineEnum.displayString)
+                .bold()
+                .padding(.horizontal, 4)
 
             // Nombre d'heures d'enseignement pour cette classe
-            AmountEditView(label: "Heures",
-                           amount: $classe.viewHeures,
-                           validity: .poz,
-                           currency: false)
+            AmountEditView(
+                label: "Heures",
+                amount: $classe.viewHeures,
+                validity: .poz,
+                currency: false
+            )
             .frame(maxWidth: 150)
         }
     }
@@ -61,15 +61,22 @@ struct ClasseNameGroupBox: View {
     private var compactDisciplineView: some View {
         VStack {
             // Discipline enseignée
-            CasePicker(pickedCase: $classe.disciplineEnum,
-                       label: "Discipline")
-            .pickerStyle(.menu)
+//            CasePicker(
+//                pickedCase: $classe.disciplineEnum,
+//                label: "Discipline"
+//            )
+//            .pickerStyle(.menu)
+            Text(classe.disciplineEnum.displayString)
+                .bold()
+                .padding(.horizontal, 4)
 
-            /// Nombre d'heures d'enseignement pour cette classe
-            AmountEditView(label: "Heures",
-                           amount: $classe.viewHeures,
-                           validity: .poz,
-                           currency: false)
+            // Nombre d'heures d'enseignement pour cette classe
+            AmountEditView(
+                label: "Heures",
+                amount: $classe.viewHeures,
+                validity: .poz,
+                currency: false
+            )
             .frame(maxWidth: 150)
         }
     }
@@ -80,13 +87,13 @@ struct ClasseNameGroupBox: View {
                 HStack {
                     classeView
 
-                    /// Nombre d'heures d'enseignement pour cette classe
+                    // Nombre d'heures d'enseignement pour cette classe
                     regularDisciplineView
                 }
                 VStack {
                     classeView
 
-                    /// Nombre d'heures d'enseignement pour cette classe
+                    // Nombre d'heures d'enseignement pour cette classe
                     compactDisciplineView
                 }
             }
