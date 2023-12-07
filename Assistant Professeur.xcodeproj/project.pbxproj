@@ -1274,7 +1274,6 @@
 				79F7708E2A2B9B68004E9089 /* Competencies */,
 				790510B92AB377C2006CCC5B /* BonusMalus */,
 				79F7A2952A423BFD00CEC3D5 /* Tags */,
-				79CD363829D989C900BF5ADC /* EmptyListMessage.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1376,7 +1375,6 @@
 				79F655652AEBD7C000AB3AEB /* SharedTypes */,
 				798EE56E2ADA8D9400F9AE24 /* SharedViewModifiers */,
 				79A800272AC81DE6001F2E25 /* SharedViews */,
-				79EC34D32B1B4E9700747313 /* SharedTips.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1805,6 +1803,8 @@
 		79A800272AC81DE6001F2E25 /* SharedViews */ = {
 			isa = PBXGroup;
 			children = (
+				79CD363829D989C900BF5ADC /* EmptyListMessage.swift */,
+				79EC34D32B1B4E9700747313 /* SharedTips.swift */,
 				79E7B87A2A58A050008E8B83 /* SeanceRow.swift */,
 				794F4C3A2B10E994001DB7F6 /* TimerViews */,
 				794F4C392B10E968001DB7F6 /* ProgressViews */,

@@ -146,7 +146,7 @@ extension ActivitySideBar {
                 } label: {
                     Label(
                         "Dupliquer la séquence dans un autre programme",
-                        systemImage: "doc.on.doc.fill"
+                        systemImage: "doc.on.doc"
                     )
                 }
                 .popoverTip(sequenceInfoTip2)

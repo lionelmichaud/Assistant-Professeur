@@ -108,7 +108,7 @@ struct ClasseDetail: View {
 extension ClasseDetail {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
+        ToolbarItem(placement: .automatic) {
             ControlGroup {
                 // Chronomètre de classe
                 if let school = classe.school {
@@ -162,21 +162,33 @@ extension ClasseDetail {
                         GroupTag(group: group, font: .body)
                     }
                 }
+            }
+        }
 
+        // Menu
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Menu {
                 // Importation des données
                 // Importer une liste d'élèves d'une classe depuis un fichier CSV au format PRONOTE
                 Button {
                     isShowingImportListeDialog.toggle()
                 } label: {
-                    Image(systemName: "square.and.arrow.down")
-                        .imageScale(.large)
+                    Label(
+                        "Importer une liste d'élèves",
+                        systemImage: "square.and.arrow.down"
+                    )
+                    .imageScale(.large)
                 }
                 // Confirmation de l'importation d'une liste d'élèves d'une classe
-                .confirmationDialog(
-                    "Importer une liste d'élèves",
-                    isPresented: $isShowingImportListeDialog,
-                    titleVisibility: .visible
-                ) {
+            } label: {
+                Image(systemName: "ellipsis.circle")
+            }
+
+            .confirmationDialog(
+                "Importer une liste d'élèves",
+                isPresented: $isShowingImportListeDialog,
+                titleVisibility: .visible,
+                actions: {
                     Button("Importer et ajouter") {
                         withAnimation {
                             importCsvFile = true
@@ -190,14 +202,12 @@ extension ClasseDetail {
                         }
                         importCsvFile = true
                     }
-                } message: {
+                },
+                message: {
                     Text("La liste des élèves importée doit être au format CSV de \(userContext.prefs.interoperabilityEnum == .proNote ? "PRONOTE" : "EcoleDirecte").\n") +
-                        Text("Cette action ne peut pas être annulée.")
+                    Text("Cette action ne peut pas être annulée.")
                 }
-            } label: {
-                Label("Plus", systemImage: "ellipsis.circle")
-            }
-            .controlGroupStyle(.automatic)
+            )
         }
     }
 }

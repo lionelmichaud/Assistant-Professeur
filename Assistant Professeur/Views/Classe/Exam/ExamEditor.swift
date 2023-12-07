@@ -54,7 +54,7 @@ struct ExamEditor: View {
 extension ExamEditor {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
-        ToolbarItemGroup(placement: .secondaryAction) {
+        ToolbarItem(placement: .secondaryAction) {
             // Dupliquer l'exam pour toutes les classes de même niveau
             Button {
                 // récupérer la liste des classes de même niveau
@@ -89,8 +89,8 @@ extension ExamEditor {
                 }
             } label: {
                 Label(
-                    "Dupliquer pour toutes les classes de même niveau",
-                    systemImage: "doc.on.doc.fill"
+                    "Dupliquer pour toutes les classes de ce niveau",
+                    systemImage: "doc.on.doc"
                 )
             }
         }

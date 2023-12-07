@@ -113,7 +113,13 @@ extension EleveDetail {
                     isEditing.toggle()
                 }
             } label: {
-                Text(isEditing ? "Ok" : "Modifier")
+                if isEditing {
+                    Text("Ok")
+                } else {
+                    Label(
+                        "Modifier", systemImage: "square.and.pencil"
+                    )
+                }
             }
         }
 

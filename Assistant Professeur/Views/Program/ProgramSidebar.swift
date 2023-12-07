@@ -104,19 +104,17 @@ extension ProgramSidebar {
     @ToolbarContentBuilder
     private func myToolBarContent() -> some ToolbarContent {
         // Menu
-        ToolbarItemGroup(placement: .automatic) {
+        ToolbarItem(placement: .automatic) {
             Menu {
-                Menu("Exporter") {
-                    Button {
-                        CsvImportExportMng.exportPrograms()
-                        fileExportOperation = .exportCsvPrograms
-                        isExportingModel.toggle()
-                    } label: {
-                        Label(
-                            "Exporter les progressions en CSV",
-                            systemImage: "square.and.arrow.up"
-                        )
-                    }
+                Button {
+                    CsvImportExportMng.exportPrograms()
+                    fileExportOperation = .exportCsvPrograms
+                    isExportingModel.toggle()
+                } label: {
+                    Label(
+                        "Exporter les progressions en CSV",
+                        systemImage: "square.and.arrow.up"
+                    )
                 }
             } label: {
                 Image(systemName: "ellipsis.circle")
@@ -124,7 +122,7 @@ extension ProgramSidebar {
         }
 
         // Ajouter un établissement
-        ToolbarItemGroup(placement: .status) {
+        ToolbarItem(placement: .status) {
             Button {
                 isAddingNewProgram = true
             } label: {

@@ -97,7 +97,7 @@ extension ActivityDetail {
             } label: {
                 Label(
                     "Dupliquer l'activité dans une autre séquence",
-                    systemImage: "doc.on.doc.fill"
+                    systemImage: "doc.on.doc"
                 )
             }
         }

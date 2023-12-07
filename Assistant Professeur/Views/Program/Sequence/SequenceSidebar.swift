@@ -95,8 +95,7 @@ extension SequenceSidebar {
                     navig.showProgramTimeLine(for: program)
                 } label: {
                     Label(
-                        "Infos",
-                        systemImage: "info.circle"
+                        "Infos", systemImage: "info.circle"
                     )
                 }
                 .popoverTip(programInfoTip)
@@ -106,8 +105,7 @@ extension SequenceSidebar {
                     isEditing.toggle()
                 } label: {
                     Label(
-                        "Modifier",
-                        systemImage: "square.and.pencil"
+                        "Modifier", systemImage: "square.and.pencil"
                     )
                 }
             }
