@@ -48,7 +48,7 @@ struct ProgramSplitView: View {
                 .navigationSplitViewColumnWidth(
                     min: 400,
                     ideal: 500,
-                    max: 800
+                    max: 600
                 )
 
         } detail: {

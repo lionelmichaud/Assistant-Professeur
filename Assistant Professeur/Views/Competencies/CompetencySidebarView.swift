@@ -43,10 +43,9 @@ struct CompetencySidebarView: View {
                     .style(.sectionHeader)
             }
         }
-        .onChange(
-            of: nav.selectedCompetenceType,
-            resetNavigCompetency
-        )
+        .onChange(of: nav.selectedCompetenceType) { old, new in
+                resetNavigCompetency(old, new)
+            }
         #if os(iOS)
         .navigationTitle("Compétences")
         #endif
@@ -60,17 +59,44 @@ struct CompetencySidebarView: View {
         }
     }
 
-    private func resetNavigCompetency() {
-        // si on change de type de compétence ou de discipline
-        nav.competencePath.removeLast(nav.competencePath.count)
-        // => on reset les chapitres et compétences travaillées sélectionnées
-        nav.selectedWorkedCompChapterMngObjId = nil
-        nav.selectedWorkedCompMngObjId = nil
-        // => on reset les thème, section, compétence et connaissance sélectionnées
-        nav.selectedDiscThemeMngObjId = nil
-        nav.selectedDiscSectionMngObjId = nil
-        nav.selectedDiscCompMngObjId = nil
-        nav.selectedDiscKnowMngObjId = nil
+    private func resetNavigCompetency(
+        _ old: CompetencySelection?,
+        _ new: CompetencySelection?
+    ) {
+        switch (old, new) {
+            case (_, .none):
+                // si on change de type de compétence ou de discipline
+                nav.competencePath.removeLast(nav.competencePath.count)
+                // => on reset les chapitres et compétences travaillées sélectionnées
+                nav.selectedWorkedCompChapterMngObjId = nil
+                nav.selectedWorkedCompMngObjId = nil
+                // => on reset les thème, section, compétence et connaissance sélectionnées
+                nav.selectedDiscThemeMngObjId = nil
+                nav.selectedDiscSectionMngObjId = nil
+                nav.selectedDiscCompMngObjId = nil
+                nav.selectedDiscKnowMngObjId = nil
+
+            case (_, .workedCompetencies):
+                // si on change de type de compétence ou de discipline
+                nav.competencePath.removeLast(nav.competencePath.count)
+                // => on reset les thème, section, compétence et connaissance sélectionnées
+                nav.selectedDiscThemeMngObjId = nil
+                nav.selectedDiscSectionMngObjId = nil
+                nav.selectedDiscCompMngObjId = nil
+                nav.selectedDiscKnowMngObjId = nil
+
+            case (.workedCompetencies, .disciplineCompetencies(discipline: let discipline)):
+                break
+
+            case (.none, .disciplineCompetencies):
+                break
+
+            case (.disciplineCompetencies(discipline: let oldDiscipline),
+                .disciplineCompetencies(discipline: let newDiscipline)):
+                if oldDiscipline != newDiscipline {
+                    nav.selectedDiscCompMngObjId = nil
+                }
+        }
     }
 
     @ViewBuilder

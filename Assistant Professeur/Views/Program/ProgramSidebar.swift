@@ -76,7 +76,7 @@ struct ProgramSidebar: View {
             }
         }
         #if os(iOS)
-        .navigationTitle("Progression")
+        .navigationTitle("Progressions")
         #endif
         .toolbar(content: myToolBarContent)
 
