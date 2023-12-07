@@ -25,12 +25,24 @@ struct ActivityList: View {
                 NavigationLink(value: ProgramNavigationRoute.activityDetail(activity.id)) {
                     ActivityBrowserRow(activity: activity)
                 }
-                    .customizedListItemStyle(
-                        isSelected: activity.objectID == navig.selectedActivityMngObjId
-                    )
+                .customizedListItemStyle(
+                    isSelected: activity.objectID == navig.selectedActivityMngObjId
+                )
+                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                    // supprimer l'activité et tous ses descendants
+                    Button(role: .destructive) {
+                        withAnimation {
+                            if navig.selectedActivityMngObjId == activity.objectID {
+                                navig.selectedActivityMngObjId = nil
+                            }
+                            try? activity.delete()
+                        }
+                    } label: {
+                        Label("Supprimer", systemImage: "trash")
+                    }
+                }
             }
             .onMove(perform: moveItems)
-            .onDelete(perform: deleteItems)
             .emptyListPlaceHolder(filteredActivities) {
                 ContentUnavailableView(
                     "Aucune activitée trouvée dans cette séquence...",
@@ -59,24 +71,6 @@ struct ActivityList: View {
                         activity: $0,
                         de: sequence,
                         to: destination
-                    )
-                }
-
-            try? EventEntity.saveIfContextHasChanged()
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets
-                .map {
-                    sequence.activitiesSortedByNumber[$0]
-                }
-                .forEach {
-                    // Supprimer et renuméroter les séquences restantes
-                    ProgramManager.delete(
-                        activity: $0,
-                        de: sequence
                     )
                 }
 

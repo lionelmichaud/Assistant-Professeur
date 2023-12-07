@@ -16,7 +16,7 @@ private let customLog = Logger(
 
 struct ProgramSidebar: View {
     @EnvironmentObject
-    private var navigationModel: NavigationModel
+    private var navig: NavigationModel
 
     @State
     private var isAddingNewProgram = false
@@ -35,14 +35,13 @@ struct ProgramSidebar: View {
     private var programsSections: SectionedFetchResults<String, ProgramEntity>
 
     var body: some View {
-        List(selection: $navigationModel.selectedProgramMngObjId) {
+        List(selection: $navig.selectedProgramMngObjId) {
             // pour chaque Discipline
             ForEach(programsSections) { section in
                 if section.isNotEmpty {
                     Section {
                         // pour chaque Niveau
                         ForEach(section, id: \.objectID) { program in
-//                            NavigationLink(value: program.objectID) {
                             ProgramBrowserRow(program: program)
                                 .badge(program.nbOfSequences)
 
@@ -50,8 +49,8 @@ struct ProgramSidebar: View {
                                     // supprimer le programme et tous ses descendants
                                     Button(role: .destructive) {
                                         withAnimation {
-                                            if navigationModel.selectedProgramMngObjId == program.objectID {
-                                                navigationModel.selectedProgramMngObjId = nil
+                                            if navig.selectedProgramMngObjId == program.objectID {
+                                                navig.selectedProgramMngObjId = nil
                                             }
                                             try? program.delete()
                                         }
@@ -59,7 +58,6 @@ struct ProgramSidebar: View {
                                         Label("Supprimer", systemImage: "trash")
                                     }
                                 }
-//                            }
                         }
                     } header: {
                         Text("\(section.id)")
@@ -124,7 +122,7 @@ extension ProgramSidebar {
                 Image(systemName: "ellipsis.circle")
             }
         }
-        
+
         // Ajouter un établissement
         ToolbarItemGroup(placement: .status) {
             Button {

@@ -26,9 +26,21 @@ struct SequenceList: View {
                     .customizedListItemStyle(
                         isSelected: sequence.objectID == navig.selectedSequenceMngObjId
                     )
+                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                        // supprimer la séquence et tous ses descendants
+                        Button(role: .destructive) {
+                            withAnimation {
+                                if navig.selectedSequenceMngObjId == sequence.objectID {
+                                    navig.selectedSequenceMngObjId = nil
+                                }
+                                try? sequence.delete()
+                            }
+                        } label: {
+                            Label("Supprimer", systemImage: "trash")
+                        }
+                    }
             }
             .onMove(perform: moveItems)
-            .onDelete(perform: deleteItems)
             .emptyListPlaceHolder(filteredSequences) {
                 ContentUnavailableView(
                     "Aucune séquence trouvée dans cette progression...",
@@ -57,24 +69,6 @@ struct SequenceList: View {
                         sequence: $0,
                         de: program,
                         to: destination
-                    )
-                }
-
-            try? EventEntity.saveIfContextHasChanged()
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets
-                .map {
-                    program.sequencesSortedByNumber[$0]
-                }
-                .forEach {
-                    // Supprimer et renuméroter les séquences restantes
-                    ProgramManager.delete(
-                        sequence: $0,
-                        de: program
                     )
                 }
 
