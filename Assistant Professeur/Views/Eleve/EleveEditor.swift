@@ -11,28 +11,14 @@ import SwiftUI
 
 struct EleveEditor: View {
     @EnvironmentObject
-    private var navigationModel: NavigationModel
+    private var navig: NavigationModel
 
     // MARK: - Computed Properties
 
-    private var selectedEleveId: NSManagedObjectID? {
-        navigationModel.selectedEleveMngObjId
-    }
-
-    private var selectedEleve: EleveEntity? {
-        guard let selectedEleveId else {
-            return nil
-        }
-        return EleveEntity.byObjectId(MngObjID: selectedEleveId)
-    }
-
-    private var selectedEleveExists: Bool {
-        selectedEleve != nil
-    }
-
     var body: some View {
-        if selectedEleveExists {
-            EleveDetail(eleve: selectedEleve!)
+        if let selectedEleveMngObjId = navig.selectedEleveMngObjId,
+            let selectedEleve = EleveEntity.byObjectId(MngObjID: selectedEleveMngObjId) {
+            EleveDetail(eleve: selectedEleve)
         } else {
             ContentUnavailableView(
                 "Aucun élève sélectionné...",

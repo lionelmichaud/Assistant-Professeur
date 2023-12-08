@@ -155,6 +155,8 @@ extension NavigationModel {
     func navigateTo(thisClasse: ClasseEntity) async {
         // Changer d'onglet pour l'onglet Classe
         selectedTab = .classe
+        // ATTENTION: indispensable pour laisser le temps à la RunLoop de faire les choses dans l'ordre
+        try? await Task.sleep(for: .seconds(0.1))
         // Sélectionner la Classe souhaitée
         selectedClasseMngObjId = thisClasse.objectID
     }
@@ -164,6 +166,8 @@ extension NavigationModel {
     func navigateTo(thisEleve: EleveEntity) async {
         // Changer d'onglet pour l'onglet Elève
         selectedTab = .eleve
+        // ATTENTION: indispensable pour laisser le temps à la RunLoop de faire les choses dans l'ordre
+        try? await Task.sleep(for: .seconds(0.1))
         // Sélectionner l'élève souhaité
         selectedEleveMngObjId = thisEleve.objectID
     }
