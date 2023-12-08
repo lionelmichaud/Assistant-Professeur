@@ -13,32 +13,18 @@ struct ClasseEditor: View {
     @EnvironmentObject
     private var navig: NavigationModel
 
-    // MARK: - Computed Properties
-
-    private var selectedClasseId: NSManagedObjectID? {
-        navig.selectedClasseMngObjId
-    }
-
-    private var selectedClasse: ClasseEntity? {
-        guard let selectedClasseId else {
-            return nil
-        }
-        return ClasseEntity.byObjectId(MngObjID: selectedClasseId)
-    }
-
-    private var selectedClasseExists: Bool {
-        selectedClasse != nil
-    }
-
     var body: some View {
-        if selectedClasseExists {
-            ClasseDetail(classe: selectedClasse!)
-        } else {
-            ContentUnavailableView(
-                "Aucune classe sélectionnée...",
-                systemImage: ClasseEntity.defaultImageName,
-                description: Text("Sélectionner une classe pour en visualiser les détails ici.")
-            )
+        ZStack { // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+            if let selectedClasseId = navig.selectedClasseMngObjId,
+               let selectedClasse = ClasseEntity.byObjectId(MngObjID: selectedClasseId) {
+                ClasseDetail(classe: selectedClasse)
+            } else {
+                ContentUnavailableView(
+                    "Aucune classe sélectionnée...",
+                    systemImage: ClasseEntity.defaultImageName,
+                    description: Text("Sélectionner une classe pour en visualiser les détails ici.")
+                )
+            }
         }
     }
 }

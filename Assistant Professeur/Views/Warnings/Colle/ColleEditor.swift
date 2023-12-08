@@ -10,34 +10,20 @@ import SwiftUI
 
 struct ColleEditor: View {
     @EnvironmentObject
-    private var navigationModel: NavigationModel
-
-    // MARK: - Computed properties
-
-    private var selectedColleId: NSManagedObjectID? {
-        navigationModel.selectedColleMngObjId
-    }
-
-    private var selectedColle: ColleEntity? {
-        guard let selectedColleId else {
-            return nil
-        }
-        return ColleEntity.byObjectId(MngObjID: selectedColleId)
-    }
-
-    private var selectedColleExists: Bool {
-        selectedColle != nil
-    }
+    private var navig: NavigationModel
 
     var body: some View {
-        if selectedColleExists {
-            ColleDetail(colle: selectedColle!)
-        } else {
-            ContentUnavailableView(
-                "Aucune colle sélectionnée...",
-                systemImage: ColleEntity.defaultImageName,
-                description: Text("Sélectionner une colle pour en visualiser les détails ici.")
-            )
+        ZStack { // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+            if let selectedColleId = navig.selectedColleMngObjId,
+               let selectedColle = ColleEntity.byObjectId(MngObjID: selectedColleId) {
+                ColleDetail(colle: selectedColle)
+            } else {
+                ContentUnavailableView(
+                    "Aucune colle sélectionnée...",
+                    systemImage: ColleEntity.defaultImageName,
+                    description: Text("Sélectionner une colle pour en visualiser les détails ici.")
+                )
+            }
         }
     }
 }

@@ -33,6 +33,7 @@ struct DThemeListView: View {
     var body: some View {
         TipView(editItemTip, arrowEdge: .bottom)
             .customizedTipKitStyle()
+        
         List(selection: $nav.selectedDiscThemeMngObjId) {
             // pour chaque Cycle
             ForEach(compThemeSections) { cycleThemes in

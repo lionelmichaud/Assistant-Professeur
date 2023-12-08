@@ -11,28 +11,12 @@ import SwiftUI
 
 struct DKnowListView: View {
     @EnvironmentObject
-    private var nav: NavigationModel
-
-    // MARK: - Computed Properties
-
-    private var selectedCompetencyId: NSManagedObjectID? {
-        nav.selectedDiscCompMngObjId
-    }
-
-    private var selectedCompetency: DCompEntity? {
-        guard let selectedCompetencyId else {
-            return nil
-        }
-        return DCompEntity.byObjectId(MngObjID: selectedCompetencyId)
-    }
-
-    private var selectedCompetencyExists: Bool {
-        selectedCompetency != nil
-    }
+    private var navig: NavigationModel
 
     var body: some View {
         VStack {
-            if selectedCompetencyExists {
+            if let selectedCompetencyId = navig.selectedDiscCompMngObjId,
+               let selectedCompetency = DCompEntity.byObjectId(MngObjID: selectedCompetencyId) {
                 List {
                     // Compétence disciplinaire
 //                    DCompBrowserRow(
@@ -43,14 +27,14 @@ struct DKnowListView: View {
                     // Section des Connaissances disciplinaires associées
                     // à la compétence disciplinaire sélectionnée
                     KnowledgeListSection(
-                        dCompetency: selectedCompetency!
+                        dCompetency: selectedCompetency
                     )
 
                     // Section des Compétences travaillées associées
                     // à la compétence disciplinaire sélectionnée
                     if WCompEntity.cardinal() > 0 {
                         WCompListSection(
-                            dCompetency: selectedCompetency!
+                            dCompetency: selectedCompetency
                         )
                     }
 
@@ -58,7 +42,7 @@ struct DKnowListView: View {
                     // à la compétence disciplinaire sélectionnée
                     if ActivityEntity.cardinal() > 0 {
                         ActivityListSection(
-                            dCompetency: selectedCompetency!
+                            dCompetency: selectedCompetency
                         )
                     }
                 }

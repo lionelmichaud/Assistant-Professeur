@@ -83,8 +83,8 @@ struct SchoolDetail: View {
         }
         #if os(iOS)
         .navigationTitle("Etablissement")
-        .navigationBarTitleDisplayMode(.inline)
         #endif
+        .navigationBarTitleDisplayModeInline()
     }
 }
 

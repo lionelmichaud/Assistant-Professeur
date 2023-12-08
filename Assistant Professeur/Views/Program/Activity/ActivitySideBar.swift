@@ -48,7 +48,7 @@ struct ActivitySideBar: View {
     }
 
     var body: some View {
-        ZStack {
+        ZStack { // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
             if selectedSequenceExists {
                 List(selection: $navig.selectedActivityMngObjId) {
                     if selectedSequence!.program != nil {

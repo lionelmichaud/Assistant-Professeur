@@ -48,6 +48,8 @@ struct WarningSplitView: View {
         } detail: {
             // Détail dans la 3ième colonne
             WarningDetailColumn()
+                // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+                .id(navig.selectedWarningType)
         }
         .navigationSplitViewStyle(.balanced)
     }

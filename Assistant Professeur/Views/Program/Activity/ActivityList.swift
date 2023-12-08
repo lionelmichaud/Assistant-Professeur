@@ -20,7 +20,7 @@ struct ActivityList: View {
     var body: some View {
         let filteredActivities = sequence.filteredActivitiesSortedByNumber(searchString: searchString)
 
-        return Section {
+        Section {
             ForEach(filteredActivities, id: \.objectID) { activity in
                 NavigationLink(value: ProgramNavigationRoute.activityDetail(activity.id)) {
                     ActivityBrowserRow(activity: activity)

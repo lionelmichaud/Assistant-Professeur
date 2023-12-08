@@ -10,34 +10,20 @@ import SwiftUI
 
 struct SchoolEditor: View {
     @EnvironmentObject
-    private var navigationModel: NavigationModel
-
-    // MARK: - Computed Properties
-
-    private var selectedSchoolId: NSManagedObjectID? {
-        navigationModel.selectedSchoolMngObjId
-    }
-
-    private var selectedSchool: SchoolEntity? {
-        guard let selectedSchoolId else {
-            return nil
-        }
-        return SchoolEntity.byObjectId(MngObjID: selectedSchoolId)
-    }
-
-    private var selectedSchoolExists: Bool {
-        selectedSchool != nil
-    }
+    private var navig: NavigationModel
 
     var body: some View {
-        if selectedSchoolExists {
-            SchoolDetail(school: selectedSchool!)
-        } else {
-            ContentUnavailableView(
-                "Aucun établissement sélectionné...",
-                systemImage: SchoolEntity.defaultImageName,
-                description: Text("Sélectionner un établissement pour en visualiser les détails ici.")
-            )
+        ZStack { // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+            if let selectedSchoolId = navig.selectedSchoolMngObjId,
+               let selectedSchool = SchoolEntity.byObjectId(MngObjID: selectedSchoolId) {
+                SchoolDetail(school: selectedSchool)
+            } else {
+                ContentUnavailableView(
+                    "Aucun établissement sélectionné...",
+                    systemImage: SchoolEntity.defaultImageName,
+                    description: Text("Sélectionner un établissement pour en visualiser les détails ici.")
+                )
+            }
         }
     }
 }

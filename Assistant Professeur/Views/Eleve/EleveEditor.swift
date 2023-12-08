@@ -16,15 +16,17 @@ struct EleveEditor: View {
     // MARK: - Computed Properties
 
     var body: some View {
-        if let selectedEleveMngObjId = navig.selectedEleveMngObjId,
-            let selectedEleve = EleveEntity.byObjectId(MngObjID: selectedEleveMngObjId) {
-            EleveDetail(eleve: selectedEleve)
-        } else {
-            ContentUnavailableView(
-                "Aucun élève sélectionné...",
-                systemImage: EleveEntity.defaultImageName,
-                description: Text("Sélectionner un élève pour en visualiser les détails ici.")
-            )
+        ZStack { // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+            if let selectedEleveMngObjId = navig.selectedEleveMngObjId,
+               let selectedEleve = EleveEntity.byObjectId(MngObjID: selectedEleveMngObjId) {
+                EleveDetail(eleve: selectedEleve)
+            } else {
+                ContentUnavailableView(
+                    "Aucun élève sélectionné...",
+                    systemImage: EleveEntity.defaultImageName,
+                    description: Text("Sélectionner un élève pour en visualiser les détails ici.")
+                )
+            }
         }
     }
 }

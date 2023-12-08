@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SchoolSplitView: View {
     @EnvironmentObject
-    private var navig : NavigationModel
+    private var navig: NavigationModel
 
     var body: some View {
         NavigationSplitView(
@@ -22,6 +22,8 @@ struct SchoolSplitView: View {
             // Détail dans la 2ième colonne
             NavigationStack(path: $navig.schoolPath) {
                 SchoolEditor()
+                    // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+                    .id(navig.selectedSchoolMngObjId)
                     .navigationDestination(for: SchoolNavigationRoute.self) { route in
                         route.destination()
                     }
@@ -30,7 +32,7 @@ struct SchoolSplitView: View {
     }
 }
 
-//struct SchoolSplitView_Previews: PreviewProvider {
+// struct SchoolSplitView_Previews: PreviewProvider {
 //    static func initialize() {
 //        DataBaseManager.populateWithMockData(storeType: .inMemory)
 //    }
@@ -51,7 +53,7 @@ struct SchoolSplitView: View {
 //                .previewDevice("iPhone 13")
 //        }
 //    }
-//}
+// }
 
 #Preview {
     func initialize() {

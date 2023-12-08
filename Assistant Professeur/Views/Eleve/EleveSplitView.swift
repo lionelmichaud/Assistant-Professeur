@@ -20,22 +20,18 @@ struct EleveSplitView: View {
             preferredCompactColumn: $preferredColumn
         ) {
             // 1ère colonne
-            EleveSidebarView()
+            EleveSidebarView(preferredColumn: $preferredColumn)
                 .navigationSplitViewColumnWidth(
                     min: 250,
                     ideal: 350,
                     max: 500
                 )
-                // Afficher la colonne détail sur iPhone
-                .onChange(of: navig.selectedEleveMngObjId) {
-                    if navig.selectedEleveMngObjId != nil {
-                        preferredColumn = .detail
-                    }
-                }
 
         } detail: {
             // Détail dans la 2ième colonne
             EleveEditor()
+                // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+                .id(navig.selectedEleveMngObjId)
         }
     }
 }

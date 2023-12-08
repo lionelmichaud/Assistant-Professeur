@@ -26,11 +26,11 @@ enum CompetencySelection: Hashable, Codable {
 /// Contenu de la Tab des Compétences
 struct CompetencySplitView: View {
     @EnvironmentObject
-    private var nav: NavigationModel
+    private var navig: NavigationModel
 
     var body: some View {
         NavigationSplitView(
-            columnVisibility: $nav.columnVisibility
+            columnVisibility: $navig.columnVisibility
         ) {
             // 1ère colonne
             CompetencySidebarView()
@@ -38,10 +38,14 @@ struct CompetencySplitView: View {
         } content: {
             // 2nde colonne
             CompetencyMiddleColumn()
+                // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+                .id(navig.selectedCompetenceType)
 
         } detail: {
             // Détail dans la 3ième colonne
             CompetencyDetailedColumn()
+                // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+                .id(navig.selectedCompetenceType)
         }
         .navigationSplitViewStyle(.balanced)
     }

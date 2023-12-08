@@ -10,8 +10,11 @@ import SwiftUI
 import TipKit
 
 struct EleveSidebarView: View {
+    @Binding
+    var preferredColumn: NavigationSplitViewColumn
+
     @EnvironmentObject
-    private var navigationModel: NavigationModel
+    private var navig: NavigationModel
 
     @State
     private var searchString: String = ""
@@ -31,7 +34,7 @@ struct EleveSidebarView: View {
         TipView(flagListItem, arrowEdge: .bottom)
             .tint(.orange)
             .tipBackground(HierarchicalShapeStyle.tipBackgroundColor)
-        List(selection: $navigationModel.selectedEleveMngObjId) {
+        List(selection: $navig.selectedEleveMngObjId) {
             // pour chaque Etablissement
             ForEach(schools) { school in
                 if school.nbOfClasses != 0 {
@@ -63,13 +66,19 @@ struct EleveSidebarView: View {
             prompt: "Nom,prénom,groupe,commentaire"
         )
         .autocorrectionDisabled()
+        // Afficher la colonne détail sur iPhone
+        .onChange(of: navig.selectedEleveMngObjId) {
+            if navig.selectedEleveMngObjId != nil {
+                preferredColumn = .detail
+            }
+        }
         .toolbar {
             ToolbarItemGroup(placement: .status) {
                 Text("Filtrer")
                     .foregroundColor(.secondary)
                     .padding(.trailing, 4)
                 Toggle(
-                    isOn: $navigationModel.filterObservation.animation(),
+                    isOn: $navig.filterObservation.animation(),
                     label: {
                         Image(systemName: ObservEntity.defaultImageName)
                     }
@@ -78,7 +87,7 @@ struct EleveSidebarView: View {
                 .padding(.trailing, 4)
 
                 Toggle(
-                    isOn: $navigationModel.filterColle.animation(),
+                    isOn: $navig.filterColle.animation(),
                     label: {
                         Image(systemName: ColleEntity.defaultImageName)
                     }
@@ -87,7 +96,7 @@ struct EleveSidebarView: View {
                 .padding(.trailing, 4)
 
                 Toggle(
-                    isOn: $navigationModel.filterFlag.animation(),
+                    isOn: $navig.filterFlag.animation(),
                     label: {
                         Image(systemName: "flag")
                     }
@@ -235,10 +244,10 @@ struct EleveBrowserView_Previews: PreviewProvider {
     static var previews: some View {
         initialize()
         return Group {
-            EleveSidebarView()
+            EleveSidebarView(preferredColumn: .constant(.detail))
                 .previewDevice("iPad mini (6th generation)")
 
-            EleveSidebarView()
+            EleveSidebarView(preferredColumn: .constant(.detail))
                 .previewDevice("iPhone 13")
         }
         .environmentObject(NavigationModel(selectedEleveMngObjId: EleveEntity.all().first!.objectID))

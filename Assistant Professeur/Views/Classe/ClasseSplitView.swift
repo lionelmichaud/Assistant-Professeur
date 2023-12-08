@@ -31,6 +31,8 @@ struct ClasseSplitView: View {
             // Détail dans la 2ième colonne
             NavigationStack(path: $navig.classPath) {
                 ClasseEditor()
+                    // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+                    .id(navig.selectedClasseMngObjId)
                     .navigationDestination(for: ClasseNavigationRoute.self) { route in
                         route.destination(horizontalSizeClass: horizontalSizeClass)
                     }

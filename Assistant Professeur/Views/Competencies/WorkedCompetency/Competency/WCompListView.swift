@@ -40,7 +40,7 @@ struct WCompListView: View {
     }
 
     var body: some View {
-        Group {
+        ZStack { // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
             if selectedChapterExists,
                let competencies = selectedChapter?.allWorkedCompetenciesSortedByNumber {
                 if competencies.isNotEmpty {

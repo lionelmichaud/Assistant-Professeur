@@ -45,6 +45,8 @@ struct ProgramSplitView: View {
         } content: {
             // 2nde colonne
             SequenceSidebar()
+                // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+                .id(navig.selectedProgramMngObjId)
                 .navigationSplitViewColumnWidth(
                     min: 400,
                     ideal: 500,
@@ -55,6 +57,8 @@ struct ProgramSplitView: View {
             // 3ième colonne
             NavigationStack(path: $navig.programPath) {
                 ActivitySideBar()
+                    // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+                    .id(navig.selectedSequenceMngObjId)
                     .navigationDestination(for: ProgramNavigationRoute.self) { route in
                         route.destination()
                     }

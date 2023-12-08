@@ -13,21 +13,27 @@ struct WarningDetailColumn: View {
     private var navig: NavigationModel
 
     var body: some View {
-        switch navig.selectedWarningType {
-            case .none:
-                ContentUnavailableView(
-                    "Aucun type d'avertissement sélectionné...",
-                    systemImage: "exclamationmark.triangle",
-                    description: Text("Sélectionner un type d'avertissement.")
-                )
+        ZStack { // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+            switch navig.selectedWarningType {
+                case .none:
+                    ContentUnavailableView(
+                        "Aucun type d'avertissement sélectionné...",
+                        systemImage: "exclamationmark.triangle",
+                        description: Text("Sélectionner un type d'avertissement.")
+                    )
 
-            case .colle:
-                ColleEditor()
+                case .colle:
+                    ColleEditor()
+                        // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+                        .id(navig.selectedColleMngObjId)
 
-            case .observation:
-                ObservEditor()
+                case .observation:
+                    ObservEditor()
+                        // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+                        .id(navig.selectedObservMngObjId)
+            }
         }
-    }
+        }
 }
 
 #Preview {
