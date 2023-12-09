@@ -85,7 +85,7 @@ struct CompetencySidebarView: View {
                 nav.selectedDiscCompMngObjId = nil
                 nav.selectedDiscKnowMngObjId = nil
 
-            case (.workedCompetencies, .disciplineCompetencies(discipline: let discipline)):
+            case (.workedCompetencies, .disciplineCompetencies):
                 break
 
             case (.none, .disciplineCompetencies):

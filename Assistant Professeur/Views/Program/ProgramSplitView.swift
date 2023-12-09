@@ -70,38 +70,29 @@ struct ProgramSplitView: View {
         // Afficher la colonne du milieu sur iPhone
         .onChange(of: navig.selectedProgramMngObjId) {
             navig.changeSelectedProgram()
-            if navig.selectedProgramMngObjId != nil {
-                preferredColumn = .content
-            }
+//            if navig.selectedProgramMngObjId != nil {
+//                preferredColumn = .content
+//            }
         }
 
         // Désélectionner l'activité quand on change de séquence
         // Afficher la colonne détail sur iPhone
         .onChange(of: navig.selectedSequenceMngObjId) {
             navig.changeSelectedSequence()
-            if navig.selectedSequenceMngObjId != nil {
-                preferredColumn = .detail
-            }
+//            if navig.selectedSequenceMngObjId != nil {
+//                preferredColumn = .detail
+//            }
         }
 
         // Afficher l'activité quand on en sélectionne une
         // Afficher la colonne détail sur iPhone
-        .onChange(of: navig.selectedActivityMngObjId, initial: true) {
-            if navig.selectedActivityMngObjId != nil {
-                preferredColumn = .detail
-            }
-        }
-//        .onChange(of: preferredColumn) { old, new in
-//            print(">> preferredColumn changed from \(old) to \(new)")
+//        .onChange(of: navig.selectedActivityMngObjId, initial: true) {
+//            if navig.selectedActivityMngObjId != nil {
+//                preferredColumn = .detail
+//            }
 //        }
     }
 }
-
-// struct ProgramSplitView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProgramSplitView()
-//    }
-// }
 
 #Preview {
     func initialize() {
