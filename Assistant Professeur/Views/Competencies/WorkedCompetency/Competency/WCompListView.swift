@@ -58,8 +58,8 @@ struct WCompListView: View {
                         .customizedListItemStyle(
                             isSelected: competency.objectID == nav.selectedWorkedCompMngObjId
                         )
+                        // supprimer la compétence
                         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                            // supprimer la compétence
                             Button(role: .destructive) {
                                 withAnimation {
                                     if nav.selectedWorkedCompMngObjId == competency.objectID {
@@ -71,8 +71,8 @@ struct WCompListView: View {
                                 Label("Supprimer", systemImage: "trash")
                             }
                         }
+                        // modifier la compétence
                         .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                            // modifier la compétence
                             Button {
                                 editItemTip.invalidate(reason: .actionPerformed)
                                 editedWorkedCompetency = competency

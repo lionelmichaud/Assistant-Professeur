@@ -29,8 +29,8 @@ struct WCompMasteryLevels: View {
             Group {
                 Text(workedComp.viewAcronym)
                     .fontWeight(.bold) +
-                Text(". ") +
-                Text(workedComp.viewDescription)
+                    Text(". ") +
+                    Text(workedComp.viewDescription)
                     .foregroundColor(.secondary)
             }
             .lineLimit(5)
@@ -57,8 +57,8 @@ struct WCompMasteryLevels: View {
                 .customizedListItemStyle(
                     isSelected: masteryLevel == selectedLevel
                 )
+                // modifier le critère de maîtrise de compétence
                 .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                    // modifier le critère de maîtrise de compétence
                     Button {
                         editedLevel = masteryLevel
                     } label: {

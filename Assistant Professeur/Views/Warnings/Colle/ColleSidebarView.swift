@@ -127,7 +127,7 @@ struct ColleSidebarClasseSubview: View {
                     .customizedListItemStyle(
                         isSelected: colle.objectID == navig.selectedColleMngObjId
                     )
-                    .swipeActions {
+                    .swipeActions(allowsFullSwipe: false) {
                         // supprimer la Colle
                         Button(role: .destructive) {
                             withAnimation {

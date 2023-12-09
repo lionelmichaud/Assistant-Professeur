@@ -183,7 +183,7 @@ struct EleveSidebarClasseSubview: View {
                                 }
                             }
 
-                            .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 // flager un élève
                                 Button {
                                     withAnimation {

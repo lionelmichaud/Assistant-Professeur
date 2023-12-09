@@ -130,7 +130,7 @@ struct ObservSidebarClasseSubview: View {
                     .customizedListItemStyle(
                         isSelected: observ.objectID == navig.selectedObservMngObjId
                     )
-                    .swipeActions {
+                    .swipeActions(allowsFullSwipe: false) {
                         // supprimer l'observation
                         Button(role: .destructive) {
                             withAnimation {

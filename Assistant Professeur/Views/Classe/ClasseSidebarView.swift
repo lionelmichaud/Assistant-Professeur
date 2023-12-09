@@ -88,7 +88,7 @@ struct ClasseSidebarSchoolSubview: View {
                     }
                 }
 
-                .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                .swipeActions(edge: .leading, allowsFullSwipe: true) {
                     // modifier le flag de la classe
                     Button {
                         withAnimation {

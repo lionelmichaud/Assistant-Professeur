@@ -39,8 +39,8 @@ struct WCompChapterListView: View {
                                 .customizedListItemStyle(
                                     isSelected: workedChapter.objectID == nav.selectedWorkedCompChapterMngObjId
                                 )
+                                // supprimer le chapitre
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                    /// supprimer le chapitre
                                     Button(role: .destructive) {
                                         withAnimation {
                                             if nav.selectedWorkedCompChapterMngObjId == workedChapter.objectID {
@@ -52,8 +52,8 @@ struct WCompChapterListView: View {
                                         Label("Supprimer", systemImage: "trash")
                                     }
                                 }
+                                // modifier le chapitre
                                 .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                                    /// modifier le chapitre
                                     Button {
                                         editedWorkedChapter = workedChapter
                                     } label: {
@@ -83,7 +83,7 @@ struct WCompChapterListView: View {
         #endif
         .toolbar(content: myToolBarContent)
 
-        /// Modal Sheet de création d'un chapitre de compétence socle
+        // Modal Sheet de création d'un chapitre de compétence socle
         .sheet(
             isPresented: $isAddingObject
             //            onDismiss: ProgramEntity.rollback()
@@ -98,7 +98,7 @@ struct WCompChapterListView: View {
             }
         }
 
-        /// Modal Sheet de modification d'un chapitre de compétence socle
+        // Modal Sheet de modification d'un chapitre de compétence socle
         .sheet(
             item: $editedWorkedChapter,
             onDismiss: didDismiss
@@ -124,7 +124,7 @@ extension WCompChapterListView {
     @ToolbarContentBuilder
     func myToolBarContent() -> some ToolbarContent {
         ToolbarItemGroup(placement: .status) {
-            /// Ajouter un chapitre de compétences du socle commun
+            // Ajouter un chapitre de compétences du socle commun
             Button {
                 isAddingObject = true
             } label: {
@@ -137,7 +137,7 @@ extension WCompChapterListView {
         }
 
         ToolbarItemGroup(placement: .navigationBarTrailing) {
-            /// Modifier un chapitre de compétences du socle commun
+            // Modifier un chapitre de compétences du socle commun
             if let selectedObject = nav.selectedWorkedCompChapterMngObjId {
                 Button {
                     editedWorkedChapter =

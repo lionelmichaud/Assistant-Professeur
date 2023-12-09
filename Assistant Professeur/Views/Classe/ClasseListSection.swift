@@ -73,7 +73,7 @@ struct ClasseListSection: View {
                         }
                     }
 
-                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
                         // flager une classe
                         Button {
                             withAnimation {
