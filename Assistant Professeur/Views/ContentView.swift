@@ -35,6 +35,9 @@ struct ContentView: View {
     @State
     private var alertInfo = AlertInfo()
 
+    @State
+    private var showTabBar = true
+
     var body: some View {
         TabView(selection: navig.tabSelection()) {
             // Les établissements scolaires
@@ -47,6 +50,7 @@ struct ContentView: View {
                 }
                 .tag(NavigationModel.TabSelection.school)
                 .badge(SchoolEntity.cardinal())
+                .toolbar(showTabBar ? .visible : .hidden, for: .tabBar)
 
             // Les classes
             ClasseSplitView()
@@ -58,6 +62,7 @@ struct ContentView: View {
                 }
                 .tag(NavigationModel.TabSelection.classe)
                 .badge(ClasseEntity.cardinal())
+                .toolbar(showTabBar ? .visible : .hidden, for: .tabBar)
 
             // Les élèves
             EleveSplitView()
@@ -69,6 +74,7 @@ struct ContentView: View {
                 }
                 .tag(NavigationModel.TabSelection.eleve)
                 .badge(EleveEntity.cardinal())
+                .toolbar(showTabBar ? .visible : .hidden, for: .tabBar)
 
             // Les observations données aux élèves
             // Les colles données aux élèves
@@ -81,6 +87,7 @@ struct ContentView: View {
                 }
                 .tag(NavigationModel.TabSelection.warning)
                 .badge(ObservEntity.cardinal() + ColleEntity.cardinal())
+                .toolbar(showTabBar ? .visible : .hidden, for: .tabBar)
 
             // Les programmes scolaires
             ProgramSplitView()
@@ -92,6 +99,7 @@ struct ContentView: View {
                 }
                 .tag(NavigationModel.TabSelection.program)
                 .badge(ProgramEntity.cardinal())
+                .toolbar(showTabBar ? .visible : .hidden, for: .tabBar)
 
             if isPad() || isMac() {
                 // Les compétences
@@ -107,6 +115,10 @@ struct ContentView: View {
         }
         .environmentObject(navig)
         .badgeProminence(.decreased)
+        .onRotate { newOrientation in
+            showTabBar = isPhone() &&
+                (newOrientation.isPortrait || newOrientation.isFlat)
+        }
 
         // Alerte en cas d'erreur d'initilisation de l'App
         .errorAlert(
