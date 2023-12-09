@@ -423,13 +423,13 @@
 							<key>EndingColumnNumber</key>
 							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>222</string>
+							<string>265</string>
 							<key>StartingColumnNumber</key>
 							<string>0</string>
 							<key>StartingLineNumber</key>
-							<string>221</string>
+							<string>265</string>
 							<key>Timestamp</key>
-							<string>723746140.4202271</string>
+							<string>723813700.271718</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -445,17 +445,13 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>        .task(id: taskId) {
-</string>
+						<string></string>
 						<key>leading</key>
-						<string>
-        // Filtrer les élèves
+						<string>    }
+}
 </string>
 						<key>trailing</key>
-						<string>            filteredEleveInClasse = classe.filteredElevesSortedByName(
-                searchString: searchString,
-                withObservation: navigationModel.filterObservation,
-</string>
+						<string></string>
 					</dict>
 					<key>type</key>
 					<string>bookmark</string>

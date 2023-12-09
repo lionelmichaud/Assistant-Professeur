@@ -9,6 +9,7 @@ import HelpersView
 import SwiftUI
 import TipKit
 
+/// Listes imriquées de tous les Etablissements / Classes / Elèves
 struct EleveSidebarView: View {
     @Binding
     var preferredColumn: NavigationSplitViewColumn
@@ -21,7 +22,7 @@ struct EleveSidebarView: View {
     // @Environment(\.isSearching) var isSearching
     // @Environment(\.dismissSearch) var dismissSearch
 
-    // Create an instance of your tip content.
+    /// Create an instance of your tip content.
     var flagListItem = FlagEleveItemTip()
 
     @FetchRequest<SchoolEntity>(
@@ -108,6 +109,7 @@ struct EleveSidebarView: View {
     }
 }
 
+/// Liste imbriquée des élèves dans un Etablissement / Classes / Elèves
 struct EleveSidebarSchoolSubview: View {
     @ObservedObject
     var school: SchoolEntity
@@ -125,6 +127,7 @@ struct EleveSidebarSchoolSubview: View {
     }
 }
 
+/// Liste  des élèves dans une Classe
 struct EleveSidebarClasseSubview: View {
     @ObservedObject
     var classe: ClasseEntity
@@ -132,7 +135,7 @@ struct EleveSidebarClasseSubview: View {
     let searchString: String
 
     @EnvironmentObject
-    private var navigationModel: NavigationModel
+    private var navig: NavigationModel
 
     @Environment(UserContext.self)
     private var userContext
@@ -151,9 +154,9 @@ struct EleveSidebarClasseSubview: View {
 
     var taskId: String {
         searchString
-            + navigationModel.filterFlag.description
-            + navigationModel.filterColle.description
-            + navigationModel.filterObservation.description
+            + navig.filterFlag.description
+            + navig.filterColle.description
+            + navig.filterObservation.description
             + (classe.id?.uuidString ?? "nil")
     }
 
@@ -169,8 +172,8 @@ struct EleveSidebarClasseSubview: View {
                                 Button(role: .destructive) {
                                     withAnimation {
                                         // supprimer l'élève et tous ses descendants
-                                        if navigationModel.selectedEleveMngObjId == eleve.objectID {
-                                            navigationModel.selectedEleveMngObjId = nil
+                                        if navig.selectedEleveMngObjId == eleve.objectID {
+                                            navig.selectedEleveMngObjId = nil
                                         }
                                         // ATTENTION: à mettre en dernier
                                         try? eleve.delete()
@@ -222,16 +225,22 @@ struct EleveSidebarClasseSubview: View {
         .task(id: taskId) {
             filteredEleveInClasse = classe.filteredElevesSortedByName(
                 searchString: searchString,
-                withObservation: navigationModel.filterObservation,
-                withColle: navigationModel.filterColle,
-                withFlag: navigationModel.filterFlag,
+                withObservation: navig.filterObservation,
+                withColle: navig.filterColle,
+                withFlag: navig.filterFlag,
                 nameSortOrderEnum: userContext.prefs.nameSortOrderEnum
             )
-            numberOfHit = filteredEleveInClasse.count
-            isClasseExpanded = (searchString.isNotEmpty && numberOfHit > 0) ||
-                (navigationModel.filterObservation && numberOfHit > 0) ||
-                (navigationModel.filterColle && numberOfHit > 0) ||
-                (navigationModel.filterFlag && numberOfHit > 0)
+
+            // Si un filtre est activé, déplier les classes qui contienent des résultats positifs
+            if searchString.isNotEmpty || navig.filterObservation ||
+                navig.filterColle || navig.filterFlag {
+                isClasseExpanded = filteredEleveInClasse.count > 0
+            } else if let selectedEleveMngObjId = navig.selectedEleveMngObjId,
+               let selectedEleve = EleveEntity.byObjectId(MngObjID: selectedEleveMngObjId),
+               // Déplier la classe si elle contient l'élève en cours de sélection
+               selectedEleve.classe == classe {
+                isClasseExpanded = true
+            }
         }
     }
 }
