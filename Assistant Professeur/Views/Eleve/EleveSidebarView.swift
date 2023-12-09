@@ -221,7 +221,7 @@ struct EleveSidebarClasseSubview: View {
         }
         .padding(.leading, 4)
 
-        // Filtrer les élèves
+        // Filtrer les élèves et gérer le dépliement des classes
         .task(id: taskId) {
             filteredEleveInClasse = classe.filteredElevesSortedByName(
                 searchString: searchString,
@@ -236,9 +236,9 @@ struct EleveSidebarClasseSubview: View {
                 navig.filterColle || navig.filterFlag {
                 isClasseExpanded = filteredEleveInClasse.count > 0
             } else if let selectedEleveMngObjId = navig.selectedEleveMngObjId,
-               let selectedEleve = EleveEntity.byObjectId(MngObjID: selectedEleveMngObjId),
-               // Déplier la classe si elle contient l'élève en cours de sélection
-               selectedEleve.classe == classe {
+                      let selectedEleve = EleveEntity.byObjectId(MngObjID: selectedEleveMngObjId),
+                      selectedEleve.classe == classe {
+                // Déplier la classe si elle contient l'élève en cours de sélection
                 isClasseExpanded = true
             }
         }

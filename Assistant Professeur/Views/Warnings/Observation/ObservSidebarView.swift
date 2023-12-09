@@ -8,9 +8,10 @@
 import HelpersView
 import SwiftUI
 
+/// Listes imriquées de toutes les Observations de tous les Etablissements / Classes
 struct ObservSidebarView: View {
     @EnvironmentObject
-    private var navigationModel: NavigationModel
+    private var navig: NavigationModel
 
     @State
     private var filterTodoObservation = true
@@ -22,7 +23,7 @@ struct ObservSidebarView: View {
     private var schools: FetchedResults<SchoolEntity>
 
     var body: some View {
-        List(selection: $navigationModel.selectedObservMngObjId) {
+        List(selection: $navig.selectedObservMngObjId) {
             if ObservEntity.all().isEmpty {
                 ContentUnavailableView(
                     "Aucune observation actuellement...",
@@ -67,50 +68,21 @@ struct ObservSidebarView: View {
     }
 }
 
+/// Listes imriquées de toutes les Observations de toutes les Classes d'un établissement
 struct ObservSidebarSchoolSubview: View {
     @ObservedObject
     var school: SchoolEntity
 
     var filterObservation: Bool
 
-    @EnvironmentObject
-    private var navig: NavigationModel
-
-    @Environment(UserContext.self)
-    private var userContext
-
     var body: some View {
         // pour chaque Classe
         ForEach(school.classesSortedByLevelNumber) { classe in
             if someFilteredObservations(dans: classe) {
-                DisclosureGroup {
-                    // pour chaque Observation
-                    ForEach(filteredSortedObservs(dans: classe), id: \.objectID) { observ in
-                        ObservBrowserRow(observ: observ)
-                            .customizedListItemStyle(
-                                isSelected: observ.objectID == navig.selectedObservMngObjId
-                            )
-                            .swipeActions {
-                                // supprimer l'observation
-                                Button(role: .destructive) {
-                                    withAnimation {
-                                        if navig.selectedObservMngObjId == observ.objectID {
-                                            navig.selectedObservMngObjId = nil
-                                        }
-                                        try? observ.delete()
-                                    }
-                                } label: {
-                                    Label("Supprimer", systemImage: "trash")
-                                }
-                            }
-                    }
-                } label: {
-                    Text(classe.displayString)
-                        .font(.callout)
-                        .foregroundColor(.secondary)
-                        .fontWeight(.bold)
-                }
-                .padding(.leading, 4)
+                ObservSidebarClasseSubview(
+                    classe: classe,
+                    filterObservation: filterObservation
+                )
             } else {
                 EmptyView()
             }
@@ -132,6 +104,66 @@ struct ObservSidebarSchoolSubview: View {
             isVerified: filterObservation ? false : nil
         ) > 0
     }
+}
+
+/// Listes imriquées de toutes les Observations d'une Classe d'un établissement
+struct ObservSidebarClasseSubview: View {
+    @ObservedObject
+    var classe: ClasseEntity
+
+    var filterObservation: Bool
+
+    @EnvironmentObject
+    private var navig: NavigationModel
+
+    @Environment(UserContext.self)
+    private var userContext
+
+    @State
+    private var isClasseExpanded = false
+
+    var body: some View {
+        DisclosureGroup(isExpanded: $isClasseExpanded) {
+            // pour chaque Observation
+            ForEach(filteredSortedObservs(dans: classe), id: \.objectID) { observ in
+                ObservBrowserRow(observ: observ)
+                    .customizedListItemStyle(
+                        isSelected: observ.objectID == navig.selectedObservMngObjId
+                    )
+                    .swipeActions {
+                        // supprimer l'observation
+                        Button(role: .destructive) {
+                            withAnimation {
+                                if navig.selectedObservMngObjId == observ.objectID {
+                                    navig.selectedObservMngObjId = nil
+                                }
+                                try? observ.delete()
+                            }
+                        } label: {
+                            Label("Supprimer", systemImage: "trash")
+                        }
+                    }
+            }
+        } label: {
+            Text(classe.displayString)
+                .font(.callout)
+                .foregroundColor(.secondary)
+                .fontWeight(.bold)
+        }
+        .padding(.leading, 4)
+        // Gérer le dépliement des classes
+        .onAppear {
+            if let selectedObservMngObjId = navig.selectedObservMngObjId,
+               let selectedObserv = ObservEntity.byObjectId(MngObjID: selectedObservMngObjId),
+               let slelectedClasse = selectedObserv.eleve?.classe,
+               slelectedClasse == classe {
+                // Déplier la classe si elle contient l'élève en cours de sélection
+                isClasseExpanded = true
+            }
+        }
+    }
+
+    // MARK: - Methods
 
     private func filteredSortedObservs(dans classe: ClasseEntity) -> [ObservEntity] {
         classe.filteredSortedObservations(
