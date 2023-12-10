@@ -116,7 +116,7 @@ struct ContentView: View {
         .environmentObject(navig)
         .badgeProminence(.decreased)
         .onRotate { newOrientation in
-            showTabBar = isPhone() &&
+            showTabBar = !isPhone() ||
                 (newOrientation.isPortrait || newOrientation.isFlat)
         }
 
