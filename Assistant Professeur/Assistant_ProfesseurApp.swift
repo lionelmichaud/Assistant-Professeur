@@ -66,30 +66,33 @@ struct Assistant_ProfesseurApp: App {
             return
         }
 
-        // vérifier la compatibilité de version entre l'application et les documents utilisateurs
+        // Vérifier la compatibilité de version entre l'application et les documents utilisateurs.
         do {
             let documentsAreCompatibleWithAppVersion =
                 try PersistenceManager
                     .checkCompatibilityWithAppVersion(of: documentsFolder)
             #if DEBUG
-                print(">> Compatibilité de versions entre Appli / Dossier Document : \(documentsAreCompatibleWithAppVersion.frenchString)")
+                print(">> Compatibilité de versions entre Appli / Contenu du dossier Document : \(documentsAreCompatibleWithAppVersion.frenchString)")
             #endif
             if !documentsAreCompatibleWithAppVersion {
                 do {
-                    // charger tous les documents de l'appli pour rétablir la compatibilité
+                    // Copier tous les documents du Bundle de l'appli vers le dossier Document
+                    // pour rétablir la compatibilité.
                     try PersistenceManager()
                         .forcedImportAllFilesFromApp(
-                            fileExtensions: ["json", "jpg", "png", "pdf", "wave"]
+                            fileExtensions: ["json", "jpg", "png", "pdf"]
                         )
 
                 } catch {
-                    AppState.shared.initError = AppInitError.failedToLoadApplicationData
+                    let error = AppInitError.failedToLoadApplicationData
+                    customLog.log(level: .error, "\(error.errorDescription ?? "forcedImportAllFilesFromApp"))")
+                    AppState.shared.initError = error
                 }
             }
         } catch {
             let error = FileError.failedToCheckCompatibility
-            customLog.log(level: .fault, "\(error.rawValue))")
-            AppState.shared.initError = AppInitError.failedToCheckCompatibility
+            customLog.log(level: .error, "\(error.rawValue))")
+            AppState.shared.initError = error
         }
         #if DEBUG
             print(">> Assistant_ProfesseurApp.init() initialization has completed")

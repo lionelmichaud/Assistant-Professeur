@@ -166,7 +166,7 @@ public struct PersistenceManager {
 
     // MARK: - Type Methods
 
-    /// Vérifier la compatibilité de version entre l'App et le directory `targetFolder`
+    /// Vérifier la compatibilité de version entre l'App et le fichier `AppVersion.fileName` du directory `targetFolder`
     /// - Note: Les versions sont compatibles si elles portent la même version majeure
     public static func checkCompatibilityWithAppVersion(of targetFolder: Folder) throws -> Bool {
         if let appMajorVersion = AppVersion.shared.version.major {
@@ -191,7 +191,7 @@ public struct PersistenceManager {
                         default:
                             // à cause d'une autre raison
                             customLog.log(
-                                level: .fault,
+                                level: .error,
                                 "\(FileError.failedToCheckCompatibility.rawValue) de '\(AppVersion.fileName)'"
                             )
                             throw FileError.failedToCheckCompatibility
@@ -199,7 +199,7 @@ public struct PersistenceManager {
                 } else {
                     // à cause d'une autre raison
                     customLog.log(
-                        level: .fault,
+                        level: .error,
                         "\(FileError.failedToCheckCompatibility.rawValue) de '\(AppVersion.fileName)'"
                     )
                     throw FileError.failedToCheckCompatibility
@@ -208,7 +208,7 @@ public struct PersistenceManager {
 
         } else {
             customLog.log(
-                level: .fault,
+                level: .error,
                 "\(FileError.failedToCheckCompatibility.rawValue) de '\(AppVersion.fileName)'"
             )
             throw FileError.failedToCheckCompatibility

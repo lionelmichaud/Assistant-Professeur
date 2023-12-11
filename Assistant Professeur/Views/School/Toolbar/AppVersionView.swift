@@ -6,7 +6,6 @@
 //
 
 import AppFoundation
-import Files
 import SwiftUI
 
 struct AppVersionView: View {
@@ -106,17 +105,42 @@ struct DirectoriesListView: View {
         DisclosureGroup(
             isExpanded: $expanded,
             content: {
-                Text("resourcePath: \n").font(.headline) + Text(Bundle.main.resourcePath!)
-                Text("Application: \n").font(.headline) + Text(Folder.application!.path)
-                Text("Home: \n").font(.headline) + Text(Folder.home.path)
+                Text("Resources & Application:")
+                    .font(.headline)
+                    .padding(.bottom, 2)
+                Text(Bundle.main.resourcePath!)
+                    .textSelection(.enabled)
+
+                Text("Application Support:")
+                    .font(.headline)
+                    .padding(.bottom, 2)
+                Text(URL.applicationSupportDirectory.path(percentEncoded: false))
+                    .textSelection(.enabled)
+
+                Text("Home:")
+                    .font(.headline)
+                    .padding(.bottom, 2)
+                Text(URL.homeDirectory.path(percentEncoded: false))
+                    .textSelection(.enabled)
+
                 VStack(alignment: .leading) {
-                    Text("Documents:").font(.headline)
+                    Text("Documents:")
+                        .font(.headline)
                         .padding(.bottom, 2)
-                    Text(Folder.documents?.path ?? "introuvable")
+                    Text(URL.documentsDirectory.path(percentEncoded: false))
                         .textSelection(.enabled)
                 }
-                Text("Library: \n").font(.headline) + Text(Folder.library?.path ?? "introuvable")
-                Text("temporary: \n").font(.headline) + Text(Folder.temporary.path)
+                Text("Library:")
+                    .font(.headline)
+                    .padding(.bottom, 2)
+                Text(URL.libraryDirectory.path(percentEncoded: false))
+                    .textSelection(.enabled)
+
+                Text("temporary:")
+                    .font(.headline)
+                    .padding(.bottom, 2)
+                Text(URL.temporaryDirectory.path(percentEncoded: false))
+                    .textSelection(.enabled)
             },
             label: {
                 Text("REPERTOIRES DE L'APPLICATION").font(.headline)
