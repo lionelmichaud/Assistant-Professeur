@@ -45,25 +45,16 @@ struct Assistant_ProfesseurApp: App {
     init() {
         #if DEBUG
             print(">> Assistant_ProfesseurApp.init() initialization has started")
-        #endif
 
-        // Stopper les éventuelles Live Activity en cours
-        #if canImport(ActivityKit)
-            //            Task {
-            //                await LiveActivityManager.shared.endAllRunningActivities()
-            //            }
-        #endif
-
-        #if DEBUG
-            // Optional configure tips for testing.
+        // Optional configure tips for testing.
             self.setupTipsForTesting()
-
         #endif
+
         // Configure and load all tips in the app.
         try? Tips.configure()
 
+        // Charger les séances du jour
         Task {
-            // Charger les séances du jour
             await TodaySeances.shared.loadTodaySeances()
         }
 
@@ -113,13 +104,13 @@ struct Assistant_ProfesseurApp: App {
             // try? Tips.showAllTipsForTesting()
 
             // Show some tips, but not all.
-            // try? Tips.showTipsForTesting([tip1, tip2, tip3])
+            // try Tips.showTipsForTesting([tip1, tip2, tip3])
 
             // Hide all tips defined in the app.
             Tips.hideAllTipsForTesting()
 
             // Purge all TipKit-related data.
-            //try Tips.resetDatastore()
+            // try Tips.resetDatastore()
         } catch {
             print(error)
         }

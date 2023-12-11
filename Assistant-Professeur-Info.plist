@@ -21,7 +21,7 @@
 		</dict>
 	</array>
 	<key>NSCalendarsFullAccessUsageDescription</key>
-	<string>Cette application demande l&apos;accès à votre agenda pour se synchroniser avec votre emploi du temps</string>
+	<string>L'accès à votre agenda permet de synchroniser le contenu de vos cours à venir avec votre agenda.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

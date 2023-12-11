@@ -3,6 +3,11 @@
   },
   "revisionHistory" : [
       {
+          "version" : "0.13.0",
+          "date" : "2023-12-11T22:00:00Z",
+          "comment" : "- ."
+      },
+     {
           "version" : "0.2.0",
           "date" : "2023-09-17T22:00:00Z",
           "comment" : "- Clonage de séquence et d'activité pédagogiques.\n- Statisques des Bonus / Malus."
