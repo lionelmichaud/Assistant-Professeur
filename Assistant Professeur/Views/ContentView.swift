@@ -303,6 +303,7 @@ extension ContentView {
 
 extension ContentView {
     /// Persistence dans SceneStorage de l'état de navigation
+    @MainActor
     private func persistNavigationData() async {
         if let navigationData {
             // Remplacer l'état de navigation initial par celui récupéré à partir
@@ -317,6 +318,7 @@ extension ContentView {
     }
 
     /// Vérifier la cohérence entre les autorisations et les préférences
+    @MainActor
     private func checkNotificationAuthorisation() async {
         guard let prefs = userContext.prefs,
               prefs.notificationsEnabled else {
@@ -340,6 +342,7 @@ extension ContentView {
     }
 
     /// Vérifier la liste des ToDo du jour et alerter l'utilisateur si besoin
+    @MainActor
     private func checkTodayToDoList() async {
         guard let prefs = userContext.prefs,
               prefs.launchAlertEnabled else {
