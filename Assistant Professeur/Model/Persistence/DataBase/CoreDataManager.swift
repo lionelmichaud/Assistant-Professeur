@@ -5,11 +5,11 @@
 //  Created by Mohammad Azam on 2/23/21.
 //
 
+import AppFoundation
 import CoreData
 import Foundation
 import os
 import SwiftUI
-import AppFoundation
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -33,23 +33,6 @@ class CoreDataManager {
 
     static var storeType: StoreType = .persisted
 
-    static var managedObjectModel: NSManagedObjectModel = {
-        let bundle = Bundle(for: CoreDataManager.self)
-
-        guard let url = bundle.url(
-            forResource: modelName,
-            withExtension: "momd"
-        ) else {
-            fatalError("Failed to locate momd file for \(modelName)")
-        }
-
-        guard let model = NSManagedObjectModel(contentsOf: url) else {
-            fatalError("Failed to load momd file for \(modelName)")
-        }
-
-        return model
-    }()
-
     // MARK: - Stored Poperties
 
     /// The main queue’s managed object context.
@@ -72,7 +55,7 @@ class CoreDataManager {
     }
 
     /// Persitent storage for Core Data synchronized with CloudKit
-    private var persistentCloudKitContainer: NSPersistentCloudKitContainer
+    private var cloudKitContainer: NSPersistentCloudKitContainer
 
     #if DEBUG
         /// In memory storage for Previews and Tests Core Data
@@ -83,7 +66,7 @@ class CoreDataManager {
 
     /// The main queue’s managed object context for Views only
     private var viewContext: NSManagedObjectContext {
-        return persistentCloudKitContainer.viewContext
+        return cloudKitContainer.viewContext
     }
 
     #if DEBUG
@@ -101,19 +84,28 @@ class CoreDataManager {
             print(">> CoreDataManager.init() initialization has started")
         #endif
 
+        guard let url = Bundle.main.url(
+            forResource: CoreDataManager.modelName,
+            withExtension: "momd"
+        ) else {
+            fatalError("Failed to locate momd file for \(CoreDataManager.modelName)")
+        }
+
+        guard let coreDataModel = NSManagedObjectModel(contentsOf: url) else {
+            fatalError("Failed to load momd file for \(CoreDataManager.modelName)")
+        }
+
         #if DEBUG
-            inMemoryContainer =
-                NSPersistentContainer(
-                    name: CoreDataManager.modelName,
-                    managedObjectModel: Self.managedObjectModel
-                )
+            inMemoryContainer = NSPersistentContainer(
+                name: CoreDataManager.modelName,
+                managedObjectModel: coreDataModel
+            )
         #endif
 
-        persistentCloudKitContainer =
-            NSPersistentCloudKitContainer(
-                name: CoreDataManager.modelName,
-                managedObjectModel: Self.managedObjectModel
-            )
+        cloudKitContainer = NSPersistentCloudKitContainer(
+            name: CoreDataManager.modelName,
+            managedObjectModel: coreDataModel
+        )
 
         initializeTransformers()
 
@@ -145,7 +137,16 @@ class CoreDataManager {
         /// Shall be done in development build only.
         private func initializeInMemoryContainer() {
             inMemoryContainer.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
-            inMemoryContainer.loadPersistentStores { _, _ in }
+            inMemoryContainer.loadPersistentStores { _, error in
+                if let error = error as NSError? {
+                    customLog.log(
+                        level: .fault,
+                        "Failed to load the persistence store from Core Data: \(error.localizedDescription)"
+                    )
+                    fatalError("Unresolved error \(error), \(error.userInfo)")
+                }
+            }
+            inMemoryContainer.viewContext.automaticallyMergesChangesFromParent = true
         }
     #endif
 
@@ -154,26 +155,26 @@ class CoreDataManager {
     /// This container is synchronized with CloudKit.
     private func initializePersitentContainer() {
         // set History Tracking
-        persistentCloudKitContainer
-            .persistentStoreDescriptions
-            .first!
-            .setOption(
+        if let description = cloudKitContainer.persistentStoreDescriptions.first {
+            description.setOption(
                 true as NSNumber,
                 forKey: NSPersistentHistoryTrackingKey
             )
+        }
 
         // set merge policy
-        persistentCloudKitContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-        persistentCloudKitContainer.viewContext.automaticallyMergesChangesFromParent = true
+        cloudKitContainer.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        cloudKitContainer.viewContext.automaticallyMergesChangesFromParent = true
 
         // load the content of the persistent store (empty if .inMemory)
-        persistentCloudKitContainer.loadPersistentStores { _, error in
+        cloudKitContainer.loadPersistentStores { _, error in
             if let error {
                 AppState.shared.initError = AppInitError.failedToLoadPersistentStores
                 customLog.log(
                     level: .fault,
                     "Failed to load the persistence store from Core Data: \(error.localizedDescription)"
                 )
+                fatalError()
             } else {
                 #if DEBUG
                     print(">> Loading of the persistent stores has completed")
@@ -196,13 +197,11 @@ class CoreDataManager {
         private func initializeCloudKitSchema() {
             do {
                 // Use the container to initialize the development schema.
-                try persistentCloudKitContainer.initializeCloudKitSchema(
+                try cloudKitContainer.initializeCloudKitSchema(
                     options: []
                     // options: [.printSchema]
                 )
-                #if DEBUG
-                    print(">> Initialization of the development schema completed")
-                #endif
+                print(">> Initialization of the development schema completed")
             } catch {
                 // Handle any errors.
                 AppState.shared.initError = AppInitError.failedToInitializeCloudKitSchema
@@ -212,7 +211,6 @@ class CoreDataManager {
                 )
             }
 
-            // TODO: - DEBUG
             let directories = NSSearchPathForDirectoriesInDomains(
                 .documentDirectory,
                 .userDomainMask,
