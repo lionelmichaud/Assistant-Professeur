@@ -154,12 +154,19 @@ class CoreDataManager {
     ///
     /// This container is synchronized with CloudKit.
     private func initializePersitentContainer() {
+        // define the URL for the SQL database storage
+        let appSupportUrl = URL.applicationSupportDirectory
+        let databaseUrl = appSupportUrl.appending(component: CoreDataManager.modelName + ".sqlite")
+
         // set History Tracking
         if let description = cloudKitContainer.persistentStoreDescriptions.first {
+            // Imposer l'URL de la base de données SQL pour assurer que c'est la même pour la SwiftData stack
+            description.url = databaseUrl
             description.setOption(
                 true as NSNumber,
                 forKey: NSPersistentHistoryTrackingKey
             )
+            //print("URL = \(String(describing: description.url?.absoluteString))")
         }
 
         // set merge policy
