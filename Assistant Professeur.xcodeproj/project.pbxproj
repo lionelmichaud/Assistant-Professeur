@@ -635,6 +635,7 @@
 		79595C6E2934298300C81021 /* SchoolBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolBrowserRow.swift; sourceTree = "<group>"; };
 		795A34122999476100E36959 /* LoadRoomPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadRoomPlanView.swift; sourceTree = "<group>"; };
 		795BE7092B2744A9005D7E29 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		795BE70D2B287937005D7E29 /* Store.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Store.storekit; sourceTree = "<group>"; };
 		795C2C1F296E24E900EDFF09 /* Seat+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Seat+Extensions.swift"; sourceTree = "<group>"; };
 		795C2C22296E2DCA00EDFF09 /* RoomPlanEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomPlanEditView.swift; sourceTree = "<group>"; };
 		795C2C23296E2DCA00EDFF09 /* EditableSeatLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditableSeatLabel.swift; sourceTree = "<group>"; };
@@ -1311,6 +1312,7 @@
 		793A67BB2AE58A4100673A24 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				795BE70D2B287937005D7E29 /* Store.storekit */,
 				7957A5AB2AF7A1B1002C8721 /* AlertInfo.swift */,
 				79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */,
 				793A67BC2AE58A5C00673A24 /* TimerZone.swift */,

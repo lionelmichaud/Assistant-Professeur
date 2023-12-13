@@ -1,0 +1,112 @@
+{
+  "identifier" : "A60A9255",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "9.99",
+      "familyShareable" : false,
+      "internalID" : "C0B2803A",
+      "localizations" : [
+        {
+          "description" : "Établissements et classes sans limite",
+          "displayName" : "Sans limite",
+          "locale" : "fr"
+        }
+      ],
+      "productID" : "NonConsumable.UnlimitedQuantity",
+      "referenceName" : "UnlimitedQuantity",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "07AEDC83",
+      "localizations" : [
+        {
+          "description" : "Coordonnez vos cours et vos progressions",
+          "displayName" : "Progressions pédagogiques",
+          "locale" : "fr"
+        }
+      ],
+      "productID" : "NonConsumable.Program",
+      "referenceName" : "Program",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "791F58B2",
+      "localizations" : [
+        {
+          "description" : "Associez des compétences à vos progressions",
+          "displayName" : "Compétences",
+          "locale" : "fr"
+        }
+      ],
+      "productID" : "NonConsumable.Competency",
+      "referenceName" : "Competency",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "fr",
+    "_storefront" : "FRA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

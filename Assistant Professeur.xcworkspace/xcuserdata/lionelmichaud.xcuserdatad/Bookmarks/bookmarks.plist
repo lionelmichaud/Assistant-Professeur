@@ -181,16 +181,12 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
-							<key>EndingColumnNumber</key>
-							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>187</string>
-							<key>StartingColumnNumber</key>
-							<string>0</string>
+							<string>274</string>
 							<key>StartingLineNumber</key>
-							<string>186</string>
+							<string>274</string>
 							<key>Timestamp</key>
-							<string>721343235.72111</string>
+							<string>724166363.938054</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -206,17 +202,13 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>            // initializeCloudKitSchema()
-</string>
+						<string></string>
 						<key>leading</key>
-						<string>        #if DEBUG
-            // LIGNE À DESACTIVER sous la cible "My Mac (Designed for iPad)"
+						<string>    }
+}
 </string>
 						<key>trailing</key>
-						<string>        #endif
-    }
-
-</string>
+						<string></string>
 					</dict>
 					<key>title</key>
 					<string>A désactiver sur Mac</string>
