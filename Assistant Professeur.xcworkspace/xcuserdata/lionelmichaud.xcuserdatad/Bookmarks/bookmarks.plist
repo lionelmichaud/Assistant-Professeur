@@ -184,13 +184,13 @@
 							<key>EndingColumnNumber</key>
 							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>275</string>
+							<string>274</string>
 							<key>StartingColumnNumber</key>
 							<string>0</string>
 							<key>StartingLineNumber</key>
 							<string>274</string>
 							<key>Timestamp</key>
-							<string>724168966.75977</string>
+							<string>724169069.949728</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -206,17 +206,13 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string>            } catch {
-</string>
+						<string></string>
 						<key>leading</key>
-						<string>            do {
-                try viewContext.save()
+						<string>    }
+}
 </string>
 						<key>trailing</key>
-						<string>                customLog.log(level: .fault, "Failed to save changes to Core Data container \(error.localizedDescription)")
-                throw error
-            }
-</string>
+						<string></string>
 					</dict>
 					<key>title</key>
 					<string>A désactiver sur Mac</string>
