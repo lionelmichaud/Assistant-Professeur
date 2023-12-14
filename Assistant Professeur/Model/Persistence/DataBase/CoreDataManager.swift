@@ -81,7 +81,7 @@ class CoreDataManager {
     /// An initializer to create containers and load Core Data.
     private init() {
         #if DEBUG
-            print(">> CoreDataManager.init() initialization has started")
+            customLog.info(">> CoreDataManager.init() initialization has started")
         #endif
 
         guard let url = Bundle.main.url(
@@ -117,7 +117,7 @@ class CoreDataManager {
 
         // Debug build configuration.
         #if DEBUG
-            print(">> CoreDataManager.init() initialization has completed")
+            customLog.info(">> CoreDataManager.init() initialization has completed")
         #endif
     }
 
@@ -166,7 +166,7 @@ class CoreDataManager {
                 true as NSNumber,
                 forKey: NSPersistentHistoryTrackingKey
             )
-            //print("URL = \(String(describing: description.url?.absoluteString))")
+            // print("URL = \(String(describing: description.url?.absoluteString))")
         }
 
         // set merge policy
@@ -184,7 +184,7 @@ class CoreDataManager {
                 fatalError()
             } else {
                 #if DEBUG
-                    print(">> Loading of the persistent stores has completed")
+                    customLog.info(">> Loading of the persistent stores has completed")
                 #endif
             }
         }
@@ -208,12 +208,11 @@ class CoreDataManager {
                     options: []
                     // options: [.printSchema]
                 )
-                print(">> Initialization of the development schema completed")
+                customLog.info(">> Initialization of the development schema completed")
             } catch {
                 // Handle any errors.
                 AppState.shared.initError = AppInitError.failedToInitializeCloudKitSchema
-                customLog.log(
-                    level: .error,
+                customLog.error(
                     ">> Failed to initialize the development schema in ClouKit: \(error.localizedDescription)"
                 )
             }
@@ -223,7 +222,7 @@ class CoreDataManager {
                 .userDomainMask,
                 true
             )
-            print(">> Document directory: \(directories[0])")
+            customLog.info(">> Document directory: \(directories[0])")
         }
     #endif
 

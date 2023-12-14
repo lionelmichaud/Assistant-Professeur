@@ -44,9 +44,9 @@ struct Assistant_ProfesseurApp: App {
     /// importer les documents contenus dans le Bundle application.
     init() {
         #if DEBUG
-            print(">> Assistant_ProfesseurApp.init() initialization has started")
+            customLog.info(">> Assistant_ProfesseurApp.init() initialization has started")
 
-        // Optional configure tips for testing.
+            // Optional configure tips for testing.
             self.setupTipsForTesting()
         #endif
 
@@ -72,7 +72,7 @@ struct Assistant_ProfesseurApp: App {
                 try PersistenceManager
                     .checkCompatibilityWithAppVersion(of: documentsFolder)
             #if DEBUG
-                print(">> Compatibilité de versions entre Appli / Contenu du dossier Document : \(documentsAreCompatibleWithAppVersion.frenchString)")
+                customLog.info(">> Compatibilité de versions entre Appli / Contenu du dossier Document : \(documentsAreCompatibleWithAppVersion.frenchString)")
             #endif
             if !documentsAreCompatibleWithAppVersion {
                 do {
@@ -95,7 +95,7 @@ struct Assistant_ProfesseurApp: App {
             AppState.shared.initError = error
         }
         #if DEBUG
-            print(">> Assistant_ProfesseurApp.init() initialization has completed")
+            customLog.info(">> Assistant_ProfesseurApp.init() initialization has completed")
         #endif
     }
 

@@ -238,7 +238,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
             }
             do {
                 #if DEBUG
-                    print(">> NavigationModel() initialization has started")
+                    customLog.info(">> NavigationModel() initialization has started")
                 #endif
                 let model = try decoder.decode(Self.self, from: data)
                 // initialize l'état de navigation en conséquence
@@ -273,11 +273,10 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
                 competencePath = model.competencePath
 
                 #if DEBUG
-                    print(">> NavigationModel() initialization has completed")
+                    customLog.info(">> NavigationModel() initialization has completed")
                 #endif
             } catch {
-                customLog.log(
-                    level: .error,
+                customLog.error(
                     "Erreur de décodage JSON de NavigationModel: \(error.localizedDescription)"
                 )
             }
@@ -319,7 +318,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
         filterFlag: Bool = false
     ) {
         #if DEBUG
-            print(">> New NavigationModel() creation has started")
+            customLog.info(">> New NavigationModel() creation has started")
         #endif
         self.columnVisibility = columnVisibility
         self.selectedTab = selectedTab
@@ -352,14 +351,14 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
         self.competencePath = NavigationPath()
 
         #if DEBUG
-            print(">> New NavigationModel() creation has completed")
+            customLog.info(">> New NavigationModel() creation has completed")
         #endif
     }
 
     /// Initialization à partir de Data JSON mémorisées par l'App
     required init(from decoder: Decoder) throws {
         #if DEBUG
-            print(">> NavigationModel() decoding from JSON data has started !")
+            customLog.info(">> NavigationModel() decoding from JSON data has started !")
         #endif
         do {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -493,12 +492,12 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
             )
         } catch {
             #if DEBUG
-                print(">> NavigationModel() decoding from JSON data has failed !")
+                customLog.info(">> NavigationModel() decoding from JSON data has failed !")
             #endif
             throw error
         }
         #if DEBUG
-            print(">> NavigationModel() decoding from JSON data has completed")
+            pcustomLog.info(">> NavigationModel() decoding from JSON data has completed")
         #endif
     }
 
@@ -537,7 +536,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
             //        }
         } catch {
             #if DEBUG
-                print(">> NavigationModel() encoding to JSON data has failed !")
+                customLog.info(">> NavigationModel() encoding to JSON data has failed !")
             #endif
         }
     }

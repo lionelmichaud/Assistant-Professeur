@@ -8,9 +8,16 @@
 import AppFoundation
 import CloudKit
 import Foundation
+import os
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "CloudKitViewModel"
+)
 
 @MainActor
-@Observable final class CloudKitViewModel {
+@Observable
+final class CloudKitViewModel {
     /// True si l'utilisateur est connecté à iCloud
     var isSignedInToicloud: Bool = false
 
@@ -20,11 +27,11 @@ import Foundation
     init() {
         Task(priority: .high) {
             #if DEBUG
-                print(">> CloudKitViewModel() initialization has started")
+                customLog.info(">> CloudKitViewModel() initialization has started")
             #endif
             await getiCloudStatus()
             #if DEBUG
-                print(">> CloudKitViewModel() initialization has completed")
+                customLog.info(">> CloudKitViewModel() initialization has completed")
             #endif
         }
     }

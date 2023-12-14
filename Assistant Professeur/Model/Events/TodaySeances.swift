@@ -483,7 +483,7 @@ extension TodaySeances {
             fixedAttributes: attribute
         )
         #if DEBUG
-            print(">> Activité lancée")
+            customLog.info(">> Activité lancée")
         #endif
     }
 
@@ -509,8 +509,7 @@ extension TodaySeances {
                 // If the task is cancelled before the time ends, this function throws CancellationError
                 break
             } catch {
-                customLog.log(
-                    level: .error,
+                customLog.error(
                     "LiveActivity Task.sleep Error: \(error.localizedDescription)"
                 )
                 break
@@ -594,7 +593,7 @@ extension TodaySeances {
         )
         await self.resetOngoingSeance()
         #if DEBUG
-            print(">> Activité canceled")
+            customLog.info(">> Activité canceled")
         #endif
     }
 }

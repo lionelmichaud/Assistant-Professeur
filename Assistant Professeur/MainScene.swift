@@ -84,8 +84,7 @@ struct MainScene: Scene {
     private func dailyToDoAppRefresh() async {
         await withTaskCancellationHandler(
             operation: {
-                customLog.log(
-                    level: .info,
+                customLog.info(
                     "Background refresh task started for identifer: \(ReminderTaskManager.shared.backgroundTaskIdentifier)"
                 )
 
@@ -99,8 +98,7 @@ struct MainScene: Scene {
                 )
             },
             onCancel: {
-                customLog.log(
-                    level: .debug,
+                customLog.debug(
                     "Background refresh canceled by System for identifer: \(ReminderTaskManager.shared.backgroundTaskIdentifier)"
                 )
             }
@@ -110,8 +108,7 @@ struct MainScene: Scene {
     private func liveActivityAppRefresh() async {
         await withTaskCancellationHandler(
             operation: {
-                customLog.log(
-                    level: .info,
+                customLog.info(
                     "Background refresh task started for identifer: \(TodaySeances.shared.liveActivityTaskIdentifier)"
                 )
 
@@ -125,8 +122,7 @@ struct MainScene: Scene {
                 TodaySeances.shared.schedulNextUpdate()
             },
             onCancel: {
-                customLog.log(
-                    level: .debug,
+                customLog.debug(
                     "Background refresh canceled by System for identifer: \(TodaySeances.shared.liveActivityTaskIdentifier)"
                 )
             }
@@ -141,15 +137,15 @@ struct MainScene: Scene {
         switch scenePhase {
             case .active:
                 // An app or custom scene in this phase contains at least one active scene instance.
-                print(">> Scene Phase = .active")
+                customLog.info(">> Scene Phase = .active")
 
             case .inactive:
                 // An app or custom scene in this phase contains no scene instances in the ScenePhase.active phase.
-                print(">> Scene Phase = .inactive")
+                customLog.info(">> Scene Phase = .inactive")
 
             case .background:
                 // Expect an app that enters the background phase to terminate.
-                print(">> Scene Phase = .background")
+                customLog.info(">> Scene Phase = .background")
                 try? coreDataManager.saveIfContextHasChanged()
                 TodaySeances.shared.schedulNextUpdate()
 
