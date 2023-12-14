@@ -497,7 +497,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
             throw error
         }
         #if DEBUG
-            pcustomLog.info(">> NavigationModel() decoding from JSON data has completed")
+            customLog.info(">> NavigationModel() decoding from JSON data has completed")
         #endif
     }
 

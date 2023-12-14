@@ -123,6 +123,7 @@
 		794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */; };
 		794CBA8D2B2B3199006617A2 /* AppScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CBA8C2B2B3199006617A2 /* AppScreen.swift */; };
 		794CBA8F2B2B478F006617A2 /* PrefScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CBA8E2B2B478F006617A2 /* PrefScreen.swift */; };
+		794CBA912B2B52B9006617A2 /* GenerateDataViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CBA902B2B52B9006617A2 /* GenerateDataViewModifier.swift */; };
 		794F4C3D2B111BD0001DB7F6 /* ChangeOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F4C3C2B111BD0001DB7F6 /* ChangeOrientation.swift */; };
 		794F6E0C295CDC3700042B95 /* ObservCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */; };
 		794F6E0E295CDC9100042B95 /* ColleCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */; };
@@ -613,6 +614,7 @@
 		794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DuplicateActivityModal.swift; path = "Assistant Professeur/Model/Eleve/BonusMalus/DuplicateActivityModal.swift"; sourceTree = SOURCE_ROOT; };
 		794CBA8C2B2B3199006617A2 /* AppScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppScreen.swift; sourceTree = "<group>"; };
 		794CBA8E2B2B478F006617A2 /* PrefScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefScreen.swift; sourceTree = "<group>"; };
+		794CBA902B2B52B9006617A2 /* GenerateDataViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateDataViewModifier.swift; sourceTree = "<group>"; };
 		794F4C3C2B111BD0001DB7F6 /* ChangeOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChangeOrientation.swift; path = "../../../../../../../../Library/Developer/Xcode/DeviceLogs/iPhone 15 de Lionel-00008120-001434983CD2201E/ChangeOrientation.swift"; sourceTree = "<group>"; };
 		794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservCreatorModal.swift; sourceTree = "<group>"; };
 		794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColleCreatorModal.swift; sourceTree = "<group>"; };
@@ -1723,6 +1725,7 @@
 			children = (
 				798EE56F2ADA8DBD00F9AE24 /* ListViewModifiers.swift */,
 				7923BC7E2AED608100F824C2 /* ErrorAlertModifier.swift */,
+				794CBA902B2B52B9006617A2 /* GenerateDataViewModifier.swift */,
 			);
 			path = SharedViewModifiers;
 			sourceTree = "<group>";
@@ -2870,6 +2873,7 @@
 				79DEDAFB2925897600F508EF /* ObservSidebarView.swift in Sources */,
 				798DD4D4298C352A00C47B2C /* StepsNotationView.swift in Sources */,
 				790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */,
+				794CBA912B2B52B9006617A2 /* GenerateDataViewModifier.swift in Sources */,
 				79F7A28F2A40CE7100CEC3D5 /* WCompPicker.swift in Sources */,
 				79AFBFB62981C9DA001576DD /* ActivityCreatorModal.swift in Sources */,
 				7989B4DB29A28D0300383F84 /* ProgressStateEnum.swift in Sources */,

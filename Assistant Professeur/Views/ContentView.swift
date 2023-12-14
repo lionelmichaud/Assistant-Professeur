@@ -231,12 +231,8 @@ extension ContentView {
 }
 
 #Preview {
-    func initialize() {
-        DataBaseManager.populateWithMockData(storeType: .inMemory)
-    }
-    initialize()
-    return ContentView()
+    ContentView()
+        .generateData()
         .padding()
 //        .environmentObject(NavigationModel(selectedClasseMngObjId: ClasseEntity.all().first!.objectID))
-        .environment(\.managedObjectContext, CoreDataManager.shared.context)
 }
