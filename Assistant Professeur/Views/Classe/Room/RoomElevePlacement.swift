@@ -5,7 +5,7 @@
 //  Created by Lionel MICHAUD on 22/10/2022.
 //
 
-import os
+import OSLog
 import SwiftUI
 
 private let customLog = Logger(

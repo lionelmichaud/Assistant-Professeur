@@ -9,7 +9,7 @@ import AppFoundation
 import FileAndFolder
 import Files
 import Foundation
-import os
+import OSLog
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",

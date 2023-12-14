@@ -10,7 +10,7 @@
     import AppFoundation
     import Combine
     import Foundation
-    import os
+    import OSLog
 
     private let customLog = Logger(
         subsystem: "com.michaud.lionel.Fundation-Package",

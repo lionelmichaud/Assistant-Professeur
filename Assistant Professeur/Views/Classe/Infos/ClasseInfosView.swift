@@ -7,7 +7,7 @@
 
 import EventKit
 import HelpersView
-import os
+import OSLog
 import SwiftUI
 
 struct ClasseInfosView: View {

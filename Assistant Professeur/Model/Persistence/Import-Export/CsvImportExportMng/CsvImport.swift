@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import os
+import OSLog
 import TabularData
 
 private let customLog = Logger(

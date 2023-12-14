@@ -8,7 +8,7 @@
 import CoreData
 import Foundation
 import HelpersView
-import os
+import OSLog
 import SwiftUI
 #if canImport(UIKit)
     import UIKit

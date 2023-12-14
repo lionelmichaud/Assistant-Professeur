@@ -6,7 +6,7 @@
 //
 
 import HelpersView
-import os
+import OSLog
 import PDFKit
 import SwiftUI
 import TipKit

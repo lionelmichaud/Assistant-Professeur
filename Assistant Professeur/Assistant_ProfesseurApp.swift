@@ -7,7 +7,7 @@
 
 import AppFoundation
 import Files
-import os
+import OSLog
 import SwiftUI
 import TipKit
 

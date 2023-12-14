@@ -25,6 +25,7 @@
 		790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */; };
 		790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */; };
 		790F76A229818858000A5C7D /* DurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F76A129818858000A5C7D /* DurationView.swift */; };
+		79131CBE2B2B63BE00DB7262 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79131CBD2B2B63BE00DB7262 /* StoreManager.swift */; };
 		79134554296B65AB0092E7CD /* TrombinoscopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79134553296B65AB0092E7CD /* TrombinoscopeView.swift */; };
 		79134557296B6C620092E7CD /* TrombineInteractivView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79134556296B6C620092E7CD /* TrombineInteractivView.swift */; };
 		79135E0D2969E15B00F95694 /* AppVersion.json in Resources */ = {isa = PBXBuildFile; fileRef = 79135E0C2969E15B00F95694 /* AppVersion.json */; };
@@ -528,6 +529,7 @@
 		790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAgenda.swift; sourceTree = "<group>"; };
 		790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceCreatorModal.swift; sourceTree = "<group>"; };
 		790F76A129818858000A5C7D /* DurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationView.swift; sourceTree = "<group>"; };
+		79131CBD2B2B63BE00DB7262 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		79134553296B65AB0092E7CD /* TrombinoscopeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrombinoscopeView.swift; sourceTree = "<group>"; };
 		79134556296B6C620092E7CD /* TrombineInteractivView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrombineInteractivView.swift; sourceTree = "<group>"; };
 		79135E0C2969E15B00F95694 /* AppVersion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AppVersion.json; sourceTree = "<group>"; };
@@ -641,7 +643,7 @@
 		79595C6E2934298300C81021 /* SchoolBrowserRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolBrowserRow.swift; sourceTree = "<group>"; };
 		795A34122999476100E36959 /* LoadRoomPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadRoomPlanView.swift; sourceTree = "<group>"; };
 		795BE7092B2744A9005D7E29 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		795BE70D2B287937005D7E29 /* Store.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Store.storekit; sourceTree = "<group>"; };
+		795BE70D2B287937005D7E29 /* Store.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; name = Store.storekit; path = "../New Group/Store.storekit"; sourceTree = "<group>"; };
 		795C2C1F296E24E900EDFF09 /* Seat+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Seat+Extensions.swift"; sourceTree = "<group>"; };
 		795C2C22296E2DCA00EDFF09 /* RoomPlanEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomPlanEditView.swift; sourceTree = "<group>"; };
 		795C2C23296E2DCA00EDFF09 /* EditableSeatLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditableSeatLabel.swift; sourceTree = "<group>"; };
@@ -1052,6 +1054,15 @@
 			path = Tips;
 			sourceTree = "<group>";
 		};
+		79131CBF2B2B670400DB7262 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				795BE70D2B287937005D7E29 /* Store.storekit */,
+				79131CBD2B2B63BE00DB7262 /* StoreManager.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
 		79134555296B6AD80092E7CD /* Trombinoscop */ = {
 			isa = PBXGroup;
 			children = (
@@ -1319,7 +1330,7 @@
 		793A67BB2AE58A4100673A24 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				795BE70D2B287937005D7E29 /* Store.storekit */,
+				79131CBF2B2B670400DB7262 /* Store */,
 				7957A5AB2AF7A1B1002C8721 /* AlertInfo.swift */,
 				79F655692AEBD94D00AB3AEB /* PeriodEnum.swift */,
 				793A67BC2AE58A5C00673A24 /* TimerZone.swift */,
@@ -2766,6 +2777,7 @@
 				79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */,
 				798DD4D2298C318F00C47B2C /* ExamListSection.swift in Sources */,
 				79FD21912A3386F600A8D925 /* DSectionListView.swift in Sources */,
+				79131CBE2B2B63BE00DB7262 /* StoreManager.swift in Sources */,
 				794F6E12295CE1B700042B95 /* ObservEditor.swift in Sources */,
 				79FD218E2A337DCC00A8D925 /* DThemeBrowserView.swift in Sources */,
 				790A10712A472C5500BA3F5C /* ActivityTagList.swift in Sources */,

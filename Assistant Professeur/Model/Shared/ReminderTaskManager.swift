@@ -9,7 +9,7 @@ import AppFoundation
 import BackgroundTasks
 import EventKit
 import Foundation
-import os
+import OSLog
 import UserNotifications
 
 private let customLog = Logger(

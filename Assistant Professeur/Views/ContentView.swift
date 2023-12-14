@@ -8,7 +8,7 @@
 import AppFoundation
 import CloudKit
 import HelpersView
-import os
+import OSLog
 import SwiftUI
 
 private let customLog = Logger(

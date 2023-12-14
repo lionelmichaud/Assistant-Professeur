@@ -6,7 +6,7 @@
 //
 
 import Files
-import os
+import OSLog
 import SwiftUI
 
 private let customLog = Logger(

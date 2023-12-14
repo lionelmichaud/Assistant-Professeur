@@ -6,7 +6,7 @@
 //
 
 import AppFoundation
-import os
+import OSLog
 import SwiftUI
 import TipKit
 
