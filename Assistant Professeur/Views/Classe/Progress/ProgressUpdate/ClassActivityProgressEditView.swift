@@ -229,7 +229,7 @@ extension ClassActivityProgressEditView {
             if let activity = progress.activity,
                let sequence = activity.sequence,
                let program = sequence.program {
-                DeepLinkManager.handle(
+                DeepLinkManager.handleLink(
                     navigateTo: .activity(
                         program: program,
                         sequence: sequence,

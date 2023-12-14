@@ -140,7 +140,7 @@ struct SeatMenu: View {
                     // aller à la fiche élève
                     Button {
                         // Programatic Navigation
-                        DeepLinkManager.handle(
+                        DeepLinkManager.handleLink(
                             navigateTo: .eleve(eleve: eleveOnSeat),
                             using: navig
                         )

@@ -40,81 +40,18 @@ struct ContentView: View {
 
     var body: some View {
         TabView(selection: navig.tabSelection()) {
-            // Les établissements scolaires
-            SchoolSplitView()
-                .tabItem {
-                    Label(
-                        NavigationModel.TabSelection.school.rawValue,
-                        systemImage: NavigationModel.TabSelection.school.imageName
-                    ).symbolVariant(.none)
+            // Pour chaque onglet
+            ForEach(AppScreen.allCases) { screen in
+                if isPad() || isMac() || screen != AppScreen.competence {
+                    screen.view
+                        .tabItem { screen.label }
+                        .toolbar(showTabBar ? .visible : .hidden, for: .tabBar)
                 }
-                .tag(NavigationModel.TabSelection.school)
-                .badge(SchoolEntity.cardinal())
-                .toolbar(showTabBar ? .visible : .hidden, for: .tabBar)
-
-            // Les classes
-            ClasseSplitView()
-                .tabItem {
-                    Label(
-                        NavigationModel.TabSelection.classe.rawValue,
-                        systemImage: NavigationModel.TabSelection.classe.imageName
-                    ).symbolVariant(.none)
-                }
-                .tag(NavigationModel.TabSelection.classe)
-                .badge(ClasseEntity.cardinal())
-                .toolbar(showTabBar ? .visible : .hidden, for: .tabBar)
-
-            // Les élèves
-            EleveSplitView()
-                .tabItem {
-                    Label(
-                        NavigationModel.TabSelection.eleve.rawValue,
-                        systemImage: NavigationModel.TabSelection.eleve.imageName
-                    ).symbolVariant(.none)
-                }
-                .tag(NavigationModel.TabSelection.eleve)
-                .badge(EleveEntity.cardinal())
-                .toolbar(showTabBar ? .visible : .hidden, for: .tabBar)
-
-            // Les observations données aux élèves
-            // Les colles données aux élèves
-            WarningSplitView()
-                .tabItem {
-                    Label(
-                        NavigationModel.TabSelection.warning.rawValue,
-                        systemImage: NavigationModel.TabSelection.warning.imageName
-                    ).symbolVariant(.none)
-                }
-                .tag(NavigationModel.TabSelection.warning)
-                .badge(ObservEntity.cardinal() + ColleEntity.cardinal())
-                .toolbar(showTabBar ? .visible : .hidden, for: .tabBar)
-
-            // Les programmes scolaires
-            ProgramSplitView()
-                .tabItem {
-                    Label(
-                        NavigationModel.TabSelection.program.rawValue,
-                        systemImage: NavigationModel.TabSelection.program.imageName
-                    ).symbolVariant(.none)
-                }
-                .tag(NavigationModel.TabSelection.program)
-                .badge(ProgramEntity.cardinal())
-                .toolbar(showTabBar ? .visible : .hidden, for: .tabBar)
-
-            if isPad() || isMac() {
-                // Les compétences
-                CompetencySplitView()
-                    .tabItem {
-                        Label(
-                            NavigationModel.TabSelection.competence.rawValue,
-                            systemImage: NavigationModel.TabSelection.competence.imageName
-                        ).symbolVariant(.none)
-                    }
-                    .tag(NavigationModel.TabSelection.competence)
             }
         }
         .environmentObject(navig)
         .badgeProminence(.decreased)
+
         .onRotate { newOrientation in
             showTabBar = !isPhone() ||
                 (newOrientation.isPortrait || newOrientation.isFlat)
@@ -124,23 +61,16 @@ struct ContentView: View {
         .errorAlert(
             error: .constant(AppState.shared.initError), // cette propriété n'est pas un Binding @Published
             actions: { error in
-                customLog.log(level: .error, "\(error.errorDescription ?? "Raison inconue.")")
+                customLog.error("\(error.errorDescription ?? "Raison inconue.")")
             }
         )
-
-        // Deep Link
-        .onOpenURL { incomingURL in
-            handleIncomingURL(incomingURL)
-        }
-
         // Alerte en cas d'erreur de connection iCloud
         .errorAlert(
             error: $cloudKitVM.iCloudError,
             actions: { error in
-                customLog.log(level: .error, "\(error.errorDescription ?? "Raison inconue.")")
+                customLog.error("\(error.errorDescription ?? "Raison inconue.")")
             }
         )
-
         // Alerte des ToDo du jour
         .alert(
             alertInfo.title,
@@ -148,6 +78,14 @@ struct ContentView: View {
             actions: {},
             message: { Text(alertInfo.message) }
         )
+
+        // Deep Link
+        .onOpenURL { incomingURL in
+            DeepLinkManager.handleIncomingURL(
+                incomingURL,
+                using: navig
+            )
+        }
 
         // Synchronous initializing of the View
         .onAppear {
@@ -160,12 +98,10 @@ struct ContentView: View {
         .task {
             await persistNavigationData()
         }
-
         // vérifier la liste des ToDo du jour et alerter l'utilisateur si besoin
         .task {
             await checkTodayToDoList()
         }
-
         .task {
             await checkNotificationAuthorisation()
         }
@@ -199,107 +135,23 @@ struct ContentView: View {
     }
 }
 
-// MARK: - Deep Link URL
+// MARK: - Methods
 
 extension ContentView {
-    /// Gérer un deep link URL entrant
-    private func handleIncomingURL(_ url: URL) {
-        // Vérifier la légalité de l'URL
-        var scheme = ""
-        var action = ""
-        var components = URLComponents()
+    /// Set the Style of the TabBar
+    private func setTabBarStyle() {
+        let appearance = UITabBarAppearance()
+        appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+        appearance.backgroundColor = UIColor(.tabBarColor)
 
-        guard urlIsLegal(
-            url: url,
-            scheme: &scheme,
-            action: &action,
-            components: &components
-        ) else {
-            return
-        }
-
-        // Exécuter l'action requise
-        let urlScheme = "assistprof"
-        let urlUpdateProgressAction = "update-progress"
-
-        guard scheme == urlScheme else {
-            customLog.log(level: .error, "Detected scheme \(scheme) is not the right one!: \(url)")
-            return
-        }
-
-        switch action {
-            case urlUpdateProgressAction:
-                handleUpdateProgressAction(components: components)
-
-            default:
-                // Action : inconnue
-                customLog.log(level: .debug, "Action unknown: \(action) in \(url)")
-        }
-    }
-
-    /// Vérifier la légalité de l'URL reçue.
-    /// - Parameters:
-    ///   - url: URL reçue
-    ///   - scheme: Schéma détecté.
-    ///   - action: Action (host) détectée.
-    ///   - components: Queries détectés.
-    /// - Returns: `false` si l'URL est illégale.
-    private func urlIsLegal(
-        url: URL,
-        scheme: inout String,
-        action: inout String,
-        components: inout URLComponents
-    ) -> Bool {
-        // Vérifier la légalité de l'URL
-        guard let _scheme = url.scheme else {
-            customLog.log(level: .debug, "No scheme detected in incoming URL: \(url)")
-            return false
-        }
-
-        guard let _components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
-            customLog.log(level: .debug, "No compnent detected: \(url)")
-            return false
-        }
-
-        guard let _action = _components.host else {
-            customLog.log(level: .debug, "No action (host) detected: \(url)")
-            return false
-        }
-
-        scheme = _scheme
-        action = _action
-        components = _components
-        return true
-    }
-
-    /// Gérer l'action "update-progress".
-    /// - Parameter components: Queries de l'URL reçue.
-    private func handleUpdateProgressAction(
-        components: URLComponents
-    ) {
-        // Action : Actualiser la progression d'une classe d'un établissement
-        guard let schoolName = components.queryItems?.first(where: { $0.name == "school" })?.value else {
-            customLog.log(level: .debug, "School name not found in queries: \(String(describing: components))")
-            return
-        }
-        guard let classeName = components.queryItems?.first(where: { $0.name == "classe" })?.value else {
-            customLog.log(level: .debug, "Classe name not found in queries: \(String(describing: components))")
-            return
-        }
-
-        guard let classe = SchoolEntity.school(withName: schoolName)?.classe(withAcronym: classeName) else {
-            customLog.log(level: .debug, "Classe inexistante pour: **\(schoolName) - \(classeName)**")
-            return
-        }
-
-        DeepLinkManager.handle(
-            navigateTo: .classeProgressUpdate(classe: classe),
-            using: navig
-        )
+        // Use this appearance when scrolling behind the TabView:
+        UITabBar.appearance().standardAppearance = appearance
+        // Use this appearance when scrolled all the way up:
+        UITabBar.appearance().scrollEdgeAppearance = appearance
     }
 }
 
-// MARK: - Methods
+// MARK: - Tâches
 
 extension ContentView {
     /// Persistence dans SceneStorage de l'état de navigation
@@ -375,18 +227,6 @@ extension ContentView {
         alertInfo.message = "\n" + printStr + loadStr +
             "\nConsultez-en la liste dans chaque établissement."
         alertInfo.isPresented = true
-    }
-
-    /// Set the Style of the TabBar
-    private func setTabBarStyle() {
-        let appearance = UITabBarAppearance()
-        appearance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
-        appearance.backgroundColor = UIColor(.tabBarColor)
-
-        // Use this appearance when scrolling behind the TabView:
-        UITabBar.appearance().standardAppearance = appearance
-        // Use this appearance when scrolled all the way up:
-        UITabBar.appearance().scrollEdgeAppearance = appearance
     }
 }
 

@@ -8,8 +8,6 @@
 import SwiftUI
 
 extension View {
-    /// Somme de tous les éléméents d'un Array
-    ///
     /// In this example, I’m using an ArticleView that allows us to publish an article.
     /// Publishing can result in an error, which we want to present in an alert accordingly:
     ///

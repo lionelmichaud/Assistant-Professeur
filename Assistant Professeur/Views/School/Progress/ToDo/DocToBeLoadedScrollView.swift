@@ -136,7 +136,7 @@ extension DocsToBeLoadedGroupBox {
         Group {
             if let sequence = batchOfDocToLoad.activity.sequence {
                 Button {
-                    DeepLinkManager.handle(
+                    DeepLinkManager.handleLink(
                         navigateTo: .activity(
                             program: sequence.program!,
                             sequence: sequence,

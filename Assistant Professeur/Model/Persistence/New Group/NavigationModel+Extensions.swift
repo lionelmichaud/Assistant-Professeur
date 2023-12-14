@@ -12,36 +12,6 @@ import SwiftUI
 extension NavigationModel {
     // MARK: - Types
 
-    /// Onglets
-    enum TabSelection: String, Hashable, Codable {
-        case userSettings = "Réglages"
-        case school = "Mes Etablissements"
-        case classe = "Mes Classes"
-        case eleve = "Mes Elèves"
-        case warning = "Avertissements"
-        case program = "Mes Progressions"
-        case competence = "Compétences"
-
-        var imageName: String {
-            switch self {
-                case .userSettings:
-                    return "gear"
-                case .school:
-                    return SchoolEntity.defaultImageName
-                case .classe:
-                    return ClasseEntity.defaultImageName
-                case .eleve:
-                    return EleveEntity.defaultImageName
-                case .warning:
-                    return "hand.raised"
-                case .program:
-                    return ProgramEntity.defaultImageName
-                case .competence:
-                    return WCompChapterEntity.defaultImageName
-            }
-        }
-    }
-
     /// Panneaux préférences
     enum PrefTabSelection: String, Hashable, Codable, PickableIdentifiableEnumP {
         case general
@@ -209,7 +179,7 @@ extension NavigationModel {
     }
 
     /// Pop to Tab's root view when the current tab is tapped again
-    func tabSelection() -> Binding<NavigationModel.TabSelection> {
+    func tabSelection() -> Binding<AppScreen> {
         Binding { // this is the get block
             self.selectedTab
 

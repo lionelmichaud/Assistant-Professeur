@@ -231,7 +231,7 @@ extension ElevesTableView {
             // aller à la fiche élève
             Button {
                 // Programatic Navigation
-                DeepLinkManager.handle(
+                DeepLinkManager.handleLink(
                     navigateTo: .eleve(
                         eleve: EleveEntity
                             .byObjectIdentifier(objectID: selection.first!)!),

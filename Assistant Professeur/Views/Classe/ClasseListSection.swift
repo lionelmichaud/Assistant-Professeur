@@ -52,7 +52,7 @@ struct ClasseListSection: View {
 
                     .onTapGesture {
                         // Programatic Navigation
-                        DeepLinkManager.handle(
+                        DeepLinkManager.handleLink(
                             navigateTo: .classe(classe: classe),
                             using: navigationModel
                         )

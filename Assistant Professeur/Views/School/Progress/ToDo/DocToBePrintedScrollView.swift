@@ -107,7 +107,7 @@ extension DocsToBePrintedGroupBox {
         HStack {
             // Classe
             Button {
-                DeepLinkManager.handle(
+                DeepLinkManager.handleLink(
                     navigateTo: .classeProgressUpdate(classe: batchOfDocToPrint.classe),
                     using: navig
                 )
@@ -131,7 +131,7 @@ extension DocsToBePrintedGroupBox {
         Group {
             if let sequence = batchOfDocToPrint.activity.sequence {
                 Button {
-                    DeepLinkManager.handle(
+                    DeepLinkManager.handleLink(
                         navigateTo: .activity(
                             program: sequence.program!,
                             sequence: sequence,

@@ -64,7 +64,7 @@ struct TrombineInteractivView: View {
             // aller à la fiche élève
             Button {
                 // Programatic Navigation
-                DeepLinkManager.handle(
+                DeepLinkManager.handleLink(
                     navigateTo: .eleve(eleve: eleve),
                     using: navig
                 )

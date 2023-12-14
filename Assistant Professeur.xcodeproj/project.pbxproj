@@ -121,6 +121,7 @@
 		794AE9C22A59706E009C819A /* AppTextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794AE9C12A59706E009C819A /* AppTextStyle.swift */; };
 		794B83CA2AB5B7A600F5B14E /* BonusMalusStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */; };
 		794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */; };
+		794CBA8D2B2B3199006617A2 /* AppScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CBA8C2B2B3199006617A2 /* AppScreen.swift */; };
 		794F4C3D2B111BD0001DB7F6 /* ChangeOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F4C3C2B111BD0001DB7F6 /* ChangeOrientation.swift */; };
 		794F6E0C295CDC3700042B95 /* ObservCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */; };
 		794F6E0E295CDC9100042B95 /* ColleCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */; };
@@ -609,6 +610,7 @@
 		794AE9C12A59706E009C819A /* AppTextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextStyle.swift; sourceTree = "<group>"; };
 		794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusStats.swift; sourceTree = "<group>"; };
 		794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DuplicateActivityModal.swift; path = "Assistant Professeur/Model/Eleve/BonusMalus/DuplicateActivityModal.swift"; sourceTree = SOURCE_ROOT; };
+		794CBA8C2B2B3199006617A2 /* AppScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppScreen.swift; sourceTree = "<group>"; };
 		794F4C3C2B111BD0001DB7F6 /* ChangeOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChangeOrientation.swift; path = "../../../../../../../../Library/Developer/Xcode/DeviceLogs/iPhone 15 de Lionel-00008120-001434983CD2201E/ChangeOrientation.swift"; sourceTree = "<group>"; };
 		794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservCreatorModal.swift; sourceTree = "<group>"; };
 		794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColleCreatorModal.swift; sourceTree = "<group>"; };
@@ -1263,6 +1265,7 @@
 				79B060882AFAA6F800B381FE /* HomeScreen.swift */,
 				79B0607F2AFA533B00B381FE /* SignInView.swift */,
 				79B6630629244C3F007B1FBD /* ContentView.swift */,
+				794CBA8C2B2B3199006617A2 /* AppScreen.swift */,
 				794615872AEE9A87002D725E /* Shared */,
 				794AE9C32A5970C3009C819A /* AppStyles */,
 				79DEDB06292593C200F508EF /* PreferencesViews */,
@@ -2700,6 +2703,7 @@
 				793D6276295DD9E600477932 /* ObservNotifIcon.swift in Sources */,
 				79FD21A22A33CF6900A8D925 /* DCompEntity+Extensions.swift in Sources */,
 				79C2E47029DC22C2008DF730 /* EleveTextName.swift in Sources */,
+				794CBA8D2B2B3199006617A2 /* AppScreen.swift in Sources */,
 				792311362A312BBA008556E1 /* DThemeEntity+CoreDataClass.swift in Sources */,
 				79225B522A26BC38005030B5 /* ClasseInfosView.swift in Sources */,
 				7957A5AC2AF7A1B1002C8721 /* AlertInfo.swift in Sources */,

@@ -60,7 +60,7 @@ struct SeanceRow: View {
                 // Navigation vers la page d'actualisation de la progression
                 if let classe {
                     Button {
-                        DeepLinkManager.handle(
+                        DeepLinkManager.handleLink(
                             navigateTo: .classeProgressUpdate(classe: classe),
                             using: navig
                         )
@@ -245,7 +245,7 @@ extension SeanceRow {
                                 .onTapGesture {
                                     if let sequence = activity.sequence,
                                        let program = sequence.program {
-                                        DeepLinkManager.handle(
+                                        DeepLinkManager.handleLink(
                                             navigateTo: .activity(
                                                 program: program,
                                                 sequence: sequence,

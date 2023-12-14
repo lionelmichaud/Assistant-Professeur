@@ -36,7 +36,7 @@ struct ActivityClassProgressView: View {
         } label: {
             Button {
                 if let classe = progress.classe {
-                    DeepLinkManager.handle(
+                    DeepLinkManager.handleLink(
                         navigateTo: .classeProgressUpdate(classe: classe),
                         using: navig
                     )

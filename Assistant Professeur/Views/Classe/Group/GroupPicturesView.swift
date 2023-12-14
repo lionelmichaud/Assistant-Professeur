@@ -52,7 +52,7 @@ struct GroupPicturesView: View {
                 }
                 .onTapGesture {
                     // Programatic Navigation
-                    DeepLinkManager.handle(
+                    DeepLinkManager.handleLink(
                         navigateTo: .eleve(eleve: eleve),
                         using: navig
                     )
