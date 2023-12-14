@@ -55,7 +55,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
     @Published
     var selectedTab: AppScreen
     @Published
-    var selectedPrefTab: PrefTabSelection
+    var selectedPrefTab: PrefScreen
     @Published
     var selectedWarningType: WarningSelection?
     @Published
@@ -295,7 +295,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
     init(
         columnVisibility: NavigationSplitViewVisibility = .all,
         selectedTab: AppScreen = .school,
-        selectedPrefTab: PrefTabSelection = .general,
+        selectedPrefTab: PrefScreen = .general,
         selectedWarningType: WarningSelection? = nil,
         selectedCompetenceType: CompetencySelection? = nil,
 
@@ -367,7 +367,7 @@ final class NavigationModel: ObservableObject, Codable { // swiftlint:disable:th
                 AppScreen.self, forKey: .selectedTab
             )
             self.selectedPrefTab = try container.decode(
-                PrefTabSelection.self, forKey: .selectedPrefTab
+                PrefScreen.self, forKey: .selectedPrefTab
             )
             self.selectedWarningType = try container.decodeIfPresent(
                 WarningSelection.self, forKey: .selectedWarningType

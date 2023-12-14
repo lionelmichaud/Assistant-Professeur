@@ -20,23 +20,9 @@ struct SettingsView: View {
 
     var body: some View {
         TabView(selection: $nav.selectedPrefTab) {
-            SettingsGeneral()
-                .tag(NavigationModel.PrefTabSelection.general)
-            SettingsSchool()
-                .tag(NavigationModel.PrefTabSelection.school)
-            SettingsClasse()
-                .tag(NavigationModel.PrefTabSelection.classe)
-            SettingsEleve()
-                .tag(NavigationModel.PrefTabSelection.eleve)
-            SettingsProgram()
-                .tag(NavigationModel.PrefTabSelection.program)
-            SettingsSequence()
-                .tag(NavigationModel.PrefTabSelection.sequence)
-            SettingsActivity()
-                .tag(NavigationModel.PrefTabSelection.activity)
-            SettingsSchoolYear()
-                .tag(NavigationModel.PrefTabSelection.schoolYear)
-            // SettingsAgenda()
+            ForEach(PrefScreen.allCases) { screen in
+                screen.view
+            }
         }
         #if os(iOS)
         .tabViewStyle(.page(indexDisplayMode: .always))

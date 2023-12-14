@@ -20,35 +20,23 @@ enum AppScreen: String, Hashable, Identifiable, CaseIterable, Codable {
 
     var imageName: String {
         switch self {
-            case .school:
-                SchoolEntity.defaultImageName
-            case .classe:
-                ClasseEntity.defaultImageName
-            case .eleve:
-                EleveEntity.defaultImageName
-            case .warning:
-                "hand.raised"
-            case .program:
-                ProgramEntity.defaultImageName
-            case .competence:
-                WCompChapterEntity.defaultImageName
+            case .school: SchoolEntity.defaultImageName
+            case .classe: ClasseEntity.defaultImageName
+            case .eleve: EleveEntity.defaultImageName
+            case .warning: "hand.raised"
+            case .program: ProgramEntity.defaultImageName
+            case .competence: WCompChapterEntity.defaultImageName
         }
     }
 
     var badgeValue: Int {
         switch self {
-            case .school:
-                SchoolEntity.cardinal()
-            case .classe:
-                ClasseEntity.cardinal()
-            case .eleve:
-                EleveEntity.cardinal()
-            case .warning:
-                ObservEntity.cardinal() + ColleEntity.cardinal()
-            case .program:
-                ProgramEntity.cardinal()
-            case .competence:
-                0
+            case .school: SchoolEntity.cardinal()
+            case .classe: ClasseEntity.cardinal()
+            case .eleve: EleveEntity.cardinal()
+            case .warning: ObservEntity.cardinal() + ColleEntity.cardinal()
+            case .program: ProgramEntity.cardinal()
+            case .competence: 0
         }
     }
 

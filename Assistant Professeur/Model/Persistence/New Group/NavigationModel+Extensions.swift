@@ -5,40 +5,10 @@
 //  Created by Lionel MICHAUD on 03/06/2023.
 //
 
-import AppFoundation
 import Foundation
 import SwiftUI
 
 extension NavigationModel {
-    // MARK: - Types
-
-    /// Panneaux préférences
-    enum PrefTabSelection: String, Hashable, Codable, PickableIdentifiableEnumP {
-        case general
-        case school
-        case classe
-        case eleve
-        case program
-        case sequence
-        case activity
-        case schoolYear
-
-        var id: String { self.rawValue }
-
-        var pickerString: String {
-            switch self {
-                case .general: return "Général"
-                case .school: return "Établissements"
-                case .classe: return "Classes"
-                case .eleve: return "Élèves"
-                case .program: return "Progressions"
-                case .sequence: return "Séquences"
-                case .activity: return "Activités"
-                case .schoolYear: return "Année scolaire"
-            }
-        }
-    }
-
     // MARK: - Methods
 
     /// Afficher la time-line du programme dans la colonne de droite (détail)

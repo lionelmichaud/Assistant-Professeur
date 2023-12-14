@@ -122,6 +122,7 @@
 		794B83CA2AB5B7A600F5B14E /* BonusMalusStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */; };
 		794B83CD2AB6440900F5B14E /* DuplicateActivityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */; };
 		794CBA8D2B2B3199006617A2 /* AppScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CBA8C2B2B3199006617A2 /* AppScreen.swift */; };
+		794CBA8F2B2B478F006617A2 /* PrefScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794CBA8E2B2B478F006617A2 /* PrefScreen.swift */; };
 		794F4C3D2B111BD0001DB7F6 /* ChangeOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F4C3C2B111BD0001DB7F6 /* ChangeOrientation.swift */; };
 		794F6E0C295CDC3700042B95 /* ObservCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */; };
 		794F6E0E295CDC9100042B95 /* ColleCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */; };
@@ -611,6 +612,7 @@
 		794B83C92AB5B7A600F5B14E /* BonusMalusStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonusMalusStats.swift; sourceTree = "<group>"; };
 		794B83CC2AB6440900F5B14E /* DuplicateActivityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DuplicateActivityModal.swift; path = "Assistant Professeur/Model/Eleve/BonusMalus/DuplicateActivityModal.swift"; sourceTree = SOURCE_ROOT; };
 		794CBA8C2B2B3199006617A2 /* AppScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppScreen.swift; sourceTree = "<group>"; };
+		794CBA8E2B2B478F006617A2 /* PrefScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefScreen.swift; sourceTree = "<group>"; };
 		794F4C3C2B111BD0001DB7F6 /* ChangeOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChangeOrientation.swift; path = "../../../../../../../../Library/Developer/Xcode/DeviceLogs/iPhone 15 de Lionel-00008120-001434983CD2201E/ChangeOrientation.swift"; sourceTree = "<group>"; };
 		794F6E0B295CDC3700042B95 /* ObservCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObservCreatorModal.swift; sourceTree = "<group>"; };
 		794F6E0D295CDC9100042B95 /* ColleCreatorModal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColleCreatorModal.swift; sourceTree = "<group>"; };
@@ -2157,6 +2159,7 @@
 		79DEDB06292593C200F508EF /* PreferencesViews */ = {
 			isa = PBXGroup;
 			children = (
+				794CBA8E2B2B478F006617A2 /* PrefScreen.swift */,
 				79DEDB08292593C200F508EF /* SettingsView.swift */,
 				79DEDB0B292593C200F508EF /* SettingsGeneral.swift */,
 				79DEDB0C292593C200F508EF /* SettingsSchool.swift */,
@@ -2549,6 +2552,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				794CBA8F2B2B478F006617A2 /* PrefScreen.swift in Sources */,
 				79975316297B148800D1C66E /* ProgramSplitView.swift in Sources */,
 				79EC34E22B1B8DAD00747313 /* DKnowTips.swift in Sources */,
 				793221672B063C53000E910F /* SequencePresentationView.swift in Sources */,
