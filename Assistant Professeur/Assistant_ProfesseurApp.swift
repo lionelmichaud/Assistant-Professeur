@@ -18,9 +18,6 @@ private let customLog = Logger(
 
 @main
 struct Assistant_ProfesseurApp: App {
-    /// The managed object context for your Core Data container
-    let coreDataManager = CoreDataManager.shared
-
     /// object that you want to use throughout your scenes and that will be global to the App
     /// @StateObject private var uiState = UIState()
     @State
@@ -30,11 +27,10 @@ struct Assistant_ProfesseurApp: App {
     private var userContext = UserContext()
 
     var body: some Scene {
-        MainScene(
-            coreDataManager: coreDataManager,
-            authentication: authentication,
-            userContext: userContext
-        )
+        MainScene()
+            .environment(authentication)
+            .environment(userContext)
+            .environment(store)
     }
 
     /// Vérifier l'existance du dossier `Documents`.

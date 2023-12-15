@@ -17,11 +17,8 @@ private let customLog = Logger(
 
 /// Defines the main scene of the App
 struct MainScene: Scene {
-    let coreDataManager: CoreDataManager
-    @Bindable
-    var authentication: Authentication
-    @Bindable
-    var userContext: UserContext
+    /// The managed object context for your Core Data container
+    private let coreDataManager = CoreDataManager.shared
 
     // object that you want to use throughout your views and that will be specific to each scene
     // @StateObject private var uiState = UIState()
@@ -44,8 +41,6 @@ struct MainScene: Scene {
             // defines the views hierachy of the scene
             HomeScreen()
                 .environment(\.managedObjectContext, coreDataManager.context)
-                .environment(authentication)
-                .environment(userContext)
         }
 
         // Gérer les changements de phases
