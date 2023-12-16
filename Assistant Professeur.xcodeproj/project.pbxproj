@@ -25,7 +25,9 @@
 		790D63E129F5D8C70021DE39 /* SettingsAgenda.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */; };
 		790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */; };
 		790F76A229818858000A5C7D /* DurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790F76A129818858000A5C7D /* DurationView.swift */; };
-		79131CBE2B2B63BE00DB7262 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79131CBD2B2B63BE00DB7262 /* StoreManager.swift */; };
+		790FC8832B2CA10A00A79006 /* AppShopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790FC8822B2CA10A00A79006 /* AppShopView.swift */; };
+		790FC8852B2CA5EA00A79006 /* Products.plist in Resources */ = {isa = PBXBuildFile; fileRef = 790FC8842B2CA5EA00A79006 /* Products.plist */; };
+		79131CC32B2C5A9400DB7262 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79131CC22B2C5A9400DB7262 /* Store.swift */; };
 		79134554296B65AB0092E7CD /* TrombinoscopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79134553296B65AB0092E7CD /* TrombinoscopeView.swift */; };
 		79134557296B6C620092E7CD /* TrombineInteractivView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79134556296B6C620092E7CD /* TrombineInteractivView.swift */; };
 		79135E0D2969E15B00F95694 /* AppVersion.json in Resources */ = {isa = PBXBuildFile; fileRef = 79135E0C2969E15B00F95694 /* AppVersion.json */; };
@@ -324,6 +326,8 @@
 		79D573472927EEDE00B0B7B8 /* SchoolViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D573462927EEDE00B0B7B8 /* SchoolViewModel.swift */; };
 		79D573492927F16B00B0B7B8 /* LevelSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D573482927F16B00B0B7B8 /* LevelSchool.swift */; };
 		79D5734A2927F16B00B0B7B8 /* LevelSchool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D573482927F16B00B0B7B8 /* LevelSchool.swift */; };
+		79D84F382B2DED9100E07EF5 /* RestoreButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D84F372B2DED9100E07EF5 /* RestoreButton.swift */; };
+		79D84F3A2B2E1EA200E07EF5 /* ProductIcone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79D84F392B2E1EA200E07EF5 /* ProductIcone.swift */; };
 		79DD5A212AD308C60072290E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79DD5A202AD308C60072290E /* WidgetKit.framework */; };
 		79DD5A232AD308C60072290E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79DD5A222AD308C60072290E /* SwiftUI.framework */; };
 		79DD5A262AD308C60072290E /* LiveCoursProgressBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD5A252AD308C60072290E /* LiveCoursProgressBundle.swift */; };
@@ -529,7 +533,11 @@
 		790D63E029F5D8C70021DE39 /* SettingsAgenda.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAgenda.swift; sourceTree = "<group>"; };
 		790F769F2981680F000A5C7D /* SequenceCreatorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceCreatorModal.swift; sourceTree = "<group>"; };
 		790F76A129818858000A5C7D /* DurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationView.swift; sourceTree = "<group>"; };
+		790FC8822B2CA10A00A79006 /* AppShopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShopView.swift; sourceTree = "<group>"; };
+		790FC8842B2CA5EA00A79006 /* Products.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Products.plist; sourceTree = "<group>"; };
 		79131CBD2B2B63BE00DB7262 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		79131CC02B2B67D500DB7262 /* StoreViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewModifier.swift; sourceTree = "<group>"; };
+		79131CC22B2C5A9400DB7262 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		79134553296B65AB0092E7CD /* TrombinoscopeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrombinoscopeView.swift; sourceTree = "<group>"; };
 		79134556296B6C620092E7CD /* TrombineInteractivView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrombineInteractivView.swift; sourceTree = "<group>"; };
 		79135E0C2969E15B00F95694 /* AppVersion.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AppVersion.json; sourceTree = "<group>"; };
@@ -812,6 +820,8 @@
 		79CD363829D989C900BF5ADC /* EmptyListMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyListMessage.swift; sourceTree = "<group>"; };
 		79D573462927EEDE00B0B7B8 /* SchoolViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolViewModel.swift; sourceTree = "<group>"; };
 		79D573482927F16B00B0B7B8 /* LevelSchool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSchool.swift; sourceTree = "<group>"; };
+		79D84F372B2DED9100E07EF5 /* RestoreButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestoreButton.swift; sourceTree = "<group>"; };
+		79D84F392B2E1EA200E07EF5 /* ProductIcone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductIcone.swift; sourceTree = "<group>"; };
 		79DD5A1F2AD308C60072290E /* LiveCoursProgressExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LiveCoursProgressExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		79DD5A202AD308C60072290E /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		79DD5A222AD308C60072290E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -1054,11 +1064,24 @@
 			path = Tips;
 			sourceTree = "<group>";
 		};
+		790FC8812B2CA0F100A79006 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				790FC8822B2CA10A00A79006 /* AppShopView.swift */,
+				79D84F372B2DED9100E07EF5 /* RestoreButton.swift */,
+				79D84F392B2E1EA200E07EF5 /* ProductIcone.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
 		79131CBF2B2B670400DB7262 /* Store */ = {
 			isa = PBXGroup;
 			children = (
 				795BE70D2B287937005D7E29 /* Store.storekit */,
+				790FC8842B2CA5EA00A79006 /* Products.plist */,
 				79131CBD2B2B63BE00DB7262 /* StoreManager.swift */,
+				79131CC02B2B67D500DB7262 /* StoreViewModifier.swift */,
+				79131CC22B2C5A9400DB7262 /* Store.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -1284,6 +1307,7 @@
 				794615872AEE9A87002D725E /* Shared */,
 				794AE9C32A5970C3009C819A /* AppStyles */,
 				79DEDB06292593C200F508EF /* PreferencesViews */,
+				790FC8812B2CA0F100A79006 /* Store */,
 				7901B2E22A16C1FB00C55108 /* Events */,
 				798458E82939529D00B74538 /* Annotation */,
 				79F41E5F29549AE400EAAC52 /* Appreciation */,
@@ -2509,6 +2533,7 @@
 				79C0CA032A0453EB0010DB43 /* ding.wav in Resources */,
 				79C0CA022A0453EB0010DB43 /* bell.wav in Resources */,
 				79B6630D29244C3F007B1FBD /* Preview Assets.xcassets in Resources */,
+				790FC8852B2CA5EA00A79006 /* Products.plist in Resources */,
 				79A8E7BC29AECE1B006D0EAA /* Images.xcassets in Resources */,
 				79B6630929244C3F007B1FBD /* Assets.xcassets in Resources */,
 				79135E0D2969E15B00F95694 /* AppVersion.json in Resources */,
@@ -2774,10 +2799,10 @@
 				7989B4D929A288E900383F84 /* LabeledSequenceView.swift in Sources */,
 				79FD21A42A33D76A00A8D925 /* DCompListView.swift in Sources */,
 				790510BE2AB4B54A006CCC5B /* SchoolBonusMalusView.swift in Sources */,
+				79D84F3A2B2E1EA200E07EF5 /* ProductIcone.swift in Sources */,
 				79DEDB0D292593C200F508EF /* AppVersionView.swift in Sources */,
 				798DD4D2298C318F00C47B2C /* ExamListSection.swift in Sources */,
 				79FD21912A3386F600A8D925 /* DSectionListView.swift in Sources */,
-				79131CBE2B2B63BE00DB7262 /* StoreManager.swift in Sources */,
 				794F6E12295CE1B700042B95 /* ObservEditor.swift in Sources */,
 				79FD218E2A337DCC00A8D925 /* DThemeBrowserView.swift in Sources */,
 				790A10712A472C5500BA3F5C /* ActivityTagList.swift in Sources */,
@@ -2789,6 +2814,7 @@
 				797B7F852AE979A4009042A4 /* DeepLinkManager.swift in Sources */,
 				79012C6E2A39EB7300BF0772 /* CsvExport.swift in Sources */,
 				79FD21992A339A7700A8D925 /* DSectionEditorModal.swift in Sources */,
+				79D84F382B2DED9100E07EF5 /* RestoreButton.swift in Sources */,
 				79012C6C2A39EA8700BF0772 /* CsvImport.swift in Sources */,
 				7921355A2978726E0036A5EA /* Sequence+Extensions.swift in Sources */,
 				79B060832AFAA05C00B381FE /* KeychainItem.swift in Sources */,
@@ -2890,6 +2916,7 @@
 				79AFBFB62981C9DA001576DD /* ActivityCreatorModal.swift in Sources */,
 				7989B4DB29A28D0300383F84 /* ProgressStateEnum.swift in Sources */,
 				7994E3242972F4E500952D08 /* SchoolDocumentListSection.swift in Sources */,
+				79131CC32B2C5A9400DB7262 /* Store.swift in Sources */,
 				795C2C31296E2DCA00EDFF09 /* RoomElevePlacement.swift in Sources */,
 				7981C22129A8054A0085986D /* ProgramTimeLine.swift in Sources */,
 				796A17842A3F42C500413DDD /* ClasseNavigationRoute.swift in Sources */,
@@ -2921,6 +2948,7 @@
 				795C2C2B296E2DCA00EDFF09 /* EditableSeatLabel.swift in Sources */,
 				79ED5AAD2998100E00D536BF /* Mark+CoreDataClass.swift in Sources */,
 				79F60D092996A02200981385 /* Ressource+CoreDataClass.swift in Sources */,
+				790FC8832B2CA10A00A79006 /* AppShopView.swift in Sources */,
 				793C29D62953C08100E7F65B /* SchoolRessourceRow.swift in Sources */,
 				79E40E6C2996A3A3006BBE49 /* Event+CoreDataClass.swift in Sources */,
 				790510BB2AB377ED006CCC5B /* BonusMalusGroupBox.swift in Sources */,

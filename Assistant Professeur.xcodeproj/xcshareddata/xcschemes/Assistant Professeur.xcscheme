@@ -120,7 +120,7 @@
          </AdditionalOption>
       </AdditionalOptions>
       <StoreKitConfigurationFileReference
-         identifier = "../Assistant Professeur/Model/Shared/Store.storekit">
+         identifier = "../Assistant Professeur/Model/Shared/New Group/Store.storekit">
       </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction

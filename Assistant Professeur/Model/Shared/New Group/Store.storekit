@@ -10,13 +10,13 @@
       "internalID" : "C0B2803A",
       "localizations" : [
         {
-          "description" : "Établissements et classes sans limite",
-          "displayName" : "Sans limite",
+          "description" : "Établissement et Classe sans limite de nombre",
+          "displayName" : "Nombres illimités",
           "locale" : "fr"
         }
       ],
-      "productID" : "NonConsumable.UnlimitedQuantity",
-      "referenceName" : "UnlimitedQuantity",
+      "productID" : "NonConsumable.Unlocked",
+      "referenceName" : "Unlocked",
       "type" : "NonConsumable"
     },
     {
@@ -25,7 +25,7 @@
       "internalID" : "07AEDC83",
       "localizations" : [
         {
-          "description" : "Coordonnez vos cours et vos progressions",
+          "description" : "Définissez et plannifiez vos progressions",
           "displayName" : "Progressions pédagogiques",
           "locale" : "fr"
         }
@@ -40,13 +40,28 @@
       "internalID" : "791F58B2",
       "localizations" : [
         {
-          "description" : "Associez des compétences à vos progressions",
+          "description" : "Associez des compétences à vos Progressions",
           "displayName" : "Compétences",
           "locale" : "fr"
         }
       ],
       "productID" : "NonConsumable.Competency",
       "referenceName" : "Competency",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "14.99",
+      "familyShareable" : false,
+      "internalID" : "3D0E5B32",
+      "localizations" : [
+        {
+          "description" : "Sans limite de nombre + Toutes les options",
+          "displayName" : "PRO",
+          "locale" : "fr"
+        }
+      ],
+      "productID" : "NonConsumable.Pro",
+      "referenceName" : "PRO",
       "type" : "NonConsumable"
     }
   ],

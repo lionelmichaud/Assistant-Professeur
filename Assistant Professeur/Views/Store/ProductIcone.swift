@@ -1,0 +1,22 @@
+//
+//  ProductIcone.swift
+//  Assistant Professeur
+//
+//  Created by Lionel MICHAUD on 16/12/2023.
+//
+
+import SwiftUI
+
+struct ProductIcone: View {
+    let systemName: String
+
+    var body: some View {
+        Image(systemName: systemName)
+            .resizable()
+            .scaledToFit()
+            .frame(maxWidth: 80, maxHeight: 80)
+            .padding()
+            .background(.fill.tertiary, in: .circle)
+            .foregroundStyle(.blue2)
+    }
+}
