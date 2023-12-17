@@ -24,3 +24,17 @@ struct ProductIcone: View {
                     Color.notPurchedProductColor)
     }
 }
+
+#Preview {
+    ProductIcone(
+        systemName: "star",
+        isPurchased: false
+    )
+}
+
+#Preview {
+    ProductIcone(
+        systemName: "star",
+        isPurchased: true
+    )
+}

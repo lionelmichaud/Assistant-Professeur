@@ -66,7 +66,7 @@ struct ContentView: View {
 
         // Gestion de l'apparition/disparition du magazin
         .onAppear {
-            showingStore = !store.somePurchased()
+            showingStore = !store.somePurchaseDone
         }
         .onInAppPurchaseCompletion { _, purchaseResult in
             guard case .success(let verificationResult) = purchaseResult,

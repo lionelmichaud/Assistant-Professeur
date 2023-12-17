@@ -26,73 +26,68 @@ struct ProgramSplitView: View {
     @Environment(UserContext.self)
     private var userContext
 
+    @Environment(Store.self)
+    private var store
+
     @State
     private var preferredColumn = NavigationSplitViewColumn.sidebar
 
     var body: some View {
-        NavigationSplitView(
-            columnVisibility: $navig.columnVisibility,
-            preferredCompactColumn: $preferredColumn
-        ) {
-            // 1ère colonne
-            ProgramSidebar()
-                .navigationSplitViewColumnWidth(
-                    min: 300,
-                    ideal: 300,
-                    max: 500
-                )
+        ZStack {
+            if store.isPurchased(service: .program) {
+                NavigationSplitView(
+                    columnVisibility: $navig.columnVisibility,
+                    preferredCompactColumn: $preferredColumn
+                ) {
+                    // 1ère colonne
+                    ProgramSidebar()
+                        .navigationSplitViewColumnWidth(
+                            min: 300,
+                            ideal: 300,
+                            max: 500
+                        )
 
-        } content: {
-            // 2nde colonne
-            SequenceSidebar()
-                // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
-                .id(navig.selectedProgramMngObjId)
-                .navigationSplitViewColumnWidth(
-                    min: 400,
-                    ideal: 500,
-                    max: 600
-                )
-
-        } detail: {
-            // 3ième colonne
-            NavigationStack(path: $navig.programPath) {
-                ActivitySideBar()
+                } content: {
+                    // 2nde colonne
+                    SequenceSidebar()
                     // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
-                    .id(navig.selectedSequenceMngObjId)
-                    .navigationDestination(for: ProgramNavigationRoute.self) { route in
-                        route.destination()
+                        .id(navig.selectedProgramMngObjId)
+                        .navigationSplitViewColumnWidth(
+                            min: 400,
+                            ideal: 500,
+                            max: 600
+                        )
+
+                } detail: {
+                    // 3ième colonne
+                    NavigationStack(path: $navig.programPath) {
+                        ActivitySideBar()
+                        // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+                            .id(navig.selectedSequenceMngObjId)
+                            .navigationDestination(for: ProgramNavigationRoute.self) { route in
+                                route.destination()
+                            }
                     }
+                }
+                .navigationSplitViewStyle(.balanced)
+
+                // Désélectionner la séquence et l'activité quand on change de programme
+                // Afficher la colonne du milieu sur iPhone
+                .onChange(of: navig.selectedProgramMngObjId) {
+                    Task {
+                        await navig.changeSelectedProgram()
+                    }
+                }
+
+                // Désélectionner l'activité quand on change de séquence
+                // Afficher la colonne détail sur iPhone
+                .onChange(of: navig.selectedSequenceMngObjId) {
+                    navig.changeSelectedSequence()
+                }
+            } else {
+                Text("Pas acheté")
             }
         }
-        .navigationSplitViewStyle(.balanced)
-
-        // Désélectionner la séquence et l'activité quand on change de programme
-        // Afficher la colonne du milieu sur iPhone
-        .onChange(of: navig.selectedProgramMngObjId) {
-            Task {
-                await navig.changeSelectedProgram()
-                //            if navig.selectedProgramMngObjId != nil {
-                //                preferredColumn = .content
-                //            }
-            }
-        }
-
-        // Désélectionner l'activité quand on change de séquence
-        // Afficher la colonne détail sur iPhone
-        .onChange(of: navig.selectedSequenceMngObjId) {
-            navig.changeSelectedSequence()
-//            if navig.selectedSequenceMngObjId != nil {
-//                preferredColumn = .detail
-//            }
-        }
-
-        // Afficher l'activité quand on en sélectionne une
-        // Afficher la colonne détail sur iPhone
-//        .onChange(of: navig.selectedActivityMngObjId, initial: true) {
-//            if navig.selectedActivityMngObjId != nil {
-//                preferredColumn = .detail
-//            }
-//        }
     }
 }
 

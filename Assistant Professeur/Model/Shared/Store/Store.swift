@@ -27,13 +27,14 @@ public enum StoreError: Error {
 /// Attributs d'un Product du Store tel que défini dans une PList du Bundle
 struct NcProductAttributes: Codable {
     var iconName: String
-    var rank: Int
+    var rankInStore: Int
+    var levelOfService: Int
 }
 
 /// Magazin de l'application contenant la liste des produits vendus
 /// et la liste des produits achetés.
 ///  - Warning: Les attributs des produits vendus sont extraits d'un fichier
-///             PList "Products.plist" du Bundle et doivent contenir un attribut `rank`
+///             PList "Products.plist" du Bundle et doivent contenir un attribut `rankInStore`
 ///             qui détermine leur rang d'apparition dans le Store.
 ///             Le produit de base, sans option, en 1er.
 ///             Le produit complet, toutes option, en dernier.
@@ -49,6 +50,9 @@ public final class Store {
     private(set) var purchasedSubscriptions: [Product] = []
     private(set) var subscriptionGroupStatus: RenewalState?
 
+    private(set) var purchasedServices: [Service] = []
+
+    @ObservationIgnored
     private var updateListenerTask: Task<Void, Error>?
 
     private let productIdToAttributes: OrderedDictionary<String, NcProductAttributes>
@@ -84,6 +88,11 @@ public final class Store {
         } else {
             []
         }
+    }
+
+    /// Determines whether some non-consumable product has been purchased.
+    var somePurchaseDone: Bool {
+        purchasedNonConsumables.isNotEmpty
     }
 
     // MARK: - Initializer / Deinitializer
@@ -131,7 +140,7 @@ public final class Store {
             uniqueKeys: dico.keys,
             values: dico.values
         )
-        ordredDico.sort(by: { $0.value.rank < $1.value.rank })
+        ordredDico.sort(by: { $0.value.rankInStore < $1.value.rankInStore })
         return ordredDico
     }
 
@@ -220,37 +229,6 @@ public final class Store {
         }
     }
 
-    func purchase(_ product: Product) async throws -> Transaction? {
-        // Begin purchasing the `Product` the user selects.
-        let result = try await product.purchase()
-
-        switch result {
-            case let .success(verification):
-                /// Check whether the transaction is verified. If it isn't,
-                /// this function rethrows the verification error.
-                let transaction = try checkVerified(verification)
-
-                // The transaction is verified. Deliver content to the user.
-                await updateCustomerProductStatus()
-
-                // Always finish a transaction.
-                await transaction.finish()
-
-                return transaction
-
-            case .userCancelled, .pending:
-                return nil
-
-            default:
-                return nil
-        }
-    }
-
-    /// Determines whether some non-consumable product has been purchased.
-    func somePurchased() -> Bool {
-        purchasedNonConsumables.isNotEmpty
-    }
-
     /// Check if the transaction is authentic
     func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
         // Check whether the JWS passes StoreKit verification.
@@ -271,6 +249,8 @@ public final class Store {
         var purchasedSubscriptions: [Product] = []
         var purchasedNonRenewableSubscriptions: [Product] = []
 
+        var purchasedServices: [Service] = []
+
         // Iterate through all of the user's purchased products.
         for await result in Transaction.currentEntitlements {
             do {
@@ -282,6 +262,9 @@ public final class Store {
                     case .nonConsumable:
                         if let ncProduct = nonConsumables.first(where: { $0.id == transaction.productID }) {
                             purchasedNonConsumables.append(ncProduct)
+                            if let service = service(for: ncProduct) {
+                                purchasedServices.append(service)
+                            }
                         }
 
                     case .nonRenewable:
@@ -329,29 +312,38 @@ public final class Store {
         // group, so products in the subscriptions array all belong to the same group. The statuses that
         // `product.subscription.status` returns apply to the entire subscription group.
         subscriptionGroupStatus = try? await subscriptions.first?.subscription?.status.first?.state
+
+        self.purchasedServices = purchasedServices
     }
 }
 
-// MARK: - Product's attributes
+// MARK: - Product's purchase
 
 extension Store {
-    /// Determines whether the user purchases a given product.
-    func isPurchased(_ product: Product) -> Bool {
-        switch product.type {
-            case .nonConsumable:
-                return purchasedNonConsumables.contains(product)
-            case .nonRenewable:
-                return purchasedNonRenewableSubscriptions.contains(product)
-            case .autoRenewable:
-                return purchasedSubscriptions.contains(product)
-            default:
-                return false
-        }
-    }
+    func purchase(_ product: Product) async throws -> Transaction? {
+        // Begin purchasing the `Product` the user selects.
+        let result = try await product.purchase()
 
-    /// Retourne le nom du SFSymbol à utiliser.
-    func iconeName(for productId: String) -> String {
-        productIdToAttributes[productId]!.iconName
+        switch result {
+            case let .success(verification):
+                /// Check whether the transaction is verified. If it isn't,
+                /// this function rethrows the verification error.
+                let transaction = try checkVerified(verification)
+
+                // The transaction is verified. Deliver content to the user.
+                await updateCustomerProductStatus()
+
+                // Always finish a transaction.
+                await transaction.finish()
+
+                return transaction
+
+            case .userCancelled, .pending:
+                return nil
+
+            default:
+                return nil
+        }
     }
 
     /// Détermine si le produit peut-être acheté.
@@ -382,6 +374,43 @@ extension Store {
         return false
     }
 
+    /// Determines whether the `service` has been purchased.
+    func isPurchased(service: Service) -> Bool {
+        purchasedServices.contains(service)
+    }
+
+    /// Determines whether the user purchases a given product.
+    func isPurchased(_ product: Product) -> Bool {
+        switch product.type {
+            case .nonConsumable:
+                return purchasedNonConsumables.contains(product)
+            case .nonRenewable:
+                return purchasedNonRenewableSubscriptions.contains(product)
+            case .autoRenewable:
+                return purchasedSubscriptions.contains(product)
+            default:
+                return false
+        }
+    }
+}
+
+// MARK: - Product's attributes
+
+extension Store {
+    /// Returns de purchased service
+    func service(for product: Product) -> Service? {
+        if let level = productIdToAttributes[product.id]?.levelOfService {
+            return Service.service(forLevel: level)
+        } else {
+            return nil
+        }
+    }
+
+    /// Retourne le nom du SFSymbol à utiliser.
+    func iconeName(for productId: String) -> String {
+        productIdToAttributes[productId]!.iconName
+    }
+
     /// Retourne l'icône à utiliser dans le Store.
     @ViewBuilder
     func icone(for product: Product) -> some View {
@@ -391,12 +420,12 @@ extension Store {
             isPurchased: isPurchased
         )
     }
-    
+
     /// Tri les produits selon leur rang d'apparition dans le Store.
     func sortByRank(_ products: [Product]) -> [Product] {
         products.sorted(by: {
-            if let left = productIdToAttributes[$0.id]?.rank,
-               let right = productIdToAttributes[$1.id]?.rank {
+            if let left = productIdToAttributes[$0.id]?.rankInStore,
+               let right = productIdToAttributes[$1.id]?.rankInStore {
                 return left < right
             } else {
                 return true

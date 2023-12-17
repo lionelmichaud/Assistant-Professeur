@@ -6,29 +6,37 @@
 	<dict>
 		<key>iconName</key>
 		<string>lock.square.stack</string>
-		<key>rank</key>
+		<key>rankInStore</key>
+		<integer>1</integer>
+		<key>levelOfService</key>
 		<integer>1</integer>
 	</dict>
 	<key>NonConsumable.Program</key>
 	<dict>
 		<key>iconName</key>
 		<string>books.vertical</string>
-		<key>rank</key>
+		<key>rankInStore</key>
+		<integer>2</integer>
+		<key>levelOfService</key>
 		<integer>2</integer>
 	</dict>
 	<key>NonConsumable.Competency</key>
 	<dict>
 		<key>iconName</key>
 		<string>brain.head.profile</string>
-		<key>rank</key>
+		<key>rankInStore</key>
+		<integer>3</integer>
+		<key>levelOfService</key>
 		<integer>3</integer>
 	</dict>
 	<key>NonConsumable.Pro</key>
 	<dict>
 		<key>iconName</key>
 		<string>checkmark.seal</string>
-		<key>rank</key>
+		<key>rankInStore</key>
 		<integer>4</integer>
+		<key>levelOfService</key>
+		<integer>10</integer>
 	</dict>
 </dict>
 </plist>

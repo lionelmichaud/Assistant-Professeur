@@ -564,13 +564,19 @@ extension ProgramManager {
                             // La période est entièrement complétée
                             let nbWeek = Double(period.dateInterval.duration) / Double(7 * 24 * 60 * 60)
                             return nb + nbWeek * nbSeancePerWeek
-                        } else {
+
+                        } else if period.dateInterval.start < date {
+                            // La période est en cours
                             let completedPart = DateInterval(
                                 start: period.dateInterval.start,
                                 end: date
                             )
                             let nbWeek = Double(completedPart.duration) / Double(7 * 24 * 60 * 60)
                             return nb + nbWeek * nbSeancePerWeek
+
+                        } else {
+                            // La période est à venir
+                            return nb
                         }
                     } else {
                         return nb
