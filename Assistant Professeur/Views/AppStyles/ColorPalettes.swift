@@ -45,6 +45,10 @@ extension Color {
 
     /// Couleur dans les Tips
     static let tipIconColor = Color.purple
+
+    /// Couleur dans les Store
+    static let notPurchedProductColor = Color.blue2
+    static let purchasedProductColor = Color.green
 }
 
 public extension HierarchicalShapeStyle {

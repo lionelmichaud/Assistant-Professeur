@@ -38,41 +38,41 @@ struct AppShopView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
                 if let baseProduct = store.baseProduct {
-                    baseText
-                    ProductView(baseProduct) {
-                        store.icone(for: baseProduct)
-                    }
-                    .productStyle(
-                        isPurchasable: true
+                    let isPurchasable = store.isPurchasable(baseProduct)
+                    baseTitle
+                    baseDescription
+                    MyProductView(
+                        product: baseProduct,
+                        isPurchasable: isPurchasable
                     )
                 }
 
                 if store.optionProducts.isNotEmpty {
-                    optionsText
+                    optionsTitle
                     ForEach(store.optionProducts) { product in
                         let isPurchasable = store.isPurchasable(product)
                         if !isPurchasable {
-                            unavailableOptionText
+                            if let fullProduct = store.fullProduct,
+                               !store.isPurchased(fullProduct) {
+                                unavailableOptionText
+                            }
                         }
-                        ProductView(product) {
-                            store.icone(for: product)
-                        }
-                        .productStyle(
+                        MyProductView(
+                            product: product,
                             isPurchasable: isPurchasable
                         )
                     }
                 }
 
                 if let fullProduct = store.fullProduct {
-                    fullText
+                    fullTitle
+                    fullDescription
                     let isPurchasable = store.isPurchasable(fullProduct)
                     if !isPurchasable {
                         unavailableOptionText
                     }
-                    ProductView(fullProduct) {
-                        store.icone(for: fullProduct)
-                    }
-                    .productStyle(
+                    MyProductView(
+                        product: fullProduct,
                         isPurchasable: isPurchasable
                     )
                 }
@@ -84,25 +84,38 @@ struct AppShopView: View {
         .scrollIndicators(.hidden)
     }
 
-    var baseText: some View {
+    var baseTitle: some View {
         Text("Version débloquée")
             .font(.title3.weight(.medium))
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.vertical)
+            .padding(.top)
     }
 
-    var optionsText: some View {
+    var optionsTitle: some View {
         Text("Options disponibles")
             .font(.title3.weight(.medium))
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top)
     }
 
-    var fullText: some View {
+    var fullTitle: some View {
         Text("Version complète")
             .font(.title3.weight(.medium))
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top)
+    }
+
+    var baseDescription: some View {
+        Text("Options disponibles ci-dessous après achat.")
+            .multilineTextAlignment(.leading)
+            .font(.callout)
+            .foregroundStyle(.secondary)
+    }
+
+    var fullDescription: some View {
+        Text("Cette version donnera accès aux futurs fonctionnalités du produit.")
+            .multilineTextAlignment(.leading)
+            .font(.callout)
     }
 
     var unavailableOptionText: some View {
@@ -110,6 +123,23 @@ struct AppShopView: View {
             .multilineTextAlignment(.leading)
             .font(.callout)
             .foregroundStyle(.secondary)
+    }
+}
+
+struct MyProductView: View {
+    let product: Product
+    let isPurchasable: Bool
+
+    @Environment(Store.self)
+    private var store
+
+    var body: some View {
+        ProductView(product) {
+            store.icone(for: product)
+        }
+        .productStyle(
+            isPurchasable: isPurchasable
+        )
     }
 }
 

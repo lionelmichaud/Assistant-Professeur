@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProductIcone: View {
     let systemName: String
+    let isPurchased: Bool
 
     var body: some View {
         Image(systemName: systemName)
@@ -17,6 +18,9 @@ struct ProductIcone: View {
             .frame(maxWidth: 80, maxHeight: 80)
             .padding()
             .background(.fill.tertiary, in: .circle)
-            .foregroundStyle(.blue2)
+            .foregroundStyle(
+                isPurchased ?
+                    Color.purchasedProductColor :
+                    Color.notPurchedProductColor)
     }
 }

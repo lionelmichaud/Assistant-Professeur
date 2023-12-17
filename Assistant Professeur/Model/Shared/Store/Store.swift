@@ -30,6 +30,14 @@ struct NcProductAttributes: Codable {
     var rank: Int
 }
 
+/// Magazin de l'application contenant la liste des produits vendus
+/// et la liste des produits achetés.
+///  - Warning: Les attributs des produits vendus sont extraits d'un fichier
+///             PList "Products.plist" du Bundle et doivent contenir un attribut `rank`
+///             qui détermine leur rang d'apparition dans le Store.
+///             Le produit de base, sans option, en 1er.
+///             Le produit complet, toutes option, en dernier.
+///             Entre les deux, les options possibles.
 @Observable
 public final class Store {
     private(set) var nonConsumables: [Product]
@@ -49,12 +57,18 @@ public final class Store {
         Array(productIdToAttributes.keys)
     }
 
-    /// Le produit minimum sans option
+    /// Le produit minimum sans option.
+    ///
+    /// Retourne `nil` s'il n'y a aucun produit à vendre.
     var baseProduct: Product? {
         nonConsumables.first
     }
 
-    /// Le produit maximum toutes options
+    /// Le produit complet toutes options.
+    ///
+    /// Retourne `nil` s'il n'y a aucun produit à vendre.
+    ///
+    /// - Warning: Retourne `nil` si le `baseProduct` est déjà acheté.
     var fullProduct: Product? {
         guard let baseProduct,
               !purchasedNonConsumables.contains(baseProduct) else {
@@ -63,10 +77,10 @@ public final class Store {
         return nonConsumables.last
     }
 
-    /// Le produit maximum toutes options
+    /// Le produit maximum toutes options.
     var optionProducts: [Product] {
         if nonConsumables.count >= 2 {
-            Array(nonConsumables[(nonConsumables.startIndex+1)...(nonConsumables.endIndex-2)])
+            Array(nonConsumables[(nonConsumables.startIndex + 1) ... (nonConsumables.endIndex - 2)])
         } else {
             []
         }
@@ -335,32 +349,50 @@ extension Store {
         }
     }
 
+    /// Retourne le nom du SFSymbol à utiliser.
     func iconeName(for productId: String) -> String {
         productIdToAttributes[productId]!.iconName
     }
 
+    /// Détermine si le produit peut-être acheté.
+    ///
+    /// - Note: Le `fullProduct`, s'il existe, peut toujours être acheté.
+    ///
+    /// - Warning: Un autre produit ne peut pas être acheté si le `fullProduct`
+    ///             est déjà acheté.
     func isPurchasable(_ product: Product) -> Bool {
-        if product == nonConsumables.first { return true }
-        if product == nonConsumables.last { return true }
-        for idx in (nonConsumables.startIndex+1)...(nonConsumables.endIndex-2) {
-            if nonConsumables[idx] == product &&
-                isPurchased(nonConsumables[idx-1]) {
+        if product == nonConsumables.first {
+            if let fullProduct = self.fullProduct {
+                return !isPurchased(fullProduct)
+            } else {
                 return true
+            }
+        }
+        if product == nonConsumables.last {
+            return true
+        }
+        if nonConsumables.count > 2 {
+            for idx in (nonConsumables.startIndex + 1) ... (nonConsumables.endIndex - 2) {
+                if nonConsumables[idx] == product &&
+                    isPurchased(nonConsumables[idx - 1]) {
+                    return true
+                }
             }
         }
         return false
     }
 
+    /// Retourne l'icône à utiliser dans le Store.
     @ViewBuilder
     func icone(for product: Product) -> some View {
-        if isPurchased(product) {
-            ProductIcone(systemName: "lock.open")
-                .foregroundStyle(.green)
-        } else {
-            ProductIcone(systemName: iconeName(for: product.id))
-        }
+        let isPurchased = isPurchased(product)
+        ProductIcone(
+            systemName: isPurchased ? "lock.open" : iconeName(for: product.id),
+            isPurchased: isPurchased
+        )
     }
-
+    
+    /// Tri les produits selon leur rang d'apparition dans le Store.
     func sortByRank(_ products: [Product]) -> [Product] {
         products.sorted(by: {
             if let left = productIdToAttributes[$0.id]?.rank,
@@ -372,6 +404,7 @@ extension Store {
         })
     }
 
+    /// Tri les produits selon leur prix de vente dans le Store.
     func sortByPrice(_ products: [Product]) -> [Product] {
         products.sorted(by: { $0.price < $1.price })
     }
