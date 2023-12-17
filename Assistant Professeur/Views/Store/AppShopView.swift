@@ -42,39 +42,39 @@ struct AppShopView: View {
                     ProductView(baseProduct) {
                         store.icone(for: baseProduct)
                     }
-                    .productStyle()
+                    .productStyle(
+                        isPurchasable: true
+                    )
                 }
 
                 if store.optionProducts.isNotEmpty {
                     optionsText
                     ForEach(store.optionProducts) { product in
+                        let isPurchasable = store.isPurchasable(product)
+                        if !isPurchasable {
+                            unavailableOptionText
+                        }
                         ProductView(product) {
                             store.icone(for: product)
                         }
-                        .productStyle()
-                        .overlay {
-                            if !store.isPurchasable(product) {
-                                RoundedRectangle(cornerRadius: 20.0)
-                                    .fill(.gray)
-                                    .opacity(0.51)
-                                Text("Disponible après achat des options précédentes")
-                                    .multilineTextAlignment(.center)
-                                    .font(.title3)
-                                    .background(
-                                        .ultraThinMaterial,
-                                        in: .rect(cornerRadius: 5.0)
-                                    )
-                            }
-                        }
+                        .productStyle(
+                            isPurchasable: isPurchasable
+                        )
                     }
                 }
 
                 if let fullProduct = store.fullProduct {
                     fullText
+                    let isPurchasable = store.isPurchasable(fullProduct)
+                    if !isPurchasable {
+                        unavailableOptionText
+                    }
                     ProductView(fullProduct) {
                         store.icone(for: fullProduct)
                     }
-                    .productStyle()
+                    .productStyle(
+                        isPurchasable: isPurchasable
+                    )
                 }
             }
             // .productViewStyle(.compact)
@@ -104,20 +104,12 @@ struct AppShopView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top)
     }
-}
 
-struct ProductViewModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .padding(12)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(.background.secondary, in: .rect(cornerRadius: 20))
-    }
-}
-
-private extension View {
-    func productStyle() -> some View {
-        modifier(ProductViewModifier())
+    var unavailableOptionText: some View {
+        Text("Disponible après achat des options précédentes")
+            .multilineTextAlignment(.leading)
+            .font(.callout)
+            .foregroundStyle(.secondary)
     }
 }
 

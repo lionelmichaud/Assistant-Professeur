@@ -69,10 +69,12 @@ struct ProgramSplitView: View {
         // Désélectionner la séquence et l'activité quand on change de programme
         // Afficher la colonne du milieu sur iPhone
         .onChange(of: navig.selectedProgramMngObjId) {
-            navig.changeSelectedProgram()
-//            if navig.selectedProgramMngObjId != nil {
-//                preferredColumn = .content
-//            }
+            Task {
+                await navig.changeSelectedProgram()
+                //            if navig.selectedProgramMngObjId != nil {
+                //                preferredColumn = .content
+                //            }
+            }
         }
 
         // Désélectionner l'activité quand on change de séquence
