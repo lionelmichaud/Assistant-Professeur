@@ -53,14 +53,18 @@ struct AppShopView: View {
                         }
                         .productStyle()
                         .overlay {
-                            RoundedRectangle(cornerRadius: 20.0)
-                                .fill(.gray)
-                                .opacity(0.51)
-                            Text("Disponible après achat des options précédentes")
-                                .multilineTextAlignment(.center)
-                                .font(.title3)
-                                //.foregroundStyle(.red)
-                                .background(.ultraThinMaterial, in: .rect(cornerRadius: 5.0))
+                            if !store.isPurchasable(product) {
+                                RoundedRectangle(cornerRadius: 20.0)
+                                    .fill(.gray)
+                                    .opacity(0.51)
+                                Text("Disponible après achat des options précédentes")
+                                    .multilineTextAlignment(.center)
+                                    .font(.title3)
+                                    .background(
+                                        .ultraThinMaterial,
+                                        in: .rect(cornerRadius: 5.0)
+                                    )
+                            }
                         }
                     }
                 }

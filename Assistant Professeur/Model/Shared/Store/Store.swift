@@ -339,6 +339,18 @@ extension Store {
         productIdToAttributes[productId]!.iconName
     }
 
+    func isPurchasable(_ product: Product) -> Bool {
+        if product == nonConsumables.first { return true }
+        if product == nonConsumables.last { return true }
+        for idx in (nonConsumables.startIndex+1)...(nonConsumables.endIndex-2) {
+            if nonConsumables[idx] == product &&
+                isPurchased(nonConsumables[idx-1]) {
+                return true
+            }
+        }
+        return false
+    }
+
     @ViewBuilder
     func icone(for product: Product) -> some View {
         if isPurchased(product) {
