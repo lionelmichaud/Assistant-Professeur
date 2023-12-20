@@ -40,11 +40,11 @@ struct AppShopView: View {
                 if let baseProduct = store.baseProduct {
                     let isPurchasable = store.isPurchasable(baseProduct)
                     baseTitle
-                    baseDescription
                     MyProductView(
                         product: baseProduct,
                         isPurchasable: isPurchasable
                     )
+                    baseDescription
                 }
 
                 if store.optionProducts.isNotEmpty {
@@ -103,7 +103,7 @@ struct AppShopView: View {
     }
 
     var baseDescription: some View {
-        Text("Options disponibles ci-dessous après achat.")
+        Text("Options ci-dessous disponibles après achat.")
             .multilineTextAlignment(.leading)
             .font(.callout)
             .foregroundStyle(.secondary)

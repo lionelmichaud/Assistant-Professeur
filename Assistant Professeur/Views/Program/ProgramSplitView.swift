@@ -10,6 +10,7 @@ import SwiftUI
 
 // MARK: - State Machine de l'état de la colonne "détail"
 
+/// Contenus possibles de la colonne Détail
 enum ProgramDetailColumnState {
     case showProgramSteps
     case showSequenceSteps
@@ -28,6 +29,9 @@ struct ProgramSplitView: View {
 
     @Environment(Store.self)
     private var store
+
+    @Environment(\.horizontalSizeClass)
+    private var hClass
 
     @State
     private var preferredColumn = NavigationSplitViewColumn.sidebar
@@ -86,10 +90,13 @@ struct ProgramSplitView: View {
                 }
             } else {
                 VStack {
-                    Text("Pour avoir accès à ces fonctionnalités, rendez-vous en magazin.")
+                    Image(.ecranIPadProgram)
+                        .resizable()
+                        .scaledToFit()
+                    Text("Pour avoir accès à la création de vos **progressions pédagogiques** et les associer à vos cours, rendez-vous en magazin.")
                         .multilineTextAlignment(.center)
                         .font(.title3)
-                        .frame(maxWidth: 300)
+                        .frame(maxWidth: hClass == .regular ? 600 : 300)
                     Button("Magazin") {
                         store.isShowingStore = true
                     }
@@ -97,12 +104,6 @@ struct ProgramSplitView: View {
                     .padding(.top)
                 }
                 .padding()
-//                // Afficher le magazin
-//                .sheet(isPresented: $showingStore) {
-//                    NavigationStack {
-//                        AppShopView()
-//                    }
-//                }
             }
         }
     }
