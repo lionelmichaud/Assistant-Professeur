@@ -24,8 +24,11 @@ extension NavigationModel {
     }
 
     /// Désélectionner la séquence et l'activité quand on change de programme
-    func changeSelectedProgram() {
+    @MainActor
+    func changeSelectedProgram() async {
         selectedSequenceMngObjId = nil
+        // ATTENTION: indispensable pour laisser le temps à la RunLoop de faire les choses dans l'ordre
+        try? await Task.sleep(for: .seconds(0.1))
         selectedActivityMngObjId = nil
     }
 

@@ -10,6 +10,7 @@ import CloudKit
 import HelpersView
 import OSLog
 import SwiftUI
+import StoreKit
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -29,6 +30,9 @@ struct ContentView: View {
     @Environment(UserContext.self)
     private var userContext
 
+    @Environment(Store.self)
+    private var store
+
     @State
     private var isiCloudAlertPresented = false
 
@@ -39,6 +43,8 @@ struct ContentView: View {
     private var showTabBar = true
 
     var body: some View {
+        @Bindable var store = store
+        
         TabView(selection: navig.tabSelection()) {
             // Pour chaque onglet
             ForEach(AppScreen.allCases) { screen in
@@ -55,6 +61,19 @@ struct ContentView: View {
         .onRotate { newOrientation in
             showTabBar = !isPhone() ||
                 (newOrientation.isPortrait || newOrientation.isFlat)
+        }
+
+        .sheet(isPresented: $store.isShowingStore) {
+            NavigationStack {
+                AppShopView()
+//                    .onInAppPurchaseCompletion { _, purchaseResult in
+//                        guard case .success(let verificationResult) = purchaseResult,
+//                              case .success = verificationResult else {
+//                            return
+//                        }
+//                        store.isShowingStore = false
+//                    }
+            }
         }
 
         // Alerte en cas d'erreur d'initilisation de l'App

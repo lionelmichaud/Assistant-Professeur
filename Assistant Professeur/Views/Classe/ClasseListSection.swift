@@ -16,10 +16,16 @@ struct ClasseListSection: View {
     @EnvironmentObject
     private var navigationModel: NavigationModel
 
+    @Environment(Store.self)
+    var store
+
+    @State
+    var alertInfo = AlertInfo()
+
     @State
     private var isAddingNewClasse = false
 
-    // Create an instance of your tip content.
+    /// Create an instance of your tip content.
     var flagListItem = FlagClasseItemTip()
 
     // MARK: - Computed Properties
@@ -29,7 +35,15 @@ struct ClasseListSection: View {
             let classes = school.classesSortedByLevelNumber
             // ajouter une classe
             Button {
-                isAddingNewClasse = true
+                if (ClasseEntity.cardinal() == 0) ||
+                    store.isPurchased(service: .unlocked) ||
+                    store.isPurchased(service: .pro) {
+                    isAddingNewClasse = true
+                } else {
+                    alertInfo.title = "Limite de la version d'essai atteinte"
+                    alertInfo.message = "Pour bénéficier d'un **nombre illimité** d'établissements et de classes, rendez-vous en magazin."
+                    alertInfo.isPresented = true
+                }
             } label: {
                 Label("Ajouter une classe", systemImage: "plus.circle.fill")
             }
@@ -104,6 +118,21 @@ struct ClasseListSection: View {
                     .style(.sectionHeader)
             }
         }
+
+        .alert(
+            alertInfo.title,
+            isPresented: $alertInfo.isPresented,
+            actions: {
+                // Afficher le Magazin pour acheter la version sans limite
+                Button {
+                    store.isShowingStore = true
+                } label: {
+                    Text("Magazin")
+                }
+            },
+            message: { Text(alertInfo.message) }
+        )
+
         // Modal: ajout d'une nouvelle classe
         .sheet(isPresented: $isAddingNewClasse) {
             NavigationStack {

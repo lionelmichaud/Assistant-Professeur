@@ -10,6 +10,7 @@ import SwiftUI
 
 // MARK: - State Machine de l'état de la colonne "détail"
 
+/// Contenus possibles de la colonne Détail
 enum ProgramDetailColumnState {
     case showProgramSteps
     case showSequenceSteps
@@ -26,71 +27,86 @@ struct ProgramSplitView: View {
     @Environment(UserContext.self)
     private var userContext
 
+    @Environment(Store.self)
+    private var store
+
+    @Environment(\.horizontalSizeClass)
+    private var hClass
+
     @State
     private var preferredColumn = NavigationSplitViewColumn.sidebar
 
     var body: some View {
-        NavigationSplitView(
-            columnVisibility: $navig.columnVisibility,
-            preferredCompactColumn: $preferredColumn
-        ) {
-            // 1ère colonne
-            ProgramSidebar()
-                .navigationSplitViewColumnWidth(
-                    min: 300,
-                    ideal: 300,
-                    max: 500
-                )
+        ZStack {
+            if store.isPurchased(service: .program) ||
+                store.isPurchased(service: .pro) {
+                NavigationSplitView(
+                    columnVisibility: $navig.columnVisibility,
+                    preferredCompactColumn: $preferredColumn
+                ) {
+                    // 1ère colonne
+                    ProgramSidebar()
+                        .navigationSplitViewColumnWidth(
+                            min: 300,
+                            ideal: 300,
+                            max: 500
+                        )
 
-        } content: {
-            // 2nde colonne
-            SequenceSidebar()
-                // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
-                .id(navig.selectedProgramMngObjId)
-                .navigationSplitViewColumnWidth(
-                    min: 400,
-                    ideal: 500,
-                    max: 600
-                )
-
-        } detail: {
-            // 3ième colonne
-            NavigationStack(path: $navig.programPath) {
-                ActivitySideBar()
+                } content: {
+                    // 2nde colonne
+                    SequenceSidebar()
                     // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
-                    .id(navig.selectedSequenceMngObjId)
-                    .navigationDestination(for: ProgramNavigationRoute.self) { route in
-                        route.destination()
+                        .id(navig.selectedProgramMngObjId)
+                        .navigationSplitViewColumnWidth(
+                            min: 400,
+                            ideal: 500,
+                            max: 600
+                        )
+
+                } detail: {
+                    // 3ième colonne
+                    NavigationStack(path: $navig.programPath) {
+                        ActivitySideBar()
+                        // Workaround: Conditional views in columns of NavigationSplitView fail to update on some state changes. (91311311)
+                            .id(navig.selectedSequenceMngObjId)
+                            .navigationDestination(for: ProgramNavigationRoute.self) { route in
+                                route.destination()
+                            }
                     }
+                }
+                .navigationSplitViewStyle(.balanced)
+
+                // Désélectionner la séquence et l'activité quand on change de programme
+                // Afficher la colonne du milieu sur iPhone
+                .onChange(of: navig.selectedProgramMngObjId) {
+                    Task {
+                        await navig.changeSelectedProgram()
+                    }
+                }
+
+                // Désélectionner l'activité quand on change de séquence
+                // Afficher la colonne détail sur iPhone
+                .onChange(of: navig.selectedSequenceMngObjId) {
+                    navig.changeSelectedSequence()
+                }
+            } else {
+                VStack {
+                    Image(.ecranIPadProgram)
+                        .resizable()
+                        .scaledToFit()
+                    Text("Pour avoir accès à la création de vos **progressions pédagogiques** et les associer à vos cours, rendez-vous en magazin.")
+                        .multilineTextAlignment(.center)
+                        .font(.title3)
+                        .frame(maxWidth: hClass == .regular ? 600 : 300)
+                    Button("Magazin") {
+                        store.isShowingStore = true
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .padding(.top)
+                }
+                .padding()
             }
         }
-        .navigationSplitViewStyle(.balanced)
-
-        // Désélectionner la séquence et l'activité quand on change de programme
-        // Afficher la colonne du milieu sur iPhone
-        .onChange(of: navig.selectedProgramMngObjId) {
-            navig.changeSelectedProgram()
-//            if navig.selectedProgramMngObjId != nil {
-//                preferredColumn = .content
-//            }
-        }
-
-        // Désélectionner l'activité quand on change de séquence
-        // Afficher la colonne détail sur iPhone
-        .onChange(of: navig.selectedSequenceMngObjId) {
-            navig.changeSelectedSequence()
-//            if navig.selectedSequenceMngObjId != nil {
-//                preferredColumn = .detail
-//            }
-        }
-
-        // Afficher l'activité quand on en sélectionne une
-        // Afficher la colonne détail sur iPhone
-//        .onChange(of: navig.selectedActivityMngObjId, initial: true) {
-//            if navig.selectedActivityMngObjId != nil {
-//                preferredColumn = .detail
-//            }
-//        }
     }
 }
 
