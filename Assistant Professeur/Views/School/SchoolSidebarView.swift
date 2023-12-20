@@ -22,7 +22,6 @@ struct SchoolSidebarView: View {
         case showAbout, showingUrgencyTel
         case showingInfoPerso, editingPreferences
         case addingNewSchool
-        case store
 
         var id: String { rawValue }
     }
@@ -50,11 +49,7 @@ struct SchoolSidebarView: View {
     private var schoolsSections: SectionedFetchResults<String, SchoolEntity>
 
     @State
-    var alertTitle = ""
-    @State
-    var alertMessage = ""
-    @State
-    private var alertIsPresented = false
+    var alertInfo = AlertInfo()
 
     @State
     var fileImportOperation = FileImportOperation.none
@@ -151,18 +146,29 @@ struct SchoolSidebarView: View {
         .toolbar(content: myToolBarContent)
 
         .alert(
-            alertTitle,
-            isPresented: $alertIsPresented,
+            alertInfo.title,
+            isPresented: $alertInfo.isPresented,
             actions: {
                 if dataBaseErrorList.isNotEmpty {
+                    // Erreur détectée lors de la vérification de la base de données
                     Button(role: .destructive) {
                         isShowingRepairDBDialog.toggle()
                     } label: {
                         Text("Tenter de réparer")
                     }
+
+                } else if (SchoolEntity.cardinal() >= 1) &&
+                    !store.isPurchased(service: .unlocked) &&
+                    !store.isPurchased(service: .pro) {
+                    // Afficher le Magazin pour acheter la version sans limite
+                    Button {
+                        store.isShowingStore = true
+                    } label: {
+                        Text("Magazin")
+                    }
                 }
             },
-            message: { Text(alertMessage) }
+            message: { Text(alertInfo.message) }
         )
 
         // Préférences
@@ -202,11 +208,6 @@ struct SchoolSidebarView: View {
                         SchoolCreatorModal()
                             .presentationDetents([.medium])
                     }
-
-                case .store:
-                    NavigationStack {
-                        AppShopView()
-                    }
             }
         }
 
@@ -221,9 +222,9 @@ struct SchoolSidebarView: View {
                 case .importModel:
                     // Importer des fichiers JSON pour le modèle
                     (
-                        alertTitle,
-                        alertMessage,
-                        alertIsPresented
+                        alertInfo.title,
+                        alertInfo.message,
+                        alertInfo.isPresented
                     ) = JsonImportExportMng.importJsonData(
                         result: result,
                         resetNavigationData: { navigationModel.resetSelections() }
@@ -232,9 +233,9 @@ struct SchoolSidebarView: View {
                 case .importTrombines:
                     // Importer des fichiers JPEG pour les trombines
                     (
-                        alertTitle,
-                        alertMessage,
-                        alertIsPresented
+                        alertInfo.title,
+                        alertInfo.message,
+                        alertInfo.isPresented
                     ) = ImageImportExportMng.importTrombinesImages(
                         result: result
                     )
@@ -255,14 +256,14 @@ struct SchoolSidebarView: View {
                         level: .fault,
                         "Error exporting JSON files: \(error.localizedDescription)"
                     )
-                    alertTitle = "Échec"
-                    alertMessage = "L'export des fichiers a échoué!"
-                    alertIsPresented = true
+                    alertInfo.title = "Échec"
+                    alertInfo.message = "L'export des fichiers a échoué!"
+                    alertInfo.isPresented = true
 
                 case .success:
-                    alertTitle = "Export terminé."
-                    alertMessage = ""
-                    alertIsPresented = true
+                    alertInfo.title = "Export terminé."
+                    alertInfo.message = ""
+                    alertInfo.isPresented = true
             }
         }
     }
@@ -296,13 +297,13 @@ extension SchoolSidebarView {
             tryToRepair: false
         )
         if dataBaseErrorList.isNotEmpty {
-            alertTitle = "Erreurs détectées"
-            alertMessage = "La vérification de la base de donnée a trouvé \(dataBaseErrorList.count) erreurs."
-            alertIsPresented = true
+            alertInfo.title = "Erreurs détectées"
+            alertInfo.message = "La vérification de la base de donnée a trouvé \(dataBaseErrorList.count) erreurs."
+            alertInfo.isPresented = true
         } else {
-            alertTitle = "Vérification terminée avec succès"
-            alertMessage = "Aucune anomalie détectée."
-            alertIsPresented = true
+            alertInfo.title = "Vérification terminée avec succès"
+            alertInfo.message = "Aucune anomalie détectée."
+            alertInfo.isPresented = true
         }
     }
 
@@ -317,23 +318,23 @@ extension SchoolSidebarView {
         let countAfter = dataBaseErrorList.count
 
         if dataBaseErrorList.isNotEmpty {
-            alertTitle = "Erreurs détectées"
-            alertMessage = "Il reste \(countAfter) erreurs.\n\(countAfter - countBefore) erreurs réparées."
-            alertIsPresented = true
+            alertInfo.title = "Erreurs détectées"
+            alertInfo.message = "Il reste \(countAfter) erreurs.\n\(countAfter - countBefore) erreurs réparées."
+            alertInfo.isPresented = true
         } else {
-            alertTitle = "Réparation terminée avec succès"
-            alertMessage = "Aucune anomalie détectée."
-            alertIsPresented = true
+            alertInfo.title = "Réparation terminée avec succès"
+            alertInfo.message = "Aucune anomalie détectée."
+            alertInfo.isPresented = true
         }
     }
 
     /// Suppression de toutes les données utilisateur
     func clearAllUserData() {
-        alertTitle = "Échec"
-        alertMessage = "L'effacement complet de la base de donnée a échoué"
+        alertInfo.title = "Échec"
+        alertInfo.message = "L'effacement complet de la base de donnée a échoué"
 
         navigationModel.resetSelections()
-        DataBaseManager.clear(failed: &alertIsPresented)
+        DataBaseManager.clear(failed: &alertInfo.isPresented)
     }
 
     /// Importer tous les fichiers JSON, JPEG et PNG depuis le Bundle Application
@@ -342,11 +343,11 @@ extension SchoolSidebarView {
 //        do {
 //            try PersistenceManager().forcedImportAllFilesFromApp(fileExtensions: ["json", "jpg", "png", "pdf"])
 //        } catch {
-//            alertTitle = "Échec"
-//            alertMessage = "L'importation des fichiers a échouée!"
+//            alertInfo.title = "Échec"
+//            alertInfo.message = "L'importation des fichiers a échouée!"
 //            // trigger second alert
 //            DispatchQueue.main.async {
-//                alertIsPresented.toggle()
+//                alertInfo.isPresented.toggle()
 //            }
 //        }
 //        do {
@@ -357,11 +358,11 @@ extension SchoolSidebarView {
 //            try colleStore.loadFromJSON(fromFolder: nil)
 //            try observStore.loadFromJSON(fromFolder: nil)
 //        } catch {
-//            alertTitle = "Échec"
-//            alertMessage = "La lecture des fichiers importés a échouée!"
+//            alertInfo.title = "Échec"
+//            alertInfo.message = "La lecture des fichiers importés a échouée!"
 //            // trigger second alert
 //            DispatchQueue.main.async {
-//                alertIsPresented.toggle()
+//                alertInfo.isPresented.toggle()
 //            }
 //        }
         // eleveStore.sort()

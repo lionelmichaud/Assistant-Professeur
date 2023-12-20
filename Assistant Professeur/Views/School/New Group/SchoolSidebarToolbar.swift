@@ -16,7 +16,15 @@ extension SchoolSidebarView {
         // Ajouter un établissement
         ToolbarItemGroup(placement: .status) {
             Button {
-                presentedSheet = .addingNewSchool
+                if (SchoolEntity.cardinal() == 0) ||
+                    store.isPurchased(service: .unlocked) ||
+                    store.isPurchased(service: .pro) {
+                    presentedSheet = .addingNewSchool
+                } else {
+                    alertInfo.title = "Limite de la version d'essai atteinte"
+                    alertInfo.message = "Pour bénéficier d'un **nombre illimité** d'établissements et de classes, rendez-vous en magazin."
+                    alertInfo.isPresented = true
+                }
             } label: {
                 Label(
                     "Ajouter un établissement",
@@ -208,8 +216,8 @@ extension SchoolSidebarView {
                 #if targetEnvironment(simulator)
                     Section {
                         Button {
-                            alertTitle = "Échec"
-                            alertMessage = "L'effacement complet de la base de donnée a échoué"
+                            alertInfo.title = "Échec"
+                            alertInfo.message = "L'effacement complet de la base de donnée a échoué"
 
                             withAnimation {
                                 DataBaseManager.populateWithMockData(storeType: .inMemory)
