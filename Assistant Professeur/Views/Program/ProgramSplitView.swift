@@ -38,7 +38,8 @@ struct ProgramSplitView: View {
 
     var body: some View {
         ZStack {
-            if store.isPurchased(service: .program) {
+            if store.isPurchased(service: .program) ||
+                store.isPurchased(service: .pro) {
                 NavigationSplitView(
                     columnVisibility: $navig.columnVisibility,
                     preferredCompactColumn: $preferredColumn

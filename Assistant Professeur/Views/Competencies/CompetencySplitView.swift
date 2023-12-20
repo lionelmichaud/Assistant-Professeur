@@ -36,7 +36,8 @@ struct CompetencySplitView: View {
 
     var body: some View {
         ZStack {
-            if store.isPurchased(service: .competency) {
+            if store.isPurchased(service: .competency) ||
+                store.isPurchased(service: .pro) {
                 NavigationSplitView(
                     columnVisibility: $navig.columnVisibility
                 ) {
