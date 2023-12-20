@@ -22,6 +22,7 @@ struct SchoolSidebarView: View {
         case showAbout, showingUrgencyTel
         case showingInfoPerso, editingPreferences
         case addingNewSchool
+        case store
 
         var id: String { rawValue }
     }
@@ -37,6 +38,9 @@ struct SchoolSidebarView: View {
 
     @Environment(UserContext.self)
     private var userContext
+
+    @Environment(Store.self)
+    var store
 
     @SectionedFetchRequest<String, SchoolEntity>(
         fetchRequest: SchoolEntity.requestAllSortedByLevelName,
@@ -160,6 +164,8 @@ struct SchoolSidebarView: View {
             },
             message: { Text(alertMessage) }
         )
+
+        // Préférences
         .sheet(item: $presentedSheet) { sheet in
             switch sheet {
                 case .showAbout:
@@ -195,6 +201,11 @@ struct SchoolSidebarView: View {
                     NavigationStack {
                         SchoolCreatorModal()
                             .presentationDetents([.medium])
+                    }
+
+                case .store:
+                    NavigationStack {
+                        AppShopView()
                     }
             }
         }

@@ -26,15 +26,16 @@ extension SchoolSidebarView {
             }
         }
 
-        // Préférences utilisateur
+        // Magazin
         ToolbarItem(placement: .navigationBarLeading) {
             Button {
-                presentedSheet = .editingPreferences
+                store.isShowingStore = true
             } label: {
                 Label(
-                    "Préférences",
-                    systemImage: "slider.horizontal.3"
+                    "Magazin",
+                    systemImage: "cart"
                 )
+                //.tint(.primary)
             }
         }
 
@@ -72,6 +73,18 @@ extension SchoolSidebarView {
                         Label(
                             "Infos personnelles",
                             systemImage: "person.crop.square.filled.and.at.rectangle"
+                        )
+                    }
+                }
+
+                // Préférences utilisateur
+                Section {
+                    Button {
+                        presentedSheet = .editingPreferences
+                    } label: {
+                        Label(
+                            "Préférences",
+                            systemImage: "slider.horizontal.3"
                         )
                     }
                 }

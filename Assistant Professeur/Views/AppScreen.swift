@@ -8,6 +8,7 @@
 import SwiftUI
 
 /// Onglets
+@MainActor
 enum AppScreen: String, Hashable, Identifiable, CaseIterable, Codable {
     case school = "Mes Etablissements"
     case classe = "Mes Classes"

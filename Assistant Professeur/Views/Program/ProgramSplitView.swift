@@ -85,7 +85,24 @@ struct ProgramSplitView: View {
                     navig.changeSelectedSequence()
                 }
             } else {
-                Text("Pas acheté")
+                VStack {
+                    Text("Pour avoir accès à ces fonctionnalités, rendez-vous en magazin.")
+                        .multilineTextAlignment(.center)
+                        .font(.title3)
+                        .frame(maxWidth: 300)
+                    Button("Magazin") {
+                        store.isShowingStore = true
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .padding(.top)
+                }
+                .padding()
+//                // Afficher le magazin
+//                .sheet(isPresented: $showingStore) {
+//                    NavigationStack {
+//                        AppShopView()
+//                    }
+//                }
             }
         }
     }

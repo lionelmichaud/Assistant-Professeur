@@ -7,11 +7,13 @@
 
 import SwiftUI
 
+/// Style commun aux Produits affichés dans le In-App Store
 struct ProductViewModifier: ViewModifier {
     let isPurchasable: Bool
 
     func body(content: Content) -> some View {
         content
+            .productViewStyle(.compact)
             .padding(12)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(.background.secondary, in: .rect(cornerRadius: 20))

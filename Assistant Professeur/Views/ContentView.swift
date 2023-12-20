@@ -42,10 +42,9 @@ struct ContentView: View {
     @State
     private var showTabBar = true
 
-    @State
-    private var showingStore = true
-
     var body: some View {
+        @Bindable var store = store
+        
         TabView(selection: navig.tabSelection()) {
             // Pour chaque onglet
             ForEach(AppScreen.allCases) { screen in
@@ -64,20 +63,16 @@ struct ContentView: View {
                 (newOrientation.isPortrait || newOrientation.isFlat)
         }
 
-        // Gestion de l'apparition/disparition du magazin
-        .onAppear {
-            showingStore = !store.somePurchaseDone
-        }
-        .onInAppPurchaseCompletion { _, purchaseResult in
-            guard case .success(let verificationResult) = purchaseResult,
-                  case .success = verificationResult else {
-                return
-            }
-            showingStore = false
-        }
-        .sheet(isPresented: $showingStore) {
+        .sheet(isPresented: $store.isShowingStore) {
             NavigationStack {
                 AppShopView()
+//                    .onInAppPurchaseCompletion { _, purchaseResult in
+//                        guard case .success(let verificationResult) = purchaseResult,
+//                              case .success = verificationResult else {
+//                            return
+//                        }
+//                        store.isShowingStore = false
+//                    }
             }
         }
 

@@ -51,11 +51,8 @@ struct AppShopView: View {
                     optionsTitle
                     ForEach(store.optionProducts) { product in
                         let isPurchasable = store.isPurchasable(product)
-                        if !isPurchasable {
-                            if let fullProduct = store.fullProduct,
-                               !store.isPurchased(fullProduct) {
-                                unavailableOptionText
-                            }
+                        if !isPurchasable && !store.isPurchasedFullProduct {
+                            unavailableOptionText
                         }
                         MyProductView(
                             product: product,

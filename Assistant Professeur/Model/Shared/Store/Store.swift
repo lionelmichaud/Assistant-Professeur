@@ -41,6 +41,8 @@ struct NcProductAttributes: Codable {
 ///             Entre les deux, les options possibles.
 @Observable
 public final class Store {
+    var isShowingStore: Bool = false
+
     private(set) var nonConsumables: [Product]
     private(set) var subscriptions: [Product]
     private(set) var nonRenewables: [Product]
@@ -52,7 +54,7 @@ public final class Store {
 
     private(set) var purchasedServices: [Service] = []
 
-    @ObservationIgnored
+    // @ObservationIgnored
     private var updateListenerTask: Task<Void, Error>?
 
     private let productIdToAttributes: OrderedDictionary<String, NcProductAttributes>
@@ -94,6 +96,14 @@ public final class Store {
     var somePurchaseDone: Bool {
         purchasedNonConsumables.isNotEmpty
     }
+    
+    /// Detrmines if the Full Product has been purchased.
+    var isPurchasedFullProduct: Bool {
+        guard let fullProduct = nonConsumables.last else {
+            return false
+        }
+        return purchasedNonConsumables.contains(fullProduct)
+    }
 
     // MARK: - Initializer / Deinitializer
 
@@ -119,6 +129,12 @@ public final class Store {
 
             // Deliver products that the customer purchases.
             await updateCustomerProductStatus()
+
+            // Faire apparaître le magazin au lancement de l'appli
+            // seulement si aucun achat n'a jamais été fait.
+            await MainActor.run {
+                if !self.somePurchaseDone { isShowingStore = true }
+            }
         }
     }
 
@@ -144,6 +160,21 @@ public final class Store {
         return ordredDico
     }
 
+    func process(result: VerificationResult<Transaction>) async {
+        do {
+            let transaction = try self.checkVerified(result)
+
+            // Deliver products to the user.
+            await self.updateCustomerProductStatus()
+
+            // Always finish a transaction.
+            await transaction.finish()
+        } catch {
+            // StoreKit has a transaction that fails verification. Don't deliver content to the user.
+            logger.info("Transaction failed verification")
+        }
+    }
+
     /// Start a transaction listener as close to app launch as possible
     /// so you don't miss any transactions.
     func listenForTransactionUpdates() -> Task<Void, Error> {
@@ -151,25 +182,13 @@ public final class Store {
             logger.debug("Observing transaction updates")
             // Iterate through any transactions that don't come from a direct call to `purchase()`.
             for await result in Transaction.updates {
-                do {
-                    do {
-                        let unsafeTransaction = result.unsafePayloadValue
-                        logger.info("""
-                        Processing transaction ID \(unsafeTransaction.id) for \
-                        \(unsafeTransaction.productID)
-                        """)
-                    }
-                    let transaction = try self.checkVerified(result)
+                let unsafeTransaction = result.unsafePayloadValue
+                logger.info("""
+                Processing transaction ID \(unsafeTransaction.id) for \
+                \(unsafeTransaction.productID)
+                """)
 
-                    // Deliver products to the user.
-                    await self.updateCustomerProductStatus()
-
-                    // Always finish a transaction.
-                    await transaction.finish()
-                } catch {
-                    // StoreKit has a transaction that fails verification. Don't deliver content to the user.
-                    logger.info("Transaction failed verification")
-                }
+                await self.process(result: result)
             }
         }
     }
@@ -177,19 +196,20 @@ public final class Store {
     /// Check if we have any unfinished transactions where we
     /// need to grant access to content
     func checkForUnfinishedTransactions() async {
-        logger.debug("Checking for unfinished transactions")
+        logger.debug("Launching processing tasks for unfinished transactions")
         for await result in Transaction.unfinished {
-            let unsafeTransaction = result.unsafePayloadValue
-            logger.info("""
-            Processing unfinished transaction ID \(unsafeTransaction.id) for \
-            \(unsafeTransaction.productID)
-            """)
             Task.detached(priority: .background) {
-                // Deliver products to the user.
-                await self.updateCustomerProductStatus()
+                let unsafeTransaction = result.unsafePayloadValue
+                logger.info("""
+                Processing of unfinished transaction ID \(unsafeTransaction.id) for \
+                \(unsafeTransaction.productID)
+                """)
+
+                // Deliver products to the user and finish transaction.
+                await self.process(result: result)
             }
         }
-        logger.debug("Finished checking for unfinished transactions")
+        logger.debug("Finished launching processing tasks for unfinished transactions")
     }
 
     /// Request registred products from the App Store.
@@ -264,6 +284,8 @@ public final class Store {
                             purchasedNonConsumables.append(ncProduct)
                             if let service = service(for: ncProduct) {
                                 purchasedServices.append(service)
+                            } else {
+                                logger.error("Failed to find service corresponding to purchased product: \(ncProduct.id)")
                             }
                         }
 

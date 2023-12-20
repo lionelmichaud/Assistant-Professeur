@@ -80,7 +80,7 @@ struct HomeScreen: View {
                     userContext.setOwner(to: owner)
                 }
                 counter += period
-                if counter > 5 * 60 {
+                if counter > 8 * 60 {
                     timeOut = true
                     break
                 }
