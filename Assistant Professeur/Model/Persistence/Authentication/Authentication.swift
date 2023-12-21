@@ -175,9 +175,9 @@ final class Authentication {
         }
     }
 
-    /// First loging (Signing up).
+    /// Use Case: First loging (Signing up).
     /// Créer les Credential à partir des Credential Apple.
-    /// Mettre à jour les context utilisateur avec le Owner.
+    /// Mettre à jour les context utilisateur avec le Owner et ses préférences.
     @MainActor
     private func setUserCredentialsFromAppleIDCredential_Signing_Up(
         userIdentifier: String,
@@ -188,7 +188,7 @@ final class Authentication {
         // Save this information to CloudKit.
         // Créer un Owner s'il n'existe pas encore avec cet AppleID
         if let owner = OwnerEntity.byUserIdentifier(userIdentifier: userIdentifier) {
-            // Connecter le Owner existant au UserContext
+            // Le Owner existe déjà, le connecter au UserContext
             userContext.setOwner(to: owner)
         } else {
             // Créer un Owner avec cet AppleID
@@ -208,7 +208,7 @@ final class Authentication {
         ownerAndPrefsExist = userContext.isValid
     }
 
-    /// Returning user (signing in)
+    /// Use Case: Returning user (signing in)
     /// Créer les Credential à partir des données iCloud du Owner.
     /// Mettre à jour le context utilisateur avec le Owner.
     @MainActor
@@ -231,7 +231,7 @@ final class Authentication {
 
         } else {
             // La synchro iCloud n'a sans doute pas encore synchronisé les objets OwnerEntity et PrefEntity
-            customLog.error(
+            customLog.info(
                 ">> Utilisateur (Owner) supposé exister mais pas trouvé dans CoreData pour Apple User ID = \(userIdentifier)"
             )
         }

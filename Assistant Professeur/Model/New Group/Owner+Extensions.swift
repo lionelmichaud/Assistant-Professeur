@@ -137,7 +137,8 @@ extension OwnerEntity {
 
     // MARK: - Type Methods
 
-    /// Créer un utilisateur de l'appli **s'il n'en existe aucun**.
+    /// Créer un utilisateur de l'appli **s'il n'en existe aucun**,
+    /// et créer ses préférences utilisateur.
     /// - Important: Sauvegarder le Context.
     ///
     /// Sauvegarder le Context.

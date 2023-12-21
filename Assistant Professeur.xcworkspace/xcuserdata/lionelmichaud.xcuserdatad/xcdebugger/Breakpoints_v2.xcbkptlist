@@ -863,8 +863,8 @@
             filePath = "Assistant Professeur/Model/New Group/Owner+Extensions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "217"
-            endingLineNumber = "217"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "checkAndRepair(owner:)"
             landmarkType = "9">
             <Locations>
@@ -941,8 +941,8 @@
             filePath = "Assistant Professeur/Model/New Group/Owner+Extensions.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "checkAndRepair(owner:)"
             landmarkType = "9">
             <Locations>
@@ -1496,189 +1496,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "71F33660-A7C8-47EB-9672-C701DFD327CC"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/MainScene.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "body"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "71F33660-A7C8-47EB-9672-C701DFD327CC - 7ac8d2c93d1dba15"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Assistant_Professeur.MainScene.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/MainScene.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "65"
-                  endingLineNumber = "65"
-                  offsetFromSymbolStart = "1452">
-               </Location>
-               <Location
-                  uuid = "71F33660-A7C8-47EB-9672-C701DFD327CC - eddcae9b0ac86f0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 @Sendable () async -&gt; () in Assistant_Professeur.MainScene.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/MainScene.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "69"
-                  endingLineNumber = "69"
-                  offsetFromSymbolStart = "60">
-               </Location>
-               <Location
-                  uuid = "71F33660-A7C8-47EB-9672-C701DFD327CC - 7ac8d2c93d1dbb3e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Assistant_Professeur.MainScene.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/MainScene.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "74"
-                  endingLineNumber = "74"
-                  offsetFromSymbolStart = "2828">
-               </Location>
-               <Location
-                  uuid = "71F33660-A7C8-47EB-9672-C701DFD327CC - 565a864e6817d51e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #3 @Sendable () async -&gt; () in Assistant_Professeur.MainScene.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/MainScene.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
-                  offsetFromSymbolStart = "60">
-               </Location>
-               <Location
-                  uuid = "71F33660-A7C8-47EB-9672-C701DFD327CC - 907451bdc9bc4a4b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) await resume partial function for closure #3 @Sendable () async -&gt; () in Assistant_Professeur.MainScene.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/MainScene.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
-                  offsetFromSymbolStart = "48">
-               </Location>
-               <Location
-                  uuid = "71F33660-A7C8-47EB-9672-C701DFD327CC - 565a864e6817d51e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #3 @Sendable () async -&gt; () in Assistant_Professeur.MainScene.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/MainScene.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
-                  offsetFromSymbolStart = "212">
-               </Location>
-               <Location
-                  uuid = "71F33660-A7C8-47EB-9672-C701DFD327CC - 907451bdc9bc4f21"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) await resume partial function for closure #3 @Sendable () async -&gt; () in Assistant_Professeur.MainScene.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/MainScene.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "42"
-                  endingLineNumber = "42"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  uuid = "71F33660-A7C8-47EB-9672-C701DFD327CC - 565a864e6817d5a5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #3 @Sendable () async -&gt; () in Assistant_Professeur.MainScene.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/MainScene.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "59"
-                  endingLineNumber = "59"
-                  offsetFromSymbolStart = "212">
-               </Location>
-               <Location
-                  uuid = "71F33660-A7C8-47EB-9672-C701DFD327CC - 907451bdc9bc4f84"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) await resume partial function for closure #3 @Sendable () async -&gt; () in Assistant_Professeur.MainScene.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/MainScene.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "39"
-                  endingLineNumber = "39"
-                  offsetFromSymbolStart = "24">
-               </Location>
-               <Location
-                  uuid = "71F33660-A7C8-47EB-9672-C701DFD327CC - 565a864e6817d5a5"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #3 @Sendable () async -&gt; () in Assistant_Professeur.MainScene.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/MainScene.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "59"
-                  endingLineNumber = "59"
-                  offsetFromSymbolStart = "60">
-               </Location>
-               <Location
-                  uuid = "71F33660-A7C8-47EB-9672-C701DFD327CC - 907451bdc9bc4af0"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(1) await resume partial function for closure #3 @Sendable () async -&gt; () in Assistant_Professeur.MainScene.body.getter : some"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/MainScene.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "59"
-                  endingLineNumber = "59"
-                  offsetFromSymbolStart = "48">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "154619B8-ACCC-45D3-A535-3784B1DFBB59"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -1783,54 +1600,6 @@
                   startingLineNumber = "152"
                   endingLineNumber = "152"
                   offsetFromSymbolStart = "3236">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "D86305FC-4C84-40E9-B147-5368AAD1F5F9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Persistence/Authentication/Authentication.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "185"
-            endingLineNumber = "185"
-            landmarkName = "setUserCredentialsFromAppleIDCredential_Signing_Up(userIdentifier:fullName:email:userContext:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "D86305FC-4C84-40E9-B147-5368AAD1F5F9 - 5ac4016e9418ee66"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Assistant_Professeur.Authentication.setUserCredentialsFromAppleIDCredential(userIdentifier: Swift.String, fullName: Foundation.PersonNameComponents, email: Swift.Optional&lt;Swift.String&gt;, userContext: Assistant_Professeur.UserContext) -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Persistence/Authentication/Authentication.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "194"
-                  endingLineNumber = "194"
-                  offsetFromSymbolStart = "964">
-               </Location>
-               <Location
-                  uuid = "D86305FC-4C84-40E9-B147-5368AAD1F5F9 - 531f573df0e4268a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Assistant_Professeur.Authentication.setUserCredentialsFromAppleIDCredential_Signing_Up(userIdentifier: Swift.String, fullName: Foundation.PersonNameComponents, email: Swift.Optional&lt;Swift.String&gt;, userContext: Assistant_Professeur.UserContext) -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Persistence/Authentication/Authentication.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "190"
-                  endingLineNumber = "190"
-                  offsetFromSymbolStart = "536">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1964,7 +1733,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "909ACBA4-6FDE-44B2-BA5E-A2C3FEBCBC54"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Assistant Professeur/Model/Persistence/Authentication/Authentication.swift"
@@ -2497,129 +2266,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "851AE81D-DAB4-4BE6-B899-C295A907918B"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Shared/Store/Store.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "278"
-            endingLineNumber = "278"
-            landmarkName = "updateCustomerProductStatus()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "851AE81D-DAB4-4BE6-B899-C295A907918B - 690e569952254280"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "265"
-                  endingLineNumber = "265"
-                  offsetFromSymbolStart = "5660">
-               </Location>
-               <Location
-                  uuid = "851AE81D-DAB4-4BE6-B899-C295A907918B - 9b08cc631cda1d7b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "265"
-                  endingLineNumber = "265"
-                  offsetFromSymbolStart = "1884">
-               </Location>
-               <Location
-                  uuid = "851AE81D-DAB4-4BE6-B899-C295A907918B - 9b08cc631cda1d1a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "264"
-                  endingLineNumber = "264"
-                  offsetFromSymbolStart = "1308">
-               </Location>
-               <Location
-                  uuid = "851AE81D-DAB4-4BE6-B899-C295A907918B - 690e569952254342"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "267"
-                  endingLineNumber = "267"
-                  offsetFromSymbolStart = "5660">
-               </Location>
-               <Location
-                  uuid = "851AE81D-DAB4-4BE6-B899-C295A907918B - 9b08cc631cda1cb9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "267"
-                  endingLineNumber = "267"
-                  offsetFromSymbolStart = "1884">
-               </Location>
-               <Location
-                  uuid = "851AE81D-DAB4-4BE6-B899-C295A907918B - 9b08cc631cda1d58"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "266"
-                  endingLineNumber = "266"
-                  offsetFromSymbolStart = "1308">
-               </Location>
-               <Location
-                  uuid = "851AE81D-DAB4-4BE6-B899-C295A907918B - 9b08cc631cda1f2c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "278"
-                  endingLineNumber = "278"
-                  offsetFromSymbolStart = "428">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "BC1418BA-6C3E-4A3D-A53F-22918339B2FC"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -2901,378 +2547,6 @@
                   startingLineNumber = "168"
                   endingLineNumber = "168"
                   offsetFromSymbolStart = "40">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "283DAE40-0140-4D7E-B425-1EC2CD2D6BDE"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Shared/Store/Store.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "286"
-            endingLineNumber = "286"
-            landmarkName = "updateCustomerProductStatus()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "283DAE40-0140-4D7E-B425-1EC2CD2D6BDE - 9b08cc631cda1c12"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "272"
-                  endingLineNumber = "272"
-                  offsetFromSymbolStart = "4820">
-               </Location>
-               <Location
-                  uuid = "283DAE40-0140-4D7E-B425-1EC2CD2D6BDE - 9b08cc631cda1c12"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "272"
-                  endingLineNumber = "272"
-                  offsetFromSymbolStart = "4140">
-               </Location>
-               <Location
-                  uuid = "283DAE40-0140-4D7E-B425-1EC2CD2D6BDE - 9b08cc631cda1c50"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "274"
-                  endingLineNumber = "274"
-                  offsetFromSymbolStart = "4820">
-               </Location>
-               <Location
-                  uuid = "283DAE40-0140-4D7E-B425-1EC2CD2D6BDE - 9b08cc631cda1c50"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "274"
-                  endingLineNumber = "274"
-                  offsetFromSymbolStart = "4140">
-               </Location>
-               <Location
-                  uuid = "283DAE40-0140-4D7E-B425-1EC2CD2D6BDE - 9b08cc631cda1e24"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "286"
-                  endingLineNumber = "286"
-                  offsetFromSymbolStart = "1204">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E5BABCDA-107E-4986-8591-8ECCED2ED505"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Shared/Store/Store.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "288"
-            endingLineNumber = "288"
-            landmarkName = "updateCustomerProductStatus()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "E5BABCDA-107E-4986-8591-8ECCED2ED505 - 9b08cc631cda1c50"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "274"
-                  endingLineNumber = "274"
-                  offsetFromSymbolStart = "8072">
-               </Location>
-               <Location
-                  uuid = "E5BABCDA-107E-4986-8591-8ECCED2ED505 - 9b08cc631cda1c50"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "274"
-                  endingLineNumber = "274"
-                  offsetFromSymbolStart = "4820">
-               </Location>
-               <Location
-                  uuid = "E5BABCDA-107E-4986-8591-8ECCED2ED505 - 9b08cc631cda1fee"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "276"
-                  endingLineNumber = "276"
-                  offsetFromSymbolStart = "8072">
-               </Location>
-               <Location
-                  uuid = "E5BABCDA-107E-4986-8591-8ECCED2ED505 - 9b08cc631cda1fee"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "276"
-                  endingLineNumber = "276"
-                  offsetFromSymbolStart = "4820">
-               </Location>
-               <Location
-                  uuid = "E5BABCDA-107E-4986-8591-8ECCED2ED505 - 9b08cc631cda1e62"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "288"
-                  endingLineNumber = "288"
-                  offsetFromSymbolStart = "1328">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F97DFC89-C1B3-4B5A-AAFC-9241790B3321"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Shared/Store/Store.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "326"
-            endingLineNumber = "326"
-            landmarkName = "updateCustomerProductStatus()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "F97DFC89-C1B3-4B5A-AAFC-9241790B3321 - 9b08cc631cda1a88"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "314"
-                  endingLineNumber = "314"
-                  offsetFromSymbolStart = "18512">
-               </Location>
-               <Location
-                  uuid = "F97DFC89-C1B3-4B5A-AAFC-9241790B3321 - 9b08cc631cda1b4a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "312"
-                  endingLineNumber = "312"
-                  offsetFromSymbolStart = "18360">
-               </Location>
-               <Location
-                  uuid = "F97DFC89-C1B3-4B5A-AAFC-9241790B3321 - 9b08cc631cda1ac6"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "316"
-                  endingLineNumber = "316"
-                  offsetFromSymbolStart = "18512">
-               </Location>
-               <Location
-                  uuid = "F97DFC89-C1B3-4B5A-AAFC-9241790B3321 - 9b08cc631cda1a88"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "314"
-                  endingLineNumber = "314"
-                  offsetFromSymbolStart = "18360">
-               </Location>
-               <Location
-                  uuid = "F97DFC89-C1B3-4B5A-AAFC-9241790B3321 - 9b08cc631cda251c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "326"
-                  endingLineNumber = "326"
-                  offsetFromSymbolStart = "5312">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "5A22E40F-C2EC-415E-ABCA-20AFE2928C9D"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Shared/Store/Store.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "286"
-            endingLineNumber = "286"
-            landmarkName = "updateCustomerProductStatus()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "5A22E40F-C2EC-415E-ABCA-20AFE2928C9D - 9b08cc631cda1c12"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "272"
-                  endingLineNumber = "272"
-                  offsetFromSymbolStart = "4820">
-               </Location>
-               <Location
-                  uuid = "5A22E40F-C2EC-415E-ABCA-20AFE2928C9D - 9b08cc631cda1c12"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "272"
-                  endingLineNumber = "272"
-                  offsetFromSymbolStart = "4140">
-               </Location>
-               <Location
-                  uuid = "5A22E40F-C2EC-415E-ABCA-20AFE2928C9D - 9b08cc631cda1c50"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "274"
-                  endingLineNumber = "274"
-                  offsetFromSymbolStart = "4820">
-               </Location>
-               <Location
-                  uuid = "5A22E40F-C2EC-415E-ABCA-20AFE2928C9D - 9b08cc631cda1c50"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "274"
-                  endingLineNumber = "274"
-                  offsetFromSymbolStart = "4140">
-               </Location>
-               <Location
-                  uuid = "5A22E40F-C2EC-415E-ABCA-20AFE2928C9D - 9b08cc631cda1e24"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for Assistant_Professeur.Store.updateCustomerProductStatus() async -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Shared/Store/Store.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "286"
-                  endingLineNumber = "286"
-                  offsetFromSymbolStart = "1204">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -3761,6 +3035,54 @@
                   offsetFromSymbolStart = "76">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "182D8F76-1E99-455E-96A4-BAC21CA058CE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Assistant Professeur/Model/Events/EventManager.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "requestCalendarAccess(eventStore:calendarName:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "33C47B02-ACC3-400A-B666-1A2A8E6FE168"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Assistant Professeur/Model/Persistence/Authentication/Authentication.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "checkUserAppleIdCredentials(userContext:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E40591FE-C43D-407E-AA1B-F739E62BE474"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Assistant Professeur/Model/Persistence/UserContext.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "setOwner(to:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

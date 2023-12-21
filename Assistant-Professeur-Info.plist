@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleIdentifier</key>
+	<string></string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>LIVE_COUNTDOWN</string>
@@ -21,7 +23,7 @@
 		</dict>
 	</array>
 	<key>NSCalendarsFullAccessUsageDescription</key>
-	<string>L'accès à votre agenda permet de synchroniser le contenu de vos cours à venir avec votre agenda.</string>
+	<string>L&apos;accès à votre agenda permet de synchroniser le contenu de vos cours à venir avec votre agenda.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

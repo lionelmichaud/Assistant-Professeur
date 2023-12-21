@@ -54,7 +54,6 @@ struct HomeScreen: View {
                 // Timeout de synchronisation échu
                 Text("Echec de la synchronisation.\nEssayer plus tard.")
                     .font(.title2)
-                    .foregroundStyle(.red)
             }
         }
         #if os(macOS)
@@ -63,29 +62,34 @@ struct HomeScreen: View {
 
         .task {
             // Vérifier si l'utilisateur est déjà autorisé.
-            // Si oui, mettre à jour les context utilisateur.
+            // Si oui, mettre à jour les context utilisateur
+            // avec les liens vers le Owner et ses Préférences.
             await authentication.checkUserAppleIdCredentials(
                 userContext: userContext
             )
-            userContextIsValid = userContext.isValid
 
-            // Attendre que iCloud ait synchronisé les données utilisateur
-            // Pas plus de 5 minutes
-            let period = 15 // seconds
-            var counter = 0
-            while !userContext.isValid {
-                try? await Task.sleep(for: .seconds(period))
-                if let userIdentifier = authentication.userCredentials?.userIdentifier,
-                   let owner = OwnerEntity.byUserIdentifier(userIdentifier: userIdentifier) {
-                    userContext.setOwner(to: owner)
+            if userContext.isValid {
+                userContextIsValid = true
+            } else {
+                // Attendre que iCloud ait synchronisé les données utilisateur
+                // Pas plus de 5 minutes
+                let period = 15 // seconds
+                let timeOutSeconds = 5 * 60 // seconds
+                var counter = 0
+                while !userContext.isValid {
+                    try? await Task.sleep(for: .seconds(period))
+                    if let userIdentifier = authentication.userCredentials?.userIdentifier,
+                       let owner = OwnerEntity.byUserIdentifier(userIdentifier: userIdentifier) {
+                        userContext.setOwner(to: owner)
+                    }
+                    counter += period
+                    if counter > timeOutSeconds {
+                        timeOut = true
+                        break
+                    }
                 }
-                counter += period
-                if counter > 8 * 60 {
-                    timeOut = true
-                    break
-                }
+                userContextIsValid = userContext.isValid
             }
-            userContextIsValid = userContext.isValid
         }
     }
 }
