@@ -74,7 +74,6 @@ struct AppShopView: View {
                     )
                 }
             }
-            // .productViewStyle(.compact)
             .scrollClipDisabled()
         }
         .contentMargins(.horizontal, 20, for: .scrollContent)

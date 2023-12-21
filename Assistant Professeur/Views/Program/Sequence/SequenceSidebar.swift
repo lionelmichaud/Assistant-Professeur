@@ -36,6 +36,7 @@ struct SequenceSidebar: View {
                             searchString: searchString
                         )
                     }
+                    .contentMargins(.horizontal, 20.0)
                     .searchable(
                         text: $searchString,
                         placement: .toolbar,
