@@ -49,11 +49,8 @@ struct SequenceList: View {
                 )
             }
         } header: {
-            HStack {
-                Text("Séquences de cette progression (\(program.nbOfSequences))")
-                    .style(.sectionHeader)
-                Spacer()
-            }
+            Text("Séquences de cette progression (\(program.nbOfSequences))")
+                .style(.sectionHeader)
         }
     }
 

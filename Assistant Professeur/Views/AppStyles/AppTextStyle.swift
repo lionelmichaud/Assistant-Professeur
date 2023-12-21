@@ -33,8 +33,7 @@ extension Text {
     }
 
     private func sectionHeader() -> Text {
-        self.font(.system(.subheadline, design: .rounded))
-            .font(.callout)
+        self.font(.callout)
             .fontWeight(.bold)
             .foregroundColor(.sectionHeader)
     }

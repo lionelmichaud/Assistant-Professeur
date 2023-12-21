@@ -51,11 +51,9 @@ struct ActivityList: View {
                 )
             }
         } header: {
-            HStack {
-                Text("Activités de cette Séquence (\(sequence.nbOfActivities))")
-                    .style(.sectionHeader)
-                Spacer()
-            }
+            Text("Activités de cette Séquence (\(sequence.nbOfActivities))")
+                .style(.sectionHeader)
+                .textCase(nil)
         }
     }
 

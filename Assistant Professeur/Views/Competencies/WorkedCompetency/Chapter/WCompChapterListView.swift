@@ -64,9 +64,7 @@ struct WCompChapterListView: View {
                         }
                     } header: {
                         Text("\(cycleChapters.id)")
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                            .fontWeight(.bold)
+                            .style(.sectionHeader)
                     }
                 }
             }

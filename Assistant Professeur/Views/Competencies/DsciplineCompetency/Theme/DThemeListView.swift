@@ -87,9 +87,7 @@ struct DThemeListView: View {
                         }
                     } header: {
                         Text("\(cycleThemes.id)")
-                            .font(.body)
-                            .foregroundColor(.secondary)
-                            .fontWeight(.bold)
+                            .style(.sectionHeader)
                     }
                 } else {
                     ContentUnavailableView(
