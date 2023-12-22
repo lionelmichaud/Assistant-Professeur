@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct SchoolSeancesList: View {
     @ObservedObject
@@ -13,9 +14,6 @@ struct SchoolSeancesList: View {
     let dateInterval: DateInterval
     let showOnlyOngoingSeance: Bool
     let showToDoListButton: Bool
-
-//    @State
-//    private var seanceIsOngoing: Bool
 
     @EnvironmentObject
     private var navig: NavigationModel
@@ -38,6 +36,9 @@ struct SchoolSeancesList: View {
     @State
     private var isShowingClasseTimer = false
 
+    /// Create an instance of your tip content.
+    var nextSeancesTip = NextSeancesTip()
+
     // MARK: - Subviews
 
     private var infoView: some View {
@@ -45,9 +46,12 @@ struct SchoolSeancesList: View {
             Text("Pour apparaître ici les noms des événements")
             Text("du calendrier de cet établissement dans votre")
             Text("application **Calendrier** doivent contenir:")
-            Text("\"**Acronyme Discipline - Classe**\"\n")
-            Text("Exemple: pour la discipline de \(Discipline.technologie.pickerString),")
-            Text("et la classe de 4ième 2: \"**\(Discipline.technologie.pickerString) - 4E2**\"")
+            Text("\"**Acronyme Discipline - Classe**\"\n.")
+            Text("*Exemple*: pour la discipline de **\(Discipline.technologie.pickerString)**,")
+            Text("et la classe de 4ième 2 de cet établissement:")
+            Text("un événement contenant:\"**\(Discipline.technologie.pickerString) - 4E2**\"")
+            Text("doit être créé dans le caldendrier nommé:")
+            Text("\"**\(school.viewName)**\"")
         }
         .foregroundColor(.primary)
         .padding()
@@ -84,6 +88,9 @@ struct SchoolSeancesList: View {
             }
 
             // Afficher toutes les séances trouvées
+            TipView(nextSeancesTip, arrowEdge: .bottom)
+                .customizedTipKitStyle()
+
             viewModel.seancesLoadingState.view
         }
         .alert(

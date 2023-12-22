@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct ClasseSeancesList: View {
     @ObservedObject
@@ -22,12 +23,18 @@ struct ClasseSeancesList: View {
     @State
     private var alert = AlertInfo()
 
+    /// Create an instance of your tip content.
+    var nextSeancesTip = NextSeancesTip()
+
     var body: some View {
         // Afficher la ToDo liste
         VStack(alignment: .leading) {
             // viewModel.toDoListButton
 
             // Afficher toutes les séances trouvées
+            TipView(nextSeancesTip, arrowEdge: .bottom)
+                .customizedTipKitStyle()
+
             viewModel.seancesListView
         }
         .alert(
@@ -49,6 +56,6 @@ struct ClasseSeancesList: View {
     }
 }
 
-//#Preview {
+// #Preview {
 //    ClasseSeancesList()
-//}
+// }

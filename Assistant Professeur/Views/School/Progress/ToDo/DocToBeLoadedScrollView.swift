@@ -7,6 +7,7 @@
 
 import HelpersView
 import SwiftUI
+import TipKit
 
 /// ScrollView présentant une liste de documents à partager
 /// sur l'ENT avant une certaine date
@@ -16,8 +17,15 @@ struct DocsToBeLoadedScrollView: View {
     @State
     private var toDoViewModel = ToDoViewModel()
 
+    /// Create an instance of your tip content.
+    var toBeLoadedTip = ToBeLoadedTip()
+
     var body: some View {
         ScrollView(.vertical, showsIndicators: true) {
+            TipView(toBeLoadedTip, arrowEdge: .bottom)
+                .customizedTipKitStyle()
+                .padding(.horizontal)
+
             switch toDoViewModel.status {
                 case .pending, .computing, .failed:
                     toDoViewModel.status.view

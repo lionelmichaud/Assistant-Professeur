@@ -103,7 +103,7 @@ struct Assistant_ProfesseurApp: App {
     private func setupTipsForTesting() {
         do {
             // Show all defined tips in the app.
-            Tips.showAllTipsForTesting()
+            //Tips.showAllTipsForTesting()
 
             // Show some tips, but not all.
             // try Tips.showTipsForTesting([tip1, tip2, tip3])

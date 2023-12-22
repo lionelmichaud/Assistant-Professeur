@@ -20,16 +20,19 @@ struct ClassNextSeancesView: View {
     @State
     private var popOverIsPresented: Bool = false
 
-   // MARK: - Subviews
+    // MARK: - Subviews
 
     private var infoView: some View {
         VStack {
             Text("Pour apparaître ici les noms des événements")
             Text("du calendrier de cet établissement dans votre")
             Text("application **Calendrier** doivent contenir:")
-            Text("\"**Acronyme Discipline - Classe**\"\n")
-            Text("Exemple: pour la discipline de \(classe.disciplineEnum.pickerString),")
-            Text("et la classe de \(classe.displayString): \"**\(classe.disciplineEnum.acronym) - \(classe.displayString)**\"")
+            Text("\"**Acronyme Discipline - Classe**\"\n.")
+            Text("*Exemple*: pour la discipline de **\(classe.disciplineEnum.pickerString)**,")
+            Text("et la classe de \(classe.displayString):")
+            Text("n événement contenant:\"**\(classe.disciplineEnum.acronym) - \(classe.displayString)**\"")
+            Text("doit être créé dans le caldendrier nommé:")
+            Text("\"**\(classe.school?.viewName ?? "")**\"")
         }
         .foregroundColor(.primary)
         .padding()
@@ -55,22 +58,22 @@ struct ClassNextSeancesView: View {
         .padding(.horizontal)
         .verticallyAligned(.top)
         #if os(iOS)
-        .navigationTitle("Cours à venir")
+            .navigationTitle("Cours à venir")
         #endif
-        .toolbar {
-            ToolbarItem(placement: .automatic) {
-                // Afficher le PopOver d'information sur le format à utiliser
-                Button {
-                    popOverIsPresented = true
-                } label: {
-                    Image(systemName: "info.bubble")
-                }
-                .popover(isPresented: $popOverIsPresented) {
-                    infoView
+            .toolbar {
+                ToolbarItem(placement: .automatic) {
+                    // Afficher le PopOver d'information sur le format à utiliser
+                    Button {
+                        popOverIsPresented = true
+                    } label: {
+                        Image(systemName: "info.bubble")
+                    }
+                    .popover(isPresented: $popOverIsPresented) {
+                        infoView
+                    }
                 }
             }
-        }
-        .navigationBarTitleDisplayModeInline()
+            .navigationBarTitleDisplayModeInline()
     }
 }
 

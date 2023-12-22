@@ -411,6 +411,7 @@
 		79ED5AAA2998030A00D536BF /* Exam+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ED5AA92998030A00D536BF /* Exam+CoreDataClass.swift */; };
 		79ED5AAD2998100E00D536BF /* Mark+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79ED5AAB2998100E00D536BF /* Mark+CoreDataClass.swift */; };
 		79EE3EA4296F6CF20075E9BD /* EleveTrombineStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EE3EA3296F6CF20075E9BD /* EleveTrombineStyling.swift */; };
+		79EEC8C82B36045A008230C0 /* ProgressTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79EEC8C72B36045A008230C0 /* ProgressTips.swift */; };
 		79F38D0829D747D9006C9B35 /* ColorPalettes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F38D0729D747D9006C9B35 /* ColorPalettes.swift */; };
 		79F38D0C29D74B17006C9B35 /* ClasseCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F38D0B29D74B17006C9B35 /* ClasseCapsule.swift */; };
 		79F41E592954903D00EAAC52 /* ClasseEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41E572954903D00EAAC52 /* ClasseEditor.swift */; };
@@ -893,6 +894,7 @@
 		79ED5AA92998030A00D536BF /* Exam+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Exam+CoreDataClass.swift"; path = "/Users/lionelmichaud/Desktop/Arduino/Langage Swift/Assistant Professeur/Assistant Professeur/Model/Classe/Exam/Exam+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		79ED5AAB2998100E00D536BF /* Mark+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Mark+CoreDataClass.swift"; sourceTree = "<group>"; };
 		79EE3EA3296F6CF20075E9BD /* EleveTrombineStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EleveTrombineStyling.swift; sourceTree = "<group>"; };
+		79EEC8C72B36045A008230C0 /* ProgressTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTips.swift; sourceTree = "<group>"; };
 		79F38D0729D747D9006C9B35 /* ColorPalettes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalettes.swift; sourceTree = "<group>"; };
 		79F38D0B29D74B17006C9B35 /* ClasseCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClasseCapsule.swift; sourceTree = "<group>"; };
 		79F41E572954903D00EAAC52 /* ClasseEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseEditor.swift; sourceTree = "<group>"; };
@@ -2243,6 +2245,7 @@
 				797627302AF6869700DC5EA6 /* SchoolSeancesViewModel.swift */,
 				79F6556B2AEBF46200AB3AEB /* SchoolSeancesList.swift */,
 				795BC98D2AF0038A006F3A8F /* ToDo */,
+				79EEC8C72B36045A008230C0 /* ProgressTips.swift */,
 			);
 			path = Progress;
 			sourceTree = "<group>";
@@ -2939,6 +2942,7 @@
 				79637205297D85EF00ECDBC3 /* SequenceBrowserRow.swift in Sources */,
 				799EFBA42A2CFC66008E9775 /* FileOperationTypes.swift in Sources */,
 				79A56A592A48E8B300D1D4CC /* WCompMasteryEdit.swift in Sources */,
+				79EEC8C82B36045A008230C0 /* ProgressTips.swift in Sources */,
 				79E40E7C2997D83D006BBE49 /* Colle+CoreDataClass.swift in Sources */,
 				79134557296B6C620092E7CD /* TrombineInteractivView.swift in Sources */,
 				795804BA29A69CB800AEB7DA /* SequenceStepperView.swift in Sources */,
