@@ -131,8 +131,7 @@ extension SettingsGeneral {
                         // The value of authorized is true when the person grants authorization for one or more options.
                         if authorized {
                             #if DEBUG
-                                customLog.log(
-                                    level: .info,
+                                customLog.info(
                                     "Authorization for notifications has been GRANTED by user"
                                 )
                             #endif
@@ -140,8 +139,7 @@ extension SettingsGeneral {
                             await ReminderTaskManager.shared.schedulNextReminderNotification()
                         }
                     } catch {
-                        customLog.log(
-                            level: .error,
+                        customLog.error(
                             "Failed to request authorization for notifications with Error: \(error.localizedDescription)"
                         )
                     }

@@ -48,8 +48,7 @@ public final class EleveEntity: NSManagedObject, Codable, ModelEntityP {
             if let groupe = GroupEntity.byId(id: groupID) {
                 self.group = groupe
             } else {
-                customLog.log(
-                    level: .error,
+                customLog.error(
                     "Erreur: Groupe de l'élève \(self.displayName(.nomPrenom)) introuvable!"
                 )
             }
@@ -61,8 +60,7 @@ public final class EleveEntity: NSManagedObject, Codable, ModelEntityP {
             if let seat = SeatEntity.byId(id: seatID) {
                 self.seat = seat
             } else {
-                customLog.log(
-                    level: .error,
+                customLog.error(
                     "Erreur: Siège de l'élève \(self.displayName(.nomPrenom)) introuvable dans sa salle de classe!"
                 )
             }

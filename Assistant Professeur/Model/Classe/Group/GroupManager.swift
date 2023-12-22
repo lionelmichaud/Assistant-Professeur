@@ -45,15 +45,13 @@ enum GroupManager {
         withThisEleve eleve2: EleveEntity
     ) {
         guard eleve1.isGrouped && eleve2.isGrouped else {
-            customLog.log(
-                level: .error,
+            customLog.error(
                 "Tentative de permuter deux élèves dont l'un au moins n'appartient à aucun groupe."
             )
             return
         }
         guard eleve1.classe == eleve2.classe else {
-            customLog.log(
-                level: .error,
+            customLog.error(
                 "Tentative de permuter deux élèves qui n'appartiennent pas à la même classe."
             )
             return
@@ -246,7 +244,9 @@ enum GroupManager {
                 do {
                     try groupe.delete()
                 } catch {
-                    customLog.log(level: .fault, "Echec de la suppression du group d'élève n°\(groupe.number) dans la classe \(classe.displayString):  \(error.localizedDescription)")
+                    customLog.fault(
+                        "Echec de la suppression du group d'élève n°\(groupe.number) dans la classe \(classe.displayString):  \(error.localizedDescription)"
+                    )
                     fatalError()
                 }
             }

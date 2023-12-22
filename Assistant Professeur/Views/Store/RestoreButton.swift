@@ -12,7 +12,7 @@ struct RestorePurchasesButton: View {
     @State private var isRestoring = false
 
     var body: some View {
-        Button("Restore Purchases") {
+        Button("Restaurer les achats") {
             isRestoring = true
             Task.detached {
                 defer { isRestoring = false }

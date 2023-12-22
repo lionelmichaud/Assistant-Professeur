@@ -42,8 +42,7 @@ public final class ActivityProgressEntity: NSManagedObject, Codable, ModelEntity
             if let classe = ClasseEntity.byId(id: classeID) {
                 self.classe = classe
             } else {
-                customLog.log(
-                    level: .error,
+                customLog.error(
                     "Erreur: Classe associée à la progression \(String(describing: self)) introuvable!"
                 )
             }

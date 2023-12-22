@@ -208,8 +208,7 @@ struct GroupSteppedlMarkModal: View {
                 .forEach { mark in
                     if elevesInGroupID.contains(mark.eleve!.objectID) {
                         guard mark.nbOfSteps == stepsMarks.count else {
-                            customLog.log(
-                                level: .fault,
+                            customLog.error(
                                 "Nombre de notes différent du nombre d'étapes de l'évaluation."
                             )
                             fatalError()

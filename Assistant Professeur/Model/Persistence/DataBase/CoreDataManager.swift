@@ -139,8 +139,7 @@ class CoreDataManager {
             inMemoryContainer.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
             inMemoryContainer.loadPersistentStores { _, error in
                 if let error = error as NSError? {
-                    customLog.log(
-                        level: .fault,
+                    customLog.fault(
                         "Failed to load the persistence store from Core Data: \(error.localizedDescription)"
                     )
                     fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -177,14 +176,15 @@ class CoreDataManager {
         cloudKitContainer.loadPersistentStores { _, error in
             if let error {
                 AppState.shared.initError = AppInitError.failedToLoadPersistentStores
-                customLog.log(
-                    level: .fault,
+                customLog.fault(
                     "Failed to load the persistence store from Core Data: \(error.localizedDescription)"
                 )
                 fatalError()
             } else {
                 #if DEBUG
-                    customLog.info(">> Loading of the persistent stores has completed")
+                    customLog.info(
+                        ">> Loading of the persistent stores has completed"
+                    )
                 #endif
             }
         }
@@ -272,7 +272,9 @@ class CoreDataManager {
             do {
                 try viewContext.save()
             } catch {
-                customLog.log(level: .fault, "Failed to save changes to Core Data container \(error.localizedDescription)")
+                customLog.fault(
+                    "Failed to save changes to Core Data container \(error.localizedDescription)"
+                )
                 throw error
             }
         }

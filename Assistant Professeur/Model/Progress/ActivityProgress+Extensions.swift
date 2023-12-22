@@ -168,7 +168,7 @@ extension ActivityProgressEntity {
                 name: logString,
                 id: progress.id
             ))
-            customLog.log(level: .error, "\(logString, privacy: .public)")
+            customLog.error("\(logString, privacy: .public)")
         }
 
         all().forEach { progress in
@@ -176,7 +176,7 @@ extension ActivityProgressEntity {
                 if tryToRepair {
                     do {
                         let logString = "trying to delete entity of type \(Self.entity().name!) : \(progress.activity?.viewName ?? "activity = nil") / \(progress.classe?.displayString ?? "classe  = nil")"
-                        customLog.log(level: .error, "\(logString, privacy: .public)")
+                        customLog.error("\(logString, privacy: .public)")
                         // la destruction est sauvegardée
                         try progress.delete()
 

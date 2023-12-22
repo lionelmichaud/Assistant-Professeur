@@ -290,8 +290,7 @@ extension RoomEntity {
                         removedSeats += 1
                     }
                 } catch {
-                    customLog.log(
-                        level: .error,
+                    customLog.error(
                         "Echec de la tentative de retirer une place assise d'une salle de classe."
                     )
                 }

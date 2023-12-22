@@ -77,14 +77,12 @@ actor ReminderTaskManager {
              the background task scheduler calls our app on the scheduled date
              */
             try BGTaskScheduler.shared.submit(request)
-            customLog.log(
-                level: .info,
+            customLog.debug(
                 "ToDo daily reminder background Task Scheduled"
             )
 
         } catch {
-            customLog.log(
-                level: .error,
+            customLog.error(
                 "ToDo daily reminder scheduling Error: \(error.localizedDescription)"
             )
         }
@@ -242,8 +240,7 @@ actor ReminderTaskManager {
         do {
             UNUserNotificationCenter.current()
                 .add(request )
-            customLog.log(
-                level: .info,
+            customLog.info(
                 "ToDo daily notification added to Notifcation Center."
             )
         }

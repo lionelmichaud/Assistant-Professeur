@@ -151,8 +151,7 @@
                 self.runningActivityID = activity.id
                 self.runningActivity = activity
             } catch {
-                customLog.log(
-                    level: .error,
+                customLog.error(
                     "Couldn't start activity: '\(String(describing: error))'."
                 )
             }

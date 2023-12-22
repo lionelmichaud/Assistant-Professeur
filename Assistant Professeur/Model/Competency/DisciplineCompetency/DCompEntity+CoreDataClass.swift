@@ -36,8 +36,7 @@ public final class DCompEntity: NSManagedObject, Codable, ModelEntityP {
                    let wComp = WCompEntity.byId(id: wCompId) {
                     self.workedCompetencies?.adding(wComp)
                 } else {
-                    customLog.log(
-                        level: .error,
+                    customLog.error(
                         "Erreur: Compétence travaillée associée à la Compétence disciplianire \(String(describing: self)) introuvable!"
                     )
                 }
@@ -52,8 +51,7 @@ public final class DCompEntity: NSManagedObject, Codable, ModelEntityP {
                    let activity = ActivityEntity.byId(id: activityId) {
                     self.activities?.adding(activity)
                 } else {
-                    customLog.log(
-                        level: .error,
+                    customLog.error(
                         "Erreur: Activité associée à la Compétence disciplianire \(String(describing: self)) introuvable!"
                     )
                 }

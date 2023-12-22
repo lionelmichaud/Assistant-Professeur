@@ -38,8 +38,7 @@ extension CsvImportExportMng {
 
         switch result {
             case let .failure(error):
-                customLog.log(
-                    level: .fault,
+                customLog.error(
                     "Error selecting file: \(error.localizedDescription)"
                 )
                 alertTitle = "Échec"
@@ -73,8 +72,7 @@ extension CsvImportExportMng {
                             alertIsPresented = true
 
                         } catch {
-                            customLog.log(
-                                level: .fault,
+                            customLog.error(
                                 "Error reading file: \(error.localizedDescription)"
                             )
                             alertTitle = "Échec"

@@ -142,6 +142,21 @@
                   endingLineNumber = "58"
                   offsetFromSymbolStart = "2240">
                </Location>
+               <Location
+                  uuid = "1CB73EDC-C7DD-4D22-BAAD-E06CBD2F3CF7 - 5cd2cbf152226da"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.ClasseEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.ClasseEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Classe/Classe+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "58"
+                  endingLineNumber = "58"
+                  offsetFromSymbolStart = "2232">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -155,8 +170,8 @@
             filePath = "Assistant Professeur/Model/Eleve/Eleve+CoreDataClass.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
             landmarkName = "init(from:)"
             landmarkType = "7">
             <Locations>
@@ -279,6 +294,21 @@
                   startingLineNumber = "64"
                   endingLineNumber = "64"
                   offsetFromSymbolStart = "2572">
+               </Location>
+               <Location
+                  uuid = "056424E1-A327-4F02-886E-B483462664DE - 8a77f35c8ad25c7d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.EleveEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.EleveEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Eleve/Eleve+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "63"
+                  endingLineNumber = "63"
+                  offsetFromSymbolStart = "2564">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -433,6 +463,21 @@
                   endingLineNumber = "51"
                   offsetFromSymbolStart = "1964">
                </Location>
+               <Location
+                  uuid = "67FE157E-C920-48C0-9B1A-FF60A947EC26 - 8a77f35c8ad25e09"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.EleveEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.EleveEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Eleve/Eleve+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "1956">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -585,6 +630,21 @@
                   startingLineNumber = "42"
                   endingLineNumber = "42"
                   offsetFromSymbolStart = "1260">
+               </Location>
+               <Location
+                  uuid = "7F0ABC3C-AA30-48A2-9A70-9226A0B25075 - e0fc264aae32e5e3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Assistant_Professeur.MarkEntity.__allocating_init(from: Swift.Decoder) throws -&gt; Assistant_Professeur.MarkEntity"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Classe/Exam/Mark+CoreDataClass.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "1252">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -1247,8 +1307,8 @@
             filePath = "Assistant Professeur/Model/Events/TodaySeances.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "510"
-            endingLineNumber = "510"
+            startingLineNumber = "508"
+            endingLineNumber = "508"
             landmarkName = "periodicUpdateOfLiveActivity(alertRemainingMinutes:warningRemainingMinutes:)"
             landmarkType = "7">
             <Locations>
@@ -1297,6 +1357,21 @@
                   endingLineNumber = "512"
                   offsetFromSymbolStart = "264">
                </Location>
+               <Location
+                  uuid = "A6E9B157-DF9F-4467-9D22-029514D42091 - 590c437239538030"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(6) suspend resume partial function for Assistant_Professeur.TodaySeances.periodicUpdateOfLiveActivity(alertRemainingMinutes: Swift.Int, warningRemainingMinutes: Swift.Int) async -&gt; ()"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/TodaySeances.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "510"
+                  endingLineNumber = "510"
+                  offsetFromSymbolStart = "264">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -1310,8 +1385,8 @@
             filePath = "Assistant Professeur/Model/Events/TodaySeances.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "456"
-            endingLineNumber = "456"
+            startingLineNumber = "454"
+            endingLineNumber = "454"
             landmarkName = "startLiveActivity(alertRemainingMinutes:warningRemainingMinutes:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -1437,8 +1512,8 @@
             filePath = "Assistant Professeur/Model/Persistence/Authentication/Authentication.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "152"
-            endingLineNumber = "152"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "checkAuthorization(authorization:userContext:)"
             landmarkType = "7">
             <Locations>
@@ -1609,73 +1684,10 @@
             filePath = "Assistant Professeur/Model/Persistence/Authentication/Authentication.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
             landmarkName = "setUserCredentialsFromiCloud_Signing_In(userIdentifier:userContext:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "909ACBA4-6FDE-44B2-BA5E-A2C3FEBCBC54"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Assistant Professeur/Model/Persistence/Authentication/Authentication.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
-            landmarkName = "setUserCredentialsFromiCloud_Signing_In(userIdentifier:userContext:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "909ACBA4-6FDE-44B2-BA5E-A2C3FEBCBC54 - df72ba6f8760e633"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Assistant_Professeur.Authentication.setUserCredentialsFromiCloud_Signing_In(userIdentifier: Swift.String, userContext: Assistant_Professeur.UserContext) -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Persistence/Authentication/Authentication.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "234"
-                  endingLineNumber = "234"
-                  offsetFromSymbolStart = "1432">
-               </Location>
-               <Location
-                  uuid = "909ACBA4-6FDE-44B2-BA5E-A2C3FEBCBC54 - df72ba6f8760e633"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Assistant_Professeur.Authentication.setUserCredentialsFromiCloud_Signing_In(userIdentifier: Swift.String, userContext: Assistant_Professeur.UserContext) -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Persistence/Authentication/Authentication.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "234"
-                  endingLineNumber = "234"
-                  offsetFromSymbolStart = "1624">
-               </Location>
-               <Location
-                  uuid = "909ACBA4-6FDE-44B2-BA5E-A2C3FEBCBC54 - df72ba6f8760e633"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Assistant_Professeur.Authentication.setUserCredentialsFromiCloud_Signing_In(userIdentifier: Swift.String, userContext: Assistant_Professeur.UserContext) -&gt; ()"
-                  moduleName = "Assistant Professeur"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Persistence/Authentication/Authentication.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "234"
-                  endingLineNumber = "234"
-                  offsetFromSymbolStart = "580">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

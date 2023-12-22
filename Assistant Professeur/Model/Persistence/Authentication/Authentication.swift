@@ -143,7 +143,9 @@ final class Authentication {
                         email: email,
                         userContext: userContext
                     )
-                    customLog.log(level: .info, "Signed-up with appleIDCredential. AppleUserID = \(userIdentifier)")
+                    customLog.info(
+                        "Signed-up with appleIDCredential. AppleUserID = \(userIdentifier)"
+                    )
 
                 } else {
                     // Returning user (signing in)
@@ -153,7 +155,9 @@ final class Authentication {
                         userIdentifier: userIdentifier,
                         userContext: userContext
                     )
-                    customLog.log(level: .info, "Signed-in with appleIDCredential. AppleUserID = \(userIdentifier)")
+                    customLog.info(
+                        "Signed-in with appleIDCredential. AppleUserID = \(userIdentifier)"
+                    )
                 }
 
             case let passwordCredential as ASPasswordCredential:
@@ -168,7 +172,9 @@ final class Authentication {
                     userName: username,
                     password: password
                 )
-                customLog.log(level: .info, "Signed-in with passwordCredential. Username: \(username). Password: \(password)")
+                customLog.info(
+                    "Signed-in with passwordCredential. Username: \(username). Password: \(password)"
+                )
 
             default:
                 break

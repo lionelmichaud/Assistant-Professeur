@@ -37,7 +37,7 @@ struct SignInView: View {
             } onCompletion: { result in
                 switch result {
                     case let .success(authResult):
-                        customLog.log(level: .info, "Auth success. Result: \(authResult)")
+                        customLog.info("Auth success. Result: \(authResult)")
 
                         // Post-authentication updates on persistence and/or states.
                         //   Check if the User is authoriezd after sign-in.
@@ -50,7 +50,9 @@ struct SignInView: View {
                         }
 
                     case let .failure(error):
-                        customLog.log(level: .info, "Auth failed. Result: \(error.localizedDescription)")
+                        customLog.info(
+                            "Auth failed. Result: \(error.localizedDescription)"
+                        )
                         // Handle auth failures
                 }
             }

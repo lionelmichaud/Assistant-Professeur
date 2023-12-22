@@ -60,7 +60,7 @@ struct Assistant_ProfesseurApp: App {
         // vérifier l'existance du dossier `Documents`
         guard let documentsFolder = Folder.documents else {
             let error = FileError.failedToResolveDocuments
-            customLog.log(level: .error, "\(error.rawValue))")
+            customLog.error("\(error.rawValue))")
             AppState.shared.initError = AppInitError.failedToInitialize
             return
         }
@@ -84,13 +84,13 @@ struct Assistant_ProfesseurApp: App {
 
                 } catch {
                     let error = AppInitError.failedToLoadApplicationData
-                    customLog.log(level: .error, "\(error.errorDescription ?? "forcedImportAllFilesFromApp"))")
+                    customLog.error("\(error.errorDescription ?? "forcedImportAllFilesFromApp"))")
                     AppState.shared.initError = error
                 }
             }
         } catch {
             let error = FileError.failedToCheckCompatibility
-            customLog.log(level: .error, "\(error.rawValue))")
+            customLog.error("\(error.rawValue))")
             AppState.shared.initError = error
         }
         #if DEBUG

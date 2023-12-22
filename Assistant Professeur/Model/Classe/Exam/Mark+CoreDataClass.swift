@@ -39,8 +39,7 @@ public final class MarkEntity: NSManagedObject, Codable, ModelEntityP {
             if let eleve = EleveEntity.byId(id: eleveID) {
                 self.eleve = eleve
             } else {
-                customLog.log(
-                    level: .error,
+                customLog.error(
                     "Erreur: Eleve associé à la note \(String(describing: self)) introuvable!"
                 )
             }

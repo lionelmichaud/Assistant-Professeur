@@ -433,14 +433,12 @@ extension TodaySeances {
              the background task scheduler calls our app on the scheduled date
              */
             try BGTaskScheduler.shared.submit(request)
-            customLog.log(
-                level: .info,
+            customLog.info(
                 "LiveActivity background Task Scheduled"
             )
 
         } catch {
-            customLog.log(
-                level: .error,
+            customLog.error(
                 "LiveActivity scheduling Error: \(error.localizedDescription)"
             )
         }
@@ -640,8 +638,7 @@ extension TodaySeances {
         do {
             UNUserNotificationCenter.current()
                 .add(request )
-            customLog.log(
-                level: .info,
+            customLog.info(
                 "Warning notification added to Notifcation Center."
             )
         }
@@ -686,8 +683,7 @@ extension TodaySeances {
         do {
             UNUserNotificationCenter.current()
                 .add(request )
-            customLog.log(
-                level: .info,
+            customLog.info(
                 "Warning notification added to Notifcation Center."
             )
         }

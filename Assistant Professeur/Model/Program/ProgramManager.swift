@@ -411,8 +411,7 @@ extension ProgramManager {
                         )
                         // Itérer avec cette seconde partie pour la prochaine période de vacance
                         sequenceLastInterval = shiftedSequenceInterval
-                        customLog.log(
-                            level: .debug,
+                        customLog.debug(
                             "On ne devrait jamais passer par là car la fin de la séquence précédente est forcément hors vacances scolaires"
                         )
 
@@ -432,8 +431,7 @@ extension ProgramManager {
                         // aucun recouvrement
                         // Note: on ne devrait jamais passer par là car il y a recouvrement (if let)
                         // print("aucun recouvrement avec \(vacance.name)")
-                        customLog.log(
-                            level: .error,
+                        customLog.error(
                             "On ne devrait jamais passer par là car il y a recouvrement entre la séquence et les vacance (voir if)"
                         )
                 }

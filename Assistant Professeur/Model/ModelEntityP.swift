@@ -86,7 +86,9 @@ extension ModelEntityP {
         do {
             return try context.existingObject(with: MngObjID) as? Self
         } catch {
-            customLog.log(level: .error, "Objet \(Self.self) non trouvé: \(error.localizedDescription)")
+            customLog.error(
+                "Objet \(Self.self) non trouvé: \(error.localizedDescription)"
+            )
             return nil
         }
     }
@@ -142,7 +144,9 @@ extension ModelEntityP {
             do {
                 try Self.context.save()
             } catch {
-                customLog.log(level: .fault, "Echec de l'enregistrement des modifications de la BDD: \(error.localizedDescription)")
+                customLog.fault(
+                    "Echec de l'enregistrement des modifications de la BDD: \(error.localizedDescription)"
+                )
                 throw error
             }
         }

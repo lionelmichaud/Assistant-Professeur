@@ -252,8 +252,7 @@ struct SchoolSidebarView: View {
         ) { result in
             switch result {
                 case let .failure(error):
-                    customLog.log(
-                        level: .fault,
+                    customLog.error(
                         "Error exporting JSON files: \(error.localizedDescription)"
                     )
                     alertInfo.title = "Échec"

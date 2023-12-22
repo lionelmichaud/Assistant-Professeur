@@ -55,8 +55,7 @@ public final class ClasseEntity: NSManagedObject, Codable, ModelEntityP {
             if let room = RoomEntity.byId(id: roomID) {
                 self.room = room
             } else {
-                customLog.log(
-                    level: .error,
+                customLog.error(
                     "Erreur: Salle de classe de la classe \(self.displayString) introuvable!"
                 )
             }

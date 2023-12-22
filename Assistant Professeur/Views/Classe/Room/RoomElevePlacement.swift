@@ -101,8 +101,7 @@ struct RoomElevePlacement: View {
                                     // Retirer tous les éléves de la `classe` des sièges de la salle de classe.
                                     room.removeAllSeatsFromPlan()
                                 } else {
-                                    customLog.log(
-                                        level: .fault,
+                                    customLog.error(
                                         "Dissocier: Le plan associé à la salle de classe n'a pas été trouvé"
                                     )
                                 }

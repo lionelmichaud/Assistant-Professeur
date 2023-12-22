@@ -479,8 +479,7 @@ extension ClasseEntity {
         if let foundGroup = self.allGroups.first(where: { $0.number == 0 }) {
             return foundGroup
         } else {
-            customLog.log(
-                level: .fault,
+            customLog.fault(
                 "groupOfUngroupedEleves: le groupe 0 n'existe pas"
             )
             fatalError()
@@ -742,8 +741,7 @@ extension ClasseEntity {
             theoricalProgress: Double // [0, 1]
         ) {
         guard let program = ProgramManager.programAssociatedTo(thisClasse: self) else {
-            customLog.log(
-                level: .error,
+            customLog.error(
                 "Pas de programme associé à la classe \(self.displayString)"
             )
             return (
@@ -794,7 +792,9 @@ extension ClasseEntity {
                 groupe.number == Int16(number)
             }
         guard groupes.count == 1 else {
-            customLog.log(level: .fault, "Aucun ou plusieur groupes d'élèves avec le même numéro n°\(number) dans la classe \(self.displayString)")
+            customLog.fault(
+                "Aucun ou plusieur groupes d'élèves avec le même numéro n°\(number) dans la classe \(self.displayString)"
+            )
             fatalError()
         }
         return groupes.first!

@@ -78,7 +78,12 @@ struct AppShopView: View {
                     )
                 }
 
-                RestorePurchasesButton()
+                HStack {
+                    Spacer()
+                    RestorePurchasesButton()
+                    Spacer()
+                }
+                .padding(.bottom)
             }
             .scrollClipDisabled()
         }

@@ -186,7 +186,9 @@ struct KeychainItem {
                 account: "userIdentifier"
             ).saveItem(userIdentifier)
         } catch {
-            customLog.log(level: .error, "Unable to save userIdentifier to keychain")
+            customLog.error(
+                "Unable to save userIdentifier to keychain"
+            )
         }
     }
 
@@ -197,7 +199,9 @@ struct KeychainItem {
                 account: "userIdentifier"
             ).deleteItem()
         } catch {
-            customLog.log(level: .error, "Unable to delete userIdentifier from keychain")
+            customLog.error(
+                "Unable to delete userIdentifier from keychain"
+            )
         }
     }
 }

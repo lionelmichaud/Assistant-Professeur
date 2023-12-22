@@ -61,8 +61,7 @@ private let customLog = Logger(
             return alert
 
         } catch {
-            customLog.log(
-                level: .error,
+            customLog.error(
                 "La tentative de récupération des contacts dans l'appli **Contacts** pour cet établissement à échouée."
             )
             alert.title = "Echec"
