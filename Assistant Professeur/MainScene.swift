@@ -131,16 +131,24 @@ struct MainScene: Scene {
         // you should call the save() method so that Core Data saves your changes permanently.
         switch scenePhase {
             case .active:
-                // An app or custom scene in this phase contains at least one active scene instance.
-                customLog.info(">> Scene Phase = .active")
+                #if DEBUG
+                    // An app or custom scene in this phase contains at least one active scene instance.
+                    customLog.info(">> Scene Phase = .active")
+                #endif
+                break
 
             case .inactive:
                 // An app or custom scene in this phase contains no scene instances in the ScenePhase.active phase.
-                customLog.info(">> Scene Phase = .inactive")
+                #if DEBUG
+                    customLog.info(">> Scene Phase = .inactive")
+                #endif
+                break
 
             case .background:
                 // Expect an app that enters the background phase to terminate.
-                customLog.info(">> Scene Phase = .background")
+                #if DEBUG
+                    customLog.info(">> Scene Phase = .background")
+                #endif
                 try? coreDataManager.saveIfContextHasChanged()
                 TodaySeances.shared.schedulNextUpdate()
 

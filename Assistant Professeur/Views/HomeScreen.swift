@@ -7,6 +7,12 @@
 
 import AuthenticationServices
 import SwiftUI
+import OSLog
+
+private let customLog = Logger(
+    subsystem: "com.michaud.lionel.Assistant-Professeur",
+    category: "HomeScreen"
+)
 
 struct HomeScreen: View {
     // MARK: - Netsed Types
@@ -52,7 +58,7 @@ struct HomeScreen: View {
                 // User authentifié ou autorisé ET
                 // User context NON valide
                 // Timeout de synchronisation échu
-                Text("Echec de la synchronisation.\nEssayer plus tard.")
+                Text("Echec de la synchronisation.\nRelancez l'application plus tard.")
                     .font(.title2)
             }
         }
@@ -72,9 +78,9 @@ struct HomeScreen: View {
                 userContextIsValid = true
             } else {
                 // Attendre que iCloud ait synchronisé les données utilisateur
-                // Pas plus de 5 minutes
+                // Pas plus de 8 minutes
                 let period = 15 // seconds
-                let timeOutSeconds = 5 * 60 // seconds
+                let timeOutSeconds = 8 * 60 // seconds
                 var counter = 0
                 while !userContext.isValid {
                     try? await Task.sleep(for: .seconds(period))
@@ -85,6 +91,9 @@ struct HomeScreen: View {
                     counter += period
                     if counter > timeOutSeconds {
                         timeOut = true
+                        customLog.info(
+                            ">> Time-out (\(Int(timeOutSeconds.double()/60.0)) min) de synchronisation iCloud !"
+                        )
                         break
                     }
                 }

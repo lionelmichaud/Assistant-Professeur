@@ -20,6 +20,7 @@ struct AppShopView: View {
         shopContent
             // .background(.background.secondary)
             .navigationTitle("Achats")
+            .navigationBarTitleDisplayModeInline()
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     doneButton
@@ -39,6 +40,9 @@ struct AppShopView: View {
             VStack(alignment: .leading, spacing: 10) {
                 if let baseProduct = store.baseProduct {
                     let isPurchasable = store.isPurchasable(baseProduct)
+                    if isPurchasable {
+                        Text("Cette version d'essai est limitée à un seul établissement scolaire et une seule classe d'élèves.")
+                    }
                     baseTitle
                     MyProductView(
                         product: baseProduct,
@@ -73,6 +77,8 @@ struct AppShopView: View {
                         isPurchasable: isPurchasable
                     )
                 }
+
+                RestorePurchasesButton()
             }
             .scrollClipDisabled()
         }

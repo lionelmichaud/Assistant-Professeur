@@ -7,6 +7,7 @@
 
 import CoreData
 import SwiftUI
+import HelpersView
 
 struct ActivityDetail: View {
     @ObservedObject

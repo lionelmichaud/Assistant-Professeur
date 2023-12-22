@@ -59,6 +59,9 @@ final class UserContext {
         if let prefs = owner.prefs {
             // Objet Owner avec préférences existantes
             self.prefs = prefs
+            customLog.info(
+                ">> Préférences utilisateur (Owner) de \(owner.userIdentifier ?? "nil") existantes trouvées"
+            )
 
         } else {
             // Objet Owner sans préférences existantes
@@ -67,6 +70,9 @@ final class UserContext {
                 // les connecter ensemble.
                 owner.prefs = UserPrefEntity.all().first
                 self.prefs = owner.prefs!
+                customLog.info(
+                    ">> Préférences utilisateur orphelines trouvées et associées à l'utilisateur (Owner) \(owner.userIdentifier ?? "nil")"
+                )
 
             } else {
                 // La synchro iCloud n'a sans doute pas encore synchronisé les objets OwnerEntity et PrefEntity
