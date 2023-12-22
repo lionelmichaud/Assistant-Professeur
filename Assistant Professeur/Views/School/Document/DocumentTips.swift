@@ -15,7 +15,7 @@ struct AddDocumentTip: Tip {
     }
 
     var message: Text? {
-        Text("Ajouter un document en tapant sur le signe \(Image(systemName: "plus.circle.fill")) ou en glissant dessus un document PDF.")
+        Text("Ajouter un document en tapant sur le signe \(Image(systemName: "plus.circle.fill")) ou en glissant et déposant dessus un document PDF.")
     }
 
     var image: Image? {
@@ -33,7 +33,7 @@ struct AddDocumentsTip: Tip {
     }
 
     var message: Text? {
-        Text("Ajouter des documents en tapant sur le signe \(Image(systemName: "plus.circle.fill")) ou en glissant dessus un ou plusieurs documents PDF.")
+        Text("Ajouter des documents en tapant sur le signe \(Image(systemName: "plus.circle.fill")) ou en glissant et déposant dessus un ou plusieurs documents PDF.")
     }
 
     var image: Image? {

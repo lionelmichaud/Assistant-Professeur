@@ -38,16 +38,17 @@ struct AppShopView: View {
     var shopContent: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
+                if !store.somePurchaseDone {
+                    Text("Cette version d'essai est limitée à un seul établissement scolaire et une seule classe d'élèves.")
+                }
                 if let baseProduct = store.baseProduct {
-                    let isPurchasable = store.isPurchasable(baseProduct)
-                    if isPurchasable {
-                        Text("Cette version d'essai est limitée à un seul établissement scolaire et une seule classe d'élèves.")
-                    }
                     baseTitle
                     MyProductView(
                         product: baseProduct,
-                        isPurchasable: isPurchasable
+                        isPurchasable: store.isPurchasable(baseProduct)
                     )
+                }
+                if !store.somePurchaseDone {
                     baseDescription
                 }
 

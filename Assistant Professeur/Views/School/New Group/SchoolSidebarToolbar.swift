@@ -21,8 +21,8 @@ extension SchoolSidebarView {
                     store.isPurchased(service: .pro) {
                     presentedSheet = .addingNewSchool
                 } else {
-                    alertInfo.title = "Limite de la version d'essai atteinte"
-                    alertInfo.message = "Pour bénéficier d'un **nombre illimité** d'établissements et de classes, rendez-vous en magazin."
+                    alertInfo.title = "Version d'essai limitée"
+                    alertInfo.message = "Pour bénéficier d'un nombre illimité d'établissements et de classes, rendez-vous en magazin 🛒."
                     alertInfo.isPresented = true
                 }
             } label: {

@@ -25,7 +25,8 @@ struct ClassNextSeancesView: View {
     private var infoView: some View {
         VStack {
             Text("Pour apparaître ici les noms des événements")
-            Text("du calendrier de cet établissement doivent contenir:")
+            Text("du calendrier de cet établissement dans votre")
+            Text("application **Calendrier** doivent contenir:")
             Text("\"**Acronyme Discipline - Classe**\"\n")
             Text("Exemple: pour la discipline de \(classe.disciplineEnum.pickerString),")
             Text("et la classe de \(classe.displayString): \"**\(classe.disciplineEnum.acronym) - \(classe.displayString)**\"")
