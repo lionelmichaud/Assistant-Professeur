@@ -16,6 +16,8 @@ struct AppShopView: View {
     @Environment(\.dismiss)
     private var dismiss
 
+    let titleColor: Color = .blue3
+
     var body: some View {
         shopContent
             // .background(.background.secondary)
@@ -41,6 +43,12 @@ struct AppShopView: View {
                 if !store.somePurchaseDone {
                     Text("Cette version d'essai est limitée à un seul établissement scolaire et une seule classe d'élèves.")
                 }
+                // Informations sur les fonction sde chaque produit vendu
+                NavigationLink("Plus d'informations...") {
+                    AppShopInfos()
+                }
+
+                // Produit de base: suppression des limites de nombre
                 if let baseProduct = store.baseProduct {
                     baseTitle
                     MyProductView(
@@ -52,6 +60,7 @@ struct AppShopView: View {
                     baseDescription
                 }
 
+                // Options fonctionnelles
                 if store.optionProducts.isNotEmpty {
                     optionsTitle
                     ForEach(store.optionProducts) { product in
@@ -66,6 +75,7 @@ struct AppShopView: View {
                     }
                 }
 
+                // Version complète
                 if let fullProduct = store.fullProduct {
                     fullTitle
                     fullDescription
@@ -79,6 +89,7 @@ struct AppShopView: View {
                     )
                 }
 
+                // Bouton pour restaurer les achats
                 HStack {
                     Spacer()
                     RestorePurchasesButton()
@@ -97,6 +108,7 @@ struct AppShopView: View {
             .font(.title3.weight(.medium))
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top)
+            .foregroundStyle(titleColor)
     }
 
     var optionsTitle: some View {
@@ -104,6 +116,7 @@ struct AppShopView: View {
             .font(.title3.weight(.medium))
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top)
+            .foregroundStyle(titleColor)
     }
 
     var fullTitle: some View {
@@ -111,6 +124,7 @@ struct AppShopView: View {
             .font(.title3.weight(.medium))
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.top)
+            .foregroundStyle(titleColor)
     }
 
     var baseDescription: some View {
