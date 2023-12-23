@@ -24,6 +24,8 @@ private let customLog = Logger(
 extension RoomEntity {
     // MARK: - Type Properties
 
+    static let defaultImageName = "door.left.hand.open"
+
     #if canImport(UIKit)
         static let defaultPlanNativeImage: UIImage = .init(systemName: "questionmark.app.dashed")!
     #elseif canImport(AppKit)

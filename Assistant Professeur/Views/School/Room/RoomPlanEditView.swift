@@ -8,6 +8,7 @@
 import HelpersView
 import OSLog
 import SwiftUI
+import TipKit
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -23,6 +24,9 @@ struct RoomPlanEditView: View {
     @ObservedObject
     var room: RoomEntity
 
+    /// Create an instance of your tip content.
+    var roomPlanEditTip = RoomPlanEditTip()
+
     // MARK: - Computd Properties
 
     private var imageSize: CGSize? {
@@ -34,9 +38,13 @@ struct RoomPlanEditView: View {
             ZStack(alignment: .topLeading) {
                 GeometryReader { viewGeometry in
                     // Image du plan de la salle
-                    room.viewImage
-                        .resizable()
-                        .elevTrombineStyling()
+                    VStack {
+                        TipView(roomPlanEditTip, arrowEdge: .top)
+                            .customizedTipKitStyle()
+                        room.viewImage
+                            .resizable()
+                            .elevTrombineStyling()
+                    }
 
                     // Symboles des places des élèves dans la salle
                     if room.nbSeatPositionned > 0 {

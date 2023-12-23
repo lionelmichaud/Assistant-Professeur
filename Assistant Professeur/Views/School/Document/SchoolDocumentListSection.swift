@@ -38,20 +38,22 @@ struct SchoolDocumentListSection: View {
 
     var body: some View {
         Section {
-            // ajouter un ou plusieurs documents utiles
-            TipView(addDocumentsTip, arrowEdge: .bottom)
-                .customizedTipKitStyle()
-            Button {
-                // Invalidate the tip when someone uses the feature.
-                addDocumentsTip.invalidate(reason: .actionPerformed)
-                isImportingPdfFile.toggle()
-            } label: {
-                HStack {
-                    Image(systemName: "plus.circle.fill")
-                    Text("Ajouter des documents")
+            VStack(alignment: .leading) {
+                // ajouter un ou plusieurs documents utiles
+                TipView(addDocumentsTip, arrowEdge: .bottom)
+                    .customizedTipKitStyle()
+                Button {
+                    // Invalidate the tip when someone uses the feature.
+                    addDocumentsTip.invalidate(reason: .actionPerformed)
+                    isImportingPdfFile.toggle()
+                } label: {
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                        Text("Ajouter des documents")
+                    }
                 }
+                .buttonStyle(.borderless)
             }
-            .buttonStyle(.borderless)
             .customizedListItemStyle(
                 isSelected: false
             )

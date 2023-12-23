@@ -5,7 +5,6 @@
 //  Created by Lionel MICHAUD on 01/12/2023.
 //
 
-import Foundation
 import SwiftUI
 import TipKit
 
@@ -15,7 +14,7 @@ struct AddDocumentTip: Tip {
     }
 
     var message: Text? {
-        Text("Ajouter un document en tapant sur le signe \(Image(systemName: "plus.circle.fill")) ou en glissant et déposant dessus un document PDF.")
+        Text("Ajouter un document en touchant \(Image(systemName: "plus.circle.fill")) ou en glissant et déposant dessus un document PDF.")
     }
 
     var image: Image? {

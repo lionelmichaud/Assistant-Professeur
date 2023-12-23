@@ -19,7 +19,7 @@ struct RoomRowEditor: View {
 
     var nameView: some View {
         HStack {
-            Image(systemName: "door.left.hand.open")
+            Image(systemName: RoomEntity.defaultImageName)
                 .sfSymbolStyling()
                 .foregroundColor(.accentColor)
             TextField("Nom de la salle", text: $room.viewName)
@@ -42,14 +42,18 @@ struct RoomRowEditor: View {
         }
     }
 
+    private var editPlanButton: some View {
+        Button("Plan") {
+            isPlacing.toggle()
+        }
+        .buttonStyle(.bordered)
+    }
+
     private var compactView: some View {
         VStack {
             HStack {
                 nameView
-                Button("Plan") {
-                    isPlacing.toggle()
-                }
-                .buttonStyle(.bordered)
+                editPlanButton
             }
             nbPlacesView
         }
@@ -62,10 +66,7 @@ struct RoomRowEditor: View {
             nbPlacesView
                 .frame(maxWidth: 275)
                 .padding(.trailing)
-            Button("Plan") {
-                isPlacing.toggle()
-            }
-            .buttonStyle(.bordered)
+            editPlanButton
         }
     }
 

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import HelpersView
+import TipKit
 
 /// Vue de la liste des salles de classe de l'établissement
 struct RoomListSection: View {
@@ -28,20 +29,27 @@ struct RoomListSection: View {
     @State
     private var indexSet: IndexSet = []
 
+    /// Create an instance of your tip content.
+    var roomCreateTip = RoomCreateTip()
+
     var body: some View {
         Section {
             /// Ajouter une nouvelle salle de classe
-            Button {
-                withAnimation {
-                    _ = RoomEntity.create(dans: school)
+            VStack(alignment: .leading) {
+                TipView(roomCreateTip, arrowEdge: .bottom)
+                    .customizedTipKitStyle()
+                Button {
+                    withAnimation {
+                        _ = RoomEntity.create(dans: school)
+                    }
+                } label: {
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                        Text("Ajouter une salle de classe")
+                    }
                 }
-            } label: {
-                HStack {
-                    Image(systemName: "plus.circle.fill")
-                    Text("Ajouter une salle de classe")
-                }
+                .buttonStyle(.borderless)
             }
-            .buttonStyle(.borderless)
             .customizedListItemStyle(
                 isSelected: false
             )
