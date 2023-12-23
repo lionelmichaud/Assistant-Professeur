@@ -339,6 +339,7 @@
 		79DD5A2E2AD308C80072290E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79DD5A2D2AD308C80072290E /* Assets.xcassets */; };
 		79DD5A322AD308C80072290E /* LiveCoursProgressExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 79DD5A1F2AD308C60072290E /* LiveCoursProgressExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		79DD5A382AD30A570072290E /* LiveCoursProgressAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD5A372AD30A570072290E /* LiveCoursProgressAttributes.swift */; };
+		79DD6AB42B371C18007C76BB /* AppShopInfos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DD6AB32B371C17007C76BB /* AppShopInfos.swift */; };
 		79DEDAE22925849600F508EF /* HelpersView in Frameworks */ = {isa = PBXBuildFile; productRef = 79DEDAE12925849600F508EF /* HelpersView */; };
 		79DEDAE9292585E300F508EF /* SchoolSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAE8292585E300F508EF /* SchoolSplitView.swift */; };
 		79DEDAEC2925864A00F508EF /* ClasseSplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DEDAEB2925864A00F508EF /* ClasseSplitView.swift */; };
@@ -838,6 +839,7 @@
 		79DD5A2D2AD308C80072290E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79DD5A2F2AD308C80072290E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		79DD5A372AD30A570072290E /* LiveCoursProgressAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveCoursProgressAttributes.swift; sourceTree = "<group>"; };
+		79DD6AB32B371C17007C76BB /* AppShopInfos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppShopInfos.swift; sourceTree = "<group>"; };
 		79DEDAE8292585E300F508EF /* SchoolSplitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchoolSplitView.swift; sourceTree = "<group>"; };
 		79DEDAEB2925864A00F508EF /* ClasseSplitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClasseSplitView.swift; sourceTree = "<group>"; };
 		79DEDAEE292586A500F508EF /* EleveSplitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EleveSplitView.swift; sourceTree = "<group>"; };
@@ -1079,6 +1081,7 @@
 				79D84F372B2DED9100E07EF5 /* RestoreButton.swift */,
 				79D84F392B2E1EA200E07EF5 /* ProductIcone.swift */,
 				79446D702B2F00090002BBF3 /* StoreViewModifiers.swift */,
+				79DD6AB32B371C17007C76BB /* AppShopInfos.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -2840,6 +2843,7 @@
 				792D4EB629843C5100A6E69F /* ActivityDetailGroupBox.swift in Sources */,
 				791A0CDD29746A31004CA543 /* DataBaseManager.swift in Sources */,
 				79F7A27F2A40888300CEC3D5 /* DCompTagList.swift in Sources */,
+				79DD6AB42B371C18007C76BB /* AppShopInfos.swift in Sources */,
 				794F4C3D2B111BD0001DB7F6 /* ChangeOrientation.swift in Sources */,
 				79ECF1F72959F6CA008F0282 /* EleveObservLabel.swift in Sources */,
 				790F76A02981680F000A5C7D /* SequenceCreatorModal.swift in Sources */,
