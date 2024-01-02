@@ -181,12 +181,16 @@
 					<dict>
 						<key>location-parameters</key>
 						<dict>
+							<key>EndingColumnNumber</key>
+							<string>0</string>
 							<key>EndingLineNumber</key>
-							<string>282</string>
+							<string>283</string>
+							<key>StartingColumnNumber</key>
+							<string>0</string>
 							<key>StartingLineNumber</key>
 							<string>282</string>
 							<key>Timestamp</key>
-							<string>724940041.3584239</string>
+							<string>725904488.145901</string>
 						</dict>
 						<key>rebasable-url</key>
 						<dict>
@@ -202,13 +206,15 @@
 					<key>text-context</key>
 					<dict>
 						<key>focused</key>
-						<string></string>
-						<key>leading</key>
 						<string>    }
-}
+</string>
+						<key>leading</key>
+						<string>            }
+        }
 </string>
 						<key>trailing</key>
-						<string></string>
+						<string>}
+</string>
 					</dict>
 					<key>title</key>
 					<string>A désactiver sur Mac</string>

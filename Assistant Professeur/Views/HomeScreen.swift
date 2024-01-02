@@ -7,6 +7,7 @@
 
 import AuthenticationServices
 import OSLog
+import SwiftUI
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
