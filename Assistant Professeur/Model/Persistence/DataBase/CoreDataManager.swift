@@ -117,7 +117,9 @@ class CoreDataManager {
 
         // Debug build configuration.
         #if DEBUG
-            customLog.info(">> CoreDataManager.init() initialization has completed")
+            customLog.info(
+                ">> CoreDataManager.init() initialization has completed"
+            )
         #endif
     }
 

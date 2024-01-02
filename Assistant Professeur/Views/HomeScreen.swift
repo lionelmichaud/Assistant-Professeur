@@ -6,7 +6,6 @@
 //
 
 import AuthenticationServices
-import SwiftUI
 import OSLog
 
 private let customLog = Logger(

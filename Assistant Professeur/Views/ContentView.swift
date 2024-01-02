@@ -9,8 +9,8 @@ import AppFoundation
 import CloudKit
 import HelpersView
 import OSLog
-import SwiftUI
 import StoreKit
+import SwiftUI
 
 private let customLog = Logger(
     subsystem: "com.michaud.lionel.Assistant-Professeur",
@@ -43,8 +43,9 @@ struct ContentView: View {
     private var showTabBar = true
 
     var body: some View {
-        @Bindable var store = store
-        
+        @Bindable
+        var store = store
+
         TabView(selection: navig.tabSelection()) {
             // Pour chaque onglet
             ForEach(AppScreen.allCases) { screen in
@@ -121,6 +122,7 @@ struct ContentView: View {
         .task {
             await checkTodayToDoList()
         }
+        // Vérifier la cohérence entre les autorisations et les préférences
         .task {
             await checkNotificationAuthorisation()
         }
@@ -141,7 +143,7 @@ struct ContentView: View {
 //                //                }
 //            #endif
 //            Button("OK", role: .cancel) {
-//                customLog.log(level: .error, "\(error.failureReason ?? "Raison inconue.")")
+//                customLog.error("\(error.failureReason ?? "Raison inconue.")")
 //                // set the error back to nil so our alert will be dismissed
 //                cloudKitVM.iCloudError = nil
 //            }
