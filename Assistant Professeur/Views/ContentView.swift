@@ -84,11 +84,13 @@ struct ContentView: View {
                 customLog.error("\(error.errorDescription ?? "Raison inconue.")")
             }
         )
-        // Alerte en cas d'erreur de connection iCloud
+        // Alerte en cas d'erreur de connection iCloud pour ouvrie les préférences système
         .errorAlert(
             error: $cloudKitVM.iCloudError,
+            buttonTitle: "Réglages",
             actions: { error in
-                customLog.error("\(error.errorDescription ?? "Raison inconue.")")
+                openPrefsICloud()
+                customLog.error("iCloudError: \(error.errorDescription ?? "Raison inconue.")")
             }
         )
         // Alerte des ToDo du jour
@@ -245,6 +247,20 @@ extension ContentView {
         alertInfo.message = "\n" + printStr + loadStr +
             "\nConsultez-en la liste dans chaque établissement."
         alertInfo.isPresented = true
+    }
+
+    private func openPrefsICloud() {
+        #if os(iOS) || os(tvOS)
+            // Ouvre les réglages systèmes sous iOS ou tvOS
+            Task {
+                // Create the URL that deep links to your app's custom settings.
+                // if let url = URL(string: UIApplication.openSettingsURLString) {
+                if let url = URL(string: "prefs://root=APPLE_ACCOUNT&path=ICLOUD_SERVICE") {
+                    // Ask the system to open that URL.
+                    await UIApplication.shared.open(url)
+                }
+            }
+        #endif
     }
 }
 
