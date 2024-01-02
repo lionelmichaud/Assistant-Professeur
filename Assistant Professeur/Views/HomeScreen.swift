@@ -78,27 +78,34 @@ struct HomeScreen: View {
             } else {
                 // Attendre que iCloud ait synchronisé les données utilisateur
                 // Pas plus de 8 minutes
-                let period = 15 // seconds
-                let timeOutSeconds = 8 * 60 // seconds
-                var counter = 0
-                while !userContext.isValid {
-                    try? await Task.sleep(for: .seconds(period))
-                    if let userIdentifier = authentication.userCredentials?.userIdentifier,
-                       let owner = OwnerEntity.byUserIdentifier(userIdentifier: userIdentifier) {
-                        userContext.setOwner(to: owner)
-                    }
-                    counter += period
-                    if counter > timeOutSeconds {
-                        timeOut = true
-                        customLog.info(
-                            ">> Time-out (\(Int(timeOutSeconds.double()/60.0)) min) de synchronisation iCloud !"
-                        )
-                        break
-                    }
-                }
-                userContextIsValid = userContext.isValid
+                await waitForiCloudSync()
             }
         }
+    }
+
+    @MainActor
+    func waitForiCloudSync() async {
+        // Attendre que iCloud ait synchronisé les données utilisateur
+        // Pas plus de 8 minutes
+        let period = 15 // seconds
+        let timeOutSeconds = 8 * 60 // seconds
+        var counter = 0
+        while !userContext.isValid {
+            try? await Task.sleep(for: .seconds(period))
+            if let userIdentifier = authentication.userCredentials?.userIdentifier,
+               let owner = OwnerEntity.byUserIdentifier(userIdentifier: userIdentifier) {
+                userContext.setOwner(to: owner)
+            }
+            counter += period
+            if counter > timeOutSeconds {
+                timeOut = true
+                customLog.info(
+                    ">> Time-out (\(Int(timeOutSeconds.double() / 60.0)) min) de synchronisation iCloud !"
+                )
+                break
+            }
+        }
+        userContextIsValid = userContext.isValid
     }
 }
 
