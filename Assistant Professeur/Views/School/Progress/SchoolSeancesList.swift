@@ -140,12 +140,12 @@ extension SchoolSeancesList {
                 .fullScreenCover(
                     isPresented: $isShowingClasseTimer,
                     onDismiss: {
-                        Task {
-                            // Aller à la vue de mise à jour de l'vanacement de la progression de la classe
-                            if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
-                               let classe = SchoolEntity.school(withName: seance.schoolName!)?.classe(withAcronym: seance.name!) {
-                                await navig.navigateToProgressOf(thisClasse: classe)
-                            }
+                        if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
+                           let classe = SchoolEntity.school(withName: seance.schoolName!)?.classe(withAcronym: seance.name!) {
+                            DeepLinkManager.handleLink(
+                                navigateTo: .classeProgressUpdate(classe: classe),
+                                using: navig
+                            )
                         }
                     },
                     content: {

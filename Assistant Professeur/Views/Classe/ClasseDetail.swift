@@ -18,7 +18,7 @@ struct ClasseDetail: View {
     private var managedObjectContext
 
     @EnvironmentObject
-    private var navigationModel: NavigationModel
+    private var navig: NavigationModel
 
     @Environment(UserContext.self)
     private var userContext
@@ -122,9 +122,10 @@ extension ClasseDetail {
                         onDismiss: {
                             if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
                                let classe = SchoolEntity.school(withName: seance.schoolName!)?.classe(withAcronym: seance.name!) {
-                                Task {
-                                    await navigationModel.navigateToProgressOf(thisClasse: classe)
-                                }
+                                DeepLinkManager.handleLink(
+                                    navigateTo: .classeProgressUpdate(classe: classe),
+                                    using: navig
+                                )
                             }
                         },
                         content: {

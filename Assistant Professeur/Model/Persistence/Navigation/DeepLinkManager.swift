@@ -16,14 +16,11 @@ private let customLog = Logger(
 /// @MainActor
 enum DeepLinkManager {
     enum Destination {
-        case classe(
-            classe: ClasseEntity)
+        case classe(classe: ClasseEntity)
 
-        case classeProgressUpdate(
-            classe: ClasseEntity)
+        case classeProgressUpdate(classe: ClasseEntity)
 
-        case eleve(
-            eleve: EleveEntity)
+        case eleve(eleve: EleveEntity)
 
         case activity(
             program: ProgramEntity,

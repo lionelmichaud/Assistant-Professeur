@@ -51,9 +51,10 @@ struct ClassActivityProgressEditView: View {
             isPresented: $isShowingActivityTimer,
             onDismiss: {
                 if let classe = progress.classe {
-                    Task {
-                        await navig.navigateToProgressOf(thisClasse: classe)
-                    }
+                    DeepLinkManager.handleLink(
+                        navigateTo: .classeProgressUpdate(classe: classe),
+                        using: navig
+                    )
                 }
             },
             content: {
@@ -74,9 +75,10 @@ struct ClassActivityProgressEditView: View {
                     isPresented: $isShowingActivityTimer,
                     onDismiss: {
                         if let classe = progress.classe {
-                            Task {
-                                await navig.navigateToProgressOf(thisClasse: classe)
-                            }
+                            DeepLinkManager.handleLink(
+                                navigateTo: .classeProgressUpdate(classe: classe),
+                                using: navig
+                            )
                         }
                     },
                     content: {

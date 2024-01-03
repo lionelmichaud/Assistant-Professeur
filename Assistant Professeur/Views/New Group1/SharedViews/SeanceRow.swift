@@ -88,9 +88,10 @@ struct SeanceRow: View {
                         onDismiss: {
                             if let seance = TodaySeances.shared.seanceOngoing(inSchool: school),
                                let classe = SchoolEntity.school(withName: seance.schoolName!)?.classe(withAcronym: seance.name!) {
-                                Task {
-                                    await navig.navigateToProgressOf(thisClasse: classe)
-                                }
+                                DeepLinkManager.handleLink(
+                                    navigateTo: .classeProgressUpdate(classe: classe),
+                                    using: navig
+                                )
                             }
                         },
                         content: {
