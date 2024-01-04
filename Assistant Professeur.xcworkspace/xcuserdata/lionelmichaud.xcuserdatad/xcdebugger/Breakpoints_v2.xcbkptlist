@@ -1593,6 +1593,21 @@
                   endingLineNumber = "111"
                   offsetFromSymbolStart = "304">
                </Location>
+               <Location
+                  uuid = "182D8F76-1E99-455E-96A4-BAC21CA058CE - 225e94d91c6b884"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for Assistant_Professeur.EventManager.requestCalendarAccess(eventStore: __C.EKEventStore, calendarName: Swift.String) async -&gt; (calendar: Swift.Optional&lt;__C.EKCalendar&gt;, alertIsPresented: Swift.Bool, alertTitle: Swift.String, alertMessage: Swift.String)"
+                  moduleName = "Assistant Professeur"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lionelmichaud/Desktop/Arduino/Langage%20Swift/Assistant%20Professeur/Assistant%20Professeur/Model/Events/EventManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "111"
+                  endingLineNumber = "111"
+                  offsetFromSymbolStart = "236">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

@@ -39,6 +39,7 @@ struct EventManager { // swiftlint:disable:this type_body_length
 
     // MARK: - Methods
 
+    @MainActor
     mutating func requestCalendarAccess( // swiftlint:disable:this cyclomatic_complexity
         eventStore: EKEventStore,
         calendarName: String

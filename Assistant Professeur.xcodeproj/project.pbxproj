@@ -260,6 +260,8 @@
 		799D2C7929CCD226009C6336 /* SequenceDocumentList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */; };
 		799EFBA42A2CFC66008E9775 /* FileOperationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799EFBA32A2CFC66008E9775 /* FileOperationTypes.swift */; };
 		799EFBA62A2CFE45008E9775 /* WCompChapterBrowserRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799EFBA52A2CFE45008E9775 /* WCompChapterBrowserRow.swift */; };
+		799F6C872B46AC6400E0E918 /* CoursInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799F6C862B46AC6400E0E918 /* CoursInfoView.swift */; };
+		799F6C892B46B2ED00E0E918 /* DocumentsForElevesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799F6C882B46B2ED00E0E918 /* DocumentsForElevesView.swift */; };
 		79A56A552A48451800D1D4CC /* Mastery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A56A542A48451800D1D4CC /* Mastery.swift */; };
 		79A56A572A4888CC00D1D4CC /* WCompMasteryLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A56A562A4888CC00D1D4CC /* WCompMasteryLevels.swift */; };
 		79A56A592A48E8B300D1D4CC /* WCompMasteryEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79A56A582A48E8B300D1D4CC /* WCompMasteryEdit.swift */; };
@@ -764,6 +766,8 @@
 		799D2C7829CCD225009C6336 /* SequenceDocumentList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequenceDocumentList.swift; sourceTree = "<group>"; };
 		799EFBA32A2CFC66008E9775 /* FileOperationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileOperationTypes.swift; sourceTree = "<group>"; };
 		799EFBA52A2CFE45008E9775 /* WCompChapterBrowserRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompChapterBrowserRow.swift; sourceTree = "<group>"; };
+		799F6C862B46AC6400E0E918 /* CoursInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoursInfoView.swift; sourceTree = "<group>"; };
+		799F6C882B46B2ED00E0E918 /* DocumentsForElevesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsForElevesView.swift; sourceTree = "<group>"; };
 		79A56A542A48451800D1D4CC /* Mastery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mastery.swift; sourceTree = "<group>"; };
 		79A56A562A4888CC00D1D4CC /* WCompMasteryLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompMasteryLevels.swift; sourceTree = "<group>"; };
 		79A56A582A48E8B300D1D4CC /* WCompMasteryEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WCompMasteryEdit.swift; sourceTree = "<group>"; };
@@ -871,7 +875,7 @@
 		79E524BB295376E900DA99A7 /* EventListSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListSection.swift; sourceTree = "<group>"; };
 		79E524BC295376E900DA99A7 /* EventEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventEditor.swift; sourceTree = "<group>"; };
 		79E7B8762A587EED008E8B83 /* ClassNextSeancesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ClassNextSeancesView.swift; path = "Assistant Professeur/Model/Events/ClassNextSeancesView.swift"; sourceTree = SOURCE_ROOT; };
-		79E7B87A2A58A050008E8B83 /* SeanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeanceRow.swift; sourceTree = "<group>"; };
+		79E7B87A2A58A050008E8B83 /* SeanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SeanceRow.swift; path = "../New Group1/SeanceRow.swift"; sourceTree = "<group>"; };
 		79E923C42961E94D00EDB7CA /* GroupManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupManager.swift; sourceTree = "<group>"; };
 		79E9DC592ADAFEC600D9C2BC /* PlanningStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningStyles.swift; sourceTree = "<group>"; };
 		79EC34CF2B1A3F7D00747313 /* TrombineTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrombineTips.swift; sourceTree = "<group>"; };
@@ -1845,6 +1849,16 @@
 			path = WorkedCompetency;
 			sourceTree = "<group>";
 		};
+		799F6C852B46AC4300E0E918 /* Seance */ = {
+			isa = PBXGroup;
+			children = (
+				79E7B87A2A58A050008E8B83 /* SeanceRow.swift */,
+				799F6C862B46AC6400E0E918 /* CoursInfoView.swift */,
+				799F6C882B46B2ED00E0E918 /* DocumentsForElevesView.swift */,
+			);
+			path = Seance;
+			sourceTree = "<group>";
+		};
 		79A56A532A4844F500D1D4CC /* Mastery */ = {
 			isa = PBXGroup;
 			children = (
@@ -1866,7 +1880,7 @@
 			children = (
 				79CD363829D989C900BF5ADC /* EmptyListMessage.swift */,
 				79EC34D32B1B4E9700747313 /* SharedTips.swift */,
-				79E7B87A2A58A050008E8B83 /* SeanceRow.swift */,
+				799F6C852B46AC4300E0E918 /* Seance */,
 				794F4C3A2B10E994001DB7F6 /* TimerViews */,
 				794F4C392B10E968001DB7F6 /* ProgressViews */,
 				79A800282AC81DFC001F2E25 /* Controls */,
@@ -2720,6 +2734,7 @@
 				7937A24B298830CC00D0ED59 /* StepEditor.swift in Sources */,
 				79AFBFB82981D264001576DD /* ActivityEditorModal.swift in Sources */,
 				79C20A822A32855F00E43A07 /* DThemeEditorModal.swift in Sources */,
+				799F6C872B46AC6400E0E918 /* CoursInfoView.swift in Sources */,
 				7957A8302A3759E400D64786 /* DKnowBrowserRow.swift in Sources */,
 				796A17882A3F6C6600413DDD /* WCompListSection.swift in Sources */,
 				7901C6152AD5B0CB00003448 /* LiveActivityManager.swift in Sources */,
@@ -2868,6 +2883,7 @@
 				795F63F52A02D3D300E937C6 /* InfoPersoView.swift in Sources */,
 				7923811B2960B04F009E51B7 /* GroupsListView.swift in Sources */,
 				7915DC842A031C6A001C1249 /* Owner+CoreDataClass.swift in Sources */,
+				799F6C892B46B2ED00E0E918 /* DocumentsForElevesView.swift in Sources */,
 				79ECF1FF295A02EE008F0282 /* EleveDetail.swift in Sources */,
 				79446D732B2F68240002BBF3 /* Service.swift in Sources */,
 				794827442AFF82DD001640CD /* CompetencyDetailedColumn.swift in Sources */,
