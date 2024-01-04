@@ -223,7 +223,7 @@ struct SeancesInDateInterval {
                 classeSeances: &classeSeances,
                 withProgresses: sortedClasseProgresses
             )
-            //                    classeSeances.print()
+            // classeSeances.print()
 
             // Insérer des pseudo-séances pour chaque période
             // de vacances inclue dans la période

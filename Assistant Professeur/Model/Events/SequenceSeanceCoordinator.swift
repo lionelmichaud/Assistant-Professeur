@@ -9,11 +9,11 @@ import AppFoundation
 import EventKit
 import Foundation
 
-/// Synchronise les séances à venir et les progression d'activité
+/// Synchronise les séances à venir avec les progression d'activité
 /// - Synchronise les séances à venir d'une classe avec la progresison pédagogique prévue.
 /// - Synchronise les dates de début et fin de progression d'activité à venir d'une classe avec les dates des  séances à venir.
 enum SequenceSeanceCoordinator {
-    /// Renseigne les dates de début et de fin des séances à venir `intervalSeances` d'une classe
+    /// Renseigne les dates de début et de fin des activités des séances à venir `intervalSeances` d'une classe
     /// en fonction des `progresses` dans les activités de  la classe.
     /// Renseigne les activités pédagogiques abordées lors de chacune des séances à venir .
     /// de `intervalSeances` en exploitant les `progresses`.
@@ -52,7 +52,7 @@ enum SequenceSeanceCoordinator {
 
                 if let activityStartDate,
                    seanceEndDate <= activityStartDate {
-                    // l'activité débute à ou après la fin de la séance
+                    // l'activité débute à la fin de la séance ou après la fin de la séance
                     return
                 } else if let activityStartDate, let activityEndDate,
                           (seanceStartDate ... seanceEndDate).contains(activityStartDate),
@@ -72,8 +72,14 @@ enum SequenceSeanceCoordinator {
 
                 } else if let activityStartDate, let activityEndDate,
                           activityStartDate < seanceStartDate,
-                          activityEndDate > seanceEndDate {
+                          seanceEndDate < activityEndDate {
                     // l'activité commence avant la séance et se termine après la séance
+                    intervalSeances[seanceIdx].activities.append(activity)
+
+                } else if let activityStartDate,
+                          activityStartDate < seanceStartDate,
+                          activityEndDate == nil {
+                    // l'activité commence avant la séance et se termine à une date postérieure à l'horizon de temps étudié (nil)
                     intervalSeances[seanceIdx].activities.append(activity)
                 }
             }

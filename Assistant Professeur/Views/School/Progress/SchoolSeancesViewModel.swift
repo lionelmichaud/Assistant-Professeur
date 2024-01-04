@@ -12,6 +12,10 @@ import SwiftUI
 @Observable final class SchoolSeancesViewModel {
     private(set) var state: SeancesLoadingStatus = .pending
 
+    var seancesListView: some View {
+        state.view
+    }
+
     /// Recherche des séances dans la tranche de temps `dateInterval`
     /// pour l'établissement `school`.
     /// - Parameters:

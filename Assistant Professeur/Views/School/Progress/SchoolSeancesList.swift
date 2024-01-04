@@ -91,7 +91,7 @@ struct SchoolSeancesList: View {
             TipView(nextSeancesTip, arrowEdge: .bottom)
                 .customizedTipKitStyle()
 
-            viewModel.state.view
+            viewModel.seancesListView
         }
         .alert(
             alert.title,
@@ -124,7 +124,7 @@ struct SchoolSeancesList: View {
     }
 }
 
-// MARK: SchoolSidebarView Toolbar Content
+// MARK: Toolbar Content
 
 extension SchoolSeancesList {
     @ToolbarContentBuilder

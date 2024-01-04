@@ -44,6 +44,7 @@ struct ClasseSeancesList: View {
         )
         // Chargement des données recherchées depuis l'application Calendrier
         .task(id: classe.id!.uuidString + dateInterval.description) {
+            // Recherche des séances dans la tranche de temps `dateInterval`
             let alert = await viewModel.updateItems(
                 forClasse: classe,
                 inDateInterval: dateInterval,
