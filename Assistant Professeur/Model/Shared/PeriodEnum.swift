@@ -17,7 +17,7 @@ enum PeriodEnum: String, PickableEnumP {
         switch self {
             case .restOfTheDay: "Reste de la journée"
             case .nextWeek: "7 prochains jours"
-            case .all: "3 prochains mois"
+            case .all: "Prochain mois"
         }
     }
 
@@ -27,16 +27,14 @@ enum PeriodEnum: String, PickableEnumP {
         var endDate: Date
         switch self {
             case .restOfTheDay:
-                endDate = 1.days.from(Calendar.current.startOfDay(for: .now))!
+                let startOfDay = Calendar.current.startOfDay(for: .now)
+                endDate = 1.days.from(startOfDay)!
 
             case .nextWeek:
-                let date = 1.weeks.fromNow!
-                let startOfDay = Calendar.current.startOfDay(for: date)
-                let secondsInOneDay = 60 * 60 * 24.0
-                endDate = startOfDay.addingTimeInterval(secondsInOneDay)
+                endDate = 1.weeks.from(startDate)!
 
             case .all:
-                endDate = 3.months.fromNow!
+                endDate = 1.months.from(startDate)!
         }
         return DateInterval(
             start: startDate,
