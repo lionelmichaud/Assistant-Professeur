@@ -218,7 +218,7 @@ struct ProgramPlanningView: View {
                 message: { Text(alertMessage) }
             )
             .task {
-                await ProgramEntity.context.perform {
+                ProgramEntity.context.performAndWait {
                     data = ProgramPlanningGraphData(
                         forProgram: program,
                         schoolYear: userContext.prefs.viewSchoolYearPref
@@ -249,7 +249,7 @@ struct ProgramPlanningView: View {
                     }
 
                     var plannedDate: Date?
-                    await ClasseEntity.context.perform {
+                    ClasseEntity.context.performAndWait {
                         let schoolYear = userContext.prefs.viewSchoolYearPref
                         var classeSeances: SeancesInDateInterval = .init()
 

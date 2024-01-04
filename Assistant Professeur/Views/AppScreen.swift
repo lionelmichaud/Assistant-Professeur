@@ -17,6 +17,7 @@ enum AppScreen: String, Hashable, Identifiable, CaseIterable, Codable {
     case program = "Mes Progressions"
     case competence = "Compétences"
 
+    nonisolated
     var id: AppScreen { self }
 
     var imageName: String {

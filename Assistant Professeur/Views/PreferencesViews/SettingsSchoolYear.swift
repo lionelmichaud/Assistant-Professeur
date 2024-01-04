@@ -31,6 +31,9 @@ struct SettingsSchoolYear: View {
     @State
     private var alertIsPresented = false
 
+    @State
+    private var isFullAccessAuthorized = false
+
     var body: some View {
         @Bindable var userContext = userContext
         Form {
@@ -106,7 +109,7 @@ struct SettingsSchoolYear: View {
                     } label: {
                         Text("Mettre à jour l'App Calendrier")
                     }
-                    .disabled(!EventManager.shared.isFullAccessAuthorized)
+                    .disabled(!isFullAccessAuthorized)
                     .horizontallyAligned(.center)
                 } header: {
                     HStack {
@@ -133,6 +136,9 @@ struct SettingsSchoolYear: View {
         .navigationTitle("Année scolaire")
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .task {
+            isFullAccessAuthorized = await EventManager.shared.isFullAccessAuthorized
+        }
     }
 
     /// Ajouter ou mettre à jour le calendrier "Année scoalire" dans l'appli Calendrier.

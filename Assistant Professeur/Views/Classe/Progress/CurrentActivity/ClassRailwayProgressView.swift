@@ -91,7 +91,7 @@ struct ClassRailwayProgressView: View {
         )
         .task(id: classe.objectID) {
             // Séquences en cours pour cette classe
-            await ClasseEntity.context.perform {
+            ClasseEntity.context.performAndWait {
                 classeSequencesEnCours = classe.currentSequences
             }
 
@@ -115,7 +115,7 @@ struct ClassRailwayProgressView: View {
                 return
             }
 
-            await ClasseEntity.context.perform {
+            ClasseEntity.context.performAndWait {
                 let schoolYear = userContext.prefs.viewSchoolYearPref
 
                 let horizon = DateInterval(

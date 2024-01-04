@@ -95,13 +95,13 @@ actor ReminderTaskManager {
         schoolYear: SchoolYearPref
     ) async -> (nbOfDocsToBePrinted: Int, nbOfDocsToBeLoaded: Int) {
         var schools = [SchoolEntity]()
-        await SchoolEntity.context.perform {
+        SchoolEntity.context.performAndWait {
             schools = SchoolEntity.allSortedByLevelName()
         }
         var seances = Seances()
         for school in schools {
             var schoolName = ""
-            await SchoolEntity.context.perform {
+            SchoolEntity.context.performAndWait {
                 schoolName = school.viewName
             }
             let schoolSeances = await todaySeances(

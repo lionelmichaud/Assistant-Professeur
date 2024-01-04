@@ -142,7 +142,7 @@ struct ClassProgressesView: View {
                 return
             }
 
-            await ClasseEntity.context.perform {
+            ClasseEntity.context.performAndWait {
                 let schoolYear = userContext.prefs.viewSchoolYearPref
 
                 let horizon = DateInterval(

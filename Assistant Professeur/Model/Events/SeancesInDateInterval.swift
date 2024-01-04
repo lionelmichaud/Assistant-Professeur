@@ -36,7 +36,7 @@ import SwiftUI
 
 /// Un cours et son contenu en activités pédagogique.
 /// Plusieurs activités peuvent être abordées pendant le même cours.
-struct Seance: Identifiable, Hashable, Codable, CustomStringConvertible {
+struct Seance: Identifiable, Hashable, Codable, CustomStringConvertible, Sendable {
     var id = UUID()
     /// Acronym de la classe concernée par la séance ou nom de la période de vacance
     var name: String?
@@ -199,10 +199,10 @@ struct SeancesInDateInterval {
         inEventStore eventStore: EKEventStore,
         inDateInterval dateInterval: DateInterval,
         schoolYear: SchoolYearPref
-    ) async -> SeancesInDateInterval {
+    ) -> SeancesInDateInterval {
         var classeSeances = SeancesInDateInterval()
 
-        await ClasseEntity.context.perform {
+        ClasseEntity.context.performAndWait {
             // Charger les prochaines séances de cours sur un horizon de temps à venir
             classeSeances.loadClasseSeancesFromCalendar(
                 forDiscipline: classe.disciplineEnum,
@@ -269,7 +269,7 @@ struct SeancesInDateInterval {
 
         var schoolClasses = [ClasseEntity]()
 
-        await SchoolEntity.context.perform {
+        SchoolEntity.context.performAndWait {
             schoolClasses = school.classesSortedByLevelNumber
         }
 
@@ -277,7 +277,7 @@ struct SeancesInDateInterval {
             for classe in schoolClasses {
                 group.addTask {
                     var classeSeances = SeancesInDateInterval()
-                    await ClasseEntity.context.perform {
+                    ClasseEntity.context.performAndWait {
                         // Liste des Progressions de la classe triée par numéro de Séquence / Activité
                         let sortedClasseProgresses = classe.allProgressesSortedBySequenceActivityNumber
                         let forDiscipline = classe.disciplineEnum
@@ -325,7 +325,7 @@ struct SeancesInDateInterval {
 
         // Insérer des pseudo-séances pour chaque période
         // de vacances inclue dans la période
-        await ClasseEntity.context.perform {
+        ClasseEntity.context.performAndWait {
             let vacancesIncludedInPeriod = schoolYear.vacancesContained(in: dateInterval)
 
             if foundSeances.count >= 2 {

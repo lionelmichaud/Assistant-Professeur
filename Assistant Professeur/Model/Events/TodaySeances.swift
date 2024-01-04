@@ -82,7 +82,7 @@ final class TodaySeances {
         // Demander les droits d'accès aux calendriers de l'utilisateur
         let eventStore = EKEventStore()
         var schools = [SchoolEntity]()
-        await SchoolEntity.context.perform {
+        SchoolEntity.context.performAndWait {
             schools = SchoolEntity.all()
         }
 
@@ -90,7 +90,7 @@ final class TodaySeances {
             var calendar: EKCalendar?
             var alert = AlertInfo()
             var calendarName = ""
-            await SchoolEntity.context.perform {
+            SchoolEntity.context.performAndWait {
                 calendarName = school.viewName
             }
             (
@@ -110,7 +110,7 @@ final class TodaySeances {
 
             var classeNames = [String]()
             // Récupérer la liste des noms des classe de cet établissement
-            await SchoolEntity.context.perform {
+            SchoolEntity.context.performAndWait {
                 classeNames = school.allClasses.map(\.displayString)
             }
             seances[school] = EventManager.getTodayEvents(
@@ -159,7 +159,7 @@ final class TodaySeances {
         var alert = AlertInfo()
         var calendarName = ""
         var classeNames = [String]()
-        await SchoolEntity.context.perform {
+        SchoolEntity.context.performAndWait {
             calendarName = school.viewName
             classeNames = school.allClasses.map(\.displayString)
         }

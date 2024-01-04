@@ -15,7 +15,7 @@ private let customLog = Logger(
 )
 
 /// Gestionnaire d'Evénements. Synchronize l'appli avec l'app Calendrier.
-struct EventManager { // swiftlint:disable:this type_body_length
+actor EventManager { // swiftlint:disable:this type_body_length
     // MARK: - SINGLETON
 
     static var shared = EventManager()
@@ -39,8 +39,7 @@ struct EventManager { // swiftlint:disable:this type_body_length
 
     // MARK: - Methods
 
-    @MainActor
-    mutating func requestCalendarAccess( // swiftlint:disable:this cyclomatic_complexity
+    func requestCalendarAccess( // swiftlint:disable:this cyclomatic_complexity
         eventStore: EKEventStore,
         calendarName: String
     ) async -> (

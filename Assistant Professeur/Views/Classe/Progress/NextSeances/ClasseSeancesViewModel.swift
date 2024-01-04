@@ -58,7 +58,7 @@ import SwiftUI
 
         // Recherche: `SeancesInDateInterval` contenant la liste des Séances à venir
         // pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
-        let classeSeances = await SeancesInDateInterval
+        let classeSeances = SeancesInDateInterval
             .nextSeancesForClasse(
                 schoolName: schoolName,
                 classe: classe,
