@@ -12,20 +12,22 @@ import SwiftUI
 @Observable final class ClasseSeancesViewModel {
     private(set) var state: SeancesLoadingStatus = .pending
     
-    @ObservationIgnored
-    private var showToDoListButton: Bool = false
-
     var seancesListView: some View {
         state.view
     }
 
+    /// Recherche des séances dans la tranche de temps `dateInterval`
+    /// pour l'établissement `school`.
+    /// - Parameters:
+    ///   - classe: Uniquement pour cette classe.
+    ///   - dateInterval: Tranche de temps où rechercher.
+    ///   - schoolYear: Périodes scolaires.
+    /// - Returns: Alerte si nécessaire.
     func updateItems(
         forClasse classe: ClasseEntity,
         inDateInterval dateInterval: DateInterval,
-        showToDoListButton: Bool,
         schoolYear: SchoolYearPref
     ) async -> AlertInfo {
-        self.showToDoListButton = showToDoListButton
         self.state = .pending
 
         var alert = AlertInfo()

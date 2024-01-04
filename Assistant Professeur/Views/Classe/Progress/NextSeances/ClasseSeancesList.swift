@@ -12,7 +12,6 @@ struct ClasseSeancesList: View {
     @ObservedObject
     var classe: ClasseEntity
     let dateInterval: DateInterval
-    let showToDoListButton: Bool
 
     @Environment(UserContext.self)
     private var userContext
@@ -48,7 +47,6 @@ struct ClasseSeancesList: View {
             let alert = await viewModel.updateItems(
                 forClasse: classe,
                 inDateInterval: dateInterval,
-                showToDoListButton: showToDoListButton,
                 schoolYear: userContext.prefs.viewSchoolYearPref
             )
             self.alert = alert

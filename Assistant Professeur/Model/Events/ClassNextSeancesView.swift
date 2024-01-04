@@ -27,10 +27,10 @@ struct ClassNextSeancesView: View {
             Text("Pour apparaître ici les noms des événements")
             Text("du calendrier de cet établissement dans votre")
             Text("application **Calendrier** doivent contenir:")
-            Text("\"**Acronyme Discipline - Classe**\"\n.")
+            Text("\"**Acronyme Discipline - Classe**\"\n")
             Text("*Exemple*: pour la discipline de **\(classe.disciplineEnum.pickerString)**,")
-            Text("et la classe de \(classe.displayString):")
-            Text("n événement contenant:\"**\(classe.disciplineEnum.acronym) - \(classe.displayString)**\"")
+            Text("et la classe de **\(classe.displayString)**:")
+            Text("un événement contenant:\"**\(classe.disciplineEnum.acronym) - \(classe.displayString)**\"")
             Text("doit être créé dans le caldendrier nommé:")
             Text("\"**\(classe.school?.viewName ?? "")**\"")
         }
@@ -51,8 +51,7 @@ struct ClassNextSeancesView: View {
             // Afficher le resultat de la recherche
             ClasseSeancesList(
                 classe: classe,
-                dateInterval: period.dateInterval,
-                showToDoListButton: true
+                dateInterval: period.dateInterval
             )
         }
         .padding(.horizontal)

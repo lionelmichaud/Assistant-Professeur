@@ -10,8 +10,8 @@ import SwiftUI
 
 @MainActor
 @Observable final class SchoolSeancesViewModel {
-    private(set) var seancesLoadingState: SeancesLoadingStatus = .pending
-    
+    private(set) var state: SeancesLoadingStatus = .pending
+
     /// Recherche des séances dans la tranche de temps `dateInterval`
     /// pour l'établissement `school`.
     /// - Parameters:
@@ -26,7 +26,7 @@ import SwiftUI
         showOnlyOngoingSeance: Bool,
         schoolYear: SchoolYearPref
     ) async -> AlertInfo {
-        self.seancesLoadingState = .pending
+        self.state = .pending
 
         var alert = AlertInfo()
         let schoolName = school.viewName
@@ -45,11 +45,11 @@ import SwiftUI
                 calendarName: schoolName
             )
         guard let calendar else {
-            seancesLoadingState = .failed
+            state = .failed
             return alert
         }
 
-        seancesLoadingState = .loading
+        state = .loading
 
         // Recherche: `SeancesInDateInterval` contenant la liste des Séances à venir
         // pour toutes classes d'un établissement avec le contenu pédagogique de chaque séance.
@@ -71,10 +71,10 @@ import SwiftUI
                         .filter { seance in
                             seance.interval.contains(Date.now)
                         })
-            seancesLoadingState = .finished(seancesInInterval: filteredSeances)
+            state = .finished(seancesInInterval: filteredSeances)
 
         } else {
-            seancesLoadingState = .finished(seancesInInterval: schoolSeances)
+            state = .finished(seancesInInterval: schoolSeances)
         }
 
         return alert

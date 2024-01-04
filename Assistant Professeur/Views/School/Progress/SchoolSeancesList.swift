@@ -48,7 +48,7 @@ struct SchoolSeancesList: View {
             Text("application **Calendrier** doivent contenir:")
             Text("\"**Acronyme Discipline - Classe**\"\n.")
             Text("*Exemple*: pour la discipline de **\(Discipline.technologie.pickerString)**,")
-            Text("et la classe de 4ième 2 de cet établissement:")
+            Text("et la classe de **4ième 2** de cet établissement:")
             Text("un événement contenant:\"**\(Discipline.technologie.pickerString) - 4E2**\"")
             Text("doit être créé dans le caldendrier nommé:")
             Text("\"**\(school.viewName)**\"")
@@ -62,7 +62,7 @@ struct SchoolSeancesList: View {
         VStack(alignment: .leading) {
             // Bouton de navigation vers la liste des ToDo
             if showToDoListButton {
-                switch viewModel.seancesLoadingState {
+                switch viewModel.state {
                     case .pending, .loading, .failed:
                         EmptyView()
 
@@ -91,7 +91,7 @@ struct SchoolSeancesList: View {
             TipView(nextSeancesTip, arrowEdge: .bottom)
                 .customizedTipKitStyle()
 
-            viewModel.seancesLoadingState.view
+            viewModel.state.view
         }
         .alert(
             alert.title,
@@ -112,7 +112,7 @@ struct SchoolSeancesList: View {
             )
 
             if showOnlyOngoingSeance,
-               case let SeancesLoadingStatus.finished(seancesInInterval) = viewModel.seancesLoadingState,
+               case let SeancesLoadingStatus.finished(seancesInInterval) = viewModel.state,
                seancesInInterval.seances.isNotEmpty {
                 self.ongoingSeance = true
             } else {
